@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "zx tools/build.mjs",
     "update-origin": "zx tools/update-origin.mjs"
   },
   "keywords": [],
