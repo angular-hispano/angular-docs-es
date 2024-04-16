@@ -1,4 +1,4 @@
-<docs-decorative-header title="Anatomy of a component" imgSrc="assets/images/components.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="Anatomy of a component" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
 Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
@@ -97,5 +97,6 @@ flowchart TD
     D[ProfilePic]
     E[UserBio]
 ```
+
 
 This tree structure is important to understanding several other Angular concepts, including [dependency injection](guide/di) and [child queries](guide/components/queries).

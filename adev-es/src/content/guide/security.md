@@ -29,7 +29,7 @@ This is one of the most common attacks on the web.
 
 To block XSS attacks, you must prevent malicious code from entering the Document Object Model (DOM).
 For example, if attackers can trick you into inserting a `<script>` tag in the DOM, they can run arbitrary code on your website.
-The attack isn't limited to `<script>` tags &mdash;many elements and properties in the DOM allow code execution, for example, `<img alt="" onerror="...">` and `<a href="javascript:...">`.
+The attack isn't limited to `<script>` tags —many elements and properties in the DOM allow code execution, for example, `<img alt="" onerror="...">` and `<a href="javascript:...">`.
 If attacker-controlled data enters the DOM, expect security vulnerabilities.
 
 ### Angular's cross-site scripting security model
@@ -70,19 +70,19 @@ In development mode, Angular prints a console warning when it has to change a va
 
 The following template binds the value of `htmlSnippet`. Once by interpolating it into an element's content, and once by binding it to the `innerHTML` property of an element:
 
-<docs-code header="src/app/inner-html-binding.component.html" path="security/src/app/inner-html-binding.component.html"/>
+<docs-code header="src/app/inner-html-binding.component.html" path="adev/src/content/examples/security/src/app/inner-html-binding.component.html"/>
 
-Interpolated content is always escaped &mdash;the HTML isn't interpreted and the browser displays angle brackets in the element's text content.
+Interpolated content is always escaped —the HTML isn't interpreted and the browser displays angle brackets in the element's text content.
 
 For the HTML to be interpreted, bind it to an HTML property such as `innerHTML`.
 Be aware that binding a value that an attacker might control into `innerHTML` normally causes an XSS vulnerability.
 For example, one could run JavaScript in a following way:
 
-<docs-code header="src/app/inner-html-binding.component.ts (class)" path="security/src/app/inner-html-binding.component.ts" visibleRegion="class"/>
+<docs-code header="src/app/inner-html-binding.component.ts (class)" path="adev/src/content/examples/security/src/app/inner-html-binding.component.ts" visibleRegion="class"/>
 
 Angular recognizes the value as unsafe and automatically sanitizes it, which removes the `script` element but keeps safe content such as the `<b>` element.
 
-<img alt="A screenshot showing interpolated and bound HTML values" src="assets/content/images/guide/security/binding-inner-html.png#small">
+<img alt="A screenshot showing interpolated and bound HTML values" src="assets/images/guide/security/binding-inner-html.png#small">
 
 ### Direct use of the DOM APIs and explicit sanitization calls
 
@@ -93,7 +93,7 @@ Avoid directly interacting with the DOM and instead use Angular templates where 
 
 For cases where this is unavoidable, use the built-in Angular sanitization functions.
 Sanitize untrusted values with the [DomSanitizer.sanitize](api/platform-browser/DomSanitizer#sanitize) method and the appropriate `SecurityContext`.
-That function also accepts values that were marked as trusted using the `bypassSecurityTrust` &hellip; functions, and does not sanitize them, as [described below](#trusting-safe-values).
+That function also accepts values that were marked as trusted using the `bypassSecurityTrust` … functions, and does not sanitize them, as [described below](#trusting-safe-values).
 
 ### Trusting safe values
 
@@ -114,23 +114,23 @@ To mark a value as trusted, inject `DomSanitizer` and call one of the following 
 Remember, whether a value is safe depends on context, so choose the right context for your intended use of the value.
 Imagine that the following template needs to bind a URL to a `javascript:alert(...)` call:
 
-<docs-code header="src/app/bypass-security.component.html (URL)" path="security/src/app/bypass-security.component.html" visibleRegion="URL"/>
+<docs-code header="src/app/bypass-security.component.html (URL)" path="adev/src/content/examples/security/src/app/bypass-security.component.html" visibleRegion="URL"/>
 
 Normally, Angular automatically sanitizes the URL, disables the dangerous code, and in development mode, logs this action to the console.
 To prevent this, mark the URL value as a trusted URL using the `bypassSecurityTrustUrl` call:
 
-<docs-code header="src/app/bypass-security.component.ts (trust-url)" path="security/src/app/bypass-security.component.ts" visibleRegion="trust-url"/>
+<docs-code header="src/app/bypass-security.component.ts (trust-url)" path="adev/src/content/examples/security/src/app/bypass-security.component.ts" visibleRegion="trust-url"/>
 
-<img alt="A screenshot showing an alert box created from a trusted URL" src="assets/content/images/guide/security/bypass-security-component.png#medium">
+<img alt="A screenshot showing an alert box created from a trusted URL" src="assets/images/guide/security/bypass-security-component.png#medium">
 
 If you need to convert user input into a trusted value, use a component method.
 The following template lets users enter a YouTube video ID and load the corresponding video in an `<iframe>`.
 The `<iframe src>` attribute is a resource URL security context, because an untrusted source can, for example, smuggle in file downloads that unsuspecting users could run.
 To prevent this, call a method on the component to construct a trusted video URL, which causes Angular to let binding into `<iframe src>`:
 
-<docs-code header="src/app/bypass-security.component.html (iframe)" path="security/src/app/bypass-security.component.html" visibleRegion="iframe"/>
+<docs-code header="src/app/bypass-security.component.html (iframe)" path="adev/src/content/examples/security/src/app/bypass-security.component.html" visibleRegion="iframe"/>
 
-<docs-code header="src/app/bypass-security.component.ts (trust-video-url)" path="security/src/app/bypass-security.component.ts" visibleRegion="trust-video-url"/>
+<docs-code header="src/app/bypass-security.component.ts (trust-video-url)" path="adev/src/content/examples/security/src/app/bypass-security.component.ts" visibleRegion="trust-video-url"/>
 
 ### Content security policy
 
@@ -155,7 +155,7 @@ You can set the nonce for Angular in one of two ways:
 
 <docs-code language="typescript">
 
-import {bootstrapApplication, CSP_NONCE} from '&commat;angular/core';
+import {bootstrapApplication, CSP_NONCE} from '@angular/core';
 import {AppComponent} from './app/app.component';
 
 bootstrapApplication(AppComponent, {
@@ -301,8 +301,56 @@ Only code from the website on which cookies are set can read the cookies from th
 That means only your application can read this cookie token and set the custom header.
 The malicious code on `evil.com` can't.
 
-Angular's `HttpClient` has built-in support for the client-side half of this technique.
-Read about it more in the [HttpClient guide](/guide/http/security#xsrf-csrf-protection).
+### `HttpClient` XSRF/CSRF security
+
+`HttpClient` supports a [common mechanism](https://en.wikipedia.org/wiki/Cross-site_request_forgery#Cookie-to-header_token) used to prevent XSRF attacks. When performing HTTP requests, an interceptor reads a token from a cookie, by default `XSRF-TOKEN`, and sets it as an HTTP header, `X-XSRF-TOKEN`. Because only code that runs on your domain could read the cookie, the backend can be certain that the HTTP request came from your client application and not an attacker.
+
+By default, an interceptor sends this header on all mutating requests (such as `POST`) to relative URLs, but not on GET/HEAD requests or on requests with an absolute URL.
+
+<docs-callout helpful title="Why not protect GET requests?">
+CSRF protection is only needed for requests that can change state on the backend. By their nature, CSRF attacks cross domain boundaries, and the web's [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) will prevent an attacking page from retrieving the results of authenticated GET requests.
+</docs-callout>
+
+To take advantage of this, your server needs to set a token in a JavaScript readable session cookie called `XSRF-TOKEN` on either the page load or the first GET request. On subsequent requests the server can verify that the cookie matches the `X-XSRF-TOKEN` HTTP header, and therefore be sure that only code running on your domain could have sent the request. The token must be unique for each user and must be verifiable by the server; this prevents the client from making up its own tokens. Set the token to a digest of your site's authentication cookie with a salt for added security.
+
+To prevent collisions in environments where multiple Angular apps share the same domain or subdomain, give each application a unique cookie name.
+
+<docs-callout important title="HttpClient supports only the client half of the XSRF protection scheme">
+  Your backend service must be configured to set the cookie for your page, and to verify that the header is present on all eligible requests. Failing to do so renders Angular's default protection ineffective.
+</docs-callout>
+
+### Configure custom cookie/header names
+
+If your backend service uses different names for the XSRF token cookie or header, use `withXsrfConfiguration` to override the defaults.
+
+Add it to the `provideHttpClient` call as follows:
+
+<docs-code language="ts">
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(
+      withXsrfConfiguration({
+        cookieName: 'CUSTOM_XSRF_TOKEN',
+        headerName: 'X-Custom-Xsrf-Header',
+      }),
+    ),
+  ]
+};
+</docs-code>
+
+### Disabling XSRF protection
+
+If the built-in XSRF protection mechanism doesn't work for your application, you can disable it using the `withNoXsrfProtection` feature:
+
+<docs-code language="ts">
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(
+      withNoXsrfProtection(),
+    ),
+  ]
+};
+</docs-code>
 
 For information about CSRF at the Open Web Application Security Project \(OWASP\), see [Cross-Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) and [Cross-Site Request Forgery (CSRF) Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
 The Stanford University paper [Robust Defenses for Cross-Site Request Forgery](https://seclab.stanford.edu/websec/csrf/csrf.pdf) is a rich source of detail.

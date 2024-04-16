@@ -74,9 +74,10 @@ HELPFUL: Approximate dates are offered as general guidance and are subject to ch
 
 | Version | Date               |
 |:--------|:-------------------|
-| v16.1   | Week of 2023-06-12 |
-| v16.2   | Week of 2023-08-07 |
-| v17.0   | Week of 2023-11-06 |
+| v17.1   | Week of 2024-01-15 |
+| v17.2   | Week of 2024-02-12 |
+| v17.3   | Week of 2024-03-11 |
+| v18.0   | Week of 2024-05-20 |
 
 ### Support window
 
@@ -108,7 +109,7 @@ As a general rule, a fix is considered for an LTS version if it resolves one of:
 
 ## Deprecation policy
 
-When the Angular team intends to remove an API or feature, it will be marked as *deprecated*. This occurs when when an API is obsolete, superseded by another API, or otherwise discontinued. Deprecated API remain available through their deprecated phase, which lasts a minimum two major versions (approximately one year).
+When the Angular team intends to remove an API or feature, it will be marked as *deprecated*. This occurs when an API is obsolete, superseded by another API, or otherwise discontinued. Deprecated API remain available through their deprecated phase, which lasts a minimum two major versions (approximately one year).
 
 To help ensure that you have sufficient time and a clear path to update, this is our deprecation policy:
 
@@ -121,7 +122,7 @@ To help ensure that you have sufficient time and a clear path to update, this is
 ## Compatibility policy
 
 Angular is a collection of many packages, subprojects, and tools.
-To prevent accidental use of private APIs and so that you can clearly understand what is covered by the practices described here &mdash; we document what is and is not considered our public API surface.
+To prevent accidental use of private APIs and so that you can clearly understand what is covered by the practices described here — we document what is and is not considered our public API surface.
 For details, see [Supported Public API Surface of Angular](https://github.com/angular/angular/blob/main/docs/PUBLIC_API.md "Supported Public API Surface of Angular").
 
 To guarantee backward compatibility of Angular we run a series of checks before we merge any change:

@@ -380,7 +380,7 @@ The router uses an `id` to show the correct hero's details.
 First, import the following members in the component you want to navigate from.
 
 ```ts
-import { ActivatedRoute } from '&commat;angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 ```
@@ -443,7 +443,7 @@ gotoItems(hero: Hero) {
 You can configure your routes to lazy load modules, which means that Angular only loads modules as needed, rather than loading all modules when the application launches.
 Additionally, preload parts of your application in the background to improve the user experience.
 
-For more information on lazy loading and preloading see the dedicated guide lazy loading.
+For more information on lazy loading and preloading see the dedicated guide [Lazy loading](guide/ngmodules/lazy-loading).
 
 ## Preventing unauthorized access
 
@@ -624,7 +624,7 @@ The browser uses the `<base href>` value to prefix relative URLs when referencin
 Add the `<base>` element just after the `<head>` tag.
 If the `app` folder is the application root, as it is for this application, set the `href` value in `index.html` as shown here.
 
-<docs-code header="src/index.html (base-href)" path="router/src/index.html" visibleRegion="base-href"/>
+<docs-code header="src/index.html (base-href)" path="adev/src/content/examples/router/src/index.html" visibleRegion="base-href"/>
 
 ### HTML5 URLs and the `<base href>`
 

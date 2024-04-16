@@ -52,7 +52,7 @@ To activate the `NgOptimizedImage` directive, replace your image's `src` attribu
 
 <docs-code language="typescript">
 
-&lt;img ngSrc="cat.jpg"&gt;
+<img ngSrc="cat.jpg">
 
 </docs-code>
 
@@ -63,7 +63,7 @@ Always mark the [LCP image](https://web.dev/lcp/#what-elements-are-considered) o
 
 <docs-code language="typescript">
 
-&lt;img ngSrc="cat.jpg" width="400" height="200" priority&gt;
+<img ngSrc="cat.jpg" width="400" height="200" priority>
 
 </docs-code>
 
@@ -80,11 +80,11 @@ In order to prevent [image-related layout shifts](https://web.dev/css-web-vitals
 
 <docs-code language="typescript">
 
-&lt;img ngSrc="cat.jpg" width="400" height="200"&gt;
+<img ngSrc="cat.jpg" width="400" height="200">
 
 </docs-code>
 
-For **responsive images** (images which you've styled to grow and shrink relative to the viewport), the `width` and `height` attributes should be the instrinsic size of the image file. For responsive images it's also important to [set a value for `sizes`.](#responsive-images)
+For **responsive images** (images which you've styled to grow and shrink relative to the viewport), the `width` and `height` attributes should be the intrinsic size of the image file. For responsive images it's also important to [set a value for `sizes`.](#responsive-images)
 
 For **fixed size images**, the `width` and `height` attributes should reflect the desired rendered size of the image. The aspect ratio of these attributes should always match the intrinsic aspect ratio of the image.
 
@@ -100,7 +100,7 @@ When you add the `fill` attribute to your image, you do not need and should not 
 
 <docs-code language="typescript">
 
-&lt;img ngSrc="cat.jpg" fill&gt;
+<img ngSrc="cat.jpg" fill>
 
 </docs-code>
 
@@ -111,6 +111,57 @@ See visual examples of the above at the [MDN object-fit documentation.](https://
 You can also style your image with the [object-position property](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) to adjust its position within its containing element.
 
 IMPORTANT: For the "fill" image to render properly, its parent element **must** be styled with `position: "relative"`, `position: "fixed"`, or `position: "absolute"`.
+
+## Using placeholders
+
+### Automatic placeholders
+
+NgOptimizedImage can display an automatic low-resolution placeholder for your image if you're using a CDN or image host that provides automatic image resizing. Take advantage of this feature by adding the `placeholder` attribute to your image:
+
+<docs-code format="typescript" language="typescript">
+
+<img ngSrc="cat.jpg" width="400" height="200" placeholder>
+
+</docs-code>
+
+Adding this attribute automatically requests a second, smaller version of the image using your specified image loader. This small image will be applied as a `background-image` style with a CSS blur while your image loads. If no image loader is provided, no placeholder image can be generated and an error will be thrown.
+
+The default size for generated placeholders is 30px wide. You can change this size by specifying a pixel value in the `IMAGE_CONFIG` provider, as seen below:
+
+<docs-code format="typescript" language="typescript">
+providers: [
+  {
+    provide: IMAGE_CONFIG,
+    useValue: {
+      placeholderResolution: 40
+    }
+  },
+],
+</docs-code>
+
+If you want sharp edges around your blurred placeholder, you can wrap your image in a containing `<div>` with the `overflow: hidden` style. As long as the `<div>` is the same size as the image (such as by using the `width: fit-content` style), the "fuzzy edges" of the placeholder will be hidden.
+
+### Data URL placeholders
+
+You can also specify a placeholder using a base64 [data URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs) without an image loader. The data url format is `data:image/[imagetype];[data]`, where `[imagetype]` is the image format, just as `png`, and `[data]` is a base64 encoding of the image. That encoding can be done using the command line or in JavaScript. For specific commands, see [the MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs#encoding_data_into_base64_format). An example of a data URL placeholder with truncated data is shown below:
+
+<docs-code format="typescript" language="typescript">
+
+<img ngSrc="cat.jpg" width="400" height="200" placeholder="data:image/png;base64,iVBORw0K...">
+
+</docs-code>
+
+However, large data URLs  increase the size of your Angular bundles and slow down page load. If you cannot use an image loader, the Angular team recommends keeping base64 placeholder images smaller than 4KB and using them exclusively on critical images. In addition to decreasing placeholder dimensions, consider changing image formats or parameters used when saving images. At very low resolutions, these parameters can have a large effect on file size.
+
+### Non-blurred placeholders
+
+By default, NgOptimizedImage applies a CSS blur effect to image placeholders. To render a placeholder without blur, provide a `placeholderConfig` argument with an object that includes the `blur` property, set to false. For example:
+
+<docs-code format="typescript" language="typescript">
+
+<img ngSrc="cat.jpg" width="400" height="200" placeholder [placeholderConfig]="{blur: false}">
+
+</docs-code>
 
 ## Adjusting image styling
 
@@ -130,7 +181,7 @@ You can add a [`preconnect` resource hint](https://web.dev/preconnect-and-dns-pr
 
 <docs-code language="html">
 
-&lt;link rel="preconnect" href="https://my.cdn.origin" /&gt;
+<link rel="preconnect" href="https://my.cdn.origin" />
 
 </docs-code>
 
@@ -185,7 +236,7 @@ If you would like to manually define a `srcset` attribute, you can provide your 
 
 <docs-code language="html">
 
-&lt;img ngSrc="hero.jpg" ngSrcset="100w, 200w, 300w"&gt;
+<img ngSrc="hero.jpg" ngSrcset="100w, 200w, 300w">
 
 </docs-code>
 
@@ -193,7 +244,7 @@ If the `ngSrcset` attribute is present, `NgOptimizedImage` generates and sets th
 
 <docs-code language="html">
 
-&lt;img ngSrc="hero.jpg" ngSrcset="100w, 200w, 300w" sizes="50vw"&gt;
+<img ngSrc="hero.jpg" ngSrcset="100w, 200w, 300w" sizes="50vw">
 
 </docs-code>
 
@@ -203,7 +254,7 @@ To disable srcset generation for a single image, you can add the `disableOptimiz
 
 <docs-code language="html">
 
-&lt;img ngSrc="about.jpg" disableOptimizedSrcset&gt;
+<img ngSrc="about.jpg" disableOptimizedSrcset>
 
 </docs-code>
 
@@ -213,7 +264,7 @@ By default, `NgOptimizedImage` sets `loading=lazy` for all images that are not m
 
 <docs-code language="html">
 
-&lt;img ngSrc="cat.jpg" width="400" height="200" loading="eager"&gt;
+<img ngSrc="cat.jpg" width="400" height="200" loading="eager">
 
 </docs-code>
 
@@ -223,7 +274,7 @@ You may want to have images displayed at varying widths on differently-sized scr
 
 <docs-code language="html">
 
-&lt;img ngSrc="cat.jpg" width="400" height="200" sizes="(max-width: 768px) 100vw, 50vw"&gt;
+<img ngSrc="cat.jpg" width="400" height="200" sizes="(max-width: 768px) 100vw, 50vw">
 
 </docs-code>
 
@@ -251,6 +302,7 @@ Based on the image services commonly used with Angular applications, `NgOptimize
 | Cloudinary | `provideCloudinaryLoader` | [Documentation](https://cloudinary.com/documentation/resizing_and_cropping) |
 | ImageKit | `provideImageKitLoader` | [Documentation](https://docs.imagekit.io/) |
 | Imgix | `provideImgixLoader` | [Documentation](https://docs.imgix.com/) |
+| Netlify | `provideNetlifyLoader` | [Documentation](https://docs.netlify.com/image-cdn/overview/) |
 
 To use the **generic loader** no additional code changes are necessary. This is the default behavior.
 
@@ -293,7 +345,7 @@ Note: even though the `width` property may not always be present, a custom loade
 
 ### The `loaderParams` Property
 
-There is an additional attribute supported by the `NgOptimizedImage` directive, called `loaderParams`, which is specifically designed to support the use of custom loaders. The `loaderParams` attribute take an object with any properties as a value, and does not do anything on its own. The data in `loaderParams` is added to the `ImageLoaderConfig` object passed to your custom loader, and can be used to control the behavior of the loader.
+There is an additional attribute supported by the `NgOptimizedImage` directive, called `loaderParams`, which is specifically designed to support the use of custom loaders. The `loaderParams` attribute takes an object with any properties as a value, and does not do anything on its own. The data in `loaderParams` is added to the `ImageLoaderConfig` object passed to your custom loader, and can be used to control the behavior of the loader.
 
 A common use for `loaderParams` is controlling advanced image CDN features.
 
@@ -319,7 +371,7 @@ Note that in the above example, we've invented the 'roundedCorners' property nam
 
 <docs-code language="html">
 
-&lt;img ngSrc="profile.jpg" width="300" height="300" [loaderParams]="{roundedCorners: true}"&gt;
+<img ngSrc="profile.jpg" width="300" height="300" [loaderParams]="{roundedCorners: true}">
 
 </docs-code>
 
@@ -348,3 +400,7 @@ The `ngSrc` attribute was chosen as the trigger for NgOptimizedImage due to tech
 The [image loaders](#configuring-an-image-loader-for-ngoptimizedimage) provider pattern is designed to be as simple as possible for the common use case of having only a single image CDN used within a component. However, it's still very possible to manage multiple image CDNs using a single provider.
 
 To do this, we recommend writing a [custom image loader](#custom-loaders) which uses the [`loaderParams` property](#the-loaderparams-property) to pass a flag that specifies which image CDN should be used, and then invokes the appropriate loader based on that flag.
+
+### Can you add a new built-in loader for my preferred CDN?
+
+For maintenance reasons, we don't currently plan to support additional built-in loaders in the Angular repository. Instead, we encourage developers to publish any additional image loaders as third-party packages.

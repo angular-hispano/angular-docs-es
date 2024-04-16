@@ -1,4 +1,4 @@
-<docs-decorative-header title="Components" imgSrc="assets/images/components.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="Components" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
 The fundamental building block for creating applications in Angular.
 </docs-decorative-header>
 
