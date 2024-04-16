@@ -1,8 +1,8 @@
-<docs-decorative-header title="Handling User Interaction" imgSrc="assets/images/overview.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="Handling User Interaction" imgSrc="adev/src/assets/images/overview.svg"> <!-- markdownlint-disable-line -->
 Handle user interaction in your application.
 </docs-decorative-header>
 
-One of the key aspects of making applications dynamic is the ability to handle user interaction. In this guide, we'll take a look at two primary categories of user interaction: event handling and forms.
+The ability to handle user interaction and then work with - it is one of the key aspects of building dynamic applications. In this guide, we'll take a look at simple user interaction - event handling.
 
 ## Event Handling
 
@@ -43,7 +43,7 @@ Other common examples of event listeners include:
 
 ### $event
 
-If you need to access the [event]([Event - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Event)) object, Angular provides an implicit `$event` variable that you can be pass to a function:
+If you need to access the [event](https://developer.mozilla.org/en-US/docs/Web/API/Event) object, Angular provides an implicit `$event` variable that you can pass to a function:
 
 ```html
 <button (click)="createUser($event)">Submit</button>

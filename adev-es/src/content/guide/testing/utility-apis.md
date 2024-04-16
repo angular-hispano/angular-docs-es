@@ -32,7 +32,7 @@ type TestModuleMetadata = {
   providers?: any[];
   declarations?: any[];
   imports?: any[];
-  schemas?: Array&lt;SchemaMetadata | any[]&gt;;
+  schemas?: Array<SchemaMetadata | any[]>;
 };
 
 </docs-code>
@@ -41,10 +41,10 @@ Each override method takes a `MetadataOverride<T>` where `T` is the kind of meta
 
 <docs-code language="javascript">
 
-type MetadataOverride&lt;T&gt; = {
-  add?: Partial&lt;T&gt;;
-  remove?: Partial&lt;T&gt;;
-  set?: Partial&lt;T&gt;;
+type MetadataOverride<T> = {
+  add?: Partial<T>;
+  remove?: Partial<T>;
+  set?: Partial<T>;
 };
 
 </docs-code>
@@ -60,14 +60,14 @@ Here are the most important static methods, in order of likely utility.
 | Methods                                                        | Details |
 |:---                                                            |:---     |
 | `configureTestingModule`                                       | The testing shims \(`karma-test-shim`, `browser-test-shim`\) establish the [initial test environment](guide/testing) and a default testing module. The default testing module is configured with basic declaratives and some Angular service substitutes that every tester needs. <br /> Call `configureTestingModule` to refine the testing module configuration for a particular set of tests by adding and removing imports, declarations \(of components, directives, and pipes\), and providers.                                                                                                                                              |
-| `compileComponents`                                            | Compile the testing module asynchronously after you've finished configuring it. You **must** call this method if *any* of the testing module components have a `templateUrl` or `styleUrls` because fetching component template and style files is necessarily asynchronous. See [compileComponents](guide/testing/components-scenarios#compile-components). <br /> After calling `compileComponents`, the `TestBed` configuration is frozen for the duration of the current spec.                                                                                                                                                                 |
+| `compileComponents`                                            | Compile the testing module asynchronously after you've finished configuring it. You **must** call this method if *any* of the testing module components have a `templateUrl` or `styleUrls` because fetching component template and style files is necessarily asynchronous. See [compileComponents](guide/testing/components-scenarios#calling-compilecomponents). <br /> After calling `compileComponents`, the `TestBed` configuration is frozen for the duration of the current spec.                                                                                                                                                                 |
 | `createComponent<T>`                                     | Create an instance of a component of type `T` based on the current `TestBed` configuration. After calling `createComponent`, the `TestBed` configuration is frozen for the duration of the current spec.                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `overrideModule`                                               | Replace metadata for the given `NgModule`. Recall that modules can import other modules. The `overrideModule` method can reach deeply into the current testing module to modify one of these inner modules.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `overrideComponent`                                            | Replace metadata for the given component class, which could be nested deeply within an inner module.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | `overrideDirective`                                            | Replace metadata for the given directive class, which could be nested deeply within an inner module.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | `overridePipe`                                                 | Replace metadata for the given pipe class, which could be nested deeply within an inner module.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 |
- `inject`                           | Retrieve a service from the current `TestBed` injector. The `inject` function is often adequate for this purpose. But `inject` throws an error if it can't provide the service. <br /> What if the service is optional? <br /> The `TestBed.inject()` method takes an optional second parameter, the object to return if Angular can't find the provider \(`null` in this example\): <docs-code header="app/demo/demo.testbed.spec.ts" path="testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="testbed-get-w-null"/> After calling `TestBed.inject`, the `TestBed` configuration is frozen for the duration of the current spec. |
+ `inject`                           | Retrieve a service from the current `TestBed` injector. The `inject` function is often adequate for this purpose. But `inject` throws an error if it can't provide the service. <br /> What if the service is optional? <br /> The `TestBed.inject()` method takes an optional second parameter, the object to return if Angular can't find the provider \(`null` in this example\): <docs-code header="app/demo/demo.testbed.spec.ts" path="adev/src/content/examples/testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="testbed-get-w-null"/> After calling `TestBed.inject`, the `TestBed` configuration is frozen for the duration of the current spec. |
 |
  `initTestEnvironment` | Initialize the testing environment for the entire test run. <br /> The testing shims \(`karma-test-shim`, `browser-test-shim`\) call it for you so there is rarely a reason for you to call it yourself. <br /> Call this method *exactly once*. To change this default in the middle of a test run, call `resetTestEnvironment` first. <br /> Specify the Angular compiler factory, a `PlatformRef`, and a default Angular testing module. Alternatives for non-browser platforms are available in the general form `@angular/platform-<platform_name>/testing/<platform_name>`.                                                                  |
 | `resetTestEnvironment`                                         | Reset the initial test environment, including the default testing module.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -138,7 +138,7 @@ The `DebugElement.query(predicate)` and `DebugElement.queryAll(predicate)` metho
 The predicate is any method that takes a `DebugElement` and returns a *truthy* value.
 The following example finds all `DebugElements` with a reference to a template local variable named "content":
 
-<docs-code header="app/demo/demo.testbed.spec.ts" path="testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="custom-predicate"/>
+<docs-code header="app/demo/demo.testbed.spec.ts" path="adev/src/content/examples/testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="custom-predicate"/>
 
 The Angular `By` class has three static methods for common predicates:
 
@@ -148,4 +148,4 @@ The Angular `By` class has three static methods for common predicates:
 | `By.css(selector)`        | Return elements with matching CSS selectors                                |
 | `By.directive(directive)` | Return elements that Angular matched to an instance of the directive class |
 
-<docs-code header="app/hero/hero-list.component.spec.ts" path="testing/src/app/hero/hero-list.component.spec.ts" visibleRegion="by"/>
+<docs-code header="app/hero/hero-list.component.spec.ts" path="adev/src/content/examples/testing/src/app/hero/hero-list.component.spec.ts" visibleRegion="by"/>

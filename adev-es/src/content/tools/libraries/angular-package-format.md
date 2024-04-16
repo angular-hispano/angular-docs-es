@@ -189,7 +189,7 @@ Secondary entrypoints can be resolved via the `"exports"` field of the `package.
 
 The README file in the Markdown format that is used to display description of a package on npm and GitHub.
 
-Example README content of &commat;angular/core package:
+Example README content of @angular/core package:
 
 <docs-code language="html">
 
@@ -212,7 +212,7 @@ To partially compile Angular code, use the `compilationMode` flag in the `angula
 <docs-code language="javascript">
 
 {
-  &hellip;
+  …
   "angularCompilerOptions": {
     "compilationMode": "partial",
   }
@@ -247,13 +247,13 @@ To generate a flattened ES Module index file, use the following configuration op
 
 {
   "compilerOptions": {
-    &hellip;
+    …
     "module": "esnext",
     "target": "es2022",
-    &hellip;
+    …
   },
   "angularCompilerOptions": {
-    &hellip;
+    …
     "flatModuleOutFile": "my-ui-lib.js",
     "flatModuleId": "my-ui-lib"
   }
@@ -304,8 +304,8 @@ This is because the tslib version is tied to the TypeScript version used to comp
 ## Examples
 
 <docs-pill-row>
-  <docs-pill href="https://unpkg.com/browse/@angular/core@13.0.0-rc.0" title="@angular/core package"/>
-  <docs-pill href="https://unpkg.com/browse/@angular/material@13.0.0-rc.0" title="@angular/material package"/>
+  <docs-pill href="https://unpkg.com/browse/@angular/core@17.0.0/" title="@angular/core package"/>
+  <docs-pill href="https://unpkg.com/browse/@angular/material@17.0.0/" title="@angular/material package"/>
 </docs-pill-row>
 
 ## Definition of terms
@@ -386,7 +386,7 @@ These module IDs are usually considered to be private APIs that can change over 
 ### Top-Level import
 
 An import coming from an entry point.
-The available top-level imports are what define the public API and are exposed in "&commat;angular/name" modules, such as `@angular/core` or `@angular/common`.
+The available top-level imports are what define the public API and are exposed in "@angular/name" modules, such as `@angular/core` or `@angular/common`.
 
 ### Tree-shaking
 

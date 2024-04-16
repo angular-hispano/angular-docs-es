@@ -54,11 +54,11 @@ To simulate a network issue, disable network interaction for your application.
 
 In Chrome:
 
-1. Select **Tools** &gt; **Developer Tools** (from the Chrome menu located in the top right corner).
+1. Select **Tools** > **Developer Tools** (from the Chrome menu located in the top right corner).
 1. Go to the **Network tab**.
 1. Select **Offline** in the **Throttling** dropdown menu.
 
-<img alt="The offline option in the Network tab is selected" src="assets/content/images/guide/service-worker/offline-option.png">
+<img alt="The offline option in the Network tab is selected" src="assets/images/guide/service-worker/offline-option.png">
 
 Now the application has no access to network interaction.
 
@@ -69,7 +69,7 @@ On a refresh, the page loads normally.
 
 Look at the Network tab to verify that the service worker is active.
 
-<img alt="Requests are marked as from ServiceWorker" src="assets/content/images/guide/service-worker/sw-active.png">
+<img alt="Requests are marked as from ServiceWorker" src="assets/images/guide/service-worker/sw-active.png">
 
 HELPFUL: Under the "Size" column, the requests state is `(ServiceWorker)`.
 This means that the resources are not being loaded from the network.
@@ -110,7 +110,7 @@ Make a change to the application, and watch the service worker install the updat
     <docs-code language="shell">
 
     ng build
-    npx http-server -p 8080 -c-1 dist/
+    npx http-server -p 8080 -c-1 dist/<project-name>/browser
 
     </docs-code>
 
@@ -121,7 +121,7 @@ Now look at how the browser and service worker handle the updated application.
 1. Open [http://localhost:8080](http://localhost:8080) again in the same window.
     What happens?
 
-    <img alt="It still says Welcome to Service Workers!" src="assets/content/images/guide/service-worker/welcome-msg-en.png">
+    <img alt="It still says Welcome to Service Workers!" src="assets/images/guide/service-worker/welcome-msg-en.png">
 
     What went wrong?
     _Nothing, actually!_
@@ -138,7 +138,7 @@ Now look at how the browser and service worker handle the updated application.
 
 1. Refresh the page.
 
-    <img alt="The text has changed to say Bienvenue à app!" src="assets/content/images/guide/service-worker/welcome-msg-fr.png">
+    <img alt="The text has changed to say Bienvenue à app!" src="assets/images/guide/service-worker/welcome-msg-fr.png">
 
     The service worker installed the updated version of your application _in the background_, and the next time the page is loaded or reloaded, the service worker switches to the latest version.
 

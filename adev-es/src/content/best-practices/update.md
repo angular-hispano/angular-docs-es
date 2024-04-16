@@ -6,7 +6,7 @@ Keeping your Angular application up-to-date enables you to take advantage of lea
 
 This document contains information and resources to help you keep your Angular applications and libraries up-to-date.
 
-For information about our versioning policy and practices &mdash;including support and deprecation practices, as well as the release schedule&mdash; see [Angular versioning and releases](reference/releases "Angular versioning and releases").
+For information about our versioning policy and practices —including support and deprecation practices, as well as the release schedule— see [Angular versioning and releases](reference/releases "Angular versioning and releases").
 
 HELPFUL: If you are currently using AngularJS, see [Upgrading from AngularJS](https://angular.io/guide/upgrade "Upgrading from Angular JS").
 *AngularJS* is the name for all v1.x versions of Angular.
@@ -43,7 +43,7 @@ It also includes troubleshooting information and any recommended manual changes 
 For simple updates, the CLI command [`ng update`](cli/update) is all you need.
 Without additional arguments, [`ng update`](cli/update) lists the updates that are available to you and provides recommended steps to update your application to the most current version.
 
-[Angular Versioning and Releases](reference/releases#versioning "Angular Release Practices, Versioning") describes the level of change that you can expect based a release's version number.
+[Angular Versioning and Releases](reference/releases#versioning "Angular Release Practices, Versioning") describes the level of change that you can expect based on a release's version number.
 It also describes supported update paths.
 
 ## Resource summary

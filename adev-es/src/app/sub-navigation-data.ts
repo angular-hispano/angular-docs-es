@@ -6,9 +6,10 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {NavigationItem} from '@angular/docs-shared';
+import {NavigationItem} from '@angular/docs';
 
-import TUTORIALS_SUB_NAVIGATION_DATA_JSON from '../../src/assets/tutorials/routes/tutorials.json';
+import FIRST_APP_TUTORIAL_NAV_DATA from '../../src/assets/tutorials/first-app/routes.json';
+import LEARN_ANGULAR_TUTORIAL_NAV_DATA from '../../src/assets/tutorials/learn-angular/routes.json';
 
 import {DefaultPage} from './core/enums/pages';
 import {getApiNavigationItems} from './features/references/helpers/manifest.helper';
@@ -117,6 +118,11 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/components/outputs',
           },
           {
+            label: 'output() function',
+            path: 'guide/components/output-fn',
+            contentPath: 'guide/components/output-function',
+          },
+          {
             label: 'Content projection with ng-content',
             path: 'guide/components/content-projection',
             contentPath: 'guide/components/content-projection',
@@ -155,6 +161,11 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             label: 'Advanced configuration',
             path: 'guide/components/advanced-configuration',
             contentPath: 'guide/components/advanced-configuration',
+          },
+          {
+            label: 'Custom Elements',
+            path: 'guide/elements',
+            contentPath: 'guide/elements',
           },
         ],
       },
@@ -217,9 +228,39 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/templates/control-flow',
           },
           {
-            label: 'Deferrable views',
-            path: 'guide/defer',
-            contentPath: 'guide/defer',
+            label: 'Pipes',
+            children: [
+              {
+                label: 'Overview',
+                path: 'guide/pipes',
+                contentPath: 'guide/pipes/overview',
+              },
+              {
+                label: 'Using a pipe in a template',
+                path: 'guide/pipes/template',
+                contentPath: 'guide/pipes/template',
+              },
+              {
+                label: 'Custom pipes',
+                path: 'guide/pipes/transform-data',
+                contentPath: 'guide/pipes/transform-data',
+              },
+              {
+                label: 'Pipe precedence in expressions',
+                path: 'guide/pipes/precedence',
+                contentPath: 'guide/pipes/precedence',
+              },
+              {
+                label: 'Change detection with pipes',
+                path: 'guide/pipes/change-detection',
+                contentPath: 'guide/pipes/change-detection',
+              },
+              {
+                label: 'Unwrapping data from an observable',
+                path: 'guide/pipes/unwrapping-data-observables',
+                contentPath: 'guide/pipes/unwrapping-data-observables',
+              },
+            ],
           },
           {
             label: 'Template reference variables',
@@ -316,70 +357,20 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             path: 'guide/signals/rxjs-interop',
             contentPath: 'guide/signals/rxjs-interop',
           },
-        ],
-      },
-      {
-        label: 'NgModule',
-        children: [
           {
-            label: 'Overview',
-            path: 'guide/ngmodules',
-            contentPath: 'guide/ngmodules/overview',
+            label: 'Inputs as signals',
+            path: 'guide/signals/inputs',
+            contentPath: 'guide/signals/inputs',
           },
           {
-            label: 'JS Modules vs NgModules',
-            path: 'guide/ngmodules/vs-jsmodule',
-            contentPath: 'guide/ngmodules/vs-jsmodule',
+            label: 'Model inputs',
+            path: 'guide/signals/model',
+            contentPath: 'guide/signals/model',
           },
           {
-            label: 'Launching your app with a root module',
-            path: 'guide/ngmodules/bootstrapping',
-            contentPath: 'guide/ngmodules/bootstrapping',
-          },
-          {
-            label: 'Sharing NgModules',
-            path: 'guide/ngmodules/sharing',
-            contentPath: 'guide/ngmodules/sharing',
-          },
-          {
-            label: 'Frequently used NgModules',
-            path: 'guide/ngmodules/frequent',
-            contentPath: 'guide/ngmodules/frequent',
-          },
-          {
-            label: 'Feature modules',
-            path: 'guide/ngmodules/feature-modules',
-            contentPath: 'guide/ngmodules/feature-modules',
-          },
-          {
-            label: 'Types of feature modules',
-            path: 'guide/ngmodules/module-types',
-            contentPath: 'guide/ngmodules/module-types',
-          },
-          {
-            label: 'Providing dependencies',
-            path: 'guide/ngmodules/providers',
-            contentPath: 'guide/ngmodules/providers',
-          },
-          {
-            label: 'Singleton services',
-            path: 'guide/ngmodules/singleton-services',
-            contentPath: 'guide/ngmodules/singleton-services',
-          },
-          {
-            label: 'Lazy-loading feature modules',
-            path: 'guide/ngmodules/lazy-loading',
-            contentPath: 'guide/ngmodules/lazy-loading',
-          },
-          {
-            label: 'NgModule API',
-            path: 'guide/ngmodules/api',
-            contentPath: 'guide/ngmodules/api',
-          },
-          {
-            label: 'NgModule FAQs',
-            path: 'guide/ngmodules/faq',
-            contentPath: 'guide/ngmodules/faq',
+            label: 'Queries as signals',
+            path: 'guide/signals/queries',
+            contentPath: 'guide/signals/queries',
           },
         ],
       },
@@ -449,29 +440,64 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Server-side Rendering',
-        path: 'guide/ssr',
-        contentPath: 'guide/ssr',
+        label: 'HTTP Client',
+        children: [
+          {
+            label: 'Overview',
+            path: 'guide/http',
+            contentPath: 'guide/http/overview',
+          },
+          {
+            label: 'Setting up HttpClient',
+            path: 'guide/http/setup',
+            contentPath: 'guide/http/setup',
+          },
+          {
+            label: 'Making requests',
+            path: 'guide/http/making-requests',
+            contentPath: 'guide/http/making-requests',
+          },
+          {
+            label: 'Intercepting requests and responses',
+            path: 'guide/http/interceptors',
+            contentPath: 'guide/http/interceptors',
+          },
+          {
+            label: 'Testing',
+            path: 'guide/http/testing',
+            contentPath: 'guide/http/testing',
+          },
+        ],
       },
       {
-        label: 'Build-time prerendering',
-        path: 'guide/prerendering',
-        contentPath: 'guide/prerendering',
-      },
-      {
-        label: 'Hydration',
-        path: 'guide/hydration',
-        contentPath: 'guide/hydration',
-      },
-      {
-        label: 'Deferrable views',
-        path: 'guide/defer',
-        contentPath: 'guide/defer',
-      },
-      {
-        label: 'Image Optimization',
-        path: 'guide/image-optimization',
-        contentPath: 'guide/image-optimization',
+        label: 'Performance',
+        children: [
+          {
+            label: 'Deferrable views',
+            path: 'guide/defer',
+            contentPath: 'guide/defer',
+          },
+          {
+            label: 'Image Optimization',
+            path: 'guide/image-optimization',
+            contentPath: 'guide/image-optimization',
+          },
+          {
+            label: 'Server-side Rendering',
+            path: 'guide/ssr',
+            contentPath: 'guide/ssr',
+          },
+          {
+            label: 'Build-time prerendering',
+            path: 'guide/prerendering',
+            contentPath: 'guide/prerendering',
+          },
+          {
+            label: 'Hydration',
+            path: 'guide/hydration',
+            contentPath: 'guide/hydration',
+          },
+        ],
       },
       {
         label: 'Testing',
@@ -584,81 +610,6 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Security',
-        path: 'guide/security',
-        contentPath: 'guide/security',
-      },
-      {
-        label: 'Pipes',
-        children: [
-          {
-            label: 'Overview',
-            path: 'guide/pipes',
-            contentPath: 'guide/pipes/overview',
-          },
-          {
-            label: 'Using a pipe in a template',
-            path: 'guide/pipes/template',
-            contentPath: 'guide/pipes/template',
-          },
-          {
-            label: 'Custom pipes',
-            path: 'guide/pipes/transform-data',
-            contentPath: 'guide/pipes/transform-data',
-          },
-          {
-            label: 'Pipe precedence in expressions',
-            path: 'guide/pipes/precedence',
-            contentPath: 'guide/pipes/precedence',
-          },
-          {
-            label: 'Change detection with pipes',
-            path: 'guide/pipes/change-detection',
-            contentPath: 'guide/pipes/change-detection',
-          },
-          {
-            label: 'Unwrapping data from an observable',
-            path: 'guide/pipes/unwrapping-data-observables',
-            contentPath: 'guide/pipes/unwrapping-data-observables',
-          },
-        ],
-      },
-      {
-        label: 'Http Client',
-        children: [
-          {
-            label: 'Overview',
-            path: 'guide/http',
-            contentPath: 'guide/http/overview',
-          },
-          {
-            label: 'Setting up HttpClient',
-            path: 'guide/http/setup',
-            contentPath: 'guide/http/setup',
-          },
-          {
-            label: 'Making requests',
-            path: 'guide/http/making-requests',
-            contentPath: 'guide/http/making-requests',
-          },
-          {
-            label: 'Intercepting requests and responses',
-            path: 'guide/http/interceptors',
-            contentPath: 'guide/http/interceptors',
-          },
-          {
-            label: 'Security',
-            path: 'guide/http/security',
-            contentPath: 'guide/http/security',
-          },
-          {
-            label: 'Testing',
-            path: 'guide/http/testing',
-            contentPath: 'guide/http/testing',
-          },
-        ],
-      },
-      {
         label: 'Animations',
         children: [
           {
@@ -687,11 +638,6 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/animations/route-animations',
           },
         ],
-      },
-      {
-        label: 'Custom Elements',
-        path: 'guide/elements',
-        contentPath: 'guide/elements',
       },
     ],
   },
@@ -824,9 +770,9 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'best-practices/style-guide',
       },
       {
-        label: 'Keeping up-to-date',
-        path: 'update',
-        contentPath: 'best-practices/update',
+        label: 'Security',
+        path: 'best-practices/security',
+        contentPath: 'guide/security', // Have not refactored due to build issues
       },
       {
         label: 'Accessibility',
@@ -857,6 +803,11 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'best-practices/runtime-performance/skipping-subtrees',
           },
         ],
+      },
+      {
+        label: 'Keeping up-to-date',
+        path: 'update',
+        contentPath: 'best-practices/update',
       },
     ],
   },
@@ -937,10 +888,12 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
 ];
 
 export const TUTORIALS_SUB_NAVIGATION_DATA: NavigationItem[] = [
-  ...TUTORIALS_SUB_NAVIGATION_DATA_JSON,
+  FIRST_APP_TUTORIAL_NAV_DATA,
+  LEARN_ANGULAR_TUTORIAL_NAV_DATA,
   {
     path: DefaultPage.TUTORIALS,
     contentPath: 'tutorials/home',
+    label: 'Tutorials',
   },
 ];
 
@@ -1333,6 +1286,86 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Typed Forms',
         path: 'reference/migrations/typed-forms',
         contentPath: 'reference/migrations/typed-forms',
+      },
+      {
+        label: 'Control Flow Syntax',
+        path: 'reference/migrations/control-flow',
+        contentPath: 'reference/migrations/control-flow',
+      },
+    ],
+  },
+  {
+    label: 'Concepts',
+    children: [
+      {
+        label: 'Overview',
+        path: 'reference/concepts',
+        contentPath: 'reference/concepts/overview',
+      },
+      {
+        label: 'NgModule',
+        children: [
+          {
+            label: 'Overview',
+            path: 'guide/ngmodules',
+            contentPath: 'guide/ngmodules/overview',
+          },
+          {
+            label: 'JS Modules vs NgModules',
+            path: 'guide/ngmodules/vs-jsmodule',
+            contentPath: 'guide/ngmodules/vs-jsmodule',
+          },
+          {
+            label: 'Launching your app with a root module',
+            path: 'guide/ngmodules/bootstrapping',
+            contentPath: 'guide/ngmodules/bootstrapping',
+          },
+          {
+            label: 'Sharing NgModules',
+            path: 'guide/ngmodules/sharing',
+            contentPath: 'guide/ngmodules/sharing',
+          },
+          {
+            label: 'Frequently used NgModules',
+            path: 'guide/ngmodules/frequent',
+            contentPath: 'guide/ngmodules/frequent',
+          },
+          {
+            label: 'Feature modules',
+            path: 'guide/ngmodules/feature-modules',
+            contentPath: 'guide/ngmodules/feature-modules',
+          },
+          {
+            label: 'Types of feature modules',
+            path: 'guide/ngmodules/module-types',
+            contentPath: 'guide/ngmodules/module-types',
+          },
+          {
+            label: 'Providing dependencies',
+            path: 'guide/ngmodules/providers',
+            contentPath: 'guide/ngmodules/providers',
+          },
+          {
+            label: 'Singleton services',
+            path: 'guide/ngmodules/singleton-services',
+            contentPath: 'guide/ngmodules/singleton-services',
+          },
+          {
+            label: 'Lazy-loading feature modules',
+            path: 'guide/ngmodules/lazy-loading',
+            contentPath: 'guide/ngmodules/lazy-loading',
+          },
+          {
+            label: 'NgModule API',
+            path: 'guide/ngmodules/api',
+            contentPath: 'guide/ngmodules/api',
+          },
+          {
+            label: 'NgModule FAQs',
+            path: 'guide/ngmodules/faq',
+            contentPath: 'guide/ngmodules/faq',
+          },
+        ],
       },
     ],
   },

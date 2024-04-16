@@ -61,19 +61,19 @@ The following *negative* example defines the `AppComponent`, bootstraps the app,
 defines the `Hero` model object, and loads heroes from the server all in the same file.
 *Don't do this*.
 
-<docs-code path="styleguide/src/01-01/app/heroes/hero.component.avoid.ts" language="typescript" header="app/heroes/hero.component.ts"/>
+<docs-code path="adev/src/content/examples/styleguide/src/01-01/app/heroes/hero.component.avoid.ts" language="typescript" header="app/heroes/hero.component.ts"/>
 
 It is a better practice to redistribute the component and its
 supporting classes into their own, dedicated files.
 
 <docs-code-multifile>
-    <docs-code header="main.ts" path="styleguide/src/01-01/main.ts"/>
-    <docs-code header="app/app.module.ts" path="styleguide/src/01-01/app/app.module.ts"/>
-    <docs-code header="app/app.component.ts" path="styleguide/src/01-01/app/app.component.ts"/>
-    <docs-code header="app/heroes/heroes.component.ts" path="styleguide/src/01-01/app/heroes/heroes.component.ts"/>
-    <docs-code header="app/heroes/shared/hero.service.ts" path="styleguide/src/01-01/app/heroes/shared/hero.service.ts"/>
-    <docs-code header="app/heroes/shared/hero.model.ts" path="styleguide/src/01-01/app/heroes/shared/hero.model.ts"/>
-    <docs-code header="app/heroes/shared/mock-heroes.ts" path="styleguide/src/01-01/app/heroes/shared/mock-heroes.ts"/>
+    <docs-code header="main.ts" path="adev/src/content/examples/styleguide/src/01-01/main.ts"/>
+    <docs-code header="app/app.module.ts" path="adev/src/content/examples/styleguide/src/01-01/app/app.module.ts"/>
+    <docs-code header="app/app.component.ts" path="adev/src/content/examples/styleguide/src/01-01/app/app.component.ts"/>
+    <docs-code header="app/heroes/heroes.component.ts" path="adev/src/content/examples/styleguide/src/01-01/app/heroes/heroes.component.ts"/>
+    <docs-code header="app/heroes/shared/hero.service.ts" path="adev/src/content/examples/styleguide/src/01-01/app/heroes/shared/hero.service.ts"/>
+    <docs-code header="app/heroes/shared/hero.model.ts" path="adev/src/content/examples/styleguide/src/01-01/app/heroes/shared/hero.model.ts"/>
+    <docs-code header="app/heroes/shared/mock-heroes.ts" path="adev/src/content/examples/styleguide/src/01-01/app/heroes/shared/mock-heroes.ts"/>
 </docs-code-multifile>
 
 As the application grows, this rule becomes even more important.
@@ -151,14 +151,14 @@ Consistent conventions make it easy to quickly identify and reference assets of 
 
 | Symbol name                                                                                                                                                                          | File name |
 |:---                                                                                                                                                                                  |:---       |
-| <docs-code hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class AppComponent { } </docs-code>                             | app.component.ts |
-| <docs-code hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroesComponent { } </docs-code>                          | heroes.component.ts |
-| <docs-code hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroListComponent { } </docs-code>                        | hero-list.component.ts |
-| <docs-code hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroDetailComponent { } </docs-code>                      | hero-detail.component.ts |
-| <docs-code hideCopy language="typescript"> &commat;Directive({ &hellip; }) &NewLine;export class ValidationDirective { } </docs-code>                      | validation.directive.ts |
-| <docs-code hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class AppModule </docs-code>                                     | app.module.ts |
-| <docs-code hideCopy language="typescript"> &commat;Pipe({ name: 'initCaps' }) &NewLine;export class InitCapsPipe implements PipeTransform { } </docs-code> | init-caps.pipe.ts |
-| <docs-code hideCopy language="typescript"> &commat;Injectable() &NewLine;export class UserProfileService { } </docs-code>                                  | user-profile.service.ts |
+| <docs-code hideCopy language="typescript"> @Component({ … }) <br>export class AppComponent { } </docs-code>                             | app.component.ts |
+| <docs-code hideCopy language="typescript"> @Component({ … }) <br>export class HeroesComponent { } </docs-code>                          | heroes.component.ts |
+| <docs-code hideCopy language="typescript"> @Component({ … }) <br>export class HeroListComponent { } </docs-code>                        | hero-list.component.ts |
+| <docs-code hideCopy language="typescript"> @Component({ … }) <br>export class HeroDetailComponent { } </docs-code>                      | hero-detail.component.ts |
+| <docs-code hideCopy language="typescript"> @Directive({ … }) <br>export class ValidationDirective { } </docs-code>                      | validation.directive.ts |
+| <docs-code hideCopy language="typescript"> @NgModule({ … }) <br>export class AppModule </docs-code>                                     | app.module.ts |
+| <docs-code hideCopy language="typescript"> @Pipe({ name: 'initCaps' }) <br>export class InitCapsPipe implements PipeTransform { } </docs-code> | init-caps.pipe.ts |
+| <docs-code hideCopy language="typescript"> @Injectable() <br>export class UserProfileService { } </docs-code>                                  | user-profile.service.ts |
 
 ### Service names
 
@@ -186,9 +186,9 @@ Service names such as `Credit` are nouns and require a suffix and should be name
 
 | Symbol name                                                                                                                                      | File name |
 |:---                                                                                                                                              |:---       |
-| <docs-code hideCopy language="typescript"> &commat;Injectable() &NewLine;export class HeroDataService { } </docs-code> | hero-data.service.ts |
-| <docs-code hideCopy language="typescript"> &commat;Injectable() &NewLine;export class CreditService { } </docs-code>   | credit.service.ts    |
-| <docs-code hideCopy language="typescript"> &commat;Injectable() &NewLine;export class Logger { } </docs-code>          | logger.service.ts    |
+| <docs-code hideCopy language="typescript"> @Injectable() <br>export class HeroDataService { } </docs-code> | hero-data.service.ts |
+| <docs-code hideCopy language="typescript"> @Injectable() <br>export class CreditService { } </docs-code>   | credit.service.ts    |
+| <docs-code hideCopy language="typescript"> @Injectable() <br>export class Logger { } </docs-code>          | logger.service.ts    |
 
 ### Bootstrapping
 
@@ -207,7 +207,7 @@ Follows a consistent convention for the startup logic of an app.
 **Why**? <br />
 Follows a familiar convention from other technology platforms.
 
-<docs-code header="main.ts" path="styleguide/src/02-05/main.ts"/>
+<docs-code header="main.ts" path="adev/src/content/examples/styleguide/src/02-05/main.ts"/>
 
 ### Component selectors
 
@@ -218,11 +218,11 @@ Follows a familiar convention from other technology platforms.
 **Why**? <br />
 Keeps the element names consistent with the specification for [Custom Elements](https://www.w3.org/TR/custom-elements).
 
-<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/05-02/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-02/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
 <docs-code-multifile>
-    <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/05-02/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
-    <docs-code header="app/app.component.html" path="styleguide/src/05-02/app/app.component.html"/>
+    <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-02/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
+    <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-02/app/app.component.html"/>
 </docs-code-multifile>
 
 ### Component custom prefix
@@ -242,13 +242,13 @@ Makes it easier to promote and share the component in other applications.
 **Why**? <br />
 Components are easy to identify in the DOM.
 
-<docs-code header="app/heroes/hero.component.ts" path="styleguide/src/02-07/app/heroes/hero.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero.component.ts" path="adev/src/content/examples/styleguide/src/02-07/app/heroes/hero.component.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/users/users.component.ts" path="styleguide/src/02-07/app/users/users.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/users/users.component.ts" path="adev/src/content/examples/styleguide/src/02-07/app/users/users.component.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/heroes/hero.component.ts" path="styleguide/src/02-07/app/heroes/hero.component.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero.component.ts" path="adev/src/content/examples/styleguide/src/02-07/app/heroes/hero.component.ts" visibleRegion="example"/>
 
-<docs-code header="app/users/users.component.ts" path="styleguide/src/02-07/app/users/users.component.ts" visibleRegion="example"/>
+<docs-code header="app/users/users.component.ts" path="adev/src/content/examples/styleguide/src/02-07/app/users/users.component.ts" visibleRegion="example"/>
 
 ### Directive selectors
 
@@ -276,9 +276,9 @@ Prevents name collisions.
 **Why**? <br />
 Directives are easily identified.
 
-<docs-code header="app/shared/validate.directive.ts" path="styleguide/src/02-08/app/shared/validate.directive.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/shared/validate.directive.ts" path="adev/src/content/examples/styleguide/src/02-08/app/shared/validate.directive.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/shared/validate.directive.ts" path="styleguide/src/02-08/app/shared/validate.directive.ts" visibleRegion="example"/>
+<docs-code header="app/shared/validate.directive.ts" path="adev/src/content/examples/styleguide/src/02-08/app/shared/validate.directive.ts" visibleRegion="example"/>
 
 ### Pipe names
 
@@ -293,8 +293,8 @@ Provides a consistent way to quickly identify and reference pipes.
 
 | Symbol name                                                                                                                                                                          | File name |
 |:---                                                                                                                                                                                  |:---       |
-| <docs-code hideCopy language="typescript"> &commat;Pipe({ standalone: true, name: 'ellipsis' }) &NewLine;export class EllipsisPipe implements PipeTransform { } </docs-code> | ellipsis.pipe.ts  |
-| <docs-code hideCopy language="typescript"> &commat;Pipe({ standalone: true, name: 'initCaps' }) &NewLine;export class InitCapsPipe implements PipeTransform { } </docs-code> | init-caps.pipe.ts |
+| <docs-code hideCopy language="typescript"> @Pipe({ standalone: true, name: 'ellipsis' }) <br>export class EllipsisPipe implements PipeTransform { } </docs-code> | ellipsis.pipe.ts  |
+| <docs-code hideCopy language="typescript"> @Pipe({ standalone: true, name: 'initCaps' }) <br>export class InitCapsPipe implements PipeTransform { } </docs-code> | init-caps.pipe.ts |
 
 ### Unit test file names
 
@@ -354,40 +354,40 @@ project root
 ├── src
 │ ├── app
 │ │ ├── core
-│ │ │ └── exception.service.ts&verbar;spec.ts
-│ │ │ └── user-profile.service.ts&verbar;spec.ts
+│ │ │ └── exception.service.ts|spec.ts
+│ │ │ └── user-profile.service.ts|spec.ts
 │ │ ├── heroes
 │ │ │ ├── hero
-│ │ │ │ └── hero.component.ts&verbar;html&verbar;css&verbar;spec.ts
+│ │ │ │ └── hero.component.ts|html|css|spec.ts
 │ │ │ ├── hero-list
-│ │ │ │ └── hero-list.component.ts&verbar;html&verbar;css&verbar;spec.ts
+│ │ │ │ └── hero-list.component.ts|html|css|spec.ts
 │ │ │ ├── shared
-│ │ │ │ └── hero-button.component.ts&verbar;html&verbar;css&verbar;spec.ts
+│ │ │ │ └── hero-button.component.ts|html|css|spec.ts
 │ │ │ │ └── hero.model.ts
-│ │ │ │ └── hero.service.ts&verbar;spec.ts
-│ │ │ └── heroes.component.ts&verbar;html&verbar;css&verbar;spec.ts
+│ │ │ │ └── hero.service.ts|spec.ts
+│ │ │ └── heroes.component.ts|html|css|spec.ts
 │ │ │ └── heroes.routes.ts
 │ │ ├── shared
-│ │ │ └── init-caps.pipe.ts&verbar;spec.ts
-│ │ │ └── filter-text.component.ts&verbar;spec.ts
-│ │ │ └── filter-text.service.ts&verbar;spec.ts
+│ │ │ └── init-caps.pipe.ts|spec.ts
+│ │ │ └── filter-text.component.ts|spec.ts
+│ │ │ └── filter-text.service.ts|spec.ts
 │ │ ├── villains
 │ │ │ ├── villain
-│ │ │ │ └── &hellip;
+│ │ │ │ └── …
 │ │ │ ├── villain-list
-│ │ │ │ └── &hellip;
+│ │ │ │ └── …
 │ │ │ ├── shared
-│ │ │ │ └── &hellip;
-│ │ │ └── villains.component.ts&verbar;html&verbar;css&verbar;spec.ts
+│ │ │ │ └── …
+│ │ │ └── villains.component.ts|html|css|spec.ts
 │ │ │ └── villains.module.ts
 │ │ │ └── villains-routing.module.ts
-│ │ └── app.component.ts&verbar;html&verbar;css&verbar;spec.ts
+│ │ └── app.component.ts|html|css|spec.ts
 │ │ └── app.routes.ts
 │ └── main.ts
 │ └── index.html
-│ └── &hellip;
-└── node_modules/&hellip;
-└── &hellip;
+│ └── …
+└── node_modules/…
+└── …
 ```
 
 HELPFUL: While components in dedicated folders are widely preferred, another option for small applications is to keep components flat \(not in a dedicated folder\).
@@ -428,7 +428,7 @@ Every `NgModule` based application requires at least one root NgModule.
 **Why**? <br />
 Makes it easier to locate and identify the root module.
 
-<docs-code path="styleguide/src/04-08/app/app.module.ts" language="typescript" visibleRegion="example" header="app/app.module.ts"/>
+<docs-code path="adev/src/content/examples/styleguide/src/04-08/app/app.module.ts" language="typescript" visibleRegion="example" header="app/app.module.ts"/>
 
 ### Feature modules
 
@@ -506,24 +506,24 @@ project root
 ├──├──app
 ├──├──├── shared
 ├──├──├──└── shared.module.ts
-├──├──├──└── init-caps.pipe.ts&verbar;spec.ts
-├──├──├──└── filter-text.component.ts&verbar;spec.ts
-├──├──├──└── filter-text.service.ts&verbar;spec.ts
-├──├──└── app.component.ts&verbar;html&verbar;css&verbar;spec.ts
+├──├──├──└── init-caps.pipe.ts|spec.ts
+├──├──├──└── filter-text.component.ts|spec.ts
+├──├──├──└── filter-text.service.ts|spec.ts
+├──├──└── app.component.ts|html|css|spec.ts
 ├──├──└── app.module.ts
 ├──├──└── app-routing.module.ts
 ├──└── main.ts
 ├──└── index.html
-└── &hellip;
+└── …
 ```
 
 <docs-code-multifile>
-    <docs-code header="app/shared/shared.module.ts" path="styleguide/src/04-10/app/shared/shared.module.ts"/>
-    <docs-code header="app/shared/init-caps.pipe.ts" path="styleguide/src/04-10/app/shared/init-caps.pipe.ts"/>
-    <docs-code header="app/shared/filter-text/filter-text.component.ts" path="styleguide/src/04-10/app/shared/filter-text/filter-text.component.ts"/>
-    <docs-code header="app/shared/filter-text/filter-text.service.ts" path="styleguide/src/04-10/app/shared/filter-text/filter-text.service.ts"/>
-    <docs-code header="app/heroes/heroes.component.ts" path="styleguide/src/04-10/app/heroes/heroes.component.ts"/>
-    <docs-code header="app/heroes/heroes.component.html" path="styleguide/src/04-10/app/heroes/heroes.component.html"/>
+    <docs-code header="app/shared/shared.module.ts" path="adev/src/content/examples/styleguide/src/04-10/app/shared/shared.module.ts"/>
+    <docs-code header="app/shared/init-caps.pipe.ts" path="adev/src/content/examples/styleguide/src/04-10/app/shared/init-caps.pipe.ts"/>
+    <docs-code header="app/shared/filter-text/filter-text.component.ts" path="adev/src/content/examples/styleguide/src/04-10/app/shared/filter-text/filter-text.component.ts"/>
+    <docs-code header="app/shared/filter-text/filter-text.service.ts" path="adev/src/content/examples/styleguide/src/04-10/app/shared/filter-text/filter-text.service.ts"/>
+    <docs-code header="app/heroes/heroes.component.ts" path="adev/src/content/examples/styleguide/src/04-10/app/heroes/heroes.component.ts"/>
+    <docs-code header="app/heroes/heroes.component.html" path="adev/src/content/examples/styleguide/src/04-10/app/heroes/heroes.component.html"/>
 </docs-code-multifile>
 
 ### Lazy Loaded folders
@@ -558,13 +558,13 @@ HELPFUL: There are a few cases where you give a component an attribute, such as 
 For example, [Material Design](https://material.angular.io/components/button/overview) uses this technique with `<button mat-button>`.
 However, you wouldn't use this technique on a custom element.
 
-<docs-code header="app/heroes/hero-button/hero-button.component.ts" path="styleguide/src/05-03/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-03/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/app.component.html" path="styleguide/src/05-03/app/app.component.avoid.html"/>
+<docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-03/app/app.component.avoid.html"/>
 
 <docs-code-multifile>
-    <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/05-03/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
-    <docs-code header="app/app.component.html" path="styleguide/src/05-03/app/app.component.html"/>
+    <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-03/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
+    <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-03/app/app.component.html"/>
 </docs-code-multifile>
 
 ### Extract templates and styles to their own files
@@ -592,12 +592,12 @@ A *component relative* URL requires no change when you move the component files,
 **Why**? <br />
 The `./` prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix.
 
-<docs-code header="app/heroes/heroes.component.ts" path="styleguide/src/05-04/app/heroes/heroes.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/heroes.component.ts" path="adev/src/content/examples/styleguide/src/05-04/app/heroes/heroes.component.avoid.ts" visibleRegion="example"/>
 
 <docs-code-multifile>
-    <docs-code header="app/heroes/heroes.component.ts" path="styleguide/src/05-04/app/heroes/heroes.component.ts" visibleRegion="example"/>
-    <docs-code header="app/heroes/heroes.component.html" path="styleguide/src/05-04/app/heroes/heroes.component.html"/>
-    <docs-code header="app/heroes/heroes.component.css" path="styleguide/src/05-04/app/heroes/heroes.component.css"/>
+    <docs-code header="app/heroes/heroes.component.ts" path="adev/src/content/examples/styleguide/src/05-04/app/heroes/heroes.component.ts" visibleRegion="example"/>
+    <docs-code header="app/heroes/heroes.component.html" path="adev/src/content/examples/styleguide/src/05-04/app/heroes/heroes.component.html"/>
+    <docs-code header="app/heroes/heroes.component.css" path="adev/src/content/examples/styleguide/src/05-04/app/heroes/heroes.component.css"/>
 </docs-code-multifile>
 
 ### Decorate `input` and `output` properties
@@ -621,9 +621,9 @@ The metadata declaration attached to the directive is shorter and thus more read
 Placing the decorator on the same line *usually* makes for shorter code and still easily identifies the property as an input or output.
 Put it on the line above when doing so is clearly more readable.
 
-<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/05-12/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-12/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/05-12/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-12/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
 
 ### Avoid aliasing `inputs` and `outputs`
 
@@ -638,14 +638,14 @@ Two names for the same property \(one private, one public\) is inherently confus
 You should use an alias when the directive name is also an `input` property,
 and the directive name doesn't describe the property.
 
-<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/05-13/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-13/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/app.component.html" path="styleguide/src/05-13/app/app.component.avoid.html"/>
+<docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-13/app/app.component.avoid.html"/>
 
 <docs-code-multifile>
-    <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/05-13/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
-    <docs-code header="app/heroes/shared/hero-button/hero-highlight.directive.ts" path="styleguide/src/05-13/app/heroes/shared/hero-highlight.directive.ts"/>
-    <docs-code header="app/app.component.html" path="styleguide/src/05-13/app/app.component.html"/>
+    <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-13/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
+    <docs-code header="app/heroes/shared/hero-button/hero-highlight.directive.ts" path="adev/src/content/examples/styleguide/src/05-13/app/heroes/shared/hero-highlight.directive.ts"/>
+    <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-13/app/app.component.html"/>
 </docs-code-multifile>
 
 ### Delegate complex component logic to services
@@ -669,9 +669,9 @@ Removes dependencies and hides implementation details from the component.
 **Why**? <br />
 Keeps the component slim, trim, and focused.
 
-<docs-code header="app/heroes/hero-list/hero-list.component.ts" path="styleguide/src/05-15/app/heroes/hero-list/hero-list.component.avoid.ts"/>
+<docs-code header="app/heroes/hero-list/hero-list.component.ts" path="adev/src/content/examples/styleguide/src/05-15/app/heroes/hero-list/hero-list.component.avoid.ts"/>
 
-<docs-code header="app/heroes/hero-list/hero-list.component.ts" path="styleguide/src/05-15/app/heroes/hero-list/hero-list.component.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero-list/hero-list.component.ts" path="adev/src/content/examples/styleguide/src/05-15/app/heroes/hero-list/hero-list.component.ts" visibleRegion="example"/>
 
 ### Don't prefix `output` properties
 
@@ -688,13 +688,13 @@ This is consistent with built-in events such as button clicks.
 Angular allows for an [alternative syntax](guide/templates/binding) `on-*`.
 If the event itself was prefixed with `on` this would result in an `on-onEvent` binding expression.
 
-<docs-code header="app/heroes/hero.component.ts" path="styleguide/src/05-16/app/heroes/hero.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero.component.ts" path="adev/src/content/examples/styleguide/src/05-16/app/heroes/hero.component.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/app.component.html" path="styleguide/src/05-16/app/app.component.avoid.html"/>
+<docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-16/app/app.component.avoid.html"/>
 
 <docs-code-multifile>
-    <docs-code header="app/heroes/hero.component.ts" path="styleguide/src/05-16/app/heroes/hero.component.ts" visibleRegion="example"/>
-    <docs-code header="app/app.component.html" path="styleguide/src/05-16/app/app.component.html"/>
+    <docs-code header="app/heroes/hero.component.ts" path="adev/src/content/examples/styleguide/src/05-16/app/heroes/hero.component.ts" visibleRegion="example"/>
+    <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-16/app/app.component.html"/>
 </docs-code-multifile>
 
 ### Put presentation logic in the component class
@@ -709,9 +709,9 @@ Logic will be contained in one place \(the component class\) instead of being sp
 **Why**? <br />
 Keeping the component's presentation logic in the class instead of the template improves testability, maintainability, and reusability.
 
-<docs-code header="app/heroes/hero-list/hero-list.component.ts" path="styleguide/src/05-17/app/heroes/hero-list/hero-list.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero-list/hero-list.component.ts" path="adev/src/content/examples/styleguide/src/05-17/app/heroes/hero-list/hero-list.component.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/heroes/hero-list/hero-list.component.ts" path="styleguide/src/05-17/app/heroes/hero-list/hero-list.component.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero-list/hero-list.component.ts" path="adev/src/content/examples/styleguide/src/05-17/app/heroes/hero-list/hero-list.component.ts" visibleRegion="example"/>
 ### Initialize inputs
 
 #### Style 05-18
@@ -722,17 +722,17 @@ When enabled, this option causes the TypeScript compiler to report an error if t
 By design, Angular treats all `@Input` properties as optional.
 When possible, you should satisfy `--strictPropertyInitialization` by providing a default value.
 
-<docs-code header="app/heroes/hero/hero.component.ts" path="styleguide/src/05-18/app/heroes/hero/hero.component.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero/hero.component.ts" path="adev/src/content/examples/styleguide/src/05-18/app/heroes/hero/hero.component.ts" visibleRegion="example"/>
 
 If the property is hard to construct a default value for, use `?` to explicitly mark the property as optional.
 
-<docs-code header="app/heroes/hero/hero.component.ts" path="styleguide/src/05-18/app/heroes/hero/hero.component.optional.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero/hero.component.ts" path="adev/src/content/examples/styleguide/src/05-18/app/heroes/hero/hero.component.optional.ts" visibleRegion="example"/>
 
 You may want to have a required `@Input` field, meaning all your component users are required to pass that attribute.
 In such cases, use a default value.
 Just suppressing the TypeScript error with `!` is insufficient and should be avoided because it will prevent the type checker ensure the input value is provided.
 
-<docs-code header="app/heroes/hero/hero.component.ts" path="styleguide/src/05-18/app/heroes/hero/hero.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/hero/hero.component.ts" path="adev/src/content/examples/styleguide/src/05-18/app/heroes/hero/hero.component.avoid.ts" visibleRegion="example"/>
 
 ## Directives
 
@@ -748,9 +748,9 @@ Attribute directives don't have an associated template.
 **Why**? <br />
 An element may have more than one attribute directive applied.
 
-<docs-code header="app/shared/highlight.directive.ts" path="styleguide/src/06-01/app/shared/highlight.directive.ts" visibleRegion="example"/>
+<docs-code header="app/shared/highlight.directive.ts" path="adev/src/content/examples/styleguide/src/06-01/app/shared/highlight.directive.ts" visibleRegion="example"/>
 
-<docs-code header="app/app.component.html" path="styleguide/src/06-01/app/app.component.html"/>
+<docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/06-01/app/app.component.html"/>
 
 ### `HostListener`/`HostBinding` decorators versus `host` metadata
 
@@ -761,17 +761,17 @@ An element may have more than one attribute directive applied.
 **Do** be consistent in your choice.
 
 **Why**? <br />
-The property associated with `@HostBinding` or the method associated with `@HostListener` can be modified only in a single place &mdash;in the directive's class.
+The property associated with `@HostBinding` or the method associated with `@HostListener` can be modified only in a single place —in the directive's class.
 If you use the `host` metadata property, you must modify both the property/method declaration in the directive's class and the metadata in the decorator associated with the directive.
 
-<docs-code header="app/shared/validator.directive.ts" path="styleguide/src/06-03/app/shared/validator.directive.ts"/>
+<docs-code header="app/shared/validator.directive.ts" path="adev/src/content/examples/styleguide/src/06-03/app/shared/validator.directive.ts"/>
 
 Compare with the less preferred `host` metadata alternative.
 
 **Why**? <br />
 The `host` metadata is only one term to remember and doesn't require extra ES imports.
 
-<docs-code header="app/shared/validator2.directive.ts" path="styleguide/src/06-03/app/shared/validator2.directive.ts"/>
+<docs-code header="app/shared/validator2.directive.ts" path="adev/src/content/examples/styleguide/src/06-03/app/shared/validator2.directive.ts"/>
 ## Services
 
 ### Services are singletons
@@ -787,7 +787,7 @@ Services are ideal for sharing methods across a feature area or an app.
 **Why**? <br />
 Services are ideal for sharing stateful in-memory data.
 
-<docs-code header="app/heroes/shared/hero.service.ts" path="styleguide/src/07-01/app/heroes/shared/hero.service.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero.service.ts" path="adev/src/content/examples/styleguide/src/07-01/app/heroes/shared/hero.service.ts" visibleRegion="example"/>
 
 ### Providing a service
 
@@ -809,9 +809,9 @@ When you register a service in the `@Injectable` decorator of the service, optim
 This is not ideal when two different components need different instances of a service.
 In this scenario it would be better to provide the service at the component level that needs the new and separate instance.
 
-<docs-code header="src/app/treeshaking/service.ts" path="dependency-injection/src/app/tree-shaking/service.ts"/>
+<docs-code header="src/app/treeshaking/service.ts" path="adev/src/content/examples/dependency-injection/src/app/tree-shaking/service.ts"/>
 
-### Use the &commat;Injectable() class decorator
+### Use the @Injectable() class decorator
 
 #### Style 07-04
 
@@ -824,9 +824,9 @@ dependencies based on the declared types of that service's constructor parameter
 **Why**? <br />
 When a service accepts only dependencies associated with type tokens, the `@Injectable()` syntax is much less verbose compared to using `@Inject()` on each individual constructor parameter.
 
-<docs-code header="app/heroes/shared/hero-arena.service.ts" path="styleguide/src/07-04/app/heroes/shared/hero-arena.service.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero-arena.service.ts" path="adev/src/content/examples/styleguide/src/07-04/app/heroes/shared/hero-arena.service.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/heroes/shared/hero-arena.service.ts" path="styleguide/src/07-04/app/heroes/shared/hero-arena.service.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero-arena.service.ts" path="adev/src/content/examples/styleguide/src/07-04/app/heroes/shared/hero-arena.service.ts" visibleRegion="example"/>
 ## Data Services
 
 ### Talk to the server through a service
@@ -866,9 +866,9 @@ Use Lifecycle hooks to tap into important events exposed by Angular.
 Lifecycle interfaces prescribe typed method signatures.
 Use those signatures to flag spelling and syntax mistakes.
 
-<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/09-01/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/09-01/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
-<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/09-01/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
+<docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/09-01/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
 ## Appendix
 
 Useful tools and tips for Angular.
@@ -884,7 +884,7 @@ Here are templates and/or snippets for some of the web development editors and I
 
 <a href="https://marketplace.visualstudio.com/items?itemName=johnpapa.Angular2">
 
-<img alt="Use Extension" src="assets/content/images/guide/styleguide/use-extension.gif">
+<img alt="Use Extension" src="assets/images/guide/styleguide/use-extension.gif">
 
 </a>
 

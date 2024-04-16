@@ -4,7 +4,7 @@ Event binding lets you listen for and respond to user actions such as keystrokes
 
 ## Binding to events
 
-HELPFUL: For information on binding to properties, see [Event binding](guide/templates/property-binding).
+HELPFUL: For information on binding to properties, see [Property binding](guide/templates/property-binding).
 
 To bind to an event you use the Angular event binding syntax.
 This syntax consists of a target event name within parentheses to the left of an equal sign, and a quoted template statement to the right.
@@ -12,12 +12,12 @@ This syntax consists of a target event name within parentheses to the left of an
 Create the following example; the target event name is `click` and the template statement is `onSave()`.
 
 <docs-code language="html" header="Event binding syntax">
-&lt;button (click)="onSave()"&gt;Save&lt;/button&gt;
+<button (click)="onSave()">Save</button>
 </docs-code>
 
 The event binding listens for the button's click events and calls the component's `onSave()` method whenever a click occurs.
 
-<img src='assets/content/images/guide/template-syntax/syntax-diagram.svg' alt="Syntax diagram">
+<img src='assets/images/guide/template-syntax/syntax-diagram.svg' alt="Syntax diagram">
 
 ### Determining an event target
 
@@ -25,23 +25,23 @@ To determine an event target, Angular checks if the name of the target event mat
 
 Create the following example: (Angular checks to see if `myClick` is an event on the custom `ClickDirective`)
 
-<docs-code path="event-binding/src/app/app.component.html" visibleRegion="custom-directive" header="src/app/app.component.html"/>
+<docs-code path="adev/src/content/examples/event-binding/src/app/app.component.html" visibleRegion="custom-directive" header="src/app/app.component.html"/>
 
 If the target event name, `myClick` fails to match an output property of `ClickDirective`, Angular will instead bind to the `myClick` event on the underlying DOM element.
 
 ## Binding to keyboard events
 
-You can bind to keyboard events using Angular's binding syntax. You can specify the key or code that you would like to bind to keyboard events. They `key` and `code` fields are a native part of the browser keyboard event object. By default, event binding assumes you want to use the `key` field on the keyboard event. You can also use the `code` field.
+You can bind to keyboard events using Angular's binding syntax. You can specify the key or code that you would like to bind to keyboard events. The `key` and `code` fields are a native part of the browser keyboard event object. By default, event binding assumes you want to use the `key` field on the keyboard event. You can also use the `code` field.
 
 Combinations of keys can be separated by a `.` (period). For example, `keydown.enter` will allow you to bind events to the `enter` key. You can also use modifier keys, such as `shift`, `alt`, `control`, and the `command` keys from Mac. The following example shows how to bind a keyboard event to `keydown.shift.t`.
 
-   ```typescript
+   ```html
    <input (keydown.shift.t)="onKeydown($event)" />
    ```
 
 Depending on the operating system, some key combinations might create special characters instead of the key combination that you expect. MacOS, for example, creates special characters when you use the option and shift keys together. If you bind to `keydown.shift.alt.t`, on macOS, that combination produces a `ˇ` character instead of a `t`, which doesn't match the binding and won't trigger your event handler. To bind to `keydown.shift.alt.t` on macOS, use the `code` keyboard event field to get the correct behavior, such as `keydown.code.shiftleft.altleft.keyt` shown in this example.
 
-   ```typescript
+   ```html
    <input (keydown.code.shiftleft.altleft.keyt)="onKeydown($event)" />
    ```
 
