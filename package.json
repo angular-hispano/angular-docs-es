@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "zx tools/build.mjs",
+    "start": "zx tools/watch.mjs",
     "update-origin": "zx tools/update-origin.mjs"
   },
   "keywords": [],
@@ -13,5 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "zx": "^7.2.3"
+  },
+  "devDependencies": {
+    "chokidar": "^3.6.0"
   }
 }

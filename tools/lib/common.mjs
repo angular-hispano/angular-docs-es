@@ -1,3 +1,4 @@
+import { watch } from 'chokidar';
 import { resolve } from 'node:path';
 import { $, cd, chalk, glob, within } from 'zx';
 import { initDir, cpRf, exists } from './fileutiles.mjs';
@@ -29,6 +30,14 @@ export async function buildADEV() {
   });
 }
 
+export async function watchADEV() {
+  await within(async () => {
+    cd(`${outDir}`);
+    await $`yarn install`;
+    await $`yarn docs`;
+  });
+}
+
 /**
  * glob patterns of localized files in adev-es
  */
@@ -43,6 +52,18 @@ export async function copyLocalizedFiles() {
     const dest = resolve(outDir, 'adev', file);
     await cpRf(src, dest);
   }
+}
+
+export async function watchLocalizedFiles(signal) {
+  const watcher = watch(localizedFilePatterns, {
+    cwd: adevEsDir,
+  });
+  watcher.on('change', (path) => {
+    const src = resolve(adevEsDir, path);
+    const dest = resolve(outDir, 'adev', path);
+    cpRf(src, dest);
+  });
+  signal.addEventListener('abort', () => watcher.close());
 }
 
 export async function syncSubmodule() {
