@@ -23,9 +23,9 @@ export async function resetBuildDir({ init = false }) {
 
 export async function buildADEV() {
   await within(async () => {
-    cd(`${outDir}/adev`);
+    cd(`${outDir}`);
     await $`yarn install`;
-    await $`yarn build`;
+    await $`yarn docs:build`;
   });
 }
 
