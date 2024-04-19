@@ -1,5 +1,5 @@
 import { argv, chalk } from 'zx';
-import { copyLocalizedFiles, resetBuildDir, watchADEV, watchLocalizedFiles } from './lib/common.mjs';
+import { applyPatches, copyLocalizedFiles, resetBuildDir, watchADEV, watchLocalizedFiles } from './lib/common.mjs';
 
 try {
   const { init = false } = argv;
@@ -32,6 +32,10 @@ async function preWatch({ init }) {
     // copy translated files
     console.log(chalk.cyan('Copy localized files...'));
     await copyLocalizedFiles();
+
+    // apply patches
+    console.log(chalk.cyan('Apply patches...'));
+    await applyPatches();
   }
 }
 

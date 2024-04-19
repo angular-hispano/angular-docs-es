@@ -66,6 +66,17 @@ export async function watchLocalizedFiles(signal) {
   signal.addEventListener('abort', () => watcher.close());
 }
 
+export async function applyPatches() {
+  await within(async () => {
+    cd(outDir);
+    const patches = await glob('tools/git-patches/*.patch', { cwd: rootDir });
+    for (const patch of patches) {
+      const path = resolve(rootDir, patch);
+      await $`git apply -p1 --ignore-whitespace ${path}`;
+    }
+  });
+}
+
 export async function syncSubmodule() {
   await within(async () => {
     cd(rootDir);

@@ -1,0 +1,85 @@
+diff --git a/adev/src/app/features/home/home.component.html b/adev/src/app/features/home/home.component.html
+index 03bb94db37..3918a69707 100644
+--- a/adev/src/app/features/home/home.component.html
++++ b/adev/src/app/features/home/home.component.html
+@@ -3,8 +3,8 @@
+     <div class="adev-top-content">
+       <!-- Banner(s) can be edited here! -->
+       <a href="https://goo.gle/angular-dot-dev" class="adev-banner" target="_blank">
+-        <h1 tabindex="-1">Welcome to Angular.dev &#8212; the future home for Angular!</h1>
+-        <p class="adev-banner-cta">Read about our beta launch</p>
++        <h1 tabindex="-1">Bienvenid&#64; a Angular.dev &#8212; la futura casa de Angular!</h1>
++        <p class="adev-banner-cta">Lea sobre nuestro lanzamiento beta</p>
+       </a>
+     </div>
+   </div>
+@@ -62,10 +62,10 @@
+     <div class="adev-scale-text">
+       <div class="adev-scale-container">
+         <div class="adev-scale-wrapper">
+-          <h2>Works at any scale</h2>
++          <h2>Trabaja a cualquier escala</h2>
+           <p>
+-            Angular lets you start small on a well-lit path and supports you as your team and apps
+-            grow.
++            Angular te permite empezar poco a poco en un camino bien iluminado y te apoya a medida que tu equipo
++            y tus aplicaciones crecen.
+           </p>
+         </div>
+       </div>
+@@ -75,10 +75,10 @@
+     <div class="adev-lines-text">
+       <div class="adev-lines-container">
+         <div class="adev-lines-wrapper">
+-          <h2>Loved by millions</h2>
++          <h2>Amado por millones</h2>
+           <p>
+-            Join the millions of developers all over the world building with Angular in a thriving
+-            and friendly&nbsp;community.
++            Únete a los millones de desarrolladores de todo el mundo que construyen con Angular 
++            en una comunidad próspera y amigable.
+           </p>
+         </div>
+       </div>
+@@ -89,12 +89,12 @@
+       <div class="adev-build-container">
+         <div class="adev-build-wrapper">
+           <h2>
+-            Build for everyone
+-            <div class="adev-gradient" aria-hidden="true">Build for everyone</div>
++            Construir para todos
++            <div class="adev-gradient" aria-hidden="true">Construir para todos</div>
+           </h2>
+           <p>
+-            Rely on Angular's built-in hydration, internationalization, security, and accessibility
+-            support to build for everyone around the world.
++            Confía en el soporte integrado de hidratación, internacionalización, seguridad y accesibilidad
++            de Angular para construir para todos en todo el mundo.
+           </p>
+         </div>
+       </div>
+@@ -102,10 +102,10 @@
+     <div class="adev-build-webgl-text" aria-hidden="true">
+       <div class="adev-build-container">
+         <div class="adev-build-wrapper">
+-          <h2>Build for everyone</h2>
++          <h2>Construir para todos</h2>
+           <p>
+-            Rely on Angular's built-in hydration, internationalization, security, and accessibility
+-            support to build for everyone around the world.
++            Confía en el soporte integrado de hidratación, internacionalización, seguridad y accesibilidad
++            de Angular para construir para todos en todo el mundo.
+           </p>
+         </div>
+       </div>
+@@ -123,8 +123,8 @@
+   </div>
+   <div class="adev-arrow"></div>
+   <a routerLink="{{ctaLink}}" class="adev-cta">
+-    <button class="docs-primary-btn" [attr.text]="'Learn Angular'" aria-label="Learn Angular">
+-      Learn Angular
++    <button class="docs-primary-btn" [attr.text]="'Aprende Angular'" aria-label="Aprende Angular">
++      Aprende Angular
+     </button>
+   </a>
+ </div>

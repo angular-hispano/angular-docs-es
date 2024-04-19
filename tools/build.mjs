@@ -1,7 +1,7 @@
 #!/usr/bin/env zx
 
 import { chalk } from 'zx';
-import { buildADEV, copyLocalizedFiles, resetBuildDir } from './lib/common.mjs';
+import { applyPatches, buildADEV, copyLocalizedFiles, resetBuildDir } from './lib/common.mjs';
 
 try {
   console.log(chalk.green('==== setup ===='));
@@ -24,6 +24,9 @@ async function preBuild() {
   // copy translated files
   console.log(chalk.cyan('Copy localized files...'));
   await copyLocalizedFiles();
+
+  console.log(chalk.cyan('Apply patches...'));
+  await applyPatches();
 }
 
 async function build() {
