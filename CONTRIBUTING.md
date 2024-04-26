@@ -61,23 +61,38 @@ origin/adev/
 $ git clone git@github.com:angular-hispano/angular-docs-es.git
 ```
 
-### 2. Servidor de desarrollo
+### 2. Sincronizar el repositorio de origen
+
+Este repositorio utiliza submódulos para integrarse con el repositorio de origen (`angular/angular`).
+
+```
+$ git submodule sync
+$ git submodule update --init
+```
+
+### 3. Instalar dependencias
+
+```
+$ npm install
+```
+
+### 4. Servidor de desarrollo
  
  Al iniciar el servidor local de desarrollo, puede traducir mientras comprueba el resultado de la compilación.
 
 ```
-$ yarn start
+$ npm run start
 ```
 
  El navegador se iniciará automáticamente cuando el servidor local esté listo `adev-es` será reconstruido automáticamente al cambiar un archivo en el directorio.
 
   
- ### 3. Construye para producción
+ ### 5. Construye para producción
  
  Construye el proyecto desplegable con el siguiente comando.
 
 ```
-$ yarn build
+$ npm run build
 ```
 
 Cuando se completa la compilación, el resultado de la compilación se envía al directorio `build/dist/bin/adev/build`. Puedes configurar un servidor de desarrollo con tu herramienta favorita y comprobar los sitios construidos.

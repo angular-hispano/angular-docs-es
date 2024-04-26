@@ -6,7 +6,7 @@ Este proyecto tiene como objetivo crear una versión completa en español de la 
 
 Puedes conocer más sobre este proyecto en [Angular Hispano](https://angular.lat/)
 
-## Contrubuciones
+## Contribuciones
 
 Si deseas colaborar con este proyecto, puedes contribuir a la traducción de documentos, revisa la guía de contribución en [CONTRIBUTING.md](./CONTRIBUTING.md).
 
