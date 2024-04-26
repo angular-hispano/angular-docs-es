@@ -86,6 +86,8 @@ $ npm run start
 
  El navegador se iniciará automáticamente cuando el servidor local esté listo `adev-es` será reconstruido automáticamente al cambiar un archivo en el directorio.
 
+ Toma en cuenta que, si es la primera vez que están iniciando el servidor, debes pasar como argumento `-- --init` lo cual hará que se inicilice de nuevo el folder `build` y así evitar problemas de caché. Puedes pasar este argumento cada vez que necesites inicializar nuevamente el folder `build`.
+
   
  ### 5. Construye para producción
  
