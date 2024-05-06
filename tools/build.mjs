@@ -4,12 +4,17 @@ import { chalk } from 'zx';
 import { applyPatches, buildADEV, copyLocalizedFiles, resetBuildDir } from './lib/common.mjs';
 
 try {
+  const { ci = false } = argv;
+
   console.log(chalk.green('==== setup ===='));
   await setup();
   console.log(chalk.green('==== preBuild ===='));
   await preBuild();
-  console.log(chalk.green('==== build ===='));
-  await build();
+
+  if(!ci){
+    console.log(chalk.green('==== build ===='));
+    await build();
+  }
 } catch (e) {
   console.error(chalk.red(e));
   process.exit(1);
