@@ -12,10 +12,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "zx": "^7.2.3"
-  },
   "devDependencies": {
-    "chokidar": "^3.6.0"
+    "chokidar": "^3.6.0",
+    "zx": "^7.2.3"
   }
 }
