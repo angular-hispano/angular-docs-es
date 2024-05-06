@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "angular-hispano-staging",
+    "staging": "angular-hispano-staging"
+  },
+  "targets": {
+    "angular-hispano-staging": {
+      "hosting": {
+        "staging": [
+          "angular-hispano-docs-staging"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

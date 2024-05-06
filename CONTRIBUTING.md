@@ -99,6 +99,14 @@ $ npm run build
 
 Cuando se completa la compilación, el resultado de la compilación se envía al directorio `build/dist/bin/adev/build`. Puedes configurar un servidor de desarrollo con tu herramienta favorita y comprobar los sitios construidos.
 
+Construye el proyecto en CI
+
+```
+$ npm run build:ci
+```
+
+La compilación del proyecto en CI funciona de manera diferente, primero ejecutamos el comando `npm run build:ci`, este comando realizará un `pre-built` del proyecto, es decir que no construirá la documentación y solo creará el directorio `build` y copiará los archivos necesarios. La construcción de la documentación se realizará directamente en la configuración de CI.
+
 ## Gracias por tu colaboración!
 
 Esperamos que te unas a nosotros en este esfuerzo por hacer que la documentación de Angular sea más accesible para la comunidad hispanohablante.

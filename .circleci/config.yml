@@ -2,30 +2,110 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
-jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
-    docker:
-      # Specify the version you desire here
-      # See: https://circleci.com/developer/images/image/cimg/base
-      - image: cimg/base:current
+# Settings common to each job
+job_defaults: &job_defaults
+  working_directory: ~/angular-docs-es
+  docker:
+    - image: cimg/node:lts-browsers
 
-    # Add steps to the job
-    # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
+orbs:
+  node: circleci/node@5.2.0
+  build-tools: circleci/build-tools@3.0.0
+  browser-tools: circleci/browser-tools@1.4.8
+
+commands:
+  # Command for checking out the source code from GitHub. This also ensures that the source code
+  # can be merged to the main branch without conflicts.
+  checkout_and_rebase:
+    description: Checkout and verify clean merge with main
     steps:
-      # Checkout the code as the first step.
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: Set git user.name and user.email for rebase.
+          # User is required for rebase.
+          command: |
+            git config user.name "Admin"
+            git config user.email "admin@angular.lat"
+      - build-tools/merge-with-parent:
+          parent: main
+  setup:
+    description: 'Set up executor'
+    steps:
+      - attach_workspace:
+          at: ~/
+  setup_firebase_auth:
+    description: 'Set up Firebase authentication'
+    steps:
+      - run:
+          name: Create a google_service_account.json 
+          command: |
+            echo $GSA_KEY > $GOOGLE_APPLICATION_CREDENTIALS
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
+# ----------------------------------
+# Job definitions.
+# ----------------------------------
+
+jobs:
+  # ----------------------------------
+  # initialize job
+  # ----------------------------------
+  initialize:
+    <<: *job_defaults
+    steps:
+      - checkout_and_rebase
+      - node/install-packages
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - angular-docs-es
+  # -----------------------------------
+  # Build job.
+  # -----------------------------------
+  build:
+    <<: *job_defaults
+    steps:
+      - setup
+      - checkout
+      - run:
+          name: Build project in CI mode (pre build)
+          command: npm run build:ci
+      - run:
+          name: Installing packages
+          working_directory: ./build
+          command: yarn install
+      - run:
+          name: Build adev-es docs
+          working_directory: ./build
+          command: yarn bazel build //adev:build --fast_adev --local_ram_resources="HOST_RAM*.90" --jobs=1
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - angular-docs-es/build/dist/bin/adev/build/browser
+
+  # -----------------------------------
+  # Firebase deploy to staging job.
+  # -----------------------------------
+  firebase-deploy-staging:
+    <<: *job_defaults
+    steps:
+      - setup
+      - setup_firebase_auth
+      - run:
+          name: 'Deploy Main Branch to Firebase Hosting'
+          command: |
+            npm run deploy:staging
+
 workflows:
-  say-hello-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  build-workflow:
     jobs:
-      - say-hello
+      - initialize
+      - build:
+          requires:
+            - initialize
+      - firebase-deploy-staging:
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - build
