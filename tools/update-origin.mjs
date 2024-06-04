@@ -12,7 +12,12 @@ const copyTargets = [
   'src/content/tools/**/*.md',
   'src/content/*.md',
   // Navigation 
-  'src/app/sub-navigation-data.ts'
+  'src/app/sub-navigation-data.ts',
+  // Others
+  'src/app/core/constants/links/links.ts',
+  'src/app/core/layout/navigation/navigation.component.html',
+  'src/app/core/layout/footer/footer.component.html',
+  'src/app/features/home/home.component.html',
 ];
 
 try {
