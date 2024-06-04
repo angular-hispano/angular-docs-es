@@ -8,6 +8,7 @@
 
 import {NavigationItem} from '@angular/docs';
 
+// These 2 imports are expected to be red because they are generated a build time
 import FIRST_APP_TUTORIAL_NAV_DATA from '../../src/assets/tutorials/first-app/routes.json';
 import LEARN_ANGULAR_TUTORIAL_NAV_DATA from '../../src/assets/tutorials/learn-angular/routes.json';
 
@@ -639,6 +640,12 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
           },
         ],
       },
+      {
+        label: 'Experimental features',
+        children: [
+          {label: 'Zoneless', path: 'guide/experimental/zoneless', contentPath: 'guide/zoneless'},
+        ],
+      },
     ],
   },
   {
@@ -678,9 +685,9 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'tools/cli/end-to-end',
           },
           {
-            label: 'ESBuild',
-            path: 'tools/cli/esbuild',
-            contentPath: 'tools/cli/esbuild',
+            label: 'Migrating to new build system',
+            path: 'tools/cli/build-system-migration',
+            contentPath: 'tools/cli/build-system-migration',
           },
           {
             label: 'Build environments',
@@ -931,7 +938,28 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: 'ng analytics',
-        path: 'cli/analytics',
+        children: [
+          {
+            label: 'Overview',
+            path: 'cli/analytics',
+          },
+          {
+            label: 'disable',
+            path: 'cli/analytics/disable',
+          },
+          {
+            label: 'enable',
+            path: 'cli/analytics/enable',
+          },
+          {
+            label: 'info',
+            path: 'cli/analytics/info',
+          },
+          {
+            label: 'prompt',
+            path: 'cli/analytics/prompt',
+          },
+        ],
       },
       {
         label: 'ng build',
@@ -939,11 +967,41 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: 'ng cache',
-        path: 'cli/cache',
+        children: [
+          {
+            label: 'Overview',
+            path: 'cli/cache',
+          },
+          {
+            label: 'clear',
+            path: 'cli/cache/clean',
+          },
+          {
+            label: 'disable',
+            path: 'cli/cache/disable',
+          },
+          {
+            label: 'enable',
+            path: 'cli/cache/enable',
+          },
+          {
+            label: 'info',
+            path: 'cli/cache/info',
+          },
+        ],
       },
       {
         label: 'ng completion',
-        path: 'cli/completion',
+        children: [
+          {
+            label: 'Overview',
+            path: 'cli/completion',
+          },
+          {
+            label: 'script',
+            path: 'cli/completion/script',
+          },
+        ],
       },
       {
         label: 'ng config',
@@ -952,10 +1010,6 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
       {
         label: 'ng deploy',
         path: 'cli/deploy',
-      },
-      {
-        label: 'ng doc',
-        path: 'cli/doc',
       },
       {
         label: 'ng e2e',
@@ -967,7 +1021,80 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: 'ng generate',
-        path: 'cli/generate',
+        children: [
+          {
+            label: 'Overview',
+            path: 'cli/generate',
+          },
+          {
+            label: 'app-shell',
+            path: 'cli/generate/app-shell',
+          },
+          {
+            label: 'application',
+            path: 'cli/generate/application',
+          },
+          {
+            label: 'class',
+            path: 'cli/generate/class',
+          },
+          {
+            label: 'component',
+            path: 'cli/generate/component',
+          },
+          {
+            label: 'config',
+            path: 'cli/generate/config',
+          },
+          {
+            label: 'enum',
+            path: 'cli/generate/enum',
+          },
+          {
+            label: 'environments',
+            path: 'cli/generate/environments',
+          },
+          {
+            label: 'guard',
+            path: 'cli/generate/guard',
+          },
+          {
+            label: 'interceptor',
+            path: 'cli/generate/interceptor',
+          },
+          {
+            label: 'interface',
+            path: 'cli/generate/interface',
+          },
+          {
+            label: 'library',
+            path: 'cli/generate/library',
+          },
+          {
+            label: 'module',
+            path: 'cli/generate/module',
+          },
+          {
+            label: 'pipe',
+            path: 'cli/generate/pipe',
+          },
+          {
+            label: 'resolver',
+            path: 'cli/generate/resolver',
+          },
+          {
+            label: 'service-worker',
+            path: 'cli/generate/service-worker',
+          },
+          {
+            label: 'service',
+            path: 'cli/generate/service',
+          },
+          {
+            label: 'web-worker',
+            path: 'cli/generate/web-worker',
+          },
+        ],
       },
       {
         label: 'ng lint',
@@ -1113,6 +1240,11 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'reference/errors/NG0507',
       },
       {
+        label: 'NG0602: HTML content was altered after server-side rendering',
+        path: 'errors/NG0602',
+        contentPath: 'reference/errors/NG0602',
+      },
+      {
         label: 'NG05104: Root element was not found',
         path: 'errors/NG05104',
         contentPath: 'reference/errors/NG05104',
@@ -1126,6 +1258,26 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'NG0912: Component ID generation collision',
         path: 'errors/NG0912',
         contentPath: 'reference/errors/NG0912',
+      },
+      {
+        label: 'NG0950: Required input is accessed before a value is set.',
+        path: 'errors/NG0950',
+        contentPath: 'reference/errors/NG0950',
+      },
+      {
+        label: 'NG0951: Child query result is required but no value is available.',
+        path: 'errors/NG0951',
+        contentPath: 'reference/errors/NG0951',
+      },
+      {
+        label: 'NG0955: Track expression resulted in duplicated keys for a given collection',
+        path: 'errors/NG0955',
+        contentPath: 'reference/errors/NG0955',
+      },
+      {
+        label: 'NG0956: Tracking expression caused re-creation of the DOM structure',
+        path: 'errors/NG0956',
+        contentPath: 'reference/errors/NG0956',
       },
       {
         label: 'NG1001: Argument Not Literal',
@@ -1148,9 +1300,9 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'reference/errors/NG3003',
       },
       {
-        label: 'NG5000: Hydration with unsupported Zone.js instance.',
-        path: 'errors/NG5000',
-        contentPath: 'reference/errors/NG5000',
+        label: 'NG05000: Hydration with unsupported Zone.js instance.',
+        path: 'errors/NG05000',
+        contentPath: 'reference/errors/NG05000',
       },
       {
         label: 'NG6100: NgModule.id Set to module.id anti-pattern',
@@ -1238,6 +1390,10 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
     label: 'Version compatibility',
     path: 'reference/versions',
     contentPath: 'reference/versions',
+  },
+  {
+    label: 'Update guide',
+    path: 'update-guide',
   },
   {
     label: 'Configurations',
