@@ -24,10 +24,10 @@ interface SubNavigationData {
 
 const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
   {
-    label: 'Introduction',
+    label: 'Introducción',
     children: [
       {
-        label: 'What is Angular?',
+        label: '¿Qué es Angular?',
         path: 'overview',
         contentPath: 'introduction/what-is-angular',
       },
