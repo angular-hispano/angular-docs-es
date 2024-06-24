@@ -76,10 +76,10 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     label: 'In-depth Guides',
     children: [
       {
-        label: 'Components',
+        label: 'Componentes',
         children: [
           {
-            label: 'Anatomy of components',
+            label: 'Anatomía de Componentes',
             path: 'guide/components',
             contentPath: 'guide/components/anatomy-of-components',
           },
