@@ -32,45 +32,35 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'introduction/what-is-angular',
       },
       {
-        label: 'Essentials',
+        label: 'Esenciales',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'essentials',
             contentPath: 'introduction/essentials/overview',
           },
           {
-            label: 'Composing with Components',
+            label: 'Composición basada en componentes',
             path: 'essentials/components',
             contentPath: 'introduction/essentials/components',
           },
           {
-            label: 'Managing Dynamic Data',
-            path: 'essentials/managing-dynamic-data',
-            contentPath: 'introduction/essentials/managing-dynamic-data',
+            label: 'Reactividad con signals',
+            path: 'essentials/signals',
+            contentPath: 'introduction/essentials/signals',
           },
           {
-            label: 'Rendering Dynamic Templates',
-            path: 'essentials/rendering-dynamic-templates',
-            contentPath: 'introduction/essentials/rendering-dynamic-templates',
+            label: 'Interfaces dinámicas con plantillas',
+            path: 'essentials/templates',
+            contentPath: 'introduction/essentials/templates',
           },
           {
-            label: 'Conditionals and Loops',
-            path: 'essentials/conditionals-and-loops',
-            contentPath: 'introduction/essentials/conditionals-and-loops',
+            label: 'Diseño modular con inyección de dependencias',
+            path: 'essentials/dependency-injection',
+            contentPath: 'introduction/essentials/dependency-injection',
           },
           {
-            label: 'Handling User Interaction',
-            path: 'essentials/handling-user-interaction',
-            contentPath: 'introduction/essentials/handling-user-interaction',
-          },
-          {
-            label: 'Sharing Logic',
-            path: 'essentials/sharing-logic',
-            contentPath: 'introduction/essentials/sharing-logic',
-          },
-          {
-            label: 'Next Steps',
+            label: 'Siguientes pasos',
             path: 'essentials/next-steps',
             contentPath: 'introduction/essentials/next-steps',
           },
