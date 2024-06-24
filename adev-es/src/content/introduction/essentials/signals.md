@@ -1,33 +1,33 @@
 <docs-decorative-header title="Signals" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
-Create and manage dynamic data.
+Crear y manejar datos dinámicos.
 </docs-decorative-header>
 
 In Angular, you use *signals* to create and manage state. A signal is a lightweight wrapper around a value.
 
-Use the `signal` function to create a signal for holding local state:
+Usa la función `signal` para crear una signal que mantenga el estado local:
 
 ```typescript
 import {signal} from '@angular/core';
 
-// Create a signal with the `signal` function.
+// Crear una signal con la función `signal`.
 const firstName = signal('Morgan');
 
-// Read a signal value by calling it— signals are functions.
+// Leer el valor de una signal llamandola - las signals son funciones.
 console.log(firstName());
 
-// Change the value of this signal by calling its `set` method with a new value.
+// Cambia el valor de esta signal llamando su método `set` con un nuevo valor.
 firstName.set('Jaime');
 
-// You can also use the `update` method to change the value
-// based on the previous value.
+// También puedes usar el método `update` para cambiar el valor
+// basado en el valor anterior.
 firstName.update(name => name.toUpperCase()); 
 ```
 
-Angular tracks where signals are read and when they're updated. The framework uses this information to do additional work, such as updating the DOM with new state. This ability to respond to changing signal values over time is known as *reactivity*.
+Angular rastrea dónde se leen las signals y cuándo se actualizan. El framework usa esta información para hacer trabajo adicional, como actualizar el DOM con nuevo estado. Esta capacidad de responder a valores de signals cambiantes a lo largo del tiempo se conoce como *reactividad*.
 
-## Computed expressions
+## Expresiones computadas
 
-A `computed` is a signal that produces its value based on other signals.
+Un `computed` es una signal que produce su valor basado en otras signals.
 
 ```typescript
 import {signal, computed} from '@angular/core';
@@ -38,7 +38,7 @@ const firstNameCapitalized = computed(() => firstName().toUpperCase());
 console.log(firstNameCapitalized()); // MORGAN
 ``` 
 
-A `computed` signal is read-only; it does not have a `set` or an `update` method. Instead, the value of the `computed` signal automatically changes when any of the signals it reads change:
+Una signal `computed` es de solo lectura; no tiene un método `set` o `update`. En su lugar, el valor de la signal `computed` cambia automáticamente cuando cualquiera de las signals que lee cambia:
 
 ```typescript
 import {signal, computed} from '@angular/core';
@@ -51,9 +51,9 @@ firstName.set('Jaime');
 console.log(firstNameCapitalized()); // JAIME
 ```
 
-## Using signals in components
+## Usando signals en componentes
 
-Use `signal` and `computed` inside your components to create and manage state:
+Usa `signal` y `computed` dentro de tus componentes para crear y manejar el estado:
 
 ```typescript
 @Component({/* ... */})
@@ -68,13 +68,13 @@ export class UserProfile {
 }
 ```
 
-TIP: Want to know more about Angular Signals? See the [In-depth Signals guide](guide/signals) for the full details.
+TIP: ¿Quieres saber más sobre Angular Signals? Consulta la [Guía detallada de Signals](guide/signals) para obtener toda la información.
 
-## Next Step
+## Siguiente paso
 
-Now that you have learned how to declare and manage dynamic data, it's time to learn how to use that data inside of templates.
+Ahora que has aprendido cómo declarar y manejar datos dinámicos, es momento de aprender cómo usar esos datos dentro de las plantillas.
 
 <docs-pill-row>
-  <docs-pill title="Dynamic interfaces with templates" href="essentials/templates" />
-  <docs-pill title="In-depth signals guide" href="guide/signals" />
+  <docs-pill title="Interfaces dinámicas con plantillas" href="essentials/templates" />
+  <docs-pill title="Guía detallada de signals" href="guide/signals" />
 </docs-pill-row>

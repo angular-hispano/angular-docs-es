@@ -1,131 +1,131 @@
-<docs-decorative-header title="Templates" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
-Use Angular's template syntax to create dynamic user interfaces.
+<docs-decorative-header title="Plantillas" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
+Usar la sintaxis de plantillas de Angular para crear interfaces de usuario dinámicas.
 </docs-decorative-header>
 
-Component templates aren't just static HTML— they can use data from your component class and set up handlers for user interaction.
+Las plantillas de componentes no son solo HTML estático pueden usar datos de tu clase de componente y configurar manejadores para la interacción del usuario.
 
-## Showing dynamic text
+## Mostrar texto dinámico
 
-In Angular, a *binding* creates a dynamic connection between a component's template and its data. This connection ensures that changes to the component's data automatically update the rendered template.
+En Angular, un *binding* crea una conexión dinámica entre la plantilla de un componente y sus datos. Esta conexión asegura que los cambios en los datos del componente actualicen automáticamente la plantilla renderizada.
 
-You can create a binding to show some dynamic text in a template by using double curly-braces:
+Puedes crear un binding para mostrar texto dinámico en una plantilla usando llaves dobles:
 
 ```angular-ts
 @Component({
   selector: 'user-profile',
-  template: `<h1>Profile for {{userName()}}</h1>`,
+  template: `<h1>Perfil {{userName()}}</h1>`,
 })
 export class TodoListItem {
   userName = signal('pro_programmer_123');
 }
 ```
 
-When Angular renders the component, you see:
+Cuando Angular renderiza el componente, verás:
 
 ```html
-<h1>Profile for pro_programmer_123</h1>
+<h1>Perfil para pro_programmer_123</h1>
 ```
 
-Angular automatically keeps the binding up-to-date when the value of the signal changes. Building on
-the example above, if we update the value of the `userName` signal:
+Angular mantiene automáticamente el binding actualizado cuando el valor de la signal cambia. Construyendo 
+sobre el ejemplo anterior, si actualizamos el valor de la siganl `userName`:
 
 ```typescript
 this.userName.set('cool_coder_789');
 ```
 
-The rendered page updates to reflect the new value:
+La página renderizada se actualiza para reflejar el nuevo valor:
 
 ```html
-<h1>Profile for cool_coder_789</h1>
+<h1>Perfil para cool_coder_789</h1>
 ```
 
-## Setting dynamic properties and attributes
+## Estableciendo propiedades y atributos dinámicos
 
-Angular supports binding dynamic values into DOM properties with square brackets:
+Angular soporta binding de valores dinámicos en propiedades del DOM con corchetes:
 
 ```angular-ts
 @Component({
   /*...*/
-  // Set the `disabled` property of the button based on the value of `isValidUserId`.
-  template: `<button [disabled]="isValidUserId()">Save changes</button>`,
+  // Establecer la propiedad `disabled` del botón basada en el valor de `isValidUserId`.
+  template: `<button [disabled]="isValidUserId()">Guardar cambios</button>`,
 })
 export class UserProfile {
   isValidUserId = signal(false);
 }
 ```
 
-You can also bind to HTML _attributes_ by prefixing the attribute name with `attr.`:
+También puedes hacer binding a *atributos* HTML prefijando el nombre del atributo con `attr.`:
 
 ```angular-html
-<!-- Bind the `role` attribute on the `<ul>` element to value of `listRole`. -->
+<!-- Hacer binding del atributo `role` en el elemento `<ul>` al valor de `listRole`. -->
 <ul [attr.role]="listRole()">
 ```
 
-Angular automatically updates DOM properties and attribute when the bound value changes.
+Angular actualiza automáticamente las propiedades del DOM y atributos cuando el valor vinculado cambia.
 
-## Handling user interaction
+## Manejar la interacción del usuario
 
-Angular lets you add event listeners to an element in your template with parentheses:
-
-```angular-ts
-@Component({
-  /*...*/
-  // Add an 'click' event handler that calls the `cancelSubscription` method. 
-  template: `<button (click)="cancelSubscription()">Cancel subscription</button>`,
-})
-export class UserProfile {
-  /* ... */
-  
-  cancelSubscription() { /* Your event handling code goes here. */  }
-}
-```
-
-If you need to pass the [event](https://developer.mozilla.org/docs/Web/API/Event) object to your listener, you can use Angular's built-in `$event` variable inside the function call:
+Angular te permite agregar event listeners a un elemento en tu plantilla con paréntesis:
 
 ```angular-ts
 @Component({
   /*...*/
-  // Add an 'click' event handler that calls the `cancelSubscription` method. 
-  template: `<button (click)="cancelSubscription($event)">Cancel subscription</button>`,
+  // Agregar un manejador de evento 'click' que llama al método `cancelSubscription`. 
+  template: `<button (click)="cancelSubscription()">Cancelar suscripción</button>`,
 })
 export class UserProfile {
   /* ... */
   
-  cancelSubscription(event: Event) { /* Your event handling code goes here. */  }
+  cancelSubscription() { /* Tu código de manejo de eventos va aquí. */  }
 }
 ```
 
-## Control flow with `@if` and `@for`
+Si necesitas pasar el objeto [event](https://developer.mozilla.org/es/docs/Web/API/Event) a tu listener, puedes usar la variable integrada `$event` de Angular dentro de la llamada de función:
 
-You can conditionally hide and show parts of a template with Angular's `@if` block:
+```angular-ts
+@Component({
+  /*...*/
+  // Agregar un manejador de evento 'click' que llama al método `cancelSubscription`. 
+  template: `<button (click)="cancelSubscription($event)">Cancelar suscripción</button>`,
+})
+export class UserProfile {
+  /* ... */
+  
+  cancelSubscription(event: Event) { /* Tu código de manejo de eventos va aquí. */  }
+}
+```
+
+## Flujo de control con `@if` y `@for`
+
+Puedes ocultar y mostrar condicionalmente partes de una plantilla con el bloque `@if` de Angular:
 
 ```angular-html
-<h1>User profile</h1>
+<h1>Perfil de usuario</h1>
 
 @if (isAdmin()) {
-  <h2>Admin settings</h2>
+  <h2>Configuración de administrador</h2>
   <!-- ... -->
 }
 ```
 
-The `@if` block also supports an optional `@else` block:
+El bloque `@if` también soporta un bloque `@else` opcional:
 
 ```angular-html
-<h1>User profile</h1>
+<h1>Perfil de usuario</h1>
 
 @if (isAdmin()) {
-  <h2>Admin settings</h2>
+  <h2>Configuración de administrador</h2>
   <!-- ... -->
 } @else {
-  <h2>User settings</h2>
+  <h2>Configuración de usuario</h2>
   <!-- ... -->  
 }
 ```
 
-You can repeat part of a template multiple times with Angular's `@for` block:
+Puedes repetir parte de una plantilla múltiples veces con el bloque `@for` de Angular:
 
 ```angular-html
-<h1>User profile</h1>
+<h1>Perfil de usuario</h1>
 
 <ul class="user-badge-list">
   @for (badge of badges(); track badge.id) {
@@ -134,15 +134,15 @@ You can repeat part of a template multiple times with Angular's `@for` block:
 </ul>
 ```
 
-Angular's uses the `track` keyword, shown in the example above, to associate data with the DOM elements created by `@for`. See [_Why is track in @for blocks important?_](guide/templates/control-flow#why-is-track-in-for-blocks-important) for more info.
+Angular usa la palabra clave `track`, mostrada en el ejemplo anterior, para asociar datos con los elementos del DOM creados por `@for`. Ve [_¿Por qué es importante track en bloques @for?_](guide/templates/control-flow#why-is-track-in-for-blocks-important) para más información.
 
-TIP: Want to know more about Angular templates? See the [In-depth Templates guide](guide/templates) for the full details.
+¿Quieres saber más sobre plantillas Angular? Consulta la [Guía detallada de Plantillas](guide/templates) para todos los detalles.
 
-## Next Step
+## Siguiente paso
 
-Now that you have dynamic data and templates in the application, it's time to learn how to enhance templates by conditionally hiding or showing certain elements, looping over elements, and more.
+Ahora que la aplicación ya cuenta con datos dinámicos y plantillas, es momento de aprender cómo mejorar las plantillas ocultando o mostrando elementos de forma condicional, iterando sobre listas de elementos y más.
 
 <docs-pill-row>
-  <docs-pill title="Modular design with dependency injection" href="essentials/dependency-injection" />
-  <docs-pill title="In-depth template guide" href="guide/templates" />
+  <docs-pill title="Diseño modular con inyección de dependencias" href="essentials/dependency-injection" />
+  <docs-pill title="Guía detallada de plantillas" href="guide/templates" />
 </docs-pill-row>
