@@ -1,21 +1,21 @@
-<docs-decorative-header title="Managing Dynamic Data" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
-Define component state and behavior to manage dynamic data.
+<docs-decorative-header title="Gestión de Datos Dinámicos" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
+Defina el estado y el comportamiento del componente para gestionar los datos dinámicos.
 </docs-decorative-header>
 
-Now that we have learned the basic structure for a component, let’s learn how you can define the component’s data (i.e., state) and behavior.
+Ahora que hemos aprendido la estructura básica de un componente, aprendamos cómo puede definir los datos (es decir, el estado) y el comportamiento del componente.
 
-## What is state?
+## ¿Qué es el estado?
 
-Components let you neatly encapsulate responsibility for discrete parts of your application. For example, a `SignUpForm` component might need to keep track of whether the form is valid or not before allowing users to take a specific action. As a result, the various properties that a component needs to track is often referred to as "state."
+Los componentes le permiten encapsular cuidadosamente la responsabilidad de partes discretas de su aplicación. Por ejemplo, un componente `SignUpForm` podría necesitar llevar un registro de si el formulario es válido o no antes de permitir a los usuarios tomar una acción específica. Como resultado, las diversas propiedades que un componente necesita rastrear a menudo se conoce como "estado."
 
-## Defining state
+## Definiendo el estado
 
-To define state, you use [class fields syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields) inside of your component.
+Para definir el estado, use [Sintaxis de campos de clase](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields) entro de su componente.
 
-For example, using the `TodoListItem` component, create two properties that you want to track:
+Por ejemplo, usando el componente `TodoListItem`, cree dos propiedades que desee rastrear:
 
-1. `taskTitle` — What the title of the task is
-2. `isComplete` — Whether or not the task is complete
+1. `taskTitle` — El título de la tarea
+2. `isComplete` — Si la tarea está completa o no
 
 ```ts
 // todo-list-item.component.ts
@@ -26,9 +26,9 @@ export class TodoListItem {
 }
 ```
 
-## Updating state
+## Actualizando el estado
 
-When you want to update state, this is typically accomplished by defining methods in the component class that can access the various class fields with the `this` keyword.
+Cuando desea actualizar el estado, típicamente se logra definiendo métodos en la clase del componente. Estos métodos pueden acceder a los distintos campos de la clase utilizando la palabra clave `this`.
 
 ```ts
 // todo-list-item.component.ts
@@ -47,10 +47,10 @@ export class TodoListItem {
 }
 ```
 
-## Next Step
+## Siguiente paso
 
-Now that you have learned how to declare and manage dynamic data, it's time to learn how to use that data inside of templates.
+Ahora que haz aprendido como declarar y gestionar datos dinámicos, es hora de aprender a usar esos datos dentro de las plantillas.
 
 <docs-pill-row>
-  <docs-pill title="Rendering Dynamic Templates" href="essentials/rendering-dynamic-templates" />
+  <docs-pill title="Renderizado de Plantillas Dinámicas" href="essentials/rendering-dynamic-templates" />
 </docs-pill-row>
