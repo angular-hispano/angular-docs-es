@@ -1,10 +1,10 @@
-<docs-decorative-header title="Components" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
-The fundamental building block for creating applications in Angular.
+<docs-decorative-header title="Componentes" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
+El elemento fundamental para crear aplicaciones en Angular.
 </docs-decorative-header>
 
-Components provide structure for organizing your project into easy-to-understand parts with clear responsibilities so that your code is maintainable and scalable.
+Los componentes proporcionan la estructura para organizar su proyecto en partes fáciles de entender con responsabilidades claras para que su código sea mantenible y escalable.
 
-Here is an example of how a Todo application could be broken down into a tree of components.
+Aquí hay un ejemplo de cómo una aplicación de Tareas Pendientes (ToDo en inglés)  se podría dividir en un árbol de componentes.
 
 ```mermaid
 flowchart TD
@@ -15,38 +15,38 @@ flowchart TD
     D[TodoListItem]
 ```
 
-In this guide, we'll take a look at how to create and use components in Angular.
+En esta guía, veremos cómo crear y usar componentes en Angular.
 
-## Defining a Component
+## Definiendo un Componente
 
-Every component has the following core properties:
+Cada componente tiene las siguientes propiedades principales:
 
-1. A `@Component`[decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) that contains some configuration
-2. An HTML template that controls what renders into the DOM
-3. A [CSS selector](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors) that defines how the component is used in HTML
-4. A TypeScript class with behaviors such as managing state, handling user input, or fetching data from a server.
+1. Un [decorador](https://www.typescriptlang.org/docs/handbook/decorators.html) `@Component`que contiene alguna configuración
+2. Una plantilla HTML que controla lo que se renderiza en el DOM
+3. Un [selector CSS ](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors) que define cómo se usa el componente en HTML
+4. Una clase de TypeScript con comportamientos como gestión de estado, manejo de entrada de usuario o recuperación de datos de un servidor.
 
-Here is a simplified example of a TodoListItem component.
+Aquí hay un ejemplo simplificado de un componente TodoListItem.
 
 ```ts
 // todo-list-item.component.ts
 @Component({
   selector: 'todo-list-item',
   template: `
-    <li>(TODO) Read Angular Essentials Guide</li>
+    <li>(TODO) Lea la guía de Angular Essentials</li>
   `,
 })
 export class TodoListItem {
-  /* Component behavior is defined in here */
+  /* El comportamiento de los componentes se define aquí */
 }
 ```
 
-Other common metadata that you'll also see in components include:
+Otros metadatos comunes que también verás en los componentes incluyen:
 
-- `standalone: true` — The recommended approach of streamlining the authoring experience of components
-- `styles` — A string or array of strings that contains any CSS styles you want applied to the component
+- `standalone: true` — El enfoque recomendado para simplificar la experiencia de creación de componentes
+- `styles` — Una cadena o matriz de cadenas que contiene cualquier estilo CSS que desee aplicar al componente
 
-Knowing this, here is an updated version of our `TodoListItem` component.
+Sabiendo esto, aquí hay una versión actualizada de nuestro componente `TodoListItem`.
 
 ```ts
 // todo-list-item.component.ts
@@ -54,7 +54,7 @@ Knowing this, here is an updated version of our `TodoListItem` component.
   standalone: true,
   selector: 'todo-list-item',
   template: `
-    <li>(TODO) Read Angular Essentials Guide</li>
+    <li>(TODO) Lea la guía de Angular Essentials</li>
   `,
   styles: `
     li {
@@ -64,15 +64,15 @@ Knowing this, here is an updated version of our `TodoListItem` component.
   `,
 })
 export class TodoListItem {
-  /* Component behavior is defined in here */
+  /* El comportamiento de los componentes se define aquí */
 }
 ```
 
-### Separating HTML and CSS into separate files
+### Separando HTML y CSS en archivos separados
 
-For teams that prefer managing their HTML and/or CSS in separate files, Angular provides two additional properties: `templateUrl` and `styleUrl`.
+Para los equipos que prefieren administrar su HTML y/o CSS en archivos separados, Angular proporciona dos propiedades adicionales: `templateUrl` y `styleUrl`.
 
-Using the previous `TodoListItem` component, the alternative approach looks like:
+Usando el componente `TodoListItem` anterior, el enfoque alternativo se ve así:
 
 ```ts
 // todo-list-item.component.ts
@@ -83,13 +83,13 @@ Using the previous `TodoListItem` component, the alternative approach looks like
   styleUrl: './todo-list-item.component.css',
 })
 export class TodoListItem {
-  /* Component behavior is defined in here */
+  /* El comportamiento de los componentes se define aquí */
 }
 ```
 
 ```html
 <!-- todo-list-item.component.html -->
-<li>(TODO) Read Angular Essentials Guide</li>
+<li>(TODO) Lea la guía de Angular Essentials</li>
 ```
 
 ```css
@@ -100,17 +100,17 @@ li {
 }
 ```
 
-## Using a Component
+## Usando un Component
 
-One advantage of component architecture is that your application is modular. In other words, components can be used in other components.
+Una ventaja de la arquitectura de componentes es que su aplicación es modular. En otras palabras, los componentes se pueden usar en otros componentes.
 
-To use a component, you need to:
+Para usar un componente, necesitas:
 
-1. Import the component into the file
-2. Add it to the component's `imports` array
-3. Use the component's selector in the `template`
+1. Importar el componente en el archivo
+2. Añadirlo a la matriz de `importaciones` del componente
+3. Utilice el selector del componente en la `plantilla`
 
-Here's an example of a `TodoList` component importing the `TodoListItem` component from before:
+Aquí hay un ejemplo del componente `TodoList` importando el componente `TodoListItem` de antes:
 
 ```ts
 // todo-list.component.ts
@@ -128,10 +128,10 @@ import {TodoListItem} from './todo-list-item.component.ts';
 export class TodoList {}
 ```
 
-## Next Step
+## Siguiente Paso
 
-Now that you know how components work in Angular, it's time to learn how we add and manage dynamic data in our application.
+Ahora que sabe cómo funcionan los componentes en Angular, es hora de aprender cómo agregamos y gestionamos los datos dinámicos en nuestra aplicación.
 
 <docs-pill-row>
-  <docs-pill title="Managing Dynamic Data" href="essentials/managing-dynamic-data" />
+  <docs-pill title="Gestión de Datos Dinámicos" href="essentials/managing-dynamic-data" />
 </docs-pill-row>

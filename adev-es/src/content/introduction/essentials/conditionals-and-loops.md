@@ -1,20 +1,20 @@
-<docs-decorative-header title="Conditionals and Loops" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
-Conditionally show and/or repeat content based on dynamic data.
+<docs-decorative-header title="Condicionales y Bucles" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
+Mostrar y/o repetir contenido condicionalmente basado en datos dinámicos.
 </docs-decorative-header>
 
-One of the advantages of using a framework like Angular is that it provides built-in solutions for common problems that developers encounter. Examples of this include: displaying content based on a certain condition, rendering a list of items based on application data, etc.
+Una de las ventajas de usar un framework como Angular es que proporciona soluciones integradas para problemas comunes que los desarrolladores encuentran. Ejemplos de esto incluyen: mostrar contenido basado en una condición determinada, representar una lista de elementos basada en datos de la aplicación, etc.
 
-To solve this problem, Angular uses built-in control flow blocks, which tell the framework when and how your templates should be rendered.
+Para resolver este problema, Angular utiliza bloques de control de flujo integrados, que indican al framework cuándo y cómo se deben representar las plantillas.
 
-## Conditional rendering
+## Renderizado Condicional
 
-One of the most common scenarios that developers encounter is the desire to show or hide content in templates based on a condition.
+Uno de los escenarios más comunes que encuentran los desarrolladores es el deseo de mostrar u ocultar contenido en plantillas basadas en una condición.
 
-A common example of this is whether or not to display certain controls on the screen based on the user's permission level.
+Un ejemplo común de esto es si mostrar o no ciertos controles en la pantalla en función del nivel de permisos del usuario.
 
-### `@if` block
+### Bloque `@if`
 
-Similar to JavaScript's `if` statement, Angular uses `@if` control flow blocks to conditionally hide and show part of a template and its contents.
+Similar a la sentencia `if` de JavaScript, Angular utiliza bloques de control de flujo `@if` para ocultar o mostrar condicionalmente partes de una plantilla y su contenido.
 
 ```ts
 // user-controls.component.ts
@@ -23,7 +23,7 @@ Similar to JavaScript's `if` statement, Angular uses `@if` control flow blocks t
   selector: 'user-controls',
   template: `
     @if (isAdmin) {
-      <button>Erase database</button>
+      <button>Borrar Base de Datos</button>
     }
   `,
 })
@@ -32,15 +32,15 @@ export class UserControls {
 }
 ```
 
-In this example, Angular only renders the `<button>` element if the `isAdmin` property is true. Otherwise, it does not appear on the page.
+En este ejemplo, Angular solo muestra el elemento `<button>` si la propiedad `isAdmin` es verdadera. De lo contrario, no aparecerá en la página.
 
-### `@else` block
+### Blloque `@else`
 
-While the `@if` block can be helpful in many situations, it's common to also show fallback UI when the condition is not met.
+Si bien el bloque `@if` resulta útil en muchas situaciones, también es común mostrar una interfaz de usuario alternativa (UI alternativa) cuando la condición no se cumple.
 
-For example, in the `UserControls` component, rather than show a blank screen, it would be helpful to users to know that they're not able to see anything because they're not authenticated.
+Por ejemplo, en el componente `UserControls`, en lugar de mostrar una pantalla en blanco, sería útil para los usuarios saber que no pueden ver nada porque no están autenticados.
 
-When you need a fallback, similar to JavaScript's `else` clause, add an `@else` block to accomplish the same effect.
+Cuando necesites un contenido alternativo, similar a la cláusula `else` de JavaScript, agrega un bloque `@else` para lograr el mismo efecto.
 
 ```ts
 // user-controls.component.ts
@@ -49,9 +49,9 @@ When you need a fallback, similar to JavaScript's `else` clause, add an `@else` 
   selector: 'user-controls',
   template: `
     @if (isAdmin) {
-      <button>Erase database</button>
+      <button>Borrar Base de Datos</button>
     } @else {
-      <p>You are not authorized.</p>
+      <p>No estás autorizado.</p>
     }
   `,
 })
@@ -60,13 +60,13 @@ export class UserControls {
 }
 ```
 
-## Rendering a list
+## Renderizado de Listas
 
-Another common scenario developers encounter is the need to render a list of items.
+Otro escenario habitual que enfrentan los desarrolladores es la necesidad de mostrar una lista de elementos.
 
-### `@for` block
+### Bloque `@for`
 
-Similar to JavaScript’s `for...of` loops, Angular provides the `@for` block for rendering repeated elements.
+Similar a los bucles `for...of` de JavaScript, Angular proporciona el bloque `@for` para renderizar elementos repetidos.
 
 ```html
 <!-- ingredient-list.component.html -->
@@ -93,20 +93,20 @@ export class IngredientList {
 }
 ```
 
-However, unlike a standard `for...of` loop, you might've noticed that there's an additional `track` keyword.
+Sin embargo, a diferencia de un bucle `for...of` estándar, te habrás dado cuenta de que el bloque `@for` de Angular tiene una palabra clave adicional: `track`.
 
-#### `track` property
+#### Propiedad `track` 
 
-When Angular renders a list of elements with `@for`, those items can later change or move. Angular needs to track each element through any reordering, usually by treating a property of the item as a unique identifier or key.
+Cuando Angular renderiza una lista de elementos con `@for`, esos elementos pueden cambiar o moverse posteriormente. Angular necesita rastrear cada elemento a través de cualquier reordenamiento, generalmente utilizando una propiedad del elemento como un identificador único o clave.
 
-This ensures any updates to the list are reflected correctly in the UI and tracked properly within Angular, especially in the case of stateful elements or animations.
+Esto asegura que cualquier actualización en la lista se refleje correctamente en la interfaz de usuario y se rastree de manera adecuada dentro de Angular, especialmente en el caso de elementos con estado o animaciones.
 
-To accomplish this, we can provide a unique key to Angular with the `track` keyword.
+Para lograr esto, podemos proporcionarle a Angular una clave única con la palabra clave `track`.
 
-## Next Step
+## Siguiente Paso
 
-With the ability to determine when and how templates are rendered, it's time to learn how we handle an important aspect of most applications: handling user input.
+Ahora que ya sabes cómo determinar cuándo y cómo se renderizan las plantillas, es momento de aprender a manejar un aspecto importante de la mayoría de las aplicaciones: El Manejo de la interacción del usuario (o la entrada del usuario).
 
 <docs-pill-row>
-  <docs-pill title="Handling User Interaction" href="essentials/handling-user-interaction" />
+  <docs-pill title="Manejo de la Interacción del Usuario" href="essentials/handling-user-interaction" />
 </docs-pill-row>
