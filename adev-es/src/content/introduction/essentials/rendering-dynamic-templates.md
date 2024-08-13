@@ -1,14 +1,14 @@
-<docs-decorative-header title="Rendering Dynamic Templates" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
-Use Angular's template syntax to create dynamic HTML.
+<docs-decorative-header title="Renderizado de Plantillas Dinámicas" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
+Utilice la sintaxis de plantilla de Angular para crear HTML dinámico.
 </docs-decorative-header>
 
-What you've learned so far enables you to break an application up into components of HTML, but this limits you to static templates (i.e., content that doesn't change). The next step is to learn how to make use of Angular's template syntax to create dynamic HTML.
+Lo que has aprendido hasta ahora te permite dividir una aplicación en componentes de HTML, pero esto te limita a plantillas estáticas (es decir, contenido que no cambia). El siguiente paso es aprender cómo hacer uso de la sintaxis de plantilla de Angular para crear HTML dinámico.
 
-## Rendering Dynamic Data
+## Renderizado de Datos Dinámicos
 
-When you need to display dynamic content in your template, Angular uses the double curly brace syntax in order to distinguish between static and dynamic content.
+Cuando necesitas mostrar contenido dinámico en tu plantilla, Angular utiliza la sintaxis de doble llave `{{}}` para diferenciar entre contenido estático y dinámico.
 
-Here is a simplified example from a `TodoListItem` component.
+Aquí hay un ejemplo simplificado del componente `TodoListItem`.
 
 ```ts
 @Component({
@@ -18,31 +18,31 @@ Here is a simplified example from a `TodoListItem` component.
   `,
 })
 export class TodoListItem {
-  taskTitle = 'Read cup of coffee';
+  taskTitle = 'Leer la taza de café';
 }
 ```
 
-When Angular renders the component you'll see the output:
+Cuando Angular renderiza el componente, verá la salida:
 
 ```html
-<p>Title: Read cup of coffee</p>
+<p>Title: Leer la taza de café</p>
 ```
 
-This syntax declares an **interpolation** between the dynamic data property inside of the HTML. As a result, whenever the data changes, Angular will automatically update the DOM reflecting the new value of the property.
+Esta sintaxis declara una **interpolación** entre la propiedad de datos dinámicos dentro del HTML. Como resultado, cada vez que los datos cambian, Angular actualizará automáticamente el DOM reflejando el nuevo valor de la propiedad.
 
-## Dynamic Properties
+## Propiedades Dinámicas
 
-When you need to dynamically set the value of standard DOM properties on an HTML element, the property is wrapped in square brackets to inform Angular that the declared value should be interpreted as a JavaScript-like statement ([with some Angular enhancements](guide/templates/interpolation)) instead of a plain string.
+Cuando necesita establecer dinámicamente el valor de las propiedades DOM estándar en un elemento HTML, la propiedad se envuelve entre corchetes para informar a Angular que el valor declarado debe interpretarse como una declaración similar a JavaScript ([con algunas mejoras de Angular](guide/templates/interpolation)) en lugar de una cadena simple.
 
-For example, a common example of dynamically updating properties in your HTML is determining whether the form submit button should be disabled based on whether the form is valid or not.
+Por ejemplo, un ejemplo común de actualización dinámica de propiedades en su HTML es determinar si el botón de envío de formulario debe ser deshabilitado en función de si el formulario es válido o no.
 
-Wrap the desired property in square brackets to tell Angular that the assigned value is dynamic (i.e., not a static string).
+Envuelva la propiedad deseada entre corchetes `[]` para decirle a Angular que el valor asignado es dinámico (es decir, no una cadena estática).
 
 ```ts
 @Component({
   selector: 'sign-up-form',
   template: `
-    <button type="submit" [disabled]="formIsInvalid">Submit</button>
+    <button type="submit" [disabled]="formIsInvalid">Enviar</button>
   `,
 })
 export class SignUpForm {
@@ -50,21 +50,21 @@ export class SignUpForm {
 }
 ```
 
-In this example, because `formIsInvalid` is true, the rendered HTML would be:
+En este ejemplo, debido a que `formIsInvalid` es verdadero, el HTML renderizado sería:
 
 ```html
-<button type="submit" disabled>Submit</button>
+<button type="submit" disabled>Enviar</button>
 ```
 
-## Dynamic Attributes
+## Atributos Dinámicos
 
-In the event you want to dynamically bind custom HTML attributes (e.g., `aria-`, `data-`, etc.), you might be inclined to wrap the custom attributes with the same square brackets.
+En el caso de que desee vincular dinámicamente atributos HTML personalizados (por ejemplo, `aria-`, `data-`, etc.), podría inclinarse a envolver los atributos personalizados con los mismos corchetes `[]`.
 
 ```ts
 @Component({
   standalone: true,
   template: `
-    <button [data-test-id]="testId">Primary CTA</button>
+    <button [data-test-id]="testId">CTA Principal</button>
   `,
 })
 export class AppBanner {
@@ -72,13 +72,13 @@ export class AppBanner {
 }
 ```
 
-Unfortunately, this will not work because custom HTML attributes are not standard DOM properties. In order for this to work as intended, we need to prepend the custom HTML attribute with the `attr.` prefix.
+Desafortunadamente, esto no funcionará porque los atributos HTML personalizados no son propiedades DOM estándar. Para que esto funcione como se pretende, necesitamos anteponer el atributo HTML personalizado con el prefijo `attr. ` .
 
 ```ts
 @Component({
   standalone: true,
   template: `
-    <button [attr.data-test-id]="testId">Primary CTA</button>
+    <button [attr.data-test-id]="testId">CTA Principal</button>
   `,
 })
 export class AppBanner {
@@ -86,10 +86,10 @@ export class AppBanner {
 }
 ```
 
-## Next Step
+## Siguiente paso
 
-Now that you have dynamic data and templates in the application, it's time to learn how to enhance templates by conditionally hiding or showing certain elements, looping over elements, and more.
+Ahora que tiene plantillas y datos dinámicos en la aplicación, es hora de aprender a mejorar las plantillas ocultando o mostrando condicionalmente ciertos elementos, iterando sobre elementos, y más!
 
 <docs-pill-row>
-  <docs-pill title="Conditionals and Loops" href="essentials/conditionals-and-loops" />
+  <docs-pill title="Condicionales y Bucles" href="essentials/conditionals-and-loops" />
 </docs-pill-row>

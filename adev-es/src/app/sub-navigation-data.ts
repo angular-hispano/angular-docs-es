@@ -32,45 +32,45 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'introduction/what-is-angular',
       },
       {
-        label: 'Essentials',
+        label: 'Esenciales',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión General',
             path: 'essentials',
             contentPath: 'introduction/essentials/overview',
           },
           {
-            label: 'Composing with Components',
+            label: 'Composición basada en Componentes',
             path: 'essentials/components',
             contentPath: 'introduction/essentials/components',
           },
           {
-            label: 'Managing Dynamic Data',
+            label: 'Gestión de Datos Dinámicos',
             path: 'essentials/managing-dynamic-data',
             contentPath: 'introduction/essentials/managing-dynamic-data',
           },
           {
-            label: 'Rendering Dynamic Templates',
+            label: 'Renderizado de Plantillas Dinámicas',
             path: 'essentials/rendering-dynamic-templates',
             contentPath: 'introduction/essentials/rendering-dynamic-templates',
           },
           {
-            label: 'Conditionals and Loops',
+            label: 'Condicionales y Bucles',
             path: 'essentials/conditionals-and-loops',
             contentPath: 'introduction/essentials/conditionals-and-loops',
           },
           {
-            label: 'Handling User Interaction',
+            label: 'Manejo de la Interacción del Usuario',
             path: 'essentials/handling-user-interaction',
             contentPath: 'introduction/essentials/handling-user-interaction',
           },
           {
-            label: 'Sharing Logic',
+            label: 'Compartiendo Lógica',
             path: 'essentials/sharing-logic',
             contentPath: 'introduction/essentials/sharing-logic',
           },
           {
-            label: 'Next Steps',
+            label: 'Siguientes Pasos',
             path: 'essentials/next-steps',
             contentPath: 'introduction/essentials/next-steps',
           },
