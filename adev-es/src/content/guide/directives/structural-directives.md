@@ -10,7 +10,7 @@ In this guide you'll build a structural directive which fetches data from a give
 
 The following is an example of using this directive directly on an `<ng-template>` would look like:
 
-```html
+```angular-html
 <ng-template select let-data [selectFrom]="source">
   <p>The data is: {{ data }}</p>
 </ng-template>
@@ -30,7 +30,7 @@ Structural directives can be applied directly on an element by prefixing the dir
 
 You can use this with `SelectDirective` as follows:
 
-```html
+```angular-html
 <p *select="let data from source">The data is: {{data}}</p>
 ```
 
@@ -38,7 +38,7 @@ This example shows the flexibility of structural directive shorthand syntax, whi
 
 When used in this way, only the structural directive and its bindings are applied to the `<ng-template>`. Any other attributes or bindings on the `<p>` tag are left alone. For example, these two forms are equivalent:
 
-```html
+```angular-html
 <!-- Shorthand syntax: -->
 <p class="data-view" *select="let data from source">The data is: {{data}}</p>
 
@@ -73,30 +73,30 @@ ng generate directive select
 Angular creates the directive class and specifies the CSS selector, `[select]`, that identifies the directive in a template.
 </docs-step>
 <docs-step title="Make the directive structural">
-Import `TemplateRef`, and `ViewContainerRef`. Inject `TemplateRef` and `ViewContainerRef` in the directive constructor as private variables.
+Import `TemplateRef`, and `ViewContainerRef`. Inject `TemplateRef` and `ViewContainerRef` in the directive as private properties.
 
 ```ts
 import {Directive, TemplateRef, ViewContainerRef} from '@angular/core';
 
 @Directive({
-  standalone: true,
-  selector: 'select',
+  selector: '[select]',
 })
 export class SelectDirective {
-  constructor(private templateRef: TemplateRef, private ViewContainerRef: ViewContainerRef) {}
+  private templateRef = inject(TemplateRef);
+  private viewContainerRef = inject(ViewContainerRef);
 }
 
 ```
 
 </docs-step>
 <docs-step title="Add the 'selectFrom' input">
-Add a `selectFrom` `@Input()` property.
+Add a `selectFrom` `input()` property.
 
 ```ts
 export class SelectDirective {
   // ...
 
-  @Input({required: true}) selectFrom!: DataSource;
+  selectFrom = input.required<DataSource>();
 }
 ```
 
@@ -166,10 +166,11 @@ The following table provides shorthand examples:
 
 | Shorthand | How Angular interprets the syntax |
 |:--- |:--- |
-| `*ngFor="let item of [1,2,3]"` | `<ng-template ngFor let-item [ngForOf]="[1, 2, 3]">` |
-| `*ngFor="let item of [1,2,3] as items; trackBy: myTrack; index as i"` | `<ng-template ngFor let-item [ngForOf]="[1,2,3]" let-items="ngForOf" [ngForTrackBy]="myTrack" let-i="index">` |
-| `*ngIf="exp"`| `<ng-template [ngIf]="exp">` |
-| `*ngIf="exp as value"` | `<ng-template [ngIf]="exp" let-value="ngIf">` |
+| `*myDir="let item of [1,2,3]"` | `<ng-template myDir let-item [myDirOf]="[1, 2, 3]">` |
+| `*myDir="let item of [1,2,3] as items; trackBy: myTrack; index as i"` | `<ng-template myDir let-item [myDirOf]="[1,2,3]" let-items="myDirOf" [myDirTrackBy]="myTrack" let-i="index">` |
+| `*ngComponentOutlet="componentClass";` | `<ng-template [ngComponentOutlet]="componentClass">` |
+| `*ngComponentOutlet="componentClass; inputs: myInputs";` | `<ng-template [ngComponentOutlet]="componentClass" [ngComponentOutletInputs]="myInputs">` |
+| `*myDir="exp as value"` | `<ng-template [myDir]="exp" let-value="myDir">` |
 
 ## Improving template type checking for custom directives
 
@@ -185,7 +186,7 @@ For more information, see [Template type checking](tools/cli/template-typecheck 
 
 ### Type narrowing with template guards
 
-A structural directive in a template controls whether that template is rendered at run time. Some structural directives want to perform type narrowing based the type of an input expression.
+A structural directive in a template controls whether that template is rendered at run time. Some structural directives want to perform type narrowing based on the type of input expression.
 
 There are two narrowings which are possible with input guards:
 
@@ -200,9 +201,9 @@ To narrow the input expression by defining a type assertion function:
 // expression is narrowed to `User`.
 @Directive(...)
 class ActorIsUser {
-  @Input() actor: User|Robot;
+  actor = input<User | Robot>();
 
-  static ngTemplateGuard_actor(dir: ActorIsUser, expr: User|Robot): expr is User {
+  static ngTemplateGuard_actor(dir: ActorIsUser, expr: User | Robot): expr is User {
     // The return statement is unnecessary in practice, but included to
     // prevent TypeScript errors.
     return true;
@@ -217,7 +218,7 @@ Some directives only render their templates when an input is truthy. It's not po
 ```ts
 @Directive(...)
 class CustomIf {
-  @Input() condition!: any;
+  condition = input.required<boolean>();
 
   static ngTemplateGuard_condition: 'binding';
 }
@@ -241,7 +242,7 @@ export interface SelectTemplateContext<T> {
 export class SelectDirective<T> {
   // The directive's generic type `T` will be inferred from the `DataSource` type
   // passed to the input.
-  @Input({required: true}) selectFrom!: DataSource<T>;
+  selectFrom = input.required<DataSource<T>>();
 
   // Narrow the type of the context using the generic type of the directive.
   static ngTemplateContextGuard<T>(dir: SelectDirective<T>, ctx: any): ctx is SelectTemplateContext<T> {

@@ -73,17 +73,17 @@ This section walks you through setting the highlight color while applying the `H
 
     <docs-code header="src/app/highlight.directive.ts (imports)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" visibleRegion="imports"/>
 
-1. Add an `appHighlight` `@Input()` property.
+1. Add an `appHighlight` `input` property.
 
     <docs-code header="src/app/highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" visibleRegion="input"/>
 
-    The `@Input()` decorator adds metadata to the class that makes the directive's `appHighlight` property available for binding.
+    The `input()` function adds metadata to the class that makes the directive's `appHighlight` property available for binding.
 
-1. In `app.component.ts`, add a `color` property to the `AppComponent`.
+2. In `app.component.ts`, add a `color` property to the `AppComponent`.
 
     <docs-code header="src/app/app.component.ts (class)" path="adev/src/content/examples/attribute-directives/src/app/app.component.1.ts" visibleRegion="class"/>
 
-1. To simultaneously apply the directive and the color, use property binding with the `appHighlight` directive selector, setting it equal to `color`.
+3. To simultaneously apply the directive and the color, use property binding with the `appHighlight` directive selector, setting it equal to `color`.
 
     <docs-code header="src/app/app.component.html (color)" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="color"/>
 
@@ -143,12 +143,12 @@ To prevent expression evaluation in the browser, add `ngNonBindable` to the host
 
 In the following example, the expression `{{ 1 + 1 }}` renders just as it does in your code editor, and does not display `2`.
 
-<docs-code header="src/app/app.component.html" linenums="false" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="ngNonBindable"/>
+<docs-code header="src/app/app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="ngNonBindable"/>
 
 Applying `ngNonBindable` to an element stops binding for that element's child elements.
 However, `ngNonBindable` still lets directives work on the element where you apply `ngNonBindable`.
 In the following example, the `appHighlight` directive is still active but Angular does not evaluate the expression `{{ 1 + 1 }}`.
 
-<docs-code header="src/app/app.component.html" linenums="false" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="ngNonBindable-with-directive"/>
+<docs-code header="src/app/app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="ngNonBindable-with-directive"/>
 
 If you apply `ngNonBindable` to a parent element, Angular disables interpolation and binding of any sort, such as property binding or event binding, for the element's children.

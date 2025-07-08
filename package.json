@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "zx tools/build.mjs",
-    "build:ci": "zx tools/build.mjs -- --ci",
     "start": "zx tools/watch.mjs",
     "update-origin": "zx tools/update-origin.mjs",
     "deploy:staging": "firebase use staging && firebase deploy --only hosting:staging"

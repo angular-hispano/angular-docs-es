@@ -1,17 +1,25 @@
 # Programmatically rendering components
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
 
-In addition to using a component directly in a template, you can also dynamically render components.
-There are two main ways to dynamically render a component: in a template with `NgComponentOutlet`,
-or in your TypeScript code with `ViewContainerRef`.
+In addition to using a component directly in a template, you can also dynamically render components 
+programmatically. This is helpful for situations when a component is unknown initially (thus can not 
+be referenced in a template directly) and it depends on some conditions.
+
+There are two main ways to render a component programmatically: in a template using `NgComponentOutlet`,
+or in your TypeScript code using `ViewContainerRef`. 
+
+HELPFUL: for lazy-loading use-cases (for example if you want to delay loading of a heavy component), consider 
+using the built-in [`@defer` feature](/guide/templates/defer) instead. The `@defer` feature allows the code 
+of any components, directives, and pipes inside the `@defer` block to be extracted into separate JavaScript 
+chunks automatically and loaded only when necessary, based on the configured triggers.
 
 ## Using NgComponentOutlet
 
 `NgComponentOutlet` is a structural directive that dynamically renders a given component in a
 template.
 
-```ts
+```angular-ts
 @Component({ ... })
 export class AdminBio { /* ... */ }
 
@@ -25,10 +33,10 @@ export class StandardBio { /* ... */ }
     <ng-container *ngComponentOutlet="getBioComponent()" /> `
 })
 export class CustomDialog {
-  @Input() user: User;
+  user = input.required<User>();
 
   getBioComponent() {
-    return this.user.isAdmin ? AdminBio : StandardBio;
+    return this.user().isAdmin ? AdminBio : StandardBio;
   }
 }
 ```
@@ -46,7 +54,7 @@ You can use the `createComponent`method on `ViewContainerRef` to dynamically cre
 component. When you create a new component with a `ViewContainerRef`, Angular appends it into the
 DOM as the next sibling of the component or directive that injected the `ViewContainerRef`.
 
-```ts
+```angular-ts
 @Component({
   selector: 'leaf-content',
   template: `
@@ -72,7 +80,7 @@ export class OuterContainer {}
   `,
 })
 export class InnerItem {
-  constructor(private viewContainer: ViewContainerRef) {}
+  private viewContainer = inject(ViewContainerRef);
 
   loadContent() {
     this.viewContainer.createComponent(LeafContent);
@@ -82,7 +90,7 @@ export class InnerItem {
 
 In the example above, clicking the "Load content" button results in the following DOM structure
 
-```html
+```angular-html
 <outer-container>
   <p>This is the start of the outer container</p>
   <inner-item>
@@ -95,11 +103,13 @@ In the example above, clicking the "Load content" button results in the followin
 
 ## Lazy-loading components
 
-You can use both of the approaches described above, `NgComponentOutlet` and `ViewContainerRef`, to
-render components that are lazy-loaded with a standard
-JavaScript [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import).
+HELPFUL: if you want to lazy-load some components, you may consider using the built-in [`@defer` feature](/guide/templates/defer) 
+instead.
 
-```ts
+If your use-case is not covered by the `@defer` feature, you can use either `NgComponentOutlet` or 
+`ViewContainerRef` with a standard JavaScript [dynamic import](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/import).
+
+```angular-ts
 @Component({
   ...,
   template: `
@@ -113,13 +123,15 @@ JavaScript [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScr
         Load advanced settings
       </button>
       <ng-container *ngComponentOutlet="advancedSettings" />
-    </section>`
+    </section>
+  `
 })
 export class AdminSettings {
-  advancedSettings: {new(): AdminSettings} | undefined;
+  advancedSettings: {new(): AdvancedSettings} | undefined;
 
   async loadAdvanced() {
-    this.advancedSettings = await import('path/to/advanced_settings.js');
+    const { AdvancedSettings } = await import('path/to/advanced_settings.js');
+    this.advancedSettings = AdvancedSettings;
   }
 }
 ```

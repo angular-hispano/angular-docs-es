@@ -65,7 +65,7 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 }
 </docs-code>
 
-Tip: Interceptors naturally associate responses with their outgoing requests, because they transform the response stream in a closure that captures the request object.
+TIP: Interceptors naturally associate responses with their outgoing requests, because they transform the response stream in a closure that captures the request object.
 
 ## Modifying requests
 
@@ -95,9 +95,9 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
   const authToken = inject(AuthService).getAuthToken();
 
   // Clone the request to add the authentication header.
-  const newReq = req.clone({headers: {
-    req.headers.append('X-Authentication-Token', authToken),
-  }});
+  const newReq = req.clone({
+    headers: req.headers.append('X-Authentication-Token', authToken),
+  });
   return next(newReq);
 }
 </docs-code>
@@ -172,7 +172,7 @@ A DI-based interceptor is an injectable class which implements the `HttpIntercep
 
 <docs-code language="ts">
 @Injectable()
-public class LoggingInterceptor implements HttpInterceptor {
+export class LoggingInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
     console.log('Request URL: ' + req.url);
     return handler.handle(req);

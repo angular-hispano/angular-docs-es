@@ -1,5 +1,7 @@
 # Complex animation sequences
 
+IMPORTANT: The Angular team recommends using native CSS for animations instead of the Animations package for all new code. Use this guide to understand existing code built with the Animations Package. See [Migrating away from Angular's Animations package](guide/animations/migration#complex-sequences) to learn how you can start using pure CSS animations in your apps.
+
 So far, we've learned simple animations of single HTML elements.
 Angular also lets you animate coordinated sequences, such as an entire grid or list of elements as they enter and leave a page.
 You can choose to run multiple animations in parallel, or run discrete animations sequentially, one following another.
@@ -89,7 +91,7 @@ The heroes list gradually re-enters the page as you delete each letter in the fi
 
 The HTML template contains a trigger called `filterAnimation`.
 
-<docs-code header="src/app/hero-list-page.component.html" path="adev/src/content/examples/animations/src/app/hero-list-page.component.html" visibleRegion="filter-animations"/>
+<docs-code header="src/app/hero-list-page.component.html" path="adev/src/content/examples/animations/src/app/hero-list-page.component.html" visibleRegion="filter-animations" language="angular-html"/>
 
 The `filterAnimation` in the component's decorator contains three transitions.
 
@@ -115,8 +117,7 @@ This is because it will lose track of which element is which, resulting in broke
 The only way to help Angular keep track of such elements is by assigning a `TrackByFunction` to the `NgForOf` directive.
 This makes sure that Angular always knows which element is which, thus allowing it to apply the correct animations to the correct elements all the time.
 
-IMPORTANT:
-If you need to animate the items of an `*ngFor` list and there is a possibility that the order of such items will change during runtime, always use a `TrackByFunction`.
+IMPORTANT: If you need to animate the items of an `*ngFor` list and there is a possibility that the order of such items will change during runtime, always use a `TrackByFunction`.
 
 ## Animations and Component View Encapsulation
 
@@ -124,7 +125,7 @@ Angular animations are based on the components DOM structure and do not directly
 
 For example if the `query()` function (which you'll see more of in the rest of the Animations guide) were to be applied at the top of a tree of components using the emulated view encapsulation, such query would be able to identify (and thus animate) DOM elements on any depth of the tree.
 
-On the other hand the `ViewEncapsulation.ShadowDom` changes the component's DOM structure by "hiding" DOM elements inside [`ShadowRoot`](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot) elements. Such DOM manipulations do prevent some of the animations implementation to work properly since it relies on simple DOM structures and doesn't take `ShadowRoot` elements into account. Therefore it is advised to avoid applying animations to views incorporating components using the ShadowDom view encapsulation.
+On the other hand the `ViewEncapsulation.ShadowDom` changes the component's DOM structure by "hiding" DOM elements inside [`ShadowRoot`](https://developer.mozilla.org/docs/Web/API/ShadowRoot) elements. Such DOM manipulations do prevent some of the animations implementation to work properly since it relies on simple DOM structures and doesn't take `ShadowRoot` elements into account. Therefore it is advised to avoid applying animations to views incorporating components using the ShadowDom view encapsulation.
 
 ## Animation sequence summary
 

@@ -10,11 +10,8 @@ try {
   await setup();
   console.log(chalk.green('==== preBuild ===='));
   await preBuild();
-
-  if(!ci){
-    console.log(chalk.green('==== build ===='));
-    await build();
-  }
+  console.log(chalk.green('==== build ===='));
+  await build();
 } catch (e) {
   console.error(chalk.red(e));
   process.exit(1);

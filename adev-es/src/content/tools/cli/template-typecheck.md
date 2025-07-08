@@ -50,7 +50,7 @@ This flag supersedes the `fullTemplateTypeCheck` flag.
 
 In addition to the full mode behavior, Angular does the following:
 
-* Verifies that component/directive bindings are assignable to their `@Input()`s
+* Verifies that component/directive bindings are assignable to their `input()`s
 * Obeys TypeScript's `strictNullChecks` flag when validating the preceding mode
 * Infers the correct type of components/directives, including generics
 * Infers template context types where configured \(for example, allowing correct type-checking of `NgFor`\)
@@ -116,7 +116,7 @@ Unless otherwise commented, each following option is set to the value for `stric
 | `strictInputTypes`           | Whether the assignability of a binding expression to the `@Input()` field is checked. Also affects the inference of directive generic types.                                                                                                                                                                                                                                                                                                |
 | `strictInputAccessModifiers` | Whether access modifiers such as `private`/`protected`/`readonly` are honored when assigning a binding expression to an `@Input()`. If disabled, the access modifiers of the `@Input` are ignored; only the type is checked. This option is `false` by default, even with `strictTemplates` set to `true`.                                                                                                                                  |
 | `strictNullInputTypes`       | Whether `strictNullChecks` is honored when checking `@Input()` bindings \(per `strictInputTypes`\). Turning this off can be useful when using a library that was not built with `strictNullChecks` in mind.                                                                                                                                                                                                                                 |
-| `strictAttributeTypes`       | Whether to check `@Input()` bindings that are made using text attributes. For example, <docs-code hideCopy language="html"> <input matInput disabled="true"> </docs-code> \(setting the `disabled` property to the string `'true'`\) vs <docs-code hideCopy language="html"> <input matInput [disabled]="true"> </docs-code> \(setting the `disabled` property to the boolean `true`\). |
+| `strictAttributeTypes`       | Whether to check `@Input()` bindings that are made using text attributes. For example, `<input matInput disabled="true">` \(setting the `disabled` property to the string `'true'`\) vs `<input matInput [disabled]="true">` \(setting the `disabled` property to the boolean `true`\). |
 | `strictSafeNavigationTypes`  | Whether the return type of safe navigation operations \(for example, `user?.name` will be correctly inferred based on the type of `user`\). If disabled, `user?.name` will be of type `any`.                                                                                                                                                                                                                                                |
 | `strictDomLocalRefTypes`     | Whether local references to DOM elements will have the correct type. If disabled `ref` will be of type `any` for `<input #ref>`.                                                                                                                                                                                                                                                                                                            |
 | `strictOutputEventTypes`     | Whether `$event` will have the correct type for event bindings to component/directive an `@Output()`, or to animation events. If disabled, it will be `any`.                                                                                                                                                                                                                                                                                |
@@ -148,7 +148,7 @@ export interface User {
   template: '{{ user.name }}',
 })
 export class UserDetailComponent {
-  @Input() user: User;
+  user = input.required<User>();
 }
 
 </docs-code>
@@ -226,7 +226,7 @@ See [Improving template type checking for custom directives](guide/directives/st
 
 ## Input setter coercion
 
-Occasionally it is desirable for the `@Input()` of a directive or component to alter the value bound to it, typically using a getter/setter pair for the input.
+Occasionally it is desirable for the `input()` property of a directive or component to alter the value bound to it, typically using a `transform` function for the input.
 As an example, consider this custom button component:
 
 Consider the following directive:
@@ -242,16 +242,7 @@ Consider the following directive:
   `,
 })
 class SubmitButton {
-  private _disabled: boolean;
-
-  @Input()
-  get disabled(): boolean {
-    return this._disabled;
-  }
-
-  set disabled(value: boolean) {
-    this._disabled = value;
-  }
+  disabled = input.required({transform: booleanAttribute });
 }
 
 </docs-code>

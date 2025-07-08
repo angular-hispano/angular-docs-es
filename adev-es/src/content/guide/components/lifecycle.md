@@ -1,6 +1,6 @@
 # Component Lifecycle
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
 
 A component's **lifecycle** is the sequence of steps that happen between the component's creation
 and its destruction. Each step represents a different part of Angular's process for rendering
@@ -31,7 +31,7 @@ process.
       <td>Creation</td>
       <td><code>constructor</code></td>
       <td>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor" target="_blank">
+        <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Classes/constructor" target="_blank">
           Standard JavaScript class constructor
         </a>. Runs when Angular instantiates the component.
       </td>
@@ -51,20 +51,20 @@ process.
       <td>Runs every time this component is checked for changes.</td>
     </tr>
     <tr>
-      <td><code>ngAfterViewInit</code></td>
-      <td>Runs once after the component's <em>view</em> has been initialized.</td>
-    </tr>
-    <tr>
       <td><code>ngAfterContentInit</code></td>
       <td>Runs once after the component's <em>content</em> has been initialized.</td>
     </tr>
     <tr>
-      <td><code>ngAfterViewChecked</code></td>
-      <td>Runs every time the component's view has been checked for changes.</td>
-    </tr>
-    <tr>
       <td><code>ngAfterContentChecked</code></td>
       <td>Runs every time this component content has been checked for changes.</td>
+    </tr>
+    <tr>
+      <td><code>ngAfterViewInit</code></td>
+      <td>Runs once after the component's <em>view</em> has been initialized.</td>
+    </tr>
+    <tr>
+      <td><code>ngAfterViewChecked</code></td>
+      <td>Runs every time the component's view has been checked for changes.</td>
     </tr>
     <tr>
       <td rowspan="2">Rendering</td>
@@ -72,7 +72,7 @@ process.
       <td>Runs once the next time that <strong>all</strong> components have been rendered to the DOM.</td>
     </tr>
     <tr>
-      <td><code>afterRender</code></td>
+      <td><code>afterEveryRender</code></td>
       <td>Runs every time <strong>all</strong> components have been rendered to the DOM.</td>
     </tr>
     <tr>
@@ -113,7 +113,7 @@ has changed.
   /* ... */
 })
 export class UserProfile {
-  @Input() name: string = '';
+  name = input('');
 
   ngOnChanges(changes: SimpleChanges) {
     for (const inputName in changes) {
@@ -132,7 +132,7 @@ TypeScript property name as a key, rather than the alias.
 ### ngOnDestroy
 
 The `ngOnDestroy` method runs once just before a component is destroyed. Angular destroys a
-component when it is no longer shown on the page, such as being hidden by `NgIf` or upon navigating
+component when it is no longer shown on the page, such as being hidden by `@if` or upon navigating
 to another page.
 
 #### DestroyRef
@@ -146,8 +146,8 @@ of `DestroyRef`.
   /* ... */
 })
 export class UserProfile {
-  constructor(private destroyRef: DestroyRef) {
-    destroyRef.onDestroy(() => {
+  constructor() {
+    inject(DestroyRef).onDestroy(() => {
       console.log('UserProfile destruction');
     });
   }
@@ -173,6 +173,29 @@ defining this hook whenever possible, only using it when you have no alternative
 
 During initialization, the first `ngDoCheck` runs after `ngOnInit`.
 
+### ngAfterContentInit
+
+The `ngAfterContentInit` method runs once after all the children nested inside the component (its
+_content_) have been initialized.
+
+You can use this lifecycle hook to read the results of
+[content queries](guide/components/queries#content-queries). While you can access the initialized
+state of these queries, attempting to change any state in this method results in an
+[ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)
+
+### ngAfterContentChecked
+
+The `ngAfterContentChecked` method runs every time the children nested inside the component (its
+_content_) have been checked for changes.
+
+This method runs very frequently and can significantly impact your page's performance. Avoid
+defining this hook whenever possible, only using it when you have no alternative.
+
+While you can access the updated state
+of [content queries](guide/components/queries#content-queries) here, attempting to
+change any state in this method results in
+an [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100).
+
 ### ngAfterViewInit
 
 The `ngAfterViewInit` method runs once after all the children in the component's template (its
@@ -181,16 +204,6 @@ _view_) have been initialized.
 You can use this lifecycle hook to read the results of
 [view queries](guide/components/queries#view-queries). While you can access the initialized state of
 these queries, attempting to change any state in this method results in an
-[ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)
-
-### ngAfterContentInit
-
-The `ngAfterContentInit` method runs once after all the children nested inside the component (
-its _content_) have been initialized.
-
-You can use this lifecycle hook to read the results of
-[content queries](guide/components/queries#content-queries). While you can access the initialized
-state of these queries, attempting to change any state in this method results in an
 [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)
 
 ### ngAfterViewChecked
@@ -206,29 +219,16 @@ here, attempting to
 change any state in this method results in
 an [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100).
 
-### ngAfterContentChecked
+### afterEveryRender and afterNextRender
 
-The `ngAfterContentChecked` method runs every time the children nested inside the component (its
-_content_) have been checked for changes.
-
-This method runs very frequently and can significantly impact your page's performance. Avoid
-defining this hook whenever possible, only using it when you have no alternative.
-
-While you can access the updated state
-of [content queries](guide/components/queries#content-queries) here, attempting to
-change any state in this method results in
-an [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100).
-
-### afterRender and afterNextRender
-
-The `afterRender` and `afterNextRender` functions let you register a **render callback** to be
+The `afterEveryRender` and `afterNextRender` functions let you register a **render callback** to be
 invoked after Angular has finished rendering _all components_ on the page into the DOM.
 
 These functions are different from the other lifecycle hooks described in this guide. Rather than a
 class method, they are standalone functions that accept a callback. The execution of render
 callbacks are not tied to any specific component instance, but instead an application-wide hook.
 
-`afterRender` and `afterNextRender` must be called in
+`afterEveryRender` and `afterNextRender` must be called in
 an [injection context](guide/di/dependency-injection-context), typically a
 component's constructor.
 
@@ -237,32 +237,45 @@ See [Using DOM APIs](guide/components/dom-apis) for guidance on working with the
 
 Render callbacks do not run during server-side rendering or during build-time pre-rendering.
 
-#### afterRender phases
+#### after*Render phases
 
-When using `afterRender` or `afterNextRender`, you can optionally specify a `phase`. The phase
-gives you control over the sequencing of DOM operations, letting you sequence _write_ operations
-before _read_ operations in order to minimize
-[layout thrashing](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing).
+When using `afterEveryRender` or `afterNextRender`, you can optionally split the work into phases. The
+phase gives you control over the sequencing of DOM operations, letting you sequence _write_
+operations before _read_ operations in order to minimize
+[layout thrashing](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing). In order to
+communicate across phases, a phase function may return a result value that can be accessed in the
+next phase.
 
 ```ts
-import {Component, ElementRef, afterNextRender, AfterRenderPhase} from '@angular/core';
+import {Component, ElementRef, afterNextRender} from '@angular/core';
 
 @Component({...})
 export class UserProfile {
+  private prevPadding = 0;
   private elementHeight = 0;
 
-  constructor(elementRef: ElementRef) {
+  constructor() {
+    private elementRef = inject(ElementRef);
     const nativeElement = elementRef.nativeElement;
 
-    // Use the `Write` phase to write to a geometric property.
-    afterNextRender(() => {
-      nativeElement.style.padding = computePadding();
-    }, {phase: AfterRenderPhase.Write});
+    afterNextRender({
+      // Use the `Write` phase to write to a geometric property.
+      write: () => {
+        const padding = computePadding();
+        const changed = padding !== this.prevPadding;
+        if (changed) {
+          nativeElement.style.padding = padding;
+        }
+        return changed; // Communicate whether anything changed to the read phase.
+      },
 
-    // Use the `Read` phase to read geometric properties after all writes have occurred.
-    afterNextRender(() => {
-      this.elementHeight = nativeElement.getBoundingClientRect().height;
-    }, {phase: AfterRenderPhase.Read});
+      // Use the `Read` phase to read geometric properties after all writes have occurred.
+      read: (didWrite) => {
+        if (didWrite) {
+          this.elementHeight = nativeElement.getBoundingClientRect().height;
+        }
+      }
+    });
   }
 }
 ```
@@ -271,10 +284,10 @@ There are four phases, run in the following order:
 
 | Phase            | Description                                                                                                                                                                                           |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `EarlyRead`      | Use this phase to read any layout-affecting DOM properties and styles that are strictly necessary for subsequent calculation. Avoid this phase if possible, preferring the `Write` and `Read` phases. |
-| `MixedReadWrite` | Default phase. Use for any operations need to both read and write layout-affecting properties and styles. Avoid this phase if possible, preferring the explicit `Write` and `Read` phases.            |
-| `Write`          | Use this phase to write layout-affecting DOM properties and styles.                                                                                                                                   |
-| `Read`           | Use this phase to read any layout-affecting DOM properties.                                                                                                                                           |
+| `earlyRead`      | Use this phase to read any layout-affecting DOM properties and styles that are strictly necessary for subsequent calculation. Avoid this phase if possible, preferring the `write` and `read` phases. |
+| `mixedReadWrite` | Default phase. Use for any operations need to both read and write layout-affecting properties and styles. Avoid this phase if possible, preferring the explicit `write` and `read` phases.            |
+| `write`          | Use this phase to write layout-affecting DOM properties and styles.                                                                                                                                   |
+| `read`           | Use this phase to read any layout-affecting DOM properties.                                                                                                                                           |
 
 ## Lifecycle interfaces
 
@@ -314,7 +327,7 @@ ngDoCheck-->ngAfterViewInit
 ngAfterContentInit-->ngAfterContentChecked
 ngAfterViewInit-->ngAfterViewChecked
 end
-CHANGE--Rendering-->afterRender
+CHANGE--Rendering-->afterNextRender-->afterEveryRender
 ```
 
 ### Subsequent updates
@@ -327,7 +340,7 @@ ngOnChanges-->ngDoCheck
 ngDoCheck-->ngAfterContentChecked;
 ngDoCheck-->ngAfterViewChecked
 end
-CHANGE--Rendering-->afterRender
+CHANGE--Rendering-->afterEveryRender
 ```
 
 ### Ordering with directives
