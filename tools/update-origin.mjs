@@ -4,13 +4,8 @@ import { $, argv, chalk, glob } from 'zx';
 
 const copyTargets = [
   // Text contents
-  'src/content/best-practices/**/*.md',
-  'src/content/ecosystem/**/*.md',
-  'src/content/guide/**/*.md',
-  'src/content/introduction/**/*.md',
-  'src/content/reference/**/*.md',
-  'src/content/tools/**/*.md',
-  'src/content/*.md',
+  'src/content/**/*.md',
+  '!src/content/**/license.md',
   // Navigation 
   'src/app/sub-navigation-data.ts',
   // Others

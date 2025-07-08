@@ -2,7 +2,7 @@
 
 `HttpClient` has methods corresponding to the different HTTP verbs used to make requests, both to load data and to apply mutations on the server. Each method returns an [RxJS `Observable`](https://rxjs.dev/guide/observable) which, when subscribed, sends the request and then emits the results when the server responds.
 
-Note: `Observable`s created by `HttpClient` may be subscribed any number of times and will make a new backend request for each subscription.
+NOTE: `Observable`s created by `HttpClient` may be subscribed any number of times and will make a new backend request for each subscription.
 
 Through an options object passed to the request method, various properties of the request and the returned response type can be adjusted.
 
@@ -18,9 +18,9 @@ http.get<Config>('/api/config').subscribe(config => {
 });
 </docs-code>
 
-Note the generic type argument which specifies that the data returned by the server will be of type `Config`. This argument is optional, and if you omit it then the returned data will have type `any`.
+Note the generic type argument which specifies that the data returned by the server will be of type `Config`. This argument is optional, and if you omit it then the returned data will have type `Object`.
 
-Tip: If the data has an unknown shape, then a safer alternative to `any` is to use the `unknown` type as the response type.
+TIP: When dealing with data of uncertain structure and potential `undefined` or `null` values, consider using the `unknown` type instead of `Object` as the response type.
 
 CRITICAL: The generic type of request methods is a type **assertion** about the data returned by the server. `HttpClient` does not verify that the actual return data matches this type.
 
@@ -32,8 +32,8 @@ By default, `HttpClient` assumes that servers will return JSON data. When intera
 | - | - |
 | `'json'` (default) | JSON data of the given generic type |
 | `'text'` | string data |
-| `'arraybuffer'` | [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) containing the raw response bytes |
-| `'blob'` | [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) instance |
+| `'arraybuffer'` | [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) containing the raw response bytes |
+| `'blob'` | [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob) instance |
 
 For example, you can ask `HttpClient` to download the raw bytes of a `.jpeg` image into an `ArrayBuffer`:
 
@@ -67,10 +67,10 @@ Many different types of values can be provided as the request's `body`, and `Htt
 | - | - |
 | string | Plain text |
 | number, boolean, array, or plain object | JSON |
-| [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) | raw data from the buffer |
-| [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) | raw data with the `Blob`'s content type |
-| [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData) | `multipart/form-data` encoded data |
-| [`HttpParams`](api/common/http/HttpParams) or [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) | `application/x-www-form-urlencoded` formatted string |
+| [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) | raw data from the buffer |
+| [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob) | raw data with the `Blob`'s content type |
+| [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData) | `multipart/form-data` encoded data |
+| [`HttpParams`](api/common/http/HttpParams) or [`URLSearchParams`](https://developer.mozilla.org/docs/Web/API/URLSearchParams) | `application/x-www-form-urlencoded` formatted string |
 
 IMPORTANT: Remember to `.subscribe()` to mutation request `Observable`s in order to actually fire the request.
 
@@ -128,7 +128,7 @@ IMPORTANT: Instances of `HttpHeaders` are _immutable_ and cannot be directly cha
 const baseHeaders = new HttpHeaders().set('X-Debug-Level', 'minimal');
 
 http.get<Config>('/api/config', {
-  params: baseParams.set('X-Debug-Level', 'verbose'),
+  headers: baseHeaders.set('X-Debug-Level', 'verbose'),
 }).subscribe(config => {
   // ...
 });
@@ -159,7 +159,7 @@ In addition to the response body or response object, `HttpClient` can also retur
 
 Progress events are disabled by default (as they have a performance cost) but can be enabled with the `reportProgress` option.
 
-Note: The optional `fetch` implementation of `HttpClient` does not report _upload_ progress events.
+NOTE: The optional `fetch` implementation of `HttpClient` does not report _upload_ progress events.
 
 To observe the event stream, set the `observe` option to `'events'`:
 
@@ -203,7 +203,7 @@ There are two ways an HTTP request can fail:
 * A network or connection error can prevent the request from reaching the backend server.
 * The backend can receive the request but fail to process it, and return an error response.
 
-`HttpClient` captures both kinds of errors in an `HttpErrorResponse` which it returns through the `Observable`'s error channel. Network errors have a `status` code of `0` and an `error` which is an instance of [`ProgressEvent`](https://developer.mozilla.org/en-US/docs/Web/API/ProgressEvent). Backend errors have the failing `status` code returned by the backend, and the error response as the `error`. Inspect the response to identify the error's cause and the appropriate action to handle the error.
+`HttpClient` captures both kinds of errors in an `HttpErrorResponse` which it returns through the `Observable`'s error channel. Network errors have a `status` code of `0` and an `error` which is an instance of [`ProgressEvent`](https://developer.mozilla.org/docs/Web/API/ProgressEvent). Backend errors have the failing `status` code returned by the backend, and the error response as the `error`. Inspect the response to identify the error's cause and the appropriate action to handle the error.
 
 The [RxJS library](https://rxjs.dev/) offers several operators which can be useful for error handling.
 
@@ -234,7 +234,7 @@ While `HttpClient` can be injected and used directly from components, generally 
 <docs-code language="ts">
 @Injectable({providedIn: 'root'})
 export class UserService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getUser(id: string): Observable<User> {
     return this.http.get<User>(`/api/user/${id}`);
@@ -247,7 +247,6 @@ Within a component, you can combine `@if` with the `async` pipe to render the UI
 <docs-code language="ts">
 import { AsyncPipe } from '@angular/common';
 @Component({
-  standalone: true,
   imports: [AsyncPipe],
   template: `
     @if (user$ | async; as user) {
@@ -257,13 +256,15 @@ import { AsyncPipe } from '@angular/common';
   `,
 })
 export class UserProfileComponent {
-  @Input() userId!: string;
+  userId = input.required<string>();
   user$!: Observable<User>;
 
-  constructor(private userService: UserService) {}
+  private userService = inject(UserService);
 
-  ngOnInit(): void {
-    this.user$ = userService.getUser(this.userId);
+  constructor(): void {
+    effect(() => {
+      this.user$ = this.userService.getUser(this.userId());
+    });
   }
 }
 </docs-code>

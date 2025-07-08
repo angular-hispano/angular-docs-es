@@ -1,13 +1,15 @@
 # Security
 
-This topic describes Angular's built-in protections against common web-application vulnerabilities and attacks such as cross-site scripting attacks.
+This topic describes Angular's built-in protections against common web application vulnerabilities and attacks such as cross-site scripting attacks.
 It doesn't cover application-level security, such as authentication and authorization.
 
 For more information about the attacks and mitigations described below, see the [Open Web Application Security Project (OWASP) Guide](https://www.owasp.org/index.php/Category:OWASP_Guide_Project).
 
+<a id="report-issues"></a>
+
 <docs-callout title="Reporting vulnerabilities">
 
-Angular is part of Google [Open Source Software Vulnerability Reward Program](https://bughunters.google.com/about/rules/6521337925468160/google-open-source-software-vulnerability-reward-program-rules). [For vulnerabilities in Angular, please submit your report at https://bughunters.google.com](https://bughunters.google.com/report).
+Angular is part of Google [Open Source Software Vulnerability Reward Program](https://bughunters.google.com/about/rules/6521337925468160/google-open-source-software-vulnerability-reward-program-rules). For vulnerabilities in Angular, please submit your report at [https://bughunters.google.com](https://bughunters.google.com/report).
 
 For more information about how Google handles security issues, see [Google's security philosophy](https://www.google.com/about/appsecurity).
 
@@ -51,8 +53,8 @@ For this reason, it is strongly encouraged to take advantage of these features. 
 
 *Sanitization* is the inspection of an untrusted value, turning it into a value that's safe to insert into the DOM.
 In many cases, sanitization doesn't change a value at all.
-Sanitization depends on context:
-A value that's harmless in CSS is potentially dangerous in a URL.
+Sanitization depends on a context.
+For example, a value that's harmless in CSS is potentially dangerous in a URL.
 
 Angular defines the following security contexts:
 
@@ -93,7 +95,7 @@ Avoid directly interacting with the DOM and instead use Angular templates where 
 
 For cases where this is unavoidable, use the built-in Angular sanitization functions.
 Sanitize untrusted values with the [DomSanitizer.sanitize](api/platform-browser/DomSanitizer#sanitize) method and the appropriate `SecurityContext`.
-That function also accepts values that were marked as trusted using the `bypassSecurityTrust` … functions, and does not sanitize them, as [described below](#trusting-safe-values).
+That function also accepts values that were marked as trusted using the `bypassSecurityTrust` functions, and does not sanitize them, as [described below](#trusting-safe-values).
 
 ### Trusting safe values
 
@@ -201,12 +203,13 @@ See [caniuse.com/trusted-types](https://caniuse.com/trusted-types) for the curre
 
 To enforce Trusted Types for your application, you must configure your application's web server to emit HTTP headers with one of the following Angular policies:
 
-| Policies                | Detail                                                                                                                                                                                                                                                                                     |
-| :---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `angular`               | This policy is used in security-reviewed code that is internal to Angular, and is required for Angular to function when Trusted Types are enforced. Any inline template values or content sanitized by Angular is treated as safe by this policy.                                          |
-| `angular#unsafe-bypass` | This policy is used for applications that use any of the methods in Angular's [DomSanitizer](api/platform-browser/DomSanitizer) that bypass security, such as `bypassSecurityTrustHtml`. Any application that uses these methods must enable this policy.                                  |
-| `angular#unsafe-jit`    | This policy is used by the [Just-In-Time (JIT) compiler](api/core/Compiler). You must enable this policy if your application interacts directly with the JIT compiler or is running in JIT mode using the [platform browser dynamic](api/platform-browser-dynamic/platformBrowserDynamic). |
-| `angular#bundler`       | This policy is used by the Angular CLI bundler when creating lazy chunk files.                                                                                                                                                                                                             |
+| Policies                 | Detail                                                                                                                                                                                                                                                                                     |
+| :----------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `angular`                | This policy is used in security-reviewed code that is internal to Angular, and is required for Angular to function when Trusted Types are enforced. Any inline template values or content sanitized by Angular is treated as safe by this policy.                                          |
+| `angular#bundler`        | This policy is used by the Angular CLI bundler when creating lazy chunk files.                                                                                                                                                                                                             |
+| `angular#unsafe-bypass`  | This policy is used for applications that use any of the methods in Angular's [DomSanitizer](api/platform-browser/DomSanitizer) that bypass security, such as `bypassSecurityTrustHtml`. Any application that uses these methods must enable this policy.                                  |
+| `angular#unsafe-jit`     | This policy is used by the [Just-In-Time (JIT) compiler](api/core/Compiler). You must enable this policy if your application interacts directly with the JIT compiler or is running in JIT mode using the [platform browser dynamic](api/platform-browser-dynamic/platformBrowserDynamic). |
+| `angular#unsafe-upgrade` | This policy is used by the [@angular/upgrade](api/upgrade/static/UpgradeModule) package. You must enable this policy if your application is an AngularJS hybrid. |
 
 You should configure the HTTP headers for Trusted Types in the following locations:
 
@@ -308,7 +311,7 @@ The malicious code on `evil.com` can't.
 By default, an interceptor sends this header on all mutating requests (such as `POST`) to relative URLs, but not on GET/HEAD requests or on requests with an absolute URL.
 
 <docs-callout helpful title="Why not protect GET requests?">
-CSRF protection is only needed for requests that can change state on the backend. By their nature, CSRF attacks cross domain boundaries, and the web's [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) will prevent an attacking page from retrieving the results of authenticated GET requests.
+CSRF protection is only needed for requests that can change state on the backend. By their nature, CSRF attacks cross domain boundaries, and the web's [same-origin policy](https://developer.mozilla.org/docs/Web/Security/Same-origin_policy) will prevent an attacking page from retrieving the results of authenticated GET requests.
 </docs-callout>
 
 To take advantage of this, your server needs to set a token in a JavaScript readable session cookie called `XSRF-TOKEN` on either the page load or the first GET request. On subsequent requests the server can verify that the cookie matches the `X-XSRF-TOKEN` HTTP header, and therefore be sure that only code running on your domain could have sent the request. The token must be unique for each user and must be verifiable by the server; this prevents the client from making up its own tokens. Set the token to a digest of your site's authentication cookie with a salt for added security.

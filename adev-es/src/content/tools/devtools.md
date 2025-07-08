@@ -4,7 +4,7 @@ Angular DevTools is a browser extension that provides debugging and profiling ca
 
 <docs-video src="https://www.youtube.com/embed/bavWOHZM6zE"/>
 
-Install Angular DevTools from the [Chrome Web Store](https://chrome.google.com/webstore/detail/angular-developer-tools/ienfalfjdbdpebioblfackkekamfmbnh) or from [Firefox Addons](https://addons.mozilla.org/en-GB/firefox/addon/angular-devtools/).
+Install Angular DevTools from the [Chrome Web Store](https://chrome.google.com/webstore/detail/angular-developer-tools/ienfalfjdbdpebioblfackkekamfmbnh) or from [Firefox Addons](https://addons.mozilla.org/firefox/addon/angular-devtools/).
 
 You can open Chrome or Firefox DevTools on any web page by pressing <kbd>F12</kbd> or <kbd><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></kbd> (Windows or Linux) and <kbd><kbd>Fn</kbd>+<kbd>F12</kbd></kbd> or <kbd><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></kbd> (Mac).
 Once browser DevTools is open and Angular DevTools is installed, you can find it under the "Angular" tab.
@@ -173,7 +173,7 @@ Later, import the file in the initial view of the profiler by clicking the **Cho
 
  ## Inspect your injectors
 
- Note: The Injector Tree is available for Angular Applications built with version 17 or higher.
+ NOTE: The Injector Tree is available for Angular Applications built with version 17 or higher.
 
 ### View the injector hierarchy of your application
 
@@ -185,7 +185,7 @@ Later, import the file in the initial view of the profiler by clicking the **Cho
 
  When a specific injector is selected, the path that Angular's dependency injection algorithm traverses from that injector to the root is highlighted. For element injectors, this includes highlighting the environment injectors that the dependency injection algorithm jumps to when a dependency cannot be resolved in the element hierarchy.
 
-See [resolution rules](guide/di/hierarchical-dependency-injection#resolution-rules) for more details about how Angular resolves resolution paths. 
+See [resolution rules](guide/di/hierarchical-dependency-injection#resolution-rules) for more details about how Angular resolves resolution paths.
 
 <img src="assets/images/guide/devtools/di-injector-tree-selected.png" alt="A screenshot of the 'Profiler' tab displaying how the injector tree visualize highlights resolution paths when an injector is selected.">
 

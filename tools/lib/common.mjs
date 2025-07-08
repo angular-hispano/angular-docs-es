@@ -25,8 +25,8 @@ export async function resetBuildDir({ init = false }) {
 export async function buildADEV() {
   await within(async () => {
     cd(`${outDir}`);
-    await $`yarn install`;
-    await $`yarn docs:build`;
+    await $`yarn install --frozen-lockfile`;
+    await $`yarn bazel build //adev:build --full_build_adev --config=release`;
   });
 }
 

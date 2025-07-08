@@ -13,7 +13,7 @@ HELPFUL: If you are currently using AngularJS, see [Upgrading from AngularJS](ht
 
 ## Getting notified of new releases
 
-To be notified when new releases are available, follow [@angular](https://twitter.com/angular "@angular on Twitter") on Twitter or subscribe to the [Angular blog](https://blog.angular.dev "Angular blog").
+To be notified when new releases are available, follow [@angular](https://x.com/angular "@angular on X") on X (formerly Twitter) or subscribe to the [Angular blog](https://blog.angular.dev "Angular blog").
 
 ## Learning about new features
 
@@ -34,7 +34,7 @@ By default, [`ng update`](cli/update)(without additional arguments) lists the up
 
 ## Updating your environment and apps
 
-To make updating uncomplicated, we provide complete instructions in the interactive [Angular Update Guide](https://update.angular.io/ "Angular Update Guide").
+To make updating uncomplicated, we provide complete instructions in the interactive [Angular Update Guide](update-guide).
 
 The Angular Update Guide provides customized update instructions, based on the current and target versions that you specify.
 It includes basic and advanced update paths, to match the complexity of your applications.
@@ -55,7 +55,7 @@ It also describes supported update paths.
     [Angular change log](https://github.com/angular/angular/blob/main/CHANGELOG.md "Angular change log")
 
 * Update instructions:
-    [Angular Update Guide](https://update.angular.io/ "Angular Update Guide")
+    [Angular Update Guide](update-guide)
 
 * Update command reference:
     [Angular CLI `ng update` command reference](cli/update)
