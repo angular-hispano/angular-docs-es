@@ -1,19 +1,19 @@
-<docs-decorative-header title="Dependency Injection" imgSrc="adev/src/assets/images/dependency_injection.svg"> <!-- markdownlint-disable-line -->
-Reuse code and control behaviors across your application and tests.
+<docs-decorative-header title="Injección de Dependencias" imgSrc="adev/src/assets/images/dependency_injection.svg"> <!-- markdownlint-disable-line -->
+Reutiliza código y controlar comportamientos en toda tu aplicación y durante las pruebas automatizadas.
 </docs-decorative-header>
 
-When you need to share logic between components, Angular leverages the design pattern of [dependency injection](guide/di) that allows you to create a “service” which allows you to inject code into components while managing it from a single source of truth.
+Cuando necesitas compartir la lógica entre componentes, Angular aprovecha el patrón de [inyección de dependencias](guide/di) que te permite crear un "servicio", el cual te permite inyectar código en componentes mientras lo manejas desde una única fuente de verdad.
 
-## What are services?
+## ¿Qué son los servicios?
 
-Services are reusable pieces of code that can be injected.
+Los servicios son piezas reutilizables de código que pueden ser inyectadas.
 
-Similar to defining a component, services are comprised of the following:
+Similar a definir un componente, los servicios están compuestos de lo siguiente:
 
-- A **TypeScript decorator** that declares the class as an Angular service via `@Injectable` and allows you to define what part of the application can access the service via the `providedIn` property (which is typically `'root'`) to allow a service to be accessed anywhere within the application.
-- A **TypeScript class** that defines the desired code that will be accessible when the service is injected
+- Un **decorador TypeScript** que declara la clase como un servicio Angular vía `@Injectable` y te permite definir qué parte de la aplicación puede acceder al servicio vía la propiedad `providedIn` (que típicamente es `'root'`) para permitir que un servicio sea accedido en cualquier lugar dentro de la aplicación.
+- Una **clase TypeScript** que define el código deseado que será accesible cuando el servicio sea inyectado
 
-Here is an example of a `Calculator` service.
+Aquí hay un ejemplo de un servicio `Calculator`.
 
 ```angular-ts
 import {Injectable} from '@angular/core';
@@ -26,14 +26,14 @@ export class Calculator {
 }
 ```
 
-## How to use a service
+## ¿Cómo usar un servicio?
 
-When you want to use a service in a component, you need to:
+Cuando quieres usar un servicio en un componente, necesitas:
 
-1. Import the service
-2. Declare a class field where the service is injected. Assign the class field to the result of the call of the built-in function `inject` which creates the service
+1. Importar el servicio
+2. Declarar un campo de clase donde el servicio es inyectado. Asignar el campo de clase al resultado de la llamada de la función integrada `inject` que crea el servicio
 
-Here’s what it might look like in the `Receipt` component:
+Aquí está cómo se vería en el componente `Receipt`:
 
 ```angular-ts
 import { Component, inject } from '@angular/core';
@@ -41,7 +41,7 @@ import { Calculator } from './calculator';
 
 @Component({
   selector: 'app-receipt',
-  template: `<h1>The total is {{ totalCost }}</h1>`,
+  template: `<h1>El total {{ totalCost }}</h1>`,
 })
 
 export class Receipt {
@@ -50,11 +50,11 @@ export class Receipt {
 }
 ```
 
-In this example, the `Calculator` is being used by calling the Angular function `inject` and passing in the service to it.
+En este ejemplo, el `Calculator` está siendo usado llamando la función Angular `inject` y pasándole el servicio.
 
-## Next Step
+## Siguiente Paso
 
 <docs-pill-row>
-  <docs-pill title="Next Steps After Essentials" href="essentials/next-steps" />
-  <docs-pill title="In-depth dependency injection guide" href="guide/di" />
+  <docs-pill title="Próximos pasos después de los Fundamentos" href="essentials/next-steps" />
+  <docs-pill title="Guía detallada de inyección de dependencias" href="guide/di" />
 </docs-pill-row>
