@@ -83,7 +83,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'In-depth Guides',
+    label: 'Guías Detalladas',
     children: [
       {
         label: 'Components',
@@ -349,29 +349,19 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Signals',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/signals',
             contentPath: 'guide/signals/overview',
           },
           {
-            label: 'RxJS Interop',
-            path: 'guide/signals/rxjs-interop',
-            contentPath: 'guide/signals/rxjs-interop',
+            label: 'Estado dependiente con linkedSignal',
+            path: 'guide/signals/linked-signal',
+            contentPath: 'guide/signals/linked-signal',
           },
           {
-            label: 'Inputs as signals',
-            path: 'guide/signals/inputs',
-            contentPath: 'guide/signals/inputs',
-          },
-          {
-            label: 'Model inputs',
-            path: 'guide/signals/model',
-            contentPath: 'guide/signals/model',
-          },
-          {
-            label: 'Queries as signals',
-            path: 'guide/signals/queries',
-            contentPath: 'guide/signals/queries',
+            label: 'Reactividad asíncrona con resource',
+            path: 'guide/signals/resource',
+            contentPath: 'guide/signals/resource',
           },
         ],
       },
