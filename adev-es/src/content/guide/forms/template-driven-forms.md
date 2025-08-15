@@ -1,201 +1,201 @@
-# Building a template-driven form
+# Construyendo un formulario basado en plantillas
 
-This tutorial shows you how to create a template-driven form. The control elements in the form are bound to data properties that have input validation. The input validation helps maintain data integrity and styling to improve the user experience.
+Este tutorial te muestra cómo crear un formulario basado en plantillas. Los elementos de control en el formulario están vinculados a propiedades de datos que tienen validación de entrada. La validación de entrada ayuda a mantener la integridad de los datos y el estilo, lo que mejora la experiencia del usuario.
 
-Template-driven forms use [two-way data binding](guide/templates/two-way-binding) to update the data model in the component as changes are made in the template and vice versa.
+Los formularios basados en plantillas usan [enlace de datos bidireccional](guide/templates/two-way-binding) para actualizar el modelo de datos en el componente a medida que se realizan cambios en la plantilla y viceversa.
 
-<docs-callout helpful title="Template vs Reactive forms">
-Angular supports two design approaches for interactive forms. Template-driven forms allow you to use form-specific directives in your Angular template. Reactive forms provide a model-driven approach to building forms.
+<docs-callout helpful title="Formularios basados en plantillas vs Formularios reactivos">
+Angular soporta dos enfoques de diseño para formularios interactivos. Los formularios basados en plantillas te permiten usar directivas específicas de formulario en tu plantilla de Angular. Los formularios reactivos proporcionan un enfoque basado en modelos para construir formularios.
 
-Template-driven forms are a great choice for small or simple forms, while reactive forms are more scalable and suitable for complex forms. For a comparison of the two approaches, see [Choosing an approach](guide/forms#choosing-an-approach)
+Los formularios basados en plantillas son una excelente opción para formularios pequeños o simples, mientras que los formularios reactivos son más escalables y adecuados para formularios complejos. Para una comparación de los dos enfoques, consulta [Elegir un enfoque](guide/forms#choosing-an-approach)
 </docs-callout>
 
-You can build almost any kind of form with an Angular template —login forms, contact forms, and pretty much any business form.
-You can lay out the controls creatively and bind them to the data in your object model.
-You can specify validation rules and display validation errors, conditionally allow input from specific controls, trigger built-in visual feedback, and much more.
+Puedes construir casi cualquier tipo de formulario con una plantilla de Angular formularios de inicio de sesión, formularios de contacto, y prácticamente cualquier formulario de negocio.
+Puedes diseñar los controles de forma creativa y vincularlos a los datos en tu modelo de objeto.
+Puedes especificar reglas de validación, mostrar errores de validación, permitir condicionalmente entrada en controles específicos, activar retroalimentación visual integrada, y mucho más.
 
-## Objectives
+## Objetivos
 
-This tutorial teaches you how to do the following:
+Este tutorial te enseña cómo hacer lo siguiente:
 
-- Build an Angular form with a component and template
-- Use `ngModel` to create two-way data bindings for reading and writing input-control values
-- Provide visual feedback using special CSS classes that track the state of the controls
-- Display validation errors to users and conditionally allow input from form controls based on the form status
-- Share information across HTML elements using [template reference variables](guide/templates/variables#template-reference-variables)
+- Construir un formulario de Angular con un componente y plantilla
+- Usar `ngModel` para crear enlaces de datos bidireccionales para leer y escribir valores de control de entrada
+- Proporcionar retroalimentación visual usando clases CSS especiales que rastrean el estado de los controles
+- Mostrar errores de validación a los usuarios y permitir la entrada de datos en los controles del formulario de forma condicional, basándose en el estado del mismo.
+- Compartir información entre elementos HTML usando [variables de referencia de plantilla](guide/templates/variables#template-reference-variables)
 
-## Build a template-driven form
+## Construir un formulario basado en plantillas
 
-Template-driven forms rely on directives defined in the `FormsModule`.
+Los formularios basados en plantillas se basan en directivas definidas en el `FormsModule`.
 
 | Directives     | Details                                                                                                                                                                                                                                                                         |
 | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `NgModel`      | Reconciles value changes in the attached form element with changes in the data model, allowing you to respond to user input with input validation and error handling.                                                                                                           |
-| `NgForm`       | Creates a top-level `FormGroup` instance and binds it to a `<form>` element to track aggregated form value and validation status. As soon as you import `FormsModule`, this directive becomes active by default on all `<form>` tags. You don't need to add a special selector. |
-| `NgModelGroup` | Creates and binds a `FormGroup` instance to a DOM element.                                                                                                                                                                                                                      |
+| `NgModel`      | Reconcilia los cambios de valor en el elemento de formulario adjunto con los cambios en el modelo de datos, lo que te permite responder a la entrada del usuario con validación y manejo de errores.                                                                                                           |
+| `NgForm`       | Crea una instancia de `FormGroup` de nivel superior y la vincula a un elemento `<form>` para rastrear el valor agregado del formulario y el estado de validación. Tan pronto como importas `FormsModule`, esta directiva se vuelve activa por defecto en todas las etiquetas `<form>`. No necesitas agregar un selector especial. |
+| `NgModelGroup` | Crea y vincula una instancia de `FormGroup` a un elemento DOM.                                                                                                                                                                                                                      |
 
-### Step overview
+### Resumen de los pasos
 
-In the course of this tutorial, you bind a sample form to data and handle user input using the following steps.
+En el curso de este tutorial, vinculas un formulario de muestra a datos y manejas la entrada del usuario usando los siguientes pasos.
 
-1. Build the basic form.
-   - Define a sample data model
-   - Include required infrastructure such as the `FormsModule`
-1. Bind form controls to data properties using the `ngModel` directive and two-way data-binding syntax.
-   - Examine how `ngModel` reports control states using CSS classes
-   - Name controls to make them accessible to `ngModel`
-1. Track input validity and control status using `ngModel`.
-   - Add custom CSS to provide visual feedback on the status
-   - Show and hide validation-error messages
-1. Respond to a native HTML button-click event by adding to the model data.
-1. Handle form submission using the [`ngSubmit`](api/forms/NgForm#properties) output property of the form.
-   - Disable the **Submit** button until the form is valid
-   - After submit, swap out the finished form for different content on the page
+1. Construir el formulario básico.
+   - Definir un modelo de datos de muestra
+   - Incluir infraestructura requerida como el `FormsModule`
+1. Vincular controles de formulario a propiedades de datos usando la directiva `ngModel` y la sintaxis de enlace de datos bidireccional.
+   - Examinar cómo `ngModel` reporta estados de control usando clases CSS
+   - Nombrar controles para hacerlos accesibles a `ngModel`
+1. Rastrear validez de entrada y estado de control usando `ngModel`.
+   - Agregar CSS personalizado para proporcionar retroalimentación visual sobre el estado
+   - Mostrar y ocultar mensajes de error de validación
+1. Responder a un evento de clic de botón HTML nativo agregando al modelo de datos.
+1. Manejar el envío del formulario usando la propiedad de salida [`ngSubmit`](api/forms/NgForm#properties) del formulario.
+   - Deshabilitar el botón **Submit** hasta que el formulario sea válido
+   - Después del envío, intercambiar el formulario terminado por contenido diferente en la página
 
-## Build the form
+## Construir el formulario
 
 <!-- TODO: link to preview -->
 <!-- <docs-code live/> -->
 
-1. The provided sample application creates the `Actor` class which defines the data model reflected in the form.
+1. La aplicación de ejemplo proporcionada crea la clase `Actor` que define el modelo de datos reflejado en el formulario.
 
 <docs-code header="src/app/actor.ts" language="typescript" path="adev/src/content/examples/forms/src/app/actor.ts"/>
 
-1. The form layout and details are defined in the `ActorFormComponent` class.
+1. El diseño y detalles del formulario están definidos en la clase `ActorFormComponent`.
 
    <docs-code header="src/app/actor-form/actor-form.component.ts (v1)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="v1"/>
 
-   The component's `selector` value of "app-actor-form" means you can drop this form in a parent template using the `<app-actor-form>` tag.
+   El valor `selector` del componente de "app-actor-form" significa que puedes colocar este formulario en una plantilla padre usando la etiqueta `<app-actor-form>`.
 
-1. The following code creates a new actor instance, so that the initial form can show an example actor.
+1. El siguiente código crea una nueva instancia de actor, para que el formulario inicial pueda mostrar un actor de ejemplo.
 
    <docs-code language="typescript" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" language="typescript" visibleRegion="Marilyn"/>
 
-   This demo uses dummy data for `model` and `skills`.
-   In a real app, you would inject a data service to get and save real data, or expose these properties as inputs and outputs.
+   Esta demo usa datos ficticios para `model` y `skills`.
+   En una aplicación real, inyectarías un servicio de datos para obtener y guardar datos reales, o exponerías estas propiedades como entradas y salidas.
 
-1. The component enables the Forms feature by importing the `FormsModule` module.
+1. El siguiente código crea una nueva instancia de actor, para que el formulario inicial pueda mostrar un actor de ejemplo.
 
    <docs-code language="typescript" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" language="typescript" visibleRegion="imports"/>
 
-1. The form is displayed in the application layout defined by the root component's template.
+1. El formulario se muestra en el diseño de la aplicación definido por la plantilla del componente raíz.
 
    <docs-code header="src/app/app.component.html" language="html" path="adev/src/content/examples/forms/src/app/app.component.html"/>
 
-   The initial template defines the layout for a form with two form groups and a submit button.
-   The form groups correspond to two properties of the Actor data model, name and studio.
-   Each group has a label and a box for user input.
+   La plantilla inicial define el diseño para un formulario con dos grupos de formulario y un botón de envío.
+   Los grupos de formulario corresponden a dos propiedades del modelo de datos Actor, nombre y estudio.
+   Cada grupo tiene una etiqueta y una caja para entrada de datos del usuario.
 
-   - The **Name** `<input>` control element has the HTML5 `required` attribute
-   - The **Studio** `<input>` control element does not because `studio` is optional
+   - El elemento de control **Name** `<input>` tiene el atributo HTML5 `required`
+   - El elemento de control **Studio** `<input>` no lo tiene porque `studio` es opcional
 
-   The **Submit** button has some classes on it for styling.
-   At this point, the form layout is all plain HTML5, with no bindings or directives.
+   El botón **Submit** tiene algunas clases para estilos.
+   En este punto, el diseño del formulario es todo HTML5 plano, sin enlaces o directivas.
 
-1. The sample form uses some style classes from [Twitter Bootstrap](https://getbootstrap.com/css): `container`, `form-group`, `form-control`, and `btn`.
-   To use these styles, the application's style sheet imports the library.
+1. El formulario de muestra usa algunas clases de estilo de [Twitter Bootstrap](https://getbootstrap.com/css): `container`, `form-group`, `form-control`, y `btn`.
+   Para usar estos estilos, la hoja de estilo de la aplicación importa la biblioteca.
 
 <docs-code header="src/styles.css" path="adev/src/content/examples/forms/src/styles.1.css"/>
 
-1. The form requires that an actor's skill is chosen from a predefined list of `skills` maintained internally in `ActorFormComponent`.
-   The Angular `@for` loop iterates over the data values to populate the `<select>` element.
+1. El formulario requiere que la habilidad de un actor se elija de una lista predefinida de `skills` mantenida internamente en `ActorFormComponent`.
+   El bucle Angular `@for` itera sobre los valores de datos para llenar el elemento `<select>`.
 
 <docs-code header="src/app/actor-form/actor-form.component.html (skills)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="skills"/>
 
-If you run the application right now, you see the list of skills in the selection control.
-The input elements are not yet bound to data values or events, so they are still blank and have no behavior.
+Si ejecutas la aplicación, verás la lista de habilidades en el control de selección. 
+Los elementos de entrada aún no están enlazados a valores de datos o eventos, por lo que todavía están en blanco y no tienen comportamiento.
 
-## Bind input controls to data properties
+## Vincular controles de entrada a propiedades de datos
 
-The next step is to bind the input controls to the corresponding `Actor` properties with two-way data binding, so that they respond to user input by updating the data model, and also respond to programmatic changes in the data by updating the display.
+El siguiente paso es vincular los controles de entrada a las propiedades `Actor` correspondientes con el enlace de datos bidireccional, para que respondan a la entrada del usuario actualizando el modelo de datos, y también respondan a los cambios programáticos en los datos actualizando la visualización.
 
-The `ngModel` directive declared in the `FormsModule` lets you bind controls in your template-driven form to properties in your data model.
-When you include the directive using the syntax for two-way data binding, `[(ngModel)]`, Angular can track the value and user interaction of the control and keep the view synced with the model.
+La directiva `ngModel` declarada en `FormsModule` te permite vincular controles en tu formulario basado en plantillas a propiedades en tu modelo de datos.
+Cuando incluyes la directiva usando la sintaxis para enlace de datos bidireccional, `[(ngModel)]`, Angular puede rastrear el valor y la interacción del usuario del control y mantener la vista sincronizada con el modelo.
 
-1. Edit the template file `actor-form.component.html`.
-1. Find the `<input>` tag next to the **Name** label.
-1. Add the `ngModel` directive, using two-way data binding syntax `[(ngModel)]="..."`.
+1. Edita el archivo de plantilla `actor-form.component.html`.
+1. Encuentra la etiqueta `<input>` junto a la etiqueta **Name**.
+1. Agrega la directiva `ngModel`, usando la sintaxis de enlace de datos bidireccional `[(ngModel)]="..."`.
 
 <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModelName-1"/>
 
-HELPFUL: This example has a temporary diagnostic interpolation after each input tag, `{{model.name}}`, to show the current data value of the corresponding property. The comment reminds you to remove the diagnostic lines when you have finished observing the two-way data binding at work.
+ÚTIL: Este ejemplo tiene una interpolación de diagnóstico temporal después de cada etiqueta de entrada, `{{model.name}}`, para mostrar el valor de datos actual de la propiedad correspondiente. El comentario te recuerda eliminar las líneas de diagnóstico cuando hayas terminado de observar el enlace de datos bidireccional en funcionamiento.
 
-### Access the overall form status
+### Acceder al estado general del formulario
 
-When you imported the `FormsModule` in your component, Angular automatically created and attached an [NgForm](api/forms/NgForm) directive to the `<form>` tag in the template (because `NgForm` has the selector `form` that matches `<form>` elements).
+Cuando importaste `FormsModule` en tu componente, Angular automáticamente creó y adjuntó una directiva [NgForm](api/forms/NgForm) a la etiqueta `<form>` en la plantilla (porque `NgForm` tiene el selector `form` que coincide con elementos `<form>`).
 
-To get access to the `NgForm` and the overall form status, declare a [template reference variable](guide/templates/variables#template-reference-variables).
+Para obtener acceso a `NgForm` y el estado general del formulario, declara una [variable de referencia de plantilla](guide/templates/variables#template-reference-variables).
 
-1. Edit the template file `actor-form.component.html`.
-1. Update the `<form>` tag with a template reference variable, `#actorForm`, and set its value as follows.
+1. Edita el archivo de plantilla `actor-form.component.html`.
+1. Actualiza la etiqueta `<form>` con una variable de referencia de plantilla, `#actorForm`, y establece su valor como sigue.
 
    <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="template-variable"/>
 
-   The `actorForm` template variable is now a reference to the `NgForm` directive instance that governs the form as a whole.
+La variable de plantilla `actorForm` ahora es una referencia a la instancia de directiva `NgForm` que gobierna el formulario como un todo.
 
-1. Run the app.
-1. Start typing in the **Name** input box.
+1. Ejecuta la aplicación.
+1. Comienza a escribir en la caja de entrada **Name**.
 
-   As you add and delete characters, you can see them appear and disappear from the data model.
+   A medida que agregas y eliminas caracteres, puedes verlos aparecer y desaparecer del modelo de datos.
 
-The diagnostic line that shows interpolated values demonstrates that values are really flowing from the input box to the model and back again.
+La línea de diagnóstico que muestra valores interpolados demuestra que los valores fluyen de la caja de entrada al modelo y viceversa.
 
-### Naming control elements
+### Nombrando elementos de control
 
-When you use `[(ngModel)]` on an element, you must define a `name` attribute for that element.
-Angular uses the assigned name to register the element with the `NgForm` directive attached to the parent `<form>` element.
+Cuando usas `[(ngModel)]` en un elemento, debes definir un atributo `name` para ese elemento.
+Angular usa el nombre asignado para registrar el elemento con la directiva `NgForm` adjunta al elemento `<form>` padre.
 
-The example added a `name` attribute to the `<input>` element and set it to "name", which makes sense for the actor's name.
-Any unique value will do, but using a descriptive name is helpful.
+El ejemplo agregó un atributo `name` al elemento `<input>` y lo estableció como "name", lo cual tiene sentido para el nombre del actor.
+Cualquier valor único funcionará, pero es útil usar un nombre descriptivo.
 
-1. Add similar `[(ngModel)]` bindings and `name` attributes to **Studio** and **Skill**.
-1. You can now remove the diagnostic messages that show interpolated values.
-1. To confirm that two-way data binding works for the entire actor model, add a new text binding with the [`json`](api/common/JsonPipe) pipe at the top to the component's template, which serializes the data to a string.
+1. Agrega enlaces `[(ngModel)]` similares y atributos `name` a **Studio** y **Skill**.
+1. Ahora puedes eliminar los mensajes de diagnóstico que muestran valores interpolados.
+1. Para confirmar que el enlace de datos bidireccional funciona para todo el modelo de actor, agrega un nuevo enlace de texto con el pipe [`json`](api/common/JsonPipe) en la parte superior de la plantilla del componente, que serializa los datos a una cadena.
 
-After these revisions, the form template should look like the following:
+Después de estas revisiones, la plantilla del formulario debería verse como así:
 
 <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModel-2"/>
 
-You'll notice that:
+Notarás que:
 
-- Each `<input>` element has an `id` property.
-  This is used by the `<label>` element's `for` attribute to match the label to its input control.
-  This is a [standard HTML feature](https://developer.mozilla.org/docs/Web/HTML/Element/label).
+- Cada elemento `<input>` tiene una propiedad `id`.
+  Esto es utilizado por el atributo `for` del elemento `<label>` para hacer coincidir la etiqueta con su control de entrada.
+  Esta es una [característica estándar de HTML](https://developer.mozilla.org/es/docs/Web/HTML/Reference/Elements/label).
 
-- Each `<input>` element also has the required `name` property that Angular uses to register the control with the form.
+- Cada elemento `<input>` también tiene la propiedad `name` requerida que Angular usa para registrar el control con el formulario..
 
-When you have observed the effects, you can delete the `{{ model | json }}` text binding.
+Una vez que hayas observado los efectos, puedes eliminar el enlace de texto `{{ model | json }}`.
 
-## Track form states
+## Rastrear los estados del formulario
 
-Angular applies the `ng-submitted` class to `form` elements after the form has been submitted. This class can be used to change the form's style after it has been submitted.
+Angular aplica la clase `ng-submitted` a elementos `form` después de que el formulario ha sido enviado. 
+Estas clases pueden usarse para cambiar el estilo del formulario después de que ha sido enviado
 
-## Track control states
+## Rastrear los estados de control
 
-Adding the `NgModel` directive to a control adds class names to the control that describe its state.
-These classes can be used to change a control's style based on its state.
+Agregar la directiva `NgModel` a un control agrega nombres de clase al control que describen su estado.
 
-The following table describes the class names that Angular applies based on the control's state.
+Estas clases pueden usarse para cambiar el estilo de un control basado en su estado.
 
-| States                           | Class if true | Class if false |
+| Estados                           | Clase si es verdadero | Clase si es falso |
 | :------------------------------- | :------------ | :------------- |
-| The control has been visited.    | `ng-touched`  | `ng-untouched` |
-| The control's value has changed. | `ng-dirty`    | `ng-pristine`  |
-| The control's value is valid.    | `ng-valid`    | `ng-invalid`   |
+| El control ha sido visitado.    | `ng-touched`  | `ng-untouched` |
+| El valor del control ha cambiado. | `ng-dirty`    | `ng-pristine`  |
+| El valor del control es válido.    | `ng-valid`    | `ng-invalid`   |
 
-Angular also applies the `ng-submitted` class to `form` elements upon submission,
-but not to the controls inside the `form` element.
+Angular también aplica la clase `ng-submitted` a los elementos `form` al enviar, 
+pero no a los controles dentro del elemento `form`.
 
-You use these CSS classes to define the styles for your control based on its status.
+Puedes usar estas clases CSS para definir los estilos de tu control en función de su estado.
 
-### Observe control states
+### Observar los estados del control
 
-To see how the classes are added and removed by the framework, open the browser's developer tools and inspect the `<input>` element that represents the actor name.
+Para ver cómo las clases son agregadas y eliminadas por el framework, abre las herramientas de desarrollador del navegador e inspecciona el elemento `<input>` que representa el nombre del actor.
 
-1. Using your browser's developer tools, find the `<input>` element that corresponds to the **Name** input box.
+Usando las herramientas de desarrollador de tu navegador, encuentra el elemento `<input>` que corresponde a la caja de entrada **Name**.
    You can see that the element has multiple CSS classes in addition to "form-control".
 
-1. When you first bring it up, the classes indicate that it has a valid value, that the value has not been changed since initialization or reset, and that the control has not been visited since initialization or reset.
+1. Cuando lo abres por primera vez, las clases indican que tiene un valor válido, que el valor no ha sido cambiado desde la inicialización o reset, y que el control no ha sido visitado desde la inicialización o reset.
 
    <docs-code language="html">
 
@@ -203,34 +203,34 @@ To see how the classes are added and removed by the framework, open the browser'
 
    </docs-code>
 
-1. Take the following actions on the **Name** `<input>` box, and observe which classes appear.
+1. Realiza las siguientes acciones en la caja de entrada `<input>` **Name**, y observa qué clases aparecen.
 
-   - Look but don't touch.
-     The classes indicate that it is untouched, pristine, and valid.
+   - Observa sin tocar.
+     Las clases indican que está sin tocar, pristino y válido.
 
-   - Click inside the name box, then click outside it.
-     The control has now been visited, and the element has the `ng-touched` class instead of the `ng-untouched` class.
+   - Haz clic dentro de la caja de nombre, luego haz clic fuera de ella.
+     El control ahora ha sido visitado, y el elemento tiene la clase `ng-touched` en lugar de la clase `ng-untouched`.
 
-   - Add slashes to the end of the name.
-     It is now touched and dirty.
+   - Agrega barras al final del nombre.
+     Ahora está en estado `touched` y `dirty`.
 
-   - Erase the name.
-     This makes the value invalid, so the `ng-invalid` class replaces the `ng-valid` class.
+   - Borra el nombre.
+     Esto hace que el valor sea inválido, por lo que la clase `ng-invalid` reemplaza la clase `ng-valid`.
 
-### Create visual feedback for states
+### Crea retroalimentación visual para los estados
 
-The `ng-valid`/`ng-invalid` pair is particularly interesting, because you want to send a
-strong visual signal when the values are invalid.
-You also want to mark required fields.
+El par `ng-valid`/`ng-invalid` es particularmente interesante, porque quieres enviar una
+señal visual fuerte cuando los valores son inválidos.
+También quieres marcar campos requeridos.
 
-You can mark required fields and invalid data at the same time with a colored bar
-on the left of the input box.
+Puedes marcar campos requeridos y datos inválidos al mismo tiempo con una barra coloreada
+a la izquierda de la caja de entrada.
 
-To change the appearance in this way, take the following steps.
+Para cambiar la apariencia de esta manera, sigue estos pasos.
 
-1. Add definitions for the `ng-*` CSS classes.
-1. Add these class definitions to a new `forms.css` file.
-1. Add the new file to the project as a sibling to `index.html`:
+1. Agrega definiciones para las clases CSS `ng-*`.
+1. Agrega estas definiciones de clase a un nuevo archivo `forms.css`.
+1. Agrega el nuevo archivo al proyecto como hermano de `index.html`:
 
 <docs-code header="src/assets/forms.css" language="css" path="adev/src/content/examples/forms/src/assets/forms.css"/>
 
@@ -238,167 +238,167 @@ To change the appearance in this way, take the following steps.
 
 <docs-code header="src/index.html (styles)" path="adev/src/content/examples/forms/src/index.html" visibleRegion="styles"/>
 
-### Show and hide validation error messages
+### Mostrar y ocultar mensajes de error de validación
 
-The **Name** input box is required and clearing it turns the bar red.
-That indicates that something is wrong, but the user doesn't know what is wrong or what to do about it.
-You can provide a helpful message by checking for and responding to the control's state.
+La caja de entrada **Name** es requerida y limpiarla convierte la barra en roja.
+Eso indica que algo está mal, pero el usuario no sabe qué está mal o qué hacer al respecto.
+Puedes proporcionar un mensaje útil verificando y respondiendo al estado del control.
 
-The **Skill** select box is also required, but it doesn't need this kind of error handling because the selection box already constrains the selection to valid values.
+El control de de selección **Skill** también es requerida, pero no necesita este tipo de manejo de errores porque ya restringe la selección a valores válidos.
 
-To define and show an error message when appropriate, take the following steps.
+Para definir y mostrar un mensaje de error cuando sea apropiado, sigue estos pasos.
 
 <docs-workflow>
-<docs-step title="Add a local reference to the input">
-Extend the `input` tag with a template reference variable that you can use to access the input box's Angular control from within the template. In the example, the variable is `#name="ngModel"`.
+<docs-step title="Agregar una referencia local a la entrada">
+Extiende la etiqueta `input` con una variable de referencia de plantilla que puedes usar para acceder al control Angular de la caja de entrada desde dentro de la plantilla. En el ejemplo, la variable es `#name="ngModel"`.
 
-The template reference variable (`#name`) is set to `"ngModel"` because that is the value of the [`NgModel.exportAs`](api/core/Directive#exportAs) property. This property tells Angular how to link a reference variable to a directive.
+La variable de referencia de plantilla (`#name`) se establece como `"ngModel"` porque ese es el valor de la propiedad [`NgModel.exportAs`](api/core/Directive#exportAs). Esta propiedad le dice a Angular cómo vincular una variable de referencia a una directiva.
 </docs-step>
 
-<docs-step title="Add the error message">
-Add a `<div>` that contains a suitable error message.
+<docs-step title="Agregar el mensaje de error">
+Agrega un `<div>` que contenga un mensaje de error apropiado.
 </docs-step>
 
-<docs-step title="Make the error message conditional">
-Show or hide the error message by binding properties of the `name` control to the message `<div>` element's `hidden` property.
+<docs-step title="Hacer el mensaje de error condicional">
+Muestra u oculta el mensaje de error vinculando propiedades del control `name` a la propiedad `hidden` del elemento `<div>` del mensaje.
 </docs-step>
 
 <docs-code header="src/app/actor-form/actor-form.component.html (hidden-error-msg)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="hidden-error-msg"/>
 
-<docs-step title="Add a conditional error message to name">
-Add a conditional error message to the `name` input box, as in the following example.
+<docs-step title="Agregar un mensaje de error condicional al nombre">
+Agrega un mensaje de error condicional a la caja de entrada `name`, como en el siguiente ejemplo.
 
 <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="name-with-error-msg"/>
 </docs-step>
 </docs-workflow>
 
-<docs-callout title='Illustrating the "pristine" state'>
+<docs-callout title='Ilustrando el estado "pristine"'>
 
-In this example, you hide the message when the control is either valid or _pristine_.
-Pristine means the user hasn't changed the value since it was displayed in this form.
-If you ignore the `pristine` state, you would hide the message only when the value is valid.
-If you arrive in this component with a new, blank actor or an invalid actor, you'll see the error message immediately, before you've done anything.
+En este ejemplo, ocultas el mensaje cuando el control es válido o _pristine_.
+Pristine significa que el usuario no ha cambiado el valor desde que se mostró en este formulario.
+Si ignoras el estado `pristine`, ocultarías el mensaje solo cuando el valor es válido.
+Si llegas a este componente con un actor nuevo y en blanco o un actor inválido, verás el mensaje de error inmediatamente, antes de haber hecho algo.
 
-You might want the message to display only when the user makes an invalid change.
-Hiding the message while the control is in the `pristine` state achieves that goal.
-You'll see the significance of this choice when you add a new actor to the form in the next step.
+Podrías querer que el mensaje se muestre solo cuando el usuario hace un cambio inválido.
+Ocultar el mensaje mientras el control está en el estado `pristine` logra ese objetivo.
+Verás la importancia de esta elección cuando agregues un nuevo actor al formulario en el siguiente paso.
 
 </docs-callout>
 
-## Add a new actor
+## Agrega un nuevo actor
 
-This exercise shows how you can respond to a native HTML button-click event by adding to the model data.
-To let form users add a new actor, you will add a **New Actor** button that responds to a click event.
+Este ejercicio muestra cómo puedes responder a un evento de clic de botón HTML nativo agregando al modelo de datos.
+Para permitir que los usuarios del formulario agreguen un nuevo actor, agregarás un botón **New Actor** que responde a un evento de clic.
 
-1. In the template, place a "New Actor" `<button>` element at the bottom of the form.
-1. In the component file, add the actor-creation method to the actor data model.
+1. En la plantilla, coloca un elemento `<button>` "New Actor" en la parte inferior del formulario.
+1. En el archivo del componente, agrega el método de creación de actor al modelo de datos de actor.
 
 <docs-code header="src/app/actor-form/actor-form.component.ts (New Actor method)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="new-actor"/>
 
-1. Bind the button's click event to an actor-creation method, `newActor()`.
+1. Vincula el evento de clic del botón a un método de creación de actor, `newActor()`.
 
 <docs-code header="src/app/actor-form/actor-form.component.html (New Actor button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-no-reset"/>
 
-1. Run the application again and click the **New Actor** button.
+1. Ejecuta la aplicación nuevamente y haz clic en el botón **New Actor**.
 
-   The form clears, and the _required_ bars to the left of the input box are red, indicating invalid `name` and `skill` properties.
-   Notice that the error messages are hidden.
-   This is because the form is pristine; you haven't changed anything yet.
+   El formulario se limpia, y las barras _required_ a la izquierda de la caja de entrada se vuelven rojas, indicando propiedades `name` y `skill` inválidas.
+   Observa que los mensajes de error están ocultos.
+   Esto es porque el formulario es pristino; no has cambiado nada aún.
 
-1. Enter a name and click **New Actor** again.
+1. Ingresa un nombre y haz clic en **New Actor** nuevamente.
 
-   Now the application displays a `Name is required` error message, because the input box is no longer pristine.
-   The form remembers that you entered a name before clicking **New Actor**.
+   Ahora la aplicación muestra un mensaje de error `Name is required`, porque la caja de entrada ya no está en estado `pristine`.
+   El formulario recuerda que ingresaste un nombre antes de hacer clic en **New Actor**.
 
-1. To restore the pristine state of the form controls, clear all of the flags imperatively by calling the form's `reset()` method after calling the `newActor()` method.
+1. Para restaurar el estado pristino de los controles del formulario, limpia todas las banderas imperativamente llamando al método `reset()` del formulario después de llamar al método `newActor()`.
 
    <docs-code header="src/app/actor-form/actor-form.component.html (Reset the form)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-form-reset"/>
 
-   Now clicking **New Actor** resets both the form and its control flags.
+   Ahora hacer clic en **New Actor** resetea tanto el formulario como sus banderas de control.
 
-## Submit the form with `ngSubmit`
+## Enviar el formulario con `ngSubmit`
 
-The user should be able to submit this form after filling it in.
-The **Submit** button at the bottom of the form does nothing on its own, but it does trigger a form-submit event because of its type (`type="submit"`).
+El usuario debería poder enviar este formulario después de llenarlo.
+El botón **Submit** en la parte inferior del formulario no hace nada por sí solo, pero activa un evento de envío de formulario debido a su tipo (`type="submit"`).
 
-To respond to this event, take the following steps.
+Para responder a este evento, sigue los siguientes pasos.
 
 <docs-workflow>
 
-<docs-step title="Listen to ngOnSubmit">
-Bind the form's [`ngSubmit`](api/forms/NgForm#properties) event property to the actor-form component's `onSubmit()` method.
+<docs-step title="Escuchar ngOnSubmit">
+Vincula la propiedad de evento [`ngSubmit`](api/forms/NgForm#properties) del formulario al método `onSubmit()` del componente actor-form.
 
 <docs-code header="src/app/actor-form/actor-form.component.html (ngSubmit)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngSubmit"/>
 </docs-step>
 
-<docs-step title="Bind the disabled property">
-Use the template reference variable, `#actorForm` to access the form that contains the **Submit** button and create an event binding.
+<docs-step title="Vincular la propiedad disabled">
+Usa la variable de referencia de plantilla, `#actorForm` para acceder al formulario que contiene el botón **Submit** y crear un enlace de evento.
 
-You will bind the form property that indicates its overall validity to the **Submit** button's `disabled` property.
+Vincularás la propiedad del formulario que indica su validez general a la propiedad `disabled` del botón **Submit**.
 
 <docs-code header="src/app/actor-form/actor-form.component.html (submit-button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submit-button"/>
 </docs-step>
 
-<docs-step title="Run the application">
-Notice that the button is enabled —although it doesn't do anything useful yet.
+<docs-step title="Ejecutar la aplicación">
+Observa que el botón está habilitado —aunque aún no hace nada útil.
 </docs-step>
 
-<docs-step title="Delete the Name value">
-This violates the "required" rule, so it displays the error message —and notice that it also disables the **Submit** button.
+<docs-step title="Eliminar el valor Name">
+Esto viola la regla "required", así que muestra el mensaje de error —y observa que también deshabilita el botón **Submit**.
 
-You didn't have to explicitly wire the button's enabled state to the form's validity.
-The `FormsModule` did this automatically when you defined a template reference variable on the enhanced form element, then referred to that variable in the button control.
+No tuviste que conectar explícitamente el estado habilitado del botón a la validez del formulario.
+`FormsModule` hizo esto automáticamente cuando definiste una variable de referencia de plantilla en el elemento de formulario mejorado, luego referiste a esa variable en el control del botón.
 </docs-step>
 </docs-workflow>
 
-### Respond to form submission
+### Responder al envío del formulario
 
-To show a response to form submission, you can hide the data entry area and display something else in its place.
+Para mostrar una respuesta al envío del formulario, puedes ocultar el área de entrada de datos y mostrar algo más en su lugar.
 
 <docs-workflow>
-<docs-step title="Wrap the form">
-Wrap the entire form in a `<div>` and bind its `hidden` property to the `ActorFormComponent.submitted` property.
+<docs-step title="Envolver el formulario">
+Envuelve todo el formulario en un `<div>` y vincula su propiedad `hidden` a la propiedad `ActorFormComponent.submitted`.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="edit-div"/>
+<docs-code header="src/app/actor-form/actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="edit-div"/>
 
-The main form is visible from the start because the `submitted` property is false until you submit the form, as this fragment from the `ActorFormComponent` shows:
+El formulario principal es visible desde el inicio porque la propiedad `submitted` es falsa hasta que envías el formulario, como muestra este fragmento de `ActorFormComponent`:
 
 <docs-code header="src/app/actor-form/actor-form.component.ts (submitted)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="submitted"/>
 
-When you click the **Submit** button, the `submitted` flag becomes true and the form disappears.
+Cuando haces clic en el botón **Submit**, la bandera `submitted` se vuelve verdadera y el formulario desaparece.
 </docs-step>
 
-<docs-step title="Add the submitted state">
-To show something else while the form is in the submitted state, add the following HTML below the new `<div>` wrapper.
+<docs-step title="Agregar el estado enviado">
+Para mostrar algo más mientras el formulario está en el estado enviado, agrega el siguiente HTML debajo del nuevo envoltorio `<div>`.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submitted"/>
+<docs-code header="src/app/actor-form/actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submitted"/>
 
-This `<div>`, which shows a read-only actor with interpolation bindings, appears only while the component is in the submitted state.
+Este `<div>`, que muestra un actor de solo lectura con enlaces de interpolación, aparece solo mientras el componente está en el estado enviado.
 
-The alternative display includes an _Edit_ button whose click event is bound to an expression that clears the `submitted` flag.
+La visualización alternativa incluye un botón _Edit_ cuyo evento de clic está vinculado a una expresión que limpia la bandera `submitted`.
 </docs-step>
 
-<docs-step title="Test the Edit button">
-Click the *Edit* button to switch the display back to the editable form.
+<docs-step title="Probar el botón Edit">
+Haz clic en el botón *Edit* para cambiar la visualización de vuelta al formulario editable.
 </docs-step>
 </docs-workflow>
 
-## Summary
+## Resumen
 
-The Angular form discussed in this page takes advantage of the following
-framework features to provide support for data modification, validation, and more.
+El formulario de Angular discutido en esta página aprovecha las siguientes
+características del framework para proporcionar soporte para modificación de datos, validación y más.
 
-- An Angular HTML form template
-- A form component class with a `@Component` decorator
-- Handling form submission by binding to the `NgForm.ngSubmit` event property
-- Template-reference variables such as `#actorForm` and `#name`
-- `[(ngModel)]` syntax for two-way data binding
-- The use of `name` attributes for validation and form-element change tracking
-- The reference variable's `valid` property on input controls indicates whether a control is valid or should show error messages
-- Controlling the **Submit** button's enabled state by binding to `NgForm` validity
-- Custom CSS classes that provide visual feedback to users about controls that are not valid
+- Una plantilla de formulario HTML de Angular
+- Una clase de componente de formulario que utiliza un decorador  `@Component`
+- Manejo del envío del formulario vinculando a la propiedad de evento `NgForm.ngSubmit`
+- Variables de referencia de plantilla como `#actorForm` y `#name`
+- Sintaxis `[(ngModel)]` para enlace de datos bidireccional
+- El uso de atributos `name` para la validación y el seguimiento de lo scambios en los elementos del formulario
+- La propiedad `valid` de la variable de referencia en controles de entrada indica si un control es válido o debería mostrar mensajes de error
+- Controlar el estado habilitado del botón **Submit** vinculando a la validez de `NgForm`
+- Clases CSS personalizadas que proporcionan retroalimentación visual a los usuarios sobre controles que no son válidos
 
-Here's the code for the final version of the application:
+Aquí está el código para la versión final de la aplicación:
 
 <docs-code-multifile>
     <docs-code header="actor-form/actor-form.component.ts" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="final"/>

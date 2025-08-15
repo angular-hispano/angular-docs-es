@@ -396,35 +396,35 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Forms',
+        label: 'Formularios',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/forms',
             contentPath: 'guide/forms/overview',
           },
           {
-            label: 'Reactive forms',
+            label: 'Formularios reactivos',
             path: 'guide/forms/reactive-forms',
             contentPath: 'guide/forms/reactive-forms',
           },
           {
-            label: 'Strictly typed reactive forms',
+            label: 'Formularios reactivos estrictamente tipados',
             path: 'guide/forms/typed-forms',
             contentPath: 'guide/forms/typed-forms',
           },
           {
-            label: 'Template-driven forms',
+            label: 'Formularios basados en plantillas',
             path: 'guide/forms/template-driven-forms',
             contentPath: 'guide/forms/template-driven-forms',
           },
           {
-            label: 'Validate form input',
+            label: 'Validar entrada de formularios',
             path: 'guide/forms/form-validation',
             contentPath: 'guide/forms/form-validation',
           },
           {
-            label: 'Building dynamic forms',
+            label: 'Construir formularios dinámicos',
             path: 'guide/forms/dynamic-forms',
             contentPath: 'guide/forms/dynamic-forms',
           },
