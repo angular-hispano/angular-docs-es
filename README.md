@@ -18,4 +18,4 @@ Revisa la guia de actualización en [UPDATE-ORIGIN.md](./UPDATE-ORIGIN.md)
 
 ## Comunidad
 
-Puedes unirte a nuestra comunidad en [Angular Hispano Discord](https://discord.gg/zRsMufaS)
+Puedes unirte a nuestra comunidad en [Angular Hispano Discord](https://discord.gg/4jgk3ddgAx)
