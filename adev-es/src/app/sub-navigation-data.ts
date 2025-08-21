@@ -94,7 +94,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/components/selectors',
           },
           {
-            label: 'Styling',
+            label: 'Estilos',
             path: 'guide/components/styling',
             contentPath: 'guide/components/styling',
           },
