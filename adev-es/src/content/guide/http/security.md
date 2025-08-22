@@ -1,42 +1,42 @@
-# `HttpClient` security
+# Seguridad en `HttpClient`
 
-`HttpClient` includes built-in support for two common HTTP security mechanisms: XSSI protection and XSRF/CSRF protection.
+`HttpClient` incluye soporte integrado para dos mecanismos de seguridad HTTP comunes: protección XSSI y protección XSRF/CSRF.
 
-TIP: Also consider adopting a [Content Security Policy](https://developer.mozilla.org/docs/Web/HTTP/Headers/Content-Security-Policy) for your APIs.
+CONSEJO: También considera adoptar una [Política de Seguridad de Contenido](https://developer.mozilla.org/docs/Web/HTTP/Headers/Content-Security-Policy) para tus APIs.
 
-## XSSI protection
+## Protección XSSI
 
-Cross-Site Script Inclusion (XSSI) is a form of [Cross-Site Scripting](https://en.wikipedia.org/wiki/Cross-site_scripting) attack where an attacker loads JSON data from your API endpoints as `<script>`s on a page they control. Different JavaScript techniques can then be used to access this data.
+La Inclusión de Scripts Entre Sitios (XSSI) es una forma de ataque de [Scripting Entre Sitios](https://es.wikipedia.org/wiki/Cross-site_scripting) donde un atacante carga datos JSON de tus endpoints de API como `<script>`s en una página que controla. Diferentes técnicas de JavaScript pueden entonces usarse para acceder a estos datos.
 
-A common technique to prevent XSSI is to serve JSON responses with a "non-executable prefix", commonly `)]}',\n`. This prefix prevents the JSON response from being interpreted as valid executable JavaScript. When the API is loaded as data, the prefix can be stripped before JSON parsing.
+Una técnica común para prevenir XSSI es servir respuestas JSON con un "prefijo no ejecutable", comúnmente `)]}',\n`. Este prefijo previene que la respuesta JSON sea interpretada como JavaScript ejecutable válido. Cuando la API se carga como datos, el prefijo puede eliminarse antes del análisis JSON.
 
-`HttpClient` automatically strips this XSSI prefix (if present) when parsing JSON from a response.
+`HttpClient` automáticamente elimina este prefijo XSSI (si está presente) al analizar JSON de una respuesta.
 
-## XSRF/CSRF protection
+## Protección XSRF/CSRF
 
-[Cross-Site Request Forgery (XSRF or CSRF)](https://en.wikipedia.org/wiki/Cross-site_request_forgery) is an attack technique by which the attacker can trick an authenticated user into unknowingly executing actions on your website.
+[Falsificación de Solicitudes Entre Sitios (XSRF o CSRF)](https://es.wikipedia.org/wiki/Cross-site_request_forgery) es una técnica de ataque mediante la cual el atacante puede engañar a un usuario autenticado para que ejecute acciones en tu sitio web sin saberlo.
 
-`HttpClient` supports a [common mechanism](https://en.wikipedia.org/wiki/Cross-site_request_forgery#Cookie-to-header_token) used to prevent XSRF attacks. When performing HTTP requests, an interceptor reads a token from a cookie, by default `XSRF-TOKEN`, and sets it as an HTTP header, `X-XSRF-TOKEN`. Because only code that runs on your domain could read the cookie, the backend can be certain that the HTTP request came from your client application and not an attacker.
+`HttpClient` soporta un [mecanismo común](https://es.wikipedia.org/wiki/Cross-site_request_forgery#Cookie-to-header_token) usado para prevenir ataques XSRF. Al realizar solicitudes HTTP, un interceptor lee un token de una cookie, por defecto `XSRF-TOKEN`, y lo establece como un encabezado HTTP, `X-XSRF-TOKEN`. Debido a que solo el código que se ejecuta en tu dominio podría leer la cookie, el backend puede estar seguro de que la solicitud HTTP vino de tu aplicación cliente y no de un atacante.
 
-By default, an interceptor sends this header on all mutating requests (such as `POST`) to relative URLs, but not on GET/HEAD requests or on requests with an absolute URL.
+Por defecto, un interceptor envía este encabezado en todas las solicitudes de mutación (como `POST`) a URLs relativas, pero no en solicitudes GET/HEAD o en solicitudes con una URL absoluta.
 
-<docs-callout helpful title="Why not protect GET requests?">
-CSRF protection is only needed for requests that can change state on the backend. By their nature, CSRF attacks cross domain boundaries, and the web's [same-origin policy](https://developer.mozilla.org/docs/Web/Security/Same-origin_policy) will prevent an attacking page from retrieving the results of authenticated GET requests.
+<docs-callout helpful title="¿Por qué no proteger las solicitudes GET?">
+La protección CSRF solo es necesaria para solicitudes que pueden cambiar el estado en el backend. Por su naturaleza, los ataques CSRF cruzan límites de dominio, y la [política de mismo origen](https://developer.mozilla.org/es/docs/Web/Security/Same-origin_policy) de la web impedirá que una página atacante recupere los resultados de solicitudes GET autenticadas.
 </docs-callout>
 
-To take advantage of this, your server needs to set a token in a JavaScript readable session cookie called `XSRF-TOKEN` on either the page load or the first GET request. On subsequent requests the server can verify that the cookie matches the `X-XSRF-TOKEN` HTTP header, and therefore be sure that only code running on your domain could have sent the request. The token must be unique for each user and must be verifiable by the server; this prevents the client from making up its own tokens. Set the token to a digest of your site's authentication cookie with a salt for added security.
+Para aprovechar esto, tu servidor necesita establecer un token en una cookie de sesión legible por JavaScript llamada `XSRF-TOKEN` ya sea en la carga de la página o en la primera solicitud GET. En solicitudes posteriores, el servidor puede verificar que la cookie coincida con el encabezado HTTP `X-XSRF-TOKEN`, y por lo tanto estar seguro de que solo el código que se ejecuta en tu dominio podría haber enviado la solicitud. El token debe ser único para cada usuario y debe ser verificable por el servidor; esto previene que el cliente invente sus propios tokens. Establece el token como un resumen de la cookie de autenticación de tu sitio con una sal para mayor seguridad.
 
-To prevent collisions in environments where multiple Angular apps share the same domain or subdomain, give each application a unique cookie name.
+Para prevenir colisiones en entornos donde múltiples aplicaciones Angular comparten el mismo dominio o subdominio, dale a cada aplicación un nombre de cookie único.
 
-<docs-callout important title="HttpClient supports only the client half of the XSRF protection scheme">
-  Your backend service must be configured to set the cookie for your page, and to verify that the header is present on all eligible requests. Failing to do so renders Angular's default protection ineffective.
+<docs-callout important title="HttpClient solo soporta la mitad del cliente del esquema de protección XSRF">
+  Tu servicio backend debe estar configurado para establecer la cookie para tu página, y para verificar que el encabezado esté presente en todas las solicitudes elegibles. No hacerlo hace que la protección predeterminada de Angular sea inefectiva.
 </docs-callout>
 
-### Configure custom cookie/header names
+### Configura nombres personalizados de cookie/encabezado
 
-If your backend service uses different names for the XSRF token cookie or header, use `withXsrfConfiguration` to override the defaults.
+Si tu servicio backend usa nombres diferentes para la cookie o encabezado del token XSRF, usa `withXsrfConfiguration` para sobrescribir los valores predeterminados.
 
-Add it to the `provideHttpClient` call as follows:
+Agrégalo a la llamada de `provideHttpClient` de la siguiente manera:
 
 <docs-code language="ts">
 export const appConfig: ApplicationConfig = {
@@ -51,9 +51,9 @@ export const appConfig: ApplicationConfig = {
 };
 </docs-code>
 
-### Disabling XSRF protection
+### Desabilitando la protección XSRF 
 
-If the built-in XSRF protection mechanism doesn't work for your application, you can disable it using the `withNoXsrfProtection` feature:
+Si el mecanismo de protección XSRF integrado no funciona para tu aplicación, puedes deshabilitarlo usando la característica `withNoXsrfProtection`:
 
 <docs-code language="ts">
 export const appConfig: ApplicationConfig = {

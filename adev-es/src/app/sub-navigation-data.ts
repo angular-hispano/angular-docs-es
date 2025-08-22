@@ -431,30 +431,35 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'HTTP Client',
+        label: 'Cliente HTTP',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/http',
             contentPath: 'guide/http/overview',
           },
           {
-            label: 'Setting up HttpClient',
+            label: 'Configurando HttpClient',
             path: 'guide/http/setup',
             contentPath: 'guide/http/setup',
           },
           {
-            label: 'Making requests',
+            label: 'Realizando solicitudes HTTP',
             path: 'guide/http/making-requests',
             contentPath: 'guide/http/making-requests',
           },
           {
-            label: 'Intercepting requests and responses',
+            label: 'Obtención reactiva de datos con httpResource',
+            path: 'guide/http/http-resource',
+            contentPath: 'guide/http/http-resource',
+          },
+          {
+            label: 'Interceptando peticiones y respuestas',
             path: 'guide/http/interceptors',
             contentPath: 'guide/http/interceptors',
           },
           {
-            label: 'Testing',
+            label: 'Pruebas',
             path: 'guide/http/testing',
             contentPath: 'guide/http/testing',
           },
