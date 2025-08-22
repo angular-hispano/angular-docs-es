@@ -1,84 +1,84 @@
-# Making HTTP requests
+# Realizando solicitudes HTTP
 
-`HttpClient` has methods corresponding to the different HTTP verbs used to make requests, both to load data and to apply mutations on the server. Each method returns an [RxJS `Observable`](https://rxjs.dev/guide/observable) which, when subscribed, sends the request and then emits the results when the server responds.
+`HttpClient` tiene métodos correspondientes a los diferentes verbos HTTP utilizados para hacer solicitudes, tanto para cargar datos como para aplicar mutaciones en el servidor. Cada método devuelve un [RxJS `Observable`](https://rxjs.dev/guide/observable) que, al sucribirse se suscribe, envía la solicitud y luego emite los resultados cuando el servidor responde.
 
-NOTE: `Observable`s created by `HttpClient` may be subscribed any number of times and will make a new backend request for each subscription.
+NOTA: Los `Observable`s creados por `HttpClient` pueden suscribirse cualquier número de veces y harán una nueva solicitud al backend por cada suscripción.
 
-Through an options object passed to the request method, various properties of the request and the returned response type can be adjusted.
+A través de un objeto de opciones pasado al método de solicitud, se pueden ajustar varias propiedades de la solicitud y del tipo de respuesta devuelta.
 
-## Fetching JSON data
+## Obteniendo datos JSON
 
-Fetching data from a backend often requires making a GET request using the [`HttpClient.get()`](api/common/http/HttpClient#get) method. This method takes two arguments: the string endpoint URL from which to fetch, and an *optional options* object to configure the request.
+Obtener datos de un backend con frecuencia requiere hacer una solicitud GET usando el método [`HttpClient.get()`](api/common/http/HttpClient#get). Este método toma dos argumentos: la URL del endpoint como string desde donde obtener los datos, y un objeto de *opciones opcionales* para configurar la solicitud.
 
-For example, to fetch configuration data from a hypothetical API using the `HttpClient.get()` method:
+Por ejemplo, para obtener datos de configuración de una API hipotética usando el método `HttpClient.get()`:
 
 <docs-code language="ts">
 http.get<Config>('/api/config').subscribe(config => {
-  // process the configuration.
+  // procesar la configuración.
 });
 </docs-code>
 
-Note the generic type argument which specifies that the data returned by the server will be of type `Config`. This argument is optional, and if you omit it then the returned data will have type `Object`.
+Observa el argumento de tipo genérico que especifica que los datos devueltos por el servidor serán de tipo `Config`. Este argumento es opcional, y si lo omites, los datos devueltos tendrán tipo `Object`.
 
-TIP: When dealing with data of uncertain structure and potential `undefined` or `null` values, consider using the `unknown` type instead of `Object` as the response type.
+CONSEJO: Cuando trabajes con datos de estructura incierta y valores potencialmente `undefined` o `null`, considera usar el tipo `unknown` en lugar de `Object` como tipo de respuesta.
 
-CRITICAL: The generic type of request methods is a type **assertion** about the data returned by the server. `HttpClient` does not verify that the actual return data matches this type.
+CRÍTICO: El tipo genérico de los métodos de solicitud es una **afirmación** de tipo sobre los datos devueltos por el servidor. `HttpClient` no verifica que los datos de retorno reales coincidan con este tipo.
 
-## Fetching other types of data
+## Obteniendo otros tipos de datos
 
-By default, `HttpClient` assumes that servers will return JSON data. When interacting with a non-JSON API, you can tell `HttpClient` what response type to expect and return when making the request. This is done with the `responseType` option.
+Por defecto, `HttpClient` asume que los servidores devolverán datos JSON. Cuando interactúes con una API que no sea JSON, puedes decirle a `HttpClient` qué tipo de respuesta esperar y devolver al hacer la solicitud. Esto se hace con la opción `responseType`.
 
-| **`responseType` value** | **Returned response type** |
+| **`Valor de responseType`** | **Tipo de respuesta devuelto** |
 | - | - |
-| `'json'` (default) | JSON data of the given generic type |
-| `'text'` | string data |
-| `'arraybuffer'` | [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) containing the raw response bytes |
-| `'blob'` | [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob) instance |
+| `'json'` (por defecto) | Datos JSON del tipo genérico dado |
+| `'text'` | Cadena de texto (string) |
+| `'arraybuffer'` | [`ArrayBuffer`](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) que contiene los bytes de respuesta sin procesar |
+| `'blob'` | instance [`Blob`](https://developer.mozilla.org/es/docs/Web/API/Blob) |
 
-For example, you can ask `HttpClient` to download the raw bytes of a `.jpeg` image into an `ArrayBuffer`:
+Por ejemplo, puedes pedirle al `HttpClient` que descargue los bytes sin procesar de una imagen `.jpeg` en un `ArrayBuffer`:
 
 <docs-code language="ts">
 http.get('/images/dog.jpg', {responseType: 'arraybuffer'}).subscribe(buffer => {
-  console.log('The image is ' + buffer.byteLength + ' bytes large');
+  console.log('La imagen tiene ' + buffer.byteLength + ' bytes de tamaño');
 });
 </docs-code>
 
-<docs-callout important title="Literal value for `responseType`">
-Because the value of `responseType` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="Valor literal para `responseType">
+Debido a que el valor de `responseType` afecta el tipo devuelto por `HttpClient`, debe tener un tipo literal y no un tipo `string`.
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `responseType: 'text' as const`.
+Esto sucede automáticamente si el objeto de opciones pasado al método de solicitud es un objeto literal, pero si estás extrayendo las opciones de solicitud a una variable o método auxiliar, podrías necesitar especificarlo explícitamente como literal, por ejemplo: `responseType: 'text' as const`.
 </docs-callout>
 
-## Mutating server state
+## Modificando el estado del servidor
 
-Server APIs which perform mutations often require making POST requests with a request body specifying the new state or the change to be made.
+Las APIs del servidor que realizan mutaciones con frecuencia requieren hacer solicitudes POST con un cuerpo de solicitud que especifique el nuevo estado o el cambio a realizar.
 
-The [`HttpClient.post()`](api/common/http/HttpClient#post) method behaves similarly to `get()`, and accepts an additional `body` argument before its options:
+El método [`HttpClient.post()`](api/common/http/HttpClient#post) se comporta de manera similar a `get()`, y acepta un argumento `body` adicional antes de sus opciones:
 
 <docs-code language="ts">
 http.post<Config>('/api/config', newConfig).subscribe(config => {
-  console.log('Updated config:', config);
+  console.log('Configuración actualizada:', config);
 });
 </docs-code>
 
-Many different types of values can be provided as the request's `body`, and `HttpClient` will serialize them accordingly:
+Se pueden proporcionar muchos tipos diferentes de valores como `body` de la solicitud, y `HttpClient` los serializará en consecuencia:
 
-| **`body` type** | **Serialized as** |
+| **Tipo de `body`** | **Serializado as** |
 | - | - |
-| string | Plain text |
-| number, boolean, array, or plain object | JSON |
-| [`ArrayBuffer`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) | raw data from the buffer |
-| [`Blob`](https://developer.mozilla.org/docs/Web/API/Blob) | raw data with the `Blob`'s content type |
-| [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData) | `multipart/form-data` encoded data |
-| [`HttpParams`](api/common/http/HttpParams) or [`URLSearchParams`](https://developer.mozilla.org/docs/Web/API/URLSearchParams) | `application/x-www-form-urlencoded` formatted string |
+| string | Texto plano |
+| number, boolean, array, u objeto plano | JSON |
+| [`ArrayBuffer`](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) | datos sin procesar del buffer |
+| [`Blob`](https://developer.mozilla.org/es/docs/Web/API/Blob) | datos sin procesar con el tipo de contenido del `Blob |
+| [`FormData`](https://developer.mozilla.org/es/docs/Web/API/FormData) | datos codificados `multipart/form-data` |
+| [`HttpParams`](api/common/http/HttpParams) o [`URLSearchParams`](https://developer.mozilla.org/es/docs/Web/API/URLSearchParams) | string formateado `application/x-www-form-urlencoded` |
 
-IMPORTANT: Remember to `.subscribe()` to mutation request `Observable`s in order to actually fire the request.
+IMPORTANTE: Recuerda hacer `.subscribe()` a los `Observable`s de solicitudes de mutación para realmente ejecutar la solicitud.
 
-## Setting URL parameters
+## Configurando parámetros de URL parameters
 
-Specify request parameters that should be included in the request URL using the `params` option.
+Especifica los parámetros de solicitud que deben incluirse en la URL de la solicitud usando la opción `params`.
 
-Passing an object literal is the simplest way of configuring URL parameters:
+Pasar un objeto literal es la forma más simple de configurar parámetros de URL:
 
 <docs-code language="ts">
 http.get('/api/config', {
@@ -88,9 +88,9 @@ http.get('/api/config', {
 });
 </docs-code>
 
-Alternatively, pass an instance of `HttpParams` if you need more control over the construction or serialization of the parameters.
+Alternativamente, puedes pasar una instancia de `HttpParams` si necesitas más control sobre la construcción o serialización de los parámetros.
 
-IMPORTANT: Instances of `HttpParams` are _immutable_ and cannot be directly changed. Instead, mutation methods such as `append()` return a new instance of `HttpParams` with the mutation applied.
+IMPORTANTE: Las instancias de `HttpParams` son _inmutables_ y no se pueden cambiar directamente. En su lugar, los métodos de mutación como `append()` devuelven una nueva instancia de `HttpParams` con la mutación aplicada.
 
 <docs-code language="ts">
 const baseParams = new HttpParams().set('filter', 'all');
@@ -102,13 +102,13 @@ http.get('/api/config', {
 });
 </docs-code>
 
-You can instantiate `HttpParams` with a custom `HttpParameterCodec` that determines how `HttpClient` will encode the parameters into the URL.
+Puedes instanciar `HttpParams` con un `HttpParameterCodec` personalizado que determine cómo `HttpClient` codificará los parámetros en la URL.
 
-## Setting request headers
+## Configurando encabezados de solicitud
 
-Specify request headers that should be included in the request using the `headers` option.
+Especifica los encabezados de solicitud que deben incluirse en la solicitud usando la opción `headers`.
 
-Passing an object literal is the simplest way of configuring request headers:
+Pasar un objeto literal es la forma más simple de configurar encabezados de solicitud:
 
 <docs-code language="ts">
 http.get('/api/config', {
@@ -120,9 +120,9 @@ http.get('/api/config', {
 });
 </docs-code>
 
-Alternatively, pass an instance of `HttpHeaders` if you need more control over the construction of headers
+Alternativamente, pasa una instancia de `HttpHeaders` si necesitas más control sobre la construcción de encabezados
 
-IMPORTANT: Instances of `HttpHeaders` are _immutable_ and cannot be directly changed. Instead, mutation methods such as `append()` return a new instance of `HttpHeaders` with the mutation applied.
+IMPORTANTE: Las instancias de `HttpHeaders` son _inmutables_ y no se pueden cambiar directamente. En su lugar, los métodos de mutación como `append()` devuelven una nueva instancia de `HttpHeaders` con la mutación aplicada.
 
 <docs-code language="ts">
 const baseHeaders = new HttpHeaders().set('X-Debug-Level', 'minimal');
@@ -134,34 +134,34 @@ http.get<Config>('/api/config', {
 });
 </docs-code>
 
-## Interacting with the server response events
+## Interactuando con los eventos de respuesta del servidor
 
-For convenience, `HttpClient` by default returns an `Observable` of the data returned by the server (the response body). Occasionally it's desirable to examine the actual response, for example to retrieve specific response headers.
+Por conveniencia, `HttpClient` devuelve por defecto un `Observable` con los datos de la respuesta (el body). A veces es útil examinar la respuesta completa, por ejemplo, para obtener cabeceras específicas.
 
-To access the entire response, set the `observe` option to `'response'`:
+Para acceder a toda la respuesta, establece la opción `observe` en `'response'`:
 
 <docs-code language="ts">
 http.get<Config>('/api/config', {observe: 'response'}).subscribe(res => {
-  console.log('Response status:', res.status);
-  console.log('Body:', res.body);
+  console.log('Estado de respuesta:', res.status);
+  console.log('Cuerpo:', res.body);
 });
 </docs-code>
 
-<docs-callout important title="Literal value for `observe`">
-Because the value of `observe` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="Valor literal para `observe`">
+Debido a que el valor de `observe` afecta el tipo devuelto por `HttpClient`, debe tener un tipo literal y no un tipo `string`.
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `observe: 'response' as const`.
+Esto sucede automáticamente si el objeto de opciones pasado al método de solicitud es un objeto literal, pero si estás extrayendo las opciones de solicitud a una variable o método auxiliar, podrías necesitar especificarlo explícitamente como literal, por ejemplo: `observe: 'response' as const`.
 </docs-callout>
 
-## Receiving raw progress events
+## Recibiendo eventos de progreso sin procesar
 
-In addition to the response body or response object, `HttpClient` can also return a stream of raw _events_ corresponding to specific moments in the request lifecycle. These events include when the request is sent, when the response header is returned, and when the body is complete. These events can also include _progress events_ which report upload and download status for large request or response bodies.
+Además del cuerpo de la respuesta o el objeto de respuesta, `HttpClient` también puede devolver una secuencia de _eventos_ sin procesar que corresponden a momentos específicos en el ciclo de vida de la solicitud. Estos eventos incluyen cuando se envía la solicitud, cuando se devuelve el encabezado de respuesta, y cuando el cuerpo está completo. Estos eventos también pueden incluir _eventos de progreso_ que reportan el estado de carga y descarga para cuerpos de solicitud o respuesta grandes.
 
-Progress events are disabled by default (as they have a performance cost) but can be enabled with the `reportProgress` option.
+Los eventos de progreso están deshabilitados por defecto (ya que tienen un costo de rendimiento) pero se pueden habilitar con la opción `reportProgress`.
 
-NOTE: The optional `fetch` implementation of `HttpClient` does not report _upload_ progress events.
+NOTA: La implementación opcional `fetch` de `HttpClient` no reporta eventos de progreso de _carga_.
 
-To observe the event stream, set the `observe` option to `'events'`:
+Para observar la secuencia de eventos, establece la opción `observe` en `'events'`:
 
 <docs-code language="ts">
 http.post('/api/upload', myData, {
@@ -170,66 +170,66 @@ http.post('/api/upload', myData, {
 }).subscribe(event => {
   switch (event.type) {
     case HttpEventType.UploadProgress:
-      console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
+      console.log('Cargados ' + event.loaded + ' de ' + event.total + ' bytes');
       break;
     case HttpEventType.Response:
-      console.log('Finished uploading!');
+      console.log('¡Carga finalizada!');
       break;
   }
 });
 </docs-code>
 
-<docs-callout important title="Literal value for `observe`">
-Because the value of `observe` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="Valor literal para `observe`">
+Debido a que el valor de `observe` afecta el tipo devuelto por `HttpClient`, debe tener un tipo literal y no un tipo `string`.
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `observe: 'events' as const`.
+Esto sucede automáticamente si el objeto de opciones pasado al método de solicitud es un objeto literal, pero si estás extrayendo las opciones de solicitud a una variable o método auxiliar, podrías necesitar especificarlo explícitamente como literal, como `observe: 'events' as const`.
 </docs-callout>
 
-Each `HttpEvent` reported in the event stream has a `type` which distinguishes what the event represents:
+Cada `HttpEvent` reportado en la secuencia de eventos tiene un `type` que distingue lo que representa el evento:
 
-| **`type` value** | **Event meaning** |
+| **Valor de `type`** | **Significado del evento** |
 | - | - |
-| `HttpEventType.Sent` | The request has been dispatched to the server |
-| `HttpEventType.UploadProgress` | An `HttpUploadProgressEvent` reporting progress on uploading the request body |
-| `HttpEventType.ResponseHeader` | The head of the response has been received, including status and headers |
+| `HttpEventType.Sent` | La solicitud ha sido enviada al servidor |
+| `HttpEventType.UploadProgress` | Un `HttpUploadProgressEvent` reportando progreso en la carga del cuerpo de la solicitud |
+| `HttpEventType.ResponseHeader` | Se ha recibido el encabezado de la respuesta, incluyendo estado y encabezados |
 | `HttpEventType.DownloadProgress` | An `HttpDownloadProgressEvent` reporting progress on downloading the response body |
-| `HttpEventType.Response` | The entire response has been received, including the response body |
-| `HttpEventType.User` | A custom event from an Http interceptor.
+| `HttpEventType.Response` | Se ha recibido toda la respuesta, incluyendo el cuerpo de la respuesta |
+| `HttpEventType.User` | Un evento personalizado de un interceptor Http.
 
-## Handling request failure
+## Manejando fallos de solicitud
 
-There are two ways an HTTP request can fail:
+Hay dos formas en que una solicitud HTTP puede fallar:
 
-* A network or connection error can prevent the request from reaching the backend server.
-* The backend can receive the request but fail to process it, and return an error response.
+* Un error de red o conexión puede impedir que la solicitud llegue al servidor backend.
+* El backend puede recibir la solicitud pero fallar al procesarla, y devolver una respuesta de error.
 
-`HttpClient` captures both kinds of errors in an `HttpErrorResponse` which it returns through the `Observable`'s error channel. Network errors have a `status` code of `0` and an `error` which is an instance of [`ProgressEvent`](https://developer.mozilla.org/docs/Web/API/ProgressEvent). Backend errors have the failing `status` code returned by the backend, and the error response as the `error`. Inspect the response to identify the error's cause and the appropriate action to handle the error.
+`HttpClient` captura ambos tipos de errores en un `HttpErrorResponse` que devuelve a través del canal de error del `Observable`. Los errores de red tienen un código de `status` de `0` y un `error` que es una instancia de [`ProgressEvent`](https://developer.mozilla.org/docs/Web/API/ProgressEvent). Los errores del backend tienen el código de `status` fallido devuelto por el backend, y la respuesta de error como `error`. Inspecciona la respuesta para identificar la causa del error y la acción apropiada para manejar el error.
 
-The [RxJS library](https://rxjs.dev/) offers several operators which can be useful for error handling.
+La [librería RxJS](https://rxjs.dev/) ofrece varios operadores que pueden ser útiles para el manejo de errores.
 
-You can use the `catchError` operator to transform an error response into a value for the UI. This value can tell the UI to display an error page or value, and capture the error's cause if necessary.
+Puedes usar el operador `catchError` para transformar una respuesta de error en un valor para la UI. Este valor puede decirle a la UI que muestre una página o valor de error, y capturar la causa del error si es necesario.
 
-Sometimes transient errors such as network interruptions can cause a request to fail unexpectedly, and simply retrying the request will allow it to succeed. RxJS provides several *retry* operators which automatically re-subscribe to a failed `Observable` under certain conditions. For example, the `retry()` operator will automatically attempt to re-subscribe a specified number of times.
+A veces, errores transitorios como interrupciones de red pueden hacer que una solicitud falle inesperadamente, y simplemente reintentar la solicitud permitirá que tenga éxito. RxJS proporciona varios operadores de *reintento* que automáticamente se re-suscriben a un `Observable` fallido bajo ciertas condiciones. Por ejemplo, el operador `retry()` automáticamente intentará re-suscribirse un número especificado de veces.
 
-## Http `Observable`s
+## `Observable`s Http
 
-Each request method on `HttpClient` constructs and returns an `Observable` of the requested response type. Understanding how these `Observable`s work is important when using `HttpClient`.
+Cada método de solicitud en `HttpClient` construye y devuelve un `Observable` del tipo de respuesta solicitado. Entender cómo funcionan estos `Observable`s es importante al usar `HttpClient`.
 
-`HttpClient` produces what RxJS calls "cold" `Observable`s, meaning that no actual request happens until the `Observable` is subscribed. Only then is the request actually dispatched to the server. Subscribing to the same `Observable` multiple times will trigger multiple backend requests. Each subscription is independent.
+`HttpClient` produce lo que RxJS llama `Observable`s "fríos", lo que significa que no ocurre ninguna solicitud real hasta que se suscribe al `Observable`. Solo entonces se envía realmente la solicitud al servidor. Suscribirse al mismo `Observable` múltiples veces activará múltiples solicitudes al backend. Cada suscripción es independiente.
 
-TIP: You can think of `HttpClient` `Observable`s as _blueprints_ for actual server requests.
+CONSEJO: Puedes pensar en los `Observable`s de `HttpClient` como _planos_ para solicitudes reales del servidor.
 
-Once subscribed, unsubscribing will abort the in-progress request. This is very useful if the `Observable` is subscribed via the `async` pipe, as it will automatically cancel the request if the user navigates away from the current page. Additionally, if you use the `Observable` with an RxJS combinator like `switchMap`, this cancellation will clean up any stale requests.
+Una vez suscrito, cancelar la suscripción abortará la solicitud en progreso. Esto es muy útil si el `Observable` se suscribe a través del pipe `async`, ya que automáticamente cancelará la solicitud si el usuario navega fuera de la página actual. Además, si usas el `Observable` con un combinador RxJS como `switchMap`, esta cancelación limpiará cualquier solicitud obsoleta.
 
-Once the response returns, `Observable`s from `HttpClient` usually complete (although interceptors can influence this).
+Una vez que la respuesta regresa, los `Observable`s de `HttpClient` usualmente se completan (aunque los interceptores pueden influir en esto).
 
-Because of the automatic completion, there is usually no risk of memory leaks if `HttpClient` subscriptions are not cleaned up. However, as with any async operation, we strongly recommend that you clean up subscriptions when the component using them is destroyed, as the subscription callback may otherwise run and encounter errors when it attempts to interact with the destroyed component.
+Debido a la finalización automática, generalmente no hay riesgo de fugas de memoria si las suscripciones de `HttpClient` no se limpian. Sin embargo, como con cualquier operación asíncrona, recomendamos encarecidamente que limpies las suscripciones cuando el componente que las usa se destruya, ya que el callback de suscripción podría ejecutarse y encontrar errores cuando intente interactuar con el componente destruido.
 
-TIP: Using the `async` pipe or the `toSignal` operation to subscribe to `Observable`s ensures that subscriptions are disposed properly.
+CONSEJO: Usar el pipe `async` o la operación `toSignal` para suscribirse a `Observable`s asegura que las suscripciones se eliminen correctamente.
 
-## Best practices
+## Mejores prácticas
 
-While `HttpClient` can be injected and used directly from components, generally we recommend you create reusable, injectable services which isolate and encapsulate data access logic. For example, this `UserService` encapsulates the logic to request data for a user by their id:
+Aunque `HttpClient` puede ser inyectado y usado directamente desde los componentes, generalmente se recomienda que crees servicios reutilizables e inyectables que aíslen y encapsulen la lógica de acceso a datos. Por ejemplo, este `UserService` encapsula la lógica para solicitar datos de un usuario por su id:
 
 <docs-code language="ts">
 @Injectable({providedIn: 'root'})
@@ -242,7 +242,7 @@ export class UserService {
 }
 </docs-code>
 
-Within a component, you can combine `@if` with the `async` pipe to render the UI for the data only after it's finished loading:
+Dentro de un componente, puedes combinar `@if` con el `async` pipe para renderizar la interfaz de usuario para los datos solo después de que hayan terminado de cargarse:
 
 <docs-code language="ts">
 import { AsyncPipe } from '@angular/common';
@@ -250,8 +250,8 @@ import { AsyncPipe } from '@angular/common';
   imports: [AsyncPipe],
   template: `
     @if (user$ | async; as user) {
-      <p>Name: {{ user.name }}</p>
-      <p>Biography: {{ user.biography }}</p>
+      <p>Nombre: {{ user.name }}</p>
+      <p>Biografía: {{ user.biography }}</p>
     }
   `,
 })
