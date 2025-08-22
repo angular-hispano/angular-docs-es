@@ -1,19 +1,19 @@
-# Understanding communicating with backend services using HTTP
+# Entendiendo la comunicación con servicios backend usando HTTP
 
-Most front-end applications need to communicate with a server over the HTTP protocol, to download or upload data and access other back-end services. Angular provides a client HTTP API for Angular applications, the `HttpClient` service class in `@angular/common/http`.
+La mayoría de las applicaciones de front-end necesitan comunicarse con el servidor a través del protocolo HTTP, para descargar o cargar datos y acceder a los servicios de backend. Angular proporciona una API de cliente HTTP para aplicaciones Angular, la clase de servicio `HttpClient` en `@angular/common/http`.
 
-## HTTP client service features
+## Características del cliente HTTP
 
-The HTTP client service offers the following major features:
+El cliente HTTP ofrece las siguientes características principales:
 
-* The ability to request [typed response values](guide/http/making-requests#fetching-json-data)
-* Streamlined [error handling](guide/http/making-requests#handling-request-failure)
-* Request and response [interception](guide/http/interceptors)
-* Robust [testing utilities](guide/http/testing)
+* La capacidad para solicitar [valores de respuesta tipados](guide/http/making-requests#fetching-json-data)
+* [Manejo de errores](guide/http/making-requests#handling-request-failure) optimizado
+* [Intercepción](guide/http/interceptors) de solicitudes y respuestas
+* [Utilidades de pruebas](guide/http/testing) robustas
 
-## What's next
+## Próximos pasos
 
 <docs-pill-row>
-  <docs-pill href="guide/http/setup" title="Setting up HttpClient"/>
-  <docs-pill href="guide/http/making-requests" title="Making HTTP requests"/>
+  <docs-pill href="guide/http/setup" title="Configurar HttpClient"/>
+  <docs-pill href="guide/http/making-requests" title="Realizando solicitudes HTTP"/>
 </docs-pill-row>
