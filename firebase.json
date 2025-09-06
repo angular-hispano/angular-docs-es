@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "staging",
+    "target": "docs",
     "public": "build/dist/bin/adev/build/browser",
     "ignore": [
       "firebase.json",

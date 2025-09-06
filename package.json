@@ -8,7 +8,8 @@
     "build": "zx tools/build.mjs",
     "start": "zx tools/watch.mjs",
     "update-origin": "zx tools/update-origin.mjs",
-    "deploy:staging": "firebase use staging && firebase deploy --only hosting:staging"
+    "deploy:staging": "firebase use staging && firebase deploy --only hosting",
+    "deploy:prod": "firebase use production && firebase deploy --only hosting"
   },
   "keywords": [],
   "author": "",
