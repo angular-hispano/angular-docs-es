@@ -95,7 +95,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/components/importing',
           },
           {
-            label: 'Selectors',
+            label: 'Selectores',
             path: 'guide/components/selectors',
             contentPath: 'guide/components/selectors',
           },
