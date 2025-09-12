@@ -1,21 +1,21 @@
-# Injection context
+# Contexto de inyección
 
-The dependency injection (DI) system relies internally on a runtime context where the current injector is available.
-This means that injectors can only work when code is executed in such a context.
+El sistema de inyección de dependencias (DI) se basa internamente en un contexto de tiempo de ejecución donde el inyector actual está disponible.
+Esto significa que los inyectores solo pueden funcionar cuando el código se ejecuta en dicho contexto.
 
-The injection context is available in these situations:
+El contexto de inyección está disponible en estas situaciones:
 
-* During construction (via the `constructor`) of a class being instantiated by the DI system, such as an `@Injectable` or `@Component`.
-* In the initializer for fields of such classes.
-* In the factory function specified for `useFactory` of a `Provider` or an `@Injectable`.
-* In the `factory` function specified for an `InjectionToken`.
-* Within a stack frame that runs in an injection context.
+* Durante la construcción (vía el `constructor`) de una clase siendo instanciada por el sistema DI, como un `@Injectable` o `@Component`.
+* En el inicializador para campos de dichas clases.
+* En la función de fábrica especificada para `useFactory` de un `Provider` o un `@Injectable`.
+* En la función `factory` especificada para un `InjectionToken`.
+* Dentro de un Stack frame que se ejecuta en un contexto de inyección.
 
-Knowing when you are in an injection context will allow you to use the [`inject`](api/core/inject) function to inject instances.
+Saber cuándo estás en un contexto de inyección te permitirá usar la función [`inject`](api/core/inject) para inyectar instancias.
 
-## Class constructors
+## Constructores de clase
 
-Every time the DI system instantiates a class, it does so in an injection context. This is handled by the framework itself. The constructor of the class is executed in that runtime context, which also allows injection of a token using the [`inject`](api/core/inject) function.
+Cada vez que el sistema DI instancia una clase, lo hace en un contexto de inyección. Esto es manejado por el framework mismo. El constructor de la clase se ejecuta en ese contexto de tiempo de ejecución, lo que también permite la inyección de un token usando la función [`inject`](api/core/inject).
 
 <docs-code language="typescript" highlight="[[3],[6]]">
 class MyComponent  {
@@ -28,11 +28,11 @@ class MyComponent  {
 }
 </docs-code>
 
-## Stack frame in context
+## Stack frame en contexto
 
-Some APIs are designed to be run in an injection context. This is the case, for example, with router guards. This allows the use of [`inject`](api/core/inject) within the guard function to access a service.
+Algunas APIs están diseñadas para ejecutarse en un contexto de inyección. Este es el caso, por ejemplo, con los guards del router. Esto permite el uso de [`inject`](api/core/inject) dentro de la función guard para acceder a un servicio.
 
-Here is an example for `CanActivateFn`
+Aquí tienes un ejemplo para `CanActivateFn`
 
 <docs-code language="typescript" highlight="[3]">
 const canActivateTeam: CanActivateFn =
@@ -41,10 +41,10 @@ const canActivateTeam: CanActivateFn =
     };
 </docs-code>
 
-## Run within an injection context
+## Ejecutar dentro de un contexto de inyección
 
-When you want to run a given function in an injection context without already being in one, you can do so with `runInInjectionContext`.
-This requires access to a given injector, like the `EnvironmentInjector`, for example:
+Cuando quieres ejecutar una función dada en un contexto de inyección sin estar ya en uno, puedes hacerlo con `runInInjectionContext`.
+Esto requiere acceso a un inyector dado, como el `EnvironmentInjector`, por ejemplo:
 
 <docs-code header="src/app/heroes/hero.service.ts" language="typescript"
            highlight="[9]">
@@ -56,18 +56,18 @@ export class HeroService {
 
   someMethod() {
     runInInjectionContext(this.environmentInjector, () => {
-      inject(SomeService); // Do what you need with the injected service
+      inject(SomeService); // Haz lo que necesites con el servicio inyectado
     });
   }
 }
 </docs-code>
 
-Note that `inject` will return an instance only if the injector can resolve the required token.
+Ten en cuenta que `inject` devolverá una instancia solo si el inyector puede resolver el token requerido.
 
-## Asserts the context
+## Afirma el contexto
 
-Angular provides the `assertInInjectionContext` helper function to assert that the current context is an injection context.
+Angular proporciona la función auxiliar `assertInInjectionContext` para afirmar que el contexto actual es un contexto de inyección.
 
-## Using DI outside of a context
+## Usando DI fuera de un contexto
 
-Calling [`inject`](api/core/inject) or calling `assertInInjectionContext` outside of an injection context will throw [error NG0203](/errors/NG0203).
+Llamar a [`inject`](api/core/inject) o llamar a `assertInInjectionContext` fuera de un contexto de inyección lanzará [error NG0203](/errors/NG0203).

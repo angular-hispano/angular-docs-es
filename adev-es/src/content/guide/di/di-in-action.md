@@ -1,11 +1,11 @@
-# DI in action
+# DI en acción
 
-This guide explores additional features of dependency injection in Angular.
+Esta guía explora características adicionales de la inyección de dependencias en Angular.
 
-## Custom providers with `@Inject`
+## Proveedores personalizados con `@Inject`
 
-Using a custom provider allows you to provide a concrete implementation for implicit dependencies, such as built-in browser APIs.
-The following example uses an `InjectionToken` to provide the [localStorage](https://developer.mozilla.org/docs/Web/API/Window/localStorage) browser API as a dependency in the `BrowserStorageService`:
+Usar un proveedor personalizado te permite proveer una implementación concreta para dependencias implícitas, como las APIs del navegador integradas.
+El siguiente ejemplo usa un `InjectionToken` para proveer la API del navegador [localStorage](https://developer.mozilla.org/docs/Web/API/Window/localStorage) como dependencia en el `BrowserStorageService`:
 
 <docs-code header="src/app/storage.service.ts" language="typescript"
            highlight="[[3,6],[12]]">
@@ -32,17 +32,17 @@ export class BrowserStorageService {
 }
 </docs-code>
 
-The `factory` function returns the `localStorage` property that is attached to the browser's window object.
-The `inject` function initializes the `storage` property with an instance of the token.
+La función `factory` devuelve la propiedad `localStorage` que está adjunta al objeto window del navegador.
+La función `inject` inicializa la propiedad `storage` con una instancia del token.
 
-This custom provider can now be overridden during testing with a mock API of `localStorage` instead of interacting with real browser APIs.
+Este proveedor personalizado ahora puede ser sobrescrito durante las pruebas con una API simulada de `localStorage` en lugar de interactuar con las APIs reales del navegador.
 
-## Inject the component's DOM element
+## Inyectar el elemento DOM del componente
 
-Although developers strive to avoid it, some visual effects and third-party tools require direct DOM access.
-As a result, you might need to access a component's DOM element.
+Aunque los desarrolladores se esfuerzan por evitarlo, algunos efectos visuales y herramientas de terceros requieren acceso directo al DOM.
+Como resultado, es posible que necesites acceder al elemento DOM de un componente.
 
-Angular exposes the underlying element of a `@Component` or `@Directive` via injection using the `ElementRef` injection token:
+Angular expone el elemento subyacente de un `@Component` o `@Directive` vía inyección usando el token de inyección `ElementRef`:
 
 <docs-code language="typescript" highlight="[7]">
 import { Directive, ElementRef } from '@angular/core';
@@ -59,21 +59,21 @@ export class HighlightDirective {
 }
 </docs-code>
 
-## Resolve circular dependencies with a forward reference
+## Resolver dependencias circulares con una referencia anticipada (`forwardRef`)
 
-The order of class declaration matters in TypeScript.
-You can't refer directly to a class until it's been defined.
+El orden de declaración de clases en TypeScript es importante.
+No puedes referenciar directamente una clase hasta que haya sido definida.
 
-This isn't usually a problem, especially if you adhere to the recommended *one class per file* rule.
-But sometimes circular references are unavoidable.
-For example, when class 'A' refers to class 'B' and 'B' refers to 'A', one of them has to be defined first.
+Esto no suele ser un problema, especialmente si te adhieres a la regla recomendada de *una clase por archivo*.
+Pero a veces las referencias circulares son inevitables.
+Por ejemplo, cuando la clase 'A' se refiere a la clase 'B' y 'B' se refiere a 'A', una de ellas tiene que ser definida primero.
 
-The Angular `forwardRef()` function creates an *indirect* reference that Angular can resolve later.
+La función `forwardRef()` de Angular crea una referencia *indirecta* que Angular puede resolver más tarde.
 
-You face a similar problem when a class makes *a reference to itself*.
-For example, in its `providers` array.
-The `providers` array is a property of the `@Component()` decorator function, which must appear before the class definition.
-You can break such circular references by using `forwardRef`.
+Te enfrentas a un problema similar cuando una clase hace *una referencia a sí misma*.
+Por ejemplo, en su array `providers`.
+El array `providers` es una propiedad de la función decoradora `@Component()`, que debe aparecer antes de la definición de la clase.
+Puedes romper tales referencias circulares usando `forwardRef`.
 
 <docs-code header="app.component.ts" language="typescript" highlight="[4]">
 providers: [
