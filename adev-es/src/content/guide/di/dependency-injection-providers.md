@@ -1,63 +1,63 @@
-# Configuring dependency providers
+# Configurando proveedores de dependencias
 
-The previous sections described how to use class instances as dependencies.
-Aside from classes, you can also use values such as `boolean`, `string`, `Date`, and objects as dependencies.
-Angular provides the necessary APIs to make the dependency configuration flexible, so you can make those values available in DI.
+Las secciones anteriores describieron cómo usar instancias de clase como dependencias.
+Además de las clases, también puedes usar valores como `boolean`, `string`, `Date` y objetos como dependencias.
+Angular proporciona las APIs necesarias para hacer flexible la configuración de dependencias, para que puedas hacer que esos valores estén disponibles en DI.
 
-## Specifying a provider token
+## Especificando un token de proveedor
 
-If you specify the service class as the provider token, the default behavior is for the injector to instantiate that class using the `new` operator.
+Si especificas la clase de servicio como el token de proveedor, el comportamiento por defecto es que el inyector instancie esa clase usando el operador `new`.
 
-In the following example, the app component provides a `Logger` instance:
+En el siguiente ejemplo, el componente de la aplicación provee una instancia de `Logger`:
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 providers: [Logger],
 </docs-code>
 
-You can, however, configure DI to associate the `Logger` provider token with a different class or any other value.
-So when the `Logger` is injected, the configured value is used instead.
+Sin embargo, puedes configurar DI para asociar el token de proveedor `Logger` con una clase diferente o cualquier otro valor.
+Así que cuando se inyecte `Logger`, se usará el valor configurado en su lugar.
 
-In fact, the class provider syntax is a shorthand expression that expands into a provider configuration, defined by the `Provider` interface.
-Angular expands the `providers` value in this case into a full provider object as follows:
+De hecho, la sintaxis del proveedor de clase es una expresión abreviada que se expande en una configuración de proveedor, definida por la interfaz `Provider`.
+Angular expande el valor `providers` en este caso en un objeto de proveedor completo de la siguiente manera:
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 [{ provide: Logger, useClass: Logger }]
 </docs-code>
 
-The expanded provider configuration is an object literal with two properties:
+La configuración de proveedor expandida es un objeto literal con dos propiedades:
 
-- The `provide` property holds the token that serves as the key for consuming the dependency value.
-- The second property is a provider definition object, which tells the injector **how** to create the dependency value. The provider-definition can be one of the following:
-  - `useClass` - this option tells Angular DI to instantiate a provided class when a dependency is injected
-  - `useExisting` - allows you to alias a token and reference any existing one.
-  - `useFactory` - allows you to define a function that constructs a dependency.
-  - `useValue` - provides a static value that should be used as a dependency.
+- La propiedad `provide` contiene el token que sirve como clave para consumir el valor de la dependencia.
+- La segunda propiedad es un objeto de definición de proveedor, que le dice al inyector **cómo** crear el valor de la dependencia. La definición de proveedor puede ser una de las siguientes:
+  - `useClass` - esta opción le dice a Angular DI que instancie una clase proveída cuando se inyecte una dependencia
+  - `useExisting` - te permite crear un alias de un token y referenciar cualquier existente.
+  - `useFactory` - te permite definir una función que construye una dependencia.
+  - `useValue` - provee un valor estático que debe ser usado como dependencia.
 
-The sections below describe how to use the different provider definitions.
+Las siguientes secciones describen cómo usar las diferentes definiciones de proveedor.
 
-### Class providers: useClass
+### Proveedores de clase: useClass
 
-The `useClass` provider key lets you create and return a new instance of the specified class.
+La clave de proveedor `useClass` te permite crear y devolver una nueva instancia de la clase especificada.
 
-You can use this type of provider to substitute an alternative implementation for a common or default class.
-The alternative implementation can, for example, implement a different strategy, extend the default class, or emulate the behavior of the real class in a test case.
+Puedes usar este tipo de proveedor para sustituir una implementación alternativa para una clase común o por defecto.
+La implementación alternativa puede, por ejemplo, implementar una estrategia diferente, extender la clase por defecto, o emular el comportamiento de la clase real en un caso de prueba.
 
-In the following example, `BetterLogger` would be instantiated when the `Logger` dependency is requested in a component or any other class:
+En el siguiente ejemplo, `BetterLogger` sería instanciado cuando se solicite la dependencia `Logger` en un componente o cualquier otra clase:
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 [{ provide: Logger, useClass: BetterLogger }]
 </docs-code>
 
-If the alternative class providers have their own dependencies, specify both providers in the providers metadata property of the parent module or component:
+Si los proveedores de clase alternativa tienen sus propias dependencias, especifica ambos proveedores en la propiedad de metadatos providers del módulo o componente padre:
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 [
-  UserService, // dependency needed in `EvenBetterLogger`.
+  UserService, // dependencia necesaria en `EvenBetterLogger`.
   { provide: Logger, useClass: EvenBetterLogger },
 ]
 </docs-code>
 
-In this example, `EvenBetterLogger` displays the user name in the log message. This logger gets the user from an injected `UserService` instance:
+En este ejemplo, `EvenBetterLogger` muestra el nombre del usuario en el mensaje de log. Este logger obtiene el usuario de una instancia inyectada de `UserService`:
 
 <docs-code header="src/app/even-better-logger.component.ts" language="typescript"
            highlight="[[3],[6]]">
@@ -67,40 +67,40 @@ export class EvenBetterLogger extends Logger {
 
   override log(message: string) {
     const name = this.userService.user.name;
-    super.log(`Message to ${name}: ${message}`);
+    super.log(`Mensaje para ${name}: ${message}`);
   }
 }
 </docs-code>
 
-Angular DI knows how to construct the `UserService` dependency, since it has been configured above and is available in the injector.
+Angular DI sabe cómo construir la dependencia `UserService`, ya que ha sido configurada arriba y está disponible en el inyector.
 
-### Alias providers: useExisting
+### Proveedores de alias: useExisting
 
-The `useExisting` provider key lets you map one token to another.
-In effect, the first token is an alias for the service associated with the second token, creating two ways to access the same service object.
+La clave de proveedor `useExisting` te permite mapear un token a otro.
+En efecto, el primer token es un alias para el servicio asociado con el segundo token, creando dos formas de acceder al mismo objeto de servicio.
 
-In the following example, the injector injects the singleton instance of `NewLogger` when the component asks for either the new or the old logger:
-In this way, `OldLogger` is an alias for `NewLogger`.
+En el siguiente ejemplo, el inyector inyecta la instancia singleton de `NewLogger` cuando el componente solicita el logger nuevo o el viejo:
+De esta manera, `OldLogger` es un alias para `NewLogger`.
 
 <docs-code header="src/app/app.component.ts" language="typescript" highlight="[4]">
 [
   NewLogger,
-  // Alias OldLogger w/ reference to NewLogger
+  // Alias OldLogger con referencia a NewLogger
   { provide: OldLogger, useExisting: NewLogger},
 ]
 </docs-code>
 
-NOTE: Ensure you do not alias `OldLogger` to `NewLogger` with `useClass`, as this creates two different `NewLogger` instances.
+NOTA: Asegúrate de no crear un alias de `OldLogger` a `NewLogger` con `useClass`, ya que esto crea dos instancias diferentes de `NewLogger`.
 
-### Factory providers: useFactory
+### Proveedores de fábrica: useFactory
 
-The `useFactory` provider key lets you create a dependency object by calling a factory function.
-With this approach, you can create a dynamic value based on information available in the DI and elsewhere in the app.
+La clave de proveedor `useFactory` te permite crear un objeto de dependencia llamando a una función de fábrica.
+Con este enfoque, puedes crear un valor dinámico basado en información disponible en DI y en otros lugares de la aplicación.
 
-In the following example, only authorized users should see secret heroes in the `HeroService`.
-Authorization can change during the course of a single application session, as when a different user logs in .
+En el siguiente ejemplo, solo los usuarios autorizados deberían ver héroes secretos en el `HeroService`.
+La autorización puede cambiar durante el curso de una sola sesión de aplicación, como cuando un usuario diferente inicia sesión.
 
-To keep security-sensitive information in `UserService` and out of `HeroService`, give the `HeroService` constructor a boolean flag to control display of secret heroes:
+Para mantener la información sensible de seguridad en `UserService` y fuera de `HeroService`, dale al constructor de `HeroService` una bandera booleana para controlar la visualización de héroes secretos:
 
 <docs-code header="src/app/heroes/hero.service.ts" language="typescript"
            highlight="[[4],[7]]">
@@ -110,23 +110,23 @@ class HeroService {
     private isAuthorized: boolean) { }
 
   getHeroes() {
-    const auth = this.isAuthorized ? 'authorized' : 'unauthorized';
-    this.logger.log(`Getting heroes for ${auth} user.`);
+    const auth = this.isAuthorized ? 'autorizado' : 'no autorizado';
+    this.logger.log(`Obteniendo héroes para usuario ${auth}.`);
     return HEROES.filter(hero => this.isAuthorized || !hero.isSecret);
   }
 }
 </docs-code>
 
-To implement the `isAuthorized` flag, use a factory provider to create a new logger instance for `HeroService`.
-This is necessary as we need to manually pass `Logger` when constructing the hero service:
+Para implementar la bandera `isAuthorized`, usa un proveedor de fábrica para crear una nueva instancia de logger para `HeroService`.
+Esto es necesario ya que necesitamos pasar manualmente `Logger` al construir el servicio de héroes:
 
 <docs-code header="src/app/heroes/hero.service.provider.ts" language="typescript">
 const heroServiceFactory = (logger: Logger, userService: UserService) =>
   new HeroService(logger, userService.user.isAuthorized);
 </docs-code>
 
-The factory function has access to `UserService`.
-You inject both `Logger` and `UserService` into the factory provider so the injector can pass them along to the factory function:
+La función de fábrica tiene acceso a `UserService`.
+Inyectas tanto `Logger` como `UserService` en el proveedor de fábrica para que el inyector pueda pasarlos a la función de fábrica:
 
 <docs-code header="src/app/heroes/hero.service.provider.ts" language="typescript"
            highlight="[3,4]">
@@ -137,26 +137,26 @@ export const heroServiceProvider = {
 };
 </docs-code>
 
-- The `useFactory` field specifies that the provider is a factory function whose implementation is `heroServiceFactory`.
-- The `deps` property is an array of provider tokens.
-The `Logger` and `UserService` classes serve as tokens for their own class providers.
-The injector resolves these tokens and injects the corresponding services into the matching `heroServiceFactory` factory function parameters, based on the order specified.
+- El campo `useFactory` especifica que el proveedor es una función de fábrica cuya implementación es `heroServiceFactory`.
+- La propiedad `deps` es un array de tokens de proveedor.
+Las clases `Logger` y `UserService` sirven como tokens para sus propios proveedores de clase.
+El inyector resuelve estos tokens e inyecta los servicios correspondientes en los parámetros de la función de fábrica `heroServiceFactory` coincidentes, basándose en el orden especificado.
 
-Capturing the factory provider in the exported variable, `heroServiceProvider`, makes the factory provider reusable.
+Capturar el proveedor de fábrica en la variable exportada, `heroServiceProvider`, hace que el proveedor de fábrica sea reutilizable.
 
-### Value providers: useValue
+### Proveedores de valor: useValue
 
-The `useValue` key lets you associate a static value with a DI token.
+La clave `useValue` te permite asociar un valor estático con un token DI.
 
-Use this technique to provide runtime configuration constants such as website base addresses and feature flags.
-You can also use a value provider in a unit test to provide mock data in place of a production data service.
+Usa esta técnica para proveer constantes de configuración en tiempo de ejecución como direcciones base de sitios web y banderas de características.
+También puedes usar un proveedor de valor en una prueba unitaria para proveer datos simulados en lugar de un servicio de datos de producción.
 
-The next section provides more information about the `useValue` key.
+La siguiente sección proporciona más información sobre la clave `useValue`.
 
-## Using an `InjectionToken` object
+## Usando un objeto `InjectionToken`
 
-Use an `InjectionToken` object as provider token for non-class dependencies.
-The following example defines a token, `APP_CONFIG`. of the type `InjectionToken`:
+Usa un objeto `InjectionToken` como token de proveedor para dependencias que no son clases.
+El siguiente ejemplo define un token, `APP_CONFIG`. del tipo `InjectionToken`:
 
 <docs-code header="src/app/app.config.ts" language="typescript" highlight="[3]">
 import { InjectionToken } from '@angular/core';
@@ -168,19 +168,19 @@ export interface AppConfig {
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config description');
 </docs-code>
 
-The optional type parameter, `<AppConfig>`, and the token description, `app.config description`, specify the token's purpose.
+El parámetro de tipo opcional, `<AppConfig>`, y la descripción del token, `descripción de app.config`, especifican el propósito del token.
 
-Next, register the dependency provider in the component using the `InjectionToken` object of `APP_CONFIG`:
+A continuación, registra el proveedor de dependencia en el componente usando el objeto `InjectionToken` de `APP_CONFIG`:
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 const MY_APP_CONFIG_VARIABLE: AppConfig = {
-  title: 'Hello',
+  title: 'Hola',
 };
 
 providers: [{ provide: APP_CONFIG, useValue: MY_APP_CONFIG_VARIABLE }]
 </docs-code>
 
-Now, inject the configuration object in the constructor body with the `inject` function:
+Ahora, inyecta el objeto de configuración en el cuerpo del constructor con la función `inject`:
 
 <docs-code header="src/app/app.component.ts" language="typescript" highlight="[2]">
 export class AppComponent {
@@ -191,22 +191,22 @@ export class AppComponent {
 }
 </docs-code>
 
-### Interfaces and DI
+### Interfaces y DI
 
-Though the TypeScript `AppConfig` interface supports typing within the class, the `AppConfig` interface plays no role in DI.
-In TypeScript, an interface is a design-time artifact, and does not have a runtime representation, or token, that the DI framework can use.
+Aunque la interfaz `AppConfig` de TypeScript soporta tipado dentro de la clase, la interfaz `AppConfig` no juega ningún papel en DI.
+En TypeScript, una interfaz es un artefacto de tiempo de diseño, y no tiene una representación en tiempo de ejecución, o token, que el framework DI pueda usar.
 
-When the TypeScript transpiles to JavaScript, the interface disappears because JavaScript doesn't have interfaces.
-Because there is no interface for Angular to find at runtime, the interface cannot be a token, nor can you inject it:
+Cuando TypeScript se transpila a JavaScript, la interfaz desaparece porque JavaScript no tiene interfaces.
+Como no hay interfaz para que Angular encuentre en tiempo de ejecución, la interfaz no puede ser un token, ni puedes inyectarla:
 
 <docs-code header="src/app/app.component.ts" language="typescript">
-// Can't use interface as provider token
+// No se puede usar interfaz como token de proveedor
 [{ provide: AppConfig, useValue: MY_APP_CONFIG_VARIABLE })]
 </docs-code>
 
 <docs-code header="src/app/app.component.ts" language="typescript" highlight="[3]">
 export class AppComponent {
-  // Can't inject using the interface as the parameter type
+  // No se puede inyectar usando la interfaz como el tipo de parámetro
   private config = inject(AppConfig);
 }
 </docs-code>

@@ -297,45 +297,45 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Dependency Injection',
+        label: 'Inyección de Dependencias',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/di',
             contentPath: 'guide/di/overview',
           },
           {
-            label: 'Understanding dependency injection',
+            label: 'Entendiendo la inyección de dependencias',
             path: 'guide/di/dependency-injection',
             contentPath: 'guide/di/dependency-injection',
           },
           {
-            label: 'Creating an injectable service',
+            label: 'Creando un servicio inyectable',
             path: 'guide/di/creating-injectable-service',
             contentPath: 'guide/di/creating-injectable-service',
           },
           {
-            label: 'Defining dependency providers',
+            label: 'Definiendo proveedores de dependencias',
             path: 'guide/di/dependency-injection-providers',
             contentPath: 'guide/di/dependency-injection-providers',
           },
           {
-            label: 'Injection context',
+            label: 'Contexto de inyección',
             path: 'guide/di/dependency-injection-context',
             contentPath: 'guide/di/dependency-injection-context',
           },
           {
-            label: 'Hierarchical injectors',
+            label: 'Inyectores jerárquicos',
             path: 'guide/di/hierarchical-dependency-injection',
             contentPath: 'guide/di/hierarchical-dependency-injection',
           },
           {
-            label: 'Optimizing injection tokens',
+            label: 'Optimizando tokens de inyección',
             path: 'guide/di/lightweight-injection-tokens',
             contentPath: 'guide/di/lightweight-injection-tokens',
           },
           {
-            label: 'DI in action',
+            label: 'DI en acción',
             path: 'guide/di/di-in-action',
             contentPath: 'guide/di/di-in-action',
           },

@@ -1,38 +1,38 @@
-# Understanding dependency injection
+# Entendiendo la inyección de dependencias
 
-Dependency injection, or DI, is one of the fundamental concepts in Angular. DI is wired into the Angular framework and allows classes with Angular decorators, such as Components, Directives, Pipes, and Injectables, to configure dependencies that they need.
+La inyección de dependencias, o DI, es uno de los conceptos fundamentales en Angular. DI está integrado en el framework de Angular y permite que las clases con decoradores de Angular, como Componentes, Directivas, Pipes e Injectables, configuren las dependencias que necesitan.
 
-Two main roles exist in the DI system: dependency consumer and dependency provider.
+Existen dos roles principales en el sistema DI: consumidor de dependencias y proveedor de dependencias.
 
-Angular facilitates the interaction between dependency consumers and dependency providers using an abstraction called `Injector`. When a dependency is requested, the injector checks its registry to see if there is an instance already available there. If not, a new instance is created and stored in the registry. Angular creates an application-wide injector (also known as the "root" injector) during the application bootstrap process. In most cases you don't need to manually create injectors, but you should know that there is a layer that connects providers and consumers.
+Angular facilita la interacción entre consumidores de dependencias y proveedores de dependencias usando una abstracción llamada `Injector`. Cuando se solicita una dependencia, el inyector verifica su registro para ver si ya hay una instancia disponible allí. Si no, se crea una nueva instancia y se almacena en el registro. Angular crea un inyector de toda la aplicación (también conocido como inyector "raíz") durante el proceso de bootstrap de la aplicación. En la mayoría de los casos no necesitas crear inyectores manualmente, pero debes saber que hay una capa que conecta proveedores y consumidores.
 
-This topic covers basic scenarios of how a class can act as a dependency. Angular also allows you to use functions, objects, primitive types such as string or Boolean, or any other types as dependencies. For more information, see [Dependency providers](guide/di/dependency-injection-providers).
+Este tema cubre escenarios básicos de cómo una clase puede actuar como una dependencia. Angular también te permite usar funciones, objetos, tipos primitivos como string o Boolean, o cualquier otro tipo como dependencias. Para más información, consulta [Proveedores de dependencias](guide/di/dependency-injection-providers).
 
-## Providing a dependency
+## Proporcionando una dependencia
 
-Consider a class called `HeroService` that needs to act as a dependency in a component.
+Considera una clase llamada `HeroService` que necesita actuar como una dependencia en un componente.
 
-The first step is to add the `@Injectable` decorator to show that the class can be injected.
+El primer paso es agregar el decorador `@Injectable` para mostrar que la clase puede ser inyectada.
 
 <docs-code language="typescript" highlight="[1]">
 @Injectable()
 class HeroService {}
 </docs-code>
 
-The next step is to make it available in the DI by providing it.
-A dependency can be provided in multiple places:
+El siguiente paso es hacerla disponible en el sistema de ID, proveyéndola. 
+Una dependencia se puede proveer en varios lugares:
 
-- [**Preferred**: At the application root level using `providedIn`](#preferred-at-the-application-root-level-using-providedin)
-- [At the Component level](#at-the-component-level)
-- [At the application root level using `ApplicationConfig`](#at-the-application-root-level-using-applicationconfig)
-- [`NgModule` based applications](#ngmodule-based-applications)
+- [**Preferido**: A nivel raíz de la aplicación usando `providedIn`](#preferido-a-nivel-raíz-de-la-aplicación-usando-providedin)
+- [A nivel de Componente](#a-nivel-de-componente)
+- [A nivel raíz de la aplicación usando `ApplicationConfig`](#a-nivel-raíz-de-la-aplicación-usando-applicationconfig)
+- [Aplicaciones basadas en `NgModule`](#aplicaciones-basadas-en-ngmodule)
 
-### **Preferred**: At the application root level using `providedIn`
+### **Preferido**: A nivel raíz de la aplicación usando `providedIn`
 
-Providing a service at the application root level using `providedIn` allows injecting the service into all other classes.
-Using `providedIn` enables Angular and JavaScript code optimizers to effectively remove services that are unused (known as tree-shaking).
+Proveer un servicio a nivel raíz de la aplicación usando `providedIn` permite inyectar el servicio en todas las demás clases.
+Usar `providedIn` permite que Angular y los optimizadores de código JavaScript eliminen efectivamente los servicios que no se usan (conocido como tree-shaking).
 
-You can provide a service by using `providedIn: 'root'` in the `@Injectable` decorator:
+Puedes proveer un servicio usando `providedIn: 'root'` en el decorador `@Injectable`:
 
 <docs-code language="typescript" highlight="[2]">
 @Injectable({
@@ -41,14 +41,14 @@ You can provide a service by using `providedIn: 'root'` in the `@Injectable` dec
 class HeroService {}
 </docs-code>
 
-When you provide the service at the root level, Angular creates a single, shared instance of the `HeroService` and injects it into any class that asks for it.
+Cuando provees el servicio a nivel raíz, Angular crea una instancia única y compartida del `HeroService` y la inyecta en cualquier clase que la solicite.
 
-### At the Component level
+### A nivel de Componente
 
-You can provide services at `@Component` level by using the `providers` field of the `@Component` decorator.
-In this case the `HeroService` becomes available to all instances of this component and other components and directives used in the template.
+Puedes proveer servicios a nivel `@Component` usando el campo `providers` del decorador `@Component`.
+En este caso el `HeroService` se vuelve disponible para todas las instancias de este componente y otros componentes y directivas usadas en la plantilla.
 
-For example:
+Por ejemplo:
 
 <docs-code language="typescript" highlight="[4]">
 @Component({
@@ -59,15 +59,15 @@ For example:
 class HeroListComponent {}
 </docs-code>
 
-When you register a provider at the component level, you get a new instance of the service with each new instance of that component.
+Cuando registras un proveedor a nivel de componente, obtienes una nueva instancia del servicio con cada nueva instancia de ese componente.
 
-NOTE: Declaring a service like this causes `HeroService` to always be included in your application— even if the service is unused.
+NOTA: Declarar un servicio de esta manera hace que `HeroService` siempre se incluya en tu aplicación, incluso si el servicio no se usa.
 
-### At the application root level using `ApplicationConfig`
+### A nivel raíz de la aplicación usando `ApplicationConfig`
 
-You can use the `providers` field of the `ApplicationConfig` (passed to the `bootstrapApplication` function) to provide a service or other `Injectable` at the application level.
+Puedes usar el campo `providers` de `ApplicationConfig` (pasado a la función `bootstrapApplication`) para proveer un servicio u otro `Injectable` a nivel de aplicación.
 
-In the example below, the `HeroService` is available to all components, directives, and pipes:
+En el siguiente ejemplo, el `HeroService` está disponible para todos los componentes, directivas y pipes:
 
 <docs-code language="typescript" highlight="[3]">
 export const appConfig: ApplicationConfig = {
@@ -77,47 +77,47 @@ export const appConfig: ApplicationConfig = {
 };
 </docs-code>
 
-Then, in `main.ts`:
+Luego, en `main.ts`:
 
 <docs-code language="typescript">
 bootstrapApplication(AppComponent, appConfig)
 </docs-code>
 
-NOTE: Declaring a service like this causes `HeroService` to always be included in your application— even if the service is unused.
+NOTA: Declarar un servicio de esta manera hace que `HeroService` siempre se incluya en tu aplicación, incluso si el servicio no se usa.
 
-### `NgModule` based applications
+### Aplicaciones basadas en `NgModule`
 
-`@NgModule`-based applications use the `providers` field of the `@NgModule` decorator to provide a service or other `Injectable` available at the application level.
+Las aplicaciones basadas en `@NgModule` usan el campo `providers` del decorador `@NgModule` para proveer un servicio u otro `Injectable` disponible a nivel de aplicación.
 
-A service provided in a module is available to all declarations of the module, or to any other modules which share the same `ModuleInjector`.
-To understand all edge-cases, see [Hierarchical injectors](guide/di/hierarchical-dependency-injection).
+Un servicio proveído en un módulo está disponible para todas las declaraciones del módulo, o para cualquier otro módulo que comparta el mismo `ModuleInjector`.
+Para entender todos los casos límite, consulta [Inyectores jerárquicos](guide/di/hierarchical-dependency-injection).
 
-NOTE: Declaring a service using `providers` causes the service to be included in your application— even if the service is unused.
+NOTA: Declarar un servicio usando `providers` hace que el servicio se incluya en tu aplicación, incluso si el servicio no se usa.
 
-## Injecting/consuming a dependency
+## Inyectando/consumiendo una dependencia
 
-Use Angular's `inject` function to retrieve dependencies.
+Usa la función `inject` de Angular para recuperar dependencias.
 
 ```ts
 import {inject, Component} from 'angular/core';
 
 @Component({/* ... */})
 export class UserProfile {
-  // You can use the `inject` function in property initializers.
+  // Puedes usar la función `inject` en inicializadores de propiedades.
   private userClient = inject(UserClient);
 
   constructor() {
-    // You can also use the `inject` function in a constructor.
+    // También puedes usar la función `inject` en un constructor.
     const logger = inject(Logger);
   }
 }
 ```
 
-You can use the `inject` function in any [injection context](guide/di/dependency-injection-context). Most of the time, this is in a class property initializer or a class constructor for components, directives, services, and pipes.
+Puedes usar la función `inject` en cualquier [contexto de inyección](guide/di/dependency-injection-context). La mayoría de las veces, esto es en un inicializador de propiedad de clase o un constructor de clase para componentes, directivas, servicios y pipes.
 
-When Angular discovers that a component depends on a service, it first checks if the injector has any existing instances of that service. If a requested service instance doesn't yet exist, the injector creates one using the registered provider, and adds it to the injector before returning the service to Angular.
+Cuando Angular descubre que un componente depende de un servicio, primero verifica si el inyector tiene alguna instancia existente de ese servicio. Si una instancia de servicio solicitada aún no existe, el inyector crea una usando el proveedor registrado, y la agrega al inyector antes de devolver el servicio a Angular.
 
-When all requested services have been resolved and returned, Angular can call the component's constructor with those services as arguments.
+Cuando todos los servicios solicitados han sido resueltos y devueltos, Angular puede llamar al constructor del componente con esos servicios como argumentos.
 
 ```mermaid
 graph TD;
@@ -133,8 +133,8 @@ heroService-->componentProperty
 style componentProperty text-align: left
 ```
 
-## What's next
+## Próximos pasos
 
 <docs-pill-row>
-  <docs-pill href="/guide/di/creating-injectable-service" title="Creating an injectable service"/>
+  <docs-pill href="/guide/di/creating-injectable-service" title="Creando un servicio inyectable"/>
 </docs-pill-row>
