@@ -53,7 +53,7 @@ export class HeroService {
 }
 </docs-code>
 
-## Creando un servicio inyectable
+## Creando un servicio inyectable con el CLI
 
 El Angular CLI proporciona un comando para crear un nuevo servicio. En el siguiente ejemplo, agregas un nuevo servicio a una aplicación existente.
 

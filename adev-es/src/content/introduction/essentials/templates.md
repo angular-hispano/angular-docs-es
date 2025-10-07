@@ -61,7 +61,7 @@ También puedes hacer binding a *atributos* HTML prefijando el nombre del atribu
 <ul [attr.role]="listRole()">
 ```
 
-Angular actualiza automáticamente las propiedades del DOM y atributos cuando el valor vinculado cambia.
+Angular actualiza automáticamente las propiedades y atributos del DOM cuando el valor vinculado cambia.
 
 ## Manejar la interacción del usuario
 

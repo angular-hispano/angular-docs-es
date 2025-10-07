@@ -118,8 +118,7 @@ prefijar tus componentes con `yt-`, con componentes como `yt-menu`, `yt-player`,
 a tus selectores de esta manera hace inmediatamente claro de dónde viene un componente particular. Por
 defecto, el Angular CLI usa `app-`.
 
-Angular usa el prefijo de selector `ng` para sus propias APIs del framework. Nunca uses `ng` como prefijo de
-selector para tus propios componentes personalizados.
+IMPORTANTE: Angular usa el prefijo de selector `ng` para sus propias APIs del framework. Nunca uses `ng` como prefijo de selector para tus propios componentes personalizados.
 
 ### Cuándo usar un selector de atributo
 

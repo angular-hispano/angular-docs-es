@@ -216,11 +216,11 @@ export const routes: Routes = [
   // their corresponding routes become active.
   {
     path: 'login',
-    loadComponent: () => import('./components/auth/login-page')
+    loadComponent: () => import('./components/auth/login-page').then(m => m.LoginPage)
   },
   {
     path: '',
-    loadComponent: () => import('./components/home/home-page')
+    loadComponent: () => import('./components/home/home-page').then(m => m.HomePage)
   }
 ]
 ```
@@ -262,7 +262,7 @@ If you modify or remove a route, some users may still click on out-of-date links
 
 You can associate a **title** with each route. Angular automatically updates the [page title](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title) when a route activates. Always define appropriate page titles for your application, as these titles are necessary to create an accessible experience.
 
-```angular-ts
+```ts
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
@@ -279,13 +279,25 @@ const routes: Routes = [
     component: AboutComponent,
     title: 'About Us'
   },
+];
+```
+
+The page `title` property can be set dynamincally to a resolver function using [`ResolveFn`](/api/router/ResolveFn).
+
+```ts
+const titleResolver: ResolveFn<string> = (route) => route.queryParams['id'];
+const routes: Routes = [
+   ...
   {
     path: 'products',
     component: ProductsComponent,
-    title: 'Our Products'
+    title: titleResolver,
   }
 ];
+
 ```
+
+Route titles can also be set via a service extending the [`TitleStrategy`](/api/router/TitleStrategy) abstract class. By default, Angular uses the [`DefaultTitleStrategy`](/api/router/DefaultTitleStrategy).
 
 ## Route-level providers for dependency injection
 
@@ -351,7 +363,7 @@ You can read this static data by injecting the `ActivatedRoute`. See [Reading ro
 
 ### Dynamic data with data resolvers
 
-When you need to provide dynamic data to a route, check out the [guide on route data resolvers](/guide/router/route-data-resolvers).
+When you need to provide dynamic data to a route, check out the [guide on route data resolvers](/guide/routing/data-resolvers).
 
 ## Nested Routes
 
@@ -365,7 +377,7 @@ You can add child routes to any route definition with the `children` property:
 const routes: Routes = [
   {
     path: 'product/:id',
-    component: 'ProductComponent',
+    component: ProductComponent,
     children: [
       {
         path: 'info',
