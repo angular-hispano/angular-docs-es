@@ -38,9 +38,15 @@ user = httpResource(() => ({
     'fast': 'yes',
   },
   reportProgress: true,
-  withCredentials: true,
   transferCache: true,
-  keepalive: true,
+  keepalive: true,  
+  mode: 'cors', 
+  redirect: 'error',
+  priority: 'high',
+  cache : 'force-cache',
+  credentials: 'include',
+  referrer: 'no-referrer',
+  integrity: 'sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GhEXAMPLEKEY='
 }));
 ```
 

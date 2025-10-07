@@ -1,7 +1,7 @@
 <docs-decorative-header title="Siguientes Pasos" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-Ahora que has sido introducido a los conceptos principales de Angular - estás listo para poner en práctica lo que has aprendido con nuestros tutoriales interactivos y aprender más con nuestras guías detalladas.
+Ahora que has sido introducido a los conceptos principales de Angular, estás listo para poner en práctica lo que has aprendido con nuestros tutoriales interactivos y aprender más con nuestras guías detalladas.
 
 ## Playground
 
@@ -13,7 +13,7 @@ Prueba Angular en un editor de código interactivo para explorar más a fondo lo
 
 ## Tutoriales
 
-Pon estos conceptos principales en práctica con nuestro tutorial en el navegador o construye tu primera aplicación localmente con Angular CLI.
+Pon en práctica estos conceptos principales con nuestro tutorial en el navegador o construye tu primera aplicación localmente con Angular CLI.
 
 <docs-pill-row>
   <docs-pill title="Aprender los fundamentos de Angular" href="tutorials/learn-angular" />

@@ -25,16 +25,15 @@ export async function resetBuildDir({ init = false }) {
 export async function buildADEV() {
   await within(async () => {
     cd(`${outDir}`);
-    await $`yarn install --frozen-lockfile`;
-    await $`yarn bazel build //adev:build --full_build_adev --config=release`;
+    await $`pnpm install --frozen-lockfile`;
+    await $`pnpm bazel build //adev:build.production --config=release`;
   });
 }
 
 export async function watchADEV() {
   await within(async () => {
     cd(`${outDir}`);
-    await $`yarn install`;
-    await $`yarn docs`;
+    await $`pnpm ibazel run //adev:build.serve`;
   });
 }
 

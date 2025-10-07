@@ -256,7 +256,7 @@ Users can opt-in to use the `application` builder by setting the `builderMode` o
 This option is currently in developer preview.
 If you notice any issues, please report them [here](https://github.com/angular/angular-cli/issues).
 
-### Build-time value replacement (define)
+### Build-time value replacement with `define`
 
 The `define` option allows identifiers present in the code to be replaced with another value at build time.
 This is similar to the behavior of Webpack's `DefinePlugin` which was previously used with some custom Webpack configurations that used third-party builders.
@@ -528,6 +528,11 @@ This is not common as it depends on the usage of side-effectful modules and does
 This is caused by a [defect](https://github.com/evanw/esbuild/issues/399) in the underlying bundler but will be addressed in a future update.
 
 IMPORTANT: Avoiding the use of modules with non-local side effects (outside of polyfills) is recommended whenever possible regardless of the build system being used and avoids this particular issue. Modules with non-local side effects can have a negative effect on both application size and runtime performance as well.
+
+### Output location changes 
+
+By default, after a successful build by the application builder the bundle is located in a `dist/<project-name>/browser` directory (instead of `dist/<project-name>` for the browser builder).
+This might break some of the toolchains that rely the previous location. In this case, you can [configure the output path](reference/configs/workspace-config#output-path-configuration) to suit your needs.
 
 ## Bug reports
 
