@@ -43,7 +43,7 @@ const httpTesting = TestBed.inject(HttpTestingController);
 
 // Cargar `ConfigService` y solicitar la configuración actual.
 const service = TestBed.inject(ConfigService);
-const config$ = this.configService.getConfig<Config>();
+const config$ = service.getConfig<Config>();
 
 // `firstValueFrom` se suscribe al `Observable`, lo que hace la solicitud HTTP,
 // y crea una `Promise` de la respuesta.

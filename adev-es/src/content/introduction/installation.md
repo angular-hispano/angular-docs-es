@@ -19,7 +19,7 @@ Si estás comenzando un nuevo proyecto, lo más probable es que quieras crear un
 
 ### Prerrequisitos
 
-- **Node.js** - [v20.11.1 o más reciente](/reference/versions)
+- **Node.js** - [v20.19.0 o más reciente](/reference/versions)
 - **Editor de texto** - Recomendamos [Visual Studio Code](https://code.visualstudio.com/)
 - **Terminal** - Requerido para ejecutar comandos de Angular CLI
 - **Herramienta de desarrollo** - Para mejorar tu flujo de trabajo de desarrollo, recomendamos el [Angular Language Service](/tools/language-service)

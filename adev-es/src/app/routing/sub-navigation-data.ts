@@ -6,17 +6,19 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
+import {isDevMode} from '@angular/core';
 import {NavigationItem} from '@angular/docs';
 
 // These 2 imports are expected to be red because they are generated a build time
-import FIRST_APP_TUTORIAL_NAV_DATA from '../../src/assets/tutorials/first-app/routes.json';
-import LEARN_ANGULAR_TUTORIAL_NAV_DATA from '../../src/assets/tutorials/learn-angular/routes.json';
-import DEFERRABLE_VIEWS_TUTORIAL_NAV_DATA from '../../src/assets/tutorials/deferrable-views/routes.json';
-import ERRORS_NAV_DATA from '../../src/assets/content/reference/errors/routes.json';
-import EXT_DIAGNOSTICS_NAV_DATA from '../../src/assets/content/reference/extended-diagnostics/routes.json';
+import FIRST_APP_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/first-app/routes.json';
+import LEARN_ANGULAR_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/learn-angular/routes.json';
+import DEFERRABLE_VIEWS_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/deferrable-views/routes.json';
+import SIGNALS_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/signals/routes.json';
+import ERRORS_NAV_DATA from '../../../src/assets/content/reference/errors/routes.json';
+import EXT_DIAGNOSTICS_NAV_DATA from '../../../src/assets/content/reference/extended-diagnostics/routes.json';
 
-import {DefaultPage} from './core/enums/pages';
-import {getApiNavigationItems} from './features/references/helpers/manifest.helper';
+import {getApiNavigationItems} from '../features/references/helpers/manifest.helper';
+import {DEFAULT_PAGES} from '../core/constants/pages';
 
 interface SubNavigationData {
   docs: NavigationItem[];
@@ -27,48 +29,48 @@ interface SubNavigationData {
 
 const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
   {
-    label: 'Introduction',
+    label: 'Introducción',
     children: [
       {
-        label: 'What is Angular?',
+        label: '¿Qué es Angular?',
         path: 'overview',
         contentPath: 'introduction/what-is-angular',
       },
       {
-        label: 'Installation',
+        label: 'Instalación',
         path: 'installation',
         contentPath: 'introduction/installation',
       },
       {
-        label: 'Essentials',
+        label: 'Esenciales',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'essentials',
             contentPath: 'introduction/essentials/overview',
           },
           {
-            label: 'Composition with components',
+            label: 'Composición basada en componentes',
             path: 'essentials/components',
             contentPath: 'introduction/essentials/components',
           },
           {
-            label: 'Reactivity with signals',
+            label: 'Reactividad con signals',
             path: 'essentials/signals',
             contentPath: 'introduction/essentials/signals',
           },
           {
-            label: 'Dynamic interfaces with templates',
+            label: 'Interfaces dinámicas con plantillas',
             path: 'essentials/templates',
             contentPath: 'introduction/essentials/templates',
           },
           {
-            label: 'Modular design with dependency injection',
+            label: 'Diseño modular con inyección de dependencias',
             path: 'essentials/dependency-injection',
             contentPath: 'introduction/essentials/dependency-injection',
           },
           {
-            label: 'Next Steps',
+            label: 'Siguientes pasos',
             path: 'essentials/next-steps',
             contentPath: 'introduction/essentials/next-steps',
           },
@@ -81,43 +83,43 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'In-depth Guides',
+    label: 'Guías Detalladas',
     children: [
       {
         label: 'Signals',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/signals',
             contentPath: 'guide/signals/overview',
           },
           {
-            label: 'Dependent state with linkedSignal',
+            label: 'Estado dependiente con linkedSignal',
             path: 'guide/signals/linked-signal',
             contentPath: 'guide/signals/linked-signal',
           },
           {
-            label: 'Async reactivity with resources',
+            label: 'Reactividad asíncrona con resource',
             path: 'guide/signals/resource',
             contentPath: 'guide/signals/resource',
           },
         ],
       },
       {
-        label: 'Components',
+        label: 'Componentes',
         children: [
           {
-            label: 'Anatomy of components',
+            label: 'Anatomía de Componentes',
             path: 'guide/components',
             contentPath: 'guide/components/anatomy-of-components',
           },
           {
-            label: 'Selectors',
+            label: 'Selectores',
             path: 'guide/components/selectors',
             contentPath: 'guide/components/selectors',
           },
           {
-            label: 'Styling',
+            label: 'Estilos',
             path: 'guide/components/styling',
             contentPath: 'guide/components/styling',
           },
@@ -249,25 +251,25 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Directives',
+        label: 'Directivas',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/directives',
             contentPath: 'guide/directives/overview',
           },
           {
-            label: 'Attribute directives',
+            label: 'Directivas de atributo',
             path: 'guide/directives/attribute-directives',
             contentPath: 'guide/directives/attribute-directives',
           },
           {
-            label: 'Structural directives',
+            label: 'Directivas estructurales',
             path: 'guide/directives/structural-directives',
             contentPath: 'guide/directives/structural-directives',
           },
           {
-            label: 'Directive composition API',
+            label: 'API de composición de directivas',
             path: 'guide/directives/directive-composition-api',
             contentPath: 'guide/directives/directive-composition-api',
           },
@@ -279,45 +281,45 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Dependency Injection',
+        label: 'Inyección de Dependencias',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/di',
             contentPath: 'guide/di/overview',
           },
           {
-            label: 'Understanding dependency injection',
+            label: 'Entendiendo la inyección de dependencias',
             path: 'guide/di/dependency-injection',
             contentPath: 'guide/di/dependency-injection',
           },
           {
-            label: 'Creating an injectable service',
+            label: 'Creando un servicio inyectable',
             path: 'guide/di/creating-injectable-service',
             contentPath: 'guide/di/creating-injectable-service',
           },
           {
-            label: 'Defining dependency providers',
+            label: 'Definiendo proveedores de dependencias',
             path: 'guide/di/dependency-injection-providers',
             contentPath: 'guide/di/dependency-injection-providers',
           },
           {
-            label: 'Injection context',
+            label: 'Contexto de inyección',
             path: 'guide/di/dependency-injection-context',
             contentPath: 'guide/di/dependency-injection-context',
           },
           {
-            label: 'Hierarchical injectors',
+            label: 'Inyectores jerárquicos',
             path: 'guide/di/hierarchical-dependency-injection',
             contentPath: 'guide/di/hierarchical-dependency-injection',
           },
           {
-            label: 'Optimizing injection tokens',
+            label: 'Optimizando tokens de inyección',
             path: 'guide/di/lightweight-injection-tokens',
             contentPath: 'guide/di/lightweight-injection-tokens',
           },
           {
-            label: 'DI in action',
+            label: 'DI en acción',
             path: 'guide/di/di-in-action',
             contentPath: 'guide/di/di-in-action',
           },
@@ -325,6 +327,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: 'Routing',
+        status: 'updated',
         children: [
           {
             label: 'Overview',
@@ -362,6 +365,22 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/routing/route-guards',
           },
           {
+            label: 'Route data resolvers',
+            path: 'guide/routing/data-resolvers',
+            contentPath: 'guide/routing/data-resolvers',
+          },
+          {
+            label: 'Lifecycle and events',
+            path: 'guide/routing/lifecycle-and-events',
+            contentPath: 'guide/routing/lifecycle-and-events',
+          },
+          {
+            label: 'Testing routing and navigation',
+            path: 'guide/routing/testing',
+            contentPath: 'guide/routing/testing',
+            status: 'new',
+          },
+          {
             label: 'Other routing tasks',
             path: 'guide/routing/common-router-tasks',
             contentPath: 'guide/routing/common-router-tasks',
@@ -372,77 +391,94 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/routing/routing-with-urlmatcher',
           },
           {
+            label: 'Rendering strategies',
+            path: 'guide/routing/rendering-strategies',
+            contentPath: 'guide/routing/rendering-strategies',
+            status: 'new',
+          },
+          {
+            label: 'Customizing route behavior',
+            path: 'guide/routing/customizing-route-behavior',
+            contentPath: 'guide/routing/customizing-route-behavior',
+            status: 'new',
+          },
+          {
             label: 'Router reference',
             path: 'guide/routing/router-reference',
             contentPath: 'guide/routing/router-reference',
           },
+          {
+            label: 'Route transition animations',
+            path: 'guide/routing/route-transition-animations',
+            contentPath: 'guide/routing/route-transition-animations',
+          },
         ],
       },
       {
-        label: 'Forms',
+        label: 'Formularios',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/forms',
             contentPath: 'guide/forms/overview',
           },
           {
-            label: 'Reactive forms',
+            label: 'Formularios reactivos',
             path: 'guide/forms/reactive-forms',
             contentPath: 'guide/forms/reactive-forms',
           },
           {
-            label: 'Strictly typed reactive forms',
+            label: 'Formularios reactivos estrictamente tipados',
             path: 'guide/forms/typed-forms',
             contentPath: 'guide/forms/typed-forms',
           },
           {
-            label: 'Template-driven forms',
+            label: 'Formularios basados en plantillas',
             path: 'guide/forms/template-driven-forms',
             contentPath: 'guide/forms/template-driven-forms',
           },
           {
-            label: 'Validate form input',
+            label: 'Validar entrada de formularios',
             path: 'guide/forms/form-validation',
             contentPath: 'guide/forms/form-validation',
           },
           {
-            label: 'Building dynamic forms',
+            label: 'Construir formularios dinámicos',
             path: 'guide/forms/dynamic-forms',
             contentPath: 'guide/forms/dynamic-forms',
           },
         ],
       },
       {
-        label: 'HTTP Client',
+        label: 'Cliente HTTP',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/http',
             contentPath: 'guide/http/overview',
           },
           {
-            label: 'Setting up HttpClient',
+            label: 'Configurando HttpClient',
             path: 'guide/http/setup',
             contentPath: 'guide/http/setup',
           },
           {
-            label: 'Making requests',
+            label: 'Realizando solicitudes HTTP',
             path: 'guide/http/making-requests',
             contentPath: 'guide/http/making-requests',
           },
           {
-            label: 'Reactive data fetching with httpResource',
+            label: 'Obtención reactiva de datos con httpResource',
             path: 'guide/http/http-resource',
             contentPath: 'guide/http/http-resource',
           },
           {
-            label: 'Intercepting requests and responses',
+            label: 'Interceptando peticiones y respuestas',
             path: 'guide/http/interceptors',
             contentPath: 'guide/http/interceptors',
           },
           {
-            label: 'Testing',
+            label: 'Pruebas',
             path: 'guide/http/testing',
             contentPath: 'guide/http/testing',
           },
@@ -510,6 +546,12 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             label: 'Testing pipes',
             path: 'guide/testing/pipes',
             contentPath: 'guide/testing/pipes',
+          },
+          {
+            label: 'Testing routing and navigation',
+            path: 'guide/routing/testing',
+            contentPath: 'guide/routing/testing',
+            status: 'new',
           },
           {
             label: 'Debugging tests',
@@ -610,21 +652,28 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: 'Animations',
+        status: 'updated',
         children: [
           {
-            label: 'Animating your content',
+            label: 'Enter and Leave animations',
+            path: 'guide/animations',
+            contentPath: 'guide/animations/enter-and-leave',
+            status: 'new',
+          },
+          {
+            label: 'Complex Animations with CSS',
             path: 'guide/animations/css',
             contentPath: 'guide/animations/css',
           },
           {
             label: 'Route transition animations',
-            path: 'guide/animations/route-animations',
-            contentPath: 'guide/animations/route-animations',
+            path: 'guide/routing/route-transition-animations',
+            contentPath: 'guide/routing/route-transition-animations',
           },
         ],
       },
       {
-        label: 'Drag and drop',
+        label: 'Drag and drop (arrastrar y soltar)',
         path: 'guide/drag-drop',
         contentPath: 'guide/drag-drop',
       },
@@ -632,6 +681,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
   },
   {
     label: 'Build with AI',
+    status: 'new',
     children: [
       {
         label: 'Get Started',
@@ -642,6 +692,16 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'LLM prompts and AI IDE setup',
         path: 'ai/develop-with-ai',
         contentPath: 'ai/develop-with-ai',
+      },
+      {
+        label: 'Design Patterns',
+        path: 'ai/design-patterns',
+        contentPath: 'ai/design-patterns',
+      },
+      {
+        label: 'Angular CLI MCP Server setup',
+        path: 'ai/mcp',
+        contentPath: 'ai/mcp-server-setup',
       },
     ],
   },
@@ -755,8 +815,35 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: 'DevTools',
-        path: 'tools/devtools',
-        contentPath: 'tools/devtools',
+        children: [
+          {
+            label: 'Overview',
+            path: 'tools/devtools',
+            contentPath: 'tools/devtools/overview',
+          },
+          {
+            label: 'Components',
+            path: 'tools/devtools/component',
+            contentPath: 'tools/devtools/component',
+          },
+          {
+            label: 'Profiler',
+            path: 'tools/devtools/profiler',
+            contentPath: 'tools/devtools/profiler',
+          },
+          // TODO: create those guides
+          // The signal debugging docs should also be added to the signal section
+          // {
+          //   label: 'Signals',
+          //   path: 'tools/devtools/signals',
+          //   contentPath: 'tools/devtools/signals',
+          // },
+          // {
+          //   label: 'Router',
+          //   path: 'tools/devtools/router',
+          //   contentPath: 'tools/devtools/router',
+          // }
+        ],
       },
       {
         label: 'Language Service',
@@ -772,6 +859,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Style Guide',
         path: 'style-guide',
         contentPath: 'best-practices/style-guide',
+        status: 'updated',
       },
       {
         label: 'Security',
@@ -835,26 +923,26 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'guide/ngmodules/overview',
       },
       {
-        label: 'Animations',
+        label: 'Legacy Animations',
         children: [
           {
             label: 'Overview',
-            path: 'guide/animations',
+            path: 'guide/legacy-animations',
             contentPath: 'guide/animations/overview',
           },
           {
             label: 'Transition and Triggers',
-            path: 'guide/animations/transition-and-triggers',
+            path: 'guide/legacy-animations/transition-and-triggers',
             contentPath: 'guide/animations/transition-and-triggers',
           },
           {
             label: 'Complex Sequences',
-            path: 'guide/animations/complex-sequences',
+            path: 'guide/legacy-animations/complex-sequences',
             contentPath: 'guide/animations/complex-sequences',
           },
           {
             label: 'Reusable Animations',
-            path: 'guide/animations/reusable-animations',
+            path: 'guide/legacy-animations/reusable-animations',
             contentPath: 'guide/animations/reusable-animations',
           },
           {
@@ -877,6 +965,11 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             path: 'ecosystem/rxjs-interop/output-interop',
             contentPath: 'ecosystem/rxjs-interop/output-interop',
           },
+          {
+            label: 'Unsubscribing with takeUntilDestroyed',
+            path: 'ecosystem/rxjs-interop/take-until-destroyed',
+            contentPath: 'ecosystem/rxjs-interop/take-until-destroyed',
+          },
         ],
       },
       {
@@ -891,6 +984,11 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             label: 'Getting started',
             path: 'ecosystem/service-workers/getting-started',
             contentPath: 'ecosystem/service-workers/getting-started',
+          },
+          {
+            label: 'Custom service worker scripts',
+            path: 'ecosystem/service-workers/custom-service-worker-scripts',
+            contentPath: 'ecosystem/service-workers/custom-service-worker-scripts',
           },
           {
             label: 'Configuration file',
@@ -930,6 +1028,12 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'ecosystem/custom-build-pipeline',
       },
       {
+        label: 'Tailwind',
+        path: 'guide/tailwind',
+        contentPath: 'guide/tailwind',
+        status: 'new',
+      },
+      {
         label: 'Angular Fire',
         path: 'https://github.com/angular/angularfire#readme',
       },
@@ -955,14 +1059,29 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
     ],
   },
+  ...(isDevMode()
+  ? [
+      {
+        label: 'Adev Dev Guide',
+        children: [
+          {
+            label: 'Kitchen Sink',
+            path: 'kitchen-sink',
+            contentPath: 'kitchen-sink',
+          },
+        ],
+      },
+    ]
+  : []),
 ];
 
 export const TUTORIALS_SUB_NAVIGATION_DATA: NavigationItem[] = [
   FIRST_APP_TUTORIAL_NAV_DATA,
   LEARN_ANGULAR_TUTORIAL_NAV_DATA,
   DEFERRABLE_VIEWS_TUTORIAL_NAV_DATA,
+  SIGNALS_TUTORIAL_NAV_DATA,
   {
-    path: DefaultPage.TUTORIALS,
+    path: DEFAULT_PAGES.TUTORIALS,
     contentPath: 'tutorials/home',
     label: 'Tutorials',
   },
@@ -1089,6 +1208,10 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
           {
             label: 'Overview',
             path: 'cli/generate',
+          },
+          {
+            label: 'ai-config',
+            path: 'cli/generate/ai-config',
           },
           {
             label: 'app-shell',

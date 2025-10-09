@@ -164,6 +164,39 @@ const resp = new HttpResponse({
 });
 </docs-code>
 
+## Trabajando con información de redirección 
+
+Cuando se usa `HttpClient` con el proveedor `withFetch`, las respuestas incluyen una propiedad `redirected` que indica si la respuesta fue resultado de una redirección. Esta propiedad está alineada con la especificación nativa de la API Fetch y puede ser útil en interceptores para manejar escenarios de redirección.
+
+Un interceptor puede acceder y actuar en base a la información de redirección:
+
+<docs-code language="ts">
+export function redirectTrackingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(tap(event => {
+    if (event.type === HttpEventType.Response && event.redirected) {
+      console.log('La solicitud a', req.url, 'fue redirigida a', event.url);
+      // Manejar la lógica de redirección - por ejemplo actualizar analíticas, verificaciones de seguridad, etc.
+    }
+  }));
+}
+</docs-code>
+
+También puedes usar la información de redirección para implementar lógica condicional en tus interceptores:
+
+<docs-code language="ts">
+export function authRedirectInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(tap(event => {
+    if (event.type === HttpEventType.Response && event.redirected) {
+      // Verificar si fuimos redirigidos a una página de inicio de sesión
+      if (event.url?.includes('/login')) {
+        // Manejar la redirección de autenticación
+        handleAuthRedirect();
+      }
+    }
+  }));
+}
+</docs-code>
+
 ## Interceptores basados en DI (Inyección de Dependencias)
 
 `HttpClient` también soporta interceptores que se definen como clases inyectables y se configuran a través del sistema DI. Las capacidades de los interceptores basados en DI son idénticas a las de los interceptores funcionales, pero el mecanismo de configuración es diferente.

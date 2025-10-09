@@ -115,7 +115,7 @@ El `status` de una signal proporciona un `ResourceStatus` específico que descri
 | ------------- | :---------------- | ---------------------------------------------------------------------------- |
 | `'idle'`      | `undefined`       | El resource no tiene una peticion válida y el loader no se ha ejecutado.       |
 | `'error'`     | `undefined`       | El loader ha encontrado un error.                                            |
-| `'loading'`   | `undefined`       | El loader se está ejecutando como resultado del valor de `request` cambiando. |
+| `'loading'`   | `undefined`       | El loader se está ejecutando como resultado de que el valor de `params` haya cambiando. |
 | `'reloading'` | Valor anterior    | El loader se está ejecutando como resultado de llamar al método `reload` del resource. |
 | `'resolved'`  | Valor resuelto    | El loader ha completado.                                                     |
 | `'local'`     | Valor establecido localmente | El valor del resource ha sido establecido localmente vía `.set()` o `.update()` |

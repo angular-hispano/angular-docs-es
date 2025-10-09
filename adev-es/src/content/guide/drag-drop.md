@@ -312,6 +312,20 @@ Hay casos donde los elementos arrastrables pueden ser arrastrados de un `cdkDrop
 
 Alternativamente, puedes modificar el token de inyección `CDK_DRAG_CONFIG` para actualizar `sortingDisabled` dentro de la configuración. Para más información consulta la [guía de inyección de dependencias](https://angular.dev/guide/di), la [API del token de inyección de configuración de arrastre](api/cdk/drag-drop/CDK_DRAG_CONFIG), y la [API de configuración de drag and drop](api/cdk/drag-drop/DragDropConfig).
 
+### Copying items between lists
+
+By default, when an item is dragged from one list to another, it is moved out of its original list. However, you can configure the directives to copy the item, leaving the original item in the source list.
+
+To enable copying, you can set the `cdkDropListHasAnchor` input. This tells the `cdkDropList` to create an "anchor" element that stays in the original container and doesn't move with the item. If the user moves the item back into the original container, the anchor is removed automatically. The anchor element can be styled by targeting the `.cdk-drag-anchor` CSS class.
+
+Combining `cdkDropListHasAnchor` with `cdkDropListSortingDisabled` makes it possible to construct a list from which a user can copy items without being able to reorder the source list (e.g. a product list and a shopping cart).
+
+<docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/copy-list/app/app.component.ts">
+  <docs-code header="app/app.component.html" path="adev/src/content/examples/drag-drop/src/copy-list/app/app.component.html"/>
+  <docs-code header="app/app.component.ts" path="adev/src/content/examples/drag-drop/src/copy-list/app/app.component.ts"/>
+  <docs-code header="app/app.component.css" path="adev/src/content/examples/drag-drop/src/copy-list/app/app.component.css"/>
+</docs-code-multifile>
+
 ## Personalizar animaciones
 
 Drag and drop soporta animaciones tanto para:
@@ -341,3 +355,12 @@ Tanto las directivas `cdkDrag` como `cdkDropList` solo aplican estilos esenciale
 | .cdk-drop-list-dragging   | Selector para el elemento contenedor de `cdkDropList` que tiene un elemento arrastrable actualmente siendo arrastrado.                                                                                                                                                                                                      |
 | .cdk-drop-list-disabled   | Selector para elementos contenedores de `cdkDropList` que están deshabilitados.                                                                                                                                                                                                                                        |
 | .cdk-drop-list-receiving  | Selector para el elemento contenedor de `cdkDropList` que tiene un elemento arrastrable que puede recibir de una lista de soltar conectada que está actualmente siendo arrastrado.                                                                                                                                                    |
+| .cdk-drag-anchor          | Selector para elemento de aclaje que se crea cuado `cdkDropListHasAnchor` está habilitado. Este elemento indica la posición desde la cual comenzó el arrastre del elemento                          |
+
+## Arrastrado en un contenedor desplazable
+
+Si tus elementos arrastrables están dentro de un contenedor desplazable (por ejemplo, un `div` con `overflow: auto`), el desplazamiento automático no funcionará a menos que el contenedor desplazable tenga la directiva `cdkScrollable`. Sin esta directiva, el CDK no puede detectar ni controlar el comportamiento de desplazamiento del contenedor durante las operaciones de arrastre.
+
+## Integraciones con otros componentes
+
+La funcionalidad de arrastrar y soltar del CDK puede integrarse con diferentes componentes. Los casos de uso más comunes incluyen componentes `MatTable` ordenables y componentes `MatTabGroup` ordenables.

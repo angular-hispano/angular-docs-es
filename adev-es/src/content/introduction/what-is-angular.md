@@ -1,9 +1,9 @@
 <docs-decorative-header title="¿Qué es Angular?" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-<big style="margin-top: 2em">
+<p style="margin-top: 2em; font-size: larger;">
 Angular es un framework que permite a los desarrolladores crear aplicaciones rápidas y fiables.
-</big>
+</p>
 
 Mantenido por un equipo dedicado en Google, Angular ofrece un amplio conjunto de herramientas, API y
 librerias para simplificar y optimizar su flujo de trabajo de desarrollo. Angular te da

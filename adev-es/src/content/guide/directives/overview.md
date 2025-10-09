@@ -6,10 +6,11 @@ Usa las directivas integradas de Angular para gestionar formularios, listas, est
 
 Los diferentes tipos de directivas de Angular son los siguientes:
 
-| Tipos de Directivas                                          | Detalles                                                                           |
-| :------------------------------------------------------- | :-------------------------------------------------------------------------------- |
-| [Componentes](guide/components)                           | Se usan con una plantilla. Este tipo de directiva es el tipo de directiva más común.   |
-| [Directivas de atributo](#directivas-de-atributo-integradas)   | Cambian la apariencia o comportamiento de un elemento, componente u otra directiva. |
+| Tipos de Directivas                                              | Detalles                                                                             |
+| :--------------------------------------------------------------- | :----------------------------------------------------------------------------------- |
+| [Componentes](guide/components)                                  | Se usan con una plantilla. Este tipo de directiva es el tipo de directiva más común. |
+| [Directivas de atributo](#directivas-de-atributo-integradas)     | Cambian la apariencia o comportamiento de un elemento, componente u otra directiva.  |
+| [Structural directives](/guide/directives/structural-directives) | Cambia el diseño del DOM agregando y eliminando elementos del DOM..    
 
 Esta guía cubre las [directivas de atributo integradas](#directivas-de-atributo-integradas).
 
@@ -19,11 +20,11 @@ Las directivas de atributo escuchan y modifican el comportamiento de otros eleme
 
 Las directivas de atributo más comunes son las siguientes:
 
-| Directivas comunes                                             | Detalles                                            |
-| :------------------------------------------------------------ | :------------------------------------------------- |
-| [`NgClass`](#añadiendo-y-eliminando-clases-con-ngclass)        | Añade y elimina un conjunto de clases CSS.             |
-| [`NgStyle`](#configurando-estilos-en-línea-con-ngstyle)              | Añade y elimina un conjunto de estilos HTML.             |
-| [`NgModel`](guide/forms/template-driven-forms)                | Añade enlace de datos bidireccional a un elemento de formulario HTML. |
+| Directivas comunes                                             | Detalles                                                              |
+| :------------------------------------------------------------- | :-------------------------------------------------------------------- |
+| [`NgClass`](#añadiendo-y-eliminando-clases-con-ngclass)        | Añade y elimina un conjunto de clases CSS.                            |
+| [`NgStyle`](#configurando-estilos-en-línea-con-ngstyle)        | Añade y elimina un conjunto de estilos HTML.                          |
+| [`NgModel`](guide/forms/template-driven-forms)                 | Añade enlace de datos bidireccional a un elemento de formulario HTML. |
 
 ÚTIL: Las directivas integradas usan solo APIs públicas. No tienen acceso especial a ninguna API privada que otras directivas no puedan acceder.
 

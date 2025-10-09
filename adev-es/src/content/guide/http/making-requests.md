@@ -104,6 +104,49 @@ http.get('/api/config', {
 
 Puedes instanciar `HttpParams` con un `HttpParameterCodec` personalizado que determine cómo `HttpClient` codificará los parámetros en la URL.
 
+### Codificación personalizada de parámetros
+
+Por defecto, `HttpParams` utiliza el [`HttpUrlEncodingCodec`](api/common/http/HttpUrlEncodingCodec) incorporado para codificar y decodificar las claves y valores de los parámetros.
+
+Puedes proporcionar tu propia implementación de [`HttpParameterCodec`](api/common/http/HttpParameterCodec) para personalizar cómo se aplica la codificación y decodificación.
+
+```ts
+import { HttpClient, HttpParams, HttpParameterCodec } from '@angular/common/http';
+import { inject } from '@angular/core';
+
+export class CustomHttpParamEncoder  implements HttpParameterCodec {
+  encodeKey(key: string): string   {
+     return encodeURIComponent(key); 
+  }
+
+  encodeValue(value: string): string {
+    return encodeURIComponent(value);
+  }
+
+  decodeKey(key: string): string {
+    return decodeURIComponent(key);
+  }
+
+  decodeValue(value: string): string {
+    return decodeURIComponent(value);
+  }
+}
+
+export class ApiService {
+  private http = inject(HttpClient);
+
+  search() {
+    const params = new HttpParams({
+      encoder: new CustomHttpParamEncoder(),
+    })
+    .set('email', 'dev+alerts@example.com')
+    .set('q', 'a & b? c/d = e');
+
+    return this.http.get('/api/items', { params });
+  }
+}
+```
+
 ## Configurando encabezados de solicitud
 
 Especifica los encabezados de solicitud que deben incluirse en la solicitud usando la opción `headers`.
@@ -198,18 +241,286 @@ Cada `HttpEvent` reportado en la secuencia de eventos tiene un `type` que distin
 
 ## Manejando fallos de solicitud
 
-Hay dos formas en que una solicitud HTTP puede fallar:
+Hay tres formas en que una solicitud HTTP puede fallar:
 
 * Un error de red o conexión puede impedir que la solicitud llegue al servidor backend.
+* Una solicitud no respondió a tiempo cuando se configuró la opción de tiempo de espera (timeout).
 * El backend puede recibir la solicitud pero fallar al procesarla, y devolver una respuesta de error.
 
-`HttpClient` captura ambos tipos de errores en un `HttpErrorResponse` que devuelve a través del canal de error del `Observable`. Los errores de red tienen un código de `status` de `0` y un `error` que es una instancia de [`ProgressEvent`](https://developer.mozilla.org/docs/Web/API/ProgressEvent). Los errores del backend tienen el código de `status` fallido devuelto por el backend, y la respuesta de error como `error`. Inspecciona la respuesta para identificar la causa del error y la acción apropiada para manejar el error.
+`HttpClient` captura todos tipos de errores mencionados anteriormente en un `HttpErrorResponse` que devuelve a través del canal de error del `Observable`. Los errores de red tienen un código de `status` de `0` y un `error` que es una instancia de [`ProgressEvent`](https://developer.mozilla.org/docs/Web/API/ProgressEvent). Los errores del backend tienen el código de `status` fallido devuelto por el backend, y la respuesta de error como `error`. Inspecciona la respuesta para identificar la causa del error y la acción apropiada para manejar el error.
 
 La [librería RxJS](https://rxjs.dev/) ofrece varios operadores que pueden ser útiles para el manejo de errores.
 
 Puedes usar el operador `catchError` para transformar una respuesta de error en un valor para la UI. Este valor puede decirle a la UI que muestre una página o valor de error, y capturar la causa del error si es necesario.
 
 A veces, errores transitorios como interrupciones de red pueden hacer que una solicitud falle inesperadamente, y simplemente reintentar la solicitud permitirá que tenga éxito. RxJS proporciona varios operadores de *reintento* que automáticamente se re-suscriben a un `Observable` fallido bajo ciertas condiciones. Por ejemplo, el operador `retry()` automáticamente intentará re-suscribirse un número especificado de veces.
+
+### Tiempos de esperar (Timeouts)
+
+Para establecer un tiempo de espera para una solicitud, puedes configurar la opción `timeout` con un número de milisegundos junto con otras opciones de la solicitud. Si la solicitud al backend no se completa dentro del tiempo especificado, la solicitud se abortará y se emitirá un error.
+
+NOTA: El timeout solo se aplica a la solicitud HTTP al backend en sí. No es un tiempo de espera para toda la cadena de manejo de la solicitud. Por lo tanto, esta opción no se ve afectada por ningún retraso introducido por los interceptores.
+
+<docs-code language="ts">
+http.get('/api/config', {
+  timeout: 3000,
+}).subscribe({
+  next: config => {
+    console.log('Configuración obtenida con éxito:', config);
+  },
+  error: err => {
+    // Si la solicitud supera el tiempo de espera, se habrá emitido un error.
+  }
+});
+</docs-code>
+
+## Opciones avanzadas de Fetch
+
+Al usar el proveedor `withFetch()`, el `HttpClient` de Angular proporciona acceso a opciones avanzadas de la API Fetch que pueden mejorar el rendimiento y la experiencia del usuario. Estas opciones solo están disponibles cuando se utiliza el backend Fetch.
+
+### Opciones de Fetch
+
+Las siguientes opciones permiten un control detallado sobre el comportamiento de la solicitud al usar el backend Fetch.
+
+#### Conexiones Keep-alive
+
+La opción `keepalive` permite que una solicitud continúe incluso si la página que la inició se cierra. Esto es útil para solicitudes de analíticas o registro que deben completarse aunque el usuario navegue fuera de la página.
+
+<docs-code language="ts">
+http.post('/api/analytics', analyticsData, {
+  keepalive: true
+}).subscribe();
+</docs-code>
+
+#### Control de caché HTTP
+
+La opción `cache` controla cómo interactúa la solicitud con la caché HTTP del navegador, lo que puede mejorar significativamente el rendimiento en solicitudes repetidas.
+
+<docs-code language="ts">
+// Usar respuesta en caché sin importar su antigüedad
+http.get('/api/config', {
+  cache: 'force-cache'
+}).subscribe(config => {
+  // ...
+});
+
+// Siempre obtener del network, ignorando la caché
+http.get('/api/live-data', {
+  cache: 'no-cache'
+}).subscribe(data => {
+  // ...
+});
+
+// Usar solo la respuesta en caché, falla si no está en caché
+http.get('/api/static-data', {
+  cache: 'only-if-cached'
+}).subscribe(data => {
+  // ...
+});
+</docs-code>
+
+#### Prioridad de solicitud para Core Web Vitals
+
+La opción `priority` permite indicar la importancia relativa de una solicitud, ayudando a los navegadores a optimizar la carga de recursos para mejorar los Core Web Vitals.
+
+<docs-code language="ts">
+// Alta prioridad para recursos críticos
+http.get('/api/user-profile', {
+  priority: 'high'
+}).subscribe(profile => {
+  // ...
+});
+
+// Baja prioridad para recursos no críticos
+http.get('/api/recommendations', {
+  priority: 'low'
+}).subscribe(recommendations => {
+  // ...
+});
+
+// Prioridad automática (por defecto), el navegador decide
+http.get('/api/settings', {
+  priority: 'auto'
+}).subscribe(settings => {
+  // ...
+});
+</docs-code>
+
+Valores disponibles para `priority`:
+- `'high'`: Prioridad alta, se carga pronto (por ejemplo, datos críticos del usuario, contenido que se ve sin hacer scroll)
+- `'low'`: Prioridad baja, se carga cuando los recursos están disponibles (por ejemplo, análisis, datos de precarga)
+- `'auto'`: El navegador determina la prioridad basándose en el contexto de la solicitud (valor por defecto)
+
+TIP: Usa `priority: 'high'` para solicitudes que afectan Largest Contentful Paint (LCP) y `priority: 'low'` para solicitudes que no impactan la experiencia inicial del usuario.
+
+#### Modo de solicitud
+
+La opción `mode` controla cómo se manejan las solicitudes cross-origin y determina el tipo de respuesta.
+
+<docs-code language="ts">
+// Solo solicitudes same-origin
+http.get('/api/local-data', {
+  mode: 'same-origin'
+}).subscribe(data => {
+  // ...
+});
+
+// Solicitudes CORS habilitadas cross-origin
+http.get('https://api.external.com/data', {
+  mode: 'cors'
+}).subscribe(data => {
+  // ...
+});
+
+// Modo no-CORS para solicitudes simples cross-origin
+http.get('https://external-api.com/public-data', {
+  mode: 'no-cors'
+}).subscribe(data => {
+  // ...
+});
+</docs-code>
+
+Valores disponibles para `mode`:
+- `'same-origin'`: Solo permite solicitudes same-origin, falla si es cross-origin
+- `'cors'`: Permite solicitudes cross-origin con CORS (por defecto)
+- `'no-cors'`: Permite solicitudes simples cross-origin sin CORS, la respuesta es opaca
+
+TIP: Usa `mode: 'same-origin'` para solicitudes sensibles que nunca deberían ser cross-origin.
+
+#### Manejo de redirecciones
+
+La opción `redirect` especifica cómo manejar respuestas de redirección del servidor.
+
+<docs-code language="ts">
+// Seguir redirecciones automáticamente (comportamiento por defecto)
+http.get('/api/resource', {
+  redirect: 'follow'
+}).subscribe(data => {
+  // ...
+});
+
+// Prevenir redirecciones automáticas
+http.get('/api/resource', {
+  redirect: 'manual'
+}).subscribe(response => {
+  // Manejar la redirección manualmente
+});
+
+// Tratar redirecciones como errores
+http.get('/api/resource', {
+  redirect: 'error'
+}).subscribe({
+  next: data => {
+    // Respuesta exitosa
+  },
+  error: err => {
+    // Las redirecciones activarán este manejador de errores
+  }
+});
+</docs-code>
+
+Valores disponibles para `redirect`:
+- `'follow'`: Seguir redirecciones automáticamente (por defecto)
+- `'error'`: Tratar redirecciones como errores
+- `'manual'`: No seguir redirecciones automáticamente, devolver la respuesta de redirección
+
+TIP: Usa `redirect: 'manual'` cuando necesites manejar redirecciones con lógica personalizada.
+
+#### Manejo de credenciales
+
+La opción `credentials` controla si se envían cookies, encabezados de autorización y otras credenciales en solicitudes cross-origin. Esto es importante para escenarios de autenticación.
+
+<docs-code language="ts">
+// Incluir credenciales en solicitudes cross-origin
+http.get('https://api.example.com/protected-data', {
+  credentials: 'include'
+}).subscribe(data => {
+  // ...
+});
+
+// Nunca enviar credenciales (por defecto en cross-origin)
+http.get('https://api.example.com/public-data', {
+  credentials: 'omit'
+}).subscribe(data => {
+  // ...
+});
+
+// Enviar credenciales solo para solicitudes same-origin
+http.get('/api/user-data', {
+  credentials: 'same-origin'
+}).subscribe(data => {
+  // ...
+});
+
+// withCredentials sobrescribe la opción credentials
+http.get('https://api.example.com/data', {
+  credentials: 'omit',        // Será ignorado
+  withCredentials: true       // Fuerza credentials: 'include'
+}).subscribe(data => {
+  // La solicitud incluirá credenciales aunque credentials sea 'omit'
+});
+
+// Enfoque legado (todavía soportado)
+http.get('https://api.example.com/data', {
+  withCredentials: true
+}).subscribe(data => {
+  // Equivalente a credentials: 'include'
+});
+</docs-code>
+
+IMPORTANTE: La opción `withCredentials` tiene prioridad sobre `credentials`. Si se especifican ambas, `withCredentials: tru`e` siempre resultará en `credentials: 'include'`, sin importar el valor explícito de `credentials`.
+
+Valores disponivles para `credentials`:
+- `'omit'`: Nunca enviar credenciales
+- `'same-origin'`: Enviar credenciales solo para solicitudes same-origin (por defecto)
+- `'include'`: Siempre enviar credenciales, incluso en solicitudes cross-origin
+
+TIP: Usa `credentials: 'include'` cuando necesites enviar cookies o encabezados de autenticación a un dominio diferente que soporte CORS. Evita mezclar `credentials` y `withCredentials` para no generar confusión.
+
+#### Referente (Referrer)
+
+La opción `referrer` permite controlar qué información de referencia se envía con la solicitud, importante por motivos de privacidad y seguridad.
+
+<docs-code language="ts">
+// Enviar una URL específica como referrer
+http.get('/api/data', {
+  referrer: 'https://example.com/page'
+}).subscribe(data => {
+  // ...
+});
+
+// Usar la página actual como referrer (por defecto)
+http.get('/api/analytics', {
+  referrer: 'about:client'
+}).subscribe(data => {
+  // ...
+});
+</docs-code>
+
+La opción `referrer` acepta:
+- Una cadena de URL válida: establece la URL de referrer a enviar
+- Una cadena vacía `''`: No envía información de referrer
+- `'about:client'`: Utiliza el referente referrer (la URL de la página actual).
+
+TIP: Usa `referrer: ''` para solicitudes sensibles donde no quieres filtrar la URL de la página que refirió la solicitud.
+
+#### Integridad (Integrity)
+
+La opción `integrity` permite verificar que la respuesta no ha sido alterada, proporcionando un hash criptográfico del contenido esperado. Esto es útil al cargar scripts u otros recursos desde CDNs.
+
+<docs-code language="ts">
+// Verificar integridad de la respuesta con hash SHA-256
+http.get('/api/script.js', {
+  integrity: 'sha256-ABC123...',
+  responseType: 'text'
+}).subscribe(script => {
+  // El contenido del script se verifica contra el hash
+});
+</docs-code>
+
+IMPORTANTE: La opción `integrity` requiere una coincidencia exacta entre el contenido de la respuesta y el hash proporcionado. Si el contenido no coincide, la solicitud fallará con un error de red.
+
+TIP: Usa integridad de subrecursos (subresource integrity) al cargar recursos críticos de fuentes externas para asegurar que no han sido modificados. Genera los hashes usando herramientas como `openssl`
 
 ## `Observable`s Http
 

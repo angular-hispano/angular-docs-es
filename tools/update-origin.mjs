@@ -7,7 +7,7 @@ const copyTargets = [
   'src/content/**/*.md',
   '!src/content/**/license.md',
   // Navigation 
-  'src/app/sub-navigation-data.ts',
+  'src/app/routing/sub-navigation-data.ts',
   // Others
   'src/app/core/constants/links/links.ts',
   'src/app/core/layout/navigation/navigation.component.html',
