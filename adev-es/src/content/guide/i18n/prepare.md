@@ -1,66 +1,66 @@
-# Prepare component for translation
+# Preparar un componente para traducción
 
-To prepare your project for translation, complete the following actions.
+Para preparar tu proyecto para traducción, completa las siguientes acciones.
 
-- Use the `i18n` attribute to mark text in component templates
-- Use the `i18n-` attribute to mark attribute text strings in component templates
-- Use the `$localize` tagged message string to mark text strings in component code
+- Usa el atributo `i18n` para marcar texto en plantillas de componentes
+- Usa el atributo `i18n-` para marcar cadenas de texto de atributos en plantillas de componentes
+- Usa la cadena de mensaje etiquetada `$localize` para marcar cadenas de texto en código de componentes
 
-## Mark text in component template
+## Marcar texto en la plantilla del componente
 
-In a component template, the i18n metadata is the value of the `i18n` attribute.
+En una plantilla de componente, los metadatos i18n son el valor del atributo `i18n`.
 
 <docs-code language="html">
 <element i18n="{i18n_metadata}">{string_to_translate}</element>
 </docs-code>
 
-Use the `i18n` attribute to mark a static text message in your component templates for translation.
-Place it on every element tag that contains fixed text you want to translate.
+Usa el atributo `i18n` para marcar un mensaje de texto estático en tus plantillas de componentes para traducción.
+Colócalo en cada etiqueta de elemento que contenga texto fijo que quieras traducir.
 
-HELPFUL: The `i18n` attribute is a custom attribute that the Angular tools and compilers recognize.
+ÚTIL: El atributo `i18n` es un atributo personalizado que las herramientas y compiladores de Angular reconocen.
 
-### `i18n` example
+### Ejemplo de `i18n`
 
-The following `<h1>` tag displays a simple English language greeting, "Hello i18n!".
+La siguiente etiqueta `<h1>` muestra un saludo simple en inglés, "Hello i18n!".
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="greeting"/>
 
-To mark the greeting for translation, add the `i18n` attribute to the `<h1>` tag.
+Para marcar el saludo para traducción, agrega el atributo `i18n` a la etiqueta `<h1>`.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute"/>
 
 
-### using conditional statement with `i18n`
+### Usando la declaración condicional con `i18n`
 
-The following `<div>` tag will display translated text as part of `div` and `aria-label` based on toggle status
+La siguiente etiqueta `<div>` mostrará texto traducido como parte de `div` y `aria-label` según el estado del interruptor (toggle).
 
 <docs-code-multifile>
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html"  visibleRegion="i18n-conditional"/>
     <docs-code header="src/app/app.component.ts" path="adev/src/content/examples/i18n/src/app/app.component.ts" visibleLines="[[14,21],[33,37]]"/>
 </docs-code-multifile>
 
-### Translate inline text without HTML element
+### Traducir texto en línea sin un elemento HTML
 
-Use the `<ng-container>` element to associate a translation behavior for specific text without changing the way text is displayed.
+Usa el elemento `<ng-container>` para asociar un comportamiento de traducción para texto específico sin cambiar la forma en que se muestra el texto.
 
-HELPFUL: Each HTML element creates a new DOM element.
-To avoid creating a new DOM element, wrap the text in an `<ng-container>` element.
-The following example shows the `<ng-container>` element transformed into a non-displayed HTML comment.
+ÚTIL: Cada elemento HTML crea un nuevo elemento DOM.
+Para evitar crear un nuevo elemento DOM, envuelve el texto en un elemento `<ng-container>`.
+El siguiente ejemplo muestra el elemento `<ng-container>` transformado en un comentario HTML no visible.
 
 <docs-code path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-ng-container"/>
 
-## Mark element attributes for translations
+## Marcar atributos de elementos para traducción
 
-In a component template, the i18n metadata is the value of the `i18n-{attribute_name}` attribute.
+En una plantilla de componente, los metadatos i18n son el valor del atributo `i18n-{attribute_name}`.
 
 <docs-code language="html">
 <element i18n-{attribute_name}="{i18n_metadata}" {attribute_name}="{attribute_value}" />
 </docs-code>
 
-The attributes of HTML elements include text that should be translated along with the rest of the displayed text in the component template.
+Los atributos de elementos HTML incluyen texto que debe traducirse junto con el resto del texto mostrado en la plantilla del componente.
 
-Use `i18n-{attribute_name}` with any attribute of any element and replace `{attribute_name}` with the name of the attribute.
-Use the following syntax to assign a meaning, description, and custom ID.
+Usa `i18n-{attribute_name}` con cualquier atributo de cualquier elemento y reemplaza `{attribute_name}` con el nombre del atributo.
+Usa la siguiente sintaxis para asignar un significado, descripción e ID personalizado.
 
 <!--todo: replace with docs-code -->
 
@@ -68,26 +68,26 @@ Use the following syntax to assign a meaning, description, and custom ID.
 i18n-{attribute_name}="{meaning}|{description}@@{id}"
 </docs-code>
 
-### `i18n-title` example
+### Ejemplo de `i18n-title`
 
-To translate the title of an image, review this example.
-The following example displays an image with a `title` attribute.
+Para traducir el título de una imagen, revisa este ejemplo.
+El siguiente ejemplo muestra una imagen con un atributo `title`.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-title"/>
 
-To mark the title attribute for translation, complete the following action.
+Para marcar el atributo title para traducción, completa la siguiente acción.
 
-1. Add the `i18n-title` attribute
+1. Agrega el atributo `i18n-title`
 
-   The following example displays how to mark the `title` attribute on the `img` tag by adding `i18n-title`.
+   El siguiente ejemplo muestra cómo marcar el atributo `title` en la etiqueta `img` agregando `i18n-title`.
 
    <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-title-translate"/>
 
-## Mark text in component code
+## Marcar texto en el código del componente
 
-In component code, the translation source text and the metadata are surrounded by backtick \(<code>&#96;</code>\) characters.
+En el código del componente, el texto fuente de traducción y los metadatos están rodeados por caracteres de acento grave \(<code>&#96;</code>\).
 
-Use the [`$localize`][ApiLocalizeInitLocalize] tagged message string to mark a string in your code for translation.
+Usa la cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize] para marcar una cadena en tu código para traducción.
 
 <!--todo: replace with docs-code -->
 
@@ -95,7 +95,7 @@ Use the [`$localize`][ApiLocalizeInitLocalize] tagged message string to mark a s
 $localize`string_to_translate`;
 </docs-code>
 
-The i18n metadata is surrounded by colon \(`:`\) characters and prepends the translation source text.
+Los metadatos i18n están rodeados por caracteres de dos puntos \(`:`\) y preceden al texto fuente de traducción.
 
 <!--todo: replace with docs-code -->
 
@@ -103,9 +103,9 @@ The i18n metadata is surrounded by colon \(`:`\) characters and prepends the tra
 $localize`:{i18n_metadata}:string_to_translate`
 </docs-code>
 
-### Include interpolated text
+### Incluir texto interpolado
 
-Include [interpolations](guide/templates/binding#render-dynamic-text-with-text-interpolation) in a [`$localize`][ApiLocalizeInitLocalize] tagged message string.
+Incluye [interpolaciones](guide/templates/binding#render-dynamic-text-with-text-interpolation) en una cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize].
 
 <!--todo: replace with docs-code -->
 
@@ -113,13 +113,13 @@ Include [interpolations](guide/templates/binding#render-dynamic-text-with-text-i
 $localize`string_to_translate ${variable_name}`;
 </docs-code>
 
-### Name the interpolation placeholder
+### Nombrar el marcador de posición (placeholder) de la interpolación
 
 <docs-code language="typescript">
 $localize`string_to_translate ${variable_name}:placeholder_name:`;
 </docs-code>
 
-### Conditional syntax for translations
+### Sintaxis condicional para traducciones
 
 <docs-code language="typescript">
 return this.show ? $localize`Show Tabs` : $localize`Hide tabs`;
@@ -127,7 +127,7 @@ return this.show ? $localize`Show Tabs` : $localize`Hide tabs`;
 
 
 
-## i18n metadata for translation
+## Metadatos i18n para traducción
 
 <!--todo: replace with docs-code -->
 
@@ -135,27 +135,27 @@ return this.show ? $localize`Show Tabs` : $localize`Hide tabs`;
 {meaning}|{description}@@{custom_id}
 </docs-code>
 
-The following parameters provide context and additional information to reduce confusion for your translator.
+Los siguientes parámetros proporcionan contexto e información adicional para reducir la confusión de tu traductor.
 
-| Metadata parameter | Details                                                               |
-| :----------------- | :-------------------------------------------------------------------- |
-| Custom ID          | Provide a custom identifier                                           |
-| Description        | Provide additional information or context                             |
-| Meaning            | Provide the meaning or intent of the text within the specific context |
+| Parámetro de metadatos | Detalles                                                                    |
+| :----------------- | :------------------------------------------------------------------------------ |
+| ID personalizado   | Proporciona un identificador personalizado                                      |
+| Descripción        | Proporciona información adicional o contexto                                    |
+| Significado        | Proporciona el significado o intención del texto dentro del contexto específico |
 
-For additional information about custom IDs, see [Manage marked text with custom IDs][GuideI18nOptionalManageMarkedText].
+Para información adicional sobre IDs personalizados, consulta [Gestionar texto marcado con IDs personalizados][GuideI18nOptionalManageMarkedText].
 
-### Add helpful descriptions and meanings
+### Agregar descripciones y significados útiles
 
-To translate a text message accurately, provide additional information or context for the translator.
+Para traducir un mensaje de texto con precisión, proporciona información adicional o contexto para el traductor.
 
-Add a _description_ of the text message as the value of the `i18n` attribute or [`$localize`][ApiLocalizeInitLocalize] tagged message string.
+Agrega una _descripción_ del mensaje de texto como valor del atributo `i18n` o cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize].
 
-The following example shows the value of the `i18n` attribute.
+El siguiente ejemplo muestra el valor del atributo `i18n`.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-desc"/>
 
-The following example shows the value of the [`$localize`][ApiLocalizeInitLocalize] tagged message string with a description.
+El siguiente ejemplo muestra el valor de la cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize] con una descripción.
 
 <!--todo: replace with docs-code -->
 
@@ -165,20 +165,20 @@ $localize`:An introduction header for this sample:Hello i18n!`;
 
 </docs-code>
 
-The translator may also need to know the meaning or intent of the text message within this particular application context, in order to translate it the same way as other text with the same meaning.
-Start the `i18n` attribute value with the _meaning_ and separate it from the _description_ with the `|` character: `{meaning}|{description}`.
+El traductor también puede necesitar conocer el significado o intención del mensaje de texto dentro de este contexto particular de la aplicación, para traducirlo de la misma manera que otro texto con el mismo significado.
+Comienza el valor del atributo `i18n` con el _significado_ y sepáralo de la _descripción_ con el carácter `|`: `{meaning}|{description}`.
 
-#### `h1` example
+#### Ejemplo de `h1`
 
-For example, you may want to specify that the `<h1>` tag is a site header that you need translated the same way, whether it is used as a header or referenced in another section of text.
+Por ejemplo, puedes querer especificar que la etiqueta `<h1>` es un encabezado de sitio que necesitas traducir de la misma manera, ya sea que se use como encabezado o se haga referencia en otra sección del texto.
 
-The following example shows how to specify that the `<h1>` tag must be translated as a header or referenced elsewhere.
+El siguiente ejemplo muestra cómo especificar que la etiqueta `<h1>` debe traducirse como un encabezado o referenciarse en otro lugar.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-meaning"/>
 
-The result is any text marked with `site header`, as the _meaning_ is translated exactly the same way.
+El resultado es que cualquier texto marcado con `site header`, como _significado_, se traduce exactamente de la misma manera.
 
-The following code example shows the value of the [`$localize`][ApiLocalizeInitLocalize] tagged message string with a meaning and a description.
+El siguiente ejemplo de código muestra el valor de la cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize] con un significado y una descripción.
 
 <!--todo: replace with docs-code -->
 
@@ -188,32 +188,32 @@ $localize`:site header|An introduction header for this sample:Hello i18n!`;
 
 </docs-code>
 
-<docs-callout title="How meanings control text extraction and merges">
+<docs-callout title="Cómo los significados controlan la extracción y fusión de texto">
 
-The Angular extraction tool generates a translation unit entry for each `i18n` attribute in a template.
-The Angular extraction tool assigns each translation unit a unique ID based on the _meaning_ and _description_.
+La herramienta de extracción de Angular genera una entrada de unidad de traducción para cada atributo `i18n` en una plantilla.
+La herramienta de extracción de Angular asigna a cada unidad de traducción un ID único basado en el _significado_ y la _descripción_.
 
-HELPFUL: For more information about the Angular extraction tool, see [Work with translation files](guide/i18n/translation-files).
+ÚTIL: Para más información sobre la herramienta de extracción de Angular, consulta [Trabajar con archivos de traducción](guide/i18n/translation-files).
 
-The same text elements with different _meanings_ are extracted with different IDs.
-For example, if the word "right" uses the following two definitions in two different locations, the word is translated differently and merged back into the application as different translation entries.
+Los mismos elementos de texto con diferentes _significados_ se extraen con IDs diferentes.
+Por ejemplo, si la palabra "right" usa las siguientes dos definiciones en dos ubicaciones diferentes, la palabra se traduce de manera diferente y se fusiona de nuevo en la aplicación como entradas de traducción diferentes.
 
-- `correct` as in "you are right"
-- `direction` as in "turn right"
+- `correct` como en "you are right" (estás en lo correcto)
+- `direction` como en "turn right" (gira a la derecha)
 
-If the same text elements meet the following conditions, the text elements are extracted only once and use the same ID.
+Si los mismos elementos de texto cumplen las siguientes condiciones, los elementos de texto se extraen solo una vez y usan el mismo ID.
 
-- Same meaning or definition
-- Different descriptions
+- Mismo significado o definición
+- Diferentes descripciones
 
-That one translation entry is merged back into the application wherever the same text elements appear.
+Esa única entrada de traducción se fusiona de nuevo en la aplicación dondequiera que aparezcan los mismos elementos de texto.
 
 </docs-callout>
 
-## ICU expressions
+## Expresiones ICU
 
-ICU expressions help you mark alternate text in component templates to meet conditions.
-An ICU expression includes a component property, an ICU clause, and the case statements surrounded by open curly brace \(`{`\) and close curly brace \(`}`\) characters.
+Las expresiones ICU te ayudan a marcar texto alternativo en plantillas de componentes para cumplir condiciones.
+Una expresión ICU incluye una propiedad del componente, una cláusula ICU y las declaraciones de caso rodeadas por caracteres de llave de apertura \(`{`\) y llave de cierre \(`}`\).
 
 <!--todo: replace with docs-code -->
 
@@ -223,23 +223,23 @@ An ICU expression includes a component property, an ICU clause, and the case sta
 
 </docs-code>
 
-The component property defines the variable.
-An ICU clause defines the type of conditional text.
+La propiedad del componente define la variable.
+Una cláusula ICU define el tipo de texto condicional.
 
-| ICU clause                                                           | Details                                                             |
+| Cláusula ICU                                                           | Detalles                                                             |
 | :------------------------------------------------------------------- | :------------------------------------------------------------------ |
-| [`plural`][GuideI18nCommonPrepareMarkPlurals]                        | Mark the use of plural numbers                                      |
-| [`select`][GuideI18nCommonPrepareMarkAlternatesAndNestedExpressions] | Mark choices for alternate text based on your defined string values |
+| [`plural`][GuideI18nCommonPrepareMarkPlurals]                        | Marca el uso de números plurales                                      |
+| [`select`][GuideI18nCommonPrepareMarkAlternatesAndNestedExpressions] | Marca opciones para texto alternativo basado en tus valores de cadena definidos |
 
-To simplify translation, use International Components for Unicode clauses \(ICU clauses\) with regular expressions.
+Para simplificar la traducción, usa cláusulas de Componentes Internacionales para Unicode \(cláusulas ICU\) con expresiones regulares.
 
-HELPFUL: The ICU clauses adhere to the [ICU Message Format][GithubUnicodeOrgIcuUserguideFormatParseMessages] specified in the [CLDR pluralization rules][UnicodeCldrIndexCldrSpecPluralRules].
+ÚTIL: Las cláusulas ICU se adhieren al [Formato de Mensaje ICU][GithubUnicodeOrgIcuUserguideFormatParseMessages] especificado en las [reglas de pluralización CLDR][UnicodeCldrIndexCldrSpecPluralRules].
 
-### Mark plurals
+### Marcar plurales
 
-Different languages have different pluralization rules that increase the difficulty of translation.
-Because other locales express cardinality differently, you may need to set pluralization categories that do not align with English.
-Use the `plural` clause to mark expressions that may not be meaningful if translated word-for-word.
+Diferentes idiomas tienen diferentes reglas de pluralización que aumentan la dificultad de traducción.
+Debido a que otras configuraciones regionales expresan la cardinalidad de manera diferente, puedes necesitar establecer categorías de pluralización que no se alineen con el inglés.
+Usa la cláusula `plural` para marcar expresiones que pueden no ser significativas si se traducen palabra por palabra.
 
 <!--todo: replace with docs-code -->
 
@@ -249,7 +249,7 @@ Use the `plural` clause to mark expressions that may not be meaningful if transl
 
 </docs-code>
 
-After the pluralization category, enter the default text \(English\) surrounded by open curly brace \(`{`\) and close curly brace \(`}`\) characters.
+Después de la categoría de pluralización, ingresa el texto predeterminado \(inglés\) rodeado por caracteres de llave de apertura \(`{`\) y llave de cierre \(`}`\).
 
 <!--todo: replace with docs-code -->
 
@@ -259,18 +259,18 @@ pluralization_category { }
 
 </docs-code>
 
-The following pluralization categories are available for English and may change based on the locale.
+Las siguientes categorías de pluralización están disponibles para inglés y pueden cambiar según la configuración regional.
 
-| Pluralization category | Details                    | Example                    |
+| Categoría de pluralización | Detalles                    | Ejemplo                    |
 | :--------------------- | :------------------------- | :------------------------- |
-| `zero`                 | Quantity is zero           | `=0 { }` <br /> `zero { }` |
-| `one`                  | Quantity is 1              | `=1 { }` <br /> `one { }`  |
-| `two`                  | Quantity is 2              | `=2 { }` <br /> `two { }`  |
-| `few`                  | Quantity is 2 or more      | `few { }`                  |
-| `many`                 | Quantity is a large number | `many { }`                 |
-| `other`                | The default quantity       | `other { }`                |
+| `zero`                 | La cantidad es cero           | `=0 { }` <br /> `zero { }` |
+| `one`                  | La cantidad es 1              | `=1 { }` <br /> `one { }`  |
+| `two`                  | La cantidad es 2              | `=2 { }` <br /> `two { }`  |
+| `few`                  | La cantidad es 2 o más      | `few { }`                  |
+| `many`                 | La cantidad es un número grande | `many { }`                 |
+| `other`                | La cantidad predeterminada       | `other { }`                |
 
-If none of the pluralization categories match, Angular uses `other` to match the standard fallback for a missing category.
+Si ninguna de las categorías de pluralización coincide, Angular usa `other` para coincidir con la opción de respaldo estándar para una categoría faltante.
 
 <!--todo: replace with docs-code -->
 
@@ -280,25 +280,25 @@ other { default_quantity }
 
 </docs-code>
 
-HELPFUL: For more information about pluralization categories, see [Choosing plural category names][UnicodeCldrIndexCldrSpecPluralRulesTocChoosingPluralCategoryNames] in the [CLDR - Unicode Common Locale Data Repository][UnicodeCldrMain].
+ÚTIL: Para más información sobre categorías de pluralización, consulta [Elegir nombres de categorías plurales][UnicodeCldrIndexCldrSpecPluralRulesTocChoosingPluralCategoryNames] en [CLDR - Repositorio Común de Datos de Configuración Regional Unicode][UnicodeCldrMain].
 
-<docs-callout header='Background: Locales may not support some pluralization categories'>
+<docs-callout header='Contexto: Las configuraciones regionales pueden no soportar algunas categorías de pluralización'>
 
-Many locales don't support some of the pluralization categories.
-The default locale \(`en-US`\) uses a very simple `plural()` function that doesn't support the `few` pluralization category.
-Another locale with a simple `plural()` function is `es`.
-The following code example shows the [en-US `plural()`][GithubAngularAngularBlobEcffc3557fe1bff9718c01277498e877ca44588dPackagesCoreSrcI18nLocaleEnTsL14L18] function.
+Muchas configuraciones regionales no soportan algunas de las categorías de pluralización.
+La configuración regional predeterminada \(`en-US`\) usa una función `plural()` muy simple que no soporta la categoría de pluralización `few`.
+Otra configuración regional con una función `plural()` simple es `es`.
+El siguiente ejemplo de código muestra la función [`plural()` de en-US][GithubAngularAngularBlobEcffc3557fe1bff9718c01277498e877ca44588dPackagesCoreSrcI18nLocaleEnTsL14L18].
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/locale_plural_function.ts" class="no-box" hideCopy/>
 
-The `plural()` function only returns 1 \(`one`\) or 5 \(`other`\).
-The `few` category never matches.
+La función `plural()` solo retorna 1 \(`one`\) o 5 \(`other`\).
+La categoría `few` nunca coincide.
 
 </docs-callout>
 
-#### `minutes` example
+#### Ejemplo de `minutes`
 
-If you want to display the following phrase in English, where `x` is a number.
+Si quieres mostrar la siguiente frase en inglés, donde `x` es un número.
 
 <!--todo: replace output docs-code with screen capture image --->
 
@@ -308,7 +308,7 @@ updated x minutes ago
 
 </docs-code>
 
-And you also want to display the following phrases based on the cardinality of `x`.
+Y también quieres mostrar las siguientes frases según la cardinalidad de `x`.
 
 <!--todo: replace output docs-code with screen capture image --->
 
@@ -326,26 +326,26 @@ updated one minute ago
 
 </docs-code>
 
-Use HTML markup and [interpolations](guide/templates/binding#render-dynamic-text-with-text-interpolation).
-The following code example shows how to use the `plural` clause to express the previous three situations in a `<span>` element.
+Usa marcado HTML e [interpolaciones](guide/templates/binding#render-dynamic-text-with-text-interpolation).
+El siguiente ejemplo de código muestra cómo usar la cláusula `plural` para expresar las tres situaciones anteriores en un elemento `<span>`.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-plural"/>
 
-Review the following details in the previous code example.
+Revisa los siguientes detalles en el ejemplo de código anterior.
 
-| Parameters                        | Details                                                                                                               |
+| Parámetros                        | Detalles                                                                                                               |
 | :-------------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
-| `minutes`                         | The first parameter specifies the component property is `minutes` and determines the number of minutes.               |
-| `plural`                          | The second parameter specifies the ICU clause is `plural`.                                                            |
-| `=0 {just now}`                   | For zero minutes, the pluralization category is `=0`. The value is `just now`.                                        |
-| `=1 {one minute}`                 | For one minute, the pluralization category is `=1`. The value is `one minute`.                                        |
-| `other {{{minutes}} minutes ago}` | For any unmatched cardinality, the default pluralization category is `other`. The value is `{{minutes}} minutes ago`. |
+| `minutes`                         | El primer parámetro especifica que la propiedad del componente es `minutes` y determina el número de minutos.               |
+| `plural`                          | El segundo parámetro especifica que la cláusula ICU es `plural`.                                                            |
+| `=0 {just now}`                   | Para cero minutos, la categoría de pluralización es `=0`. El valor es `just now`.                                        |
+| `=1 {one minute}`                 | Para un minuto, la categoría de pluralización es `=1`. El valor es `one minute`.                                        |
+| `other {{{minutes}} minutes ago}` | Para cualquier cardinalidad no coincidente, la categoría de pluralización predeterminada es `other`. El valor es `{{minutes}} minutes ago`. |
 
-`{{minutes}}` is an [interpolation](guide/templates/binding#render-dynamic-text-with-text-interpolation).
+`{{minutes}}` es una [interpolación](guide/templates/binding#render-dynamic-text-with-text-interpolation).
 
-### Mark alternates and nested expressions
+### Marcar alternativas y expresiones anidadas
 
-The `select` clause marks choices for alternate text based on your defined string values.
+La cláusula `select` marca opciones para texto alternativo basado en tus valores de cadena definidos.
 
 <!--todo: replace with docs-code -->
 
@@ -355,9 +355,9 @@ The `select` clause marks choices for alternate text based on your defined strin
 
 </docs-code>
 
-Translate all of the alternates to display alternate text based on the value of a variable.
+Traduce todas las alternativas para mostrar texto alternativo basado en el valor de una variable.
 
-After the selection category, enter the text \(English\) surrounded by open curly brace \(`{`\) and close curly brace \(`}`\) characters.
+Después de la categoría de selección, ingresa el texto \(inglés\) rodeado por caracteres de llave de apertura \(`{`\) y llave de cierre \(`}`\).
 
 <!--todo: replace with docs-code -->
 
@@ -367,9 +367,9 @@ selection_category { text }
 
 </docs-code>
 
-Different locales have different grammatical constructions that increase the difficulty of translation.
-Use HTML markup.
-If none of the selection categories match, Angular uses `other` to match the standard fallback for a missing category.
+Diferentes configuraciones regionales tienen diferentes construcciones gramaticales que aumentan la dificultad de traducción.
+Usa marcado HTML.
+Si ninguna de las categorías de selección coincide, Angular usa `other` para coincidir con la opción de respaldo estándar para una categoría faltante.
 
 <!--todo: replace with docs-code -->
 
@@ -379,9 +379,9 @@ other { default_value }
 
 </docs-code>
 
-#### `gender` example
+#### Ejemplo de `gender`
 
-If you want to display the following phrase in English.
+Si quieres mostrar la siguiente frase en inglés.
 
 <!--todo: replace output docs-code with screen capture image --->
 
@@ -391,7 +391,7 @@ The author is other
 
 </docs-code>
 
-And you also want to display the following phrases based on the `gender` property of the component.
+Y también quieres mostrar las siguientes frases según la propiedad `gender` del componente.
 
 <!--todo: replace output docs-code with screen capture image --->
 
@@ -409,32 +409,32 @@ The author is male
 
 </docs-code>
 
-The following code example shows how to bind the `gender` property of the component and use the `select` clause to express the previous three situations in a `<span>` element.
+El siguiente ejemplo de código muestra cómo vincular la propiedad `gender` del componente y usar la cláusula `select` para expresar las tres situaciones anteriores en un elemento `<span>`.
 
-The `gender` property binds the outputs to each of following string values.
+La propiedad `gender` vincula las salidas a cada uno de los siguientes valores de cadena.
 
-| Value  | English value |
+| Valor  | Valor en inglés |
 | :----- | :------------ |
 | female | `female`      |
 | male   | `male`        |
 | other  | `other`       |
 
-The `select` clause maps the values to the appropriate translations.
-The following code example shows `gender` property used with the select clause.
+La cláusula `select` asigna los valores a las traducciones apropiadas.
+El siguiente ejemplo de código muestra la propiedad `gender` usada con la cláusula select.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-select"/>
 
-#### `gender` and `minutes` example
+#### Ejemplo de `gender` y `minutes`
 
-Combine different clauses together, such as the `plural` and `select` clauses.
-The following code example shows nested clauses based on the `gender` and `minutes` examples.
+Combina diferentes cláusulas juntas, como las cláusulas `plural` y `select`.
+El siguiente ejemplo de código muestra cláusulas anidadas basadas en los ejemplos de `gender` y `minutes`.
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-nested"/>
 
-## What's next
+## Próximos pasos
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/translation-files" title="Work with translation files"/>
+  <docs-pill href="guide/i18n/translation-files" title="Trabajar con archivos de traducción"/>
 </docs-pill-row>
 
 [ApiLocalizeInitLocalize]: api/localize/init/$localize '$localize | init - localize - API  | Angular'
