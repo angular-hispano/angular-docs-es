@@ -1,69 +1,69 @@
-# Refer to locales by ID
+# Referirse a configuraciones regionales por ID
 
-Angular uses the Unicode *locale identifier* \(Unicode locale ID\) to find the correct locale data for internationalization of text strings.
+Angular usa el *identificador de configuración regional* Unicode \(Unicode locale ID\) para encontrar los datos de configuración regional correctos para la internacionalización de cadenas de texto.
 
-<docs-callout title="Unicode locale ID">
+<docs-callout title="ID de configuración regional Unicode">
 
-* A locale ID conforms to the [Unicode Common Locale Data Repository (CLDR) core specification][UnicodeCldrDevelopmentCoreSpecification].
-    For more information about locale IDs, see [Unicode Language and Locale Identifiers][UnicodeCldrDevelopmentCoreSpecificationLocaleIDs].
+* Un ID de configuración regional se ajusta a la [especificación central del Unicode Common Locale Data Repository (CLDR)][UnicodeCldrDevelopmentCoreSpecification].
+    Para más información sobre los IDs de configuración regional, consulta [Identificadores de Idioma y Configuración Regional Unicode][UnicodeCldrDevelopmentCoreSpecificationLocaleIDs].
 
-* CLDR and Angular use [BCP 47 tags][RfcEditorInfoBcp47] as the base for the locale ID
+* CLDR y Angular usan [etiquetas BCP 47][RfcEditorInfoBcp47] como base para el ID de configuración regional
 
 </docs-callout>
 
-A locale ID specifies the language, country, and an optional code for further variants or subdivisions.
-A locale ID consists of the language identifier, a hyphen \(`-`\) character, and the locale extension.
+Un ID de configuración regional especifica el idioma, país y un código opcional para variantes o subdivisiones adicionales.
+Un ID de configuración regional consiste en el identificador de idioma, un carácter guión \(`-`\) y la extensión de configuración regional.
 
 <docs-code language="html">
 {language_id}-{locale_extension}
 </docs-code>
 
-HELPFUL: To accurately translate your Angular project, you must decide which languages and locales you are targeting for internationalization.
+ÚTIL: Para traducir con precisión tu proyecto Angular, debes decidir qué idiomas y configuraciones regionales vas a usar para la internacionalización.
 
-Many countries share the same language, but differ in usage.
-The differences include grammar, punctuation, formats for currency, decimal numbers, dates, and so on.
+Muchos países comparten el mismo idioma, pero difieren en el uso.
+Las diferencias incluyen gramática, puntuación, formatos de moneda, números decimales, fechas, etc.
 
-For the examples in this guide, use the following languages and locales.
+Para los ejemplos en esta guía, usa los siguientes idiomas y configuraciones regionales.
 
-| Language | Locale                   | Unicode locale ID |
+| Idioma   | Configuración regional   | ID de configuración regional Unicode |
 |:---      |:---                      |:---               |
-| English  | Canada                   | `en-CA`           |
-| English  | United States of America | `en-US`           |
-| French   | Canada                   | `fr-CA`           |
-| French   | France                   | `fr-FR`           |
+| Inglés   | Canadá                   | `en-CA`           |
+| Inglés   | Estados Unidos de América| `en-US`           |
+| Francés  | Canadá                   | `fr-CA`           |
+| Francés  | Francia                  | `fr-FR`           |
 
-The [Angular repository][GithubAngularAngularTreeMasterPackagesCommonLocales] includes common locales.
+El [repositorio de Angular][GithubAngularAngularTreeMasterPackagesCommonLocales] incluye configuraciones regionales comunes.
 
 <docs-callout>
-For a list of language codes, see [ISO 639-2](https://www.loc.gov/standards/iso639-2).
+Para una lista de códigos de idioma, consulta [ISO 639-2](https://www.loc.gov/standards/iso639-2).
 </docs-callout>
 
-## Set the source locale ID
+## Establecer el ID de configuración regional de origen
 
-Use the Angular CLI to set the source language in which you are writing the component template and code.
+Usa el CLI de Angular para establecer el idioma de origen en el que estás escribiendo en la plantilla del componente y el código.
 
-By default, Angular uses `en-US` as the source locale of your project.
+Por defecto, Angular usa `en-US` como la configuración regional de origen de tu proyecto.
 
-To change the source locale of your project for the build, complete the following actions.
+Para cambiar la configuración regional de origen de tu proyecto para la compilación, completa las siguientes acciones.
 
-1. Open the [`angular.json`][GuideWorkspaceConfig] workspace build configuration file.
-2. Add or modify the `sourceLocale` field inside the `i18n` section:
+1. Abre el archivo de configuración de compilación del espacio de trabajo [`angular.json`][GuideWorkspaceConfig].
+2. Agrega o modifica el campo `sourceLocale` dentro de la sección `i18n`:
 ```json
 {
   "projects": {
     "your-project": {
       "i18n": {
-        "sourceLocale": "ca"  // Use your desired locale code
+        "sourceLocale": "ca"  // Usa el código de configuración regional deseado
       }
     }
   }
 }
 ```
 
-## What's next
+## Próximos pasos
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/format-data-locale" title="Format data based on locale"/>
+  <docs-pill href="guide/i18n/format-data-locale" title="Formatear datos según la configuración regional"/>
 </docs-pill-row>
 
 [GuideWorkspaceConfig]: reference/configs/workspace-config "Angular workspace configuration | Angular"

@@ -1,37 +1,37 @@
-# Deploy multiple locales
+# Desplegar múltiples configuraciones regionales
 
-If `myapp` is the directory that contains the distributable files of your project, you typically make different versions available for different locales in locale directories.
-For example, your French version is located in the `myapp/fr` directory and the Spanish version is located in the `myapp/es` directory.
+Si `myapp` es el directorio que contiene los archivos distribuibles de tu proyecto, normalmente haces que diferentes versiones estén disponibles para diferentes configuraciones regionales en directorios de configuración regional.
+Por ejemplo, tu versión en francés está ubicada en el directorio `myapp/fr` y la versión en español está ubicada en el directorio `myapp/es`.
 
-The HTML `base` tag with the `href` attribute specifies the base URI, or URL, for relative links.
-If you set the `"localize"` option in [`angular.json`][GuideWorkspaceConfig] workspace build configuration file to `true` or to an array of locale IDs, the CLI adjusts the base `href` for each version of the application.
-To adjust the base `href` for each version of the application, the CLI adds the locale to the configured `"subPath"`.
-Specify the `"subPath"` for each locale in your [`angular.json`][GuideWorkspaceConfig] workspace build configuration file.
-The following example displays `"subPath"` set to an empty string.
+La etiqueta HTML `base` con el atributo `href` especifica el URI base, o URL, para enlaces relativos.
+Si estableces la opción `"localize"` en el archivo de configuración de compilación del espacio de trabajo [`angular.json`][GuideWorkspaceConfig] a `true` o a un array de IDs de configuración regional, el CLI ajusta el `href` base para cada versión de la aplicación.
+Para ajustar el `href` base para cada versión de la aplicación, el CLI agrega la configuración regional al `"subPath"` configurado.
+Especifica el `"subPath"` para cada configuración regional en tu archivo de configuración de compilación del espacio de trabajo [`angular.json`][GuideWorkspaceConfig].
+El siguiente ejemplo muestra `"subPath"` establecido como una cadena vacía.
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="i18n-subPath"/>
 
-## Configure a server
+## Configurar un servidor
 
-Typical deployment of multiple languages serve each language from a different subdirectory.
-Users are redirected to the preferred language defined in the browser using the `Accept-Language` HTTP header.
-If the user has not defined a preferred language, or if the preferred language is not available, then the server falls back to the default language.
-To change the language, change your current location to another subdirectory.
-The change of subdirectory often occurs using a menu implemented in the application.
+El despliegue típico de múltiples idiomas sirve cada idioma desde un subdirectorio diferente.
+Los usuarios son redirigidos al idioma preferido definido en el navegador usando el encabezado HTTP `Accept-Language`.
+Si el usuario no ha definido un idioma preferido, o si el idioma preferido no está disponible, entonces el servidor recurre al idioma predeterminado.
+Para cambiar el idioma, cambia tu ubicación actual a otro subdirectorio.
+El cambio de subdirectorio a menudo ocurre usando un menú implementado en la aplicación.
 
-For more information on how to deploy apps to a remote server, see [Deployment][GuideDeployment].
+Para más información sobre cómo desplegar aplicaciones a un servidor remoto, consulta [Despliegue][GuideDeployment].
 
-IMPORTANT: If you are using [Server rendering](guide/ssr) with `outputMode` set to `server`, Angular automatically handles redirection dynamically based on the `Accept-Language` HTTP header. This simplifies deployment by eliminating the need for manual server or configuration adjustments.
+IMPORTANTE: Si estás usando [Renderizado del servidor](guide/ssr) con `outputMode` establecido en `server`, Angular maneja automáticamente la redirección dinámicamente basándose en el encabezado HTTP `Accept-Language`. Esto simplifica el despliegue al eliminar la necesidad de ajustes manuales del servidor o configuración.
 
-### Nginx example
+### Ejemplo de Nginx
 
-The following example displays an Nginx configuration.
+El siguiente ejemplo muestra una configuración de Nginx.
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/nginx.conf" language="nginx"/>
 
-### Apache example
+### Ejemplo de Apache
 
-The following example displays an Apache configuration.
+El siguiente ejemplo muestra una configuración de Apache.
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/apache2.conf" language="apache"/>
 

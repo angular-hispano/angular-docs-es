@@ -1,32 +1,32 @@
-# Manage marked text with custom IDs
+# Gestionar texto marcado con IDs personalizados
 
-The Angular extractor generates a file with a translation unit entry each of the following instances.
+El extractor de Angular genera un archivo con una entrada de unidad de traducción en cada uno de los siguientes casos.
 
-* Each `i18n` attribute in a component template
-* Each [`$localize`][ApiLocalizeInitLocalize] tagged message string in component code
+* Cada atributo `i18n` en una plantilla de componente
+* Cada cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize] en el código del componente
 
-As described in [How meanings control text extraction and merges][GuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges], Angular assigns each translation unit a unique ID.
+Como se describe en [Cómo los significados controlan la extracción y la fusión de texto][GuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges], Angular asigna a cada unidad de traducción un ID único.
 
-The following example displays translation units with unique IDs.
+El siguiente ejemplo muestra unidades de traducción con IDs únicos.
 
 <docs-code header="messages.fr.xlf.html" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="generated-id"/>
 
-When you change the translatable text, the extractor generates a new ID for that translation unit.
-In most cases, changes in the source text also require a change to the translation.
-Therefore, using a new ID keeps the text change in sync with translations.
+Cuando cambias el texto traducible, el extractor genera un nuevo ID para esa unidad de traducción.
+En la mayoría de los casos, los cambios en el texto fuente también requieren un cambio en la traducción.
+Por lo tanto, usar un nuevo ID mantiene el cambio de texto sincronizado con las traducciones.
 
-However, some translation systems require a specific form or syntax for the ID.
-To address the requirement, use a custom ID to mark text.
-Most developers don't need to use a custom ID.
-If you want to use a unique syntax to convey additional metadata, use a custom ID.
-Additional metadata may include the library, component, or area of the application in which the text appears.
+Sin embargo, algunos sistemas de traducción requieren una forma o sintaxis específica para el ID.
+Para cumplir con este requisito, usa un ID personalizado para marcar texto.
+La mayoría de los desarrolladores no necesitan usar un ID personalizado.
+Si deseas usar una sintaxis única para transmitir metadatos adicionales, usa un ID personalizado.
+Los metadatos adicionales pueden incluir la biblioteca, el componente o el área de la aplicación en la que aparece el texto.
 
-To specify a custom ID in the `i18n` attribute or [`$localize`][ApiLocalizeInitLocalize] tagged message string, use the `@@` prefix.
-The following example defines the `introductionHeader` custom ID in a heading element.
+Para especificar un ID personalizado en el atributo `i18n` o en la cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize], usa el prefijo `@@`.
+El siguiente ejemplo define el ID personalizado `introductionHeader` en un elemento de encabezado.
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-solo-id"/>
 
-The following example defines the `introductionHeader` custom ID for a variable.
+El siguiente ejemplo define el ID personalizado `introductionHeader` para una variable.
 
 <!--todo: replace with code example -->
 
@@ -36,23 +36,23 @@ variableText1 = $localize`:@@introductionHeader:Hello i18n!`;
 
 </docs-code>
 
-When you specify a custom ID, the extractor generates a translation unit with the custom ID.
+Cuando especificas un ID personalizado, el extractor genera una unidad de traducción con el ID personalizado.
 
 <docs-code header="messages.fr.xlf.html" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="custom-id"/>
 
-If you change the text, the extractor does not change the ID.
-As a result, you don't have to take the extra step to update the translation.
-The drawback of using custom IDs is that if you change the text, your translation may be out-of-sync with the newly changed source text.
+Si cambias el texto, el extractor no cambia el ID.
+Como resultado, no tienes que dar el paso adicional de actualizar la traducción.
+La desventaja de usar IDs personalizados es que si cambias el texto, tu traducción puede quedar desincronizada con el texto fuente recién cambiado.
 
-## Use a custom ID with a description
+## Usar un ID personalizado con una descripción
 
-Use a custom ID in combination with a description and a meaning to further help the translator.
+Usa un ID personalizado en combinación con una descripción y un significado para ayudar aún más al traductor.
 
-The following example includes a description, followed by the custom ID.
+El siguiente ejemplo incluye una descripción, seguida del ID personalizado.
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-id"/>
 
-The following example defines the `introductionHeader` custom ID and description for a variable.
+El siguiente ejemplo define el ID personalizado `introductionHeader` y una descripción para una variable.
 
 <!--todo: replace with code example -->
 
@@ -62,11 +62,11 @@ variableText2 = $localize`:An introduction header for this sample@@introductionH
 
 </docs-code>
 
-The following example adds a meaning.
+El siguiente ejemplo agrega un significado.
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-meaning-and-id"/>
 
-The following example defines the `introductionHeader` custom ID for a variable.
+El siguiente ejemplo define el ID personalizado `introductionHeader` para una variable.
 
 <!--todo: replace with code example -->
 
@@ -76,20 +76,20 @@ variableText3 = $localize`:site header|An introduction header for this sample@@i
 
 </docs-code>
 
-### Define unique custom IDs
+### Definir IDs personalizados únicos
 
-Be sure to define custom IDs that are unique.
-If you use the same ID for two different text elements, the extraction tool extracts only the first one, and Angular uses the translation in place of both original text elements.
+Asegúrate de definir IDs personalizados que sean únicos.
+Si usas el mismo ID para dos elementos de texto diferentes, la herramienta de extracción extrae solo el primero y Angular usa la misma traducción en lugar de ambos elementos de texto originales.
 
-For example, in the following code snippet the same `myId` custom ID is defined for two different text elements.
+Por ejemplo, en el siguiente fragmento de código se define el mismo ID personalizado `myId` para dos elementos de texto diferentes.
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-duplicate-custom-id"/>
 
-The following displays the translation in French.
+Lo siguiente muestra la traducción en francés.
 
 <docs-code header="src/locale/messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="i18n-duplicate-custom-id"/>
 
-Both elements now use the same translation \(`Bonjour`\), because both were defined with the same custom ID.
+Ambos elementos ahora usan la misma traducción \(`Bonjour`\), porque ambos fueron definidos con el mismo ID personalizado.
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/rendered-output.html"/>
 
