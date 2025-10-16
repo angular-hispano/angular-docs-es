@@ -1,101 +1,101 @@
 <!-- TODO: need an Angular + AI logo -->
-<docs-decorative-header title="Build with AI" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
-Build AI-powered apps. Develop faster with AI.
+<docs-decorative-header title="Construir con IA" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
+Construye aplicaciones con IA. Desarrolla más rápido con IA.
 </docs-decorative-header>
 
-HELPFUL: Looking to get started with building in your favorite AI powered IDE? <br>Check out our [prompt rules and best practices](/ai/develop-with-ai).
+ÚTIL: ¿Buscas comenzar a construir en tu IDE favorito con IA? <br>Consulta nuestras [reglas de prompts y mejores prácticas](/ai/develop-with-ai).
 
-Generative AI (GenAI) with large language models (LLMs) enables the creation of sophisticated and engaging application experiences, including personalized content, intelligent recommendations, media generation and comprehension, information summarization, and dynamic functionality.
+La Inteligencia Artificial Generativa (GenAI) con modelos de lenguaje extenso (LLMs) permite la creación de experiencias de aplicación sofisticadas y atractivas, incluyendo contenido personalizado, recomendaciones inteligentes, generación y comprensión de medios, resúmenes de información y funcionalidad dinámica.
 
-Developing features like these would have previously required deep domain expertise and significant engineering effort. However, new products and SDKs are lowering the barrier to entry. Angular is well-suited for integrating AI into your web application as a result of:
+Desarrollar características como estas habría requerido previamente una experiencia profunda en el dominio y un esfuerzo de ingeniería significativo. Sin embargo, nuevos productos y SDKs están reduciendo la barrera de entrada. Angular es ideal para integrar IA en tu aplicación web como resultado de:
 
-* Angular's robust templating APIs enable the creation of dynamic, cleanly composed UIs made from generated content
-* Strong, signal-based architecture designed to dynamically manage data and state
-* Angular integrates seamlessly with AI SDKs and APIs
+* Las robustas APIs de plantillas de Angular permiten la creación de interfaces de usuario dinámicas y claramente compuestas a partir de contenido generado
+* Arquitectura sólida basada en señales diseñada para gestionar dinámicamente datos y estado
+* Angular se integra perfectamente con SDKs y APIs de IA
 
-This guide demonstrates how you can use [Genkit](/ai#build-ai-powered-applications-with-genkit-and-angular), [Firebase AI Logic](/ai#build-ai-powered-applications-with-firebase-ai-logic-and-angular), and the [Gemini API](/ai#build-ai-powered-applications-with-gemini-api-and-angular) to infuse your Angular apps with AI today. This guide will jumpstart your AI-powered web app development journey by explaining how to begin integrating AI into Angular apps. This guide also shares resources, such as starter kits, example code, and recipes for common workflows, you can use to get up to speed quickly.
+Esta guía demuestra cómo puedes usar [Genkit](/ai#build-ai-powered-applications-with-genkit-and-angular), [Firebase AI Logic](/ai#build-ai-powered-applications-with-firebase-ai-logic-and-angular) y la [API de Gemini](/ai#build-ai-powered-applications-with-gemini-api-and-angular) para infundir tus aplicaciones Angular con IA hoy. Esta guía te ayudará a comenzar tu viaje de desarrollo de aplicaciones web con IA explicando cómo empezar a integrar IA en aplicaciones Angular. Esta guía también comparte recursos, como kits de inicio, ejemplo de código y recetas para flujos de trabajo comunes, que puedes usar para ponerte al día rápidamente.
 
-To get started, you should have a basic understanding of Angular. New to Angular? Try our [essentials guide](/essentials) or our [getting started tutorials](/tutorials).
+Para comenzar, debes tener una comprensión básica de Angular. ¿Nuevo en Angular? Prueba nuestra [guía de fundamentos](/essentials) o nuestros [tutoriales de inicio](/tutorials).
 
-NOTE: While this page features integrations and examples with Google AI products, tools like Genkit are model agnostic and allow you to choose your own model. In many cases, the examples and code samples are applicable to other third-party solutions.
+NOTA: Si bien esta página presenta integraciones y ejemplos con productos de IA de Google, herramientas como Genkit son agnósticas del modelo y te permiten elegir tu propio modelo. En muchos casos, los ejemplos y las muestras de código son aplicables a otras soluciones de terceros.
 
-## Getting Started
-Building AI-powered applications is a new and rapidly developing field. It can be challenging to decide where to start and which technologies to choose. The following section provides three options to choose from:
+## Comenzando
+Construir aplicaciones con IA es un campo nuevo y en rápido desarrollo. Puede ser desafiante decidir por dónde empezar y qué tecnologías elegir. La siguiente sección proporciona tres opciones para elegir:
 
-1. *Genkit* gives you the choice of [supported model and interface with a unified API](https://genkit.dev) for building full-stack applications. Ideal for applications requiring sophisticated back-end AI logic, such as personalized recommendations.
+1. *Genkit* te da la opción de [modelo compatible e interfaz con una API unificada](https://genkit.dev) para construir aplicaciones full-stack. Ideal para aplicaciones que requieren lógica de IA sofisticada en el backend, como recomendaciones personalizadas.
 
-1. *Firebase AI Logic* provides a secure client-side API for Google's models to build client-side only applications or mobile apps. Best for interactive AI features directly in the browser, such as real-time text analysis or basic chatbots.
+1. *Firebase AI Logic* proporciona una API segura del lado del cliente para los modelos de Google para construir aplicaciones solo del lado del cliente o aplicaciones móviles. Mejor para características de IA interactivas directamente en el navegador, como análisis de texto en tiempo real o chatbots básicos.
 
-1. *Gemini API* enables you to build an application that uses the methods and functionality exposed through the API surface directly, best for full-stack applications. Suitable for applications needing direct control over AI models, like custom image generation or deep data processing.
+1. *Gemini API* te permite construir una aplicación que usa los métodos y funcionalidad expuestos a través de la superficie de la API directamente, mejor para aplicaciones full-stack. Adecuada para aplicaciones que necesitan control directo sobre modelos de IA, como generación de imágenes personalizadas o procesamiento profundo de datos.
 
-### Build AI-powered applications with Genkit and Angular
-[Genkit](https://genkit.dev) is an open-source toolkit designed to help you build AI-powered features in web and mobile apps. It offers a unified interface for integrating AI models from Google, OpenAI, Anthropic, Ollama, and more, so you can explore and choose the best models for your needs. As a server-side solution, your web apps need a supported server environment, such as a node-based server in order to integrate with Genkit. Building a full-stack app using Angular SSR gives you the starting server-side code, for example. 
+### Construye aplicaciones impulsadas por IA con Genkit y Angular
+[Genkit](https://genkit.dev) es un kit de herramientas de código abierto diseñado para ayudarte a construir características con IA en aplicaciones web y móviles. Ofrece una interfaz unificada para integrar modelos de IA de Google, OpenAI, Anthropic, Ollama y más, para que puedas explorar y elegir los mejores modelos para tus necesidades. Como solución del lado del servidor, tus aplicaciones web necesitan un entorno de servidor compatible, como un servidor basado en node para integrarse con Genkit. Construir una aplicación full-stack usando Angular SSR te proporciona el código inicial del lado del servidor, por ejemplo.
 
-Here are examples of how to build with Genkit and Angular:
+Aquí hay ejemplos de cómo construir con Genkit y Angular:
 
-* [Agentic Apps with Genkit and Angular starter-kit](https://github.com/angular/examples/tree/main/genkit-angular-starter-kit)— New to building with AI? Start here with a basic app that features an agentic workflow. Perfect place to start for your first AI building experience.
+* [Kit de inicio de Aplicaciones Agénticas con Genkit y Angular](https://github.com/angular/examples/tree/main/genkit-angular-starter-kit)— ¿Nuevo en la construcción con IA? Comienza aquí con una aplicación básica que presenta un flujo de trabajo agéntico. Lugar perfecto para comenzar tu primera experiencia de construcción con IA.
 
-* [Use Genkit in an Angular app](https://genkit.dev/docs/angular/)— Build a basic application that uses Genkit Flows, Angular and Gemini 2.5 Flash. This step-by-step walkthrough guides you through creating a full-stack Angular application with AI features.
+* [Usa Genkit en una aplicación Angular](https://genkit.dev/docs/angular/)— Construye una aplicación básica que usa Genkit Flows, Angular y Gemini 2.5 Flash. Este tutorial paso a paso te guía a través de la creación de una aplicación Angular full-stack con características de IA.
 
-* [Dynamic Story Generator app](https://github.com/angular/examples/tree/main/genkit-angular-story-generator)— Learn to build an agentic Angular app powered by Genkit, Gemini and Imagen 3 to dynamically generate a story based on user interaction featuring beautiful image panels to accompany the events that take place. Start here if you'd like to experiment with a more advanced use-case.
+* [Aplicación de Generador de Historias Dinámico](https://github.com/angular/examples/tree/main/genkit-angular-story-generator)— Aprende a construir una aplicación Angular agéntica con Genkit, Gemini e Imagen 3 para generar dinámicamente una historia basada en la interacción del usuario con hermosos paneles de imágenes que acompañan los eventos que ocurren. Comienza aquí si deseas experimentar con un caso de uso más avanzado.
 
-  This example also has an in-depth video walkthrough of the functionality:
-    * [Watch "Building Agentic Apps with Angular and Genkit live!"](https://youtube.com/live/mx7yZoIa2n4?feature=share)
-    * [Watch "Building Agentic Apps with Angular and Genkit live! PT 2"](https://youtube.com/live/YR6LN5_o3B0?feature=share)
+  Este ejemplo también tiene un tutorial en video detallado de la funcionalidad:
+    * [Ver "Building Agentic Apps with Angular and Genkit live!"](https://youtube.com/live/mx7yZoIa2n4?feature=share)
+    * [Ver "Building Agentic Apps with Angular and Genkit live! PT 2"](https://youtube.com/live/YR6LN5_o3B0?feature=share)
 
-* [Building Agentic apps with Firebase and Google Cloud (Barista Example)](https://developers.google.com/solutions/learn/agentic-barista) - Learn how to build an agentic coffee ordering app with Firebase and Google Cloud. This example uses both Firebase AI Logic and Genkit.
+* [Construyendo aplicaciones agénticas con Firebase y Google Cloud (Ejemplo Barista)](https://developers.google.com/solutions/learn/agentic-barista) - Aprende cómo construir una aplicación agéntica para ordenar café con Firebase y Google Cloud. Este ejemplo usa tanto Firebase AI Logic como Genkit.
 
-### Build AI-powered applications with Firebase AI Logic and Angular
-[Firebase AI Logic](https://firebase.google.com/products/vertex-ai-in-firebase) provides a secure way to interact with Vertex AI Gemini API or Imagen API directly from your web and mobile apps. This is compelling for Angular developers since apps can be either full-stack or client-side only. If you are developing a client-side only application, Firebase AI Logic is a good fit for incorporating AI into your web apps.
+### Construye aplicaciones con IA con Firebase AI Logic y Angular
+[Firebase AI Logic](https://firebase.google.com/products/vertex-ai-in-firebase) proporciona una forma segura de interactuar con Vertex AI Gemini API o Imagen API directamente desde tus aplicaciones web y móviles. Esto es atractivo para los desarrolladores de Angular ya que las aplicaciones pueden ser full-stack o solo del lado del cliente. Si estás desarrollando una aplicación solo del lado del cliente, Firebase AI Logic es una buena opción para incorporar IA en tus aplicaciones web.
 
-Here is an example of how to build with Firebase AI Logic and Angular:
-* [Firebase AI Logic x Angular Starter Kit](https://github.com/angular/examples/tree/main/vertex-ai-firebase-angular-example) - Use this starter-kit to build an e-commerce application with a chat agent that can perform tasks. Start here if you do not have experience building with Firebase AI Logic and Angular.
+Aquí hay un ejemplo de cómo construir con Firebase AI Logic y Angular:
+* [Kit de inicio Firebase AI Logic x Angular](https://github.com/angular/examples/tree/main/vertex-ai-firebase-angular-example) - Usa este kit de inicio para construir una aplicación de comercio electrónico con un agente de chat que puede realizar tareas. Comienza aquí si no tienes experiencia construyendo con Firebase AI Logic y Angular.
 
-  This example includes an [in-depth video walkthrough explaining the functionality and demonstrates how to add new features](https://youtube.com/live/4vfDz2al_BI).
+  Este ejemplo incluye un [tutorial en video detallado que explica la funcionalidad y demuestra cómo agregar nuevas características](https://youtube.com/live/4vfDz2al_BI).
 
-### Build AI-powered applications with Gemini API and Angular
-The [Gemini API](https://ai.google.dev/gemini-api/docs) provides access to state-of-the-art models from Google that support audio, images, video, and text input. These models that are optimized for specific use cases, [learn more on the Gemini API documentation site](https://ai.google.dev/gemini-api/docs/models).
+### Construye aplicaciones con IA con Gemini API y Angular
+La [API de Gemini](https://ai.google.dev/gemini-api/docs) proporciona acceso a modelos de última generación de Google que soportan audio, imágenes, video y entrada de texto. Estos modelos están optimizados para casos de uso específicos, [aprende más en el sitio de documentación de la API de Gemini](https://ai.google.dev/gemini-api/docs/models).
 
-* [AI Text Editor Angular app template](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular/ai-text-editor) - Use this template to start with a fully functioning text editor with AI-powered features like refining text, expanding text and formalizing text. This is a good starting point to gain experience with calling the Gemini API via HTTP.
+* [Plantilla de aplicación Angular de Editor de Texto con IA](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular/ai-text-editor) - Usa esta plantilla para comenzar con un editor de texto completamente funcional con características impulsadas por IA como refinar texto, expandir texto y formalizar texto. Este es un buen punto de partida para ganar experiencia llamando a la API de Gemini vía HTTP.
 
-* [AI Chatbot app template](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular/ai-chatbot) - This template starts with a chatbot user interface that communicates with the Gemini API via HTTP. 
+* [Plantilla de aplicación Chatbot con IA](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular/ai-chatbot) - Esta plantilla comienza con una interfaz de usuario de chatbot que se comunica con la API de Gemini vía HTTP.
 
-## Best Practices
-### Connecting to model providers and keeping your API Credentials Secure
-When connecting to model providers, it is important to keep your API secrets safe. *Never put your API key in a file that ships to the client, such as `environments.ts`*.
+## Mejores Prácticas
+### Conectarse a proveedores de modelos y mantener tus credenciales API seguras
+Al conectarse a proveedores de modelos, es importante mantener tus secretos de API seguros. *Nunca pongas tu clave API en un archivo que se envíe al cliente, como `environments.ts`*.
 
-Your application's architecture determines which AI APIs and tools to choose. Specifically, choose based on whether or not your application is client-side or server-side. Tools such as Firebase AI Logic provide a secure connection to the model APIs for client-side code. If you want to use a different API than Firebase AI Logic or prefer to use a different model provider, consider creating a proxy-server or even [Cloud Functions for Firebase](https://firebase.google.com/docs/functions) to serve as a proxy and not expose your API keys.
+La arquitectura de tu aplicación determina qué APIs y herramientas de IA elegir. Específicamente, elige en función de si tu aplicación es del lado del cliente o del lado del servidor. Herramientas como Firebase AI Logic proporcionan una conexión segura a las APIs de modelos para código del lado del cliente. Si deseas usar una API diferente a Firebase AI Logic o prefieres usar un proveedor de modelo diferente, considera crear un servidor proxy o incluso [Cloud Functions for Firebase](https://firebase.google.com/docs/functions) para servir como proxy y no exponer tus claves API.
 
-For an example of connecting using a client-side app, see the code:  [Firebase AI Logic Angular example repository](https://github.com/angular/examples/tree/main/vertex-ai-firebase-angular-example).
+Para un ejemplo de conexión usando una aplicación del lado del cliente, consulta el código: [repositorio de ejemplo Firebase AI Logic Angular](https://github.com/angular/examples/tree/main/vertex-ai-firebase-angular-example).
 
-For server-side connections to model APIs that require API keys, prefer using a secrets manager or environment variable, not `environments.ts`. You should follow standard best practices for securing API keys and credentials. Firebase now provides a new secrets manager with the latest updates from Firebase App Hosting. To learn more, [check out the official documentation](https://firebase.google.com/docs/app-hosting/configure).
+Para conexiones del lado del servidor a APIs de modelos que requieren claves API, prefiere usar un administrador de secretos o variable de entorno, no `environments.ts`. Debes seguir las mejores prácticas estándar para asegurar claves API y credenciales. Firebase ahora proporciona un nuevo administrador de secretos con las últimas actualizaciones de Firebase App Hosting. Para aprender más, [consulta la documentación oficial](https://firebase.google.com/docs/app-hosting/configure).
 
-For a server-side connection example in a full-stack application, see the code: [Angular AI Example (Genkit and Angular Story Generator) repository](https://github.com/angular/examples/tree/main/genkit-angular-story-generator).
+Para un ejemplo de conexión del lado del servidor en una aplicación full-stack, consulta el código: [repositorio Angular AI Example (Genkit and Angular Story Generator)](https://github.com/angular/examples/tree/main/genkit-angular-story-generator).
 
-### Use Tool Calling to enhance apps
-If you want to build agentic workflows, where agents are able to act and use tools to solve problems based on prompts use "tool calling". Tool calling, also known as function calling, is a way to provide LLMs the ability to make requests back to the application that called it. As a developer, you define which tools are available and you are in control of how or when the tools are called.
+### Usa la llamada a herramientas para mejorar aplicaciones
+Si deseas construir flujos de trabajo agénticos, donde los agentes pueden actuar y usar herramientas para resolver problemas basados en prompts, usa "llamada a herramientas" (tool calling). La llamada a herramientas, también conocido como llamada a función (function calling), es una forma de proporcionar a los LLMs la capacidad de hacer solicitudes de vuelta a la aplicación que lo llamó. Como desarrollador, defines qué herramientas están disponibles y tienes el control de cómo o cuándo se llaman las herramientas.
 
-Tool calling further enhances your web apps by expanding your AI integration further than a question and answer style chat bot. In fact, you can empower your model to request function calls using the function calling API of your model provider. The available tools can be used to perform more complex actions within the context of your application. 
+La llamada a herramientas mejora aún más tus aplicaciones web expandiendo tu integración de IA más allá de un chatbot de estilo pregunta y respuesta. De hecho, puedes empoderar a tu modelo para solicitar llamadas a funciones usando la API de llamada de funciones de tu proveedor de modelos. Las herramientas disponibles se pueden usar para realizar acciones más complejas dentro del contexto de tu aplicación.
 
-In the [e-commerce example](https://github.com/angular/examples/blob/main/vertex-ai-firebase-angular-example/src/app/ai.service.ts#L88) of the [Angular examples repository](https://github.com/angular/examples), the LLM requests to make calls to functions for inventory in order to gain the necessary context to perform more complex tasks such as calculating how much a group of items in the store will cost. The scope of the available API is up to you as a developer just as is whether or not to call a function requested by the LLM. You remain in control of the flow of execution. You can expose specific functions of a service for example but not all functions of that service.
+En el [ejemplo de comercio electrónico](https://github.com/angular/examples/blob/main/vertex-ai-firebase-angular-example/src/app/ai.service.ts#L88) del [repositorio de ejemplos de Angular](https://github.com/angular/examples), el LLM solicita hacer llamadas a funciones para el inventario con el fin de obtener el contexto necesario para realizar tareas más complejas, como calcular cuánto costará un grupo de artículos en la tienda. El alcance de la API disponible depende de ti como desarrollador, al igual que si llamar o no una función solicitada por el LLM. Mantienes el control del flujo de ejecución. Puedes exponer funciones específicas de un servicio, por ejemplo, pero no todas las funciones de ese servicio.
 
-### Handling non-deterministic responses
-Because models can return non-deterministic results, your applications should be designed with that in mind. Here are a few strategies that you can use in your application implementation:
-* Adjust prompts and model parameters (such as [temperature](https://ai.google.dev/gemini-api/docs/prompting-strategies)) for more or less deterministic responses. You can [find out more in the prompting strategies section](https://ai.google.dev/gemini-api/docs/prompting-strategies) of [ai.google.dev](https://ai.google.dev/).
-* Use the "human in the loop" strategy where a human verifies outputs before proceeding in a workflow. Build your application workflows to allow operators (humans or other models) to verify outputs and confirm key decisions.
-* Employ tool (or function) calling and schema constraints to guide and restrict model responses to predefined formats, increasing response predictability.
+### Manejo de respuestas no determinísticas
+Debido a que los modelos pueden devolver resultados no determinísticos, tus aplicaciones deben diseñarse con eso en mente. Aquí hay algunas estrategias que puedes usar en la implementación de tu aplicación:
+* Ajusta los prompts y parámetros del modelo (como [temperature](https://ai.google.dev/gemini-api/docs/prompting-strategies)) para respuestas más o menos determinísticas. Puedes [obtener más información en la sección de estrategias de prompting](https://ai.google.dev/gemini-api/docs/prompting-strategies) de [ai.google.dev](https://ai.google.dev/).
+* Usa la estrategia "humano en el bucle" donde un humano verifica las salidas antes de proceder en un flujo de trabajo. Construye los flujos de trabajo de tu aplicación para permitir que los operadores (humanos u otros modelos) verifiquen las salidas y confirmen decisiones clave.
+* Emplea la llamada a herramientas (o funciones) y restricciones de esquema para guiar y restringir las respuestas del modelo a formatos predefinidos, aumentando la previsibilidad de las respuestas.
 
-Even considering these strategies and techniques, sensible fallbacks should be incorporated in your application design. Follow existing standards of application resiliency. For example, it is not acceptable for an application to crash if a resource or API is not available. In that scenario, an error message is displayed to the user and, if applicable, options for next steps are also displayed. Building AI-powered applications requires the same consideration. Confirm that the response is aligned with the expected output and provide a "safe landing" in case it is not aligned by way of [graceful degradation](https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation). This also applies to API outages for LLM providers.
+Incluso considerando estas estrategias y técnicas, deben incorporarse respaldos sensatos en el diseño de tu aplicación. Sigue los estándares existentes de resiliencia de aplicaciones. Por ejemplo, no es aceptable que una aplicación falle si un recurso o API no está disponible. En ese escenario, se muestra un mensaje de error al usuario y, si es aplicable, también se muestran opciones para los próximos pasos. Construir aplicaciones con IA requiere la misma consideración. Confirma que la respuesta esté alineada con la salida esperada y proporciona un "aterrizaje seguro" en caso de que no esté alineada mediante [degradación elegante](https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation). Esto también se aplica a interrupciones de API para proveedores de LLM.
 
-Consider this example: The LLM provider is not responding. A potential strategy to handle the outage is:
-* Save the response from the user to use in a retry scenario (now or at a later time)
-* Alert the user to the outage with an appropriate message that doesn't reveal sensitive information
-* Resume the conversation at a later time once the services are available again.
+Considera este ejemplo: El proveedor de LLM no está respondiendo. Una estrategia potencial para manejar la interrupción es:
+* Guardar la respuesta del usuario para usar en un escenario de reintento (ahora o más tarde)
+* Alertar al usuario sobre la interrupción con un mensaje apropiado que no revele información sensible
+* Reanudar la conversación más tarde una vez que los servicios estén disponibles nuevamente.
 
-## Next steps
+## Próximos pasos
 
-To learn about LLM prompts and AI IDE setup, see the following guides:
+Para aprender sobre prompts de LLM y configuración de IDE con IA, consulta las siguientes guías:
 
 <docs-pill-row>
-  <docs-pill href="ai/develop-with-ai" title="LLM prompts and IDE setup"/>
+  <docs-pill href="ai/develop-with-ai" title="Prompts de LLM y configuración de IDE"/>
 </docs-pill-row>
