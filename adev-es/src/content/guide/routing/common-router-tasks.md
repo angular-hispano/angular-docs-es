@@ -1,25 +1,25 @@
-# Other common Routing Tasks
+# Otras tareas comunes de enrutamiento
 
-This guide covers some other common tasks associated with using Angular router in your application.
+Esta guía cubre algunas otras tareas comunes asociadas con el uso de Angular router en tu aplicación.
 
-## Getting route information
+## Obtener información de la ruta
 
-Often, as a user navigates your application, you want to pass information from one component to another.
-For example, consider an application that displays a shopping list of grocery items.
-Each item in the list has a unique `id`.
-To edit an item, users click an Edit button, which opens an `EditGroceryItem` component.
-You want that component to retrieve the `id` for the grocery item so it can display the right information to the user.
+A menudo, cuando un usuario navega por tu aplicación, quieres pasar información de un componente a otro.
+Por ejemplo, considera una aplicación que muestra una lista de compras de artículos de comestibles.
+Cada elemento en la lista tiene un `id` único.
+Para editar un elemento, los usuarios hacen clic en un botón Editar, que abre un componente `EditGroceryItem`.
+Quieres que ese componente recupere el `id` del artículo de comestible para que pueda mostrar la información correcta al usuario.
 
-Use a route to pass this type of information to your application components.
-To do so, you use the [`withComponentInputBinding`](api/router/withComponentInputBinding) feature with `provideRouter` or the `bindToComponentInputs` option of `RouterModule.forRoot`.
+Usa una ruta para pasar este tipo de información a los componentes de tu aplicación.
+Para hacerlo, usas la funcionalidad [`withComponentInputBinding`](api/router/withComponentInputBinding) con `provideRouter` o la opción `bindToComponentInputs` de `RouterModule.forRoot`.
 
-To get information from a route:
+Para obtener información de una ruta:
 
 <docs-workflow>
 
-<docs-step title="Add `withComponentInputBinding`">
+<docs-step title="Agregar `withComponentInputBinding`">
 
-Add the `withComponentInputBinding` feature to the `provideRouter` method.
+Agrega la funcionalidad `withComponentInputBinding` al método `provideRouter`.
 
 ```ts
 providers: [
@@ -29,9 +29,9 @@ providers: [
 
 </docs-step>
 
-<docs-step title="Add an `input` to the component">
+<docs-step title="Agregar un `input` al componente">
 
-Update the component to have an `input()` property matching the name of the parameter.
+Actualiza el componente para que tenga una propiedad `input()` que coincida con el nombre del parámetro.
 
 ```ts
 id = input.required<string>()
@@ -39,18 +39,18 @@ hero = computed(() => this.service.getHero(id));
 ```
 
 </docs-step>
-<docs-step title="Optional: Use a default value">
-The router assigns values to all inputs based on the current route when `withComponentInputBinding` is enabled.
-The router assigns `undefined` if no route data matches the input key, such as when an optional query parameter is missing.
-You should include `undefined` in the `input`'s type when there's a possibility that an input might not be matched by the route.
+<docs-step title="Opcional: Usar un valor predeterminado">
+El router asigna valores a todas las entradas según la ruta actual cuando `withComponentInputBinding` está habilitado.
+El router asigna `undefined` si no hay datos de ruta que coincidan con la clave de entrada, como cuando falta un parámetro de consulta opcional.
+Debes incluir `undefined` en el tipo del `input` cuando existe la posibilidad de que una entrada no coincida con la ruta.
 
-Provide a default value by either using the `transform` option on the input or managing a local state with a `linkedSignal`.
+Proporciona un valor predeterminado usando la opción `transform` en el input o gestionando un estado local con un `linkedSignal`.
 
 ```ts
 id = input.required({
   transform: (maybeUndefined: string | undefined) => maybeUndefined ?? '0',
 });
-// or
+// o
 id = input<string|undefined>();
 internalId = linkedSignal(() => this.id() ?? getDefaultId());
 ```
@@ -58,39 +58,39 @@ internalId = linkedSignal(() => this.id() ?? getDefaultId());
 </docs-step>
 </docs-workflow>
 
-NOTE: You can bind all route data with key, value pairs to component inputs: static or resolved route data, path parameters, matrix parameters, and query parameters.
-If you want to use the parent components route info you will need to set the router `paramsInheritanceStrategy` option:
+NOTA: Puedes vincular todos los datos de ruta con pares clave-valor a las entradas del componente: datos de ruta estáticos o resueltos, parámetros de ruta, parámetros de matriz y parámetros de consulta.
+Si deseas usar la información de ruta del componente padre, necesitarás configurar la opción `paramsInheritanceStrategy` del router:
 `withRouterConfig({paramsInheritanceStrategy: 'always'})`
 
-## Displaying a 404 page
+## Mostrar una página 404
 
-To display a 404 page, set up a [wildcard route](guide/routing/common-router-tasks#setting-up-wildcard-routes) with the `component` property set to the component you'd like to use for your 404 page as follows:
+Para mostrar una página 404, configura una [ruta comodín](guide/routing/common-router-tasks#setting-up-wildcard-routes) con la propiedad `component` establecida en el componente que deseas usar para tu página 404 de la siguiente manera:
 
 ```ts
 const routes: Routes = [
   { path: 'first-component', component: FirstComponent },
   { path: 'second-component', component: SecondComponent },
-  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
+  { path: '**', component: PageNotFoundComponent },  // Ruta comodín para una página 404
 ];
 ```
 
-The last route with the `path` of `**` is a wildcard route.
-The router selects this route if the requested URL doesn't match any of the paths earlier in the list and sends the user to the `PageNotFoundComponent`.
+La última ruta con el `path` de `**` es una ruta comodín.
+El router selecciona esta ruta si la URL solicitada no coincide con ninguna de las rutas anteriores en la lista y envía al usuario al `PageNotFoundComponent`.
 
-## Link parameters array
+## Array de parámetros de enlace
 
-A link parameters array holds the following ingredients for router navigation:
+Un array de parámetros de enlace contiene los siguientes ingredientes para la navegación del router:
 
-- The path of the route to the destination component
-- Required and optional route parameters that go into the route URL
+- La ruta del camino al componente de destino
+- Parámetros de ruta requeridos y opcionales que van en la URL de la ruta
 
-Bind the `RouterLink` directive to such an array like this:
+Vincula la directiva `RouterLink` a tal array de esta manera:
 
 ```angular-html
 <a [routerLink]="['/heroes']">Heroes</a>
 ```
 
-The following is a two-element array when specifying a route parameter:
+Lo siguiente es un array de dos elementos al especificar un parámetro de ruta:
 
 ```angular-html
 <a [routerLink]="['/hero', hero.id]">
@@ -98,42 +98,42 @@ The following is a two-element array when specifying a route parameter:
 </a>
 ```
 
-Provide optional route parameters in an object, as in `{ foo: 'foo' }`:
+Proporciona parámetros de ruta opcionales en un objeto, como en `{ foo: 'foo' }`:
 
 ```angular-html
 <a [routerLink]="['/crisis-center', { foo: 'foo' }]">Crisis Center</a>
 ```
 
-These three examples cover the needs of an application with one level of routing.
-However, with a child router, such as in the crisis center, you create new link array possibilities.
+Estos tres ejemplos cubren las necesidades de una aplicación con un nivel de enrutamiento.
+Sin embargo, con un router hijo, como en el centro de crisis, creas nuevas posibilidades de array de enlaces.
 
-The following minimal `RouterLink` example builds upon a specified default child route for the crisis center.
+El siguiente ejemplo mínimo de `RouterLink` se basa en una ruta hija predeterminada especificada para el centro de crisis.
 
 ```angular-html
 <a [routerLink]="['/crisis-center']">Crisis Center</a>
 ```
 
-Review the following:
+Revisa lo siguiente:
 
-- The first item in the array identifies the parent route \(`/crisis-center`\)
-- There are no parameters for this parent route
-- There is no default for the child route so you need to pick one
-- You're navigating to the `CrisisListComponent`, whose route path is `/`, but you don't need to explicitly add the slash
+- El primer elemento en el array identifica la ruta padre \(`/crisis-center`\)
+- No hay parámetros para esta ruta padre
+- No hay un valor predeterminado para la ruta hija, por lo que necesitas elegir uno
+- Estás navegando al `CrisisListComponent`, cuya ruta es `/`, pero no necesitas agregar explícitamente la barra diagonal
 
-Consider the following router link that navigates from the root of the application down to the Dragon Crisis:
+Considera el siguiente enlace de router que navega desde la raíz de la aplicación hasta el Dragon Crisis:
 
 ```angular-html
 <a [routerLink]="['/crisis-center', 1]">Dragon Crisis</a>
 ```
 
-- The first item in the array identifies the parent route \(`/crisis-center`\)
-- There are no parameters for this parent route
-- The second item identifies the child route details about a particular crisis \(`/:id`\)
-- The details child route requires an `id` route parameter
-- You added the `id` of the Dragon Crisis as the second item in the array \(`1`\)
-- The resulting path is `/crisis-center/1`
+- El primer elemento en el array identifica la ruta padre \(`/crisis-center`\)
+- No hay parámetros para esta ruta padre
+- El segundo elemento identifica los detalles de la ruta hija sobre una crisis en particular \(`/:id`\)
+- La ruta hija de detalles requiere un parámetro de ruta `id`
+- Agregaste el `id` del Dragon Crisis como el segundo elemento en el array \(`1`\)
+- La ruta resultante es `/crisis-center/1`
 
-You could also redefine the `AppComponent` template with Crisis Center routes exclusively:
+También podrías redefinir la plantilla de `AppComponent` con rutas del Crisis Center exclusivamente:
 
 ```angular-ts
 @Component({
@@ -150,38 +150,38 @@ You could also redefine the `AppComponent` template with Crisis Center routes ex
 export class AppComponent {}
 ```
 
-In summary, you can write applications with one, two or more levels of routing.
-The link parameters array affords the flexibility to represent any routing depth and any legal sequence of route paths, \(required\) router parameters, and \(optional\) route parameter objects.
+En resumen, puedes escribir aplicaciones con uno, dos o más niveles de enrutamiento.
+El array de parámetros de enlace ofrece la flexibilidad para representar cualquier profundidad de enrutamiento y cualquier secuencia legal de rutas, parámetros de router \(requeridos\) y objetos de parámetros de ruta \(opcionales\).
 
-## `LocationStrategy` and browser URL styles
+## `LocationStrategy` y estilos de URL del navegador
 
-When the router navigates to a new component view, it updates the browser's location and history with a URL for that view.
+Cuando el router navega a una nueva vista de componente, actualiza la ubicación y el historial del navegador con una URL para esa vista.
 
-Modern HTML5 browsers support [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state'), a technique that changes a browser's location and history without triggering a server page request.
-The router can compose a "natural" URL that is indistinguishable from one that would otherwise require a page load.
+Los navegadores modernos HTML5 soportan [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state'), una técnica que cambia la ubicación y el historial de un navegador sin disparar una petición de página al servidor.
+El router puede componer una URL "natural" que es indistinguible de una que de otro modo requeriría una carga de página.
 
-Here's the Crisis Center URL in this "HTML5 pushState" style:
+Aquí está la URL del Crisis Center en este estilo "HTML5 pushState":
 
 ```text
 localhost:3002/crisis-center
 ```
 
-Older browsers send page requests to the server when the location URL changes unless the change occurs after a "#" \(called the "hash"\).
-Routers can take advantage of this exception by composing in-application route URLs with hashes.
-Here's a "hash URL" that routes to the Crisis Center.
+Los navegadores más antiguos envían peticiones de página al servidor cuando la URL de ubicación cambia, a menos que el cambio ocurra después de un "#" \(llamado "hash"\).
+Los routers pueden aprovechar esta excepción componiendo URLs de ruta dentro de la aplicación con hashes.
+Aquí hay una "URL hash" que enruta al Crisis Center.
 
 ```text
 localhost:3002/src/#/crisis-center
 ```
 
-The router supports both styles with two `LocationStrategy` providers:
+El router soporta ambos estilos con dos proveedores `LocationStrategy`:
 
-| Providers              | Details                              |
-| :--------------------- | :----------------------------------- |
-| `PathLocationStrategy` | The default "HTML5 pushState" style. |
-| `HashLocationStrategy` | The "hash URL" style.                |
+| Providers              | Details                                       |
+| :--------------------- | :-------------------------------------------- |
+| `PathLocationStrategy` | El estilo predeterminado "HTML5 pushState".   |
+| `HashLocationStrategy` | El estilo "hash URL".                        |
 
-The `RouterModule.forRoot()` function sets the `LocationStrategy` to the `PathLocationStrategy`, which makes it the default strategy.
-You also have the option of switching to the `HashLocationStrategy` with an override during the bootstrapping process.
+La función `RouterModule.forRoot()` establece el `LocationStrategy` al `PathLocationStrategy`, lo que lo convierte en la estrategia predeterminada.
+También tienes la opción de cambiar al `HashLocationStrategy` con una sobrescritura durante el proceso de bootstrapping.
 
-HELPFUL: For more information on providers and the bootstrap process, see [Dependency Injection](guide/di/dependency-injection-providers).
+ÚTIL: Para más información sobre proveedores y el proceso de bootstrap, consulta [Inyección de Dependencias](guide/di/dependency-injection-providers).

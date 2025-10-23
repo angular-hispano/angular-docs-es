@@ -1,92 +1,92 @@
-# Using Angular routes in a single-page application
+# Usar rutas de Angular en una aplicación de página única (SPA)
 
-This tutorial describes how to build a single-page application, SPA that uses multiple Angular routes.
+Este tutorial describe cómo construir una aplicación de página única, SPA que usa múltiples rutas de Angular.
 
-In a Single Page Application \(SPA\), all of your application's functions exist in a single HTML page.
-As users access your application's features, the browser needs to render only the parts that matter to the user, instead of loading a new page.
-This pattern can significantly improve your application's user experience.
+En una Single Page Application \(SPA\), todas las funciones de tu aplicación existen en una sola página HTML.
+A medida que los usuarios acceden a las características de tu aplicación, el navegador solo necesita renderizar las partes que importan al usuario, en lugar de cargar una nueva página.
+Este patrón puede mejorar significativamente la experiencia del usuario de tu aplicación.
 
-To define how users navigate through your application, you use routes.
-Add routes to define how users navigate from one part of your application to another.
-You can also configure routes to guard against unexpected or unauthorized behavior.
+Para definir cómo los usuarios navegan a través de tu aplicación, usas rutas.
+Agrega rutas para definir cómo los usuarios navegan de una parte de tu aplicación a otra.
+También puedes configurar rutas para protegerse contra comportamientos inesperados o no autorizados.
 
-## Objectives
+## Objetivos
 
-* Organize a sample application's features into modules.
-* Define how to navigate to a component.
-* Pass information to a component using a parameter.
-* Structure routes by nesting several routes.
-* Check whether users can access a route.
-* Control whether the application can discard unsaved changes.
-* Improve performance by pre-fetching route data and lazy loading feature modules.
-* Require specific criteria to load components.
+* Organizar las características de una aplicación de ejemplo en módulos.
+* Definir cómo navegar a un componente.
+* Pasar información a un componente usando un parámetro.
+* Estructurar rutas anidando varias rutas.
+* Verificar si los usuarios pueden acceder a una ruta.
+* Controlar si la aplicación puede descartar cambios no guardados.
+* Mejorar el rendimiento precargando datos de ruta y cargando módulos de características con lazy loading.
+* Requerir criterios específicos para cargar componentes.
 
-## Create a sample application
+## Crear una aplicación de ejemplo
 
-Using the Angular CLI, create a new application, *angular-router-sample*.
-This application will have two components: *crisis-list* and *heroes-list*.
+Usando Angular CLI, crea una nueva aplicación, *angular-router-sample*.
+Esta aplicación tendrá dos componentes: *crisis-list* y *heroes-list*.
 
-1. Create a new Angular project, *angular-router-sample*.
+1. Crea un nuevo proyecto Angular, *angular-router-sample*.
 
     <docs-code language="shell">
     ng new angular-router-sample
     </docs-code>
 
-    When prompted with `Would you like to add Angular routing?`, select `N`.
+    Cuando se te pregunte `Would you like to add Angular routing?`, selecciona `N`.
 
-    When prompted with `Which stylesheet format would you like to use?`, select `CSS`.
+    Cuando se te pregunte `Which stylesheet format would you like to use?`, selecciona `CSS`.
 
-    After a few moments, a new project, `angular-router-sample`, is ready.
+    Después de unos momentos, un nuevo proyecto, `angular-router-sample`, estará listo.
 
-1. From your terminal, navigate to the `angular-router-sample` directory.
-1. Create a component, *crisis-list*.
+1. Desde tu terminal, navega al directorio `angular-router-sample`.
+1. Crea un componente, *crisis-list*.
 
     <docs-code language="shell">
     ng generate component crisis-list
     </docs-code>
 
-1. In your code editor, locate the file, `crisis-list.component.html` and replace the placeholder content with the following HTML.
+1. En tu editor de código, localiza el archivo `crisis-list.component.html` y reemplaza el contenido placeholder con el siguiente HTML.
 
     <docs-code header="src/app/crisis-list/crisis-list.component.html" path="adev/src/content/examples/router-tutorial/src/app/crisis-list/crisis-list.component.html"/>
 
-1. Create a second component, *heroes-list*.
+1. Crea un segundo componente, *heroes-list*.
 
     <docs-code language="shell">
     ng generate component heroes-list
     </docs-code>
 
-1. In your code editor, locate the file, `heroes-list.component.html` and replace the placeholder content with the following HTML.
+1. En tu editor de código, localiza el archivo `heroes-list.component.html` y reemplaza el contenido placeholder con el siguiente HTML.
 
     <docs-code header="src/app/heroes-list/heroes-list.component.html" path="adev/src/content/examples/router-tutorial/src/app/heroes-list/heroes-list.component.html"/>
 
-1. In your code editor, open the file, `app.component.html` and replace its contents with the following HTML.
+1. En tu editor de código, abre el archivo `app.component.html` y reemplaza su contenido con el siguiente HTML.
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="setup"/>
 
-1. Verify that your new application runs as expected by running the `ng serve` command.
+1. Verifica que tu nueva aplicación se ejecuta como se espera ejecutando el comando `ng serve`.
 
     <docs-code language="shell">
     ng serve
     </docs-code>
 
-1. Open a browser to `http://localhost:4200`.
+1. Abre un navegador en `http://localhost:4200`.
 
-    You should see a single web page, consisting of a title and the HTML of your two components.
+    Deberías ver una sola página web, consistiendo en un título y el HTML de tus dos componentes.
 
-## Define your routes
+## Definir tus rutas
 
-In this section, you'll define two routes:
+En esta sección, definirás dos rutas:
 
-* The route `/crisis-center` opens the `crisis-center` component.
-* The route `/heroes-list` opens the `heroes-list` component.
+* La ruta `/crisis-center` abre el componente `crisis-center`.
+* La ruta `/heroes-list` abre el componente `heroes-list`.
 
-A route definition is a JavaScript object.
-Each route typically has two properties.
-The first property, `path`, is a string that specifies the URL path for the route.
-The second property, `component`, is a string that specifies what component your application should display for that path.
+Una definición de ruta es un objeto JavaScript.
+Cada ruta típicamente tiene dos propiedades.
+La primera propiedad, `path`, es un string que especifica la ruta de URL para la ruta.
+La segunda propiedad, `component`, es un string que especifica qué componente debe mostrar tu aplicación para esa ruta.
 
-1. From your code editor, create and open the `app.routes.ts` file.
-1. Create and export a routes list for your application:
+1. Desde tu editor de código, crea y abre el archivo `app.routes.ts`.
+1. Crea y exporta una lista de rutas para tu aplicación:
 
     ```ts
     import {Routes} from '@angular/router';
@@ -94,182 +94,182 @@ The second property, `component`, is a string that specifies what component your
     export const routes = [];
     ```
 
-1. Add two routes for your first two components:
+1. Agrega dos rutas para tus primeros dos componentes:
 
     ```ts
     {path: 'crisis-list', component: CrisisListComponent},
     {path: 'heroes-list', component: HeroesListComponent},
     ```
 
-This routes list is an array of JavaScript objects, with each object defining the properties of a route.
+Esta lista de rutas es un array de objetos JavaScript, con cada objeto definiendo las propiedades de una ruta.
 
-## Import `provideRouter` from `@angular/router`
+## Importar `provideRouter` desde `@angular/router`
 
-Routing lets you display specific views of your application depending on the URL path.
-To add this functionality to your sample application, you need to update the `app.config.ts` file to use the router providers function, `provideRouter`.
-You import this provider function from `@angular/router`.
+El enrutamiento te permite mostrar vistas específicas de tu aplicación dependiendo de la ruta de URL.
+Para agregar esta funcionalidad a tu aplicación de ejemplo, necesitas actualizar el archivo `app.config.ts` para usar la función de proveedores del router, `provideRouter`.
+Importas esta función de proveedor desde `@angular/router`.
 
-1. From your code editor, open the `app.config.ts` file.
-1. Add the following import statements:
+1. Desde tu editor de código, abre el archivo `app.config.ts`.
+1. Agrega las siguientes declaraciones de importación:
 
     ```ts
     import { provideRouter } from '@angular/router';
     import { routes } from './app.routes';
     ```
 
-1. Update the providers in the `appConfig`:
+1. Actualiza los providers en el `appConfig`:
 
     ```ts
     providers: [provideRouter(routes)]
     ```
 
-For `NgModule` based applications, put the `provideRouter` in the `providers` list of the `AppModule`, or whichever module is passed to `bootstrapModule` in the application.
+Para aplicaciones basadas en `NgModule`, coloca el `provideRouter` en la lista de `providers` del `AppModule`, o cualquier módulo que se pase a `bootstrapModule` en la aplicación.
 
-## Update your component with `router-outlet`
+## Actualizar tu componente con `router-outlet`
 
-At this point, you have defined two routes for your application.
-However, your application still has both the `crisis-list` and `heroes-list` components hard-coded in your `app.component.html` template.
-For your routes to work, you need to update your template to dynamically load a component based on the URL path.
+En este punto, has definido dos rutas para tu aplicación.
+Sin embargo, tu aplicación aún tiene ambos componentes `crisis-list` y `heroes-list` codificados directamente en tu plantilla `app.component.html`.
+Para que tus rutas funcionen, necesitas actualizar tu plantilla para cargar dinámicamente un componente basado en la ruta de URL.
 
-To implement this functionality, you add the `router-outlet` directive to your template file.
+Para implementar esta funcionalidad, agregas la directiva `router-outlet` a tu archivo de plantilla.
 
-1. From your code editor, open the `app.component.html` file.
-1. Delete the following lines.
+1. Desde tu editor de código, abre el archivo `app.component.html`.
+1. Elimina las siguientes líneas.
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="components"/>
 
-1. Add the `router-outlet` directive.
+1. Agrega la directiva `router-outlet`.
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="router-outlet"/>
 
-1. Add `RouterOutlet` to the imports of the `AppComponent` in `app.component.ts`
+1. Agrega `RouterOutlet` a los imports del `AppComponent` en `app.component.ts`
 
     ```ts
     imports: [RouterOutlet],
     ```
 
-View your updated application in your browser.
-You should see only the application title.
-To view the `crisis-list` component, add `crisis-list` to the end of the path in your browser's address bar.
-For example:
+Visualiza tu aplicación actualizada en tu navegador.
+Solo deberías ver el título de la aplicación.
+Para ver el componente `crisis-list`, agrega `crisis-list` al final de la ruta en la barra de direcciones de tu navegador.
+Por ejemplo:
 
 <docs-code language="http">
 http://localhost:4200/crisis-list
 </docs-code>
 
-Notice that the `crisis-list` component displays.
-Angular is using the route you defined to dynamically load the component.
-You can load the `heroes-list` component the same way:
+Nota que el componente `crisis-list` se muestra.
+Angular está usando la ruta que definiste para cargar dinámicamente el componente.
+Puedes cargar el componente `heroes-list` de la misma manera:
 
 <docs-code language="http">
 http://localhost:4200/heroes-list
 </docs-code>
 
-## Control navigation with UI elements
+## Controlar la navegación con elementos UI
 
-Currently, your application supports two routes.
-However, the only way to use those routes is for the user to manually type the path in the browser's address bar.
-In this section, you'll add two links that users can click to navigate between the `heroes-list` and `crisis-list` components.
-You'll also add some CSS styles.
-While these styles are not required, they make it easier to identify the link for the currently-displayed component.
-You'll add that functionality in the next section.
+Actualmente, tu aplicación soporta dos rutas.
+Sin embargo, la única forma de usar esas rutas es que el usuario escriba manualmente la ruta en la barra de direcciones del navegador.
+En esta sección, agregarás dos enlaces en los que los usuarios pueden hacer clic para navegar entre los componentes `heroes-list` y `crisis-list`.
+También agregarás algunos estilos CSS.
+Aunque estos estilos no son requeridos, facilitan identificar el enlace del componente actualmente mostrado.
+Agregarás esa funcionalidad en la siguiente sección.
 
-1. Open the `app.component.html` file and add the following HTML below the title.
+1. Abre el archivo `app.component.html` y agrega el siguiente HTML debajo del título.
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="nav"/>
 
-    This HTML uses an Angular directive, `routerLink`.
-    This directive connects the routes you defined to your template files.
+    Este HTML usa una directiva de Angular, `routerLink`.
+    Esta directiva conecta las rutas que definiste a tus archivos de plantilla.
 
-1. Add the `RouterLink` directive to the imports list of `AppComponent` in `app.component.ts`.
+1. Agrega la directiva `RouterLink` a la lista de imports de `AppComponent` en `app.component.ts`.
 
-1. Open the `app.component.css` file and add the following styles.
+1. Abre el archivo `app.component.css` y agrega los siguientes estilos.
 
     <docs-code header="src/app/app.component.css" path="adev/src/content/examples/router-tutorial/src/app/app.component.css"/>
 
-If you view your application in the browser, you should see these two links.
-When you click on a link, the corresponding component appears.
+Si visualizas tu aplicación en el navegador, deberías ver estos dos enlaces.
+Cuando haces clic en un enlace, aparece el componente correspondiente.
 
-## Identify the active route
+## Identificar la ruta activa
 
-While users can navigate your application using the links you added in the previous section, they don't have a straightforward way to identify what the active route is.
-Add this functionality using Angular's `routerLinkActive` directive.
+Aunque los usuarios pueden navegar tu aplicación usando los enlaces que agregaste en la sección anterior, no tienen una forma directa de identificar cuál es la ruta activa.
+Agrega esta funcionalidad usando la directiva `routerLinkActive` de Angular.
 
-1. From your code editor, open the `app.component.html` file.
-1. Update the anchor tags to include the `routerLinkActive` directive.
+1. Desde tu editor de código, abre el archivo `app.component.html`.
+1. Actualiza las etiquetas anchor para incluir la directiva `routerLinkActive`.
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="routeractivelink"/>
-1. Add the `RouterLinkActive` directive to the `imports` list of `AppComponent` in `app.component.ts`.
+1. Agrega la directiva `RouterLinkActive` a la lista de `imports` de `AppComponent` en `app.component.ts`.
 
-View your application again.
-As you click one of the buttons, the style for that button updates automatically, identifying the active component to the user.
-By adding the `routerLinkActive` directive, you inform your application to apply a specific CSS class to the active route.
-In this tutorial, that CSS class is `activebutton`, but you could use any class that you want.
+Visualiza tu aplicación nuevamente.
+Al hacer clic en uno de los botones, el estilo para ese botón se actualiza automáticamente, identificando el componente activo para el usuario.
+Al agregar la directiva `routerLinkActive`, informas a tu aplicación que aplique una clase CSS específica a la ruta activa.
+En este tutorial, esa clase CSS es `activebutton`, pero podrías usar cualquier clase que desees.
 
-Note that we are also specifying a value for the `routerLinkActive`'s `ariaCurrentWhenActive`. This makes sure that visually impaired users (which may not perceive the different styling being applied) can also identify the active button. For more information see the Accessibility Best Practices [Active links identification section](/best-practices/a11y#active-links-identification).
+Nota que también estamos especificando un valor para el `ariaCurrentWhenActive` de `routerLinkActive`. Esto asegura que los usuarios con discapacidades visuales (que pueden no percibir el estilo diferente que se está aplicando) también puedan identificar el botón activo. Para más información consulta las Mejores Prácticas de Accesibilidad [sección de identificación de enlaces activos](/best-practices/a11y#active-links-identification).
 
-## Adding a redirect
+## Agregar una redirección
 
-In this step of the tutorial, you add a route that redirects the user to display the `/heroes-list` component.
+En este paso del tutorial, agregas una ruta que redirige al usuario para mostrar el componente `/heroes-list`.
 
-1. From your code editor, open the `app.routes.ts` file.
-1. Update the `routes` section as follows.
+1. Desde tu editor de código, abre el archivo `app.routes.ts`.
+1. Actualiza la sección `routes` como sigue.
 
     ```ts
     {path: '', redirectTo: '/heroes-list', pathMatch: 'full'},
     ```
 
-    Notice that this new route uses an empty string as its path.
-    In addition, it replaces the `component` property with two new ones:
+    Nota que esta nueva ruta usa un string vacío como su ruta.
+    Además, reemplaza la propiedad `component` con dos nuevas:
 
-    | Properties   | Details |
+    | Propiedades   | Detalles |
     |:---        |:---    |
-    | `redirectTo` | This property instructs Angular to redirect from an empty path to the `heroes-list` path.                                                                                                                                                       |
-    | `pathMatch`  | This property instructs Angular on how much of the URL to match. For this tutorial, you should set this property to `full`. This strategy is recommended when you have an empty string for a path. For more information about this property, see the [Route API documentation](api/router/Route). |
+    | `redirectTo` | Esta propiedad instruye a Angular a redirigir desde una ruta vacía a la ruta `heroes-list`.                                                                                                                                                       |
+    | `pathMatch`  | Esta propiedad instruye a Angular sobre cuánto de la URL debe coincidir. Para este tutorial, deberías establecer esta propiedad en `full`. Esta estrategia se recomienda cuando tienes un string vacío para una ruta. Para más información sobre esta propiedad, consulta la [documentación de la API Route](api/router/Route). |
 
-Now when you open your application, it displays the `heroes-list` component by default.
+Ahora cuando abres tu aplicación, muestra el componente `heroes-list` por defecto.
 
-## Adding a 404 page
+## Agregar una página 404
 
-It is possible for a user to try to access a route that you have not defined.
-To account for this behavior, the best practice is to display a 404 page.
-In this section, you'll create a 404 page and update your route configuration to show that page for any unspecified routes.
+Es posible que un usuario intente acceder a una ruta que no has definido.
+Para dar cuenta de este comportamiento, la mejor práctica es mostrar una página 404.
+En esta sección, crearás una página 404 y actualizarás tu configuración de rutas para mostrar esa página para cualquier ruta no especificada.
 
-1. From the terminal, create a new component, `PageNotFound`.
+1. Desde la terminal, crea un nuevo componente, `PageNotFound`.
 
     <docs-code language="shell">
     ng generate component page-not-found
     </docs-code>
 
-1. From your code editor, open the `page-not-found.component.html` file and replace its contents with the following HTML.
+1. Desde tu editor de código, abre el archivo `page-not-found.component.html` y reemplaza su contenido con el siguiente HTML.
 
     <docs-code header="src/app/page-not-found/page-not-found.component.html" path="adev/src/content/examples/router-tutorial/src/app/page-not-found/page-not-found.component.html"/>
 
-1. Open the `app.routes.ts` file and add the following route to the routes list:
+1. Abre el archivo `app.routes.ts` y agrega la siguiente ruta a la lista de rutas:
 
     ```ts
     {path: '**', component: PageNotFoundComponent}
     ```
 
-    The new route uses a path, `**`.
-    This path is how Angular identifies a wildcard route.
-    Any route that does not match an existing route in your configuration will use this route.
+    La nueva ruta usa una ruta, `**`.
+    Esta ruta es cómo Angular identifica una ruta comodín.
+    Cualquier ruta que no coincida con una ruta existente en tu configuración usará esta ruta.
 
-IMPORTANT: Notice that the wildcard route is placed at the end of the array.
-The order of your routes is important, as Angular applies routes in order and uses the first match it finds.
+IMPORTANTE: Nota que la ruta comodín se coloca al final del array.
+El orden de tus rutas es importante, ya que Angular aplica rutas en orden y usa la primera coincidencia que encuentra.
 
-Try navigating to a non-existing route on your application, such as `http://localhost:4200/powers`.
-This route doesn't match anything defined in your `app.routes.ts` file.
-However, because you defined a wildcard route, the application automatically displays your `PageNotFound` component.
+Intenta navegar a una ruta no existente en tu aplicación, como `http://localhost:4200/powers`.
+Esta ruta no coincide con nada definido en tu archivo `app.routes.ts`.
+Sin embargo, como definiste una ruta comodín, la aplicación automáticamente muestra tu componente `PageNotFound`.
 
-## Next steps
+## Próximos pasos
 
-At this point, you have a basic application that uses Angular's routing feature to change what components the user can see based on the URL address.
-You have extended these features to include a redirect, as well as a wildcard route to display a custom 404 page.
+En este punto, tienes una aplicación básica que usa la característica de enrutamiento en Angular para cambiar qué componentes puede ver el usuario basándose en la dirección URL.
+Has extendido estas características para incluir una redirección, así como una ruta comodín para mostrar una página 404 personalizada.
 
-For more information about routing, see the following topics:
+Para más información sobre enrutamiento, consulta los siguientes temas:
 
 <docs-pill-row>
-  <docs-pill href="guide/routing/common-router-tasks" title="In-app Routing and Navigation"/>
+  <docs-pill href="guide/routing/common-router-tasks" title="Enrutamiento y navegación en la aplicación"/>
   <docs-pill href="api/router/Router" title="Router API"/>
 </docs-pill-row>

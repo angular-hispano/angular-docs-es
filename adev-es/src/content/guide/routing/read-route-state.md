@@ -1,10 +1,10 @@
-# Read route state
+# Leer estado de ruta
 
-Angular Router allows you to read and use information associated with a route to create responsive and context-aware components.
+El Router de Angular te permite leer y usar información asociada con una ruta para crear componentes responsivos y conscientes del contexto.
 
-## Get information about the current route with ActivatedRoute
+## Obtener información sobre la ruta actual con ActivatedRoute
 
-`ActivatedRoute` is a service from `@angular/router` that provides all the information associated with the current route.
+`ActivatedRoute` es un servicio de `@angular/router` que proporciona toda la información asociada con la ruta actual.
 
 ```angular-ts
 import { Component } from '@angular/core';
@@ -22,24 +22,24 @@ export class ProductComponent {
 }
 ```
 
-The `ActivatedRoute` can provide different information about the route. Some common properties include:
+El `ActivatedRoute` puede proporcionar diferente información sobre la ruta. Algunas propiedades comunes incluyen:
 
-| Property      | Details                                                                                                                           |
-| :------------ | :-------------------------------------------------------------------------------------------------------------------------------- |
-| `url`         | An `Observable` of the route paths, represented as an array of strings for each part of the route path.                           |
-| `data`        | An `Observable` that contains the `data` object provided for the route. Also contains any resolved values from the resolve guard. |
-| `params`      | An `Observable` that contains the required and optional parameters specific to the route.                                         |
-| `queryParams` | An `Observable` that contains the query parameters available to all routes.                                                       |
+| Propiedad     | Detalles                                                                                                                                      |
+| :------------ | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`         | Un `Observable` de las rutas de ruta, representadas como un array de strings para cada parte de la ruta de ruta.                             |
+| `data`        | Un `Observable` que contiene el objeto `data` proporcionado para la ruta. También contiene cualquier valor resuelto del guard de resolución. |
+| `params`      | Un `Observable` que contiene los parámetros requeridos y opcionales específicos de la ruta.                                                  |
+| `queryParams` | Un `Observable` que contiene los parámetros de consulta disponibles para todas las rutas.                                                    |
 
-Check out the [`ActivatedRoute` API docs](/api/router/ActivatedRoute) for a complete list of what you can access with in the route.
+Consulta los [docs de la API de `ActivatedRoute`](/api/router/ActivatedRoute) para una lista completa de lo que puedes acceder dentro de la ruta.
 
-## Understanding route snapshots
+## Entendiendo snapshots de ruta
 
-Page navigations are events over time, and you can access the router state at a given time by retrieving a route snapshot.
+Las navegaciones de página son eventos a lo largo del tiempo, y puedes acceder al estado del router en un momento dado recuperando un snapshot de ruta.
 
-Route snapshots contain essential information about the route, including its parameters, data, and child routes. In addition, snapshots are static and will not reflect future changes.
+Los snapshots de ruta contienen información esencial sobre la ruta, incluyendo sus parámetros, datos y rutas hijas. Además, los snapshots son estáticos y no reflejarán cambios futuros.
 
-Here’s an example of how you’d access a route snapshot:
+Aquí hay un ejemplo de cómo accederías a un snapshot de ruta:
 
 ```angular-ts
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
@@ -50,35 +50,35 @@ export class UserProfileComponent {
   private route = inject(ActivatedRoute);
 
   constructor() {
-    // Example URL: https://www.angular.dev/users/123?role=admin&status=active#contact
+    // URL de ejemplo: https://www.angular.dev/users/123?role=admin&status=active#contact
 
-    // Access route parameters from snapshot
+    // Acceder a parámetros de ruta desde snapshot
     this.userId = this.route.snapshot.paramMap.get('id');
 
-    // Access multiple route elements
+    // Acceder a múltiples elementos de ruta
     const snapshot = this.route.snapshot;
     console.log({
       url: snapshot.url,           // https://www.angular.dev
-      // Route parameters object: {id: '123'}
+      // Objeto de parámetros de ruta: {id: '123'}
       params: snapshot.params,
-      // Query parameters object: {role: 'admin', status: 'active'}
-      queryParams: snapshot.queryParams,  // Query parameters
+      // Objeto de parámetros de consulta: {role: 'admin', status: 'active'}
+      queryParams: snapshot.queryParams,  // Parámetros de consulta
     });
   }
 }
 ```
 
-Check out the [`ActivatedRoute` API docs](/api/router/ActivatedRoute) and [`ActivatedRouteSnapshot` API docs](/api/router/ActivatedRouteSnapshot) for a complete list of all properties you can access.
+Consulta los [docs de la API de `ActivatedRoute`](/api/router/ActivatedRoute) y los [docs de la API de `ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot) para una lista completa de todas las propiedades que puedes acceder.
 
-## Reading parameters on a route
+## Leyendo parámetros en una ruta
 
-There are two types of parameters that developers can utilize from a route: route and query parameters.
+Hay dos tipos de parámetros que los desarrolladores pueden utilizar desde una ruta: parámetros de ruta y parámetros de consulta.
 
-### Route Parameters
+### Parámetros de ruta
 
-Route parameters allow you to pass data to a component through the URL. This is useful when you want to display specific content based on an identifier in the URL, like a user ID or a product ID.
+Los parámetros de ruta te permiten pasar datos a un componente a través de la URL. Esto es útil cuando quieres mostrar contenido específico basado en un identificador en la URL, como un ID de usuario o un ID de producto.
 
-You can [define route parameters](/guide/routing/define-routes#define-url-paths-with-route-parameters) by prefixing the parameter name with a colon (`:`).
+Puedes [definir parámetros de ruta](/guide/routing/define-routes#define-url-paths-with-route-parameters) prefijando el nombre del parámetro con dos puntos (`:`).
 
 ```angular-ts
 import { Routes } from '@angular/router';
@@ -89,7 +89,7 @@ const routes: Routes = [
 ];
 ```
 
-You can access parameters by subscribing to `route.params`.
+Puedes acceder a los parámetros suscribiéndote a `route.params`.
 
 ```angular-ts
 import { Component, inject, signal } from '@angular/core';
@@ -104,7 +104,7 @@ export class ProductDetailComponent {
   private activatedRoute = inject(ActivatedRoute);
 
   constructor() {
-    // Access route parameters
+    // Acceder a parámetros de ruta
     this.activatedRoute.params.subscribe((params) => {
       this.productId.set(params['id']);
     });
@@ -112,18 +112,18 @@ export class ProductDetailComponent {
 }
 ```
 
-### Query Parameters
+### Parámetros de consulta
 
-[Query parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) provide a flexible way to pass optional data through URLs without affecting the route structure. Unlike route parameters, query parameters can persist across navigation events and are perfect for handling filtering, sorting, pagination, and other stateful UI elements.
+Los [parámetros de consulta](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) proporcionan una forma flexible de pasar datos opcionales a través de URLs sin afectar la estructura de la ruta. A diferencia de los parámetros de ruta, los parámetros de consulta pueden persistir a través de eventos de navegación y son perfectos para manejar filtrado, ordenamiento, paginación y otros elementos UI con estado.
 
 ```angular-ts
-// Single parameter structure
+// Estructura de parámetro único
 // /products?category=electronics
 router.navigate(['/products'], {
   queryParams: { category: 'electronics' }
 });
 
-// Multiple parameters
+// Múltiples parámetros
 // /products?category=electronics&sort=price&page=1
 router.navigate(['/products'], {
   queryParams: {
@@ -134,9 +134,9 @@ router.navigate(['/products'], {
 });
 ```
 
-You can access query parameters with `route.queryParams`.
+Puedes acceder a los parámetros de consulta con `route.queryParams`.
 
-Here is an example of a `ProductListComponent` that updates the query parameters that affect how it displays a list of products:
+Aquí hay un ejemplo de un `ProductListComponent` que actualiza los parámetros de consulta que afectan cómo muestra una lista de productos:
 
 ```angular-ts
 import { ActivatedRoute, Router } from '@angular/router';
@@ -149,7 +149,7 @@ import { ActivatedRoute, Router } from '@angular/router';
         <option value="price">Price</option>
         <option value="name">Name</option>
       </select>
-      <!-- Products list -->
+      <!-- Lista de productos -->
     </div>
   `
 })
@@ -158,7 +158,7 @@ export class ProductListComponent implements OnInit {
   private router = inject(Router);
 
   constructor() {
-    // Access query parameters reactively
+    // Acceder a parámetros de consulta de forma reactiva
     this.route.queryParams.subscribe(params => {
       const sort = params['sort'] || 'price';
       const page = Number(params['page']) || 1;
@@ -168,22 +168,22 @@ export class ProductListComponent implements OnInit {
 
   updateSort(event: Event) {
     const sort = (event.target as HTMLSelectElement).value;
-    // Update URL with new query parameter
+    // Actualizar URL con nuevo parámetro de consulta
     this.router.navigate([], {
       queryParams: { sort },
-      queryParamsHandling: 'merge' // Preserve other query parameters
+      queryParamsHandling: 'merge' // Preservar otros parámetros de consulta
     });
   }
 }
 ```
 
-In this example, users can use a select element to sort the product list by name or price. The associated change handler updates the URL’s query parameters, which in turn triggers a change event that can read the updated query parameters and update the product list.
+En este ejemplo, los usuarios pueden usar un elemento select para ordenar la lista de productos por nombre o precio. El manejador de cambio asociado actualiza los parámetros de consulta de la URL, lo que a su vez desencadena un evento de cambio que puede leer los parámetros de consulta actualizados y actualizar la lista de productos.
 
-For more information, check out the [official docs on QueryParamsHandling](/api/router/QueryParamsHandling).
+Para más información, consulta los [docs oficiales sobre QueryParamsHandling](/api/router/QueryParamsHandling).
 
-## Detect active current route with RouterLinkActive
+## Detectar ruta activa actual con RouterLinkActive
 
-You can use the `RouterLinkActive` directive to dynamically style navigation elements based on the current active route. This is common in navigation elements to inform users what the active route is.
+Puedes usar la directiva `RouterLinkActive` para estilizar dinámicamente elementos de navegación basándose en la ruta activa actual. Esto es común en elementos de navegación para informar a los usuarios cuál es la ruta activa.
 
 ```angular-html
 <nav>
@@ -202,25 +202,25 @@ You can use the `RouterLinkActive` directive to dynamically style navigation ele
 </nav>
 ```
 
-In this example, Angular Router will apply the `active-button` class to the correct anchor link and `ariaCurrentWhenActive` to `page` when the URL matches the corresponding `routerLink`.
+En este ejemplo, el Router de Angular aplicará la clase `active-button` al enlace anchor correcto y `ariaCurrentWhenActive` a `page` cuando la URL coincida con el `routerLink` correspondiente.
 
-If you need to add multiple classes onto the element, you can use either a space-separated string or an array:
+Si necesitas agregar múltiples clases al elemento, puedes usar un string separado por espacios o un array:
 
 ```angular-html
-<!-- Space-separated string syntax -->
+<!-- Sintaxis de string separado por espacios -->
 <a routerLink="/user/bob" routerLinkActive="class1 class2">Bob</a>
 
-<!-- Array syntax -->
+<!-- Sintaxis de array -->
 <a routerLink="/user/bob" [routerLinkActive]="['class1', 'class2']">Bob</a>
 ```
 
-When you specify a value for routerLinkActive, you are also defining the same value for `ariaCurrentWhenActive`. This makes sure that visually impaired users (which may not perceive the different styling being applied) can also identify the active button.
+Cuando especificas un valor para routerLinkActive, también estás definiendo el mismo valor para `ariaCurrentWhenActive`. Esto asegura que los usuarios con discapacidad visual (que pueden no percibir el estilo diferente que se está aplicando) también puedan identificar el botón activo.
 
-If you want to define a different value for aria, you’ll need to explicitly set the value using the `ariaCurrentWhenActive` directive.
+Si quieres definir un valor diferente para aria, necesitarás establecer explícitamente el valor usando la directiva `ariaCurrentWhenActive`.
 
-### Route matching strategy
+### Estrategia de coincidencia de ruta
 
-By default, `RouterLinkActive` considers any ancestors in the route a match.
+Por defecto, `RouterLinkActive` considera cualquier ancestro en la ruta como una coincidencia.
 
 ```angular-html
 <a [routerLink]="['/user/jane']" routerLinkActive="active-link">
@@ -231,11 +231,11 @@ By default, `RouterLinkActive` considers any ancestors in the route a match.
 </a>
 ```
 
-When the user visits `/user/jane/role/admin`, both links would have the `active-link` class.
+Cuando el usuario visita `/user/jane/role/admin`, ambos enlaces tendrían la clase `active-link`.
 
-### Only apply RouterLinkActive on exact route matches
+### Solo aplicar RouterLinkActive en coincidencias exactas de ruta
 
-If you only want to apply the class on an exact match, you need to provide the `routerLinkActiveOptions` directive with a configuration object that contains the value `exact: true`.
+Si solo quieres aplicar la clase en una coincidencia exacta, necesitas proporcionar la directiva `routerLinkActiveOptions` con un objeto de configuración que contenga el valor `exact: true`.
 
 ```angular-html
 <a [routerLink]="['/user/jane']"
@@ -252,10 +252,10 @@ If you only want to apply the class on an exact match, you need to provide the `
 </a>
 ```
 
-If you want to be more precise in how a route is matched, it’s worth noting that `exact: true` is actually syntactic sugar for the full set of matching options:
+Si quieres ser más preciso en cómo se hace coincidir una ruta, vale la pena notar que `exact: true` es en realidad azúcar sintáctica para el conjunto completo de opciones de coincidencia:
 
 ```angular-ts
-// `exact: true` is equivalent to
+// `exact: true` es equivalente a
 {
   paths: 'exact',
   fragment: 'ignored',
@@ -263,7 +263,7 @@ If you want to be more precise in how a route is matched, it’s worth noting th
   queryParams: 'exact',
 }
 
-// `exact: false` is equivalent
+// `exact: false` es equivalente
 {
   paths: 'subset',
   fragment: 'ignored',
@@ -272,11 +272,11 @@ If you want to be more precise in how a route is matched, it’s worth noting th
 }
 ```
 
-For more information, check out the official docs for [isActiveMatchOptions](/api/router/IsActiveMatchOptions).
+Para más información, consulta los docs oficiales para [isActiveMatchOptions](/api/router/IsActiveMatchOptions).
 
-### Apply RouterLinkActive to an ancestor
+### Aplicar RouterLinkActive a un ancestro
 
-The RouterLinkActive directive can also be applied to an ancestor element in order to allow developers to style the elements as desired.
+La directiva RouterLinkActive también se puede aplicar a un elemento ancestro para permitir a los desarrolladores estilizar los elementos como deseen.
 
 ```angular-html
 <div routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
@@ -285,4 +285,4 @@ The RouterLinkActive directive can also be applied to an ancestor element in ord
 </div>
 ```
 
-For more information, check out the [API docs for RouterLinkActive](/api/router/RouterLinkActive).
+Para más información, consulta los [docs de la API para RouterLinkActive](/api/router/RouterLinkActive).
