@@ -1,19 +1,19 @@
 
-# Find out how much code you're testing
+# Descubrir cuánto código estás probando
 
-The Angular CLI can run unit tests and create code coverage reports.
-Code coverage reports show you any parts of your code base that might not be properly tested by your unit tests.
+Angular CLI puede ejecutar pruebas unitarias y crear reportes de cobertura de código.
+Los reportes de cobertura de código te muestran cualquier parte de tu código base que podría no estar correctamente probada por tus pruebas unitarias.
 
-To generate a coverage report run the following command in the root of your project.
+Para generar un reporte de cobertura ejecuta el siguiente comando en la raíz de tu proyecto.
 
 <docs-code language="shell">
 ng test --no-watch --code-coverage
 </docs-code>
 
-When the tests are complete, the command creates a new `/coverage` directory in the project.
-Open the `index.html` file to see a report with your source code and code coverage values.
+Cuando las pruebas estén completas, el comando crea un nuevo directorio `/coverage` en el proyecto.
+Abre el archivo `index.html` para ver un reporte con tu código fuente y valores de cobertura de código.
 
-If you want to create code-coverage reports every time you test, set the following option in the Angular CLI configuration file, `angular.json`:
+Si quieres crear reportes de cobertura de código cada vez que pruebas, establece la siguiente opción en el archivo de configuración de Angular CLI, `angular.json`:
 
 <docs-code language="json">
 "test": {
@@ -23,13 +23,13 @@ If you want to create code-coverage reports every time you test, set the followi
 }
 </docs-code>
 
-## Code coverage enforcement
+## Aplicación de cobertura de código
 
-The code coverage percentages let you estimate how much of your code is tested.
-If your team decides on a set minimum amount to be unit tested, enforce this minimum with the Angular CLI.
+Los porcentajes de cobertura de código te permiten estimar cuánto de tu código está probado.
+Si tu equipo decide sobre una cantidad mínima establecida para ser probada unitariamente, aplica este mínimo con Angular CLI.
 
-For example, suppose you want the code base to have a minimum of 80% code coverage.
-To enable this, open the [Karma](https://karma-runner.github.io) test platform configuration file, `karma.conf.js`, and add the `check` property in the `coverageReporter:` key.
+Por ejemplo, supón que quieres que la base de código tenga un mínimo de 80% de cobertura de código.
+Para habilitar esto, abre el archivo de configuración de la plataforma de pruebas [Karma](https://karma-runner.github.io), `karma.conf.js`, y agrega la propiedad `check` en la clave `coverageReporter:`.
 
 <docs-code language="javascript">
 coverageReporter: {
@@ -50,8 +50,8 @@ coverageReporter: {
 }
 </docs-code>
 
-HELPFUL: Read more about creating and fine tuning Karma configuration in the [testing guide](guide/testing#configuration).
+ÚTIL: Lee más sobre crear y ajustar la configuración de Karma en la [guía de pruebas](guide/testing#configuration).
 
-The `check` property causes the tool to enforce a minimum of 80% code coverage when the unit tests are run in the project.
+La propiedad `check` hace que la herramienta aplique un mínimo de 80% de cobertura de código cuando las pruebas unitarias se ejecutan en el proyecto.
 
-Read more on coverage configuration options in the [karma coverage documentation](https://github.com/karma-runner/karma-coverage/blob/master/docs/configuration.md).
+Lee más sobre opciones de configuración de cobertura en la [documentación de karma coverage](https://github.com/karma-runner/karma-coverage/blob/master/docs/configuration.md).
