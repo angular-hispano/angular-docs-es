@@ -1,13 +1,13 @@
-# Testing
+# Pruebas
 
-Testing your Angular application helps you check that your application is working as you expect.
+Probar tu aplicación Angular te ayuda a verificar que tu aplicación está funcionando como esperas.
 
-## Set up testing
+## Configurar pruebas
 
-The Angular CLI downloads and installs everything you need to test an Angular application with [Jasmine testing framework](https://jasmine.github.io).
+Angular CLI descarga e instala todo lo que necesitas para probar una aplicación Angular con [Jasmine testing framework](https://jasmine.github.io).
 
-The project you create with the CLI is immediately ready to test.
-Just run the [`ng test`](cli/test) CLI command:
+El proyecto que creas con el CLI está inmediatamente listo para probar.
+Solo ejecuta el comando CLI [`ng test`](cli/test):
 
 <docs-code language="shell">
 
@@ -15,10 +15,10 @@ ng test
 
 </docs-code>
 
-The `ng test` command builds the application in *watch mode*,
-and launches the [Karma test runner](https://karma-runner.github.io).
+El comando `ng test` construye la aplicación en modo *watch*,
+y lanza el [Karma test runner](https://karma-runner.github.io).
 
-The console output looks like below:
+La salida de consola se ve como a continuación:
 
 <docs-code language="shell">
 
@@ -31,24 +31,24 @@ TOTAL: 3 SUCCESS
 
 </docs-code>
 
-The last line of the log shows that Karma ran three tests that all passed.
+La última línea del log muestra que Karma ejecutó tres pruebas que todas pasaron.
 
-The test output is displayed in the browser using [Karma Jasmine HTML Reporter](https://github.com/dfederm/karma-jasmine-html-reporter).
+La salida de pruebas se muestra en el navegador usando [Karma Jasmine HTML Reporter](https://github.com/dfederm/karma-jasmine-html-reporter).
 
-<img alt="Jasmine HTML Reporter in the browser" src="assets/images/guide/testing/initial-jasmine-html-reporter.png">
+<img alt="Jasmine HTML Reporter en el navegador" src="assets/images/guide/testing/initial-jasmine-html-reporter.png">
 
-Click on a test row to re-run just that test or click on a description to re-run the tests in the selected test group \("test suite"\).
+Haz clic en una fila de prueba para re-ejecutar solo esa prueba o haz clic en una descripción para re-ejecutar las pruebas en el grupo de pruebas seleccionado \("test suite"\).
 
-Meanwhile, the `ng test` command is watching for changes.
+Mientras tanto, el comando `ng test` está observando cambios.
 
-To see this in action, make a small change to `app.component.ts` and save.
-The tests run again, the browser refreshes, and the new test results appear.
+Para ver esto en acción, haz un pequeño cambio a `app.component.ts` y guarda.
+Las pruebas se ejecutan nuevamente, el navegador se actualiza y los nuevos resultados de prueba aparecen.
 
-## Configuration
+## Configuración
 
-The Angular CLI takes care of Jasmine and Karma configuration for you. It constructs the full configuration in memory, based on options specified in the `angular.json` file.
+Angular CLI se encarga de la configuración de Jasmine y Karma por ti. Construye la configuración completa en memoria, basándose en opciones especificadas en el archivo `angular.json`.
 
-If you want to customize Karma, you can create a `karma.conf.js` by running the following command:
+Si quieres personalizar Karma, puedes crear un `karma.conf.js` ejecutando el siguiente comando:
 
 <docs-code language="shell">
 
@@ -56,70 +56,70 @@ ng generate config karma
 
 </docs-code>
 
-HELPFUL: Read more about Karma configuration in the [Karma configuration guide](http://karma-runner.github.io/6.4/config/configuration-file.html).
+ÚTIL: Lee más sobre la configuración de Karma en la [guía de configuración de Karma](http://karma-runner.github.io/6.4/config/configuration-file.html).
 
-### Other test frameworks
+### Otros frameworks de prueba
 
-You can also unit test an Angular application with other testing libraries and test runners.
-Each library and runner has its own distinctive installation procedures, configuration, and syntax.
+También puedes hacer pruebas unitarias de una aplicación Angular con otras librerías de prueba y test runners.
+Cada librería y runner tiene sus propios procedimientos de instalación, configuración y sintaxis distintivos.
 
-### Test file name and location
+### Nombre y ubicación del archivo de prueba
 
-Inside the `src/app` folder the Angular CLI generated a test file for the `AppComponent` named `app.component.spec.ts`.
+Dentro de la carpeta `src/app` el Angular CLI generó un archivo de prueba para el `AppComponent` llamado `app.component.spec.ts`.
 
-IMPORTANT: The test file extension **must be `.spec.ts`** so that tooling can identify it as a file with tests \(also known as a *spec* file\).
+IMPORTANTE: La extensión del archivo de prueba **debe ser `.spec.ts`** para que las herramientas puedan identificarlo como un archivo con pruebas \(también conocido como un archivo *spec*\).
 
-The `app.component.ts` and `app.component.spec.ts` files are siblings in the same folder.
-The root file names \(`app.component`\) are the same for both files.
+Los archivos `app.component.ts` y `app.component.spec.ts` son hermanos en la misma carpeta.
+Los nombres raíz de los archivos \(`app.component`\) son los mismos para ambos archivos.
 
-Adopt these two conventions in your own projects for *every kind* of test file.
+Adopta estas dos convenciones en tus propios proyectos para *cada tipo* de archivo de prueba.
 
-#### Place your spec file next to the file it tests
+#### Coloca tu archivo spec junto al archivo que prueba
 
-It's a good idea to put unit test spec files in the same folder
-as the application source code files that they test:
+Es una buena idea colocar los archivos spec de prueba unitaria en la misma carpeta
+que los archivos de código fuente de la aplicación que prueban:
 
-* Such tests are painless to find
-* You see at a glance if a part of your application lacks tests
-* Nearby tests can reveal how a part works in context
-* When you move the source \(inevitable\), you remember to move the test
-* When you rename the source file \(inevitable\), you remember to rename the test file
+* Tales pruebas son fáciles de encontrar
+* Ves de un vistazo si una parte de tu aplicación carece de pruebas
+* Las pruebas cercanas pueden revelar cómo funciona una parte en contexto
+* Cuando mueves el código fuente \(inevitable\), recuerdas mover la prueba
+* Cuando renombras el archivo fuente \(inevitable\), recuerdas renombrar el archivo de prueba
 
-#### Place your spec files in a test folder
+#### Coloca tus archivos spec en una carpeta de prueba
 
-Application integration specs can test the interactions of multiple parts
-spread across folders and modules.
-They don't really belong to any part in particular, so they don't have a
-natural home next to any one file.
+Las specs de integración de aplicación pueden probar las interacciones de múltiples partes
+distribuidas en carpetas y módulos.
+Realmente no pertenecen a ninguna parte en particular, por lo que no tienen un
+hogar natural junto a ningún archivo.
 
-It's often better to create an appropriate folder for them in the `tests` directory.
+A menudo es mejor crear una carpeta apropiada para ellas en el directorio `tests`.
 
-Of course specs that test the test helpers belong in the `test` folder,
-next to their corresponding helper files.
+Por supuesto, las specs que prueban los helpers de prueba pertenecen en la carpeta `test`,
+junto a sus archivos helper correspondientes.
 
-## Testing in continuous integration
+## Pruebas en integración continua
 
-One of the best ways to keep your project bug-free is through a test suite, but you might forget to run tests all the time.
+Una de las mejores maneras de mantener tu proyecto libre de errores es a través de un conjunto de pruebas, pero podrías olvidar ejecutar las pruebas todo el tiempo.
 
-Continuous integration \(CI\) servers let you set up your project repository so that your tests run on every commit and pull request.
+Los servidores de integración continua \(CI\) te permiten configurar el repositorio de tu proyecto para que tus pruebas se ejecuten en cada commit y pull request.
 
-To test your Angular CLI application in Continuous integration \(CI\) run the following command:
+Para probar tu aplicación Angular CLI en integración continua \(CI\) ejecuta el siguiente comando:
 
 <docs-code language="shell">
 ng test --no-watch --no-progress --browsers=ChromeHeadless
 </docs-code>
 
-## More information on testing
+## Más información sobre pruebas
 
-After you've set up your application for testing, you might find the following testing guides useful.
+Después de que hayas configurado tu aplicación para pruebas, podrías encontrar útiles las siguientes guías de pruebas.
 
-|                                                                    | Details |
+|                                                                    | Detalles |
 |:---                                                                |:---     |
-| [Code coverage](guide/testing/code-coverage)                       | How much of your app your tests are covering and how to specify required amounts. |
-| [Testing services](guide/testing/services)                         | How to test the services your application uses.                                   |
-| [Basics of testing components](guide/testing/components-basics)    | Basics of testing Angular components.                                             |
-| [Component testing scenarios](guide/testing/components-scenarios)  | Various kinds of component testing scenarios and use cases.                       |
-| [Testing attribute directives](guide/testing/attribute-directives) | How to test your attribute directives.                                            |
-| [Testing pipes](guide/testing/pipes)                               | How to test pipes.                                                                |
-| [Debugging tests](guide/testing/debugging)                            | Common testing bugs.                                                              |
-| [Testing utility APIs](guide/testing/utility-apis)                 | Angular testing features.                                                         |
+| [Cobertura de código](guide/testing/code-coverage)                       | Cuánto de tu aplicación cubren tus pruebas y cómo especificar cantidades requeridas. |
+| [Probar servicios](guide/testing/services)                         | Cómo probar los servicios que usa tu aplicación.                                   |
+| [Fundamentos de probar componentes](guide/testing/components-basics)    | Fundamentos de probar componentes en Angular.                                             |
+| [Escenarios de prueba de componentes](guide/testing/components-scenarios)  | Varios tipos de escenarios de prueba de componentes y casos de uso.                       |
+| [Probar directivas de atributo](guide/testing/attribute-directives) | Cómo probar tus directivas de atributo.                                            |
+| [Probar pipes](guide/testing/pipes)                               | Cómo probar pipes.                                                                |
+| [Depurar pruebas](guide/testing/debugging)                            | Bugs comunes de pruebas.                                                              |
+| [APIs utilitarias de pruebas](guide/testing/utility-apis)                 | Características de pruebas en Angular.                                                         |
