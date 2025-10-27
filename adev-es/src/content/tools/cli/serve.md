@@ -1,13 +1,13 @@
-# Serving Angular apps for development
+# Sirviendo aplicaciones Angular para desarrollo
 
-You can serve your Angular CLI application with the `ng serve` command.
-This will compile your application, skip unnecessary optimizations, start a devserver, and automatically rebuild and live reload any subsequent changes.
-You can stop the server by pressing `Ctrl+C`.
+Puedes servir tu aplicación Angular CLI con el comando `ng serve`.
+Esto compilará tu aplicación, omitirá optimizaciones innecesarias, iniciará un servidor de desarrollo y automáticamente reconstruirá y recargará en vivo cualquier cambio subsiguiente.
+Puedes detener el servidor presionando `Ctrl+C`.
 
-`ng serve` only executes the builder for the `serve` target in the default project as specified in `angular.json`.
-While any builder can be used here, the most common (and default) builder is `@angular-devkit/build-angular:dev-server`.
+`ng serve` solo ejecuta el builder para el objetivo `serve` en el proyecto predeterminado como se especifica en `angular.json`.
+Aunque cualquier builder puede usarse aquí, el más común (y predeterminado) es `@angular-devkit/build-angular:dev-server`.
 
-You can determine which builder is being used for a particular project by looking up the `serve` target for that project.
+Puedes determinar qué builder se está usando para un proyecto en particular buscando el objetivo `serve` para ese proyecto.
 
 <docs-code language="json">
 
@@ -15,7 +15,7 @@ You can determine which builder is being used for a particular project by lookin
   "projects": {
     "my-app": {
       "architect": {
-        // `ng serve` invokes the Architect target named `serve`.
+        // `ng serve` invoca el objetivo Architect llamado `serve`.
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           // ...
@@ -29,15 +29,15 @@ You can determine which builder is being used for a particular project by lookin
 
 </docs-code>
 
-This page discusses usage and options of `@angular-devkit/build-angular:dev-server`.
+Esta página discute el uso y las opciones de `@angular-devkit/build-angular:dev-server`.
 
-## Proxying to a backend server
+## Hacer proxy a un servidor backend
 
-Use [proxying support](https://webpack.js.org/configuration/dev-server/#devserverproxy) to divert certain URLs to a backend server, by passing a file to the `--proxy-config` build option.
-For example, to divert all calls for `http://localhost:4200/api` to a server running on `http://localhost:3000/api`, take the following steps.
+Usa el [soporte de proxy](https://webpack.js.org/configuration/dev-server/#devserverproxy) para desviar ciertas URLs a un servidor backend, pasando un archivo a la opción de construcción `--proxy-config`.
+Por ejemplo, para desviar todas las llamadas a `http://localhost:4200/api` a un servidor ejecutándose en `http://localhost:3000/api`, sigue los siguientes pasos.
 
-1. Create a file `proxy.conf.json` in your project's `src/` folder.
-1. Add the following content to the new proxy file:
+1. Crea un archivo `proxy.conf.json` en la carpeta `src/` de tu proyecto.
+1. Agrega el siguiente contenido al nuevo archivo proxy:
 
     <docs-code language="json">
 
@@ -50,7 +50,7 @@ For example, to divert all calls for `http://localhost:4200/api` to a server run
 
     </docs-code>
 
-1. In the CLI configuration file, `angular.json`, add the `proxyConfig` option to the `serve` target:
+1. En el archivo de configuración del CLI, `angular.json`, agrega la opción `proxyConfig` al objetivo `serve`:
 
     <docs-code language="json">
 
@@ -71,9 +71,9 @@ For example, to divert all calls for `http://localhost:4200/api` to a server run
 
     </docs-code>
 
-1. To run the development server with this proxy configuration, call `ng serve`.
+1. Para ejecutar el servidor de desarrollo con esta configuración de proxy, llama a `ng serve`.
 
-Edit the proxy configuration file to add configuration options; following are some examples.
-For a detailed description of all options, refer to the [webpack DevServer documentation](https://webpack.js.org/configuration/dev-server/#devserverproxy) when using `@angular-devkit/build-angular:browser`, or the [Vite DevServer documentation](https://vite.dev/config/server-options#server-proxy) when using `@angular-devkit/build-angular:browser-esbuild` or `@angular-devkit/build-angular:application`.
+Edita el archivo de configuración de proxy para agregar opciones de configuración; a continuación algunos ejemplos.
+Para una descripción detallada de todas las opciones, consulta la [documentación de webpack DevServer](https://webpack.js.org/configuration/dev-server/#devserverproxy) cuando uses `@angular-devkit/build-angular:browser`, o la [documentación de Vite DevServer](https://vite.dev/config/server-options#server-proxy) cuando uses `@angular-devkit/build-angular:browser-esbuild` o `@angular-devkit/build-angular:application`.
 
-NOTE: If you edit the proxy configuration file, you must relaunch the `ng serve` process to make your changes effective.
+NOTA: Si editas el archivo de configuración de proxy, debes relanzar el proceso `ng serve` para que tus cambios tengan efecto.
