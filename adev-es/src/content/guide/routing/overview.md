@@ -1,32 +1,32 @@
-<docs-decorative-header title="Angular Routing" imgSrc="adev/src/assets/images/routing.svg"> <!-- markdownlint-disable-line -->
-Routing helps you change what the user sees in a single-page app.
+<docs-decorative-header title="Enrutamiento en Angular" imgSrc="adev/src/assets/images/routing.svg"> <!-- markdownlint-disable-line -->
+El enrutamiento te ayuda a cambiar lo que el usuario ve en una aplicación de página única.
 </docs-decorative-header>
 
-Angular Router (`@angular/router`) is the official library for managing navigation in Angular applications and a core part of the framework. It is included by default in all projects created by Angular CLI.
+Angular Router (`@angular/router`) es la librería oficial para gestionar la navegación en aplicaciones de Angular y una parte fundamental del framework. Se incluye de forma predeterminada en todos los proyectos creados por Angular CLI.
 
-## Why is routing necessary in a SPA?
+## ¿Por qué es necesario el enrutamiento en una SPA?
 
-When you navigate to a URL in your web browser, the browser normally makes a network request to a web server and displays the returned HTML page. When you navigate to a different URL, such as clicking a link, the browser makes another network request and replaces the entire page with a new one.
+Cuando navegas a una URL en tu navegador web, el navegador normalmente hace una petición de red a un servidor web y muestra la página HTML devuelta. Cuando navegas a una URL diferente, como hacer clic en un enlace, el navegador hace otra petición de red y reemplaza toda la página con una nueva.
 
-A single-page application (SPA) differs in that the browser only makes a request to a web server for the first page, the `index.html`. After that, a client-side router takes over, controlling which content displays based on the URL. When a user navigates to a different URL, the router updates the page's content in place without triggering a full-page reload.
+Una aplicación de página única (SPA) difiere en que el navegador solo hace una petición a un servidor web para la primera página, el `index.html`. Después de eso, un router del lado del cliente toma el control, controlando qué contenido se muestra según la URL. Cuando un usuario navega a una URL diferente, el router actualiza el contenido de la página en el lugar sin disparar una recarga completa de la página.
 
-## How Angular manages routing
+## Cómo Angular gestiona el enrutamiento
 
-Routing in Angular is comprised of three primary parts:
+El enrutamiento en Angular se compone de tres partes principales:
 
-1. **Routes** define which component displays when a user visits a specific URL.
-2. **Outlets** are placeholders in your templates that dynamically load and render components based on the active route.
-3. **Links** provide a way for users to navigate between different routes in your application without triggering a full page reload.
+1. **Routes** definen qué componente se muestra cuando un usuario visita una URL específica.
+2. **Outlets** son marcadores de posición en tus plantillas que cargan y renderizan dinámicamente componentes según la ruta activa.
+3. **Links** proporcionan una forma para que los usuarios naveguen entre diferentes rutas en tu aplicación sin disparar una recarga completa de la página.
 
-In addition, the Angular Routing library offers additional functionality such as:
+Además, la librería de enrutamiento en Angular ofrece funcionalidad adicional como:
 
-- Nested routes
-- Programmatic navigation
-- Route params, queries and wildcards
-- Activated route information with `ActivatedRoute`
-- View transition effects
+- Rutas anidadas
+- Navegación programática
+- Parámetros de ruta, consultas y comodines
+- Información de ruta activada con `ActivatedRoute`
+- Efectos de transición de vista
 - Navigation guards
 
-## Next steps
+## Próximos pasos
 
-Learn about how you can [define routes using Angular router](/guide/routing/define-routes).
+Aprende sobre cómo puedes [definir rutas usando Angular router](/guide/routing/define-routes).

@@ -1,136 +1,136 @@
-# Rendering strategies in Angular
+# Estrategias de renderización en Angular
 
-This guide helps you choose the right rendering strategy for different parts of your Angular application.
+Esta guía te ayuda a elegir la estrategia de renderización correcta para diferentes partes de tu aplicación Angular.
 
-## What are rendering strategies?
+## ¿Qué son las estrategias de renderización?
 
-Rendering strategies determine when and where your Angular application's HTML content is generated. Each strategy offers different trade-offs between initial page load performance, interactivity, SEO capabilities, and server resource usage.
+Las estrategias de renderización determinan cuándo y dónde se genera el contenido HTML de tu aplicación Angular. Cada estrategia ofrece diferentes compensaciones entre rendimiento de carga inicial de página, interactividad, capacidades de SEO y uso de recursos del servidor.
 
-Angular supports three primary rendering strategies:
+Angular soporta tres estrategias de renderización principales:
 
-- **Client-Side Rendering (CSR)** - Content is rendered entirely in the browser
-- **Static Site Generation (SSG/Prerendering)** - Content is pre-rendered at build time
-- **Server-Side Rendering (SSR)** - Content is rendered on the server for the initial request for a route
+- **Client-Side Rendering (CSR)** - El contenido se renderiza completamente en el navegador
+- **Static Site Generation (SSG/Prerendering)** - El contenido se pre-renderiza en tiempo de compilación
+- **Server-Side Rendering (SSR)** - El contenido se renderiza en el servidor para la solicitud inicial de una ruta
 
 ## Client-Side Rendering (CSR)
 
-**CSR is Angular's default.** Content renders entirely in the browser after JavaScript loads.
+**CSR es el valor predeterminado de Angular.** El contenido se renderiza completamente en el navegador después de que JavaScript se carga.
 
-### When to use CSR
+### Cuándo usar CSR
 
-✅ It can be a good fit for:
+✅ Puede ser una buena opción para:
 
-- Interactive applications (dashboards, admin panels)
-- Real-time applications
-- Internal tools where SEO doesn't matter
-- Single-page applications with complex client-side state
+- Aplicaciones interactivas (dashboards, paneles de administración)
+- Aplicaciones en tiempo real
+- Herramientas internas donde el SEO no importa
+- Aplicaciones de página única con estado complejo del lado del cliente
 
-❌ When possible, consider avoiding it for:
+❌ Cuando sea posible, considera evitarlo para:
 
-- Public-facing content that needs SEO
-- Pages where initial load performance is critical
+- Contenido público que necesita SEO
+- Páginas donde el rendimiento de carga inicial es crítico
 
-### CSR trade-offs
+### Compensaciones de CSR
 
-| Aspect            | Impact                                                   |
+| Aspecto           | Impacto                                                   |
 | :---------------- | :------------------------------------------------------- |
-| **SEO**           | Poor - content not visible to crawlers until JS executes |
-| **Initial load**  | Slower - must download and execute JavaScript first      |
-| **Interactivity** | Immediate once loaded                                    |
-| **Server needs**  | Minimal outside of some configuration                    |
-| **Complexity**    | Simplest because it works with minimum configuration     |
+| **SEO**           | Pobre - contenido no visible para crawlers hasta que JS se ejecuta |
+| **Carga inicial** | Más lenta - debe descargar y ejecutar JavaScript primero      |
+| **Interactividad** | Inmediata una vez cargada                                    |
+| **Necesidades del servidor**  | Mínimas fuera de alguna configuración                    |
+| **Complejidad**    | Más simple porque funciona con configuración mínima     |
 
 ## Static Site Generation (SSG/Prerendering)
 
-**SSG pre-renders pages at build time** into static HTML files. The server sends pre-built HTML for the initial page load. After hydration, your app runs entirely in the browser like a traditional SPA - subsequent navigation, route changes, and API calls all happen client-side without server rendering.
+**SSG pre-renderiza páginas en tiempo de compilación** en archivos HTML estáticos. El servidor envía HTML pre-construido para la carga inicial de la página. Después de la hidratación, tu aplicación se ejecuta completamente en el navegador como una SPA tradicional - la navegación subsiguiente, cambios de ruta y llamadas a API ocurren del lado del cliente sin renderización del servidor.
 
-### When to use SSG
+### Cuándo usar SSG
 
-✅ It can be a good fit for:
+✅ Puede ser una buena opción para:
 
-- Marketing pages and landing pages
-- Blog posts and documentation
-- Product catalogs with stable content
-- Content that doesn't change per-user
+- Páginas de marketing y landing pages
+- Posts de blog y documentación
+- Catálogos de productos con contenido estable
+- Contenido que no cambia por usuario
 
-❌ When possible, consider avoiding it for:
+❌ Cuando sea posible, considera evitarlo para:
 
-- User-specific content
-- Frequently changing data
-- Real-time information
+- Contenido específico del usuario
+- Datos que cambian frecuentemente
+- Información en tiempo real
 
-### SSG trade-offs
+### Compensaciones de SSG
 
-| Aspect              | Impact                                      |
+| Aspecto              | Impacto                                      |
 | :------------------ | :------------------------------------------ |
-| **SEO**             | Excellent - full HTML available immediately |
-| **Initial load**    | Fastest - pre-generated HTML                |
-| **Interactivity**   | After hydration completes                   |
-| **Server needs**    | None for serving (CDN-friendly)             |
-| **Build time**      | Longer - generates all pages upfront        |
-| **Content updates** | Requires rebuild and redeploy               |
+| **SEO**             | Excelente - HTML completo disponible inmediatamente |
+| **Carga inicial**    | Más rápida - HTML pre-generado                |
+| **Interactividad**   | Después de que se completa la hidratación                   |
+| **Necesidades del servidor**    | Ninguna para servir (compatible con CDN)             |
+| **Tiempo de compilación**      | Más largo - genera todas las páginas por adelantado        |
+| **Actualizaciones de contenido** | Requiere reconstrucción y redespliegue               |
 
-📖 **Implementation:** See [Customizing build-time prerendering](guide/ssr#customizing-build-time-prerendering-ssg) in the SSR guide.
+📖 **Implementación:** Consulta [Personalizar prerendering en tiempo de compilación](guide/ssr#customizing-build-time-prerendering-ssg) en la guía de SSR.
 
 ## Server-Side Rendering (SSR)
 
-**SSR generates HTML on the server for the initial request for a route**, providing dynamic content with good SEO. The server renders HTML and sends it to the client.
+**SSR genera HTML en el servidor para la solicitud inicial de una ruta**, proporcionando contenido dinámico con buen SEO. El servidor renderiza HTML y lo envía al cliente.
 
-Once the client renders the page, Angular [hydrates](/guide/hydration#what-is-hydration) the app and it then runs entirely in the browser like a traditional SPA - subsequent navigation, route changes, and API calls all happen client-side without additional server rendering.
+Una vez que el cliente renderiza la página, Angular [hidrata](/guide/hydration#what-is-hydration) la aplicación y luego se ejecuta completamente en el navegador como una SPA tradicional - la navegación subsiguiente, cambios de ruta y llamadas a API ocurren del lado del cliente sin renderización adicional del servidor.
 
-### When to use SSR
+### Cuándo usar SSR
 
-✅ It can be a good fit for:
+✅ Puede ser una buena opción para:
 
-- E-commerce product pages (dynamic pricing/inventory)
-- News sites and social media feeds
-- Personalized content that changes frequently
+- Páginas de productos de e-commerce (precios/inventario dinámicos)
+- Sitios de noticias y feeds de redes sociales
+- Contenido personalizado que cambia frecuentemente
 
-❌ When possible, consider avoiding it for:
+❌ Cuando sea posible, considera evitarlo para:
 
-- Static content (use SSG instead)
-- When server costs are a concern
+- Contenido estático (usa SSG en su lugar)
+- Cuando los costos del servidor son una preocupación
 
-### SSR trade-offs
+### Compensaciones de SSR
 
-| Aspect              | Impact                                              |
+| Aspecto              | Impacto                                              |
 | :------------------ | :-------------------------------------------------- |
-| **SEO**             | Excellent - full HTML for crawlers                  |
-| **Initial load**    | Fast - immediate content visibility                 |
-| **Interactivity**   | Delayed until hydration                             |
-| **Server needs**    | Requires server                                     |
-| **Personalization** | Full access to user context                         |
-| **Server costs**    | Higher - renders on the initial request for a route |
+| **SEO**             | Excelente - HTML completo para crawlers                  |
+| **Carga inicial**    | Rápida - visibilidad de contenido inmediata                 |
+| **Interactividad**   | Retrasada hasta la hidratación                             |
+| **Necesidades del servidor**    | Requiere servidor                                     |
+| **Personalización** | Acceso completo al contexto del usuario                         |
+| **Costos del servidor**    | Más altos - renderiza en la solicitud inicial de una ruta |
 
-📖 **Implementation:** See [Server routing](guide/ssr#server-routing) and [Authoring server-compatible components](guide/ssr#authoring-server-compatible-components) in the SSR guide.
+📖 **Implementación:** Consulta [Enrutamiento del servidor](guide/ssr#server-routing) y [Crear componentes compatibles con el servidor](guide/ssr#authoring-server-compatible-components) en la guía de SSR.
 
-## Choosing the Right Strategy
+## Elegir la estrategia correcta
 
-### Decision matrix
+### Matriz de decisión
 
-| If you need...             | Use this strategy | Why                                              |
+| Si necesitas...             | Usa esta estrategia | Por qué                                              |
 | :------------------------- | :---------------- | :----------------------------------------------- |
-| **SEO + Static content**   | SSG               | Pre-rendered HTML, fastest load                  |
-| **SEO + Dynamic content**  | SSR               | Fresh content on the initial request for a route |
-| **No SEO + Interactivity** | CSR               | Simplest, no server needed                       |
-| **Mixed requirements**     | Hybrid            | Different strategies per route                   |
+| **SEO + Contenido estático**   | SSG               | HTML pre-renderizado, carga más rápida                  |
+| **SEO + Contenido dinámico**  | SSR               | Contenido fresco en la solicitud inicial de una ruta |
+| **Sin SEO + Interactividad** | CSR               | Más simple, sin servidor necesario                       |
+| **Requisitos mixtos**     | Híbrido            | Diferentes estrategias por ruta                   |
 
-## Making SSR/SSG Interactive with Hydration
+## Hacer SSR/SSG interactivo con hidratación
 
-When using SSR or SSG, Angular "hydrates" the server-rendered HTML to make it interactive.
+Cuando usas SSR o SSG, Angular "hidrata" el HTML renderizado del servidor para hacerlo interactivo.
 
-**Available strategies:**
+**Estrategias disponibles:**
 
-- **Full hydration** - Entire app becomes interactive at once (default)
-- **Incremental hydration** - Parts become interactive as needed (better performance)
-- **Event replay** - Captures clicks before hydration completes
+- **Hidratación completa** - Toda la aplicación se vuelve interactiva de una vez (predeterminado)
+- **Hidratación incremental** - Las partes se vuelven interactivas según sea necesario (mejor rendimiento)
+- **Repetición de eventos** - Captura clics antes de que se complete la hidratación
 
-📖 **Learn more:**
+📖 **Aprende más:**
 
-- [Hydration guide](guide/hydration) - Complete hydration setup
-- [Incremental hydration](guide/incremental-hydration) - Advanced hydration with `@defer` blocks
+- [Guía de hidratación](guide/hydration) - Configuración completa de hidratación
+- [Hidratación incremental](guide/incremental-hydration) - Hidratación avanzada con bloques `@defer`
 
-## Next steps
+## Próximos pasos
 
 <docs-pill-row>
   <docs-pill href="/guide/ssr" title="Server-Side Rendering"/>

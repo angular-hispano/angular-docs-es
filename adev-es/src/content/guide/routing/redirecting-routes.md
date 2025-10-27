@@ -1,69 +1,69 @@
-# Redirecting Routes
+# Redirigiendo rutas
 
-Route redirects allow you to automatically navigate users from one route to another. Think of it like mail forwarding, where mail intended for one address is sent to a different address. This is useful for handling legacy URLs, implementing default routes, or managing access control.
+Las redirecciones de rutas te permiten navegar automáticamente a los usuarios de una ruta a otra. Piénsalo como el reenvío de correo, donde el correo destinado a una dirección se envía a una dirección diferente. Esto es útil para manejar URLs heredadas, implementar rutas predeterminadas o gestionar el control de acceso.
 
-## How to configure redirects
+## Cómo configurar redirecciones
 
-You can define redirects in your route configuration with the `redirectTo` property. This property accepts a string.
+Puedes definir redirecciones en tu configuración de rutas con la propiedad `redirectTo`. Esta propiedad acepta un string.
 
 ```ts
 import { Routes } from '@angular/router';
 
 const routes: Routes = [
-  // Simple redirect
+  // Redirección simple
   { path: 'marketing', redirectTo: 'newsletter' },
 
-  // Redirect with path parameters
+  // Redirección con parámetros de ruta
   { path: 'legacy-user/:id', redirectTo: 'users/:id' },
 
-  // Redirect any other URLs that don’t match
-  // (also known as a "wildcard" redirect)
+  // Redirigir cualquier otra URL que no coincida
+  // (también conocida como redirección "comodín")
   { path: '**', redirectTo: '/login' }
 ];
 ```
 
-In this example, there are three redirects:
+En este ejemplo, hay tres redirecciones:
 
-1. When a user visits the `/marketing` path, they are redirected to `/newsletter`.
-2. When a user visits any `/legacy-user/:id` path, they are routed to the corresponding `/users/:id` path.
-3. When a user visit any path that’s not defined in the router, they are redirected to the login page because of the `**` wildcard path definition.
+1. Cuando un usuario visita la ruta `/marketing`, es redirigido a `/newsletter`.
+2. Cuando un usuario visita cualquier ruta `/legacy-user/:id`, es enrutado a la ruta `/users/:id` correspondiente.
+3. Cuando un usuario visita cualquier ruta que no está definida en el router, es redirigido a la página de inicio de sesión debido a la definición de ruta comodín `**`.
 
-## Understanding `pathMatch`
+## Entendiendo `pathMatch`
 
-The `pathMatch` property on routes enables developers to control how Angular matches a URL to routes.
+La propiedad `pathMatch` en las rutas permite a los desarrolladores controlar cómo Angular hace coincidir una URL con las rutas.
 
-There are two values that `pathMatch` accepts:
+Hay dos valores que `pathMatch` acepta:
 
-| Value      | Description                                  |
-| ---------- | -------------------------------------------- |
-| `'full'`   | The entire URL path must match exactly       |
-| `'prefix'` | Only the beginning of the URL needs to match |
+| Valor      | Descripción                                        |
+| ---------- | -------------------------------------------------- |
+| `'full'`   | La ruta URL completa debe coincidir exactamente    |
+| `'prefix'` | Solo el comienzo de la URL necesita coincidir     |
 
-By default, all redirects use the `prefix` strategy.
+Por defecto, todas las redirecciones usan la estrategia `prefix`.
 
 ### `pathMatch: 'prefix'`
 
-`pathMatch: 'prefix'` is the default strategy and ideal when you want Angular Router to match all subsequent routes when triggering a redirect.
+`pathMatch: 'prefix'` es la estrategia predeterminada e ideal cuando quieres que Angular Router coincida con todas las rutas subsiguientes al disparar una redirección.
 
 ```ts
 export const routes: Routes = [
-  // This redirect route is equivalent to…
+  // Esta ruta de redirección es equivalente a…
   { path: 'news', redirectTo: 'blog },
 
-  // This explicitly defined route redirect pathMatch
+  // Esta ruta de redirección define explícitamente pathMatch
   { path: 'news', redirectTo: 'blog', pathMatch: 'prefix' },
 ];
 ```
 
-In this example, all routes that are prefixed with `news` are redirected to their `/blog` equivalents. Here are some examples where users are redirected when visiting the old `news` prefix:
+En este ejemplo, todas las rutas que tienen el prefijo `news` son redirigidas a sus equivalentes `/blog`. Aquí hay algunos ejemplos donde los usuarios son redirigidos al visitar el antiguo prefijo `news`:
 
-- `/news` redirects to `/blog`
-- `/news/article` redirects to `/blog/article`
-- `/news/article/:id` redirects to `/blog/article/:id`
+- `/news` redirige a `/blog`
+- `/news/article` redirige a `/blog/article`
+- `/news/article/:id` redirige a `/blog/article/:id`
 
 ### `pathMatch: 'full'`
 
-On the other hand, `pathMatch: 'full'` is useful when you want Angular Router to only redirect a specific path.
+Por otro lado, `pathMatch: 'full'` es útil cuando quieres que Angular Router solo redirija una ruta específica.
 
 ```ts
 export const routes: Routes = [
@@ -71,13 +71,13 @@ export const routes: Routes = [
 ];
 ```
 
-In this example, any time the user visits the root URL (i.e., `''`), the router redirects that user to the `'/dashboard'` page.
+En este ejemplo, cada vez que el usuario visita la URL raíz (es decir, `''`), el router redirige a ese usuario a la página `'/dashboard'`.
 
-Any subsequent pages (e.g., `/login`, `/about`, `/product/id`, etc.), are ignored and do not trigger a redirect.
+Cualquier página subsiguiente (por ejemplo, `/login`, `/about`, `/product/id`, etc.), es ignorada y no dispara una redirección.
 
-TIP: Be careful when configuring a redirect on the root page (i.e., `"/"` or `""`). If you do not set `pathMatch: 'full'`, the router will redirect all URLs.
+CONSEJO: Ten cuidado al configurar una redirección en la página raíz (es decir, `"/"` o `""`). Si no estableces `pathMatch: 'full'`, el router redirigirá todas las URLs.
 
-To further illustrate this, if the `news` example from the previous section used `pathMatch: 'full'` instead:
+Para ilustrar esto aún más, si el ejemplo de `news` de la sección anterior usara `pathMatch: 'full'` en su lugar:
 
 ```ts
 export const routes: Routes = [
@@ -85,20 +85,20 @@ export const routes: Routes = [
 ];
 ```
 
-This means that:
+Esto significa que:
 
-1. Only the `/news` path will be redirected to `/blog`.
-2. Any subsequent segments such as `/news/articles` or `/news/articles/1` would not redirect with the new `/blog` prefix.
+1. Solo la ruta `/news` será redirigida a `/blog`.
+2. Cualquier segmento subsiguiente como `/news/articles` o `/news/articles/1` no redirigiría con el nuevo prefijo `/blog`.
 
-## Conditional redirects
+## Redirecciones condicionales
 
-The `redirectTo` property can also accept a function in order to add logic to how users are redirected.
+La propiedad `redirectTo` también puede aceptar una función para agregar lógica a cómo los usuarios son redirigidos.
 
-The [function](api/router/RedirectFunction) only has access part of the [`ActivatedRouteSnapshot`](api/router/ActivatedRouteSnapshot) data since some data is not accurately known at the route matching phase. Examples include: resolved titles, lazy loaded components, etc.
+La [función](api/router/RedirectFunction) solo tiene acceso a parte de los datos de [`ActivatedRouteSnapshot`](api/router/ActivatedRouteSnapshot) ya que algunos datos no se conocen con precisión en la fase de coincidencia de rutas. Los ejemplos incluyen: títulos resueltos, componentes cargados de forma diferida, etc.
 
-It typically returns a string or [`URLTree`](api/router/UrlTree), but it can also return an observable or promise.
+Típicamente retorna un string o [`URLTree`](api/router/UrlTree), pero también puede retornar un observable o promesa.
 
-Here is an example where the user is redirected to different menu based on the time of the day:
+Aquí hay un ejemplo donde el usuario es redirigido a diferentes menús según la hora del día:
 
 ```ts
 import { Routes } from '@angular/router';
@@ -111,12 +111,12 @@ export const routes: Routes = [
       const location = activatedRouteSnapshot.params['location'];
       const currentHour = new Date().getHours();
 
-      // Check if user requested a specific meal via query parameter
+      // Verificar si el usuario solicitó una comida específica mediante parámetro de consulta
       if (activatedRouteSnapshot.queryParams['meal']) {
         return `/restaurant/${location}/menu/${queryParams['meal']}`;
       }
 
-      // Auto-redirect based on time of day
+      // Redirección automática según la hora del día
       if (currentHour >= 5 && currentHour < 11) {
         return `/restaurant/${location}/menu/breakfast`;
       } else if (currentHour >= 11 && currentHour < 17) {
@@ -127,18 +127,18 @@ export const routes: Routes = [
     }
   },
 
-  // Destination routes
+  // Rutas de destino
   { path: 'restaurant/:location/menu/breakfast', component: MenuComponent },
   { path: 'restaurant/:location/menu/lunch', component: MenuComponent },
   { path: 'restaurant/:location/menu/dinner', component: MenuComponent },
 
-  // Default redirect
+  // Redirección predeterminada
   { path: '', redirectTo: '/restaurant/downtown/menu', pathMatch: 'full' }
 ];
 ```
 
-To learn more, check out [the API docs for the RedirectFunction](api/router/RedirectFunction).
+Para aprender más, consulta [la documentación de la API para RedirectFunction](api/router/RedirectFunction).
 
-## Next steps
+## Próximos pasos
 
-For more information about the `redirectTo` property, check out the [API docs](api/router/Route#redirectTo).
+Para más información sobre la propiedad `redirectTo`, consulta la [documentación de la API](api/router/Route#redirectTo).
