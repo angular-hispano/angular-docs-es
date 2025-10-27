@@ -1,17 +1,17 @@
-# Debugging tests
+# Depurar pruebas
 
-If your tests aren't working as you expect them to, you can inspect and debug them in the browser.
+Si tus pruebas no están funcionando como esperas, puedes inspeccionarlas y depurarlas en el navegador.
 
-Debug specs in the browser in the same way that you debug an application.
+Depura specs en el navegador de la misma manera que depuras una aplicación.
 
-1. Reveal the Karma browser window.
-    See [Set up testing](guide/testing#set-up-testing) if you need help with this step.
+1. Revela la ventana del navegador de Karma.
+    Consulta [Configurar testing](guide/testing#set-up-testing) si necesitas ayuda con este paso.
 
-1. Click the **DEBUG** button to open a new browser tab and re-run the tests.
-1. Open the browser's **Developer Tools**. On Windows, press `Ctrl-Shift-I`. On macOS, press `Command-Option-I`.
-1. Pick the **Sources** section.
-1. Press `Control/Command-P`, and then start typing the name of your test file to open it.
-1. Set a breakpoint in the test.
-1. Refresh the browser, and notice how it stops at the breakpoint.
+1. Haz clic en el botón **DEBUG** para abrir una nueva pestaña del navegador y re-ejecutar las pruebas.
+1. Abre las **Herramientas de Desarrollador** del navegador. En Windows, presiona `Ctrl-Shift-I`. En macOS, presiona `Command-Option-I`.
+1. Selecciona la sección **Sources**.
+1. Presiona `Control/Command-P`, y luego comienza a escribir el nombre de tu archivo de prueba para abrirlo.
+1. Establece un breakpoint en la prueba.
+1. Actualiza el navegador, y nota cómo se detiene en el breakpoint.
 
-<img alt="Karma debugging" src="assets/images/guide/testing/karma-1st-spec-debug.png">
+<img alt="Depuración de Karma" src="assets/images/guide/testing/karma-1st-spec-debug.png">

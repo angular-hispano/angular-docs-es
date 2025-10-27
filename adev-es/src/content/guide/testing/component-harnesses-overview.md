@@ -1,31 +1,31 @@
-# Component harnesses overview
+# Visión general de component harnesses
 
-A <strong>component harness</strong> is a class that allows tests to interact with components the way an end user does via a supported API. You can create test harnesses for any component, ranging from small reusable widgets to full pages.
+Un <strong>component harness</strong> es una clase que permite a las pruebas interactuar con componentes de la manera en que un usuario final lo hace a través de una API soportada. Puedes crear test harnesses para cualquier componente, desde pequeños widgets reutilizables hasta páginas completas.
 
-Harnesses offer several benefits:
+Los harnesses ofrecen varios beneficios:
 
-- They make tests less brittle by insulating themselves against implementation details of a component, such as its DOM structure
-- They make tests become more readable and easier to maintain
-- They can be used across multiple testing environments
+- Hacen que las pruebas sean menos frágiles al aislarse contra detalles de implementación de un componente, como su estructura DOM
+- Hacen que las pruebas se vuelvan más legibles y más fáciles de mantener
+- Pueden usarse en múltiples entornos de pruebas
 
 <docs-code language="typescript">
-// Example of test with a harness for a component called MyButtonComponent
+// Ejemplo de prueba con un harness para un componente llamado MyButtonComponent
 it('should load button with exact text', async () => {
   const button = await loader.getHarness(MyButtonComponentHarness);
   expect(await button.getText()).toBe('Confirm');
 });
 </docs-code>
 
-Component harnesses are especially useful for shared UI widgets. Developers often write tests that depend on private implementation details of widgets, such as DOM structure and CSS classes. Those dependencies make tests brittle and hard to maintain. Harnesses offer an alternative— a supported API that interacts with the widget the same way an end-user does. Widget implementation changes now become less likely to break user tests. For example, [Angular Material](https://material.angular.dev/components/categories) provides a test harness for each component in the library.
+Los component harnesses son especialmente útiles para widgets de UI compartidos. Los desarrolladores a menudo escriben pruebas que dependen de detalles privados de implementación de widgets, como estructura DOM y clases CSS. Esas dependencias hacen que las pruebas sean frágiles y difíciles de mantener. Los harnesses ofrecen una alternativa— una API soportada que interactúa con el widget de la misma manera que un usuario final lo hace. Los cambios de implementación del widget ahora se vuelven menos propensos a romper las pruebas de usuario. Por ejemplo, [Angular Material](https://material.angular.dev/components/categories) proporciona un test harness para cada componente en la librería.
 
-Component harnesses support multiple testing environments. You can use the same harness implementation in both unit and end-to-end tests. Test authors only need to learn one API and component authors don't have to maintain separate unit and end-to-end test implementations.
+Los component harnesses soportan múltiples entornos de pruebas. Puedes usar la misma implementación de harness en pruebas tanto unitarias como end-to-end. Los autores de pruebas solo necesitan aprender una API y los autores de componentes no tienen que mantener implementaciones de prueba unitaria y end-to-end separadas.
 
-Many developers can be categorized by one of the following developer type categories: test authors, component harness authors, and harness environment authors. Use the table below to find the most relevant section in this guide based on these categories:
+Muchos desarrolladores pueden categorizarse por una de las siguientes categorías de tipo de desarrollador: autores de pruebas, autores de component harness y autores de entornos de harness. Usa la tabla a continuación para encontrar la sección más relevante en esta guía basada en estas categorías:
 
-| Developer Type              | Description                                                                                                                                                                                                                                                                                            | Relevant Section                                                                                             |
+| Tipo de Desarrollador              | Descripción                                                                                                                                                                                                                                                                                            | Sección Relevante                                                                                             |
 | :-------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
-| Test Authors                | Developers that use component harnesses written by someone else to test their application. For example, this could be an app developer who uses a third-party menu component and needs to interact with the menu in a unit test.                                                                       | [Using component harnesses in tests](guide/testing/using-component-harnesses)                                |
-| Component harness authors   | Developers who maintain some reusable Angular components and want to create a test harness for its users to use in their tests. For example, an author of a third party Angular component library or a developer who maintains a set of common components for a large Angular application.             | [Creating component harnesses for your components](guide/testing/creating-component-harnesses)               |
-| Harness environment authors | Developers who want to add support for using component harnesses in additional testing environments. For information on supported testing environments out-of-the-box, see the [test harness environments and loaders](guide/testing/using-component-harnesses#test-harness-environments-and-loaders). | [Adding support for additional testing environments](guide/testing/component-harnesses-testing-environments) |
+| Autores de pruebas                | Desarrolladores que usan component harnesses escritos por alguien más para probar su aplicación. Por ejemplo, esto podría ser un desarrollador de aplicaciones que usa un componente de menú de terceros y necesita interactuar con el menú en una prueba unitaria.                                                                       | [Usar component harnesses en pruebas](guide/testing/using-component-harnesses)                                |
+| Autores de component harness   | Desarrolladores que mantienen algunos componentes Angular reutilizables y quieren crear un test harness para que sus usuarios lo usen en sus pruebas. Por ejemplo, un autor de una librería de componentes Angular de terceros o un desarrollador que mantiene un conjunto de componentes comunes para una aplicación Angular grande.             | [Crear component harnesses para tus componentes](guide/testing/creating-component-harnesses)               |
+| Autores de entornos de harness | Desarrolladores que quieren agregar soporte para usar component harnesses en entornos de pruebas adicionales. Para información sobre entornos de pruebas soportados de forma inmediata, consulta los [entornos de test harness y loaders](guide/testing/using-component-harnesses#test-harness-environments-and-loaders). | [Agregar soporte para entornos de pruebas adicionales](guide/testing/component-harnesses-testing-environments) |
 
-For the full API reference, please see the [Angular CDK's component harness API reference page](/api#angular_cdk_testing).
+Para la referencia completa de la API, consulta la [página de referencia de la API de component harness del CDK de Angular](/api#angular_cdk_testing).

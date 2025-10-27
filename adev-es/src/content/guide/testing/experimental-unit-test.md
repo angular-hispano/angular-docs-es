@@ -1,13 +1,13 @@
-# Experimental unit testing system
+# Sistema experimental de pruebas unitarias
 
-The Angular CLI provides an experimental unit test system that can use [Vitest](https://vitest.dev/) as a test runner.
+Angular CLI proporciona un sistema experimental de pruebas unitarias que puede usar [Vitest](https://vitest.dev/) como test runner.
 
-IMPORTANT: This experimental unit testing system requires the use of the `application` build system.
-The `application` build system is the default for all newly created projects.
+IMPORTANTE: Este sistema experimental de pruebas unitarias requiere el uso del sistema de build `application`.
+El sistema de build `application` es el predeterminado para todos los proyectos creados recientemente.
 
-## Installing dependencies
+## Instalar dependencias
 
-Some packages are required for the new builder to work. In order to install the new packages, run the following command : 
+Algunos paquetes son requeridos para que el nuevo builder funcione. Para instalar los nuevos paquetes, ejecuta el siguiente comando:
 
 <docs-code language="bash">
 
@@ -15,7 +15,7 @@ npm install vitest jsdom --save-dev
 
 </docs-code>
 
-If no other projects in your workspace use Karma, run the following command to uninstall the corresponding packages :
+Si ningún otro proyecto en tu workspace usa Karma, ejecuta el siguiente comando para desinstalar los paquetes correspondientes:
 
 <docs-code language="bash">
 
@@ -23,12 +23,12 @@ npm uninstall karma karma-chrome-launcher karma-coverage karma-jasmine karma-jas
 
 </docs-code>
 
-## Set up testing
+## Configurar testing
 
-The Angular CLI includes the test system within a new project but must be configured before it can be used.
+Angular CLI incluye el sistema de pruebas dentro de un nuevo proyecto pero debe configurarse antes de que pueda usarse.
 
-The project you create with the CLI is setup to use the `karma` test system by default.
-To change to the experimental unit test system, update the `test` target as follows:
+El proyecto que creas con el CLI está configurado para usar el sistema de pruebas `karma` por defecto.
+Para cambiar al sistema experimental de pruebas unitarias, actualiza el target `test` como sigue:
 
 <docs-code language="json">
 "test": {
@@ -41,12 +41,12 @@ To change to the experimental unit test system, update the `test` target as foll
 }
 </docs-code>
 
-The `buildTarget` operates similarly to the option available to the development server.
-The `build` target configures build options for the tests.
-If the `development` build configuration is missing for a project or you need
-different options for testing, you can create and use a `testing` or similarly named build configuration.
+El `buildTarget` opera de manera similar a la opción disponible para el servidor de desarrollo.
+El target `build` configura opciones de build para las pruebas.
+Si la configuración de build `development` falta para un proyecto o necesitas
+opciones diferentes para testing, puedes crear y usar una configuración de build `testing` o con nombre similar.
 
-To execute the application's testing, just run the [`ng test`](cli/test) CLI command as before:
+Para ejecutar el testing de la aplicación, solo ejecuta el comando CLI [`ng test`](cli/test) como antes:
 
 <docs-code language="shell">
 
@@ -54,9 +54,9 @@ ng test
 
 </docs-code>
 
-The `ng test` command builds the application in *watch mode*, and launches the configured runner.
+El comando `ng test` construye la aplicación en modo *watch*, y lanza el runner configurado.
 
-The console output looks like below:
+La salida de consola se ve como a continuación:
 
 <docs-code language="shell">
  ✓ spec-app-app.spec.js (2 tests) 31ms
@@ -69,15 +69,15 @@ The console output looks like below:
    Duration  1.16s (transform 628ms, setup 703ms, collect 64ms, tests 31ms, environment 188ms, prepare 33ms)
 </docs-code>
 
-Watch mode is enabled by default when using an interactive terminal and not running on CI.
+El modo watch está habilitado por defecto cuando se usa una terminal interactiva y no se está ejecutando en CI.
 
-## Configuration
+## Configuración
 
-The Angular CLI takes care of the Vitest configuration for you. It constructs the full configuration in memory, based on options specified in the `angular.json` file.
-Directly customizing the underlying test runner configuration is currently not supported.
+Angular CLI se encarga de la configuración de Vitest por ti. Construye la configuración completa en memoria, basándose en opciones especificadas en el archivo `angular.json`.
+Personalizar directamente la configuración del test runner subyacente actualmente no está soportado.
 
-## Bug reports
+## Reportes de bugs
 
-Report issues and feature requests on [GitHub](https://github.com/angular/angular-cli/issues).
+Reporta problemas y solicitudes de características en [GitHub](https://github.com/angular/angular-cli/issues).
 
-Please provide a minimal reproduction where possible to aid the team in addressing issues.
+Por favor proporciona una reproducción mínima cuando sea posible para ayudar al equipo a abordar problemas.
