@@ -1,52 +1,52 @@
-# The Angular CLI
+# El Angular CLI
 
-The Angular CLI is a command-line interface tool which allows you to scaffold, develop, test, deploy, and maintain Angular applications directly from a command shell.
+El Angular CLI es una herramienta de interfaz de línea de comandos que te permite crear, desarrollar, probar, desplegar y mantener aplicaciones Angular directamente desde un shell de comandos.
 
-Angular CLI is published on npm as the `@angular/cli` package and includes a binary named `ng`. Commands invoking `ng` are using the Angular CLI.
+Angular CLI se publica en npm como el paquete `@angular/cli` e incluye un binario llamado `ng`. Los comandos que invocan `ng` están usando el Angular CLI.
 
-<docs-callout title="Try Angular without local setup">
+<docs-callout title="Prueba Angular sin configuración local">
 
-If you are new to Angular, you might want to start with [Try it now!](tutorials/learn-angular), which introduces the essentials of Angular in the context of a ready-made basic online store app for you to examine and modify.
-This standalone tutorial takes advantage of the interactive [StackBlitz](https://stackblitz.com) environment for online development.
-You don't need to set up your local environment until you're ready.
+Si eres nuevo en Angular, es posible que quieras comenzar con [¡Pruébalo ahora!](tutorials/learn-angular), que introduce los fundamentos de Angular en el contexto de una aplicación de tienda en línea básica lista para examinar y modificar.
+Este tutorial standalone aprovecha el entorno interactivo de desarrollo en línea [StackBlitz](https://stackblitz.com).
+No necesitas configurar tu entorno local hasta que estés listo.
 
 </docs-callout>
 
 <docs-card-container>
-  <docs-card title="Getting Started" link="Get Started" href="tools/cli/setup-local">
-    Install Angular CLI to create and build your first app.
+  <docs-card title="Primeros Pasos" link="Comenzar" href="tools/cli/setup-local">
+    Instala Angular CLI para crear y construir tu primera aplicación.
   </docs-card>
-  <docs-card title="Command Reference" link="Learn More" href="cli">
-    Discover CLI commands to make you more productive with Angular.
+  <docs-card title="Referencia de Comandos" link="Aprende Más" href="cli">
+    Descubre comandos CLI para ser más productivo con Angular.
   </docs-card>
-  <docs-card title="Schematics" link="Learn More" href="tools/cli/schematics">
-    Create and run schematics to generate and modify source files in your application automatically.
+  <docs-card title="Schematics" link="Aprende Más" href="tools/cli/schematics">
+    Crea y ejecuta schematics para generar y modificar archivos fuente en tu aplicación automáticamente.
   </docs-card>
-  <docs-card title="Builders" link="Learn More" href="tools/cli/cli-builder">
-    Create and run builders to perform complex transformations from your source code to generated build outputs.
+  <docs-card title="Builders" link="Aprende Más" href="tools/cli/cli-builder">
+    Crea y ejecuta builders para realizar transformaciones complejas desde tu código fuente a salidas de construcción generadas.
   </docs-card>
 </docs-card-container>
 
-## CLI command-language syntax
+## Sintaxis del lenguaje de comandos del CLI
 
-Angular CLI roughly follows Unix/POSIX conventions for option syntax.
+Angular CLI sigue aproximadamente las convenciones Unix/POSIX para la sintaxis de opciones.
 
-### Boolean options
+### Opciones booleanas
 
-Boolean options have two forms: `--this-option` sets the flag to `true`, `--no-this-option` sets it to `false`.
-You can also use `--this-option=false` or `--this-option=true`.
-If neither option is supplied, the flag remains in its default state, as listed in the reference documentation.
+Las opciones booleanas tienen dos formas: `--this-option` establece la bandera en `true`, `--no-this-option` la establece en `false`.
+También puedes usar `--this-option=false` o `--this-option=true`.
+Si no se proporciona ninguna opción, la bandera permanece en su estado predeterminado, como se indica en la documentación de referencia.
 
-### Array options
+### Opciones de array
 
-Array options can be provided in two forms: `--option value1 value2` or `--option value1 --option value2`.
+Las opciones de array se pueden proporcionar en dos formas: `--option value1 value2` o `--option value1 --option value2`.
 
-### Key/value options
+### Opciones de clave/valor
 
-Some options like `--define` expect an array of `key=value` pairs as their values.
-Just like array options, key/value options can be provided in two forms:
-`--define 'KEY_1="value1"' KEY_2=true` or `--define 'KEY_1="value1"' --define KEY_2=true`.
+Algunas opciones como `--define` esperan un array de pares `key=value` como sus valores.
+Al igual que las opciones de array, las opciones de clave/valor se pueden proporcionar en dos formas:
+`--define 'KEY_1="value1"' KEY_2=true` o `--define 'KEY_1="value1"' --define KEY_2=true`.
 
-### Relative paths
+### Rutas relativas
 
-Options that specify files can be given as absolute paths, or as paths relative to the current working directory, which is generally either the workspace or project root.
+Las opciones que especifican archivos pueden darse como rutas absolutas, o como rutas relativas al directorio de trabajo actual, que generalmente es la raíz del workspace o del proyecto.

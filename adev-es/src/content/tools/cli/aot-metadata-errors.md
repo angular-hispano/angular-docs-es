@@ -1,44 +1,44 @@
-# AOT metadata errors
+# Errores de metadata AOT
 
-The following are metadata errors you may encounter, with explanations and suggested corrections.
+Los siguientes son errores de metadata que puedes encontrar, con explicaciones y correcciones sugeridas.
 
-## Expression form not supported
+## Forma de expresión no soportada
 
-HELPFUL: The compiler encountered an expression it didn't understand while evaluating Angular metadata.
+ÚTIL: El compilador encontró una expresión que no entendió mientras evaluaba metadata de Angular.
 
-Language features outside of the compiler's [restricted expression syntax](tools/cli/aot-compiler#expression-syntax)
-can produce this error, as seen in the following example:
+Características del lenguaje fuera de la [sintaxis de expresión restringida](tools/cli/aot-compiler#expression-syntax) del compilador
+pueden producir este error, como se ve en el siguiente ejemplo:
 
 <docs-code language="typescript">
 // ERROR
 export class Fooish { … }
 …
-const prop = typeof Fooish; // typeof is not valid in metadata
+const prop = typeof Fooish; // typeof no es válido en metadata
   …
-  // bracket notation is not valid in metadata
+  // notación de corchetes no es válida en metadata
   { provide: 'token', useValue: { [prop]: 'value' } };
   …
 </docs-code>
 
-You can use `typeof` and bracket notation in normal application code.
-You just can't use those features within expressions that define Angular metadata.
+Puedes usar `typeof` y notación de corchetes en código de aplicación normal.
+Simplemente no puedes usar esas características dentro de expresiones que definen metadata de Angular.
 
-Avoid this error by sticking to the compiler's [restricted expression syntax](tools/cli/aot-compiler#expression-syntax)
-when writing Angular metadata
-and be wary of new or unusual TypeScript features.
+Evita este error ciñéndote a la [sintaxis de expresión restringida](tools/cli/aot-compiler#expression-syntax) del compilador
+al escribir metadata de Angular
+y ten cuidado con características de TypeScript nuevas o inusuales.
 
-## Reference to a local (non-exported) symbol
+## Referencia a un símbolo local (no exportado)
 
-HELPFUL: Reference to a local \(non-exported\) symbol 'symbol name'. Consider exporting the symbol.
+ÚTIL: Referencia a un símbolo local \(no exportado\) 'nombre del símbolo'. Considera exportar el símbolo.
 
-The compiler encountered a reference to a locally defined symbol that either wasn't exported or wasn't initialized.
+El compilador encontró una referencia a un símbolo definido localmente que no fue exportado o no fue inicializado.
 
-Here's a `provider` example of the problem.
+Aquí hay un ejemplo de `provider` del problema.
 
 <docs-code language="typescript">
 
 // ERROR
-let foo: number; // neither exported nor initialized
+let foo: number; // ni exportado ni inicializado
 
 @Component({
   selector: 'my-component',
@@ -51,15 +51,15 @@ export class MyComponent {}
 
 </docs-code>
 
-The compiler generates the component factory, which includes the `useValue` provider code, in a separate module. *That* factory module can't reach back to *this* source module to access the local \(non-exported\) `foo` variable.
+El compilador genera la factory del componente, que incluye el código del provider `useValue`, en un módulo separado. *Ese* módulo factory no puede regresar a *este* módulo fuente para acceder a la variable local \(no exportada\) `foo`.
 
-You could fix the problem by initializing `foo`.
+Podrías arreglar el problema inicializando `foo`.
 
 <docs-code language="typescript">
-let foo = 42; // initialized
+let foo = 42; // inicializado
 </docs-code>
 
-The compiler will [fold](tools/cli/aot-compiler#code-folding) the expression into the provider as if you had written this.
+El compilador [plegará](tools/cli/aot-compiler#code-folding) la expresión en el provider como si hubieras escrito esto.
 
 <docs-code language="typescript">
 providers: [
@@ -67,11 +67,11 @@ providers: [
 ]
 </docs-code>
 
-Alternatively, you can fix it by exporting `foo` with the expectation that `foo` will be assigned at runtime when you actually know its value.
+Alternativamente, puedes arreglarlo exportando `foo` con la expectativa de que `foo` será asignado en tiempo de ejecución cuando realmente conozcas su valor.
 
 <docs-code language="typescript">
-// CORRECTED
-export let foo: number; // exported
+// CORREGIDO
+export let foo: number; // exportado
 
 @Component({
   selector: 'my-component',
@@ -83,16 +83,16 @@ export let foo: number; // exported
 export class MyComponent {}
 </docs-code>
 
-Adding `export` often works for variables referenced in metadata such as `providers` and `animations` because the compiler can generate *references* to the exported variables in these expressions. It doesn't need the *values* of those variables.
+Agregar `export` a menudo funciona para variables referenciadas en metadata como `providers` y `animations` porque el compilador puede generar *referencias* a las variables exportadas en estas expresiones. No necesita los *valores* de esas variables.
 
-Adding `export` doesn't work when the compiler needs the *actual value*
-in order to generate code.
-For example, it doesn't work for the `template` property.
+Agregar `export` no funciona cuando el compilador necesita el *valor real*
+para generar código.
+Por ejemplo, no funciona para la propiedad `template`.
 
 <docs-code language="typescript">
 
 // ERROR
-export let someTemplate: string; // exported but not initialized
+export let someTemplate: string; // exportado pero no inicializado
 
 @Component({
   selector: 'my-component',
@@ -102,18 +102,18 @@ export class MyComponent {}
 
 </docs-code>
 
-The compiler needs the value of the `template` property *right now* to generate the component factory.
-The variable reference alone is insufficient.
-Prefixing the declaration with `export` merely produces a new error, "[`Only initialized variables and constants can be referenced`](#only-initialized-variables)".
+El compilador necesita el valor de la propiedad `template` *ahora mismo* para generar la factory del componente.
+La referencia a la variable sola es insuficiente.
+Prefijar la declaración con `export` simplemente produce un nuevo error, "[`Solo variables y constantes inicializadas pueden ser referenciadas`](#only-initialized-variables)".
 
-## Only initialized variables and constants
+## Solo variables y constantes inicializadas
 
-HELPFUL: *Only initialized variables and constants can be referenced because the value of this variable is needed by the template compiler.*
+ÚTIL: *Solo variables y constantes inicializadas pueden ser referenciadas porque el valor de esta variable es necesario por el compilador de plantilla.*
 
-The compiler found a reference to an exported variable or static field that wasn't initialized.
-It needs the value of that variable to generate code.
+El compilador encontró una referencia a una variable exportada o campo estático que no fue inicializado.
+Necesita el valor de esa variable para generar código.
 
-The following example tries to set the component's `template` property to the value of the exported `someTemplate` variable which is declared but *unassigned*.
+El siguiente ejemplo intenta establecer la propiedad `template` del componente al valor de la variable exportada `someTemplate` que está declarada pero *no asignada*.
 
 <docs-code language="typescript">
 
@@ -128,11 +128,11 @@ export class MyComponent {}
 
 </docs-code>
 
-You'd also get this error if you imported `someTemplate` from some other module and neglected to initialize it there.
+También obtendrías este error si importaste `someTemplate` de algún otro módulo y descuidaste inicializarlo allí.
 
 <docs-code language="typescript">
 
-// ERROR - not initialized there either
+// ERROR - no inicializado allí tampoco
 import { someTemplate } from './config';
 
 @Component({
@@ -143,14 +143,14 @@ export class MyComponent {}
 
 </docs-code>
 
-The compiler cannot wait until runtime to get the template information.
-It must statically derive the value of the `someTemplate` variable from the source code so that it can generate the component factory, which includes instructions for building the element based on the template.
+El compilador no puede esperar hasta tiempo de ejecución para obtener la información de la plantilla.
+Debe derivar estáticamente el valor de la variable `someTemplate` del código fuente para que pueda generar la factory del componente, que incluye instrucciones para construir el elemento basado en la plantilla.
 
-To correct this error, provide the initial value of the variable in an initializer clause *on the same line*.
+Para corregir este error, proporciona el valor inicial de la variable en una cláusula inicializadora *en la misma línea*.
 
 <docs-code language="typescript">
 
-// CORRECTED
+// CORREGIDO
 export let someTemplate = '<h1>Greetings from Angular</h1>';
 
 @Component({
@@ -161,14 +161,14 @@ export class MyComponent {}
 
 </docs-code>
 
-## Reference to a non-exported class
+## Referencia a una clase no exportada
 
-HELPFUL: *Reference to a non-exported class `<class name>`.*
-*Consider exporting the class.*
+ÚTIL: *Referencia a una clase no exportada `<class name>`.*
+*Considera exportar la clase.*
 
-Metadata referenced a class that wasn't exported.
+La metadata referenció una clase que no fue exportada.
 
-For example, you may have defined a class and used it as an injection token in a providers array but neglected to export that class.
+Por ejemplo, puedes haber definido una clase y usarla como un token de inyección en un array de providers pero descuidaste exportar esa clase.
 
 <docs-code language="typescript">
 
@@ -183,12 +183,12 @@ abstract class MyStrategy { }
 
 </docs-code>
 
-Angular generates a class factory in a separate module and that factory [can only access exported classes](tools/cli/aot-compiler#exported-symbols).
-To correct this error, export the referenced class.
+Angular genera una factory de clase en un módulo separado y esa factory [solo puede acceder a clases exportadas](tools/cli/aot-compiler#exported-symbols).
+Para corregir este error, exporta la clase referenciada.
 
 <docs-code language="typescript">
 
-// CORRECTED
+// CORREGIDO
 export abstract class MyStrategy { }
 
   …
@@ -199,11 +199,11 @@ export abstract class MyStrategy { }
 
 </docs-code>
 
-## Reference to a non-exported function
+## Referencia a una función no exportada
 
-HELPFUL: *Metadata referenced a function that wasn't exported.*
+ÚTIL: *La metadata referenció una función que no fue exportada.*
 
-For example, you may have set a providers `useFactory` property to a locally defined function that you neglected to export.
+Por ejemplo, puedes haber establecido una propiedad `useFactory` de providers a una función definida localmente que descuidaste exportar.
 
 <docs-code language="typescript">
 
@@ -218,12 +218,12 @@ function myStrategy() { … }
 
 </docs-code>
 
-Angular generates a class factory in a separate module and that factory [can only access exported functions](tools/cli/aot-compiler#exported-symbols).
-To correct this error, export the function.
+Angular genera una factory de clase en un módulo separado y esa factory [solo puede acceder a funciones exportadas](tools/cli/aot-compiler#exported-symbols).
+Para corregir este error, exporta la función.
 
 <docs-code language="typescript">
 
-// CORRECTED
+// CORREGIDO
 export function myStrategy() { … }
 
   …
@@ -234,12 +234,12 @@ export function myStrategy() { … }
 
 </docs-code>
 
-## Function calls are not supported
+## Llamadas a funciones no son soportadas
 
-HELPFUL: *Function calls are not supported. Consider replacing the function or lambda with a reference to an exported function.*
+ÚTIL: *Las llamadas a funciones no son soportadas. Considera reemplazar la función o lambda con una referencia a una función exportada.*
 
-The compiler does not currently support [function expressions or lambda functions](tools/cli/aot-compiler#function-expression).
-For example, you cannot set a provider's `useFactory` to an anonymous function or arrow function like this.
+El compilador actualmente no soporta [expresiones de función o funciones lambda](tools/cli/aot-compiler#function-expression).
+Por ejemplo, no puedes establecer el `useFactory` de un provider a una función anónima o función flecha como esta.
 
 <docs-code language="typescript">
 
@@ -253,7 +253,7 @@ For example, you cannot set a provider's `useFactory` to an anonymous function o
 
 </docs-code>
 
-You also get this error if you call a function or method in a provider's `useValue`.
+También obtienes este error si llamas a una función o método en el `useValue` de un provider.
 
 <docs-code language="typescript">
 
@@ -268,11 +268,11 @@ import { calculateValue } from './utilities';
 
 </docs-code>
 
-To correct this error, export a function from the module and refer to the function in a `useFactory` provider instead.
+Para corregir este error, exporta una función del módulo y refiere a la función en un provider `useFactory` en su lugar.
 
 <docs-code language="typescript">
 
-// CORRECTED
+// CORREGIDO
 import { calculateValue } from './utilities';
 
 export function myStrategy() { … }
@@ -290,20 +290,20 @@ export function someValueFactory() {
 
 </docs-code>
 
-## Destructured variable or constant not supported
+## Variable o constante desestructurada no soportada
 
-HELPFUL: *Referencing an exported destructured variable or constant is not supported by the template compiler. Consider simplifying this to avoid destructuring.*
+ÚTIL: *Referenciar una variable o constante desestructurada exportada no es soportado por el compilador de plantilla. Considera simplificar esto para evitar desestructuración.*
 
-The compiler does not support references to variables assigned by [destructuring](https://www.typescriptlang.org/docs/handbook/variable-declarations.html#destructuring).
+El compilador no soporta referencias a variables asignadas por [desestructuración](https://www.typescriptlang.org/docs/handbook/variable-declarations.html#destructuring).
 
-For example, you cannot write something like this:
+Por ejemplo, no puedes escribir algo como esto:
 
 <docs-code language="typescript">
 
 // ERROR
 import { configuration } from './configuration';
 
-// destructured assignment to foo and bar
+// asignación desestructurada a foo y bar
 const {foo, bar} = configuration;
   …
   providers: [
@@ -314,11 +314,11 @@ const {foo, bar} = configuration;
 
 </docs-code>
 
-To correct this error, refer to non-destructured values.
+Para corregir este error, refiere a valores no desestructurados.
 
 <docs-code language="typescript">
 
-// CORRECTED
+// CORREGIDO
 import { configuration } from './configuration';
   …
   providers: [
@@ -329,14 +329,14 @@ import { configuration } from './configuration';
 
 </docs-code>
 
-## Could not resolve type
+## No se pudo resolver el tipo
 
-HELPFUL: *The compiler encountered a type and can't determine which module exports that type.*
+ÚTIL: *El compilador encontró un tipo y no puede determinar qué módulo exporta ese tipo.*
 
-This can happen if you refer to an ambient type.
-For example, the `Window` type is an ambient type declared in the global `.d.ts` file.
+Esto puede suceder si te refieres a un tipo ambiente.
+Por ejemplo, el tipo `Window` es un tipo ambiente declarado en el archivo global `.d.ts`.
 
-You'll get an error if you reference it in the component constructor, which the compiler must statically analyze.
+Obtendrás un error si lo refieres en el constructor del componente, que el compilador debe analizar estáticamente.
 
 <docs-code language="typescript">
 
@@ -348,26 +348,26 @@ export class MyComponent {
 
 </docs-code>
 
-TypeScript understands ambient types so you don't import them.
-The Angular compiler does not understand a type that you neglect to export or import.
+TypeScript entiende los tipos ambiente así que no los importas.
+El compilador de Angular no entiende un tipo que descuidas exportar o importar.
 
-In this case, the compiler doesn't understand how to inject something with the `Window` token.
+En este caso, el compilador no entiende cómo inyectar algo con el token `Window`.
 
-Do not refer to ambient types in metadata expressions.
+No te refieras a tipos ambiente en expresiones de metadata.
 
-If you must inject an instance of an ambient type,
-you can finesse the problem in four steps:
+Si debes inyectar una instancia de un tipo ambiente,
+puedes solucionar el problema en cuatro pasos:
 
-1. Create an injection token for an instance of the ambient type.
-1. Create a factory function that returns that instance.
-1. Add a `useFactory` provider with that factory function.
-1. Use `@Inject` to inject the instance.
+1. Crea un token de inyección para una instancia del tipo ambiente.
+1. Crea una función factory que devuelva esa instancia.
+1. Agrega un provider `useFactory` con esa función factory.
+1. Usa `@Inject` para inyectar la instancia.
 
-Here's an illustrative example.
+Aquí hay un ejemplo ilustrativo.
 
 <docs-code language="typescript">
 
-// CORRECTED
+// CORREGIDO
 import { Inject } from '@angular/core';
 
 export const WINDOW = new InjectionToken('Window');
@@ -385,10 +385,10 @@ export class MyComponent {
 
 </docs-code>
 
-The `Window` type in the constructor is no longer a problem for the compiler because it
-uses the `@Inject(WINDOW)` to generate the injection code.
+El tipo `Window` en el constructor ya no es un problema para el compilador porque
+usa el `@Inject(WINDOW)` para generar el código de inyección.
 
-Angular does something similar with the `DOCUMENT` token so you can inject the browser's `document` object \(or an abstraction of it, depending upon the platform in which the application runs\).
+Angular hace algo similar con el token `DOCUMENT` así que puedes inyectar el objeto `document` del navegador \(o una abstracción de él, dependiendo de la plataforma en la que la aplicación se ejecuta\).
 
 <docs-code language="typescript">
 
@@ -402,11 +402,11 @@ export class MyComponent {
 
 </docs-code>
 
-## Name expected
+## Se esperaba un nombre
 
-HELPFUL: *The compiler expected a name in an expression it was evaluating.*
+ÚTIL: *El compilador esperaba un nombre en una expresión que estaba evaluando.*
 
-This can happen if you use a number as a property name as in the following example.
+Esto puede suceder si usas un número como nombre de propiedad como en el siguiente ejemplo.
 
 <docs-code language="typescript">
 
@@ -415,20 +415,20 @@ provider: [{ provide: Foo, useValue: { 0: 'test' } }]
 
 </docs-code>
 
-Change the name of the property to something non-numeric.
+Cambia el nombre de la propiedad a algo no numérico.
 
 <docs-code language="typescript">
 
-// CORRECTED
+// CORREGIDO
 provider: [{ provide: Foo, useValue: { '0': 'test' } }]
 
 </docs-code>
 
-## Unsupported enum member name
+## Nombre de miembro enum no soportado
 
-HELPFUL: *Angular couldn't determine the value of the [enum member](https://www.typescriptlang.org/docs/handbook/enums.html) that you referenced in metadata.*
+ÚTIL: *Angular no pudo determinar el valor del [miembro enum](https://www.typescriptlang.org/docs/handbook/enums.html) que referenciaste en metadata.*
 
-The compiler can understand simple enum values but not complex values such as those derived from computed properties.
+El compilador puede entender valores enum simples pero no valores complejos como aquellos derivados de propiedades computadas.
 
 <docs-code language="typescript">
 
@@ -436,26 +436,26 @@ The compiler can understand simple enum values but not complex values such as th
 enum Colors {
   Red = 1,
   White,
-  Blue = "Blue".length // computed
+  Blue = "Blue".length // computado
 }
 
   …
   providers: [
     { provide: BaseColor,   useValue: Colors.White } // ok
     { provide: DangerColor, useValue: Colors.Red }   // ok
-    { provide: StrongColor, useValue: Colors.Blue }  // bad
+    { provide: StrongColor, useValue: Colors.Blue }  // malo
   ]
   …
 
 </docs-code>
 
-Avoid referring to enums with complicated initializers or computed properties.
+Evita referirte a enums con inicializadores complicados o propiedades computadas.
 
-## Tagged template expressions are not supported
+## Expresiones de plantilla etiquetada no son soportadas
 
-HELPFUL: *Tagged template expressions are not supported in metadata.*
+ÚTIL: *Las expresiones de plantilla etiquetada no son soportadas en metadata.*
 
-The compiler encountered a JavaScript ES2015 [tagged template expression](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals) such as the following.
+El compilador encontró una [expresión de plantilla etiquetada](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals) de JavaScript ES2015 como la siguiente.
 
 <docs-code language="typescript">
 
@@ -468,14 +468,14 @@ const raw = String.raw`A tagged template ${expression} string`;
 
 </docs-code>
 
-[`String.raw()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/raw) is a *tag function* native to JavaScript ES2015.
+[`String.raw()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/raw) es una *función tag* nativa de JavaScript ES2015.
 
-The AOT compiler does not support tagged template expressions; avoid them in metadata expressions.
+El compilador AOT no soporta expresiones de plantilla etiquetada; evítalas en expresiones de metadata.
 
-## Symbol reference expected
+## Se esperaba referencia a símbolo
 
-HELPFUL: *The compiler expected a reference to a symbol at the location specified in the error message.*
+ÚTIL: *El compilador esperaba una referencia a un símbolo en la ubicación especificada en el mensaje de error.*
 
-This error can occur if you use an expression in the `extends` clause of a class.
+Este error puede ocurrir si usas una expresión en la cláusula `extends` de una clase.
 
 <!--todo: Chuck: After reviewing your PR comment I'm still at a loss. See [comment there](https://github.com/angular/angular/pull/17712#discussion_r132025495). -->
