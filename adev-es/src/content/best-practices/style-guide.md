@@ -1,84 +1,58 @@
-# Angular coding style guide
+# Guía de estilo de código Angular
 
-## Introduction
+## Introducción
 
-This guide covers a range of style conventions for Angular application code. These recommendations
-are not required for Angular to work, but instead establish a set of coding practices that promote
-consistency across the Angular ecosystem. A consistent set of practices makes it easier to share
-code and move between projects.
+Esta guía cubre un rango de convenciones de estilo para código de aplicaciones Angular. Estas recomendaciones no son requeridas para que Angular funcione, sino que establecen un conjunto de prácticas de codificación que promueven la consistencia en el ecosistema Angular. Un conjunto consistente de prácticas hace más fácil compartir código y moverse entre proyectos.
 
-This guide does _not_ cover TypeScript or general coding practices unrelated to Angular. For
-TypeScript, check
-out [Google's TypeScript style guide](https://google.github.io/styleguide/tsguide.html).
+Esta guía _no_ cubre TypeScript o prácticas generales de codificación no relacionadas con Angular. Para TypeScript, consulta la [guía de estilo TypeScript de Google](https://google.github.io/styleguide/tsguide.html).
 
-### When in doubt, prefer consistency
+### En caso de duda, prefiere la consistencia
 
-Whenever you encounter a situation in which these rules contradict the style of a particular file,
-prioritize maintaining consistency within a file. Mixing different style conventions in a single
-file creates more confusion than diverging from the recommendations in this guide.
+Siempre que te encuentres con una situación en la que estas reglas contradigan el estilo de un archivo particular, prioriza mantener la consistencia dentro de un archivo. Mezclar diferentes convenciones de estilo en un solo archivo crea más confusión que divergir de las recomendaciones en esta guía.
 
-## Naming
+## Nomenclatura
 
-### Separate words in file names with hyphens
+### Separa palabras en nombres de archivo con guiones
 
-Separate words within a file name with hyphens (`-`). For example, a component named `UserProfile`
-has a file name `user-profile.ts`.
+Separa palabras dentro de un nombre de archivo con guiones (`-`). Por ejemplo, un componente llamado `UserProfile` tiene un nombre de archivo `user-profile.ts`.
 
-### Use the same name for a file's tests with `.spec` at the end
+### Usa el mismo nombre para las pruebas de un archivo con `.spec` al final
 
-For unit tests, end file names with `.spec.ts`. For example, the unit test file for
-the `UserProfile` component has the file name `user-profile.spec.ts`.
+Para pruebas unitarias, termina los nombres de archivo con `.spec.ts`. Por ejemplo, el archivo de prueba unitaria para el componente `UserProfile` tiene el nombre de archivo `user-profile.spec.ts`.
 
-### Match file names to the TypeScript identifier within
+### Haz coincidir nombres de archivo con el identificador TypeScript dentro
 
-File names should generally describe the contents of the code in the file. When the file contains a
-TypeScript class, the file name should reflect that class name. For example, a file containing a
-component named `UserProfile` has the name `user-profile.ts`.
+Los nombres de archivo generalmente deben describir el contenido del código en el archivo. Cuando el archivo contiene una clase TypeScript, el nombre del archivo debe reflejar ese nombre de clase. Por ejemplo, un archivo que contiene un componente llamado `UserProfile` tiene el nombre `user-profile.ts`.
 
-If the file contains more than one primary namable identifier, choose a name that describes the
-common theme to the code within. If the code in a file does not fit within a common theme or feature
-area, consider breaking the code up into different files. Avoid overly generic file names
-like `helpers.ts`, `utils.ts`, or `common.ts`.
+Si el archivo contiene más de un identificador nombrable principal, elige un nombre que describa el tema común del código dentro. Si el código en un archivo no encaja dentro de un tema común o área de funcionalidad, considera dividir el código en diferentes archivos. Evita nombres de archivo demasiado genéricos como `helpers.ts`, `utils.ts`, o `common.ts`.
 
-### Use the same file name for a component's TypeScript, template, and styles
+### Usa el mismo nombre de archivo para el TypeScript, plantilla y estilos de un componente
 
-Components typically consist of one TypeScript file, one template file, and one style file. These
-files should share the same name with different file extensions. For example, a `UserProfile`
-component can have the files `user-profile.ts`, `user-profile.html`, and `user-profile.css`.
+Los componentes típicamente consisten en un archivo TypeScript, un archivo de plantilla y un archivo de estilo. Estos archivos deben compartir el mismo nombre con diferentes extensiones de archivo. Por ejemplo, un componente `UserProfile` puede tener los archivos `user-profile.ts`, `user-profile.html`, y `user-profile.css`.
 
-If a component has more than one style file, append the name with additional words that describe the
-styles specific to that file. For example, `UserProfile` might have style
-files `user-profile-settings.css` and `user-profile-subscription.css`.
+Si un componente tiene más de un archivo de estilo, agrega al nombre palabras adicionales que describan los estilos específicos de ese archivo. Por ejemplo, `UserProfile` podría tener archivos de estilo `user-profile-settings.css` y `user-profile-subscription.css`.
 
-## Project structure
+## Estructura del proyecto
 
-### All the application's code goes in a directory named `src`
+### Todo el código de la aplicación va en un directorio llamado `src`
 
-All of your Angular UI code (TypeScript, HTML, and styles) should live inside a directory
-named `src`. Code that's not related to UI, such as configuration files or scripts, should live
-outside the `src` directory.
+Todo tu código UI de Angular (TypeScript, HTML, y estilos) debe vivir dentro de un directorio llamado `src`. El código que no está relacionado con la UI, como archivos de configuración o scripts, debe vivir fuera del directorio `src`.
 
-This keeps the root application directory consistent between different Angular projects and creates
-a clear separation between UI code and other code in your project.
+Esto mantiene el directorio raíz de la aplicación consistente entre diferentes proyectos Angular y crea una separación clara entre el código UI y otro código en tu proyecto.
 
-### Bootstrap your application in a file named `main.ts` directly inside `src`
+### Inicia tu aplicación en un archivo llamado `main.ts` directamente dentro de `src`
 
-The code to start up, or **bootstrap**, an Angular application should always live in a file
-named `main.ts`. This represents the primary entry point to the application.
+El código para iniciar, o hacer **bootstrap**, de una aplicación Angular debe siempre vivir en un archivo llamado `main.ts`. Esto representa el punto de entrada principal a la aplicación.
 
-### Group closely related files together in the same directory
+### Agrupa archivos estrechamente relacionados juntos en el mismo directorio
 
-Angular components consist of a TypeScript file and, optionally, a template and one or more style
-files. You should group these together in the same directory.
+Los componentes de Angular consisten en un archivo TypeScript y, opcionalmente, una plantilla y uno o más archivos de estilo. Debes agrupar estos juntos en el mismo directorio.
 
-Unit tests should live in the same directory as the code-under-test. Avoid collecting unrelated
-tests into a single `tests` directory.
+Las pruebas unitarias deben vivir en el mismo directorio que el código bajo prueba. Evita recolectar pruebas no relacionadas en un solo directorio `tests`.
 
-### Organize your project by feature areas
+### Organiza tu proyecto por áreas de funcionalidad
 
-Organize your project into subdirectories based on the features of your application or common themes
-to the code in those directories. For example, the project structure for a movie theater site,
-MovieReel, might look like this:
+Organiza tu proyecto en subdirectorios basados en las características de tu aplicación o temas comunes al código en esos directorios. Por ejemplo, la estructura del proyecto para un sitio de cine, MovieReel, podría verse así:
 
 ```
 src/
@@ -91,89 +65,66 @@ src/
 │ │ ├─ purchase-confirmation/
 ```
 
-Avoid creating subdirectories based on the type of code that lives in those directories. For
-example, avoid creating directories like `components`, `directives`, and `services`.
+Evita crear subdirectorios basados en el tipo de código que vive en esos directorios. Por ejemplo, evita crear directorios como `components`, `directives`, y `services`.
 
-Avoid putting so many files into one directory that it becomes hard to read or navigate. As the
-number of files in a directory grows, consider splitting further into additional sub-directories.
+Evita poner tantos archivos en un directorio que se vuelva difícil de leer o navegar. A medida que el número de archivos en un directorio crece, considera dividir aún más en subdirectorios adicionales.
 
-### One concept per file
+### Un concepto por archivo
 
-Prefer focusing source files on a single _concept_. For Angular classes specifically, this usually
-means one component, directive, or service per file. However, it's okay if a file contains more than
-one component or directive if your classes are relatively small and they tie together as part of a
-single concept.
+Prefiere enfocar archivos fuente en un solo _concepto_. Para clases Angular específicamente, esto usualmente significa un componente, directiva, o servicio por archivo. Sin embargo, está bien si un archivo contiene más de un componente o directiva si tus clases son relativamente pequeñas y se vinculan juntas como parte de un solo concepto.
 
-When in doubt, go with the approach that leads to smaller files.
+En caso de duda, ve con el enfoque que lleve a archivos más pequeños.
 
-## Dependency injection
+## Inyección de dependencias
 
-### Prefer the `inject` function over constructor parameter injection
+### Prefiere la función `inject` sobre inyección de parámetros de constructor
 
-Prefer using the `inject` function over injecting constructor parameters. The `inject` function works the same way as constructor parameter injection, but offers several style advantages:
+Prefiere usar la función `inject` sobre inyectar parámetros de constructor. La función `inject` funciona de la misma manera que la inyección de parámetros de constructor, pero ofrece varias ventajas de estilo:
 
-*   `inject` is generally more readable, especially when a class injects many dependencies.
-*   It's more syntactically straightforward to add comments to injected dependencies
-*   `inject` offers better type inference.
-*   When targeting ES2022+ with [`useDefineForClassFields`](https://www.typescriptlang.org/tsconfig/#useDefineForClassFields), you can avoid separating field declaration and initialization when fields read on injected dependencies.
+*   `inject` es generalmente más legible, especialmente cuando una clase inyecta muchas dependencias.
+*   Es más directo sintácticamente agregar comentarios a dependencias inyectadas
+*   `inject` ofrece mejor inferencia de tipos.
+*   Al apuntar a ES2022+ con [`useDefineForClassFields`](https://www.typescriptlang.org/tsconfig/#useDefineForClassFields), puedes evitar separar la declaración e inicialización de campos cuando los campos leen dependencias inyectadas.
 
-[You can refactor existing code to `inject` with an automatic tool](reference/migrations/inject-function).
+[Puedes refactorizar código existente a `inject` con una herramienta automática](reference/migrations/inject-function).
 
-## Components and directives
+## Componentes y directivas
 
-### Choosing component selectors
+### Eligiendo selectores de componentes
 
-See
-the [Components guide for details on choosing component selectors](guide/components/selectors#choosing-a-selector).
+Consulta la [guía de Componentes para detalles sobre cómo elegir selectores de componentes](guide/components/selectors#choosing-a-selector).
 
-### Naming component and directive members
+### Nombrando miembros de componentes y directivas
 
-See the Components guide for details
-on [naming input properties](guide/components/inputs#choosing-input-names)
-and [naming output properties](guide/components/outputs#choosing-event-names).
+Consulta la guía de Componentes para detalles sobre [nombrar propiedades de entrada](guide/components/inputs#choosing-input-names) y [nombrar propiedades de salida](guide/components/outputs#choosing-event-names).
 
-### Choosing directive selectors
+### Eligiendo selectores de directivas
 
-Directives should use the
-same [application-specific prefix](guide/components/selectors#selector-prefixes)
-as your components.
+Las directivas deben usar el mismo [prefijo específico de aplicación](guide/components/selectors#selector-prefixes) que tus componentes.
 
-When using an attribute selector for a directive, use a camelCase attribute name. For example, if
-your application is named "MovieReel" and you build a directive that adds a tooltip to an element,
-you might use the selector `[mrTooltip]`.
+Al usar un selector de atributo para una directiva, usa un nombre de atributo camelCase. Por ejemplo, si tu aplicación se llama "MovieReel" y construyes una directiva que agrega un tooltip a un elemento, podrías usar el selector `[mrTooltip]`.
 
-### Group Angular-specific properties before methods
+### Agrupa propiedades específicas de Angular antes de los métodos
 
-Components and directives should group Angular-specific properties together, typically near the top
-of the class declaration. This includes injected dependencies, inputs, outputs, and queries. Define
-these and other properties before the class's methods.
+Los componentes y directivas deben agrupar las propiedades específicas de Angular juntas, típicamente cerca de la parte superior de la declaración de clase. Esto incluye dependencias inyectadas, entradas, salidas y consultas. Define estas y otras propiedades antes de los métodos de la clase.
 
-This practice makes it easier to find the class's template APIs and dependencies.
+Esta práctica hace más fácil encontrar las APIs de plantilla y dependencias de la clase.
 
-### Keep components and directives focused on presentation
+### Mantén componentes y directivas enfocados en la presentación
 
-Code inside your components and directives should generally relate to the UI shown on the page. For
-code that makes sense on its own, decoupled from the UI, prefer refactoring to other files. For
-example, you can factor form validation rules or data transformations into separate functions or
-classes.
+El código dentro de tus componentes y directivas generalmente debe relacionarse con la UI mostrada en la página. Para código que tiene sentido por sí solo, desacoplado de la UI, prefiere refactorizar a otros archivos. Por ejemplo, puedes factorizar reglas de validación de formularios o transformaciones de datos en funciones o clases separadas.
 
-### Avoid overly complex logic in templates
+### Evita lógica demasiado compleja en plantillas
 
-Angular templates are designed to
-accommodate [JavaScript-like expressions](guide/templates/expression-syntax).
-You should take advantage of these expressions to capture relatively straightforward logic directly
-in template expressions.
+Las plantillas de Angular están diseñadas para acomodar [expresiones similares a JavaScript](guide/templates/expression-syntax). Debes aprovechar estas expresiones para capturar lógica relativamente directa directamente en expresiones de plantilla.
 
-When the code in a template gets too complex, though, refactor logic into the TypeScript code (typically with a [computed](guide/signals#computed-signals)).
+Sin embargo, cuando el código en una plantilla se vuelve demasiado complejo, refactoriza la lógica al código TypeScript (típicamente con un [computed](guide/signals#computed-signals)).
 
-There's no one hard-and-fast rule that determines what constitutes "complex". Use your best
-judgement.
+No hay una regla única y rápida que determine qué constituye "complejo". Usa tu mejor juicio.
 
-### Use `protected` on class members that are only used by a component's template
+### Usa `protected` en miembros de clase que solo son usados por la plantilla de un componente
 
-A component class's public members intrinsically define a public API that's accessible via
-dependency injection and [queries](guide/components/queries). Prefer `protected`
-access for any members that are meant to be read from the component's template.
+Los miembros públicos de la clase de un componente intrínsecamente definen una API pública que es accesible vía inyección de dependencias y [consultas](guide/components/queries). Prefiere acceso `protected` para cualquier miembro que esté destinado a ser leído desde la plantilla del componente.
 
 ```ts
 @Component({
@@ -184,16 +135,14 @@ export class UserProfile {
   firstName = input();
   lastName = input();
 
-// `fullName` is not part of the component's public API, but is used in the template.
+// `fullName` no es parte de la API pública del componente, pero se usa en la plantilla.
   protected fullName = computed(() => `${this.firstName()} ${this.lastName()}`);
 }
 ```
 
-### Use `readonly` for properties that shouldn't change
+### Usa `readonly` para propiedades que no deben cambiar
 
-Mark component and directive properties initialized by Angular as `readonly`. This includes
-properties initialized by `input`, `model`, `output`, and queries. The readonly access modifier
-ensures that the value set by Angular is not overwritten.
+Marca propiedades de componentes y directivas inicializadas por Angular como `readonly`. Esto incluye propiedades inicializadas por `input`, `model`, `output`, y consultas. El modificador de acceso readonly asegura que el valor establecido por Angular no sea sobrescrito.
 
 ```ts
 @Component({/* ... */})
@@ -204,8 +153,7 @@ export class UserProfile {
 }
 ```
 
-For components and directives that use the decorator-based `@Input`, `@Output`, and query APIs, this
-advice applies to output properties and queries, but not input properties.
+Para componentes y directivas que usan las APIs basadas en decoradores `@Input`, `@Output`, y consultas, este consejo aplica a propiedades de salida y consultas, pero no a propiedades de entrada.
 
 ```ts
 @Component({/* ... */})
@@ -215,54 +163,48 @@ export class UserProfile {
 }
 ```
 
-### Prefer `class` and `style` over `ngClass` and `ngStyle`
+### Prefiere `class` y `style` sobre `ngClass` y `ngStyle`
 
-Prefer `class` and `style` bindings over using the [`NgClass`](/api/common/NgClass) and [`NgStyle`](/api/common/NgStyle) directives.
+Prefiere enlaces `class` y `style` sobre usar las directivas [`NgClass`](/api/common/NgClass) y [`NgStyle`](/api/common/NgStyle).
 
 ```html
-<!-- PREFER -->
+<!-- PREFERIR -->
 <div [class.admin]="isAdmin" [class.dense]="density === 'high'">
-<!-- OR -->
+<!-- O -->
 <div [class]="{admin: isAdmin, dense: density === 'high'}">
 
 
-<!-- AVOID -->
+<!-- EVITAR -->
 <div [ngClass]="{admin: isAdmin, dense: density === 'high'}">
 ```
 
-Both `class` and `style` bindings use a more straightforward syntax that aligns closely with
-standard HTML attributes. This makes your templates easier to read and understand, especially for
-developers familiar with basic HTML.
+Tanto los enlaces `class` como `style` usan una sintaxis más directa que se alinea estrechamente con los atributos HTML estándar. Esto hace tus plantillas más fáciles de leer y entender, especialmente para desarrolladores familiarizados con HTML básico.
 
-Additionally, the `NgClass` and `NgStyle` directives incur an additional performance cost compared
-to the built-in `class` and `style` binding syntax.
+Adicionalmente, las directivas `NgClass` y `NgStyle` incurren en un costo de rendimiento adicional comparado con la sintaxis integrada de enlace `class` y `style`.
 
-For more details, refer to the [bindings guide](/guide/templates/binding#css-class-and-style-property-bindings)
+Para más detalles, consulta la [guía de enlaces](/guide/templates/binding#css-class-and-style-property-bindings)
 
-### Name event handlers for what they _do_, not for the triggering event
+### Nombra manejadores de eventos por lo que _hacen_, no por el evento disparador
 
-Prefer naming event handlers for the action they perform rather than for the triggering event:
+Prefiere nombrar manejadores de eventos por la acción que realizan en lugar de por el evento disparador:
 
 ```html
-<!-- PREFER -->
+<!-- PREFERIR -->
 <button (click)="saveUserData()">Save</button>
 
-<!-- AVOID -->
+<!-- EVITAR -->
 <button (click)="handleClick()">Save</button>
 ```
 
-Using meaningful names like this makes it easier to tell what an event does from reading the
-template.
+Usar nombres significativos como este hace más fácil saber qué hace un evento al leer la plantilla.
 
-For keyboard events, you can use Angular's key event modifiers with specific handler names:
+Para eventos de teclado, puedes usar los modificadores de eventos de tecla de Angular con nombres de manejadores específicos:
 
 ```html
 <textarea (keydown.control.enter)="commitNotes()" (keydown.control.space)="showSuggestions()">
 ```
 
-Sometimes, event handling logic is especially long or complex, making it impractical to declare a
-single well-named handler. In these cases, it's fine to fall back to a name like 'handleKeydown' and
-then delegate to more specific behaviors based on the event details:
+A veces, la lógica de manejo de eventos es especialmente larga o compleja, haciendo impráctico declarar un solo manejador bien nombrado. En estos casos, está bien volver a un nombre como 'handleKeydown' y luego delegar a comportamientos más específicos basados en los detalles del evento:
 
 ```ts
 
@@ -281,32 +223,28 @@ class RichText {
 }
 ```
 
-### Keep lifecycle methods simple
+### Mantén métodos de ciclo de vida simples
 
-Avoid putting long or complex logic inside lifecycle hooks like `ngOnInit`. Instead, prefer creating
-well-named methods to contain that logic and then _call those methods_ in your lifecycle hooks.
-Lifecycle hook names describe _when_ they run, meaning that the code inside doesn't have a
-meaningful name that describes what the code inside is doing.
+Evita poner lógica larga o compleja dentro de hooks de ciclo de vida como `ngOnInit`. En su lugar, prefiere crear métodos bien nombrados para contener esa lógica y luego _llamar esos métodos_ en tus hooks de ciclo de vida. Los nombres de hooks de ciclo de vida describen _cuándo_ se ejecutan, lo que significa que el código dentro no tiene un nombre significativo que describa qué está haciendo el código dentro.
 
 ```typescript
-// PREFER
+// PREFERIR
 ngOnInit() {
   this.startLogging();
   this.runBackgroundTask();
 }
 
-// AVOID
+// EVITAR
 ngOnInit() {
   this.logger.setMode('info');
   this.logger.monitorErrors();
-  // ...and all the rest of the code that would be unrolled from these methods.
+  // ...y todo el resto del código que se desplegaría de estos métodos.
 }
 ```
 
-### Use lifecycle hook interfaces
+### Usa interfaces de hooks de ciclo de vida
 
-Angular provides a TypeScript interface for each lifecycle method. When adding a lifecycle hook to
-your class, import and `implement` these interfaces to ensure that the methods are named correctly.
+Angular proporciona una interfaz TypeScript para cada método de ciclo de vida. Al agregar un hook de ciclo de vida a tu clase, importa e `implementa` estas interfaces para asegurar que los métodos estén nombrados correctamente.
 
 ```ts
 import {Component, OnInit} from '@angular/core';
@@ -314,7 +252,7 @@ import {Component, OnInit} from '@angular/core';
 @Component({/* ... */})
 export class UserProfile implements OnInit {
 
-  // The `OnInit` interface ensures this method is named correctly.
+  // La interfaz `OnInit` asegura que este método esté nombrado correctamente.
   ngOnInit() { /* ... */ }
 }
 ```
