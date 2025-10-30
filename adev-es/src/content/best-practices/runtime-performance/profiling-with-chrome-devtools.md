@@ -1,100 +1,100 @@
-# Profiling with the Chrome DevTools
+# Perfilado con Chrome DevTools
 
-Angular integrates with the [Chrome DevTools extensibility API](https://developer.chrome.com/docs/devtools/performance/extension) to present framework-specific data and insights directly in the [Chrome DevTools performance panel](https://developer.chrome.com/docs/devtools/performance/overview).
+Angular se integra con la [API de extensibilidad de Chrome DevTools](https://developer.chrome.com/docs/devtools/performance/extension) para presentar datos e información específicos del framework directamente en el [panel de rendimiento de Chrome DevTools](https://developer.chrome.com/docs/devtools/performance/overview).
 
-With the integration enabled, you can [record a performance profile](https://developer.chrome.com/docs/devtools/performance#record) containing two sets of data:
+Con la integración habilitada, puedes [grabar un perfil de rendimiento](https://developer.chrome.com/docs/devtools/performance#record) que contiene dos conjuntos de datos:
 
-- Standard performance entries based on Chrome's understanding of your code executing in a browser, and
-- Angular-specific entries contributed by the framework's runtime.
+- Entradas de rendimiento estándar basadas en la comprensión de Chrome de tu código ejecutándose en un navegador, y
+- Entradas específicas de Angular contribuidas por el tiempo de ejecución del framework.
 
-Both sets of data are presented together on the same tab, but on separate tracks:
+Ambos conjuntos de datos se presentan juntos en la misma pestaña, pero en pistas separadas:
 
-<img alt="Angular custom track in Chrome DevTools profiler" src="assets/images/best-practices/runtime-performance/angular-perf-in-chrome.png">
+<img alt="Pista personalizada de Angular en el perfilador de Chrome DevTools" src="assets/images/best-practices/runtime-performance/angular-perf-in-chrome.png">
 
-Angular-specific data are expressed in terms of framework concepts (components, change detection, lifecycle hooks, etc.) alongside lower-level function and method calls captured by a browser. These two data sets are correlated, and you can switch between the different views and level of details.
+Los datos específicos de Angular se expresan en términos de conceptos del framework (componentes, change detection, hooks de ciclo de vida, etc.) junto con llamadas de funciones y métodos de nivel más bajo capturadas por un navegador. Estos dos conjuntos de datos están correlacionados, y puedes cambiar entre las diferentes vistas y niveles de detalle.
 
-You can use the Angular track to better understand how your code runs in the browser, including:
+Puedes usar la pista de Angular para entender mejor cómo se ejecuta tu código en el navegador, incluyendo:
 
-- Determining whether a given code block is part of the Angular application, or whether it belongs to another script running on the same page.
-- Identifying performance bottlenecks and attribute those to specific components or services.
-- Gaining deeper insight into Angular's inner working with a visual breakdown of each change detection cycle.
+- Determinar si un bloque de código dado es parte de la aplicación Angular, o si pertenece a otro script ejecutándose en la misma página.
+- Identificar cuellos de botella de rendimiento y atribuirlos a componentes o servicios específicos.
+- Obtener una visión más profunda del funcionamiento interno de Angular con un desglose visual de cada ciclo de change detection.
 
-## Recording a profile
+## Grabando un perfil
 
-### Enable integration
+### Habilitar integración
 
-You can enable Angular profiling in one of two ways:
+Puedes habilitar el perfilado de Angular de dos maneras:
 
-1. Run `ng.enableProfiling()` in Chrome's console panel, or
-1. Include a call to `enableProfiling()` in your application startup code (imported from `@angular/core`).
+1. Ejecutar `ng.enableProfiling()` en el panel de consola de Chrome, o
+1. Incluir una llamada a `enableProfiling()` en el código de inicio de tu aplicación (importado desde `@angular/core`).
 
-NOTE:
-Angular profiling works exclusively in development mode.
+NOTA:
+El perfilado de Angular funciona exclusivamente en modo de desarrollo.
 
-Here is an example of how you can enable the integration in the application bootstrap to capture all possible events:
+Aquí hay un ejemplo de cómo puedes habilitar la integración en el bootstrap de la aplicación para capturar todos los eventos posibles:
 
 ```ts
 import { enableProfiling } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { MyApp } from './my-app';
 
-// Turn on profiling *before* bootstrapping your application
-// in order to capture all of the code run on start-up.
+// Activa el perfilado *antes* de iniciar tu aplicación
+// para capturar todo el código ejecutado al inicio.
 enableProfiling();
 bootstrapApplication(MyApp);
 ```
 
-### Record a profile
+### Grabar un perfil
 
-Use the **Record** button in the Chrome DevTools performance panel:
+Usa el botón **Record** en el panel de rendimiento de Chrome DevTools:
 
-<img alt="Recording a profile" src="assets/images/best-practices/runtime-performance/recording-profile-in-chrome.png">
+<img alt="Grabando un perfil" src="assets/images/best-practices/runtime-performance/recording-profile-in-chrome.png">
 
-See the [Chrome DevTools documentation](https://developer.chrome.com/docs/devtools/performance#record) for more details on recording profiles.
+Consulta la [documentación de Chrome DevTools](https://developer.chrome.com/docs/devtools/performance#record) para más detalles sobre la grabación de perfiles.
 
-## Interpreting a recorded profile
+## Interpretando un perfil grabado
 
-You can use the "Angular" custom track to quickly identify and diagnose performance issues. The following sections describe some common profiling scenarios.
+Puedes usar la pista personalizada "Angular" para identificar y diagnosticar rápidamente problemas de rendimiento. Las siguientes secciones describen algunos escenarios comunes de perfilado.
 
-### Differentiating between your Angular application and other tasks on the same page
+### Diferenciando entre tu aplicación Angular y otras tareas en la misma página
 
-As Angular and Chrome data are presented on the separate but correlated tracks, you can see when Angular's application code is executed as opposed to some other browser processing (typically layout and paint) or other scripts running on the same page (in this case the custom Angular track does not have any data):
+Como los datos de Angular y Chrome se presentan en pistas separadas pero correlacionadas, puedes ver cuándo se ejecuta el código de la aplicación Angular en oposición a algún otro procesamiento del navegador (típicamente layout y paint) u otros scripts ejecutándose en la misma página (en este caso la pista personalizada de Angular no tiene ningún dato):
 
-<img alt="Profile data: Angular vs. 3rd party scripts execution" src="assets/images/best-practices/runtime-performance/profile-angular-vs-3rd-party.png">
+<img alt="Datos de perfil: ejecución de Angular vs. scripts de terceros" src="assets/images/best-practices/runtime-performance/profile-angular-vs-3rd-party.png">
 
-This allows you to determine whether further investigations should focus on the Angular application code or on other parts of your codebase or dependencies.
+Esto te permite determinar si investigaciones posteriores deben enfocarse en el código de la aplicación Angular o en otras partes de tu código base o dependencias.
 
-### Color-coding
+### Codificación por colores
 
-Angular uses colors in the flame chart graph to distinguish tasks types:
+Angular usa colores en el gráfico de llamas para distinguir tipos de tareas:
 
-- 🟦 Blue represents TypeScript code written by the application developer (for example: services, component constructors and lifecycle hooks, etc.).
-- 🟪 Purple represents templates code written by the application developer and transformed by the Angular compiler.
-- 🟩 Green represents entry points to the application code and identifies _reasons_ for executing code.
+- 🟦 Azul representa código TypeScript escrito por el desarrollador de la aplicación (por ejemplo: servicios, constructores de componentes y hooks de ciclo de vida, etc.).
+- 🟪 Púrpura representa código de plantillas escrito por el desarrollador de la aplicación y transformado por el compilador de Angular.
+- 🟩 Verde representa puntos de entrada al código de la aplicación e identifica _razones_ para ejecutar código.
 
-The following examples illustrate the described color-coding in various, real-life recordings.
+Los siguientes ejemplos ilustran la codificación por colores descrita en varias grabaciones de la vida real.
 
-#### Example: Application bootstrapping
+#### Ejemplo: Bootstrap de la aplicación
 
-The application bootstrap process usually consists of:
+El proceso de bootstrap de la aplicación usualmente consiste en:
 
-- Triggers marked in blue, such as the call to the `bootstrapApplication`, instantiation of the root component, and initial change detection
-- Various DI services instantiated during bootstrap, marked in green.
+- Disparadores marcados en azul, como la llamada a `bootstrapApplication`, instanciación del componente raíz, y change detection inicial
+- Varios servicios de DI instanciados durante el bootstrap, marcados en verde.
 
-<img alt="Profile data: bootstrap application" src="assets/images/best-practices/runtime-performance/profile-bootstrap-application.png">
+<img alt="Datos de perfil: bootstrap de la aplicación" src="assets/images/best-practices/runtime-performance/profile-bootstrap-application.png">
 
-#### Example: Component execution
+#### Ejemplo: Ejecución de componente
 
-One component processing is typically represented as an entry point (blue) followed by its template execution (purple). A template might, in turn, trigger instantiation of directives and execution of lifecycle hooks (green):
+El procesamiento de un componente típicamente se representa como un punto de entrada (azul) seguido de su ejecución de plantilla (púrpura). Una plantilla puede, a su vez, disparar la instanciación de directivas y ejecución de hooks de ciclo de vida (verde):
 
-<img alt="Profile data: component processing" src="assets/images/best-practices/runtime-performance/profile-component-processing.png">
+<img alt="Datos de perfil: procesamiento de componente" src="assets/images/best-practices/runtime-performance/profile-component-processing.png">
 
-#### Example: Change detection
+#### Ejemplo: Change detection
 
-A change detection cycle usually consists of one or more data synchronization passes (blue), where each pass traverses a subset of components.
+Un ciclo de change detection usualmente consiste en uno o más pases de sincronización de datos (azul), donde cada pase recorre un subconjunto de componentes.
 
-<img alt="Profile data: change detection" src="assets/images/best-practices/runtime-performance/profile-change-detection.png">
+<img alt="Datos de perfil: change detection" src="assets/images/best-practices/runtime-performance/profile-change-detection.png">
 
-With this data visualization, it is possible to immediately identify components that were involved in the change detection and which were skipped (typically the `OnPush` components that were not marked dirty).
+Con esta visualización de datos, es posible identificar inmediatamente los componentes que estuvieron involucrados en el change detection y cuáles fueron omitidos (típicamente los componentes `OnPush` que no fueron marcados como dirty).
 
-Additionally, you can inspect the number of synchronization passes for one change detection. Having more than one synchronization pass suggest that state is updated during change detection. You should avoid this, as it slows down page updates and can even result in infinite loops in the worst cases.
+Adicionalmente, puedes inspeccionar el número de pases de sincronización para un change detection. Tener más de un pase de sincronización sugiere que el estado se actualiza durante el change detection. Debes evitar esto, ya que ralentiza las actualizaciones de la página y puede incluso resultar en bucles infinitos en los peores casos.
