@@ -1,47 +1,47 @@
-# Authoring schematics
+# Creación de schematics
 
-You can create your own schematics to operate on Angular projects.
-Library developers typically package schematics with their libraries to integrate them with the Angular CLI.
-You can also create stand-alone schematics to manipulate the files and constructs in Angular applications as a way of customizing them for your development environment and making them conform to your standards and constraints.
-Schematics can be chained, running other schematics to perform complex operations.
+Puedes crear tus propios schematics para operar en proyectos Angular.
+Los desarrolladores de librerías típicamente empaquetan schematics con sus librerías para integrarlos con el Angular CLI.
+También puedes crear schematics independientes para manipular los archivos y construcciones en aplicaciones Angular como una forma de personalizarlos para tu entorno de desarrollo y hacerlos conformes a tus estándares y restricciones.
+Los schematics pueden encadenarse, ejecutando otros schematics para realizar operaciones complejas.
 
-Manipulating the code in an application has the potential to be both very powerful and correspondingly dangerous.
-For example, creating a file that already exists would be an error, and if it was applied immediately, it would discard all the other changes applied so far.
-The Angular Schematics tooling guards against side effects and errors by creating a virtual file system.
-A schematic describes a pipeline of transformations that can be applied to the virtual file system.
-When a schematic runs, the transformations are recorded in memory, and only applied in the real file system once they're confirmed to be valid.
+Manipular el código en una aplicación tiene el potencial de ser tanto muy poderoso como correspondientemente peligroso.
+Por ejemplo, crear un archivo que ya existe sería un error, y si se aplicara inmediatamente, descartaría todos los otros cambios aplicados hasta ahora.
+Las herramientas de Angular Schematics protegen contra efectos secundarios y errores creando un sistema de archivos virtual.
+Un schematic describe un flujo de transformaciones que se pueden aplicar al sistema de archivos virtual.
+Cuando un schematic se ejecuta, las transformaciones se registran en memoria, y solo se aplican en el sistema de archivos real una vez que se confirma que son válidas.
 
-## Schematics concepts
+## Conceptos de Schematics
 
-The public API for schematics defines classes that represent the basic concepts.
+La API pública para schematics define clases que representan los conceptos básicos.
 
-* The virtual file system is represented by a `Tree`.
-    The `Tree` data structure contains a *base* \(a set of files that already exists\) and a *staging area* \(a list of changes to be applied to the base\).
-    When making modifications, you don't actually change the base, but add those modifications to the staging area.
+* El sistema de archivos virtual está representado por un `Tree`.
+    La estructura de datos `Tree` contiene una *base* \(un conjunto de archivos que ya existe\) y un *área de staging* \(una lista de cambios a aplicar a la base\).
+    Al hacer modificaciones, no cambias realmente la base, sino que agregas esas modificaciones al área de staging.
 
-* A `Rule` object defines a function that takes a `Tree`, applies transformations, and returns a new `Tree`.
-    The main file for a schematic, `index.ts`, defines a set of rules that implement the schematic's logic.
+* Un objeto `Rule` define una función que toma un `Tree`, aplica transformaciones, y devuelve un nuevo `Tree`.
+    El archivo principal para un schematic, `index.ts`, define un conjunto de reglas que implementan la lógica del schematic.
 
-* A transformation is represented by an `Action`.
-    There are four action types: `Create`, `Rename`, `Overwrite`, and `Delete`.
+* Una transformación está representada por una `Action`.
+    Hay cuatro tipos de acción: `Create`, `Rename`, `Overwrite` y `Delete`.
 
-* Each schematic runs in a context, represented by a `SchematicContext` object.
+* Cada schematic se ejecuta en un contexto, representado por un objeto `SchematicContext`.
 
-The context object passed into a rule provides access to utility functions and metadata that the schematic might need to work with, including a logging API to help with debugging.
-The context also defines a *merge strategy* that determines how changes are merged from the staged tree into the base tree.
-A change can be accepted or ignored, or throw an exception.
+El objeto de contexto pasado a una regla proporciona acceso a funciones utilitarias y metadata que el schematic podría necesitar para trabajar, incluyendo una API de logging para ayudar con la depuración.
+El contexto también define una *estrategia de fusión* que determina cómo se fusionan los cambios desde el árbol en staging en el árbol base.
+Un cambio puede ser aceptado o ignorado, o lanzar una excepción.
 
-### Defining rules and actions
+### Definiendo reglas y acciones
 
-When you create a new blank schematic with the [Schematics CLI](#schematics-cli), the generated entry function is a *rule factory*.
-A `RuleFactory` object defines a higher-order function that creates a `Rule`.
+Cuando creas un nuevo schematic en blanco con el [CLI de Schematics](#schematics-cli), la función de entrada generada es una *factory de regla*.
+Un objeto `RuleFactory` define una función de orden superior que crea una `Rule`.
 
 <docs-code header="index.ts" language="typescript">
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
-// You don't have to export the function as default.
-// You can also have more than one rule factory per file.
+// No tienes que exportar la función como predeterminada.
+// También puedes tener más de una factory de regla por archivo.
 export function helloWorld(_options: any): Rule {
  return (tree: Tree,_context: SchematicContext) => {
    return tree;
@@ -50,11 +50,11 @@ export function helloWorld(_options: any): Rule {
 
 </docs-code>
 
-Your rules can make changes to your projects by calling external tools and implementing logic.
-You need a rule, for example, to define how a template in the schematic is to be merged into the hosting project.
+Tus reglas pueden hacer cambios a tus proyectos llamando a herramientas externas e implementando lógica.
+Necesitas una regla, por ejemplo, para definir cómo una plantilla en el schematic debe ser fusionada en el proyecto host.
 
-Rules can make use of utilities provided with the `@schematics/angular` package.
-Look for helper functions for working with modules, dependencies, TypeScript, AST, JSON, Angular CLI workspaces and projects, and more.
+Las reglas pueden hacer uso de utilidades proporcionadas con el paquete `@schematics/angular`.
+Busca funciones helper para trabajar con módulos, dependencias, TypeScript, AST, JSON, workspaces y proyectos del Angular CLI, y más.
 
 <docs-code header="index.ts" language="typescript">
 
@@ -70,14 +70,14 @@ import {
 
 </docs-code>
 
-### Defining input options with a schema and interfaces
+### Definiendo opciones de entrada con un esquema e interfaces
 
-Rules can collect option values from the caller and inject them into templates.
-The options available to your rules, with their allowed values and defaults, are defined in the schematic's JSON schema file, `<schematic>/schema.json`.
-Define variable or enumerated data types for the schema using TypeScript interfaces.
+Las reglas pueden recopilar valores de opción del llamador e inyectarlos en plantillas.
+Las opciones disponibles para tus reglas, con sus valores permitidos y predeterminados, se definen en el archivo de esquema JSON del schematic, `<schematic>/schema.json`.
+Define tipos de datos variables o enumerados para el esquema usando interfaces TypeScript.
 
-The schema defines the types and default values of variables used in the schematic.
-For example, the hypothetical "Hello World" schematic might have the following schema.
+El esquema define los tipos y valores predeterminados de variables usadas en el schematic.
+Por ejemplo, el hipotético schematic "Hello World" podría tener el siguiente esquema.
 
 <docs-code header="src/hello-world/schema.json" language="json">
 
@@ -95,20 +95,20 @@ For example, the hypothetical "Hello World" schematic might have the following s
 }
 </docs-code>
 
-See examples of schema files for the Angular CLI command schematics in [`@schematics/angular`](https://github.com/angular/angular-cli/blob/main/packages/schematics/angular/application/schema.json).
+Consulta ejemplos de archivos de esquema para los schematics de comandos del Angular CLI en [`@schematics/angular`](https://github.com/angular/angular-cli/blob/main/packages/schematics/angular/application/schema.json).
 
-### Schematic prompts
+### Prompts de Schematic
 
-Schematic *prompts* introduce user interaction into schematic execution.
-Configure schematic options to display a customizable question to the user.
-The prompts are displayed before the execution of the schematic, which then uses the response as the value for the option.
-This lets users direct the operation of the schematic without requiring in-depth knowledge of the full spectrum of available options.
+Los *prompts* de schematic introducen interacción de usuario en la ejecución del schematic.
+Configura opciones del schematic para mostrar una pregunta personalizable al usuario.
+Los prompts se muestran antes de la ejecución del schematic, que luego usa la respuesta como el valor para la opción.
+Esto permite a los usuarios dirigir la operación del schematic sin requerir conocimiento profundo del espectro completo de opciones disponibles.
 
-The "Hello World" schematic might, for example, ask the user for their name, and display that name in place of the default name "world".
-To define such a prompt, add an `x-prompt` property to the schema for the `name` variable.
+El schematic "Hello World" podría, por ejemplo, preguntarle al usuario su nombre, y mostrar ese nombre en lugar del nombre predeterminado "world".
+Para definir tal prompt, agrega una propiedad `x-prompt` al esquema para la variable `name`.
 
-Similarly, you can add a prompt to let the user decide whether the schematic uses color when executing its hello action.
-The schema with both prompts would be as follows.
+Similarmente, puedes agregar un prompt para dejar que el usuario decida si el schematic usa color al ejecutar su acción hello.
+El esquema con ambos prompts sería el siguiente.
 
 <docs-code header="src/hello-world/schema.json" language="json">
 
@@ -128,35 +128,35 @@ The schema with both prompts would be as follows.
 }
 </docs-code>
 
-#### Prompt short-form syntax
+#### Sintaxis corta de prompt
 
-These examples use a shorthand form of the prompt syntax, supplying only the text of the question.
-In most cases, this is all that is required.
-Notice however, that the two prompts expect different types of input.
-When using the shorthand form, the most appropriate type is automatically selected based on the property's schema.
-In the example, the `name` prompt uses the `input` type because it is a string property.
-The `useColor` prompt uses a `confirmation` type because it is a Boolean property.
-In this case, "yes" corresponds to `true` and "no" corresponds to `false`.
+Estos ejemplos usan una forma abreviada de la sintaxis de prompt, proporcionando solo el texto de la pregunta.
+En la mayoría de los casos, esto es todo lo que se requiere.
+Nota sin embargo, que los dos prompts esperan diferentes tipos de entrada.
+Cuando se usa la forma abreviada, el tipo más apropiado se selecciona automáticamente basado en el esquema de la propiedad.
+En el ejemplo, el prompt `name` usa el tipo `input` porque es una propiedad string.
+El prompt `useColor` usa un tipo `confirmation` porque es una propiedad Boolean.
+En este caso, "yes" corresponde a `true` y "no" corresponde a `false`.
 
-There are three supported input types.
+Hay tres tipos de entrada soportados.
 
-| Input type   | Details |
+| Tipo de entrada   | Detalles |
 |:---          |:----    |
-| confirmation | A yes or no question; ideal for Boolean options.   |
-| input        | Textual input; ideal for string or number options. |
-| list         | A predefined set of allowed values.                |
+| confirmation | Una pregunta de sí o no; ideal para opciones Boolean.   |
+| input        | Entrada textual; ideal para opciones string o number. |
+| list         | Un conjunto predefinido de valores permitidos.                |
 
-In the short form, the type is inferred from the property's type and constraints.
+En la forma corta, el tipo se infiere del tipo y restricciones de la propiedad.
 
-| Property schema | Prompt type |
+| Esquema de propiedad | Tipo de prompt |
 |:---             |:---         |
 | "type": "boolean"  | confirmation \("yes"=`true`, "no"=`false`\)  |
 | "type": "string"   | input                                        |
-| "type": "number"   | input \(only valid numbers accepted\)        |
-| "type": "integer"  | input \(only valid numbers accepted\)        |
-| "enum": […] | list \(enum members become list selections\) |
+| "type": "number"   | input \(solo números válidos aceptados\)        |
+| "type": "integer"  | input \(solo números válidos aceptados\)        |
+| "enum": […] | list \(miembros enum se convierten en selecciones de lista\) |
 
-In the following example, the property takes an enumerated value, so the schematic automatically chooses the list type, and creates a menu from the possible values.
+En el siguiente ejemplo, la propiedad toma un valor enumerado, por lo que el schematic automáticamente elige el tipo list, y crea un menú desde los valores posibles.
 
 <docs-code header="schema.json" language="json">
 
@@ -176,24 +176,24 @@ In the following example, the property takes an enumerated value, so the schemat
 
 </docs-code>
 
-The prompt runtime automatically validates the provided response against the constraints provided in the JSON schema.
-If the value is not acceptable, the user is prompted for a new value.
-This ensures that any values passed to the schematic meet the expectations of the schematic's implementation, so that you do not need to add additional checks within the schematic's code.
+El runtime de prompt automáticamente valida la respuesta proporcionada contra las restricciones proporcionadas en el esquema JSON.
+Si el valor no es aceptable, se le solicita al usuario un nuevo valor.
+Esto asegura que cualquier valor pasado al schematic cumpla con las expectativas de la implementación del schematic, para que no necesites agregar verificaciones adicionales dentro del código del schematic.
 
-#### Prompt long-form syntax
+#### Sintaxis larga de prompt
 
-The `x-prompt` field syntax supports a long form for cases where you require additional customization and control over the prompt.
-In this form, the `x-prompt` field value is a JSON object with subfields that customize the behavior of the prompt.
+La sintaxis del campo `x-prompt` soporta una forma larga para casos donde requieres personalización y control adicional sobre el prompt.
+En esta forma, el valor del campo `x-prompt` es un objeto JSON con subcampos que personalizan el comportamiento del prompt.
 
-| Field   | Data value |
+| Campo   | Valor de datos |
 |:---     |:---        |
-| type    | `confirmation`, `input`, or `list` \(selected automatically in short form\) |
-| message | string \(required\)                                                         |
-| items   | string and/or label/value object pair \(only valid with type `list`\)       |
+| type    | `confirmation`, `input`, o `list` \(seleccionado automáticamente en forma corta\) |
+| message | string \(requerido\)                                                         |
+| items   | string y/o par de objeto label/value \(solo válido con tipo `list`\)       |
 
-The following example of the long form is from the JSON schema for the schematic that the CLI uses to [generate applications](https://github.com/angular/angular-cli/blob/ba8a6ea59983bb52a6f1e66d105c5a77517f062e/packages/schematics/angular/application/schema.json#L56).
-It defines the prompt that lets users choose which style preprocessor they want to use for the application being created.
-By using the long form, the schematic can provide more explicit formatting of the menu choices.
+El siguiente ejemplo de la forma larga es del esquema JSON para el schematic que el CLI usa para [generar aplicaciones](https://github.com/angular/angular-cli/blob/ba8a6ea59983bb52a6f1e66d105c5a77517f062e/packages/schematics/angular/application/schema.json#L56).
+Define el prompt que permite a los usuarios elegir qué preprocesador de estilo quieren usar para la aplicación que se está creando.
+Al usar la forma larga, el schematic puede proporcionar formato más explícito de las opciones de menú.
 
 <docs-code header="package/schematics/angular/application/schema.json" language="json">
 
@@ -221,11 +221,11 @@ By using the long form, the schematic can provide more explicit formatting of th
 
 </docs-code>
 
-#### x-prompt schema
+#### Esquema x-prompt
 
-The JSON schema that defines a schematic's options supports extensions to allow the declarative definition of prompts and their respective behavior.
-No additional logic or changes are required to the code of a schematic to support the prompts.
-The following JSON schema is a complete description of the long-form syntax for the `x-prompt` field.
+El esquema JSON que define las opciones de un schematic soporta extensiones para permitir la definición declarativa de prompts y su respectivo comportamiento.
+No se requiere lógica o cambios adicionales al código de un schematic para soportar los prompts.
+El siguiente esquema JSON es una descripción completa de la sintaxis de forma larga para el campo `x-prompt`.
 
 <docs-code header="x-prompt schema" language="json">
 
@@ -261,10 +261,10 @@ The following JSON schema is a complete description of the long-form syntax for 
 
 </docs-code>
 
-## Schematics CLI
+## CLI de Schematics
 
-Schematics come with their own command-line tool.
-Using Node 6.9 or later, install the Schematics command line tool globally:
+Los schematics vienen con su propia herramienta de línea de comandos.
+Usando Node 6.9 o posterior, instala la herramienta de línea de comandos de Schematics globalmente:
 
 <docs-code language="shell">
 
@@ -272,17 +272,17 @@ npm install -g @angular-devkit/schematics-cli
 
 </docs-code>
 
-This installs the `schematics` executable, which you can use to create a new schematics collection in its own project folder, add a new schematic to an existing collection, or extend an existing schematic.
+Esto instala el ejecutable `schematics`, que puedes usar para crear una nueva colección de schematics en su propia carpeta de proyecto, agregar un nuevo schematic a una colección existente, o extender un schematic existente.
 
-In the following sections, you will create a new schematics collection using the CLI to introduce the files and file structure, and some of the basic concepts.
+En las siguientes secciones, crearás una nueva colección de schematics usando el CLI para introducir los archivos y estructura de archivos, y algunos de los conceptos básicos.
 
-The most common use of schematics, however, is to integrate an Angular library with the Angular CLI.
-Do this by creating the schematic files directly within the library project in an Angular workspace, without using the Schematics CLI.
-See [Schematics for Libraries](tools/cli/schematics-for-libraries).
+El uso más común de schematics, sin embargo, es integrar una librería Angular con el Angular CLI.
+Haz esto creando los archivos schematic directamente dentro del proyecto de librería en un workspace Angular, sin usar el CLI de Schematics.
+Consulta [Schematics para Librerías](tools/cli/schematics-for-libraries).
 
-### Creating a schematics collection
+### Creando una colección de schematics
 
-The following command creates a new schematic named `hello-world` in a new project folder of the same name.
+El siguiente comando crea un nuevo schematic llamado `hello-world` en una nueva carpeta de proyecto del mismo nombre.
 
 <docs-code language="shell">
 
@@ -290,11 +290,11 @@ schematics blank --name=hello-world
 
 </docs-code>
 
-The `blank` schematic is provided by the Schematics CLI.
-The command creates a new project folder \(the root folder for the collection\) and an initial named schematic in the collection.
+El schematic `blank` es proporcionado por el CLI de Schematics.
+El comando crea una nueva carpeta de proyecto \(la carpeta raíz para la colección\) y un schematic con nombre inicial en la colección.
 
-Go to the collection folder, install your npm dependencies, and open your new collection in your favorite editor to see the generated files.
-For example, if you are using VS Code:
+Ve a la carpeta de la colección, instala tus dependencias npm, y abre tu nueva colección en tu editor favorito para ver los archivos generados.
+Por ejemplo, si estás usando VS Code:
 
 <docs-code language="shell">
 
@@ -305,14 +305,14 @@ code .
 
 </docs-code>
 
-The initial schematic gets the same name as the project folder, and is generated in `src/hello-world`.
-Add related schematics to this collection, and modify the generated skeleton code to define your schematic's functionality.
-Each schematic name must be unique within the collection.
+El schematic inicial obtiene el mismo nombre que la carpeta del proyecto, y se genera en `src/hello-world`.
+Agrega schematics relacionados a esta colección, y modifica el código base generado para definir la funcionalidad de tu schematic.
+Cada nombre de schematic debe ser único dentro de la colección.
 
-### Running a schematic
+### Ejecutando un schematic
 
-Use the `schematics` command to run a named schematic.
-Provide the path to the project folder, the schematic name, and any mandatory options, in the following format.
+Usa el comando `schematics` para ejecutar un schematic con nombre.
+Proporciona la ruta a la carpeta del proyecto, el nombre del schematic y cualquier opción obligatoria, en el siguiente formato.
 
 <docs-code language="shell">
 
@@ -320,8 +320,8 @@ schematics <path-to-schematics-project>:<schematics-name> --<required-option>=<v
 
 </docs-code>
 
-The path can be absolute or relative to the current working directory where the command is executed.
-For example, to run the schematic you just generated \(which has no required options\), use the following command.
+La ruta puede ser absoluta o relativa al directorio de trabajo actual donde el comando es ejecutado.
+Por ejemplo, para ejecutar el schematic que acabas de generar \(que no tiene opciones requeridas\), usa el siguiente comando.
 
 <docs-code language="shell">
 
@@ -329,9 +329,9 @@ schematics .:hello-world
 
 </docs-code>
 
-### Adding a schematic to a collection
+### Agregando un schematic a una colección
 
-To add a schematic to an existing collection, use the same command you use to start a new schematics project, but run the command inside the project folder.
+Para agregar un schematic a una colección existente, usa el mismo comando que usas para iniciar un nuevo proyecto schematics, pero ejecuta el comando dentro de la carpeta del proyecto.
 
 <docs-code language="shell">
 
@@ -340,14 +340,14 @@ schematics blank --name=goodbye-world
 
 </docs-code>
 
-The command generates the new named schematic inside your collection, with a main `index.ts` file and its associated test spec.
-It also adds the name, description, and factory function for the new schematic to the collection's schema in the `collection.json` file.
+El comando genera el nuevo schematic con nombre dentro de tu colección, con un archivo principal `index.ts` y su spec de prueba asociado.
+También agrega el nombre, descripción y función factory para el nuevo schematic al esquema de la colección en el archivo `collection.json`.
 
-## Collection contents
+## Contenido de la colección
 
-The top level of the root project folder for a collection contains configuration files, a `node_modules` folder, and a `src/` folder.
-The `src/` folder contains subfolders for named schematics in the collection, and a schema, `collection.json`, which describes the collected schematics.
-Each schematic is created with a name, description, and factory function.
+El nivel superior de la carpeta raíz del proyecto para una colección contiene archivos de configuración, una carpeta `node_modules`, y una carpeta `src/`.
+La carpeta `src/` contiene subcarpetas para schematics con nombre en la colección, y un esquema, `collection.json`, que describe los schematics recopilados.
+Cada schematic se crea con un nombre, descripción y función factory.
 
 <docs-code language="json">
 
@@ -364,36 +364,36 @@ Each schematic is created with a name, description, and factory function.
 
 </docs-code>
 
-* The `$schema` property specifies the schema that the CLI uses for validation.
-* The `schematics` property lists named schematics that belong to this collection.
-    Each schematic has a plain-text description, and points to the generated entry function in the main file.
+* La propiedad `$schema` especifica el esquema que el CLI usa para validación.
+* La propiedad `schematics` lista schematics con nombre que pertenecen a esta colección.
+    Cada schematic tiene una descripción de texto plano, y apunta a la función de entrada generada en el archivo principal.
 
-* The `factory` property points to the generated entry function.
-    In this example, you invoke the `hello-world` schematic by calling the `helloWorld()` factory function.
+* La propiedad `factory` apunta a la función de entrada generada.
+    En este ejemplo, invocas el schematic `hello-world` llamando a la función factory `helloWorld()`.
 
-* The optional  `schema` property points to a JSON schema file that defines the command-line options available to the schematic.
-* The optional `aliases` array specifies one or more strings that can be used to invoke the schematic.
-    For example, the schematic for the Angular CLI "generate" command has an alias "g", that lets you use the command `ng g`.
+* La propiedad opcional `schema` apunta a un archivo de esquema JSON que define las opciones de línea de comandos disponibles para el schematic.
+* El array opcional `aliases` especifica una o más cadenas que pueden usarse para invocar el schematic.
+    Por ejemplo, el schematic para el comando "generate" del Angular CLI tiene un alias "g", que te permite usar el comando `ng g`.
 
-### Named schematics
+### Schematics con nombre
 
-When you use the Schematics CLI to create a blank schematics project, the new blank schematic is the first member of the collection, and has the same name as the collection.
-When you add a new named schematic to this collection, it is automatically added to the  `collection.json`  schema.
+Cuando usas el CLI de Schematics para crear un proyecto schematics en blanco, el nuevo schematic en blanco es el primer miembro de la colección, y tiene el mismo nombre que la colección.
+Cuando agregas un nuevo schematic con nombre a esta colección, se agrega automáticamente al esquema `collection.json`.
 
-In addition to the name and description, each schematic has a `factory` property that identifies the schematic's entry point.
-In the example, you invoke the schematic's defined functionality by calling the `helloWorld()` function in the main file,  `hello-world/index.ts`.
+Además del nombre y descripción, cada schematic tiene una propiedad `factory` que identifica el punto de entrada del schematic.
+En el ejemplo, invocas la funcionalidad definida del schematic llamando a la función `helloWorld()` en el archivo principal, `hello-world/index.ts`.
 
 <img alt="overview" src="assets/images/guide/schematics/collection-files.gif">
 
-Each named schematic in the collection has the following main parts.
+Cada schematic con nombre en la colección tiene las siguientes partes principales.
 
-| Parts          | Details |
+| Partes          | Detalles |
 |:---            |:---     |
-| `index.ts`     | Code that defines the transformation logic for a named schematic.  |
-| `schema.json`  | Schematic variable definition.                                     |
-| `schema.d.ts`  | Schematic variables.                                               |
-| `files/`       | Optional component/template files to replicate.                    |
+| `index.ts`     | Código que define la lógica de transformación para un schematic con nombre.  |
+| `schema.json`  | Definición de variable schematic.                                     |
+| `schema.d.ts`  | Variables schematic.                                               |
+| `files/`       | Archivos de componente/plantilla opcionales a replicar.                    |
 
-It is possible for a schematic to provide all of its logic in the `index.ts` file, without additional templates.
-You can create dynamic schematics for Angular, however, by providing components and templates in the `files` folder, like those in standalone Angular projects.
-The logic in the index file configures these templates by defining rules that inject data and modify variables.
+Es posible que un schematic proporcione toda su lógica en el archivo `index.ts`, sin plantillas adicionales.
+Puedes crear schematics dinámicos para Angular, sin embargo, proporcionando componentes y plantillas en la carpeta `files`, como aquellos en proyectos Angular independientes.
+La lógica en el archivo index configura estas plantillas definiendo reglas que inyectan datos y modifican variables.
