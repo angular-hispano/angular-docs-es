@@ -1,27 +1,27 @@
-# Resolving zone pollution
+# Resolviendo la contaminación de zone
 
-**Zone.js** is a signaling mechanism that Angular uses to detect when an application state might have changed. It captures asynchronous operations like `setTimeout`, network requests, and event listeners. Angular schedules change detection based on signals from Zone.js.
+**Zone.js** es un mecanismo de señalización que Angular usa para detectar cuándo el estado de una aplicación podría haber cambiado. Captura operaciones asíncronas como `setTimeout`, peticiones de red y escuchadores de eventos. Angular programa el change detection basándose en señales de Zone.js.
 
-In some cases scheduled [tasks](https://developer.mozilla.org/docs/Web/API/HTML_DOM_API/Microtask_guide#tasks) or [microtasks](https://developer.mozilla.org/docs/Web/API/HTML_DOM_API/Microtask_guide#microtasks) don’t make any changes in the data model, which makes running change detection unnecessary. Common examples are:
+En algunos casos, las [tareas](https://developer.mozilla.org/docs/Web/API/HTML_DOM_API/Microtask_guide#tasks) o [microtareas](https://developer.mozilla.org/docs/Web/API/HTML_DOM_API/Microtask_guide#microtasks) programadas no hacen ningún cambio en el modelo de datos, lo que hace que ejecutar change detection sea innecesario. Ejemplos comunes son:
 
-* `requestAnimationFrame`, `setTimeout` or `setInterval`
-* Task or microtask scheduling by third-party libraries
+* `requestAnimationFrame`, `setTimeout` o `setInterval`
+* Programación de tareas o microtareas por bibliotecas de terceros
 
-This section covers how to identify such conditions, and how to run code outside the Angular zone to avoid unnecessary change detection calls.
+Esta sección cubre cómo identificar tales condiciones, y cómo ejecutar código fuera de la zone de Angular para evitar llamadas innecesarias de change detection.
 
-## Identifying unnecessary change detection calls
+## Identificando llamadas innecesarias de change detection
 
-You can detect unnecessary change detection calls using Angular DevTools. Often they appear as consecutive bars in the profiler’s timeline with source `setTimeout`, `setInterval`, `requestAnimationFrame`, or an event handler. When you have limited calls within your application of these APIs, the change detection invocation is usually caused by a third-party library.
+Puedes detectar llamadas innecesarias de change detection usando Angular DevTools. A menudo aparecen como barras consecutivas en la línea de tiempo del perfilador con origen `setTimeout`, `setInterval`, `requestAnimationFrame`, o un manejador de eventos. Cuando tienes llamadas limitadas dentro de tu aplicación de estas APIs, la invocación de change detection usualmente es causada por una biblioteca de terceros.
 
-<img alt="Angular DevTools profiler preview showing Zone pollution" src="assets/images/best-practices/runtime-performance/zone-pollution.png">
+<img alt="Vista previa del perfilador de Angular DevTools mostrando contaminación de zone" src="assets/images/best-practices/runtime-performance/zone-pollution.png">
 
-In the image above, there is a series of change detection calls triggered by event handlers associated with an element. That’s a common challenge when using third-party, non-native Angular components, which do not alter the default behavior of `NgZone`.
+En la imagen anterior, hay una serie de llamadas de change detection disparadas por manejadores de eventos asociados con un elemento. Ese es un desafío común al usar componentes de terceros no nativos de Angular, que no alteran el comportamiento predeterminado de `NgZone`.
 
-## Run tasks outside `NgZone`
+## Ejecutar tareas fuera de `NgZone`
 
-In such cases, you can instruct Angular to avoid calling change detection for tasks scheduled by a given piece of code using [NgZone](/api/core/NgZone).
+En tales casos, puedes indicarle a Angular que evite llamar change detection para tareas programadas por un fragmento de código dado usando [NgZone](/api/core/NgZone).
 
-<docs-code header="Run outside of the Zone" language='ts' linenums>
+<docs-code header="Ejecutar fuera de la Zone" language='ts' linenums>
 import { Component, NgZone, OnInit } from '@angular/core';
 
 @Component(...)
@@ -34,11 +34,11 @@ class AppComponent implements OnInit {
 }
 </docs-code>
 
-The preceding snippet instructs Angular to call `setInterval` outside the Angular Zone and skip running change detection after `pollForUpdates` runs.
+El fragmento anterior le indica a Angular que llame `setInterval` fuera de la Zone de Angular y omita ejecutar change detection después de que `pollForUpdates` se ejecute.
 
-Third-party libraries commonly trigger unnecessary change detection cycles when their APIs are invoked within the Angular zone. This phenomenon particularly affects libraries that set up event listeners or initiate other tasks (such as timers, XHR requests, etc.). Avoid these extra cycles by calling library APIs outside the Angular zone:
+Las bibliotecas de terceros comúnmente disparan ciclos innecesarios de change detection cuando sus APIs son invocadas dentro de la zone de Angular. Este fenómeno afecta particularmente a bibliotecas que configuran escuchadores de eventos o inician otras tareas (como temporizadores, peticiones XHR, etc.). Evita estos ciclos adicionales llamando a las APIs de la biblioteca fuera de la zone de Angular:
 
-<docs-code header="Move the plot initialization outside of the Zone" language='ts' linenums>
+<docs-code header="Mover la inicialización del gráfico fuera de la Zone" language='ts' linenums>
 import { Component, NgZone, OnInit } from '@angular/core';
 import * as Plotly from 'plotly.js-dist-min';
 
@@ -54,13 +54,13 @@ class AppComponent implements OnInit {
 }
 </docs-code>
 
-Running `Plotly.newPlot('chart', data);` within `runOutsideAngular` instructs the framework that it shouldn’t run change detection after the execution of tasks scheduled by the initialization logic.
+Ejecutar `Plotly.newPlot('chart', data);` dentro de `runOutsideAngular` le indica al framework que no debe ejecutar change detection después de la ejecución de tareas programadas por la lógica de inicialización.
 
-For example, if `Plotly.newPlot('chart', data)` adds event listeners to a DOM element, Angular does not run change detection after the execution of their handlers.
+Por ejemplo, si `Plotly.newPlot('chart', data)` agrega escuchadores de eventos a un elemento DOM, Angular no ejecuta change detection después de la ejecución de sus manejadores.
 
-But sometimes, you may need to listen to events dispatched by third-party APIs. In such cases, it's important to remember that those event listeners will also execute outside of the Angular zone if the initialization logic was done there:
+Pero a veces, puedes necesitar escuchar eventos despachados por APIs de terceros. En tales casos, es importante recordar que esos escuchadores de eventos también se ejecutarán fuera de la zone de Angular si la lógica de inicialización se realizó allí:
 
-<docs-code header="Check whether the handler is called outside of the Zone" language='ts' linenums>
+<docs-code header="Verificar si el manejador es llamado fuera de la Zone" language='ts' linenums>
 import { Component, NgZone, OnInit, output } from '@angular/core';
 import * as Plotly from 'plotly.js-dist-min';
 
@@ -80,9 +80,9 @@ class AppComponent implements OnInit {
     const plotly = await Plotly.newPlot('chart', data);
 
     plotly.on('plotly_click', (event: Plotly.PlotMouseEvent) => {
-      // This handler will be called outside of the Angular zone because
-      // the initialization logic is also called outside of the zone. To check
-      // whether we're in the Angular zone, we can call the following:
+      // Este manejador será llamado fuera de la zone de Angular porque
+      // la lógica de inicialización también es llamada fuera de la zone. Para verificar
+      // si estamos en la zone de Angular, podemos llamar lo siguiente:
       console.log(NgZone.isInAngularZone());
       this.plotlyClick.emit(event);
     });
@@ -90,9 +90,9 @@ class AppComponent implements OnInit {
 }
 </docs-code>
 
-If you need to dispatch events to parent components and execute specific view update logic, you should consider re-entering the Angular zone to instruct the framework to run change detection or run change detection manually:
+Si necesitas despachar eventos a componentes padres y ejecutar lógica específica de actualización de vista, debes considerar volver a entrar a la zone de Angular para indicarle al framework que ejecute change detection o ejecutar change detection manualmente:
 
-<docs-code header="Re-enter the Angular zone when dispatching event" language='ts' linenums>
+<docs-code header="Volver a entrar a la zone de Angular al despachar evento" language='ts' linenums>
 import { Component, NgZone, OnInit, output } from '@angular/core';
 import * as Plotly from 'plotly.js-dist-min';
 
@@ -120,4 +120,4 @@ class AppComponent implements OnInit {
 }
 </docs-code>
 
-The scenario of dispatching events outside of the Angular zone may also arise. It's important to remember that triggering change detection (for example, manually) may result in the creation/update of views outside of the Angular zone.
+El escenario de despachar eventos fuera de la zone de Angular también puede surgir. Es importante recordar que disparar change detection (por ejemplo, manualmente) puede resultar en la creación/actualización de vistas fuera de la zone de Angular.
