@@ -1,54 +1,54 @@
-# Angular Internationalization (i18n)
+# Internacionalización de Angular (i18n)
 
-*Internationalization*, sometimes referenced as i18n, is the process of designing and preparing your project for use in different locales around the world.
-*Localization* is the process of building versions of your project for different locales.
-The localization process includes the following actions.
+La *internacionalización*, a veces referenciada como i18n, es el proceso de diseñar y preparar tu proyecto para su uso en diferentes configuraciones regionales (locales) alrededor del mundo.
+La *localización* es el proceso de construir versiones de tu proyecto para diferentes configuraciones regionales.
+El proceso de localización incluye las siguientes acciones.
 
-* Extract text for translation into different languages
-* Format data for a specific locale
+* Extraer texto para traducción a diferentes idiomas
+* Formatear datos para una configuración regional específica
 
-A *locale* identifies a region in which people speak a particular language or language variant.
-Possible regions include countries and geographical regions.
-A locale determines the formatting and parsing of the following details.
+Una *configuración regional* (locale) identifica una región en la que las personas hablan un idioma particular o variante del idioma.
+Las posibles regiones incluyen países y regiones geográficas.
+Una configuración regional determina el formato y análisis de los siguientes detalles.
 
-* Measurement units including date and time, numbers, and currencies
-* Translated names including time zones, languages, and countries
+* Unidades de medida incluyendo fecha y hora, números y monedas
+* Nombres traducidos incluyendo zonas horarias, idiomas y países
 
-For a quick introduction to localization and internationalization watch this video:
+Para una introducción rápida a la localización e internacionalización mira este video:
 
 <docs-video src="https://www.youtube.com/embed/KNTN-nsbV7M"/>
 
-## Learn about Angular internationalization
+## Aprende sobre la internacionalización de Angular
 
 <docs-card-container>
-  <docs-card title="Add the localize package" href="guide/i18n/add-package">
-    Learn how to add the Angular Localize package to your project
+  <docs-card title="Agregar el paquete localize" href="guide/i18n/add-package">
+    Aprende cómo agregar el paquete Angular Localize a tu proyecto
   </docs-card>
-  <docs-card title="Refer to locales by ID" href="guide/i18n/locale-id">
-    Learn how to identify and specify a locale identifier for your project
+  <docs-card title="Referirse a configuraciones regionales por ID" href="guide/i18n/locale-id">
+    Aprende cómo identificar y especificar un identificador de configuración regional para tu proyecto
   </docs-card>
-  <docs-card title="Format data based on locale" href="guide/i18n/format-data-locale">
-    Learn how to implement localized data pipes and override the locale for your project
+  <docs-card title="Formatear datos según la configuración regional" href="guide/i18n/format-data-locale">
+    Aprende cómo implementar pipes de datos localizados y sobrescribir la configuración regional de tu proyecto
   </docs-card>
-  <docs-card title="Prepare component for translation" href="guide/i18n/prepare">
-    Learn how to specify source text for translation
+  <docs-card title="Preparar un componente para traducción" href="guide/i18n/prepare">
+    Aprende cómo especificar texto fuente para traducción
   </docs-card>
-  <docs-card title="Work with translation files" href="guide/i18n/translation-files">
-    Learn how to review and process translation text
+  <docs-card title="Trabajar con archivos de traducción" href="guide/i18n/translation-files">
+    Aprende cómo revisar y procesar texto de traducción
   </docs-card>
-  <docs-card title="Merge translations into the application" href="guide/i18n/merge">
-    Learn how to merge translations and build your translated application
+  <docs-card title="Fusionar traducciones en la aplicación" href="guide/i18n/merge">
+    Aprende cómo fusionar traducciones y construir tu aplicación traducida
   </docs-card>
-  <docs-card title="Deploy multiple locales" href="guide/i18n/deploy">
-    Learn how to deploy multiple locales for your application
+  <docs-card title="Desplegar múltiples configuraciones regionales" href="guide/i18n/deploy">
+    Aprende cómo desplegar múltiples configuraciones regionales para tu aplicación
   </docs-card>
-  <docs-card title="Import global variants of the locale data" href="guide/i18n/import-global-variants">
-    Learn how to import locale data for language variants
+  <docs-card title="Importar variantes globales de datos de configuración regional" href="guide/i18n/import-global-variants">
+    Aprende cómo importar datos de configuración regional para variantes de idioma
   </docs-card>
-  <docs-card title="Manage marked text with custom IDs" href="guide/i18n/manage-marked-text">
-    Learn how to implement custom IDs to help you manage your marked text
+  <docs-card title="Gestionar texto marcado con IDs personalizados" href="guide/i18n/manage-marked-text">
+    Aprende cómo implementar IDs personalizados para ayudarte a gestionar tu texto marcado
   </docs-card>
-  <docs-card title="Internationalization example" href="guide/i18n/example">
-    Review an example of Angular internationalization.
+  <docs-card title="Ejemplo de internacionalización" href="guide/i18n/example">
+    Revisa un ejemplo de internacionalización de Angular.
   </docs-card>
 </docs-card-container>
