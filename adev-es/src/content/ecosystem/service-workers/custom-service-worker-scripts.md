@@ -1,52 +1,52 @@
-# Custom service worker scripts
+# Scripts personalizados de service worker
 
-While the Angular service worker provides excellent capabilities, you may need to add custom functionality such as handling push notifications, background sync, or other service worker events. You can create a custom service worker script that imports and extends the Angular service worker.
+Aunque el service worker de Angular ofrece excelentes capacidades, es posible que necesites agregar funcionalidad personalizada, como manejar notificaciones push, sincronización en segundo plano u otros eventos de service worker. Puedes crear un script de service worker personalizado que importe y amplíe el service worker de Angular.
 
-## Creating a custom service worker
+## Crear un service worker personalizado
 
-To create a custom service worker that extends Angular's functionality:
+Para crear un service worker personalizado que extienda la funcionalidad de Angular:
 
-1. Create a custom service worker file (e.g., `custom-sw.js`) in your `src` directory:
+1. Crea un archivo de service worker personalizado (por ejemplo, `custom-sw.js`) en tu directorio `src`:
 
 ```js
-// Import the Angular service worker
+// Importa el service worker de Angular
 importScripts('./ngsw-worker.js');
 
 (function () {
   'use strict';
 
-  // Add custom notification click handler
+  // Agrega un manejador personalizado para el clic en notificaciones
   self.addEventListener('notificationclick', (event) => {
-    console.log('Custom notification click handler');
-    console.log('Notification details:', event.notification);
-
-    // Handle notification click - open URL if provided
+    console.log('Manejador personalizado de clic en notificaciones');
+    console.log('Detalles de la notificación:', event.notification);
+    
+    // Gestiona el clic en la notificación: abre la URL si está disponible
     if (clients.openWindow && event.notification.data.url) {
       event.waitUntil(clients.openWindow(event.notification.data.url));
-      console.log('Opening URL:', event.notification.data.url);
+      console.log('Abriendo URL:', event.notification.data.url);
     }
   });
 
-  // Add custom background sync handler
+  // Agrega un manejador personalizado para sincronización en segundo plano
   self.addEventListener('sync', (event) => {
-    console.log('Custom background sync handler');
-
+    console.log('Manejador personalizado de sincronización en segundo plano');
+    
     if (event.tag === 'background-sync') {
       event.waitUntil(doBackgroundSync());
     }
   });
 
   function doBackgroundSync() {
-    // Implement your background sync logic here
+    // Implementa aquí la lógica de sincronización en segundo plano
     return fetch('https://example.com/api/sync')
-      .then((response) => response.json())
-      .then((data) => console.log('Background sync completed:', data))
-      .catch((error) => console.error('Background sync failed:', error));
+      .then(response => response.json())
+      .then(data => console.log('Sincronización en segundo plano completa:', data))
+      .catch(error => console.error('La sincronización en segundo plano falló:', error));
   }
 })();
 ```
 
-2. Update your `angular.json` file to use the custom service worker:
+2. Actualiza tu archivo `angular.json` para usar el service worker personalizado:
 
 ```json
 {
@@ -70,7 +70,7 @@ importScripts('./ngsw-worker.js');
 }
 ```
 
-3. Configure the service worker registration to use your custom script:
+3. Configura el registro del service worker para usar tu script personalizado:
 
 ```ts
 import { ApplicationConfig, isDevMode } from '@angular/core';
@@ -86,20 +86,20 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-### Best practices for custom service workers
+### Mejores prácticas para service workers personalizados
 
-When extending the Angular service worker:
+Al extender el service worker de Angular:
 
-- **Always import the Angular service worker first** using `importScripts('./ngsw-worker.js')` to ensure you get all the caching and update functionality
-- **Wrap your custom code in an IIFE** (Immediately Invoked Function Expression) to avoid polluting the global scope
-- **Use `event.waitUntil()`** for asynchronous operations to ensure they complete before the service worker is terminated
-- **Test thoroughly** in both development and production environments
-- **Handle errors gracefully** to prevent your custom code from breaking the Angular service worker functionality
+- **Importa siempre primero el service worker de Angular** mediante `importScripts('./ngsw-worker.js')` para asegurarte de conservar toda la funcionalidad de caché y actualización.
+- **Envuelve tu código personalizado en un IIFE** (Immediately Invoked Function Expression) para evitar contaminar el ámbito global.
+- **Usa `event.waitUntil()`** en las operaciones asíncronas para garantizar que finalicen antes de que el service worker se termine.
+- **Prueba exhaustivamente** en entornos de desarrollo y producción.
+- **Maneja los errores con cuidado** para evitar que tu código personalizado rompa la funcionalidad del service worker de Angular.
 
-### Common use cases
+### Casos de uso comunes
 
-Custom service workers are commonly used for:
+Los service workers personalizados se utilizan con frecuencia para:
 
-- **Push notifications**: Handle incoming push messages and display notifications
-- **Background sync**: Sync data when the network connection is restored
-- **Custom navigation**: Handle special routing or offline page scenarios
+- **Notificaciones push**: manejar mensajes push entrantes y mostrar notificaciones
+- **Sincronización en segundo plano**: sincronizar datos cuando se restablece la conexión de red  
+- **Navegación personalizada**: gestionar escenarios especiales de routing o páginas offline
