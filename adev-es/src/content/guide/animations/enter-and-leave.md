@@ -1,17 +1,17 @@
-# Animating your applications with `animate.enter` and `animate.leave`
+# Animando tus aplicaciones con `animate.enter` y `animate.leave`
 
-Well-designed animations can make your application more fun and straightforward to use, but they aren't just cosmetic.
-Animations can improve your application and user experience in a number of ways:
+Las animaciones bien diseñadas pueden hacer que tu aplicación sea más divertida y fácil de usar, pero no son solo cosméticas.
+Las animaciones pueden mejorar tu aplicación y la experiencia del usuario de varias maneras:
 
-* Without animations, web page transitions can seem abrupt and jarring
-* Motion greatly enhances the user experience, so animations give users a chance to detect the application's response to their actions
-* Good animations can smoothly direct the user's attention throughout a workflow
+* Sin animaciones, las transiciones de páginas web pueden parecer abruptas y bruscas
+* El movimiento mejora enormemente la experiencia del usuario, así que las animaciones dan a los usuarios la oportunidad de detectar la respuesta de la aplicación a sus acciones
+* Las buenas animaciones pueden dirigir suavemente la atención del usuario a lo largo de un flujo de trabajo
 
-Angular provides `animate.enter` and `animate.leave` to animate your application's elements. These two features apply enter and leave CSS classes at the appropriate times or call functions to apply animations from third party libraries. `animate.enter` and `animate.leave` are not directives. They are special API supported directly by the Angular compiler. They can be used on elements directly and can also be used as a host binding.
+Angular proporciona `animate.enter` y `animate.leave` para animar los elementos de tu aplicación. Estas dos características aplican clases CSS de entrada y salida en los momentos apropiados o llaman funciones para aplicar animaciones de bibliotecas de terceros. `animate.enter` y `animate.leave` no son directivas. Son APIs especiales soportadas directamente por el compilador de Angular. Pueden ser usadas en elementos directamente y también pueden ser usadas como un enlace host.
 
 ## `animate.enter`
 
-You can use `animate.enter` to animate elements as they _enter_ the DOM. You can define enter animations using CSS classes with either transitions or keyframe animations.
+Puedes usar `animate.enter` para animar elementos a medida que _entran_ al DOM. Puedes definir animaciones de entrada usando clases CSS con transiciones o animaciones de keyframes.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/enter.ts">
     <docs-code header="src/app/enter.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/enter.ts" />
@@ -19,13 +19,13 @@ You can use `animate.enter` to animate elements as they _enter_ the DOM. You can
     <docs-code header="src/app/enter.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/enter.css"/>
 </docs-code-multifile>
 
-When the animation completes, Angular removes the class or classes that you specified in `animate.enter` from the DOM. Animation classes are only be present while the animation is active.
+Cuando la animación se completa, Angular elimina la clase o clases que especificaste en `animate.enter` del DOM. Las clases de animación solo están presentes mientras la animación está activa.
 
-NOTE: When using multiple keyframe animations or transition properties on an element, Angular removes all classes only _after_ the longest animation has completed.
+NOTA: Cuando se usan múltiples animaciones de keyframes o propiedades de transición en un elemento, Angular elimina todas las clases solo _después_ de que la animación más larga se haya completado.
 
-You can use `animate.enter` with any other Angular features, such as control flow or dynamic expressions. `animate.enter` accepts both a single class string (with multiple classes separated by spaces), or an array of class strings.
+Puedes usar `animate.enter` con cualquier otra característica de Angular, como control de flujo o expresiones dinámicas. `animate.enter` acepta tanto una cadena de clase única (con múltiples clases separadas por espacios), o un array de cadenas de clases.
 
-A quick note about using CSS transitions: If you choose to use transitions instead of keyframe animations, the classes added to the element with `animate.enter` represent the state that the transition will animate _to_. Your base element CSS is what the element will look like when no animations run, which is likely similar to the end state of the CSS transition. So you would still need to pair it with `@starting-style` to have an appropriate _from_ state for your transition to work.
+Una nota rápida sobre el uso de transiciones CSS: Si eliges usar transiciones en lugar de animaciones de keyframes, las clases agregadas al elemento con `animate.enter` representan el estado al que la transición animará. Tu CSS de elemento base es cómo se verá el elemento cuando no se ejecuten animaciones, lo cual es probablemente similar al estado final de la transición CSS. Así que todavía necesitarías emparejarlo con `@starting-style` para tener un estado _desde_ apropiado para que tu transición funcione.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/enter-binding.ts">
     <docs-code header="src/app/enter-binding.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/enter-binding.ts" />
@@ -35,7 +35,7 @@ A quick note about using CSS transitions: If you choose to use transitions inste
 
 ## `animate.leave`
 
-You can use `animate.leave` to animate elements as they _leave_ the DOM. You can define leave animations using CSS classes with either transforms or keyframe animations.
+Puedes usar `animate.leave` para animar elementos a medida que _salen_ del DOM. Puedes definir animaciones de salida usando clases CSS con transformaciones o animaciones de keyframes.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/leave.ts">
     <docs-code header="src/app/leave.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave.ts" />
@@ -43,11 +43,11 @@ You can use `animate.leave` to animate elements as they _leave_ the DOM. You can
     <docs-code header="src/app/leave.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave.css"/>
 </docs-code-multifile>
 
-When the animation completes, Angular automatically removes the animated element from the DOM.
+Cuando la animación se completa, Angular elimina automáticamente el elemento animado del DOM.
 
-NOTE: When using multiple keyframe animations or transition properties on a an element, Angular waits to remove the element only _after_ the longest of those animations has completed.
+NOTA: Cuando se usan múltiples animaciones de keyframes o propiedades de transición en un elemento, Angular espera para eliminar el elemento solo _después_ de que la más larga de esas animaciones se haya completado.
 
-`animate.leave` can also be used with signals, and other bindings. You can use `animate.leave` with a single class or multiple classes. Either specify it as a simple string with spaces or a string array.
+`animate.leave` también puede ser usado con signals y otros enlaces. Puedes usar `animate.leave` con una clase única o múltiples clases. Ya sea especificándolo como una cadena simple con espacios o un array de cadenas.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-binding.ts">
     <docs-code header="src/app/leave-binding.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-binding.ts" />
@@ -55,9 +55,9 @@ NOTE: When using multiple keyframe animations or transition properties on a an e
     <docs-code header="src/app/leave-binding.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-binding.css"/>
 </docs-code-multifile>
 
-## Event Bindings, Functions, and Third-party Libraries
+## Enlaces de eventos, funciones y bibliotecas de terceros
 
-Both `animate.enter` and `animate.leave` support event binding syntax that allows for function calls. You can use this syntax to call a function in your component code or utilize third-party animation libraries, like [GSAP](https://gsap.com/), [anime.js](https://animejs.com/), or any other JavaScript animation library.
+Tanto `animate.enter` como `animate.leave` soportan sintaxis de enlace de eventos que permite llamadas a funciones. Puedes usar esta sintaxis para llamar a una función en el código de tu componente o utilizar bibliotecas de animación de terceros, como [GSAP](https://gsap.com/), [anime.js](https://animejs.com/), o cualquier otra biblioteca de animación JavaScript.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-event.ts">
     <docs-code header="src/app/leave-event.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-event.ts" />
@@ -65,33 +65,33 @@ Both `animate.enter` and `animate.leave` support event binding syntax that allow
     <docs-code header="src/app/leave-event.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-event.css"/>
 </docs-code-multifile>
 
-The `$event` object has the type `AnimationCallbackEvent`. It includes the element as the `target` and provides an `animationComplete()` function to notify the framework when the animation finishes.
+El objeto `$event` tiene el tipo `AnimationCallbackEvent`. Incluye el elemento como el `target` y proporciona una función `animationComplete()` para notificar al framework cuando la animación termina.
 
-IMPORTANT: You **must** call the `animationComplete()` function when using `animate.leave` for Angular to remove the element.
+IMPORTANTE: **Debes** llamar a la función `animationComplete()` cuando uses `animate.leave` para que Angular elimine el elemento.
 
-If you don't call `animationComplete()` when using `animate.leave`, Angular calls the function automatically after a four-second delay. You can configure the duration of the delay by providing the token `MAX_ANIMATION_TIMEOUT` in milliseconds.
+Si no llamas a `animationComplete()` cuando usas `animate.leave`, Angular llama a la función automáticamente después de un retraso de cuatro segundos. Puedes configurar la duración del retraso proporcionando el token `MAX_ANIMATION_TIMEOUT` en milisegundos.
 
 ```typescript
   { provide: MAX_ANIMATION_TIMEOUT, useValue: 6000 }
 ```
 
-## Testing
+## Pruebas
 
-TestBed provides built-in support for enabling or disabling animations in your test environment. CSS animations require a browser to run, and many of the APIs are not available in a test environment. By default, TestBed disables animations for you in your test environments.
+TestBed proporciona soporte integrado para habilitar o deshabilitar animaciones en tu entorno de prueba. Las animaciones CSS requieren un navegador para ejecutarse, y muchas de las APIs no están disponibles en un entorno de prueba. Por defecto, TestBed deshabilita las animaciones para ti en tus entornos de prueba.
 
-If you want to test that the animations are animating in a browser test, for example an end-to-end test, you can configure TestBed to enable animations by specifying `animationsEnabled: true` in your test configuration.
+Si quieres probar que las animaciones están animando en una prueba de navegador, por ejemplo una prueba end-to-end, puedes configurar TestBed para habilitar animaciones especificando `animationsEnabled: true` en tu configuración de prueba.
 
 ```typescript
   TestBed.configureTestingModule({animationsEnabled: true});
 ```
 
-This will configure animations in your test environment to behave normally.
+Esto configurará las animaciones en tu entorno de prueba para que se comporten normalmente.
 
-NOTE: Some test environments do not emit animation events like `animationstart`, `animationend` and their transition event equivalents.
+NOTA: Algunos entornos de prueba no emiten eventos de animación como `animationstart`, `animationend` y sus equivalentes de eventos de transición.
 
-## More on Angular animations
+## Más sobre animaciones de Angular
 
-You might also be interested in the following:
+También puede que te interese lo siguiente:
 
 <docs-pill-row>
   <docs-pill href="guide/animations/css" title="Complex Animations with CSS"/>
