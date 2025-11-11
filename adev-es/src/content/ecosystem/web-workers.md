@@ -1,13 +1,13 @@
-# Background processing using web workers
+# Procesamiento en segundo plano con web workers
 
-[Web workers](https://developer.mozilla.org/docs/Web/API/Web_Workers_API) let you run CPU-intensive computations in a background thread, freeing the main thread to update the user interface.
-Application's performing a lot of computations, like generating Computer-Aided Design \(CAD\) drawings or doing heavy geometric calculations, can use web workers to increase performance.
+Los [web workers](https://developer.mozilla.org/es/docs/Web/API/Web_Workers_API) te permiten ejecutar cálculos con uso intensivo de CPU en un hilo en segundo plano, liberando el hilo principal para actualizar la interfaz de usuario.
+Las aplicaciones que realizan muchos cálculos, como generar dibujos de diseño asistido por computadora (CAD) o llevar a cabo operaciones geométricas complejas, pueden usar web workers para aumentar el rendimiento.
 
-HELPFUL: The Angular CLI does not support running itself in a web worker.
+ÚTIL: Angular CLI no permite ejecutarse a sí mismo dentro de un web worker.
 
-## Adding a web worker
+## Agregar un web worker
 
-To add a web worker to an existing project, use the Angular CLI `ng generate` command.
+Para agregar un web worker a un proyecto existente, usa el comando `ng generate` de Angular CLI.
 
 <docs-code language="shell">
 
@@ -15,8 +15,8 @@ ng generate web-worker <location>
 
 </docs-code>
 
-You can add a web worker anywhere in your application.
-For example, to add a web worker to the root component, `src/app/app.component.ts`, run the following command.
+Puedes agregar un web worker en cualquier parte de tu aplicación.
+Por ejemplo, para agregar un web worker al componente raíz, `src/app/app.component.ts`, ejecuta el siguiente comando.
 
 <docs-code language="shell">
 
@@ -24,10 +24,10 @@ ng generate web-worker app
 
 </docs-code>
 
-The command performs the following actions.
+El comando realiza las siguientes acciones.
 
-1. Configures your project to use web workers, if it isn't already.
-1. Adds the following scaffold code to `src/app/app.worker.ts` to  receive messages.
+1. Configura tu proyecto para usar web workers, si aún no lo estaba.
+1. Agrega el siguiente código base en `src/app/app.worker.ts` para recibir mensajes.
 
     <docs-code language="typescript" header="src/app/app.worker.ts">
 
@@ -38,26 +38,26 @@ The command performs the following actions.
 
     </docs-code>
 
-1. Adds the following scaffold code to `src/app/app.component.ts` to use the worker.
+1. Agrega el siguiente siguiente código base en `src/app/app.component.ts` para usar el worker.
 
     <docs-code language="typescript" header="src/app/app.component.ts">
 
     if (typeof Worker !== 'undefined') {
-      // Create a new
+      // Crear uno nuevo
       const worker = new Worker(new URL('./app.worker', import.meta.url));
       worker.onmessage = ({ data }) => {
         console.log(`page got message: ${data}`);
       };
       worker.postMessage('hello');
     } else {
-      // Web workers are not supported in this environment.
-      // You should add a fallback so that your program still executes correctly.
+      // Web workers no están soportados en este entorno.
+      // Debes agregar un plan alternativo para que tu programa siga funcionando correctamente.
     }
 
     </docs-code>
 
-After you create this initial scaffold, you must refactor your code to use the web worker by sending messages to and from the worker.
+Después de crear este siguiente código base, debes refactorizar tu código para usar el web worker enviando y recibiendo mensajes.
 
-IMPORTANT: Some environments or platforms, such as `@angular/platform-server` used in [Server-side Rendering](guide/ssr), don't support web workers.
+IMPORTANTE: Algunos entornos o plataformas, como `@angular/platform-server` utilizado en el [renderizado del lado del servidor](guide/ssr), no soportan web workers.
 
-To ensure that your application works in these environments, you must provide a fallback mechanism to perform the computations that the worker would otherwise perform.
+Para asegurarte de que tu aplicación funcione en estos entornos, debes proporcionar un mecanismo alternativo para realizar los cálculos que, de otro modo, ejecutaría el worker.
