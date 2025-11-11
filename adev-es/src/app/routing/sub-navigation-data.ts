@@ -915,7 +915,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Extended Ecosystem',
+    label: 'Ecosistema extendido',
     children: [
       {
         label: 'NgModules',
@@ -976,42 +976,42 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Service Workers & PWAs',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'ecosystem/service-workers',
             contentPath: 'ecosystem/service-workers/overview',
           },
           {
-            label: 'Getting started',
+            label: 'Empezando',
             path: 'ecosystem/service-workers/getting-started',
             contentPath: 'ecosystem/service-workers/getting-started',
           },
           {
-            label: 'Custom service worker scripts',
+            label: 'Scripts de service worker personalizados',
             path: 'ecosystem/service-workers/custom-service-worker-scripts',
             contentPath: 'ecosystem/service-workers/custom-service-worker-scripts',
           },
           {
-            label: 'Configuration file',
+            label: 'Archivo de configuración',
             path: 'ecosystem/service-workers/config',
             contentPath: 'ecosystem/service-workers/config',
           },
           {
-            label: 'Communicating with the service worker',
+            label: 'Comunicación con el service worker',
             path: 'ecosystem/service-workers/communications',
             contentPath: 'ecosystem/service-workers/communications',
           },
           {
-            label: 'Push notifications',
+            label: 'Notificaciones push',
             path: 'ecosystem/service-workers/push-notifications',
             contentPath: 'ecosystem/service-workers/push-notifications',
           },
           {
-            label: 'Service worker devops',
+            label: 'Devops del service worker',
             path: 'ecosystem/service-workers/devops',
             contentPath: 'ecosystem/service-workers/devops',
           },
           {
-            label: 'App shell pattern',
+            label: 'Patrón App shell',
             path: 'ecosystem/service-workers/app-shell',
             contentPath: 'ecosystem/service-workers/app-shell',
           },
