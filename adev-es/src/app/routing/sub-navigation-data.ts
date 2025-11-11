@@ -1101,17 +1101,17 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Using RxJS with Angular',
         children: [
           {
-            label: 'Signals interop',
+            label: 'Interoperabilidad con signals',
             path: 'ecosystem/rxjs-interop',
             contentPath: 'ecosystem/rxjs-interop/signals-interop',
           },
           {
-            label: 'Component output interop',
+            label: 'Interoperabilidad con outputs de componentes',
             path: 'ecosystem/rxjs-interop/output-interop',
             contentPath: 'ecosystem/rxjs-interop/output-interop',
           },
           {
-            label: 'Unsubscribing with takeUntilDestroyed',
+            label: 'Cancelar suscripciones con takeUntilDestroyed',
             path: 'ecosystem/rxjs-interop/take-until-destroyed',
             contentPath: 'ecosystem/rxjs-interop/take-until-destroyed',
           },
