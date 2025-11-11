@@ -1,34 +1,34 @@
-# Overview of Angular libraries
+# Visión general de las librerías de Angular
 
-Many applications need to solve the same general problems, such as presenting a unified user interface, presenting data, and allowing data entry.
-Developers can create general solutions for particular domains that can be adapted for re-use in different applications.
-Such a solution can be built as Angular *libraries* and these libraries can be published and shared as *npm packages*.
+Muchas aplicaciones necesitan resolver los mismos problemas generales, como presentar una interfaz de usuario unificada, presentar datos y permitir la entrada de datos.
+Los desarrolladores pueden crear soluciones generales para dominios particulares que pueden ser adaptadas para reutilización en diferentes aplicaciones.
+Tales soluciones pueden construirse como *librerías* de Angular y estas librerías pueden publicarse y compartirse como *paquetes npm*.
 
-An Angular library is an Angular project that differs from an application in that it cannot run on its own.
-A library must be imported and used in an application.
+Una librería de Angular es un proyecto de Angular que difiere de una aplicación en que no puede ejecutarse por sí sola.
+Una librería debe importarse y usarse en una aplicación.
 
-Libraries extend Angular's base features.
-For example, to add [reactive forms](guide/forms/reactive-forms) to an application, add the library package using `ng add @angular/forms`, then import the `ReactiveFormsModule` from the `@angular/forms` library in your application code.
-Similarly, adding the [service worker](ecosystem/service-workers) library to an Angular application is one of the steps for turning an application into a [Progressive Web App](https://developers.google.com/web/progressive-web-apps) \(PWA\).
-[Angular Material](https://material.angular.dev) is an example of a large, general-purpose library that provides sophisticated, reusable, and adaptable UI components.
+Las librerías extienden las características base de Angular.
+Por ejemplo, para agregar [formularios reactivos](guide/forms/reactive-forms) a una aplicación, agrega el paquete de la librería usando `ng add @angular/forms`, luego importa el `ReactiveFormsModule` desde la librería `@angular/forms` en el código de tu aplicación.
+De manera similar, agregar la librería de [service worker](ecosystem/service-workers) a una aplicación de Angular es uno de los pasos para convertir una aplicación en una [Aplicación Web Progresiva](https://developers.google.com/web/progressive-web-apps) \(PWA\).
+[Angular Material](https://material.angular.dev) es un ejemplo de una librería grande y de propósito general que proporciona componentes de interfaz de usuario sofisticados, reutilizables y adaptables.
 
-Any application developer can use these and other libraries that have been published as npm packages by the Angular team or by third parties.
-See [Using Published Libraries](tools/libraries/using-libraries).
+Cualquier desarrollador de aplicaciones puede usar estas y otras librerías que han sido publicadas como paquetes npm por el equipo de Angular o por terceros.
+Consulta [Usando librerías publicadas](tools/libraries/using-libraries).
 
-HELPFUL: Libraries are intended to be used by Angular applications. To add Angular features to non-Angular web applications, use [Angular custom elements](guide/elements).
+ÚTIL: Las librerías están destinadas a ser usadas por aplicaciones de Angular. Para agregar características de Angular a aplicaciones web que no son Angular, usa [elementos personalizados de Angular](guide/elements).
 
-## Creating libraries
+## Creando librerías
 
-If you have developed features that are suitable for reuse, you can create your own libraries.
-These libraries can be used locally in your workspace, or you can publish them as [npm packages](reference/configs/npm-packages) to share with other projects or other Angular developers.
-These packages can be published to the npm registry, a private npm Enterprise registry, or a private package management system that supports npm packages.
-See [Creating Libraries](tools/libraries/creating-libraries).
+Si has desarrollado características que son adecuadas para reutilización, puedes crear tus propias librerías.
+Estas librerías pueden usarse localmente en tu espacio de trabajo, o puedes publicarlas como [paquetes npm](reference/configs/npm-packages) para compartirlas con otros proyectos u otros desarrolladores de Angular.
+Estos paquetes pueden publicarse en el registro de npm, un registro privado de npm Enterprise, o un sistema privado de gestión de paquetes que soporte paquetes npm.
+Consulta [Creando librerías](tools/libraries/creating-libraries).
 
-Deciding to package features as a library is an architectural decision. It is comparable to deciding whether a feature is a component or a service, or deciding on the scope of a component.
+Decidir empaquetar características como una librería es una decisión arquitectónica. Es comparable a decidir si una característica es un componente o un servicio, o decidir el alcance de un componente.
 
-Packaging features as a library forces the artifacts in the library to be decoupled from the application's business logic.
-This can help to avoid various bad practices or architecture mistakes that can make it difficult to decouple and reuse code in the future.
+Empaquetar características como una librería fuerza a que los artefactos en la librería estén desacoplados de la lógica de negocio de la aplicación.
+Esto puede ayudar a evitar varias malas prácticas o errores arquitectónicos que pueden dificultar el desacoplamiento y reutilización del código en el futuro.
 
-Putting code into a separate library is more complex than simply putting everything in one application.
-It requires more of an investment in time and thought for managing, maintaining, and updating the library.
-This complexity can pay off when the library is being used in multiple applications.
+Poner código en una librería separada es más complejo que simplemente poner todo en una aplicación.
+Requiere más inversión en tiempo y reflexión para gestionar, mantener y actualizar la librería.
+Esta complejidad puede valer la pena cuando la librería está siendo usada en múltiples aplicaciones.
