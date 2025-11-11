@@ -1023,7 +1023,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'ecosystem/web-workers',
       },
       {
-        label: 'Custom build pipeline',
+        label: 'Pipeline de compilación personalizada',
         path: 'ecosystem/custom-build-pipeline',
         contentPath: 'ecosystem/custom-build-pipeline',
       },
