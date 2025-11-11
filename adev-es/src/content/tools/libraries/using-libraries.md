@@ -1,27 +1,27 @@
-# Usage of Angular libraries published to npm
+# Uso de librerías de Angular publicadas en npm
 
-When you build your Angular application, take advantage of sophisticated first-party libraries, as well as a rich ecosystem of third-party libraries.
-[Angular Material][AngularMaterialMain] is an example of a sophisticated first-party library.
+Cuando construyes tu aplicación de Angular, aprovecha las sofisticadas librerías propias, así como un ecosistema rico de librerías de terceros.
+[Angular Material][AngularMaterialMain] es un ejemplo de una librería propia sofisticada.
 
-## Install libraries
+## Instalar librerías
 
-Libraries are published as [npm packages][GuideNpmPackages], usually together with schematics that integrate them with the Angular CLI.
-To integrate reusable library code into an application, you need to install the package and import the provided functionality in the location you use it.
-For most published Angular libraries, use the `ng add <lib_name>` Angular CLI command.
+Las librerías se publican como [paquetes npm][GuideNpmPackages], generalmente junto con schematics que las integran con el Angular CLI.
+Para integrar código de librería reutilizable en una aplicación, necesitas instalar el paquete e importar la funcionalidad proporcionada en la ubicación donde la uses.
+Para la mayoría de las librerías publicadas de Angular, usa el comando `ng add <lib_name>` de Angular CLI.
 
-The `ng add` Angular CLI command uses a package manager to install the library package and invokes schematics that are included in the package to other scaffolding within the project code.
-Examples of package managers include [npm][NpmjsMain] or [yarn][YarnpkgMain].
-Additional scaffolding within the project code includes import statements, fonts, and themes.
+El comando `ng add` de Angular CLI usa un gestor de paquetes para instalar el paquete de la librería e invoca schematics que están incluidos en el paquete para generar scaffold adicional dentro del código del proyecto.
+Ejemplos de gestores de paquetes incluyen [npm][NpmjsMain] o [yarn][YarnpkgMain].
+El scaffold adicional dentro del código del proyecto incluye declaraciones de importación, fuentes y temas.
 
-A published library typically provides a `README` file or other documentation on how to add that library to your application.
-For an example, see the [Angular Material][AngularMaterialMain] documentation.
+Una librería publicada típicamente proporciona un archivo `README` u otra documentación sobre cómo agregar esa librería a tu aplicación.
+Para un ejemplo, consulta la documentación de [Angular Material][AngularMaterialMain].
 
-### Library typings
+### Tipado de librerías
 
-Typically, library packages include typings in `.d.ts` files; see examples in `node_modules/@angular/material`.
-If the package of your library does not include typings and your IDE complains, you might need to install the `@types/<lib_name>` package with the library.
+Típicamente, los paquetes de librerías incluyen tipados en archivos `.d.ts`; consulta ejemplos en `node_modules/@angular/material`.
+Si el paquete de tu librería no incluye tipados y tu IDE se queja, es posible que necesites instalar el paquete `@types/<lib_name>` con la librería.
 
-For example, suppose you have a library named `d3`:
+Por ejemplo, supón que tienes una librería llamada `d3`:
 
 <docs-code language="shell">
 
@@ -30,16 +30,16 @@ npm install @types/d3 --save-dev
 
 </docs-code>
 
-Types defined in a `@types/` package for a library installed into the workspace are automatically added to the TypeScript configuration for the project that uses that library.
-TypeScript looks for types in the `node_modules/@types` directory by default, so you do not have to add each type package individually.
+Los tipos definidos en un paquete `@types/` para una librería instalada en el espacio de trabajo se agregan automáticamente a la configuración de TypeScript para el proyecto que usa esa librería.
+TypeScript busca tipos en el directorio `node_modules/@types` por defecto, así que no tienes que agregar cada paquete de tipos individualmente.
 
-If a library does not have typings available at `@types/`, you may use it by manually adding typings for it.
-To do this:
+Si una librería no tiene tipados disponibles en `@types/`, puedes usarla agregando manualmente tipados para ella.
+Para hacer esto:
 
-1. Create a `typings.d.ts` file in your `src/` directory.
-    This file is automatically included as global type definition.
+1. Crea un archivo `typings.d.ts` en tu directorio `src/`.
+    Este archivo se incluye automáticamente como definición de tipo global.
 
-1. Add the following code in `src/typings.d.ts`:
+1. Agrega el siguiente código en `src/typings.d.ts`:
 
     <docs-code language="typescript">
 
@@ -54,7 +54,7 @@ To do this:
 
     </docs-code>
 
-1. In the component or file that uses the library, add the following code:
+1. En el componente o archivo que usa la librería, agrega el siguiente código:
 
     <docs-code language="typescript">
 
@@ -64,28 +64,28 @@ To do this:
 
     </docs-code>
 
-Define more typings as needed.
+Define más tipados según sea necesario.
 
-## Updating libraries
+## Actualizar librerías
 
-A library is able to be updated by the publisher, and also has individual dependencies which need to be kept current.
-To check for updates to your installed libraries, use the [`ng update`][CliUpdate] Angular CLI command.
+Una librería puede ser actualizada por el publicador, y también tiene dependencias individuales que necesitan mantenerse actualizadas.
+Para verificar actualizaciones de tus librerías instaladas, usa el comando [`ng update`][CliUpdate] de Angular CLI.
 
-Use `ng update <lib_name>` Angular CLI command to update individual library versions.
-The Angular CLI checks the latest published release of the library, and if the latest version is newer than your installed version, downloads it and updates your `package.json` to match the latest version.
+Usa el comando `ng update <lib_name>` de Angular CLI para actualizar versiones individuales de librerías.
+El Angular CLI verifica la última versión publicada de la librería, y si la última versión es más reciente que tu versión instalada, la descarga y actualiza tu `package.json` para que coincida con la última versión.
 
-When you update Angular to a new version, you need to make sure that any libraries you are using are current.
-If libraries have interdependencies, you might have to update them in a particular order.
-See the [Angular Update Guide][AngularUpdateMain] for help.
+Cuando actualizas Angular a una nueva versión, necesitas asegurarte de que cualquier librería que estés usando esté actualizada.
+Si las librerías tienen interdependencias, es posible que tengas que actualizarlas en un orden particular.
+Consulta la [Guía de actualización de Angular][AngularUpdateMain] para obtener ayuda.
 
-## Adding a library to the runtime global scope
+## Agregar una librería al alcance global en tiempo de ejecución
 
-If a legacy JavaScript library is not imported into an application, you may add it to the runtime global scope and load it as if it was added in a script tag.
-Configure the Angular CLI to do this at build time using the `scripts` and `styles` options of the build target in the [`angular.json`][GuideWorkspaceConfig] workspace build configuration file.
+Si una librería heredada de JavaScript no se importa en una aplicación, puedes agregarla al alcance global en tiempo de ejecución y cargarla como si se hubiera agregado en una etiqueta script.
+Configura el Angular CLI para hacer esto en tiempo de compilación usando las opciones `scripts` y `styles` del objetivo de compilación en el archivo de configuración de compilación del espacio de trabajo [`angular.json`][GuideWorkspaceConfig].
 
-For example, to use the [Bootstrap 4][GetbootstrapDocs40GettingStartedIntroduction] library
+Por ejemplo, para usar la librería [Bootstrap 4][GetbootstrapDocs40GettingStartedIntroduction]:
 
-1. Install the library and the associated dependencies using the npm package manager:
+1. Instala la librería y las dependencias asociadas usando el gestor de paquetes npm:
 
     <docs-code language="shell">
 
@@ -95,7 +95,7 @@ For example, to use the [Bootstrap 4][GetbootstrapDocs40GettingStartedIntroducti
 
     </docs-code>
 
-1. In the `angular.json` configuration file, add the associated script files to the `scripts` array:
+1. En el archivo de configuración `angular.json`, agrega los archivos de script asociados al array `scripts`:
 
     <docs-code language="json">
 
@@ -107,7 +107,7 @@ For example, to use the [Bootstrap 4][GetbootstrapDocs40GettingStartedIntroducti
 
     </docs-code>
 
-1. Add the `bootstrap.css` CSS file to the `styles` array:
+1. Agrega el archivo CSS `bootstrap.css` al array `styles`:
 
     <docs-code language="css">
 
@@ -118,12 +118,12 @@ For example, to use the [Bootstrap 4][GetbootstrapDocs40GettingStartedIntroducti
 
     </docs-code>
 
-1. Run or restart the `ng serve` Angular CLI command to see Bootstrap 4 work in your application.
+1. Ejecuta o reinicia el comando `ng serve` de Angular CLI para ver Bootstrap 4 funcionar en tu aplicación.
 
-### Using runtime-global libraries inside your app
+### Usar librerías globales en tiempo de ejecución dentro de tu aplicación
 
-After you import a library using the "scripts" array, do **not** import it using an import statement in your TypeScript code.
-The following code snippet is an example import statement.
+Después de importar una librería usando el array "scripts", **no** la importes usando una declaración de importación en tu código TypeScript.
+El siguiente fragmento de código es un ejemplo de declaración de importación.
 
 <docs-code language="typescript">
 
@@ -131,17 +131,17 @@ import * as $ from 'jquery';
 
 </docs-code>
 
-If you import it using import statements, you have two different copies of the library: one imported as a global library, and one imported as a module.
-This is especially bad for libraries with plugins, like JQuery, because each copy includes different plugins.
+Si la importas usando declaraciones de importación, tienes dos copias diferentes de la librería: una importada como librería global, y una importada como módulo.
+Esto es especialmente malo para librerías con plugins, como JQuery, porque cada copia incluye diferentes plugins.
 
-Instead, run the `npm install @types/jquery` Angular CLI command to download typings for your library and then follow the library installation steps.
-This gives you access to the global variables exposed by that library.
+En su lugar, ejecuta el comando `npm install @types/jquery` de Angular CLI para descargar tipados para tu librería y luego sigue los pasos de instalación de la librería.
+Esto te da acceso a las variables globales expuestas por esa librería.
 
-### Defining typings for runtime-global libraries
+### Definir tipados para librerías globales en tiempo de ejecución
 
-If the global library you need to use does not have global typings, you can declare them manually as `any` in `src/typings.d.ts`.
+Si la librería global que necesitas usar no tiene tipados globales, puedes declararlos manualmente como `any` en `src/typings.d.ts`.
 
-For example:
+Por ejemplo:
 
 <docs-code language="typescript">
 
@@ -149,7 +149,7 @@ declare var libraryName: any;
 
 </docs-code>
 
-Some scripts extend other libraries; for instance with JQuery plugins:
+Algunos scripts extienden otras librerías; por ejemplo con plugins de JQuery:
 
 <docs-code language="typescript">
 
@@ -157,8 +157,8 @@ $('.test').myPlugin();
 
 </docs-code>
 
-In this case, the installed `@types/jquery` does not include `myPlugin`, so you need to add an interface in `src/typings.d.ts`.
-For example:
+En este caso, el `@types/jquery` instalado no incluye `myPlugin`, así que necesitas agregar una interfaz en `src/typings.d.ts`.
+Por ejemplo:
 
 <docs-code language="typescript">
 
@@ -168,7 +168,7 @@ interface JQuery {
 
 </docs-code>
 
-If you do not add the interface for the script-defined extension, your IDE shows an error:
+Si no agregas la interfaz para la extensión definida por el script, tu IDE muestra un error:
 
 <docs-code language="text">
 
