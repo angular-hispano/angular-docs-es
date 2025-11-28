@@ -23,12 +23,12 @@ Si el paquete de tu librería no incluye tipados y tu IDE se queja, es posible q
 
 Por ejemplo, supón que tienes una librería llamada `d3`:
 
-<docs-code language="shell">
+```shell
 
 npm install d3 --save
 npm install @types/d3 --save-dev
 
-</docs-code>
+```
 
 Los tipos definidos en un paquete `@types/` para una librería instalada en el espacio de trabajo se agregan automáticamente a la configuración de TypeScript para el proyecto que usa esa librería.
 TypeScript busca tipos en el directorio `node_modules/@types` por defecto, así que no tienes que agregar cada paquete de tipos individualmente.
@@ -41,28 +41,26 @@ Para hacer esto:
 
 1. Agrega el siguiente código en `src/typings.d.ts`:
 
-    <docs-code language="typescript">
+```ts
+declare module 'host' {
+  export interface Host {
+    protocol?: string;
+    hostname?: string;
+    pathname?: string;
+  }
+  export function parse(url: string, queryString?: string): Host;
+}
 
-    declare module 'host' {
-      export interface Host {
-        protocol?: string;
-        hostname?: string;
-        pathname?: string;
-      }
-      export function parse(url: string, queryString?: string): Host;
-    }
-
-    </docs-code>
+```
 
 1. En el componente o archivo que usa la librería, agrega el siguiente código:
 
-    <docs-code language="typescript">
+```ts
+import * as host from 'host';
+const parsedUrl = host.parse('https://angular.dev');
+console.log(parsedUrl.hostname);
 
-    import * as host from 'host';
-    const parsedUrl = host.parse('https://angular.dev');
-    console.log(parsedUrl.hostname);
-
-    </docs-code>
+```
 
 Define más tipados según sea necesario.
 
@@ -87,36 +85,33 @@ Por ejemplo, para usar la librería [Bootstrap 4][GetbootstrapDocs40GettingStart
 
 1. Instala la librería y las dependencias asociadas usando el gestor de paquetes npm:
 
-    <docs-code language="shell">
+```shell
+  npm install jquery --save
+  npm install popper.js --save
+  npm install bootstrap --save
 
-    npm install jquery --save
-    npm install popper.js --save
-    npm install bootstrap --save
-
-    </docs-code>
+```
 
 1. En el archivo de configuración `angular.json`, agrega los archivos de script asociados al array `scripts`:
 
-    <docs-code language="json">
+```json
+"scripts": [
+  "node_modules/jquery/dist/jquery.slim.js",
+  "node_modules/popper.js/dist/umd/popper.js",
+  "node_modules/bootstrap/dist/js/bootstrap.js"
+],
 
-    "scripts": [
-      "node_modules/jquery/dist/jquery.slim.js",
-      "node_modules/popper.js/dist/umd/popper.js",
-      "node_modules/bootstrap/dist/js/bootstrap.js"
-    ],
-
-    </docs-code>
+```
 
 1. Agrega el archivo CSS `bootstrap.css` al array `styles`:
 
-    <docs-code language="css">
+```json
+"styles": [
+  "node_modules/bootstrap/dist/css/bootstrap.css",
+  "src/styles.css"
+],
 
-    "styles": [
-      "node_modules/bootstrap/dist/css/bootstrap.css",
-      "src/styles.css"
-    ],
-
-    </docs-code>
+```
 
 1. Ejecuta o reinicia el comando `ng serve` de Angular CLI para ver Bootstrap 4 funcionar en tu aplicación.
 
@@ -125,11 +120,11 @@ Por ejemplo, para usar la librería [Bootstrap 4][GetbootstrapDocs40GettingStart
 Después de importar una librería usando el array "scripts", **no** la importes usando una declaración de importación en tu código TypeScript.
 El siguiente fragmento de código es un ejemplo de declaración de importación.
 
-<docs-code language="typescript">
+```ts
 
 import * as $ from 'jquery';
 
-</docs-code>
+```
 
 Si la importas usando declaraciones de importación, tienes dos copias diferentes de la librería: una importada como librería global, y una importada como módulo.
 Esto es especialmente malo para librerías con plugins, como JQuery, porque cada copia incluye diferentes plugins.
@@ -143,53 +138,45 @@ Si la librería global que necesitas usar no tiene tipados globales, puedes decl
 
 Por ejemplo:
 
-<docs-code language="typescript">
+```ts
 
 declare var libraryName: any;
 
-</docs-code>
+```
 
 Algunos scripts extienden otras librerías; por ejemplo con plugins de JQuery:
 
-<docs-code language="typescript">
+```ts
 
 $('.test').myPlugin();
 
-</docs-code>
+```
 
 En este caso, el `@types/jquery` instalado no incluye `myPlugin`, así que necesitas agregar una interfaz en `src/typings.d.ts`.
 Por ejemplo:
 
-<docs-code language="typescript">
+```ts
 
 interface JQuery {
   myPlugin(options?: any): any;
 }
 
-</docs-code>
+```
 
 Si no agregas la interfaz para la extensión definida por el script, tu IDE muestra un error:
 
-<docs-code language="text">
+```text
 
 [TS][Error] Property 'myPlugin' does not exist on type 'JQuery'
 
-</docs-code>
+```
 
-[CliUpdate]: cli/update "ng update | CLI |Angular"
-
-[GuideNpmPackages]: reference/configs/npm-packages "Workspace npm dependencies | Angular"
-
-[GuideWorkspaceConfig]: reference/configs/workspace-config "Angular workspace configuration | Angular"
-
-[Resources]: resources "Explore Angular Resources | Angular"
-
-[AngularMaterialMain]: https://material.angular.dev "Angular Material | Angular"
-
-[AngularUpdateMain]: https://angular.dev/update-guide "Angular Update Guide | Angular"
-
-[GetbootstrapDocs40GettingStartedIntroduction]: https://getbootstrap.com/docs/4.0/getting-started/introduction "Introduction | Bootstrap"
-
-[NpmjsMain]: https://www.npmjs.com "npm"
-
-[YarnpkgMain]: https://yarnpkg.com " Yarn"
+[CliUpdate]: cli/update 'ng update | CLI |Angular'
+[GuideNpmPackages]: reference/configs/npm-packages 'Workspace npm dependencies | Angular'
+[GuideWorkspaceConfig]: reference/configs/workspace-config 'Angular workspace configuration | Angular'
+[Resources]: resources 'Explore Angular Resources | Angular'
+[AngularMaterialMain]: https://material.angular.dev 'Angular Material | Angular'
+[AngularUpdateMain]: https://angular.dev/update-guide 'Angular Update Guide | Angular'
+[GetbootstrapDocs40GettingStartedIntroduction]: https://getbootstrap.com/docs/4.0/getting-started/introduction 'Introduction | Bootstrap'
+[NpmjsMain]: https://www.npmjs.com 'npm'
+[YarnpkgMain]: https://yarnpkg.com ' Yarn'

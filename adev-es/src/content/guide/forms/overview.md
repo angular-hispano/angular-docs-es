@@ -4,8 +4,11 @@ Manejar la entrada del usuario con formularios es la piedra angular de muchas ap
 
 Las aplicaciones usan formularios para permitir a los usuarios iniciar sesión, actualizar un perfil, ingresar información confidencial y realizar muchas otras tareas de entrada de datos.
 
-Angular proporciona dos enfoques diferentes para manejar la entrada del usuario a través de formularios: reactivos y basados en plantillas. 
+Angular proporciona dos enfoques diferentes para manejar la entrada del usuario a través de formularios: reactivos y basados en plantillas.
+
 Ambos capturan los eventos de entrada del usuario desde la vista, validan la entrada del usuario, crean un modelo de formulario y un modelo de datos para actualizar, y proporcionan una forma de rastrear los cambios.
+
+CONSEJO: Si estás buscando los nuevos formularios experimentales Signal Forms, consulta nuestra [guía esencial de Signal Forms](/essentials/signal-forms)!
 
 Esta guía proporciona información para ayudarte a decidir qué tipo de formulario funciona mejor para tu situación.
 Introduce los bloques de construcción comunes utilizados por ambos enfoques.
@@ -27,10 +30,10 @@ La siguiente tabla resume las diferencias clave entre los formularios reactivos 
 
 |                                                   | Reactivos                             | Basados en plantillas                |
 | :------------------------------------------------ | :----------------------------------- | :------------------------------ |
-| [Configuración del modelo del formulario](#setting-up-the-form-model) | Explícita, creada en la clase del componente | Implícita, creada por directivas |
-| [Modelo de datos](#mutability-of-the-data-model)       | Estructurado e inmutable             | No estructurado y mutable
-| [Flujo de datos](#data-flow-in-forms)                  | Síncrono                          | Asíncrono                    |
-| [Validación del formulario](#form-validation)               | Funciones                            | Directivas                      |
+| [Configurando el modelo del formulario](#configurando-el-modelo-del-formulario) | Explícita, creada en la clase del componente | Implícita, creada por directivas |
+| [Mutabilidad del modelo de datos](#mutabilidad-del-modelo-de-datos)       | Estructurado e inmutable             | No estructurado y mutable
+| [Flujo de datos](#flujo-de-datos-en-formularios)                  | Síncrono                          | Asíncrono                    |
+| [Validación del formulario](#validación-de-formularios)               | Funciones                            | Directivas                      |
 
 ### Escalabilidad
 
@@ -42,11 +45,11 @@ Proporcionan acceso directo a la API de formularios subyacente y usan [flujo de 
 Los formularios reactivos requieren menos configuración para las pruebas, y las pruebas no requieren una comprensión profunda de la detección de cambios para probar correctamente las actualizaciones y validación del formulario.
 
 Los formularios basados en plantillas se centran en escenarios simples y no son tan reutilizables. 
-Abstraen la API de formularios subyacente y usan [flujo de datos asíncrono](#flujo-de-datos-en-formularios-basados-en-plantilla) entre la vista y el modelo de datos.
+Abstraen la API de formularios subyacente y usan [flujo de datos asíncrono](#flujo-de-datos-en-formularios-basados-en-plantillas) entre la vista y el modelo de datos.
 La abstracción de los formularios basados en plantillas también afecta las pruebas.
 Las pruebas dependen profundamente de la ejecución manual de la detección de cambios para ejecutarse correctamente y requieren más configuración.
 
-## Configurando el modelo de formulario
+## Configurando el modelo del formulario
 
 Tanto los formularios reactivos como los basados en plantillas rastrean los cambios de valor entre los elementos de entrada del formulario con los que los usuarios interactúan y los datos del formulario en el modelo de tu componente. 
 Los dos enfoques comparten bloques de construcción subyacentes, pero difieren en cómo creas y gestionas las instancias de control de formulario comunes.
@@ -70,7 +73,7 @@ La directiva `[formControl]` vincula la instancia de `FormControl` explícitamen
 El siguiente componente implementa un campo de entrada para un control único, usando formularios reactivos.
 En este ejemplo, el modelo de formulario es la instancia de `FormControl`.
 
-<docs-code path="adev/src/content/examples/forms-overview/src/app/reactive/favorite-color/favorite-color.component.ts"/>
+<docs-code language="angular-ts" path="adev/src/content/examples/forms-overview/src/app/reactive/favorite-color/favorite-color.component.ts"/>
 
 IMPORTANTE: En formularios reactivos, el modelo de formulario es la fuente de la verdad; proporciona el valor y el estado del elemento del formulario en cualquier momento dado, a través de la directiva `[formControl]` en el elemento `<input>`.
 
@@ -81,7 +84,7 @@ La directiva `NgModel` crea y gestiona una instancia de `FormControl` para un el
 
 El siguiente componente implementa el mismo campo de entrada para un control único, usando formularios basados en plantillas.
 
-<docs-code path="adev/src/content/examples/forms-overview/src/app/template/favorite-color/favorite-color.component.ts"/>
+<docs-code language="angular-ts" path="adev/src/content/examples/forms-overview/src/app/template/favorite-color/favorite-color.component.ts"/>
 
 IMPORTANTE: En un formulario basado en plantillas, la fuente de verdad es la plantilla. La directiva `NgModel` gestiona automáticamente la instancia de `FormControl` por ti.
 

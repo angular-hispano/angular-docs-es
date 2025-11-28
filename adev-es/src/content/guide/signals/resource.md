@@ -55,7 +55,7 @@ El objeto `ResourceLoaderParams` contiene tres propiedades: `params`, `previous`
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `params`     | El valor del cómputo `params` del resource.                                                                                                      |
 | `previous`   | Un objeto con una propiedad `status`, que contiene el `ResourceStatus` anterior.                                                                 |
-| `abortSignal`| Un [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal). Constalta [Abortando peticiones](#abortando-peticiones) para más detalles. |
+| `abortSignal`| Un [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal). Consulta [Abortando peticiones](#abortando-peticiones) para más detalles. |
 
 Si el cómputo `params` devuelve `undefined`, la función loader no se ejecuta y el estado del resource se convierte en `'idle'`.
 
@@ -71,7 +71,7 @@ const userId: Signal<string> = getUserId();
 const userResource = resource({
   params: () => ({id: userId()}),
   loader: ({params, abortSignal}): Promise<User> => {
-    // fetch cancela cualquier pretición HTTP pendiente cuando el `AbortSignal` dado
+    // fetch cancela cualquier petición HTTP pendiente cuando el `AbortSignal` dado
     // indica que la petición ha sido abortada.
     return fetch(`users/${params.id}`, {signal: abortSignal});
   },
@@ -118,7 +118,7 @@ El `status` de una signal proporciona un `ResourceStatus` específico que descri
 | `'loading'`   | `undefined`       | El loader se está ejecutando como resultado de que el valor de `params` haya cambiando. |
 | `'reloading'` | Valor anterior    | El loader se está ejecutando como resultado de llamar al método `reload` del resource. |
 | `'resolved'`  | Valor resuelto    | El loader ha completado.                                                     |
-| `'local'`     | Valor establecido localmente | El valor del resource ha sido establecido localmente vía `.set()` o `.update()` |
+| `'local'`     | Valor establecido localmente | El valor del resource ha sido establecido localmente mediante `.set()` o `.update()` |
 
 Puedes usar esta información de estado para mostrar condicionalmente elementos de interfaz de usuario, como indicadores de carga y mensajes de error.
 

@@ -9,7 +9,7 @@ Los comandos `build`, `serve` y `test` del [Angular CLI](tools/cli) pueden enton
 
 Los builders del Angular CLI soportan un objeto `configurations`, que permite sobrescribir opciones específicas para un builder basado en la configuración proporcionada en la línea de comandos.
 
-<docs-code language="json">
+```json
 
 {
   "projects": {
@@ -34,23 +34,23 @@ Los builders del Angular CLI soportan un objeto `configurations`, que permite so
   }
 }
 
-</docs-code>
+```
 
 Puedes elegir qué configuración usar con la opción `--configuration`.
 
-<docs-code language="shell">
+```shell
 
 ng build --configuration debug
 
-</docs-code>
+```
 
 Las configuraciones pueden aplicarse a cualquier builder del Angular CLI. Se pueden especificar múltiples configuraciones con un separador de coma. Las configuraciones se aplican en orden, con opciones conflictivas usando el valor de la última configuración.
 
-<docs-code language="shell">
+```shell
 
 ng build --configuration debug,production,customer-facing
 
-</docs-code>
+```
 
 ## Configurar valores predeterminados específicos del entorno
 
@@ -59,84 +59,84 @@ Usar esto en combinación con `--configuration` proporciona un mecanismo para co
 
 Comienza [generando entornos](cli/generate/environments) para crear el directorio `src/environments/` y configurar el proyecto para usar reemplazos de archivos.
 
-<docs-code language="shell">
+```shell
 
 ng generate environments
 
-</docs-code>
+```
 
 El directorio `src/environments/` del proyecto contiene el archivo de configuración base, `environment.ts`, que proporciona la configuración predeterminada para producción.
 Puedes sobrescribir valores predeterminados para entornos adicionales, como `development` y `staging`, en archivos de configuración específicos del objetivo.
 
 Por ejemplo:
 
-<docs-code language="text">
+```text
 
 my-app/src/environments
 ├── environment.development.ts
 ├── environment.staging.ts
 └── environment.ts
 
-</docs-code>
+```
 
 El archivo base `environment.ts`, contiene la configuración de entorno predeterminada.
 Por ejemplo:
 
-<docs-code language="typescript">
+```ts
 
 export const environment = {
   production: true
 };
 
-</docs-code>
+```
 
 El comando `build` usa esto como objetivo de construcción cuando no se especifica ningún entorno.
 Puedes agregar más variables, ya sea como propiedades adicionales en el objeto environment, o como objetos separados.
 Por ejemplo, lo siguiente agrega un valor predeterminado para una variable al entorno predeterminado:
 
-<docs-code language="typescript">
+```ts
 
 export const environment = {
   production: true,
   apiUrl: 'http://my-prod-url'
 };
 
-</docs-code>
+```
 
 Puedes agregar archivos de configuración específicos del objetivo, como `environment.development.ts`.
 El siguiente contenido establece valores predeterminados para el objetivo de construcción de desarrollo:
 
-<docs-code language="typescript">
+```ts
 
 export const environment = {
   production: false,
   apiUrl: 'http://my-dev-url'
 };
 
-</docs-code>
+```
 
 ## Usando variables específicas del entorno en tu aplicación
 
 Para usar las configuraciones de entorno que has definido, tus componentes deben importar el archivo de entornos original:
 
-<docs-code language="typescript">
+```ts
 
 import { environment } from './environments/environment';
 
-</docs-code>
+```
 
 Esto asegura que los comandos build y serve puedan encontrar las configuraciones para objetivos de construcción específicos.
 
 El siguiente código en el archivo del componente (`app.component.ts`) usa una variable de entorno definida en los archivos de configuración.
 
-<docs-code language="typescript">
+```ts
 
 import { environment } from './../environments/environment';
 
 // Obtiene de `http://my-prod-url` en producción, `http://my-dev-url` en desarrollo.
 fetch(environment.apiUrl);
 
-</docs-code>
+```
 
 El archivo de configuración principal del CLI, `angular.json`, contiene una sección `fileReplacements` en la configuración para cada objetivo de construcción, que te permite reemplazar cualquier archivo en el programa TypeScript con una versión específica del objetivo de ese archivo.
 Esto es útil para incluir código o variables específicas del objetivo en una construcción que apunta a un entorno específico, como producción o staging.
@@ -144,7 +144,7 @@ Esto es útil para incluir código o variables específicas del objetivo en una 
 Por defecto no se reemplazan archivos, sin embargo `ng generate environments` configura esto automáticamente.
 Puedes cambiar o agregar reemplazos de archivos para objetivos de construcción específicos editando directamente la configuración `angular.json`.
 
-<docs-code language="json">
+```json
 
   "configurations": {
     "development": {
@@ -156,13 +156,13 @@ Puedes cambiar o agregar reemplazos de archivos para objetivos de construcción 
         ],
         …
 
-</docs-code>
+```
 
 Esto significa que cuando construyes tu configuración de desarrollo con `ng build --configuration development`, el archivo `src/environments/environment.ts` es reemplazado con la versión específica del objetivo del archivo, `src/environments/environment.development.ts`.
 
 Para agregar un entorno staging, crea una copia de `src/environments/environment.ts` llamada `src/environments/environment.staging.ts`, luego agrega una configuración `staging` a `angular.json`:
 
-<docs-code language="json">
+```json
 
   "configurations": {
     "development": { … },
@@ -177,23 +177,23 @@ Para agregar un entorno staging, crea una copia de `src/environments/environment
     }
   }
 
-</docs-code>
+```
 
 También puedes agregar más opciones de configuración a este entorno objetivo.
 Cualquier opción que tu construcción soporte puede sobrescribirse en una configuración de objetivo de construcción.
 
 Para construir usando la configuración staging, ejecuta el siguiente comando:
 
-<docs-code language="shell">
+```shell
 
 ng build --configuration staging
 
-</docs-code>
+```
 
 Por defecto, el objetivo `build` incluye configuraciones `production` y `development` y `ng serve` usa la construcción de desarrollo de la aplicación.
 También puedes configurar `ng serve` para usar la configuración de construcción objetivo si estableces la opción `buildTarget`:
 
-<docs-code language="json">
+```json
 
   "serve": {
     "builder": "@angular-devkit/build-angular:dev-server",
@@ -211,7 +211,7 @@ También puedes configurar `ng serve` para usar la configuración de construcci�
     "defaultConfiguration": "development"
   },
 
-</docs-code>
+```
 
 La opción `defaultConfiguration` especifica qué configuración se usa por defecto.
 Cuando `defaultConfiguration` no está establecida, `options` se usa directamente sin modificación.

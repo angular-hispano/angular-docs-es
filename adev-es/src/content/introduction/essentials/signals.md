@@ -2,7 +2,7 @@
 Crear y manejar datos dinámicos.
 </docs-decorative-header>
 
-In Angular, you use *signals* to create and manage state. A signal is a lightweight wrapper around a value.
+In Angular, you use _signals_ to create and manage state. A signal is a lightweight wrapper around a value.
 
 Usa la función `signal` para crear una signal que mantenga el estado local:
 
@@ -36,7 +36,7 @@ const firstName = signal('Morgan');
 const firstNameCapitalized = computed(() => firstName().toUpperCase());
 
 console.log(firstNameCapitalized()); // MORGAN
-``` 
+```
 
 Una signal `computed` es de solo lectura; no tiene un método `set` o `update`. En su lugar, el valor de la signal `computed` cambia automáticamente cuando cualquiera de las signals que lee cambia:
 

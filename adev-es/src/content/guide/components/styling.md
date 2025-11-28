@@ -1,6 +1,6 @@
 # Estilos en componentes
 
-TIP: Esta guía asume que ya has leído la [Guía de Fundamentos](essentials). Léela primero si eres nuevo en Angular.
+CONSEJO: Esta guía asume que ya has leído la [Guía de Fundamentos](essentials). Léela primero si eres nuevo en Angular.
 
 Los componentes pueden incluir opcionalmente estilos CSS que se aplican al DOM de ese componente:
 
@@ -36,7 +36,7 @@ y [stylus](https://stylus-lang.com).
 ## Alcance de estilos
 
 Cada componente tiene una configuración de **encapsulación de vista** que determina cómo el framework delimita el alcance
-de los estilos de un componente. Hay tres modos de encapsulación de vista: `Emulated`, `ShadowDom`, y `None`.
+de los estilos de un componente. Hay 4 modos de encapsulación de vista: `Emulated`, `ShadowDom`, `ExperimentalIsolatedShadowDom`, y `None`.
 Puedes especificar el modo en el decorador `@Component`:
 
 <docs-code language="angular-ts" highlight="[3]">
@@ -59,13 +59,13 @@ los estilos globales definidos fuera de un componente aún puede afectar element
 con encapsulación emulada.
 
 En modo emulado, Angular admite
-las pseudo-clases [`:host`](https://developer.mozilla.org/es/docs/Web/CSS/:host)
-y [`:host-context()`](https://developer.mozilla.org/docs/Web/CSS/:host-context) 
-sin usar [Shadow DOM](https://developer.mozilla.org/es/docs/Web/API/Web_components/Using_shadow_DOM).
+la pseudo-clase [`:host`](https://developer.mozilla.org/docs/Web/CSS/:host).
+Aunque la pseudo-clase [`:host-context()`](https://developer.mozilla.org/docs/Web/CSS/:host-context) está
+deprecada en navegadores modernos, el compilador de Angular proporciona soporte completo para ella. Ambas pseudo-clases
+pueden usarse sin depender de [Shadow DOM](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM) nativo.
 Durante la compilación, el framework transforma estas pseudo-clases en atributos para que no
 cumpla con las reglas de estas pseudo-clases nativas en tiempo de ejecución
-(ej. compatibilidad del navegador, especificidad). 
-El modo de encapsulación emulada de Angular no admite ninguna otra pseudo-clase relacionada con Shadow DOM,
+(ej. compatibilidad del navegador, especificidad). El modo de encapsulación emulada de Angular no admite ninguna otra pseudo-clase relacionada con Shadow DOM,
 como `::shadow` o `::part`.
 
 #### `::ng-deep`
@@ -78,19 +78,23 @@ compatibilidad hacia atrás.
 ### ViewEncapsulation.ShadowDom
 
 Este modo delimita el alcance de los estilos dentro de un componente
-usando [la API estándar web de Shadow DOM](https://developer.mozilla.org/es/docs/Web/API/Web_components/Using_shadow_DOM).
-Al habilitar este modo, Angular adjunta un shadow root (raíz de sombra) al elemento host del componente 
-y renderiza la plantilla y los estilos del componente en el árbol de sombra (shadow tree) correspondiente.
+usando [la API estándar web de Shadow DOM](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM).
+Al habilitar este modo, Angular adjunta un shadow root al elemento host del componente y renderiza
+la plantilla y los estilos del componente en el árbol de sombra correspondiente.
 
-Este modo garantiza estrictamente que _solo_ los estilos de ese componente se apliquen a elementos en la
-plantilla del componente. Los estilos globales no pueden afectar a elementos en un árbol de sombra y los estilos dentro del
-árbol de sombra no pueden afectar a elementos fuera de ese árbol de sombra.
+Los estilos dentro del árbol de sombra no pueden afectar a elementos fuera de ese árbol de sombra.
 
 Habilitar la encapsulación `ShadowDom`, sin embargo, impacta más que el alcance de estilos. Renderizar el
 componente en un árbol de sombra afecta la propagación de eventos, la interacción
-con [la API `<slot>`](https://developer.mozilla.org/es/docs/Web/API/Web_components/Using_templates_and_slots),
+con [la API `<slot>`](https://developer.mozilla.org/docs/Web/Web_Components/Using_templates_and_slots),
 y cómo las herramientas de desarrollador del navegador muestran elementos. Siempre entiende las implicaciones completas de usar
 Shadow DOM en tu aplicación antes de habilitar esta opción.
+
+### ViewEncapsulation.ExperimentalIsolatedShadowDom
+
+Se comporta como se describe arriba, excepto que este modo garantiza estrictamente que _solo_ los estilos de ese componente se apliquen a elementos en la
+plantilla del componente. Los estilos globales no pueden afectar a elementos en un árbol de sombra y los estilos dentro del
+árbol de sombra no pueden afectar a elementos fuera de ese árbol de sombra.
 
 ### ViewEncapsulation.None
 
@@ -110,7 +114,7 @@ Angular no admite enlaces dentro de elementos de estilo.
 ## Referenciar archivos de estilo externos
 
 Las plantillas de componentes pueden
-usar [el elemento `<link>`](https://developer.mozilla.org/es/docs/Web/HTML/Reference/Elements/link) para
+usar [el elemento `<link>`](https://developer.mozilla.org/docs/Web/HTML/Element/link) para
 referenciar archivos CSS. Además, tu CSS puede
 usar [la regla at `@import`](https://developer.mozilla.org/es/docs/Web/CSS/@import) para referenciar
 archivos CSS. Angular trata estas referencias como estilos _externos_. Los estilos externos no se ven afectados por

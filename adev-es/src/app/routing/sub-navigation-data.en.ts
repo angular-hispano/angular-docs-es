@@ -14,6 +14,7 @@ import FIRST_APP_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/first-app
 import LEARN_ANGULAR_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/learn-angular/routes.json';
 import DEFERRABLE_VIEWS_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/deferrable-views/routes.json';
 import SIGNALS_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/signals/routes.json';
+import SIGNAL_FORMS_TUTORIAL_NAV_DATA from '../../../src/assets/tutorials/signal-forms/routes.json';
 import ERRORS_NAV_DATA from '../../../src/assets/content/reference/errors/routes.json';
 import EXT_DIAGNOSTICS_NAV_DATA from '../../../src/assets/content/reference/extended-diagnostics/routes.json';
 
@@ -63,6 +64,12 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             label: 'Dynamic interfaces with templates',
             path: 'essentials/templates',
             contentPath: 'introduction/essentials/templates',
+          },
+          {
+            label: 'Forms with signals',
+            path: 'essentials/signal-forms',
+            contentPath: 'introduction/essentials/signal-forms',
+            status: 'new',
           },
           {
             label: 'Modular design with dependency injection',
@@ -282,26 +289,25 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: 'Dependency Injection',
+        status: 'updated',
         children: [
           {
             label: 'Overview',
             path: 'guide/di',
             contentPath: 'guide/di/overview',
+            status: 'updated',
           },
           {
-            label: 'Understanding dependency injection',
-            path: 'guide/di/dependency-injection',
-            contentPath: 'guide/di/dependency-injection',
-          },
-          {
-            label: 'Creating an injectable service',
-            path: 'guide/di/creating-injectable-service',
-            contentPath: 'guide/di/creating-injectable-service',
+            label: 'Creating and using services',
+            path: 'guide/di/creating-and-using-services',
+            contentPath: 'guide/di/creating-and-using-services',
+            status: 'updated',
           },
           {
             label: 'Defining dependency providers',
-            path: 'guide/di/dependency-injection-providers',
-            contentPath: 'guide/di/dependency-injection-providers',
+            path: 'guide/di/defining-dependency-providers',
+            contentPath: 'guide/di/defining-dependency-providers',
+            status: 'updated',
           },
           {
             label: 'Injection context',
@@ -416,11 +422,48 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: 'Forms',
+        status: 'updated',
         children: [
           {
             label: 'Overview',
             path: 'guide/forms',
             contentPath: 'guide/forms/overview',
+          },
+          {
+            label: 'Signal forms',
+            status: 'new',
+            children: [
+              {
+                label: 'Overview',
+                path: 'guide/forms/signals/overview',
+                contentPath: 'guide/forms/signals/overview',
+              },
+              {
+                label: 'Form models',
+                path: 'guide/forms/signals/models',
+                contentPath: 'guide/forms/signals/models',
+              },
+              {
+                label: 'Field state management',
+                path: 'guide/forms/signals/field-state-management',
+                contentPath: 'guide/forms/signals/field-state-management',
+              },
+              {
+                label: 'Validation',
+                path: 'guide/forms/signals/validation',
+                contentPath: 'guide/forms/signals/validation',
+              },
+              {
+                label: 'Custom controls',
+                path: 'guide/forms/signals/custom-controls',
+                contentPath: 'guide/forms/signals/custom-controls',
+              },
+              {
+                label: 'Comparison with other form systems',
+                path: 'guide/forms/signals/comparison',
+                contentPath: 'guide/forms/signals/comparison',
+              },
+            ],
           },
           {
             label: 'Reactive forms',
@@ -518,16 +561,6 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/testing/overview',
           },
           {
-            label: 'Code coverage',
-            path: 'guide/testing/code-coverage',
-            contentPath: 'guide/testing/code-coverage',
-          },
-          {
-            label: 'Testing services',
-            path: 'guide/testing/services',
-            contentPath: 'guide/testing/services',
-          },
-          {
             label: 'Basics of testing components',
             path: 'guide/testing/components-basics',
             contentPath: 'guide/testing/components-basics',
@@ -536,6 +569,11 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             label: 'Component testing scenarios',
             path: 'guide/testing/components-scenarios',
             contentPath: 'guide/testing/components-scenarios',
+          },
+          {
+            label: 'Testing services',
+            path: 'guide/testing/services',
+            contentPath: 'guide/testing/services',
           },
           {
             label: 'Testing attribute directives',
@@ -559,14 +597,19 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/testing/debugging',
           },
           {
+            label: 'Code coverage',
+            path: 'guide/testing/code-coverage',
+            contentPath: 'guide/testing/code-coverage',
+          },
+          {
             label: 'Testing utility APIs',
             path: 'guide/testing/utility-apis',
             contentPath: 'guide/testing/utility-apis',
           },
           {
-            label: 'Experimental unit testing integration',
-            path: 'guide/testing/unit-tests',
-            contentPath: 'guide/testing/experimental-unit-test',
+            label: 'Zone.js Testing Utilities',
+            path: 'guide/testing/zone-js-testing-utilities',
+            contentPath: 'guide/testing/zone-js-testing-utilities',
           },
           {
             label: 'Component harnesses overview',
@@ -587,6 +630,87 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             label: 'Adding harness support for additional testing environments',
             path: 'guide/testing/component-harnesses-testing-environments',
             contentPath: 'guide/testing/component-harnesses-testing-environments',
+          },
+          {
+            label: 'Migrating from Karma to Vitest',
+            path: 'guide/testing/migrating-to-vitest',
+            contentPath: 'guide/testing/migrating-to-vitest',
+          },
+          {
+            label: 'Testing with Karma and Jasmine',
+            path: 'guide/testing/karma',
+            contentPath: 'guide/testing/karma',
+          },
+        ],
+      },
+      {
+        label: 'Angular Aria',
+        status: 'new',
+        children: [
+          {
+            label: 'Overview',
+            path: 'guide/aria/overview',
+            contentPath: 'guide/aria/overview',
+          },
+          {
+            label: 'Accordion',
+            path: 'guide/aria/accordion',
+            contentPath: 'guide/aria/accordion',
+          },
+          {
+            label: 'Autocomplete',
+            path: 'guide/aria/autocomplete',
+            contentPath: 'guide/aria/autocomplete',
+          },
+          {
+            label: 'Combobox',
+            path: 'guide/aria/combobox',
+            contentPath: 'guide/aria/combobox',
+          },
+          {
+            label: 'Grid',
+            path: 'guide/aria/grid',
+            contentPath: 'guide/aria/grid',
+          },
+          {
+            label: 'Listbox',
+            path: 'guide/aria/listbox',
+            contentPath: 'guide/aria/listbox',
+          },
+          {
+            label: 'Menu',
+            path: 'guide/aria/menu',
+            contentPath: 'guide/aria/menu',
+          },
+          {
+            label: 'Menubar',
+            path: 'guide/aria/menubar',
+            contentPath: 'guide/aria/menubar',
+          },
+          {
+            label: 'Multiselect',
+            path: 'guide/aria/multiselect',
+            contentPath: 'guide/aria/multiselect',
+          },
+          {
+            label: 'Select',
+            path: 'guide/aria/select',
+            contentPath: 'guide/aria/select',
+          },
+          {
+            label: 'Tabs',
+            path: 'guide/aria/tabs',
+            contentPath: 'guide/aria/tabs',
+          },
+          {
+            label: 'Toolbar',
+            path: 'guide/aria/toolbar',
+            contentPath: 'guide/aria/toolbar',
+          },
+          {
+            label: 'Tree',
+            path: 'guide/aria/tree',
+            contentPath: 'guide/aria/tree',
           },
         ],
       },
@@ -702,6 +826,11 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Angular CLI MCP Server setup',
         path: 'ai/mcp',
         contentPath: 'ai/mcp-server-setup',
+      },
+      {
+        label: 'Angular AI Tutor',
+        path: 'ai/ai-tutor',
+        contentPath: 'ai/ai-tutor',
       },
     ],
   },
@@ -831,6 +960,11 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             path: 'tools/devtools/profiler',
             contentPath: 'tools/devtools/profiler',
           },
+          {
+            label: 'Injectors',
+            path: 'tools/devtools/injectors',
+            contentPath: 'tools/devtools/injectors',
+          },
           // TODO: create those guides
           // The signal debugging docs should also be added to the signal section
           // {
@@ -911,6 +1045,17 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Keeping up-to-date',
         path: 'update',
         contentPath: 'best-practices/update',
+      },
+    ],
+  },
+  {
+    label: 'Developer Events',
+    children: [
+      {
+        label: 'Angular v21 Release',
+        path: 'events/v21',
+        contentPath: 'events/v21',
+        status: 'new',
       },
     ],
   },
@@ -1080,6 +1225,7 @@ export const TUTORIALS_SUB_NAVIGATION_DATA: NavigationItem[] = [
   LEARN_ANGULAR_TUTORIAL_NAV_DATA,
   DEFERRABLE_VIEWS_TUTORIAL_NAV_DATA,
   SIGNALS_TUTORIAL_NAV_DATA,
+  SIGNAL_FORMS_TUTORIAL_NAV_DATA,
   {
     path: DEFAULT_PAGES.TUTORIALS,
     contentPath: 'tutorials/home',
@@ -1430,6 +1576,30 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'Self-closing tags',
         path: 'reference/migrations/self-closing-tags',
         contentPath: 'reference/migrations/self-closing-tags',
+      },
+      {
+        label: 'NgClass to Class',
+        path: 'reference/migrations/ngclass-to-class',
+        contentPath: 'reference/migrations/ngclass-to-class',
+        status: 'new',
+      },
+      {
+        label: 'NgStyle to Style',
+        path: 'reference/migrations/ngstyle-to-style',
+        contentPath: 'reference/migrations/ngstyle-to-style',
+        status: 'new',
+      },
+      {
+        label: 'Router Testing Module Migration',
+        path: 'reference/migrations/router-testing-module-migration',
+        contentPath: 'reference/migrations/router-testing-module-migration',
+        status: 'new',
+      },
+      {
+        label: 'CommonModule to Standalone',
+        path: 'reference/migrations/common-to-standalone',
+        contentPath: 'reference/migrations/common-to-standalone',
+        status: 'new',
       },
     ],
   },

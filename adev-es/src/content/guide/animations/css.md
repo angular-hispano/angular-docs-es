@@ -20,7 +20,7 @@ Consulta algunas de estas diversas guías y tutoriales, y luego regresa a esta g
 
 Puedes crear animaciones reutilizables que se pueden compartir en toda tu aplicación usando `@keyframes`. Define animaciones de keyframes en un archivo CSS compartido, y podrás reutilizar esas animaciones de keyframes donde quieras dentro de tu aplicación.
 
-<docs-code header="src/app/animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-shared"/>
+<docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-shared"/>
 
 Agregar la clase `animated-class` a un elemento activaría la animación en ese elemento.
 
@@ -30,7 +30,7 @@ Agregar la clase `animated-class` a un elemento activaría la animación en ese 
 
 Es posible que desees animar entre dos estados diferentes, por ejemplo cuando un elemento está abierto o cerrado. Puedes lograr esto usando clases CSS ya sea mediante una animación de keyframe o estilo de transición.
 
-<docs-code header="src/app/animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-states"/>
+<docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-states"/>
 
 Disparar el estado `open` o `closed` se hace alternando clases en el elemento en tu componente. Puedes encontrar ejemplos de cómo hacer esto en nuestra [guía de plantillas](guide/templates/binding#css-class-and-style-property-bindings).
 
@@ -42,20 +42,20 @@ Animar a menudo requiere ajustar comportamientos de tiempo, retrasos y easing. E
 
 Especifica `animation-duration`, `animation-delay` y `animation-timing-function` para una animación de keyframe en CSS, o alternativamente usa la propiedad abreviada `animation`.
 
-<docs-code header="src/app/animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-timing"/>
+<docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-timing"/>
 
 De manera similar, puedes usar `transition-duration`, `transition-delay` y `transition-timing-function` y la abreviación `transition` para animaciones que no están usando `@keyframes`.
 
-<docs-code header="src/app/animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="transition-timing"/>
+<docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="transition-timing"/>
 
 ### Disparando una animación
 
 Las animaciones se pueden disparar alternando estilos o clases CSS. Una vez que una clase está presente en un elemento, la animación ocurrirá. Eliminar la clase revertirá el elemento a cualquier CSS que esté definido para ese elemento. Aquí hay un ejemplo:
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/open-close.component.ts">
-    <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.ts" />
-    <docs-code header="src/app/open-close.component.html" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.html" />
-    <docs-code header="src/app/open-close.component.css" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.css"/>
+    <docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.ts" />
+    <docs-code header="open-close.component.html" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.html" />
+    <docs-code header="open-close.component.css" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.css"/>
 </docs-code-multifile>
 
 ## Transiciones y triggers
@@ -65,9 +65,9 @@ Las animaciones se pueden disparar alternando estilos o clases CSS. Una vez que 
 Puedes usar css-grid para animar a altura automática.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.ts">
-    <docs-code header="src/app/auto-height.component.ts" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.ts" />
-    <docs-code header="src/app/auto-height.component.html" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.html" />
-    <docs-code header="src/app/auto-height.component.css" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.css"  />
+    <docs-code header="auto-height.component.ts" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.ts" />
+    <docs-code header="auto-height.component.html" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.html" />
+    <docs-code header="auto-height.component.css" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.css"  />
 </docs-code-multifile>
 
 Si no tienes que preocuparte por soportar todos los navegadores, también puedes revisar `calc-size()`, que es la verdadera solución para animar altura automática. Consulta [la documentación de MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/calc-size) y (este tutorial)[https://frontendmasters.com/blog/one-of-the-boss-battles-of-css-is-almost-won-transitioning-to-auto/] para más información.
@@ -77,17 +77,17 @@ Si no tienes que preocuparte por soportar todos los navegadores, también puedes
 Puedes crear animaciones para cuando un elemento entra en una vista o sale de una vista. Comencemos viendo cómo animar un elemento que entra en una vista. Haremos esto con `animate.enter`, que aplicará clases de animación cuando un elemento entre en la vista.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/insert.component.ts">
-    <docs-code header="src/app/insert.component.ts" path="adev/src/content/examples/animations/src/app/native-css/insert.component.ts" />
-    <docs-code header="src/app/insert.component.html" path="adev/src/content/examples/animations/src/app/native-css/insert.component.html" />
-    <docs-code header="src/app/insert.component.css" path="adev/src/content/examples/animations/src/app/native-css/insert.component.css"  />
+    <docs-code header="insert.component.ts" path="adev/src/content/examples/animations/src/app/native-css/insert.component.ts" />
+    <docs-code header="insert.component.html" path="adev/src/content/examples/animations/src/app/native-css/insert.component.html" />
+    <docs-code header="insert.component.css" path="adev/src/content/examples/animations/src/app/native-css/insert.component.css"  />
 </docs-code-multifile>
 
 Animar un elemento cuando sale de la vista es similar a animar cuando entra en una vista. Usa `animate.leave` para especificar qué clases CSS aplicar cuando el elemento sale de la vista.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/remove.component.ts">
-    <docs-code header="src/app/remove.component.ts" path="adev/src/content/examples/animations/src/app/native-css/remove.component.ts" />
-    <docs-code header="src/app/remove.component.html" path="adev/src/content/examples/animations/src/app/native-css/remove.component.html" />
-    <docs-code header="src/app/remove.component.css" path="adev/src/content/examples/animations/src/app/native-css/remove.component.css"  />
+    <docs-code header="remove.component.ts" path="adev/src/content/examples/animations/src/app/native-css/remove.component.ts" />
+    <docs-code header="remove.component.html" path="adev/src/content/examples/animations/src/app/native-css/remove.component.html" />
+    <docs-code header="remove.component.css" path="adev/src/content/examples/animations/src/app/native-css/remove.component.css"  />
 </docs-code-multifile>
 
 Para más información sobre `animate.enter` y `animate.leave`, consulta la [guía de animaciones de entrada y salida](guide/animations).
@@ -97,9 +97,9 @@ Para más información sobre `animate.enter` y `animate.leave`, consulta la [gu�
 Animar en incremento y decremento es un patrón común en aplicaciones. Aquí hay un ejemplo de cómo puedes lograr ese comportamiento.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.ts">
-    <docs-code header="src/app/increment-decrement.component.ts" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.ts" />
-    <docs-code header="src/app/increment-decrement.component.html" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.html" />
-    <docs-code header="src/app/increment-decrement.component.css" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.css" />
+    <docs-code header="increment-decrement.component.ts" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.ts" />
+    <docs-code header="increment-decrement.component.html" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.html" />
+    <docs-code header="increment-decrement.component.css" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.css" />
 </docs-code-multifile>
 
 ### Deshabilitando una animación o todas las animaciones
@@ -148,9 +148,9 @@ Las animaciones son a menudo más complicadas que solo un simple fade in o fade 
 Un efecto común es escalonar las animaciones de cada elemento en una lista para crear un efecto en cascada. Esto se puede lograr utilizando `animation-delay` o `transition-delay`. Aquí hay un ejemplo de cómo podría verse ese CSS.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/stagger.component.ts">
-    <docs-code header="src/app/stagger.component.ts" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.ts" />
-    <docs-code header="src/app/stagger.component.html" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.html" />
-    <docs-code header="src/app/stagger.component.css" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.css" />
+    <docs-code header="stagger.component.ts" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.ts" />
+    <docs-code header="stagger.component.html" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.html" />
+    <docs-code header="stagger.component.css" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.css" />
 </docs-code-multifile>
 
 ### Animaciones paralelas
@@ -170,9 +170,9 @@ En este ejemplo, las animaciones `rotate` y `fade-in` se disparan al mismo tiemp
 Los elementos en un bucle `@for` serán eliminados y re-agregados, lo que disparará animaciones usando `@starting-styles` para animaciones de entrada. Alternativamente, puedes usar `animate.enter` para este mismo comportamiento. Usa `animate.leave` para animar elementos a medida que se eliminan, como se ve en el ejemplo a continuación.
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/reorder.component.ts">
-    <docs-code header="src/app/reorder.component.ts" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.ts" />
-    <docs-code header="src/app/reorder.component.html" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.html" />
-    <docs-code header="src/app/reorder.component.css" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.css" />
+    <docs-code header="reorder.component.ts" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.ts" />
+    <docs-code header="reorder.component.html" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.html" />
+    <docs-code header="reorder.component.css" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.css" />
 </docs-code-multifile>
 
 ## Control programático de animaciones

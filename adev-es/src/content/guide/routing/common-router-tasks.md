@@ -11,7 +11,7 @@ Para editar un elemento, los usuarios hacen clic en un botón Editar, que abre u
 Quieres que ese componente recupere el `id` del artículo de comestible para que pueda mostrar la información correcta al usuario.
 
 Usa una ruta para pasar este tipo de información a los componentes de tu aplicación.
-Para hacerlo, usas la funcionalidad [`withComponentInputBinding`](api/router/withComponentInputBinding) con `provideRouter` o la opción `bindToComponentInputs` de `RouterModule.forRoot`.
+Para hacerlo, usas la funcionalidad `withComponentInputBinding` con `provideRouter` o la opción `bindToComponentInputs` de `RouterModule.forRoot`.
 
 Para obtener información de una ruta:
 
@@ -35,7 +35,7 @@ Actualiza el componente para que tenga una propiedad `input()` que coincida con 
 
 ```ts
 id = input.required<string>()
-hero = computed(() => this.service.getHero(id));
+hero = computed(() => this.service.getHero(id()));
 ```
 
 </docs-step>
@@ -60,11 +60,11 @@ internalId = linkedSignal(() => this.id() ?? getDefaultId());
 
 NOTA: Puedes vincular todos los datos de ruta con pares clave-valor a las entradas del componente: datos de ruta estáticos o resueltos, parámetros de ruta, parámetros de matriz y parámetros de consulta.
 Si deseas usar la información de ruta del componente padre, necesitarás configurar la opción `paramsInheritanceStrategy` del router:
-`withRouterConfig({paramsInheritanceStrategy: 'always'})`
+`withRouterConfig({paramsInheritanceStrategy: 'always'})`. Consulta [opciones de configuración del router](guide/routing/customizing-route-behavior#opciones-de-configuración-del-router) para obtener detalles sobre otras configuraciones disponibles.
 
 ## Mostrar una página 404
 
-Para mostrar una página 404, configura una [ruta comodín](guide/routing/common-router-tasks#setting-up-wildcard-routes) con la propiedad `component` establecida en el componente que deseas usar para tu página 404 de la siguiente manera:
+Para mostrar una página 404, configura una [ruta comodín](guide/routing/common-router-tasks#mostrar-una-página-404) con la propiedad `component` establecida en el componente que deseas usar para tu página 404 de la siguiente manera:
 
 ```ts
 const routes: Routes = [
@@ -103,6 +103,8 @@ Proporciona parámetros de ruta opcionales en un objeto, como en `{ foo: 'foo' }
 ```angular-html
 <a [routerLink]="['/crisis-center', { foo: 'foo' }]">Crisis Center</a>
 ```
+
+Esta sintaxis pasa parámetros de matriz, que son parámetros opcionales asociados con un segmento de URL específico. Aprende más sobre [parámetros de matriz](/guide/routing/read-route-state#parámetros-de-matriz).
 
 Estos tres ejemplos cubren las necesidades de una aplicación con un nivel de enrutamiento.
 Sin embargo, con un router hijo, como en el centro de crisis, creas nuevas posibilidades de array de enlaces.

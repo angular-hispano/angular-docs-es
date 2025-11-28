@@ -24,7 +24,7 @@ Los siguientes son eventos de error comunes:
 | [`NavigationCancel`](api/router/NavigationCancel) | Ocurre cuando el router cancela la navegación. A menudo debido a que un guard retorna false. |
 | [`NavigationError`](api/router/NavigationError)   | Ocurre cuando la navegación falla. Podría ser debido a rutas inválidas o errores de resolver. |
 
-Para una lista de todos los eventos de ciclo de vida, consulta la [tabla completa de esta guía](#all-router-events).
+Para una lista de todos los eventos de ciclo de vida, consulta la [tabla completa de esta guía](#todos-los-eventos-del-router).
 
 ## Cómo suscribirse a eventos del router
 
@@ -116,8 +116,9 @@ export class AppComponent {
 
 Rastrear vistas de página para analíticas:
 
-```typescript
-import { Component, inject, signal, effect } from '@angular/core';
+```ts
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { inject, Injectable, DestroyRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
@@ -131,7 +132,7 @@ export class AnalyticsService {
         // Rastrear vistas de página cuando cambia la URL
         if (event instanceof NavigationEnd) {
            // Enviar vista de página a analíticas
-          this.analytics.trackPageView(url);
+          this.analytics.trackPageView(event.url);
         }
       });
   }
@@ -151,6 +152,7 @@ Manejar errores de navegación con gracia y proporcionar retroalimentación al u
 ```angular-ts
 import { Component, inject, signal } from '@angular/core';
 import { Router, NavigationStart, NavigationError, NavigationCancel, NavigationCancellationCode } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-error-handler',
@@ -176,7 +178,7 @@ export class ErrorHandlerComponent {
         this.errorMessage.set('Failed to load page. Please try again.');
       } else if (event instanceof NavigationCancel) {
         console.warn('Navigation cancelled:', event.reason);
-        if (event.reason === NavigationCancellationCode.GuardRejected) {
+        if (event.code === NavigationCancellationCode.GuardRejected) {
           this.errorMessage.set('Access denied. Please check your permissions.');
         }
       }

@@ -123,7 +123,7 @@ A menos que seas fluido en el idioma y tengas tiempo para editar traducciones, p
     1. Crear la traducción.
     1. Editar la traducción.
 
-### Ejemplo del proceso de traducción para francés
+### Ejemplo del proceso de traducción para Francés
 
 Para demostrar el proceso, revisa el archivo `messages.fr.xlf` en la [Aplicación de ejemplo de internacionalización de Angular][GuideI18nExample].  La [Aplicación de ejemplo de internacionalización de Angular][GuideI18nExample] incluye una traducción al francés para que la edites sin un editor XLIFF especial ni conocimiento de francés.
 

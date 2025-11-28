@@ -12,14 +12,121 @@ La personalización de rutas puede volverse valiosa cuando tu aplicación necesi
 
 NOTA: Antes de implementar estrategias personalizadas, asegúrate de que el comportamiento predeterminado del router no satisfaga tus necesidades. El enrutamiento predeterminado en Angular está optimizado para casos de uso comunes y proporciona el mejor balance de rendimiento y simplicidad. Personalizar estrategias de ruta puede crear complejidad adicional en el código y tener implicaciones de rendimiento en el uso de memoria si no se gestiona cuidadosamente.
 
+## Opciones de configuración del router
+
+`withRouterConfig` o `RouterModule.forRoot` permite proporcionar opciones adicionales de `RouterConfigOptions` para ajustar el comportamiento del Router.
+
+### Manejar navegaciones canceladas
+
+`canceledNavigationResolution` controla cómo el Router restaura el historial del navegador cuando se cancela una navegación. El valor predeterminado es `'replace'`, que revierte a la URL previa a la navegación con `location.replaceState`. En la práctica, esto significa que cada vez que la barra de direcciones ya se ha actualizado para la navegación, como con los botones de retroceso o avance del navegador, la entrada del historial se sobrescribe con el "rollback" si la navegación falla o es rechazada por un guard.
+Cambiar a `'computed'` mantiene el índice del historial en vuelo sincronizado con la navegación de Angular, por lo que cancelar una navegación del botón de retroceso dispara una navegación hacia adelante (y viceversa) para volver a la página original.
+
+Esta configuración es más útil cuando tu aplicación usa `urlUpdateStrategy: 'eager'` o cuando los guards cancelan frecuentemente navegaciones popstate iniciadas por el navegador.
+
+```ts
+provideRouter(routes, withRouterConfig({ canceledNavigationResolution: 'computed' }));
+```
+
+### Reaccionar a navegaciones de la misma URL
+
+`onSameUrlNavigation` configura qué debe suceder cuando el usuario solicita navegar a la URL actual. El valor predeterminado `'ignore'` omite el trabajo, mientras que `'reload'` vuelve a ejecutar guards y resolvers y actualiza las instancias de componentes.
+
+Esto es útil cuando quieres que los clics repetidos en un filtro de lista, elemento de navegación izquierda o botón de actualización disparen una nueva recuperación de datos aunque la URL no cambie.
+
+```ts
+provideRouter(routes, withRouterConfig({ onSameUrlNavigation: 'reload' }));
+```
+
+También puedes controlar este comportamiento en navegaciones individuales en lugar de globalmente. Esto te permite mantener el valor predeterminado de `'ignore'` mientras habilitas selectivamente el comportamiento de recarga para casos de uso específicos:
+
+```ts
+router.navigate(['/some-path'], { onSameUrlNavigation: 'reload' });
+```
+
+### Controlar la herencia de parámetros
+
+`paramsInheritanceStrategy` define cómo fluyen los parámetros y datos de ruta desde las rutas padre.
+
+Con el valor predeterminado `'emptyOnly'`, las rutas hijas heredan parámetros solo cuando su ruta está vacía o el padre no declara un componente.
+
+```ts
+provideRouter(routes, withRouterConfig({ paramsInheritanceStrategy: 'always' }));
+```
+
+```ts
+export const routes: Routes = [
+  {
+    path: 'org/:orgId',
+    component: Organization,
+    children: [
+      {
+        path: 'projects/:projectId',
+        component: Project,
+        children: [
+          {
+            path: 'customers/:customerId',
+            component: Customer
+          }
+        ]
+      }
+    ]
+  }
+];
+```
+
+```ts
+@Component({ /* ... */})
+export class CustomerComponent {
+  private route = inject(ActivatedRoute);
+
+  orgId = this.route.parent?.parent?.snapshot.params['orgId'];
+  projectId = this.route.parent?.snapshot.params['projectId'];
+  customerId = this.route.snapshot.params['customerId'];
+}
+```
+
+Usar `'always'` asegura que los parámetros de matriz, datos de ruta y valores resueltos estén disponibles más abajo en el árbol de rutas—útil cuando compartes identificadores contextuales entre áreas de características como `/org/:orgId/projects/:projectId/customers/:customerId`.
+
+```ts
+@Component({ /* ... */})
+export class CustomerComponent {
+  private route = inject(ActivatedRoute);
+
+  // Todos los parámetros padre están disponibles directamente
+  orgId = this.route.snapshot.params['orgId'];
+  projectId = this.route.snapshot.params['projectId'];
+  customerId = this.route.snapshot.params['customerId'];
+}
+```
+
+### Decidir cuándo se actualiza la URL
+
+`urlUpdateStrategy` determina cuándo Angular escribe en la barra de direcciones del navegador. El valor predeterminado `'deferred'` espera una navegación exitosa antes de cambiar la URL. Usa `'eager'` para actualizar inmediatamente cuando comienza la navegación. Las actualizaciones eager facilitan mostrar la URL intentada si la navegación falla debido a guards o errores, pero pueden mostrar brevemente una URL en progreso si tienes guards de larga duración.
+
+Considera esto cuando tu pipeline de análisis necesita ver la ruta intentada incluso si los guards la bloquean.
+
+```ts
+provideRouter(routes, withRouterConfig({ urlUpdateStrategy: 'eager' }));
+```
+
+### Elegir el manejo predeterminado de parámetros de consulta
+
+`defaultQueryParamsHandling` establece el comportamiento de respaldo para `Router.createUrlTree` cuando la llamada no especifica `queryParamsHandling`. `'replace'` es el valor predeterminado y reemplaza la cadena de consulta existente. `'merge'` combina los valores proporcionados con los actuales, y `'preserve'` mantiene los parámetros de consulta existentes a menos que proporciones explícitamente nuevos.
+
+```ts
+provideRouter(routes, withRouterConfig({ defaultQueryParamsHandling: 'merge' }));
+```
+
+Esto es especialmente útil para páginas de búsqueda y filtros para retener automáticamente los filtros existentes cuando se proporcionan parámetros adicionales.
+
 Angular Router expone cuatro áreas principales para personalización:
 
-  <docs-pill-row>
-    <docs-pill href="#route-reuse-strategy" title="Estrategia de reutilización de rutas"/>
-    <docs-pill href="#preloading-strategy" title="Estrategia de precarga"/>
-    <docs-pill href="#url-handling-strategy" title="Estrategia de manejo de URL"/>
-    <docs-pill href="#custom-route-matchers" title="Matchers de ruta personalizados"/>
-  </docs-pill-row>
+<docs-pill-row>
+  <docs-pill href="#estrategia-de-reutilización-de-rutas" title="Estrategia de reutilización de rutas"/>
+  <docs-pill href="#estrategia-de-precarga" title="Estrategia de precarga"/>
+  <docs-pill href="#estrategia-de-manejo-de-url" title="Estrategia de manejo de URL"/>
+  <docs-pill href="#matchers-de-ruta-personalizados" title="Matchers de ruta personalizados"/>
+</docs-pill-row>
 
 ## Estrategia de reutilización de rutas
 
@@ -53,12 +160,12 @@ La clase `RouteReuseStrategy` proporciona cinco métodos que controlan el ciclo 
 El siguiente ejemplo demuestra una estrategia personalizada de reutilización de rutas que preserva selectivamente el estado del componente basado en metadatos de ruta:
 
 ```ts
-import { RouteReuseStrategy, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
+import { RouteReuseStrategy, Route, ActivatedRouteSnapshot, DetachedRouteHandle } from '@angular/router';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CustomRouteReuseStrategy implements RouteReuseStrategy {
-  private handlers = new Map<string, DetachedRouteHandle>();
+  private handlers = new Map<Route | null, DetachedRouteHandle>();
 
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     // Determina si una ruta debe almacenarse para reutilización posterior
@@ -90,11 +197,13 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
     return future.routeConfig === curr.routeConfig;
   }
 
-  private getRouteKey(route: ActivatedRouteSnapshot): string {
-    return route.routeConfig ?? '';
+  private getRouteKey(route: ActivatedRouteSnapshot): Route | null {
+    return route.routeConfig;
   }
 }
 ```
+
+NOTA: Evita usar la ruta path como clave cuando hay guards `canMatch` involucrados, ya que puede llevar a entradas duplicadas.
 
 ### Configurando una ruta para usar una estrategia personalizada de reutilización
 
@@ -339,7 +448,7 @@ export const routes: Routes = [
 
 El componente recibe los parámetros extraídos a través de inputs de ruta:
 
-```ts
+```angular-ts
 import { Component, input, inject } from '@angular/core';
 import { resource } from '@angular/core';
 

@@ -8,9 +8,9 @@ Esta página explora los **casos de uso poco comunes** en los que necesitas un p
 
 Existen algunos casos muy específicos en los que podrías querer mantener un pipeline de compilación personalizado. Por ejemplo:
 
-* Tienes una aplicación existente que utiliza una herramienta diferente y quieres agregar Angular
-* Estás fuertemente acoplado a [module federation](https://module-federation.io/) y no puedes adoptar la [native federation](https://www.npmjs.com/package/@angular-architects/native-federation) independiente del empaquetador
-* Quieres crear un experimento de corta duración usando tu herramienta de compilación favorita
+- Tienes una aplicación existente que utiliza una herramienta diferente y quieres agregar Angular
+- Estás fuertemente acoplado a [module federation](https://module-federation.io/) y no puedes adoptar la [native federation](https://www.npmjs.com/package/@angular-architects/native-federation) independiente del empaquetador
+- Quieres crear un experimento de corta duración usando tu herramienta de compilación favorita
 
 ## ¿Cuáles son las opciones?
 

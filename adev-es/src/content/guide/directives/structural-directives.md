@@ -130,7 +130,7 @@ Cuando escribas tus propias directivas estructurales, usa la siguiente sintaxis:
 
 <docs-code hideCopy language="typescript">
 
-*:prefix="( :let | :expression ) (';' | ',')? ( :let | :as | :keyExp )*"
+_:prefix="( :let | :expression ) (';' | ',')? ( :let | :as | :keyExp )_"
 
 </docs-code>
 
@@ -142,35 +142,35 @@ keyExp = :key ":"? :expression ("as" :local)? ";"?
 let = "let" :local "=" :export ";"?
 ```
 
-| Palabra clave      | Detalles                                            |
-| :----------- | :------------------------------------------------- |
-| `prefix`     | Clave de atributo HTML                                 |
-| `key`        | Clave de atributo HTML                                 |
-| `local`      | Nombre de variable local usado en la plantilla           |
-| `export`     | Valor exportado por la directiva bajo un nombre dado |
-| `expression` | Expresión estándar de Angular                        |
+| Palabra clave  | Detalles                                             |
+| :------------- | :--------------------------------------------------- |
+| `prefix`        | Clave de atributo HTML                               |
+| `key`          | Clave de atributo HTML                               |
+| `local`        | Nombre de variable local usado en la plantilla       |
+| `export`       | Valor exportado por la directiva bajo un nombre dado |
+| `expression`   | Expresión estándar de Angular                        |
 
 ### Cómo Angular traduce la sintaxis abreviada
 
 Angular translates structural directive shorthand into the normal binding syntax as follows:
 
-| Shorthand | Translation |
-|:--- |:--- |
-| `prefix` and naked `expression` | `[prefix]="expression"` |
-| `keyExp` | `[prefixKey]="expression"` (The `prefix` is added to the `key`) |
-| `let local` | `let-local="export"` |
+| Shorthand                      | Translation                                                   |
+|:------------------------------ |:------------------------------------------------------------- |
+| `prefix` and naked `expression` | `[prefix]="expression"`                                        |
+| `keyExp`                       | `[prefixKey]="expression"` (The `prefix` is added to the `key`) |
+| `let local`                    | `let-local="export"`                                          |
 
 ## Ejemplos de sintaxis abreviada
 
 La siguiente tabla proporciona ejemplos de sintaxis abreviada:
 
-| Sintaxis abreviada | Cómo Angular interpreta la sintaxis |
-|:--- |:--- |
-| `*myDir="let item of [1,2,3]"` | `<ng-template myDir let-item [myDirOf]="[1, 2, 3]">` |
-| `*myDir="let item of [1,2,3] as items; trackBy: myTrack; index as i"` | `<ng-template myDir let-item [myDirOf]="[1,2,3]" let-items="myDirOf" [myDirTrackBy]="myTrack" let-i="index">` |
-| `*ngComponentOutlet="componentClass";` | `<ng-template [ngComponentOutlet]="componentClass">` |
-| `*ngComponentOutlet="componentClass; inputs: myInputs";` | `<ng-template [ngComponentOutlet]="componentClass" [ngComponentOutletInputs]="myInputs">` |
-| `*myDir="exp as value"` | `<ng-template [myDir]="exp" let-value="myDir">` |
+| Sintaxis abreviada                                                        | Cómo Angular interpreta la sintaxis                                                                           |
+|:------------------------------------------------------------------------- |:------------------------------------------------------------------------------------------------------------- |
+| `*myDir="let item of [1,2,3]"`                                            | `<ng-template myDir let-item [myDirOf]="[1, 2, 3]">`                                                          |
+| `*myDir="let item of [1,2,3] as items; trackBy: myTrack; index as i"`     | `<ng-template myDir let-item [myDirOf]="[1,2,3]" let-items="myDirOf" [myDirTrackBy]="myTrack" let-i="index">` |
+| `*ngComponentOutlet="componentClass";`                                    | `<ng-template [ngComponentOutlet]="componentClass">`                                                          |
+| `*ngComponentOutlet="componentClass; inputs: myInputs";`                  | `<ng-template [ngComponentOutlet]="componentClass" [ngComponentOutletInputs]="myInputs">`                     |
+| `*myDir="exp as value"`                                                   | `<ng-template [myDir]="exp" let-value="myDir">`                                                               |
 
 ## Mejorando la verificación de tipos de plantilla para directivas personalizadas
 
@@ -178,8 +178,8 @@ Puedes mejorar la verificación de tipos de plantilla para directivas personaliz
 Estos guardias ayudan al verificador de tipos de plantilla de Angular a encontrar errores en la plantilla en tiempo de compilación, lo que puede evitar errores en tiempo de ejecución.
 Dos tipos diferentes de guardias son posibles:
 
-* `ngTemplateGuard_(input)` te permite controlar cómo una expresión de entrada debe estrecharse basándose en el tipo de una entrada específica.
-* `ngTemplateContextGuard` se usa para determinar el tipo del objeto de contexto para la plantilla, basándose en el tipo de la directiva misma.
+- `ngTemplateGuard_(input)` te permite controlar cómo una expresión de entrada debe estrecharse basándose en el tipo de una entrada específica.
+- `ngTemplateContextGuard` se usa para determinar el tipo del objeto de contexto para la plantilla, basándose en el tipo de la directiva misma.
 
 Esta sección proporciona ejemplos de ambos tipos de guardias.
 Para más información, consulta [Verificación de tipos de plantilla](tools/cli/template-typecheck "Guía de verificación de tipos de plantilla").
@@ -190,8 +190,8 @@ Una directiva estructural en una plantilla controla si esa plantilla se renderiz
 
 Hay dos estrechamientos que son posibles con guardias de entrada:
 
-* Estrechar la expresión de entrada basándose en una función de aserción de tipo TypeScript.
-* Estrechar la expresión de entrada basándose en su veracidad.
+- Estrechar la expresión de entrada basándose en una función de aserción de tipo TypeScript.
+- Estrechar la expresión de entrada basándose en su veracidad.
 
 Para estrechar la expresión de entrada definiendo una función de aserción de tipo:
 

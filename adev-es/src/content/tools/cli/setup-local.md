@@ -1,6 +1,6 @@
 # Configurando el entorno local y el workspace
 
-Esta guía explica cómo configurar tu entorno para el desarrollo en Angular usando el [Angular CLI](cli "Referencia de comandos CLI").
+Esta guía explica cómo configurar tu entorno para el desarrollo en Angular usando el [Angular CLI](cli 'Referencia de comandos CLI').
 Incluye información sobre cómo instalar el CLI, crear un workspace inicial y una aplicación de inicio, y ejecutar esa aplicación localmente para verificar tu configuración.
 
 <docs-callout title="Prueba Angular sin configuración local">
@@ -16,9 +16,9 @@ No necesitas configurar tu entorno local hasta que estés listo.
 Para usar Angular CLI, debes estar familiarizado con lo siguiente:
 
 <docs-pill-row>
-  <docs-pill href="https://developer.mozilla.org/docs/Web/JavaScript/A_re-introduction_to_JavaScript" title="JavaScript"/>
-  <docs-pill href="https://developer.mozilla.org/docs/Learn/HTML/Introduction_to_HTML" title="HTML"/>
-  <docs-pill href="https://developer.mozilla.org/docs/Learn/CSS/First_steps" title="CSS"/>
+  <docs-pill href="https://developer.mozilla.org/es/docs/Web/JavaScript" title="JavaScript"/>
+  <docs-pill href="https://developer.mozilla.org/es/docs/Web/HTML" title="HTML"/>
+  <docs-pill href="https://developer.mozilla.org/es/docs/Web/CSS" title="CSS"/>
 </docs-pill-row>
 
 También debes estar familiarizado con el uso de herramientas de interfaz de línea de comandos (CLI) y tener una comprensión general de los shells de comandos.
@@ -40,21 +40,25 @@ Para instalar el Angular CLI, abre una ventana de terminal y ejecuta el siguient
 <docs-code-multifile>
    <docs-code
      header="npm"
+     language="shell"
      >
      npm install -g @angular/cli
      </docs-code>
    <docs-code
      header="pnpm"
+     language="shell"
      >
      pnpm install -g @angular/cli
      </docs-code>
    <docs-code
      header="yarn"
+     language="shell"
      >
      yarn global add @angular/cli
      </docs-code>
    <docs-code
      header="bun"
+     language="shell"
      >
      bun install -g @angular/cli
      </docs-code>
@@ -66,11 +70,11 @@ Para instalar el Angular CLI, abre una ventana de terminal y ejecuta el siguient
 En computadoras cliente con Windows, la ejecución de scripts de PowerShell está deshabilitada por defecto, por lo que el comando anterior puede fallar con un error.
 Para permitir la ejecución de scripts de PowerShell, que es necesario para los binarios globales de npm, debes establecer la siguiente <a href="https://docs.microsoft.com/powershell/module/microsoft.powershell.core/about/about_execution_policies">política de ejecución</a>:
 
-<docs-code language="sh">
+```sh
 
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
-</docs-code>
+```
 
 Lee cuidadosamente el mensaje mostrado después de ejecutar el comando y sigue las instrucciones. Asegúrate de entender las implicaciones de establecer una política de ejecución.
 
@@ -82,21 +86,25 @@ Ejecuta con `sudo` para ejecutar el comando como usuario root e ingresa tu contr
 <docs-code-multifile>
    <docs-code
      header="npm"
+     language="shell"
      >
      sudo npm install -g @angular/cli
      </docs-code>
    <docs-code
      header="pnpm"
+     language="shell"
      >
      sudo pnpm install -g @angular/cli
      </docs-code>
    <docs-code
      header="yarn"
+     language="shell"
      >
      sudo yarn global add @angular/cli
      </docs-code>
    <docs-code
      header="bun"
+     language="shell"
      >
      sudo bun install -g @angular/cli
      </docs-code>
@@ -111,11 +119,11 @@ Desarrollas aplicaciones en el contexto de un **workspace** de Angular.
 
 Para crear un nuevo workspace y una aplicación de inicio inicial, ejecuta el comando CLI `ng new` y proporciona el nombre `my-app`, como se muestra aquí, luego responde las preguntas sobre las características a incluir:
 
-<docs-code language="shell">
+```shell
 
 ng new my-app
 
-</docs-code>
+```
 
 El Angular CLI instala los paquetes npm de Angular necesarios y otras dependencias.
 Esto puede tomar unos minutos.
@@ -123,21 +131,21 @@ Esto puede tomar unos minutos.
 El CLI crea un nuevo workspace y una pequeña aplicación de bienvenida en un nuevo directorio con el mismo nombre que el workspace, lista para ejecutarse.
 Navega al nuevo directorio para que los comandos subsiguientes usen este workspace.
 
-<docs-code language="shell">
+```shell
 
 cd my-app
 
-</docs-code>
+```
 
 ## Ejecutar la aplicación
 
 El Angular CLI incluye un servidor de desarrollo, para que puedas construir y servir tu aplicación localmente. Ejecuta el siguiente comando:
 
-<docs-code language="shell">
+```shell
 
 ng serve --open
 
-</docs-code>
+```
 
 El comando `ng serve` lanza el servidor, observa tus archivos, así como reconstruye la aplicación y recarga el navegador a medida que haces cambios en esos archivos.
 
@@ -156,16 +164,16 @@ Cada aplicación tiene una carpeta `src` que contiene sus componentes, datos y r
 Puedes editar los archivos generados directamente, o agregar y modificarlos usando comandos CLI.
 Usa el comando [`ng generate`](cli/generate) para agregar nuevos archivos para componentes adicionales, directivas, pipes, servicios y más.
 Los comandos como [`ng add`](cli/add) y [`ng generate`](cli/generate), que crean u operan en aplicaciones y librerías, deben ejecutarse
-desde dentro de un workspace. Por el contrario, los comandos como `ng new` deben ejecutarse *fuera* de un workspace porque crearán uno nuevo.
+desde dentro de un workspace. Por el contrario, los comandos como `ng new` deben ejecutarse _fuera_ de un workspace porque crearán uno nuevo.
 
 ## Siguientes pasos
 
-* Aprende más sobre la [estructura de archivos](reference/configs/file-structure) y [configuración](reference/configs/workspace-config) del workspace generado.
+- Aprende más sobre la [estructura de archivos](reference/configs/file-structure) y [configuración](reference/configs/workspace-config) del workspace generado.
 
-* Prueba tu nueva aplicación con [`ng test`](cli/test).
+- Prueba tu nueva aplicación con [`ng test`](cli/test).
 
-* Genera código repetitivo como componentes, directivas y pipes con [`ng generate`](cli/generate).
+- Genera código repetitivo como componentes, directivas y pipes con [`ng generate`](cli/generate).
 
-* Despliega tu nueva aplicación y hazla disponible para usuarios reales con [`ng deploy`](cli/deploy).
+- Despliega tu nueva aplicación y hazla disponible para usuarios reales con [`ng deploy`](cli/deploy).
 
-* Configura y ejecuta pruebas end-to-end de tu aplicación con [`ng e2e`](cli/e2e).
+- Configura y ejecuta pruebas end-to-end de tu aplicación con [`ng e2e`](cli/e2e).

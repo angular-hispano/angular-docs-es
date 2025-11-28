@@ -4,7 +4,7 @@
 
 RESUMEN: Los interceptores son middleware que permiten abstraer patrones comunes como reintentos, caché, registro de actividad y autenticación, evitando que cada solicitud individual tenga que manejar estos casos por separado.
 
-`HttpClient` soporta dos tipos de interceptores: funcionales y basados en DI. Nuestra recomendación es usar interceptores funcionales porque tienen un comportamiento más predecible, especialmente en configuraciones complejas. Nuestros ejemplos en esta guía usan interceptores funcionales, y cubrimos los [interceptores basados en DI](#interceptores-basados-en-di) en su propia sección al final.
+`HttpClient` soporta dos tipos de interceptores: funcionales y basados en DI. Nuestra recomendación es usar interceptores funcionales porque tienen un comportamiento más predecible, especialmente en configuraciones complejas. Nuestros ejemplos en esta guía usan interceptores funcionales, y cubrimos los [interceptores basados en DI](#interceptores-basados-en-di-inyección-de-dependencias) en su propia sección al final.
 
 ## Interceptores
 
@@ -12,15 +12,15 @@ Los interceptores son generalmente funciones que puedes ejecutar para cada solic
 
 Puedes usar interceptores para implementar una variedad de patrones comunes, como:
 
-* Agregar encabezados de autenticación a las solicitudes salientes a una API particular.
-* Reintentar solicitudes fallidas con retroceso exponencial.
-* Almacenar en caché las respuestas por un período de tiempo, o hasta que sean invalidadas por mutaciones.
-* Personalizar el análisis de las respuestas.
-* Medir los tiempos de respuesta del servidor y registrarlos.
-* Controlar elementos de la UI como un indicador de carga mientras las operaciones de red están en progreso.
-* Recopilar y agrupar solicitudes realizadas dentro de un marco de tiempo determinado.
-* Fallar automáticamente las solicitudes después de una fecha límite o tiempo de espera configurable.
-* Consultar periódicamente el servidor y actualizar los resultados.
+- Agregar encabezados de autenticación a las solicitudes salientes a una API particular.
+- Reintentar solicitudes fallidas con retroceso exponencial.
+- Almacenar en caché las respuestas por un período de tiempo, o hasta que sean invalidadas por mutaciones.
+- Personalizar el análisis de las respuestas.
+- Medir los tiempos de respuesta del servidor y registrarlos.
+- Controlar elementos de la UI como un indicador de carga mientras las operaciones de red están en progreso.
+- Recopilar y agrupar solicitudes realizadas dentro de un marco de tiempo determinado.
+- Fallar automáticamente las solicitudes después de una fecha límite o tiempo de espera configurable.
+- Consultar periódicamente el servidor y actualizar los resultados.
 
 ## Definiendo un interceptor
 
@@ -28,12 +28,12 @@ La forma básica de un interceptor es una función que recibe la `HttpRequest` s
 
 Por ejemplo, este `loggingInterceptor` registrará la URL de la solicitud saliente en `console.log` antes de reenviar la solicitud:
 
-<docs-code language="ts">
+```ts
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   console.log(req.url);
   return next(req);
 }
-</docs-code>
+```
 
 Para que este interceptor realmente intercepte las solicitudes, debes configurar `HttpClient` para usarlo.
 
@@ -41,13 +41,13 @@ Para que este interceptor realmente intercepte las solicitudes, debes configurar
 
 Declaras el conjunto de interceptores a usar al configurar `HttpClient` a través de inyección de dependencias, usando la característica `withInterceptors`:
 
-<docs-code language="ts">
+```ts
 bootstrapApplication(AppComponent, {providers: [
   provideHttpClient(
     withInterceptors([loggingInterceptor, cachingInterceptor]),
   )
 ]});
-</docs-code>
+```
 
 Los interceptores que configuras se encadenan juntos en el orden que los has listado en los providers. En el ejemplo anterior, el `loggingInterceptor` procesaría la solicitud y luego la reenviaría al `cachingInterceptor`.
 
@@ -55,7 +55,7 @@ Los interceptores que configuras se encadenan juntos en el orden que los has lis
 
 Un interceptor puede transformar la secuencia `Observable` de `HttpEvent`s devuelta por `next` para acceder o manipular la respuesta. Debido a que esta secuencia incluye todos los eventos de respuesta, inspeccionar el `.type` de cada evento puede ser necesario para identificar el objeto de respuesta final.
 
-<docs-code language="ts">
+```ts
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   return next(req).pipe(tap(event => {
     if (event.type === HttpEventType.Response) {
@@ -63,25 +63,25 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
     }
   }));
 }
-</docs-code>
+```
 
 CONSEJO: Los interceptores naturalmente asocian las respuestas con sus solicitudes salientes, porque transforman el flujo de respuesta en una función de cierre (closure) que captura el objeto de solicitud.
 
-## Modificando requests
+## Modificando solicitudes
 
 La mayoría de los aspectos de las instancias `HttpRequest` y `HttpResponse` son _inmutables_, y los interceptores no pueden modificarlos directamente. En su lugar, los interceptores aplican mutaciones clonando estos objetos usando la operación `.clone()`, y especificando qué propiedades deben mutarse en la nueva instancia. Esto puede involucrar realizar actualizaciones inmutables en el valor mismo (como `HttpHeaders` o `HttpParams`).
 
 Por ejemplo, para agregar un encabezado a una solicitud:
 
-<docs-code language="ts">
+```ts
 const reqWithHeader = req.clone({
   headers: req.headers.set('X-New-Header', 'new header value'),
 });
-</docs-code>
+```
 
 Esta inmutabilidad permite que la mayoría de los interceptores sean idempotentes si la misma `HttpRequest` se envía a la cadena de interceptores múltiples veces. Esto puede suceder por algunas razones, incluyendo cuando una solicitud se reintenta después de fallar.
 
-CRÍTICO: El cuerpo de una solicitud o respuesta **no** está protegido de mutaciones profundas. Si un interceptor debe mutar el cuerpo, ten cuidado de manejar la ejecución múltiples veces en la misma solicitud.
+IMPORTANTE: El cuerpo de una solicitud o respuesta **no** está protegido de mutaciones profundas. Si un interceptor debe mutar el cuerpo, ten cuidado de manejar la ejecución múltiples veces en la misma solicitud.
 
 ## Inyección de dependencias en interceptores
 
@@ -89,20 +89,20 @@ Los interceptores se ejecutan en el _contexto de inyección_ del inyector que lo
 
 Por ejemplo, supongamos que una aplicación tiene un servicio llamado `AuthService`, que crea tokens de autenticación para las solicitudes salientes. Un interceptor puede inyectar y usar este servicio:
 
-<docs-code language="ts">
+```ts
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
-  // Inject the current `AuthService` and use it to get an authentication token:
+  // Inyecta el `AuthService` actual y úsalo para obtener un token de autenticación:
   const authToken = inject(AuthService).getAuthToken();
 
-  // Clone the request to add the authentication header.
+  // Clona la solicitud para agregar el encabezado de autenticación.
   const newReq = req.clone({
     headers: req.headers.append('X-Authentication-Token', authToken),
   });
   return next(newReq);
 }
-</docs-code>
+```
 
-## Metada de solicitudes y respuestas
+## Metadatos de solicitudes y respuestas
 
 Con frecuencia es útil incluir información en una solicitud que no se envía al backend, pero está específicamente destinada para los interceptores. Las `HttpRequest`s tienen un objeto `.context` que almacena este tipo de metadatos como una instancia de `HttpContext`. Este objeto funciona como un mapa tipado, con claves de tipo `HttpContextToken`.
 
@@ -112,9 +112,9 @@ Para ilustrar cómo funciona este sistema, usemos metadatos para controlar si un
 
 Para almacenar si el interceptor de caché debe almacenar en caché una solicitud particular en el mapa `.context` de esa solicitud, define un nuevo `HttpContextToken` para actuar como clave:
 
-<docs-code language="ts">
+```ts
 export const CACHING_ENABLED = new HttpContextToken<boolean>(() => true);
-</docs-code>
+```
 
 La función proporcionada crea el valor por defecto para el token para las solicitudes que no han establecido explícitamente un valor para él. Usar una función asegura que si el valor del token es un objeto o array, cada solicitud obtiene su propia instancia.
 
@@ -122,7 +122,7 @@ La función proporcionada crea el valor por defecto para el token para las solic
 
 Un interceptor puede entonces leer el token y elegir aplicar lógica de caché o no basándose en su valor:
 
-<docs-code language="ts">
+```ts
 export function cachingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   if (req.context.get(CACHING_ENABLED)) {
     // aplicar lógica de caché
@@ -132,17 +132,17 @@ export function cachingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
     return next(req);
   }
 }
-</docs-code>
+```
 
 ### Configurando tokens de contexto al hacer una solicitud
 
 Al hacer una solicitud a través de la API `HttpClient`, puedes proporcionar valores para `HttpContextToken`s:
 
-<docs-code language="ts">
+```ts
 const data$ = http.get('/sensitive/data', {
   context: new HttpContext().set(CACHING_ENABLED, false),
 });
-</docs-code>
+```
 
 Los interceptores pueden leer estos valores del `HttpContext` de la solicitud.
 
@@ -158,19 +158,19 @@ Los interceptores no están obligados a invocar `next`. Pueden elegir construir 
 
 Construir una respuesta es posible usando el constructor `HttpResponse`:
 
-<docs-code language="ts">
+```ts
 const resp = new HttpResponse({
   body: 'response body',
 });
-</docs-code>
+```
 
-## Trabajando con información de redirección 
+## Trabajando con información de redirección
 
 Cuando se usa `HttpClient` con el proveedor `withFetch`, las respuestas incluyen una propiedad `redirected` que indica si la respuesta fue resultado de una redirección. Esta propiedad está alineada con la especificación nativa de la API Fetch y puede ser útil en interceptores para manejar escenarios de redirección.
 
 Un interceptor puede acceder y actuar en base a la información de redirección:
 
-<docs-code language="ts">
+```ts
 export function redirectTrackingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   return next(req).pipe(tap(event => {
     if (event.type === HttpEventType.Response && event.redirected) {
@@ -179,11 +179,11 @@ export function redirectTrackingInterceptor(req: HttpRequest<unknown>, next: Htt
     }
   }));
 }
-</docs-code>
+```
 
 También puedes usar la información de redirección para implementar lógica condicional en tus interceptores:
 
-<docs-code language="ts">
+```ts
 export function authRedirectInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   return next(req).pipe(tap(event => {
     if (event.type === HttpEventType.Response && event.redirected) {
@@ -195,7 +195,45 @@ export function authRedirectInterceptor(req: HttpRequest<unknown>, next: HttpHan
     }
   }));
 }
-</docs-code>
+```
+
+## Trabajando con tipos de respuesta
+
+Cuando se usa `HttpClient` con el proveedor `withFetch`, las respuestas incluyen una propiedad `type` que indica cómo el navegador manejó la respuesta basándose en las políticas CORS y el modo de solicitud. Esta propiedad está alineada con la especificación nativa de la API Fetch y proporciona información valiosa para depurar problemas CORS y entender la accesibilidad de las respuestas.
+
+La propiedad `type` de la respuesta puede tener los siguientes valores:
+
+- `'basic'` - Respuesta del mismo origen con todos los encabezados accesibles
+- `'cors'` - Respuesta de origen cruzado con encabezados CORS configurados correctamente
+- `'opaque'` - Respuesta de origen cruzado sin CORS, los encabezados y el cuerpo pueden estar limitados
+- `'opaqueredirect'` - Respuesta de una solicitud redirigida en modo no-cors
+- `'error'` - Ocurrió un error de red
+
+Un interceptor puede usar la información del tipo de respuesta para depurar CORS y manejar errores:
+
+```ts
+export function responseTypeInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(map(event => {
+    if (event.type === HttpEventType.Response) {
+      // Manejar diferentes tipos de respuesta apropiadamente
+      switch (event.responseType) {
+        case 'opaque':
+          // Acceso limitado a los datos de respuesta
+          console.warn('Datos de respuesta limitados debido a la política CORS');
+          break;
+        case 'cors':
+        case 'basic':
+          // Acceso completo a los datos de respuesta
+          break;
+        case 'error':
+          // Manejar errores de red
+          console.error('Error de red en la respuesta');
+          break;
+      }
+    }
+  }));
+}
+```
 
 ## Interceptores basados en DI (Inyección de Dependencias)
 
@@ -203,7 +241,7 @@ export function authRedirectInterceptor(req: HttpRequest<unknown>, next: HttpHan
 
 Un interceptor basado en DI es una clase inyectable que implementa la interfaz `HttpInterceptor`:
 
-<docs-code language="ts">
+```ts
 @Injectable()
 export class LoggingInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
@@ -211,11 +249,11 @@ export class LoggingInterceptor implements HttpInterceptor {
     return handler.handle(req);
   }
 }
-</docs-code>
+```
 
 Los interceptores basados en DI se configuran a través de un multi-provider de inyección de dependencias:
 
-<docs-code language="ts">
+```ts
 bootstrapApplication(AppComponent, {providers: [
   provideHttpClient(
     // Los interceptores basados en DI deben habilitarse explícitamente.
@@ -224,6 +262,6 @@ bootstrapApplication(AppComponent, {providers: [
 
   {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
 ]});
-</docs-code>
+```
 
 Los interceptores basados en DI se ejecutan en el orden en que se registran sus providers. En una aplicación con una configuración DI extensa y jerárquica, este orden puede ser muy difícil de predecir.

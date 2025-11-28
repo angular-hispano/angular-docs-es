@@ -5,9 +5,9 @@ SUGERENCIA: Esta guía asume que ya has leído [Guía de Esenciales](essentials)
 
 Cada componente debe tener:
 
-* Una clase TypeScript con _comportamientos_ como el manejo de la entrada del usuario y la obtención de datos desde un servidor
-* Una plantilla HTML que controla lo que se renderiza en el DOM
-* Un [selector CSS](https://developer.mozilla.org/es/docs/Learn_web_development/Core/Styling_basics/Basic_selectors) que define cómo se utiliza el componente en el HTML
+- Una clase TypeScript con _comportamientos_ como el manejo de la entrada del usuario y la obtención de datos desde un servidor
+- Una plantilla HTML que controla lo que se renderiza en el DOM
+- Un [selector CSS](https://developer.mozilla.org/es/docs/Learn_web_development/Core/Styling_basics/Basic_selectors) que define cómo se utiliza el componente en el HTML
 
 Puedes proporcionar información específica de Angular para un componente agregando un [decorador](https://www.typescriptlang.org/docs/handbook/decorators.html) `@Component` en la parte superior de la clase TypeScript:
 
@@ -58,7 +58,7 @@ Tanto `templateUrl` como `styleUrls` son relativos al directorio en el que resid
 Para usar un component, [directive](guide/directives), o [pipe](guide/templates/pipes), debes agregarlo al arreglo de 
 `imports` en el decorador `@Component`:
 
-```angular-ts
+```ts
 import {ProfilePhoto} from './profile-photo';
 
 @Component({
@@ -70,7 +70,7 @@ import {ProfilePhoto} from './profile-photo';
 export class UserProfile { }
 ```
 
-Por defecto, los componentes de Angular son *independientes* (standalone), lo que significa que puedes agregarlos directamente al arreglo `imports` de otros componentes. Los componentes creados con una versión anterior de Angular pueden especificar `standalone: false` en su decorador `@Component`. Para estos componentes, en su lugar importas el `NgModule` en el que está definido el componente. Consulta la [guía completa de `NgModule`](guide/ngmodules) para detalles.
+Por defecto, los componentes de Angular son _independientes_ (standalone), lo que significa que puedes agregarlos directamente al arreglo `imports` de otros componentes. Los componentes creados con una versión anterior de Angular pueden especificar `standalone: false` en su decorador `@Component`. Para estos componentes, en su lugar importas el `NgModule` en el que está definido el componente. Consulta la [guía completa de `NgModule`](guide/ngmodules) para detalles.
 
 Importante: En versiones de Angular anteriores a 19.0.0, la opción `standalone` por defecto es `false`.
 
@@ -97,8 +97,8 @@ Muestras un componente creando un elemento HTML coincidente en la plantilla de _
 export class ProfilePhoto { }
 
 @Component({
-  imports: [ProfilePhoto],
-  template: `<profile-photo />`
+imports: [ProfilePhoto],
+template: `<profile-photo />`
 })
 export class UserProfile { }
 </docs-code>
@@ -120,6 +120,5 @@ flowchart TD
     D[ProfilePic]
     E[UserBio]
 ```
-
 
 Esta estructura de árbol es importante para entender varios otros conceptos de Angular, incluyendo [inyección de dependencias](guide/di) y [consultas de componentes hijos](guide/components/queries).

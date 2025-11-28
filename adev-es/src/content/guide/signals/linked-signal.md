@@ -108,7 +108,7 @@ La `source` puede ser cualquier signal, como un `computed` o `input` de componen
 
 El `computation` es una función que recibe el nuevo valor de `source` y un objeto `previous`. El objeto `previous` tiene dos propiedades, `previous.source` es el valor anterior de `source`, y `previous.value` es el valor de anterior de `linkedSignal`. Puedes usar estos valores anteriores para decidir el nuevo resultado del cómputo.
 
-ÚTIL: Cuando uses el parámetro `previous`, es necesario proporcionar explícitamente los argumentos de tipo genérico de `linkedSignal`. El primer tipo genérico corresponde con el tipo de `source` y el segundo tipo genérico determina el tipo de salida del `cómputo`.
+CONSEJO: Cuando uses el parámetro `previous`, es necesario proporcionar explícitamente los argumentos de tipo genérico de `linkedSignal`. El primer tipo genérico corresponde con el tipo de `source` y el segundo tipo genérico determina el tipo de salida del `computation`.
 
 ## Comparación de igualdad personalizada
 

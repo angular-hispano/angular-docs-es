@@ -5,8 +5,10 @@ The RouterLink directive is Angular's declarative approach to navigation. It all
 ## How to use RouterLink
 
 Instead of using regular anchor elements `<a>` with an `href` attribute, you add a RouterLink directive with the appropriate path in order to leverage Angular routing.
+
 ```angular-ts
 import {RouterLink} from '@angular/router';
+
 @Component({
   template: `
     <nav>
@@ -34,7 +36,7 @@ export class App {}
 
 In this example, the first example contains the full path with the protocol (i.e., `https://`) and the root domain (i.e., `angular.dev`) explicitly defined for the essentials page. In contrast, the second example assumes the user is already on the correct root domain for `/essentials`.
 
-Generally speaking, relative URLs are preferred because they are more maintainable across applications because they don't need to know their absolute position within the routing hierarchy.
+Generally speaking, relative URLs are preferred because they are more maintainable across applications because they don’t need to know their absolute position within the routing hierarchy.
 
 ### How relative URLs work
 
@@ -65,7 +67,7 @@ For example, if the user is on `example.com/settings`, here is how different rel
 
 <!-- Navigates to /team/:teamId/user/:userId -->
 <a routerLink="/team/123/user/456">User 456</a>
-<a [routerLink]="['/team', teamId, 'user', userId]">Current User</a>"
+<a [routerLink]="['/team', teamId, 'user', userId]">Current User</a>”
 ```
 
 ## Programmatic navigation to routes
@@ -99,13 +101,16 @@ export class AppDashboard {
     this.router.navigate(['/search'], {
       queryParams: { category: 'books', sort: 'price' }
     });
+
+    // With matrix parameters
+    this.router.navigate(['/products', { featured: true, onSale: true }]);
   }
 }
 ```
 
 `router.navigate()` supports both simple and complex routing scenarios, allowing you to pass route parameters, [query parameters](/guide/routing/read-route-state#query-parameters), and control navigation behavior.
 
-You can also build dynamic navigation paths relative to your component's location in the routing tree using the `relativeTo` option.
+You can also build dynamic navigation paths relative to your component’s location in the routing tree using the `relativeTo` option.
 
 ```angular-ts
 import { Router, ActivatedRoute } from '@angular/router';
@@ -143,9 +148,9 @@ export class UserDetailComponent {
 
 The `router.navigateByUrl()` method provides a direct way to programmatically navigate using URL path strings rather than array segments. This method is ideal when you have a full URL path and need to perform absolute navigation, especially when working with externally provided URLs or deep linking scenarios.
 
-```angular-ts
+```ts
 // Standard route navigation
-router.navigateByUrl('/products);
+router.navigateByUrl('/products');
 
 // Navigate to nested route
 router.navigateByUrl('/products/featured');
@@ -155,11 +160,14 @@ router.navigateByUrl('/products/123?view=details#reviews');
 
 // Navigate with query parameters
 router.navigateByUrl('/search?category=books&sortBy=price');
+
+// With matrix parameters
+router.navigateByUrl('/sales-awesome;isOffer=true;showModal=false')
 ```
 
 In the event you need to replace the current URL in history, `navigateByUrl` also accepts a configuration object that has a `replaceUrl` option.
 
-```angular-ts
+```ts
 // Replace current URL in history
 router.navigateByUrl('/checkout', {
   replaceUrl: true

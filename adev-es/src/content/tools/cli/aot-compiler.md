@@ -3,7 +3,7 @@
 Una aplicación Angular consiste principalmente de componentes y sus plantillas HTML.
 Debido a que los componentes y plantillas proporcionados por Angular no pueden ser entendidos directamente por el navegador, las aplicaciones Angular requieren un proceso de compilación antes de que puedan ejecutarse en un navegador.
 
-El compilador ahead-of-time (AOT) de Angular convierte tu código HTML y TypeScript de Angular en código JavaScript eficiente durante la fase de construcción *antes* de que el navegador descargue y ejecute ese código.
+El compilador ahead-of-time (AOT) de Angular convierte tu código HTML y TypeScript de Angular en código JavaScript eficiente durante la fase de construcción _antes_ de que el navegador descargue y ejecute ese código.
 Compilar tu aplicación durante el proceso de construcción proporciona un renderizado más rápido en el navegador.
 
 Esta guía explica cómo especificar metadata y aplicar las opciones de compilador disponibles para compilar tus aplicaciones eficientemente usando el compilador AOT.
@@ -15,7 +15,7 @@ Aquí hay algunas razones por las que podrías querer usar AOT.
 | Razones                                 | Detalles |
 |:---                                     |:---     |
 | Renderizado más rápido                        | Con AOT, el navegador descarga una versión precompilada de la aplicación. El navegador carga código ejecutable para que pueda renderizar la aplicación inmediatamente, sin esperar a compilar la aplicación primero.                                       |
-| Menos peticiones asíncronas             | El compilador *inlinea* las plantillas HTML externas y hojas de estilo CSS dentro del JavaScript de la aplicación, eliminando peticiones ajax separadas para esos archivos fuente.                                                                                  |
+| Menos peticiones asíncronas             | El compilador _incrusta_ las plantillas HTML externas y hojas de estilo CSS dentro del JavaScript de la aplicación, eliminando peticiones ajax separadas para esos archivos fuente.                                                                                  |
 | Tamaño de descarga del framework Angular más pequeño | No hay necesidad de descargar el compilador de Angular si la aplicación ya está compilada. El compilador es aproximadamente la mitad de Angular mismo, por lo que omitirlo reduce dramáticamente la carga útil de la aplicación.                                              |
 | Detectar errores de plantilla más temprano          | El compilador AOT detecta y reporta errores de enlace de plantilla durante el paso de construcción antes de que los usuarios puedan verlos.                                                                                                                                      |
 | Mejor seguridad                         | AOT compila plantillas HTML y componentes en archivos JavaScript mucho antes de que se sirvan al cliente. Sin plantillas para leer y sin evaluación riesgosa de HTML o JavaScript del lado del cliente, hay menos oportunidades para ataques de inyección. |
@@ -42,7 +42,7 @@ La metadata le dice a Angular cómo construir instancias de las clases de tu apl
 
 En el siguiente ejemplo, el objeto metadata `@Component()` y el constructor de la clase le dicen a Angular cómo crear y mostrar una instancia de `TypicalComponent`.
 
-<docs-code language="typescript">
+```angular-ts
 
 @Component({
   selector: 'app-typical',
@@ -53,9 +53,9 @@ export class TypicalComponent {
   private someService = inject(SomeService);
 }
 
-</docs-code>
+```
 
-El compilador de Angular extrae la metadata *una vez* y genera una *factory* para `TypicalComponent`.
+El compilador de Angular extrae la metadata _una vez_ y genera una _factory_ para `TypicalComponent`.
 Cuando necesita crear una instancia de `TypicalComponent`, Angular llama a la factory, que produce un nuevo elemento visual, vinculado a una nueva instancia de la clase del componente con su dependencia inyectada.
 
 ### Fases de compilación
@@ -64,18 +64,18 @@ Hay tres fases de compilación AOT.
 
 |     | Fase                  | Detalles                                                                                                                                                                                                                                                                                                        |
 |:--- |:---                    |:---                                                                                                                                                                                                                                                                                                            |
-| 1   | análisis de código          | En esta fase, el compilador TypeScript y el *recolector AOT* crean una representación del código fuente. El recolector no intenta interpretar la metadata que recolecta. Representa la metadata lo mejor que puede y registra errores cuando detecta una violación de sintaxis de metadata.                              |
+| 1   | análisis de código          | En esta fase, el compilador TypeScript y el _recolector AOT_ crean una representación del código fuente. El recolector no intenta interpretar la metadata que recolecta. Representa la metadata lo mejor que puede y registra errores cuando detecta una violación de sintaxis de metadata.                              |
 | 2   | generación de código        | En esta fase, el `StaticReflector` del compilador interpreta la metadata recolectada en la fase 1, realiza validación adicional de la metadata y lanza un error si detecta una violación de restricción de metadata.                                                                                              |
-| 3   | verificación de tipos de plantilla | En esta fase opcional, el *compilador de plantillas* de Angular usa el compilador TypeScript para validar las expresiones de enlace en plantillas. Puedes habilitar esta fase explícitamente estableciendo la opción de configuración `strictTemplates`; consulta [opciones del compilador de Angular](reference/configs/angular-compiler-options). |
+| 3   | verificación de tipos de plantilla | En esta fase opcional, el _compilador de plantillas_ de Angular usa el compilador TypeScript para validar las expresiones de enlace en plantillas. Puedes habilitar esta fase explícitamente estableciendo la opción de configuración `strictTemplates`; consulta [opciones del compilador de Angular](reference/configs/angular-compiler-options). |
 
 ### Restricciones de metadata
 
-Escribes metadata en un *subconjunto* de TypeScript que debe cumplir con las siguientes restricciones generales:
+Escribes metadata en un _subconjunto_ de TypeScript que debe cumplir con las siguientes restricciones generales:
 
-* Limita [sintaxis de expresiones](#expression-syntax-limitations) al subconjunto soportado de JavaScript
-* Solo referencia símbolos exportados después de [code folding](#code-folding)
-* Solo llama [funciones soportadas](#supported-classes-and-functions) por el compilador
-* Input/Outputs y miembros de clase enlazados a datos deben ser public o protected.Para pautas e instrucciones adicionales sobre preparar una aplicación para compilación AOT, consulta [Angular: Writing AOT-friendly applications](https://medium.com/sparkles-blog/angular-writing-aot-friendly-applications-7b64c8afbe3f).
+- Limita [sintaxis de expresiones](#limitaciones-de-sintaxis-de-expresiones) al subconjunto soportado de JavaScript
+- Solo referencia símbolos exportados después de [code folding](#code-folding)
+- Solo llama [funciones soportadas](#clases-y-funciones-soportadas) por el compilador
+- Input/Outputs y miembros de clase enlazados a datos deben ser public o protected.Para pautas e instrucciones adicionales sobre preparar una aplicación para compilación AOT, consulta [Angular: Writing AOT-friendly applications](https://medium.com/sparkles-blog/angular-writing-aot-friendly-applications-7b64c8afbe3f).
 
 ÚTIL: Los errores en la compilación AOT ocurren comúnmente debido a metadata que no cumple con los requisitos del compilador \(como se describe más completamente a continuación\).
 Para ayuda en entender y resolver estos problemas, consulta [Errores de Metadata AOT](tools/cli/aot-metadata-errors).
@@ -88,7 +88,7 @@ Consulta [opciones del compilador de Angular](reference/configs/angular-compiler
 ## Fase 1: Análisis de código
 
 El compilador TypeScript hace parte del trabajo analítico de la primera fase.
-Emite los *archivos de definición de tipos* `.d.ts` con información de tipos que el compilador AOT necesita para generar código de aplicación.
+Emite los _archivos de definición de tipos_ `.d.ts` con información de tipos que el compilador AOT necesita para generar código de aplicación.
 Al mismo tiempo, el **recolector** AOT analiza la metadata registrada en los decorators de Angular y genera información de metadata en archivos **`.metadata.json`**, uno por archivo `.d.ts`.
 
 Puedes pensar en `.metadata.json` como un diagrama de la estructura general de la metadata de un decorator, representada como un [árbol de sintaxis abstracta (AST)](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
@@ -125,40 +125,40 @@ El compilador luego reporta el error si necesita esa pieza de metadata para gene
 
 ÚTIL: Si quieres que `ngc` reporte errores de sintaxis inmediatamente en lugar de producir un archivo `.metadata.json` con errores, establece la opción `strictMetadataEmit` en el archivo de configuración TypeScript.
 
-<docs-code language="json">
+```json
 
 "angularCompilerOptions": {
   …
   "strictMetadataEmit" : true
 }
 
-</docs-code>
+```
 
 Las librerías de Angular tienen esta opción para asegurar que todos los archivos `.metadata.json` de Angular estén limpios y es una mejor práctica hacer lo mismo al construir tus propias librerías.
 
 ### Sin funciones flecha
 
 El compilador AOT no soporta [expresiones de función](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/function)
-y [funciones flecha](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/Arrow_functions), también llamadas funciones *lambda*.
+y [funciones flecha](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/Arrow_functions), también llamadas funciones _lambda_.
 
 Considera el siguiente decorator de componente:
 
-<docs-code language="typescript">
+```ts
 
 @Component({
   …
   providers: [{provide: server, useFactory: () => new Server()}]
 })
 
-</docs-code>
+```
 
 El recolector AOT no soporta la función flecha, `() => new Server()`, en una expresión de metadata.
 Genera un nodo de error en lugar de la función.
-Cuando el compilador luego interpreta este nodo, reporta un error que te invita a convertir la función flecha en una *función exportada*.
+Cuando el compilador luego interpreta este nodo, reporta un error que te invita a convertir la función flecha en una _función exportada_.
 
 Puedes corregir el error convirtiéndolo a esto:
 
-<docs-code language="typescript">
+```ts
 
 export function serverFactory() {
   return new Server();
@@ -169,25 +169,25 @@ export function serverFactory() {
   providers: [{provide: server, useFactory: serverFactory}]
 })
 
-</docs-code>
+```
 
 En la versión 5 y posteriores, el compilador realiza automáticamente esta reescritura mientras emite el archivo `.js`.
 
 ### Code folding
 
-El compilador solo puede resolver referencias a símbolos ***exportados***.
+El compilador solo puede resolver referencias a símbolos **_exportados_**.
 El recolector, sin embargo, puede evaluar una expresión durante la recolección y registrar el resultado en el `.metadata.json`, en lugar de la expresión original.
 Esto te permite hacer un uso limitado de símbolos no exportados dentro de expresiones.
 
 Por ejemplo, el recolector puede evaluar la expresión `1 + 2 + 3 + 4` y reemplazarla con el resultado, `10`.
-Este proceso se llama *folding*.
-Una expresión que puede reducirse de esta manera es *plegable*.
+Este proceso se llama _folding_.
+Una expresión que puede reducirse de esta manera es _plegable_.
 
 El recolector puede evaluar referencias a declaraciones `const` locales del módulo y declaraciones `var` y `let` inicializadas, eliminándolas efectivamente del archivo `.metadata.json`.
 
 Considera la siguiente definición de componente:
 
-<docs-code language="typescript">
+```angular-ts
 
 const template = '<div>{{hero().name}}</div>';
 
@@ -199,13 +199,13 @@ export class HeroComponent {
   hero = input.required<Hero>();
 }
 
-</docs-code>
+```
 
 El compilador no podría referirse a la constante `template` porque no está exportada.
 El recolector, sin embargo, puede plegar la constante `template` en la definición de metadata mediante la inlinización de su contenido.
 El efecto es el mismo que si hubieras escrito:
 
-<docs-code language="typescript">
+```angular-ts
 
 @Component({
   selector: 'app-hero',
@@ -215,13 +215,13 @@ export class HeroComponent {
   hero = input.required<Hero>();
 }
 
-</docs-code>
+```
 
-Ya no hay una referencia a `template` y, por lo tanto, nada que moleste al compilador cuando luego interprete la salida del *recolector* en `.metadata.json`.
+Ya no hay una referencia a `template` y, por lo tanto, nada que moleste al compilador cuando luego interprete la salida del _recolector_ en `.metadata.json`.
 
 Puedes llevar este ejemplo un paso más allá incluyendo la constante `template` en otra expresión:
 
-<docs-code language="typescript">
+```angular-ts
 
 const template = '<div>{{hero().name}}</div>';
 
@@ -233,15 +233,15 @@ export class HeroComponent {
   hero = input.required<Hero>();
 }
 
-</docs-code>
+```
 
-El recolector reduce esta expresión a su cadena equivalente *plegada*:
+El recolector reduce esta expresión a su cadena equivalente _plegada_:
 
-<docs-code language="typescript">
+```angular-ts
 
 '<div>{{hero().name}}</div><div>{{hero().title}}</div>'
 
-</docs-code>
+```
 
 #### Sintaxis plegable
 
@@ -276,21 +276,21 @@ El recolector no intenta entender la metadata que recolecta y genera en `.metada
 Representa la metadata lo mejor que puede y registra errores cuando detecta una violación de sintaxis de metadata.
 Es el trabajo del compilador interpretar el `.metadata.json` en la fase de generación de código.
 
-El compilador entiende todas las formas de sintaxis que el recolector soporta, pero puede rechazar metadata *sintácticamente* correcta si la *semántica* viola las reglas del compilador.
+El compilador entiende todas las formas de sintaxis que el recolector soporta, pero puede rechazar metadata _sintácticamente_ correcta si la _semántica_ viola las reglas del compilador.
 
 ### Símbolos public o protected
 
-El compilador solo puede referenciar *símbolos exportados*.
+El compilador solo puede referenciar _símbolos exportados_.
 
-* Los miembros de clase de componente decorados deben ser public o protected.
+- Los miembros de clase de componente decorados deben ser public o protected.
     No puedes hacer una propiedad `input()` private.
 
-* Las propiedades enlazadas a datos también deben ser public o protected
+- Las propiedades enlazadas a datos también deben ser public o protected
 
 ### Clases y funciones soportadas
 
 El recolector puede representar una llamada de función o creación de objeto con `new` siempre que la sintaxis sea válida.
-El compilador, sin embargo, puede luego rechazar generar una llamada a una función *particular* o creación de un objeto *particular*.
+El compilador, sin embargo, puede luego rechazar generar una llamada a una función _particular_ o creación de un objeto _particular_.
 
 El compilador solo puede crear instancias de ciertas clases, soporta solo decorators principales, y solo soporta llamadas a macros \(funciones o métodos estáticos\) que devuelven expresiones.
 
@@ -303,41 +303,41 @@ El compilador solo puede crear instancias de ciertas clases, soporta solo decora
 ### Funciones y llamadas de métodos estáticos
 
 El recolector acepta cualquier función o método estático que contenga una sola declaración `return`.
-El compilador, sin embargo, solo soporta macros en forma de funciones o métodos estáticos que devuelven una *expresión*.
+El compilador, sin embargo, solo soporta macros en forma de funciones o métodos estáticos que devuelven una _expresión_.
 
 Por ejemplo, considera la siguiente función:
 
-<docs-code language="typescript">
+```ts
 
 export function wrapInArray<T>(value: T): T[] {
   return [value];
 }
 
-</docs-code>
+```
 
 Puedes llamar a `wrapInArray` en una definición de metadata porque devuelve el valor de una expresión que cumple con el subconjunto restrictivo de JavaScript del compilador.
 
 Podrías usar `wrapInArray()` así:
 
-<docs-code language="typescript">
+```ts
 
 @NgModule({
   declarations: wrapInArray(TypicalComponent)
 })
 export class TypicalModule {}
 
-</docs-code>
+```
 
 El compilador trata este uso como si hubieras escrito:
 
-<docs-code language="typescript">
+```ts
 
 @NgModule({
   declarations: [TypicalComponent]
 })
 export class TypicalModule {}
 
-</docs-code>
+```
 
 El [`RouterModule`](api/router/RouterModule) de Angular exporta dos métodos estáticos macro, `forRoot` y `forChild`, para ayudar a declarar rutas raíz e hijas.
 Revisa el [código fuente](https://github.com/angular/angular/blob/main/packages/router/src/router_module.ts#L139 "RouterModule.forRoot source code")
@@ -351,7 +351,7 @@ el compilador no necesita conocer el valor de la expresión — solo necesita se
 
 Podrías escribir algo como:
 
-<docs-code language="typescript">
+```ts
 
 class TypicalServer {
 
@@ -362,12 +362,12 @@ class TypicalServer {
 })
 export class TypicalModule {}
 
-</docs-code>
+```
 
 Sin reescritura, esto sería inválido porque las lambdas no están soportadas y `TypicalServer` no está exportado.
 Para permitir esto, el compilador automáticamente reescribe esto a algo como:
 
-<docs-code language="typescript">
+```ts
 
 class TypicalServer {
 
@@ -380,7 +380,7 @@ export const θ0 = () => new TypicalServer();
 })
 export class TypicalModule {}
 
-</docs-code>
+```
 
 Esto permite al compilador generar una referencia a `θ0` en la factory sin tener que saber qué contiene el valor de `θ0`.
 
@@ -402,7 +402,7 @@ archivo `.ts`.
 
 Por ejemplo, considera el siguiente componente:
 
-<docs-code language="typescript">
+```ts
 
 @Component({
   selector: 'my-component',
@@ -412,7 +412,7 @@ class MyComponent {
   person?: Person;
 }
 
-</docs-code>
+```
 
 Esto produce el siguiente error:
 
@@ -449,7 +449,7 @@ La expresión usada en una directiva `ngIf` se usa para reducir uniones de tipos
 compilador de plantillas de Angular, de la misma manera que la expresión `if` lo hace en TypeScript.
 Por ejemplo, para evitar el error `Object is possibly 'undefined'` en la plantilla anterior, modifícala para solo emitir la interpolación si el valor de `person` está inicializado como se muestra a continuación:
 
-<docs-code language="typescript">
+```angular-ts
 
 @Component({
   selector: 'my-component',
@@ -459,7 +459,7 @@ class MyComponent {
   person?: Person;
 }
 
-</docs-code>
+```
 
 Usar `*ngIf` permite al compilador TypeScript inferir que el `person` usado en la expresión de enlace nunca será `undefined`.
 
@@ -472,7 +472,7 @@ Usa el operador de aserción de tipo no nulo para suprimir el error `Object is p
 En el siguiente ejemplo, las propiedades `person` y `address` siempre se establecen juntas, lo que implica que `address` siempre es no nulo si `person` es no nulo.
 No hay una manera conveniente de describir esta restricción a TypeScript y al compilador de plantillas, pero el error se suprime en el ejemplo usando `address!.street`.
 
-<docs-code language="typescript">
+```ts
 
 @Component({
   selector: 'my-component',
@@ -488,13 +488,13 @@ class MyComponent {
   }
 }
 
-</docs-code>
+```
 
 El operador de aserción no nulo debe usarse con moderación ya que la refactorización del componente podría romper esta restricción.
 
 En este ejemplo se recomienda incluir la verificación de `address` en el `*ngIf` como se muestra a continuación:
 
-<docs-code language="typescript">
+```ts
 
 @Component({
   selector: 'my-component',
@@ -510,4 +510,4 @@ class MyComponent {
   }
 }
 
-</docs-code>
+```

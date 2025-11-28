@@ -5,8 +5,10 @@ La directiva RouterLink es el enfoque declarativo de Angular para la navegación
 ## Cómo usar RouterLink
 
 En lugar de usar elementos anchor regulares `<a>` con un atributo `href`, agregas una directiva RouterLink con la ruta apropiada para aprovechar el enrutamiento en Angular.
+
 ```angular-ts
 import {RouterLink} from '@angular/router';
+
 @Component({
   template: `
     <nav>
@@ -99,6 +101,9 @@ export class AppDashboard {
     this.router.navigate(['/search'], {
       queryParams: { category: 'books', sort: 'price' }
     });
+    
+    // Con parámetros de matriz
+    this.router.navigate(['/products', { featured: true, onSale: true }]);
   }
 }
 ```
@@ -143,7 +148,7 @@ export class UserDetailComponent {
 
 El método `router.navigateByUrl()` proporciona una forma directa de navegar programáticamente usando strings de ruta URL en lugar de segmentos de array. Este método es ideal cuando tienes una ruta URL completa y necesitas realizar navegación absoluta, especialmente cuando trabajas con URLs proporcionadas externamente o escenarios de deep linking.
 
-```angular-ts
+```ts
 // Navegación de ruta estándar
 router.navigateByUrl('/products);
 
@@ -155,11 +160,14 @@ router.navigateByUrl('/products/123?view=details#reviews');
 
 // Navegar con parámetros de consulta
 router.navigateByUrl('/search?category=books&sortBy=price');
+
+// Con parámetros de matriz
+router.navigateByUrl('/sales-awesome;isOffer=true;showModal=false')
 ```
 
 En caso de que necesites reemplazar la URL actual en el historial, `navigateByUrl` también acepta un objeto de configuración que tiene una opción `replaceUrl`.
 
-```angular-ts
+```ts
 // Reemplazar URL actual en el historial
 router.navigateByUrl('/checkout', {
   replaceUrl: true

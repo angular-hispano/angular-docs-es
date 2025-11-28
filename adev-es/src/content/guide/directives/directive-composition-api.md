@@ -3,13 +3,13 @@
 Las directivas de Angular ofrecen una excelente manera de encapsular comportamientos reutilizables: las directivas pueden aplicar atributos, 
 clases CSS y escuchadores de eventos a un elemento.
 
-La *API de composición de directivas* te permite aplicar directivas al elemento host de un componente desde 
-*dentro* de la clase TypeScript del componente.
+La _API de composición de directivas_ te permite aplicar directivas al elemento host de un componente desde 
+_dentro_ de la clase TypeScript del componente.
 
 ## Añadiendo directivas a un componente
 
 Se aplican directivas a un componente añadiendo una propiedad `hostDirectives` al decorador de un componente. 
-Llamamos a tales directivas *directivas host*.
+Llamamos a tales directivas _directivas host_.
 
 En este ejemplo, aplicamos la directiva `MenuBehavior` 
 al elemento host de `AdminMenu`. Esto funciona de manera similar a aplicar `MenuBehavior` al elemento `<admin-menu>` en una plantilla.

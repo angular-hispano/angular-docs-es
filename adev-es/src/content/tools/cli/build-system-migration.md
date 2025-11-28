@@ -23,9 +23,9 @@ Las aplicaciones nuevas usarán este nuevo sistema de construcción por defecto 
 
 Tanto procedimientos automatizados como manuales están disponibles dependiendo de los requisitos del proyecto.
 Comenzando con v18, el proceso de actualización preguntará si te gustaría migrar aplicaciones existentes para usar el nuevo sistema de construcción a través de la migración automatizada.
-Antes de migrar, por favor considera revisar la sección [Problemas Conocidos](#known-issues) ya que puede contener información relevante para tu proyecto.
+Antes de migrar, por favor considera revisar la sección [Problemas Conocidos](#problemas-conocidos) ya que puede contener información relevante para tu proyecto.
 
-ÚTIL: Recuerda eliminar cualquier suposición CommonJS en el código del servidor de aplicación si usas SSR como `require`, `__filename`, `__dirname`, u otras construcciones del [ámbito de módulo CommonJS](https://nodejs.org/api/modules.html#the-module-scope). Todo el código de aplicación debería ser compatible con ESM. Esto no aplica a dependencias de terceros.
+CONSEJO: Recuerda eliminar cualquier suposición CommonJS en el código del servidor de aplicación si usas SSR como `require`, `__filename`, `__dirname`, u otras construcciones del [ámbito de módulo CommonJS](https://nodejs.org/api/modules.html#the-module-scope). Todo el código de aplicación debería ser compatible con ESM. Esto no aplica a dependencias de terceros.
 
 ### Migración automatizada (Recomendado)
 
@@ -36,21 +36,21 @@ Los errores intentarán proporcionar soluciones al problema cuando sea posible y
 Al actualizar a Angular v18 a través de `ng update`, se te pedirá ejecutar la migración.
 Esta migración es completamente opcional para v18 y también se puede ejecutar manualmente en cualquier momento después de una actualización a través del siguiente comando:
 
-<docs-code language="shell">
+```shell
 
 ng update @angular/cli --name use-application-builder
 
-</docs-code>
+```
 
 La migración hace lo siguiente:
 
-* Convierte el objetivo existente `browser` o `browser-esbuild` a `application`
-* Elimina cualquier builder SSR previo (porque `application` hace eso ahora).
-* Actualiza la configuración correspondientemente.
-* Fusiona `tsconfig.server.json` con `tsconfig.app.json` y agrega la opción TypeScript `"esModuleInterop": true` para asegurar que las importaciones `express` sean [conformes con ESM](#esm-default-imports-vs-namespace-imports).
-* Actualiza el código del servidor de aplicación para usar la nueva estructura de directorio de salida y bootstrapping.
-* Elimina cualquier uso de hoja de estilo del builder específico de webpack como la tilde o caret en `@import`/`url()` y actualiza la configuración para proporcionar comportamiento equivalente
-* Convierte para usar el nuevo paquete Node.js `@angular/build` de menor dependencia si no se encuentra otro uso de `@angular-devkit/build-angular`.
+- Convierte el objetivo existente `browser` o `browser-esbuild` a `application`
+- Elimina cualquier builder SSR previo (porque `application` hace eso ahora).
+- Actualiza la configuración correspondientemente.
+- Fusiona `tsconfig.server.json` con `tsconfig.app.json` y agrega la opción TypeScript `"esModuleInterop": true` para asegurar que las importaciones `express` sean [conformes con ESM](#importaciones-predeterminadas-esm-vs-importaciones-de-espacio-de-nombres).
+- Actualiza el código del servidor de aplicación para usar la nueva estructura de directorio de salida y bootstrapping.
+- Elimina cualquier uso de hoja de estilo del builder específico de webpack como la tilde o caret en `@import`/`url()` y actualiza la configuración para proporcionar comportamiento equivalente
+- Convierte para usar el nuevo paquete Node.js `@angular/build` de menor dependencia si no se encuentra otro uso de `@angular-devkit/build-angular`.
 
 ### Migración manual
 
@@ -78,23 +78,23 @@ Puedes actualizar el objetivo `build` para cualquier objetivo de aplicación par
 
 Lo siguiente es lo que típicamente encontrarías en `angular.json` para una aplicación:
 
-<docs-code language="json">
+```json
 ...
 "architect": {
   "build": {
     "builder": "@angular-devkit/build-angular:browser",
 ...
-</docs-code>
+```
 
 Cambiar el campo `builder` es el único cambio que necesitarás hacer.
 
-<docs-code language="json">
+```json
 ...
 "architect": {
   "build": {
     "builder": "@angular-devkit/build-angular:browser-esbuild",
 ...
-</docs-code>
+```
 
 #### Migración manual al nuevo builder `application`
 
@@ -103,23 +103,23 @@ Este builder es el predeterminado para todas las aplicaciones nuevas creadas a t
 
 Lo siguiente es lo que típicamente encontrarías en `angular.json` para una aplicación:
 
-<docs-code language="json">
+```json
 ...
 "architect": {
   "build": {
     "builder": "@angular-devkit/build-angular:browser",
 ...
-</docs-code>
+```
 
 Cambiar el campo `builder` es el primer cambio que necesitarás hacer.
 
-<docs-code language="json">
+```json
 ...
 "architect": {
   "build": {
     "builder": "@angular-devkit/build-angular:application",
 ...
-</docs-code>
+```
 
 Una vez que el nombre del builder ha sido cambiado, las opciones dentro del objetivo `build` necesitarán ser actualizadas.
 La siguiente lista discute todas las opciones del builder `browser` que necesitarán ser ajustadas.
@@ -160,26 +160,26 @@ Dependiendo de la elección de migración de builder, algunas de las opciones de
 Si el comando de construcción está contenido en cualquier script `npm` u otro, asegúrate de que sean revisados y actualizados.
 Para aplicaciones que han migrado al builder `application` y que usan SSR y/o prerendering, también podrías ser capaz de eliminar comandos `ng run` extra de scripts ahora que `ng build` tiene soporte SSR integrado.
 
-<docs-code language="shell">
+```shell
 
 ng build
 
-</docs-code>
+```
 
 ## Iniciando el servidor de desarrollo
 
 El servidor de desarrollo detectará automáticamente el nuevo sistema de construcción y lo usará para construir la aplicación.
 Para iniciar el servidor de desarrollo no son necesarios cambios a la configuración del builder `dev-server` o línea de comandos.
 
-<docs-code language="shell">
+```shell
 
 ng serve
 
-</docs-code>
+```
 
 Puedes continuar usando las [opciones de línea de comandos](/cli/serve) que has usado en el pasado con el servidor de desarrollo.
 
-ÚTIL: Con el servidor de desarrollo, puedes ver un pequeño Flash of Unstyled Content (FOUC) al inicio mientras el servidor se inicializa.
+CONSEJO: Con el servidor de desarrollo, puedes ver un pequeño Flash of Unstyled Content (FOUC) al inicio mientras el servidor se inicializa.
 El servidor de desarrollo intenta aplazar el procesamiento de hojas de estilo hasta el primer uso para mejorar los tiempos de reconstrucción.
 Esto no ocurrirá en construcciones fuera del servidor de desarrollo.
 
@@ -188,6 +188,7 @@ Esto no ocurrirá en construcciones fuera del servidor de desarrollo.
 Hot Module Replacement (HMR) es una técnica usada por servidores de desarrollo para evitar recargar toda la página cuando solo parte de una aplicación es cambiada.
 Los cambios en muchos casos pueden ser mostrados inmediatamente en el navegador lo que permite un ciclo mejorado de editar/refrescar mientras se desarrolla una aplicación.
 Mientras el hot module replacement (HMR) basado en JavaScript general actualmente no es soportado, varias formas más específicas de HMR están disponibles:
+
 - **hoja de estilo global** (opción de construcción `styles`)
 - **hoja de estilo de componente** (inline y basada en archivo)
 - **plantilla de componente** (inline y basada en archivo)
@@ -199,11 +200,11 @@ El sistema de construcción intentará compilar y procesar la mínima cantidad d
 Si se prefiere, las capacidades HMR pueden ser deshabilitadas estableciendo la opción del servidor de desarrollo `hmr` a `false`.
 Esto también puede ser cambiado en la línea de comandos a través de:
 
-<docs-code language="shell">
+```shell
 
 ng serve --no-hmr
 
-</docs-code>
+```
 
 ### Vite como servidor de desarrollo
 
@@ -217,7 +218,8 @@ El proceso de prebundling analiza todas las dependencias de proyecto de terceros
 Este proceso elimina la necesidad de reconstruir y empaquetar las dependencias del proyecto cada vez que una reconstrucción ocurre o el servidor de desarrollo es ejecutado.
 
 En la mayoría de los casos, no se requiere personalización adicional. Sin embargo, algunas situaciones donde puede ser necesaria incluyen:
-- Personalizar el comportamiento del loader para importaciones dentro de la dependencia como la [opción `loader`](#file-extension-loader-customization)
+
+- Personalizar el comportamiento del loader para importaciones dentro de la dependencia como la [opción `loader`](#personalización-del-loader-de-extensión-de-archivo)
 - Enlazar simbólicamente una dependencia a código local para desarrollo como [`npm link`](https://docs.npmjs.com/cli/v10/commands/npm-link)
 - Resolver un error encontrado durante el prebundling de una dependencia
 
@@ -225,7 +227,7 @@ El proceso de prebundling puede ser completamente deshabilitado o dependencias i
 La opción `prebundle` del builder `dev-server` puede ser usada para estas personalizaciones.
 Para excluir dependencias específicas, la opción `prebundle.exclude` está disponible:
 
-<docs-code language="json">
+```json
     "serve": {
       "builder": "@angular/build:dev-server",
       "options": {
@@ -233,18 +235,18 @@ Para excluir dependencias específicas, la opción `prebundle.exclude` está dis
           "exclude": ["some-dep"]
         }
       },
-</docs-code>
+```
 
 Por defecto, `prebundle` está establecido a `true` pero puede ser establecido a `false` para deshabilitar completamente el prebundling.
 Sin embargo, excluir dependencias específicas es recomendado en su lugar ya que los tiempos de reconstrucción aumentarán con el prebundling deshabilitado.
 
-<docs-code language="json">
+```json
     "serve": {
       "builder": "@angular/build:dev-server",
       "options": {
         "prebundle": false
       },
-</docs-code>
+```
 
 ## Nuevas características
 
@@ -267,7 +269,7 @@ Dentro del archivo de configuración, la opción está en forma de objeto.
 Las claves del objeto representan el identificador a reemplazar y los valores del objeto representan el valor de reemplazo correspondiente para el identificador.
 Un ejemplo es el siguiente:
 
-<docs-code language="json">
+```json
   "build": {
     "builder": "@angular/build:application",
     "options": {
@@ -279,9 +281,9 @@ Un ejemplo es el siguiente:
       }
     }
   }
-</docs-code>
+```
 
-ÚTIL: Todos los valores de reemplazo se definen como strings dentro del archivo de configuración.
+CONSEJO: Todos los valores de reemplazo se definen como strings dentro del archivo de configuración.
 Si el reemplazo está destinado a ser un literal de string real, debería estar encerrado en comillas simples.
 Esto permite la flexibilidad de usar cualquier tipo JSON válido así como un identificador diferente como reemplazo.
 
@@ -290,19 +292,19 @@ El CLI fusionará valores `--define` de la línea de comandos con valores `defin
 El uso de línea de comandos tiene precedencia si el mismo identificador está presente para ambos.
 Para uso de línea de comandos, la opción `--define` usa el formato de `IDENTIFIER=VALUE`.
 
-<docs-code language="shell">
+```shell
 ng build --define SOME_NUMBER=5 --define "ANOTHER='these will overwrite existing'"
-</docs-code>
+```
 
 Las variables de entorno también pueden ser incluidas selectivamente en una construcción.
 Para shells no Windows, las comillas alrededor del literal hash pueden ser escapadas directamente si se prefiere.
 Este ejemplo asume un shell similar a bash pero comportamiento similar está disponible para otros shells también.
 
-<docs-code language="shell">
+```shell
 export MY_APP_API_HOST="http://example.com"
 export API_RETRY=3
 ng build --define API_HOST=\'$MY_APP_API_HOST\' --define API_RETRY=$API_RETRY
-</docs-code>
+```
 
 Para cualquier uso, TypeScript necesita estar al tanto de los tipos para los identificadores para prevenir errores de verificación de tipo durante la construcción.
 Esto puede ser logrado con un archivo de definición de tipo adicional dentro del código fuente de la aplicación (`src/types.d.ts`, por ejemplo) con contenido similar:
@@ -329,10 +331,13 @@ Al usar el builder `application`, la opción `loader` puede ser usada para manej
 La opción permite a un proyecto definir el tipo de loader a usar con una extensión de archivo especificada.
 Un archivo con la extensión definida puede entonces ser usado dentro del código de aplicación a través de una declaración de importación o expresión de importación dinámica.
 Los loaders disponibles que se pueden usar son:
-* `text` - incorpora el contenido como un `string` disponible como exportación predeterminada
-* `binary` - incorpora el contenido como un `Uint8Array` disponible como exportación predeterminada
-* `file` - emite el archivo en la ruta de salida de la aplicación y proporciona la ubicación en tiempo de ejecución del archivo como exportación predeterminada
-* `empty` - considera el contenido vacío y no lo incluirá en bundles
+
+- `text` - incorpora el contenido como un `string` disponible como exportación predeterminada
+- `binary` - incorpora el contenido como un `Uint8Array` disponible como exportación predeterminada
+- `file` - emite el archivo en la ruta de salida de la aplicación y proporciona la ubicación en tiempo de ejecución del archivo como exportación predeterminada
+- `dataurl` - incorpora el contenido como una [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs).
+- `base64` - incorpora el contenido como una cadena codificada en Base64.
+- `empty` - considera el contenido vacío y no lo incluirá en bundles
 
 El valor `empty`, aunque menos común, puede ser útil para compatibilidad de librerías de terceros que pueden contener uso de importación específico de bundler que necesita ser removido.
 Un caso para esto son las importaciones de efecto secundario (`import 'my.css';`) de archivos CSS que no tienen efecto en un navegador.
@@ -342,7 +347,7 @@ La opción loader es una opción basada en objeto con las claves usadas para def
 
 Un ejemplo del uso de la opción de construcción para incorporar el contenido de archivos SVG en la aplicación empaquetada sería el siguiente:
 
-<docs-code language="json">
+```json
   "build": {
     "builder": "@angular/build:application",
     "options": {
@@ -352,9 +357,10 @@ Un ejemplo del uso de la opción de construcción para incorporar el contenido d
       }
     }
   }
-</docs-code>
+```
 
 Un archivo SVG puede entonces ser importado:
+
 ```ts
 import contents from './some-file.svg';
 
@@ -362,6 +368,7 @@ console.log(contents); // <svg>...</svg>
 ```
 
 Adicionalmente, TypeScript necesita estar al tanto del tipo de módulo para la importación para prevenir errores de verificación de tipo durante la construcción. Esto puede ser logrado con un archivo de definición de tipo adicional dentro del código fuente de la aplicación (`src/types.d.ts`, por ejemplo) con el siguiente contenido o similar:
+
 ```ts
 declare module "*.svg" {
   const content: string;
@@ -376,12 +383,15 @@ La configuración predeterminada del proyecto ya está configurada para usar cua
 Para casos donde solo ciertos archivos deberían ser cargados de una manera específica, el control por archivo sobre el comportamiento de carga está disponible.
 Esto se logra con un [atributo de importación](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import/with) `loader` que puede ser usado tanto con declaraciones de importación como expresiones.
 La presencia del atributo de importación tiene precedencia sobre todo otro comportamiento de carga incluyendo JS/TS y cualquier valor de opción de construcción `loader`.
-Para carga general para todos los archivos de un tipo de archivo no soportado de otra manera, la opción de construcción [`loader`](#file-extension-loader-customization) es recomendada.
+Para carga general para todos los archivos de un tipo de archivo no soportado de otra manera, la opción de construcción [`loader`](#personalización-del-loader-de-extensión-de-archivo) es recomendada.
 
 Para el atributo de importación, los siguientes valores de loader son soportados:
-* `text` - incorpora el contenido como un `string` disponible como exportación predeterminada
-* `binary` - incorpora el contenido como un `Uint8Array` disponible como exportación predeterminada
-* `file` - emite el archivo en la ruta de salida de la aplicación y proporciona la ubicación en tiempo de ejecución del archivo como exportación predeterminada
+
+- `text` - incorpora el contenido como un `string` disponible como exportación predeterminada
+- `binary` - incorpora el contenido como un `Uint8Array` disponible como exportación predeterminada
+- `file` - emite el archivo en la ruta de salida de la aplicación y proporciona la ubicación en tiempo de ejecución del archivo como exportación predeterminada
+- `dataurl` - incorpora el contenido como una [data URL](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URIs).
+- `base64` - incorpora el contenido como una cadena codificada en Base64.
 
 Un requisito adicional para usar atributos de importación es que la opción `module` de TypeScript debe ser establecida a `esnext` para permitir que TypeScript construya exitosamente el código de la aplicación.
 Una vez que `ES2025` esté disponible dentro de TypeScript, este cambio ya no será necesario.
@@ -389,40 +399,64 @@ Una vez que `ES2025` esté disponible dentro de TypeScript, este cambio ya no se
 En este momento, TypeScript no soporta definiciones de tipo que están basadas en valores de atributo de importación.
 El uso de `@ts-expect-error`/`@ts-ignore` o el uso de archivos de definición de tipo individuales (asumiendo que el archivo solo se importa con el mismo atributo de loader) es actualmente requerido.
 Como ejemplo, un archivo SVG puede ser importado como texto a través de:
+
 ```ts
 // @ts-expect-error TypeScript cannot provide types based on attributes yet
 import contents from './some-file.svg' with { loader: 'text' };
 ```
 
 Lo mismo puede ser logrado con una expresión de importación dentro de una función async.
+
 ```ts
 async function loadSvg(): Promise<string> {
   // @ts-expect-error TypeScript cannot provide types based on attributes yet
   return import('./some-file.svg', { with: { loader: 'text' } }).then((m) => m.default);
 }
 ```
+
 Para la expresión de importación, el valor `loader` debe ser un literal de string para ser analizado estáticamente.
 Se emitirá una advertencia si el valor no es un literal de string.
 
 El loader `file` es útil cuando un archivo será cargado en tiempo de ejecución a través de un `fetch()`, estableciéndolo al `src` de un elemento de imagen, u otro método similar.
+
 ```ts
 // @ts-expect-error TypeScript cannot provide types based on attributes yet
 import imagePath from './image.webp' with { loader: 'file' };
 
 console.log(imagePath); // media/image-ULK2SIIB.webp
 ```
-Para construcciones de producción como se muestra en el comentario de código arriba, el hashing será agregado automáticamente a la ruta para caché a largo plazo.
 
-ÚTIL: Al usar el servidor de desarrollo y usar un atributo `loader` para importar un archivo de un paquete Node.js, ese paquete debe ser excluido del prebundling a través de la opción `prebundle` del servidor de desarrollo.
+El loader `base64` es útil cuando un archivo necesita ser incorporado directamente en el bundle como una cadena codificada que luego puede usarse para construir una Data URL.
+
+```ts
+// @ts-expect-error TypeScript cannot provide types based on attributes yet
+import logo from './logo.png' with { loader: 'base64' };
+
+console.log(logo) // "iVBORw0KGgoAAAANSUhEUgAA..."
+```
+
+El loader `dataurl` para incorporar assets como Data URLs completas.
+
+```ts
+// @ts-expect-error TypeScript cannot provide types based on attributes yet
+import icon from './icon.svg' with { loader: 'dataurl' };
+
+console.log(icon);// "data:image/svg+xml;..."
+```
+
+Para construcciones de producción como se muestra en los comentarios de código arriba, el hashing será agregado automáticamente a la ruta para caché a largo plazo.
+
+CONSEJO: Al usar el servidor de desarrollo y usar un atributo `loader` para importar un archivo de un paquete Node.js, ese paquete debe ser excluido del prebundling a través de la opción `prebundle` del servidor de desarrollo.
 
 ### Condiciones de importación/exportación
 
 Los proyectos pueden necesitar mapear ciertas rutas de importación a archivos diferentes basados en el tipo de construcción.
 Esto puede ser particularmente útil para casos como `ng serve` necesitando usar código específico de depuración/desarrollo pero `ng build` necesitando usar código sin características/información de desarrollo.
 Varias [condiciones](https://nodejs.org/api/packages.html#community-conditions-definitions) de importación/exportación se aplican automáticamente para soportar estas necesidades del proyecto:
-* Para construcciones optimizadas, la condición `production` está habilitada.
-* Para construcciones no optimizadas, la condición `development` está habilitada.
-* Para código de salida del navegador, la condición `browser` está habilitada.
+
+- Para construcciones optimizadas, la condición `production` está habilitada.
+- Para construcciones no optimizadas, la condición `development` está habilitada.
+- Para código de salida del navegador, la condición `browser` está habilitada.
 
 Una construcción optimizada se determina por el valor de la opción `optimization`.
 Cuando `optimization` está establecido a `true` o más específicamente si `optimization.scripts` está establecido a `true`, entonces la construcción se considera optimizada.
@@ -431,13 +465,14 @@ En un proyecto nuevo, `ng build` predetermina a optimizado y `ng serve` predeter
 
 Un método útil para aprovechar estas condiciones dentro del código de aplicación es combinarlas con [importaciones de subruta](https://nodejs.org/api/packages.html#subpath-imports).
 Al usar la siguiente declaración de importación:
+
 ```ts
 import {verboseLogging} from '#logger';
 ```
 
 El archivo puede ser cambiado en el campo `imports` en `package.json`:
 
-<docs-code language="json">
+```json
 {
   ...
   "imports": {
@@ -447,11 +482,11 @@ El archivo puede ser cambiado en el campo `imports` en `package.json`:
     }
   }
 }
-</docs-code>
+```
 
 Para aplicaciones que también están usando SSR, el código del navegador y servidor puede ser cambiado usando la condición `browser`:
 
-<docs-code language="json">
+```json
 {
   ...
   "imports": {
@@ -461,11 +496,11 @@ Para aplicaciones que también están usando SSR, el código del navegador y ser
     }
   }
 }
-</docs-code>
+```
 
 Estas condiciones también aplican a paquetes Node.js y cualquier [`exports`](https://nodejs.org/api/packages.html#conditional-exports) definida dentro de los paquetes.
 
-ÚTIL: Si actualmente estás usando la opción de construcción `fileReplacements`, esta característica puede ser capaz de reemplazar su uso.
+CONSEJO: Si actualmente estás usando la opción de construcción `fileReplacements`, esta característica puede ser capaz de reemplazar su uso.
 
 ## Problemas Conocidos
 
@@ -497,7 +532,7 @@ console.log(moment().format());
 
 La construcción generará una advertencia para notificarte que hay un problema potencial. La advertencia será similar a:
 
-<docs-code language="text">
+```text
 ▲ [WARNING] Calling "moment" will crash at run-time because it's an import namespace object, not a function [call-import-namespace]
 
     src/main.ts:2:12:
@@ -511,7 +546,7 @@ Consider changing "moment" to a default import instead:
         │        ~~~~~~~~~~~
         ╵        moment
 
-</docs-code>
+```
 
 Sin embargo, puedes evitar los errores en tiempo de ejecución y la advertencia habilitando la opción TypeScript `esModuleInterop` para la aplicación y cambiando la importación a lo siguiente:
 
@@ -538,4 +573,4 @@ Esto podría romper algunas de las cadenas de herramientas que dependen de la ub
 
 Reporta problemas y solicitudes de características en [GitHub](https://github.com/angular/angular-cli/issues).
 
-Please provide a minimal reproduction where possible to aid the team in addressing issues.
+Por favor proporciona una reproducción mínima cuando sea posible para ayudar al equipo a abordar los problemas.

@@ -27,7 +27,7 @@ Para más detalles sobre la API del navegador, consulta el [Chrome Explainer](ht
 
 Angular Router integra view transitions en el ciclo de vida de navegación para crear cambios de ruta fluidos. Durante la navegación, el Router:
 
-1. **Completa la preparación de navegación** - Se ejecutan coincidencia de ruta, [lazy loading](/guide/routing/define-routes#lazily-loaded-components), [guards](/guide/routing/route-guards) y [resolvers](/guide/routing/data-resolvers)
+1. **Completa la preparación de navegación** - Se ejecutan coincidencia de ruta, [lazy loading](/guide/routing/define-routes#componentes-cargados-de-forma-lazy), [guards](/guide/routing/route-guards) y [resolvers](/guide/routing/data-resolvers)
 2. **Inicia la view transition** - El Router llama a `startViewTransition` cuando las rutas están listas para activación
 3. **Actualiza el DOM** - El Router activa nuevas rutas y desactiva las antiguas dentro del callback de transición
 4. **Finaliza la transición** - La Promise de transición se resuelve cuando Angular completa la renderización
@@ -36,7 +36,7 @@ La integración de view transition del Router actúa como una [mejora progresiva
 
 ## Habilitar View Transitions en el Router
 
-Habilita view transitions agregando la característica `withViewTransitions` a tu [configuración del router](/guide/routing/define-routes#adding-the-router-to-your-application). Angular soporta tanto enfoques de bootstrap standalone como NgModule:
+Habilita view transitions agregando la característica `withViewTransitions` a tu [configuración del router](/guide/routing/define-routes#agregando-el-router-a-tu-aplicación). Angular soporta tanto enfoques de bootstrap standalone como NgModule:
 
 ### Bootstrap standalone
 
@@ -108,7 +108,7 @@ Aquí hay un ejemplo que agrega un efecto de rotación a un elemento contador:
 
 IMPORTANTE: Define animaciones de view transition en tu archivo de estilos globales, no en estilos de componentes. La [encapsulación de vista](/guide/components/styling#view-encapsulation) de Angular limita el alcance de los estilos de componentes, lo que les impide seleccionar correctamente los pseudo-elementos de transición.
 
-[Prueba el ejemplo actualizado "count" en StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
+[Prueba el ejemplo actualizado “count“ en StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
 
 ## Control avanzado de transición con onViewTransitionCreated
 
@@ -146,7 +146,7 @@ withViewTransitions({
 })
 ```
 
-Este ejemplo omite la view transition cuando la navegación solo cambia el [fragmento de URL o parámetros de consulta](/guide/routing/read-route-state#query-parameters) (como enlaces anchor dentro de la misma página). El método `skipTransition()` previene la animación mientras aún permite que la navegación se complete.
+Este ejemplo omite la view transition cuando la navegación solo cambia el [fragmento de URL o parámetros de consulta](/guide/routing/read-route-state#parámetros-de-consulta) (como enlaces anchor dentro de la misma página). El método `skipTransition()` previene la animación mientras aún permite que la navegación se complete.
 
 ## Ejemplos del Chrome explainer adaptados a Angular
 

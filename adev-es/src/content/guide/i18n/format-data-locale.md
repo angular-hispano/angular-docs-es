@@ -3,10 +3,10 @@
 Angular proporciona los siguientes [pipes](guide/templates/pipes) integrados de transformación de datos.
 Los pipes de transformación de datos usan el token [`LOCALE_ID`][ApiCoreLocaleId] para formatear datos basándose en las reglas de cada configuración regional.
 
-| Pipe de transformación de datos           | Detalles |
-|:---                                        |:---     |
-| [`DatePipe`][ApiCommonDatepipe]         | Formatea un valor de fecha.                             |
-| [`CurrencyPipe`][ApiCommonCurrencypipe] | Transforma un número en una cadena de moneda.       |
+| Pipe de transformación de datos         | Detalles                                              |
+|:--------------------------------------- |:----------------------------------------------------- |
+| [`DatePipe`][ApiCommonDatepipe]         | Formatea un valor de fecha.                           |
+| [`CurrencyPipe`][ApiCommonCurrencypipe] | Transforma un número en una cadena de moneda.         |
 | [`DecimalPipe`][ApiCommonDecimalpipe]   | Transforma un número en una cadena de número decimal. |
 | [`PercentPipe`][ApiCommonPercentpipe]   | Transforma un número en una cadena de porcentaje.     |
 
@@ -45,7 +45,6 @@ Para forzar que la moneda use inglés americano \(`en-US`\), usa el siguiente fo
 </docs-pill-row>
 
 [ApiCommonCurrencypipe]: api/common/CurrencyPipe "CurrencyPipe | Common - API | Angular"
-
 [ApiCommonDatepipe]: api/common/DatePipe "DatePipe | Common - API | Angular"
 [ApiCommonDecimalpipe]: api/common/DecimalPipe "DecimalPipe | Common - API | Angular"
 [ApiCommonPercentpipe]: api/common/PercentPipe "PercentPipe | Common - API | Angular"
