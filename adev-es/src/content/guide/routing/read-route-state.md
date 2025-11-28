@@ -72,7 +72,7 @@ Consulta los [docs de la API de `ActivatedRoute`](/api/router/ActivatedRoute) y 
 
 ## Leyendo parámetros en una ruta
 
-Hay dos tipos de parámetros que los desarrolladores pueden utilizar desde una ruta: parámetros de ruta y parámetros de consulta.
+Hay tres tipos de parámetros que los desarrolladores pueden utilizar desde una ruta: parámetros de ruta, parámetros de consulta y parámetros de matriz.
 
 ### Parámetros de ruta
 
@@ -180,6 +180,43 @@ export class ProductListComponent implements OnInit {
 En este ejemplo, los usuarios pueden usar un elemento select para ordenar la lista de productos por nombre o precio. El manejador de cambio asociado actualiza los parámetros de consulta de la URL, lo que a su vez desencadena un evento de cambio que puede leer los parámetros de consulta actualizados y actualizar la lista de productos.
 
 Para más información, consulta los [docs oficiales sobre QueryParamsHandling](/api/router/QueryParamsHandling).
+
+### Parámetros de matriz
+
+Los parámetros de matriz son parámetros opcionales que pertenecen a un segmento de URL específico, en lugar de aplicarse a toda la ruta. A diferencia de los parámetros de consulta que aparecen después de un `?` y se aplican globalmente, los parámetros de matriz usan punto y coma (`;`) y están limitados a segmentos de ruta individuales.
+
+Los parámetros de matriz son útiles cuando necesitas pasar datos auxiliares a un segmento de ruta específico sin afectar la definición de ruta o el comportamiento de coincidencia. Al igual que los parámetros de consulta, no necesitan estar definidos en tu configuración de ruta.
+
+```ts
+// Formato de URL: /path;key=value
+// Múltiples parámetros: /path;key1=value1;key2=value2
+
+// Navegar con parámetros de matriz
+this.router.navigate(['/awesome-products', { view: 'grid', filter: 'new' }]);
+// Resulta en URL: /awesome-products;view=grid;filter=new
+```
+
+**Usando ActivatedRoute**
+
+```ts
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component(/* ... */)
+export class AwesomeProducts  {
+  private route = inject(ActivatedRoute);
+
+  constructor() {
+    // Acceder a parámetros de matriz vía params
+    this.route.params.subscribe((params) => {
+      const view = params['view']; // p.ej., 'grid'
+      const filter = params['filter']; // p.ej., 'new'
+    });
+  }
+}
+```
+
+NOTA: Como alternativa a usar `ActivatedRoute`, los parámetros de matriz también se vinculan a inputs de componente cuando se usa `withComponentInputBinding`.
 
 ## Detectar ruta activa actual con RouterLinkActive
 

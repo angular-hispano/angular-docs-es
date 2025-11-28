@@ -16,12 +16,32 @@ Angular _no_ captura errores dentro de APIs que son llamadas directamente por tu
 
 Angular captura errores _asíncronos_ de promesas de usuario u observables solo cuando:
 
-* Hay un contrato explícito para que Angular espere y use el resultado de la operación asíncrona, y
-* Cuando los errores no se presentan en el valor de retorno o estado.
+- Hay un contrato explícito para que Angular espere y use el resultado de la operación asíncrona, y
+- Cuando los errores no se presentan en el valor de retorno o estado.
 
 Por ejemplo, `AsyncPipe` y `PendingTasks.run` reenvían errores al `ErrorHandler`, mientras que `resource` presenta el error en las propiedades `status` y `error`.
 
 Los errores que Angular reporta al `ErrorHandler` son errores _inesperados_. Estos errores pueden ser irrecuperables o una indicación de que el estado de la aplicación está corrupto. Las aplicaciones deben proporcionar manejo de errores usando bloques `try` u operadores apropiados de manejo de errores (como `catchError` en RxJS) donde ocurre el error siempre que sea posible en lugar de depender del `ErrorHandler`, que se usa con más frecuencia y apropiadamente solo como un mecanismo para reportar errores potencialmente fatales a la infraestructura de seguimiento de errores y logging.
+
+```ts
+export class GlobalErrorHandler implements ErrorHandler {
+  private readonly analyticsService = inject(AnalyticsService);
+  private readonly router = inject(Router);
+
+  handleError(error: any) {
+    const url = this.router.url;
+    const errorMessage = error?.message ?? 'unknown';
+
+    this.analyticsService.trackEvent({
+      eventName: 'exception',
+      description: `Screen: ${url} | ${errorMessage}`,
+    });
+
+    console.error(GlobalErrorHandler.name, { error });
+  }
+}
+
+```
 
 ### `TestBed` relanza errores por defecto
 
@@ -33,7 +53,7 @@ Los errores que no son capturados ni por el código de la aplicación ni por la 
 
 ### Renderización del lado del cliente
 
-Agregar [`provideBrowserGlobalErrorListeners()`](/api/core/provideBrowserGlobalErrorListeners) al [ApplicationConfig](guide/di/dependency-injection#at-the-application-root-level-using-applicationconfig) agrega los escuchadores `'error'` y `'unhandledrejection'` a la ventana del navegador y reenvía esos errores al `ErrorHandler`. El CLI de Angular genera nuevas aplicaciones con este proveedor por defecto. El equipo de Angular recomienda manejar estos errores globales para la mayoría de las aplicaciones, ya sea con los escuchadores integrados del framework o con tus propios escuchadores personalizados. Si proporcionas escuchadores personalizados, puedes eliminar `provideBrowserGlobalErrorListeners`.
+Agregar [`provideBrowserGlobalErrorListeners()`](/api/core/provideBrowserGlobalErrorListeners) al [ApplicationConfig](guide/di/defining-dependency-providers#application-bootstrap) agrega los escuchadores `'error'` y `'unhandledrejection'` a la ventana del navegador y reenvía esos errores al `ErrorHandler`. El CLI de Angular genera nuevas aplicaciones con este proveedor por defecto. El equipo de Angular recomienda manejar estos errores globales para la mayoría de las aplicaciones, ya sea con los escuchadores integrados del framework o con tus propios escuchadores personalizados. Si proporcionas escuchadores personalizados, puedes eliminar `provideBrowserGlobalErrorListeners`.
 
 ### Renderización del lado del servidor e híbrida
 

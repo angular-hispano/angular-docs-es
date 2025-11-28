@@ -56,7 +56,7 @@ Las URLs dentro de la aplicación pueden ser indistinguibles de las URLs del ser
 Los navegadores HTML5 modernos fueron los primeros en soportar `pushState`, razón por la cual muchas personas se refieren a estas URLs como URLs "estilo HTML5".
 
 ÚTIL: La navegación estilo HTML5 es el valor predeterminado del router.
-En la sección [LocationStrategy y estilos de URL del navegador](#locationstrategy-and-browser-url-styles), aprende por qué el estilo HTML5 es preferable, cómo ajustar su comportamiento y cómo cambiar al estilo hash \(`#`\) más antiguo, si es necesario.
+En la sección [LocationStrategy y estilos de URL del navegador](common-router-tasks#locationstrategy-y-estilos-de-url-del-navegador), aprende por qué el estilo HTML5 es preferable, cómo ajustar su comportamiento y cómo cambiar al estilo hash \(`#`\) más antiguo, si es necesario.
 
 Debes agregar un [elemento `<base href>`](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') al `index.html` de la aplicación para que el enrutamiento `pushState` funcione.
 El navegador usa el valor `<base href>` para prefijar URLs relativas al referenciar archivos CSS, scripts e imágenes.
@@ -64,7 +64,7 @@ El navegador usa el valor `<base href>` para prefijar URLs relativas al referenc
 Agrega el elemento `<base>` justo después de la etiqueta `<head>`.
 Si la carpeta `app` es la raíz de la aplicación, como lo es para esta aplicación, establece el valor `href` en `index.html` como se muestra aquí.
 
-<docs-code header="src/index.html (base-href)" path="adev/src/content/examples/router/src/index.html" visibleRegion="base-href"/>
+<docs-code header="index.html (base-href)" path="adev/src/content/examples/router/src/index.html" visibleRegion="base-href"/>
 
 ### URLs HTML5 y el `<base href>`
 
@@ -94,7 +94,6 @@ Esos desarrolladores aún pueden usar URLs HTML5 siguiendo los siguientes dos pa
 
 1. Proporciona al router un valor `APP_BASE_HREF` apropiado.
 1. Usa URLs raíz \(URLs con un `authority`\) para todos los recursos web: CSS, imágenes, scripts y archivos HTML de plantilla.
-
    - El `path` de `<base href>` debe terminar con un "/", ya que los navegadores ignoran caracteres en el `path` que siguen al "`/`" más a la derecha
    - Si el `<base href>` incluye una parte `query`, el `query` solo se usa si el `path` de un enlace en la página está vacío y no tiene `query`.
      Esto significa que un `query` en el `<base href>` solo se incluye cuando se usa `HashLocationStrategy`.

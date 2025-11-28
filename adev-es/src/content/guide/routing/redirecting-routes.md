@@ -48,7 +48,7 @@ Por defecto, todas las redirecciones usan la estrategia `prefix`.
 ```ts
 export const routes: Routes = [
   // Esta ruta de redirección es equivalente a…
-  { path: 'news', redirectTo: 'blog },
+  { path: 'news', redirectTo: 'blog' },
 
   // Esta ruta de redirección define explícitamente pathMatch
   { path: 'news', redirectTo: 'blog', pathMatch: 'prefix' },

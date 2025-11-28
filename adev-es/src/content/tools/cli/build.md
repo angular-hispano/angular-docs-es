@@ -9,7 +9,7 @@ Angular CLI incluye cuatro builders típicamente usados como objetivos `build`:
 | Builder                                         | Propósito                                                                                                                                                                           |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `@angular-devkit/build-angular:application`     | Construye una aplicación con un bundle del lado del cliente, un servidor Node y rutas prerenderizadas en tiempo de construcción con [esbuild](https://esbuild.github.io/).                                     |
-| `@angular-devkit/build-angular:browser-esbuild` | Empaqueta una aplicación del lado del cliente para usar en un navegador con [esbuild](https://esbuild.github.io/). Consulta la [documentación de `browser-esbuild`](tools/cli/build-system-migration#manual-migration-to-the-compatibility-builder) para más información. |
+| `@angular-devkit/build-angular:browser-esbuild` | Empaqueta una aplicación del lado del cliente para usar en un navegador con [esbuild](https://esbuild.github.io/). Consulta la [documentación de `browser-esbuild`](tools/cli/build-system-migration#migración-manual-al-builder-de-compatibilidad) para más información. |
 | `@angular-devkit/build-angular:browser`         | Empaqueta una aplicación del lado del cliente para usar en un navegador con [webpack](https://webpack.js.org/).                                                                                   |
 | `@angular-devkit/build-angular:ng-packagr`      | Construye una librería Angular adhiriéndose al [Angular Package Format](tools/libraries/angular-package-format).                                                                           |
 
@@ -18,8 +18,7 @@ Las librerías generadas por `ng generate library` usan `@angular-devkit/build-a
 
 Puedes determinar qué builder se está usando para un proyecto en particular buscando el objetivo `build` para ese proyecto.
 
-<docs-code language="json">
-
+```json
 {
   "projects": {
     "my-app": {
@@ -36,8 +35,7 @@ Puedes determinar qué builder se está usando para un proyecto en particular bu
     }
   }
 }
-
-</docs-code>
+```
 
 Esta página discute el uso y las opciones de `@angular-devkit/build-angular:application`.
 
@@ -52,8 +50,7 @@ El CLI te permite establecer umbrales de tamaño en tu configuración para asegu
 
 Define tus límites de tamaño en el archivo de configuración del CLI, `angular.json`, en una sección `budgets` para cada [entorno configurado](tools/cli/environments).
 
-<docs-code language="json">
-
+```json
 {
   …
   "configurations": {
@@ -69,8 +66,7 @@ Define tus límites de tamaño en el archivo de configuración del CLI, `angular
     }
   }
 }
-
-</docs-code>
+```
 
 Puedes especificar presupuestos de tamaño para toda la aplicación y para partes particulares.
 Cada entrada de presupuesto configura un presupuesto de un tipo dado.
@@ -112,8 +108,7 @@ Angular CLI emite advertencias si detecta que tu aplicación de navegador depend
 Cuando encuentres una dependencia CommonJS, considera pedir al mantenedor que soporte módulos ECMAScript, contribuir ese soporte tú mismo, o usar una dependencia alternativa que satisfaga tus necesidades.
 Si la mejor opción es usar una dependencia CommonJS, puedes deshabilitar estas advertencias agregando el nombre del módulo CommonJS a la opción `allowedCommonJsDependencies` en las opciones `build` ubicadas en `angular.json`.
 
-<docs-code language="json">
-
+```json
 "build": {
   "builder": "@angular-devkit/build-angular:browser",
   "options": {
@@ -124,8 +119,7 @@ Si la mejor opción es usar una dependencia CommonJS, puedes deshabilitar estas 
    }
    …
 },
-
-</docs-code>
+```
 
 ## Configurar compatibilidad de navegadores
 
@@ -140,10 +134,17 @@ Consulta el [repositorio de browserslist](https://github.com/browserslist/browse
 Evita expandir esta lista a más navegadores. Incluso si tu código de aplicación es más ampliamente compatible, Angular mismo podría no serlo.
 Solo deberías _reducir_ el conjunto de navegadores o versiones en esta lista.
 
-ÚTIL: Usa [browsersl.ist](https://browsersl.ist) para mostrar navegadores compatibles para una consulta `browserslist`.
+CONSEJO: Usa [browsersl.ist](https://browsersl.ist) para mostrar navegadores compatibles para una consulta `browserslist`.
 
 ## Configurar Tailwind
 
 Angular soporta [Tailwind CSS](https://tailwindcss.com/), un framework CSS utility-first.
 
 Para integrar Tailwind CSS con Angular CLI, consulta [Usando Tailwind CSS con Angular](guide/tailwind)
+
+## Inline de CSS crítico
+
+Angular puede incluir inline las definiciones de CSS crítico de tu aplicación para mejorar [First Contentful Paint (FCP)](https://web.dev/first-contentful-paint).
+Esta opción está habilitada por defecto. Puedes deshabilitar este inline en las [opciones de personalización de `styles`](reference/configs/workspace-config#styles-optimization-options).
+
+Esta optimización extrae el CSS necesario para renderizar el viewport inicial y lo incluye inline directamente en el HTML generado, permitiendo que el navegador muestre el contenido más rápido sin esperar a que se carguen las hojas de estilo completas. El CSS restante se carga de forma asíncrona en segundo plano. Angular CLI usa [Beasties](https://github.com/danielroe/beasties) para analizar el HTML y los estilos de tu aplicación.

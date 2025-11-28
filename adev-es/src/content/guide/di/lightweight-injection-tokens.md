@@ -1,7 +1,7 @@
 # Optimizando el tamaño de la aplicación con tokens de inyección ligeros
 
 Esta página proporciona una visión conceptual de una técnica de inyección de dependencias que se recomienda para desarrolladores de librerías.
-Diseñar tu librería con *tokens de inyección ligeros* ayuda a optimizar el tamaño del paquete de las aplicaciones cliente que usan tu librería.
+Diseñar tu librería con _tokens de inyección ligeros_ ayuda a optimizar el tamaño del paquete de las aplicaciones cliente que usan tu librería.
 
 Puedes gestionar la estructura de dependencias entre tus componentes y servicios inyectables para optimizar el tamaño del paquete usando proveedores tree-shakable.
 Esto normalmente asegura que si un componente o servicio provisto nunca se usa realmente por la aplicación, el compilador puede eliminar su código del paquete.
@@ -22,17 +22,18 @@ Para prevenir la retención de componentes no utilizados, tu librería debería 
 Para explicar mejor la condición bajo la cual ocurre la retención de tokens, considera una librería que proporciona un componente library-card.
 Este componente contiene un cuerpo y puede contener un encabezado opcional:
 
-<docs-code language="html">
+```angular-html
 
 <lib-card>;
-  <lib-header>…</lib-header>;
+<lib-header>…</lib-header>;
 </lib-card>;
-
-</docs-code>
+```
 
 En una implementación probable, el componente `<lib-card>` usa `@ContentChild()` o `@ContentChildren()` para obtener `<lib-header>` y `<lib-body>`, como en el siguiente ejemplo:
 
-<docs-code language="typescript" highlight="[12]">
+```ts {highlight: [14]}
+import {Component, ContentChild} from '@angular/core';
+
 @Component({
   selector: 'lib-header',
   …,
@@ -44,26 +45,25 @@ class LibHeaderComponent {}
   …,
 })
 class LibCardComponent {
-  @ContentChild(LibHeaderComponent) header: LibHeaderComponent|null = null;
+  @ContentChild(LibHeaderComponent) header: LibHeaderComponent | null = null;
 }
-
-</docs-code>
+```
 
 Dado que `<lib-header>` es opcional, el elemento puede aparecer en la plantilla en su forma mínima, `<lib-card></lib-card>`.
 En este caso, `<lib-header>` no se usa y esperarías que sea tree-shaken, pero eso no es lo que sucede.
 Esto es porque `LibCardComponent` en realidad contiene dos referencias al `LibHeaderComponent`:
 
-<docs-code language="typescript">
-@ContentChild(LibHeaderComponent) header: LibHeaderComponent;
-</docs-code>
+```ts
+@ContentChild(LibHeaderComponent) header: LibHeaderComponent | null;
+```
 
-* Una de estas referencias está en la *posición de tipo*: es decir, especifica `LibHeaderComponent` como un tipo: `header: LibHeaderComponent;`.
-* La otra referencia está en la *posición de valor*: es decir, LibHeaderComponent es el valor del decorador de parámetro `@ContentChild()`: `@ContentChild(LibHeaderComponent)`.
+- Una de estas referencias está en la _posición de tipo_: es decir, especifica `LibHeaderComponent` como un tipo: `header: LibHeaderComponent;`.
+- La otra referencia está en la _posición de valor_: es decir, LibHeaderComponent es el valor del decorador de parámetro `@ContentChild()`: `@ContentChild(LibHeaderComponent)`.
 
 El compilador maneja las referencias de tokens en estas posiciones de manera diferente:
 
-* El compilador borra las referencias de *posición de tipo* después de la conversión desde TypeScript, por lo que no tienen impacto en tree-shaking.
-* El compilador debe mantener las referencias de *posición de valor* en tiempo de ejecución, lo que **previene** que el componente sea tree-shaken.
+- El compilador borra las referencias de _posición de tipo_ después de la conversión desde TypeScript, por lo que no tienen impacto en tree-shaking.
+- El compilador debe mantener las referencias de _posición de valor_ en tiempo de ejecución, lo que **previene** que el componente sea tree-shaken.
 
 En el ejemplo, el compilador retiene el token `LibHeaderComponent` que ocurre en la posición de valor.
 Esto previene que el componente referenciado sea tree-shaken, incluso si la aplicación no usa realmente `<lib-header>` en ningún lugar.
@@ -74,18 +74,18 @@ Si el código, plantilla y estilos de `LibHeaderComponent` se combinan para volv
 El problema de tree-shaking surge cuando un componente se usa como un token de inyección.
 Hay dos casos cuando eso puede suceder:
 
-* El token se usa en la posición de valor de una [consulta de contenido](guide/components/queries#content-queries).
-* El token se usa como un especificador de tipo para inyección de constructor.
+- El token se usa en la posición de valor de una [consulta de contenido](guide/components/queries#content-queries).
+- El token se usa como un especificador de tipo para inyección de constructor.
 
 En el siguiente ejemplo, ambos usos del token `OtherComponent` causan retención de `OtherComponent`, previniendo que sea tree-shaken cuando no se usa:
 
-<docs-code language="typescript" highlight="[[2],[4]]">
+```ts {highlight: [[2],[4]]}
 class MyComponent {
   constructor(@Optional() other: OtherComponent) {}
 
   @ContentChild(OtherComponent) other: OtherComponent|null;
 }
-</docs-code>
+```
 
 Aunque los tokens usados solo como especificadores de tipo se eliminan cuando se convierten a JavaScript, todos los tokens usados para inyección de dependencias se necesitan en tiempo de ejecución.
 Estos efectivamente cambian `constructor(@Optional() other: OtherComponent)` a `constructor(@Optional() @Inject(OtherComponent) other)`.
@@ -100,14 +100,12 @@ La clase abstracta se retiene, no es tree-shaken, pero es pequeña y no tiene un
 
 El siguiente ejemplo muestra cómo esto funciona para el `LibHeaderComponent`:
 
-<docs-code language="typescript" language="[[1],[6],[17]]">
+```ts {highlight: [[1],[5], [15]]}
 abstract class LibHeaderToken {}
 
 @Component({
   selector: 'lib-header',
-  providers: [
-    {provide: LibHeaderToken, useExisting: LibHeaderComponent}
-  ]
+  providers: [{provide: LibHeaderToken, useExisting: LibHeaderComponent}],
   …,
 })
 class LibHeaderComponent extends LibHeaderToken {}
@@ -117,9 +115,9 @@ class LibHeaderComponent extends LibHeaderToken {}
   …,
 })
 class LibCardComponent {
-  @ContentChild(LibHeaderToken) header: LibHeaderToken|null = null;
+  @ContentChild(LibHeaderToken) header: LibHeaderToken | null = null;
 }
-</docs-code>
+```
 
 En este ejemplo, la implementación de `LibCardComponent` ya no se refiere a `LibHeaderComponent` ni en la posición de tipo ni en la posición de valor.
 Esto permite que ocurra tree-shaking completo de `LibHeaderComponent`.
@@ -146,17 +144,14 @@ Esto permite que el padre se comunique con el hijo, si está presente, de una ma
 Por ejemplo, el `LibCardComponent` ahora consulta `LibHeaderToken` en lugar de `LibHeaderComponent`.
 El siguiente ejemplo muestra cómo el patrón permite que `LibCardComponent` se comunique con el `LibHeaderComponent` sin referirse realmente a `LibHeaderComponent`:
 
-<docs-code language="typescript" highlight="[[3],[13,16],[27]]">
+```ts {highlight: [[2],[9],[11],[19]]}
 abstract class LibHeaderToken {
   abstract doSomething(): void;
 }
 
 @Component({
   selector: 'lib-header',
-  providers: [
-    {provide: LibHeaderToken, useExisting: LibHeaderComponent}
-  ]
-  …,
+  providers: [ {provide: LibHeaderToken, useExisting: LibHeaderComponent}]
 })
 class LibHeaderComponent extends LibHeaderToken {
   doSomething(): void {
@@ -166,9 +161,8 @@ class LibHeaderComponent extends LibHeaderToken {
 
 @Component({
   selector: 'lib-card',
-  …,
 })
-class LibCardComponent implement AfterContentInit {
+class LibCardComponent implements AfterContentInit {
   @ContentChild(LibHeaderToken) header: LibHeaderToken|null = null;
 
   ngAfterContentInit(): void {
@@ -177,7 +171,7 @@ class LibCardComponent implement AfterContentInit {
     }
   }
 }
-</docs-code>
+```
 
 En este ejemplo, el padre consulta el token para obtener el componente hijo, y almacena la referencia del componente resultante si está presente.
 Antes de llamar un método en el hijo, el componente padre verifica si el componente hijo está presente.
@@ -190,4 +184,4 @@ La guía de estilo de Angular sugiere que nombres los componentes usando el sufi
 El ejemplo "LibHeaderComponent" sigue esta convención.
 
 Deberías mantener la relación entre el componente y su token mientras aún los distingues.
-El estilo recomendado es usar el nombre base del componente con el sufijo "`Token`" para nombrar tus tokens de inyección ligeros: "`LibHeaderToken`."
+El estilo recomendado es usar el nombre base del componente con el sufijo "`Token`" para nombrar tus tokens de inyección ligeros: "`LibHeaderToken`".

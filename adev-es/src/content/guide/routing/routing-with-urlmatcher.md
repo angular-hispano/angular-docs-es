@@ -13,35 +13,35 @@ Implementar `UrlMatcher` de Angular para crear un matcher de ruta personalizado.
 
 ## Crear una aplicación de ejemplo
 
-Usando Angular CLI, crea una nueva aplicación, *angular-custom-route-match*.
-Además del framework de aplicación Angular predeterminado, también crearás un componente *profile*.
+Usando Angular CLI, crea una nueva aplicación, _angular-custom-route-match_.
+Además del framework de aplicación Angular predeterminado, también crearás un componente _profile_.
 
-1. Crea un nuevo proyecto Angular, *angular-custom-route-match*.
+1. Crea un nuevo proyecto Angular, _angular-custom-route-match_.
 
-    ```shell
-    ng new angular-custom-route-match
-    ```
+   ```shell
+   ng new angular-custom-route-match
+   ```
 
-    Cuando se te pregunte `Would you like to add Angular routing?`, selecciona `Y`.
+   Cuando se te pregunte `Would you like to add Angular routing?`, selecciona `Y`.
 
-    Cuando se te pregunte `Which stylesheet format would you like to use?`, selecciona `CSS`.
+   Cuando se te pregunte `Which stylesheet format would you like to use?`, selecciona `CSS`.
 
-    Después de unos momentos, un nuevo proyecto, `angular-custom-route-match`, estará listo.
+   Después de unos momentos, un nuevo proyecto, `angular-custom-route-match`, estará listo.
 
 1. Desde tu terminal, navega al directorio `angular-custom-route-match`.
-1. Crea un componente, *profile*.
+1. Crea un componente, _profile_.
 
-    ```shell
-    ng generate component profile
-    ```
+   ```shell
+   ng generate component profile
+   ```
 
 1. En tu editor de código, localiza el archivo `profile.component.html` y reemplaza el contenido placeholder con el siguiente HTML.
 
-    <docs-code header="src/app/profile/profile.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/profile/profile.component.html"/>
+    <docs-code header="profile/profile.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/profile/profile.component.html"/>
 
 1. En tu editor de código, localiza el archivo `app.component.html` y reemplaza el contenido placeholder con el siguiente HTML.
 
-    <docs-code header="src/app/app.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.component.html"/>
+    <docs-code header="app.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.component.html"/>
 
 ## Configurar las rutas para tu aplicación
 
@@ -52,24 +52,24 @@ Este handle se identifica por un símbolo `@` precedente.
 1. En tu editor de código, abre tu archivo `app.config.ts`.
 1. Agrega una declaración `import` para `provideRouter` y `withComponentInputBinding` de Angular, así como las rutas de la aplicación.
 
-    ```ts
-    import {provideRouter, withComponentInputBinding} from '@angular/router';
+   ```ts
+   import {provideRouter, withComponentInputBinding} from '@angular/router';
 
-    import {routes} from './app.routes';
-    ```
+   import {routes} from './app.routes';
+   ```
 
 1. En el array de providers, agrega una declaración `provideRouter(routes, withComponentInputBinding())`.
 
 1. Define el matcher de ruta personalizado agregando el siguiente código a las rutas de la aplicación.
 
-    <docs-code header="src/app/app.routes.ts" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.routes.ts" visibleRegion="matcher"/>
+    <docs-code header="app.routes.ts" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.routes.ts" visibleRegion="matcher"/>
 
 Este matcher personalizado es una función que realiza las siguientes tareas:
 
-* El matcher verifica que el array contiene solo un segmento
-* El matcher emplea una expresión regular para asegurar que el formato del nombre de usuario coincida
-* Si hay una coincidencia, la función retorna la URL completa, definiendo un parámetro de ruta `username` como una subcadena de la ruta
-* Si no hay coincidencia, la función retorna null y el router continúa buscando otras rutas que coincidan con la URL
+- El matcher verifica que el array contiene solo un segmento
+- El matcher emplea una expresión regular para asegurar que el formato del nombre de usuario coincida
+- Si hay una coincidencia, la función retorna la URL completa, definiendo un parámetro de ruta `username` como una subcadena de la ruta
+- Si no hay coincidencia, la función retorna null y el router continúa buscando otras rutas que coincidan con la URL
 
 ÚTIL: Un matcher de URL personalizado se comporta como cualquier otra definición de ruta. Define rutas hijo o rutas con lazy loading como lo harías con cualquier otra ruta.
 
@@ -77,12 +77,12 @@ Este matcher personalizado es una función que realiza las siguientes tareas:
 
 Con el matcher personalizado en su lugar, ahora puedes vincular el parámetro de ruta en el componente `profile`.
 
-En tu editor de código, abre tu archivo `profile.component.ts` y crea un `Input` que coincida con el parámetro `username`.
+En tu editor de código, abre tu archivo `profile.component.ts` y crea un `input` que coincida con el parámetro `username`.
 Agregamos la característica `withComponentInputBinding` anteriormente
 en `provideRouter`. Esto permite que el `Router` vincule información directamente a los componentes de ruta.
 
 ```ts
-@Input() username!: string;
+username = input.required<string>();
 ```
 
 ## Probar tu matcher de URL personalizado
@@ -91,17 +91,17 @@ Con tu código en su lugar, ahora puedes probar tu matcher de URL personalizado.
 
 1. Desde una ventana de terminal, ejecuta el comando `ng serve`.
 
-    <docs-code language="shell">
+    ```shell
     ng serve
-    </docs-code>
+    ```
 
 1. Abre un navegador en `http://localhost:4200`.
 
-    Deberías ver una sola página web, consistiendo en una oración que dice `Navigate to my profile`.
+   Deberías ver una sola página web, consistiendo en una oración que dice `Navigate to my profile`.
 
 1. Haz clic en el hipervínculo **my profile**.
 
-    Una nueva oración, que dice `Hello, Angular!` aparece en la página.
+   Una nueva oración, que dice `Hello, Angular!` aparece en la página.
 
 ## Próximos pasos
 

@@ -12,7 +12,7 @@ Puedes generar un guard de ruta usando Angular CLI:
 ng generate guard CUSTOM_NAME
 ```
 
-Esto te solicitará que selecciones qué [tipo de guard de ruta](#types-of-route-guards) usar y luego creará el archivo `CUSTOM_NAME-guard.ts` correspondiente.
+Esto te solicitará que selecciones qué [tipo de guard de ruta](#tipos-de-guards-de-ruta) usar y luego creará el archivo `CUSTOM_NAME-guard.ts` correspondiente.
 
 CONSEJO: También puedes crear un guard de ruta manualmente creando un archivo TypeScript separado en tu proyecto Angular. Los desarrolladores típicamente agregan un sufijo de `-guard.ts` en el nombre del archivo para distinguirlo de otros archivos.
 
@@ -187,7 +187,7 @@ const routes: Routes = [
     children: [
       // /users/list - PROTEGIDO
       { path: 'list', component: UserListComponent },
-      // /useres/detail/:id - PROTEGIDO
+      // /users/detail/:id - PROTEGIDO
       { path: 'detail/:id', component: UserDetailComponent }
     ]
   },

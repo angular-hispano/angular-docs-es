@@ -6,7 +6,7 @@ Las plantillas de componentes no son solo HTML estático pueden usar datos de tu
 
 ## Mostrar texto dinámico
 
-En Angular, un *binding* crea una conexión dinámica entre la plantilla de un componente y sus datos. Esta conexión asegura que los cambios en los datos del componente actualicen automáticamente la plantilla renderizada.
+En Angular, un _binding_ crea una conexión dinámica entre la plantilla de un componente y sus datos. Esta conexión asegura que los cambios en los datos del componente actualicen automáticamente la plantilla renderizada.
 
 Puedes crear un binding para mostrar texto dinámico en una plantilla usando llaves dobles:
 
@@ -15,7 +15,7 @@ Puedes crear un binding para mostrar texto dinámico en una plantilla usando lla
   selector: 'user-profile',
   template: `<h1>Perfil {{userName()}}</h1>`,
 })
-export class TodoListItem {
+export class UserProfile {
   userName = signal('pro_programmer_123');
 }
 ```

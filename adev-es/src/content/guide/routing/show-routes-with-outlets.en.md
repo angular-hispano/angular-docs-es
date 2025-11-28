@@ -8,7 +8,7 @@ The `RouterOutlet` directive is a placeholder that marks the location where the 
 <app-footer />
 ```
 
-```angular-ts
+```ts
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -23,7 +23,7 @@ export class AppComponent {}
 
 In this example, if an application has the following routes defined:
 
-```angular-ts
+```ts
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProductsComponent } from './products/products.component';
@@ -81,7 +81,7 @@ As your application grows more complex, you might want to create routes that are
 
 These types of nested routes are called child routes. This means you're adding a second `<router-outlet>` to your app, because it is in addition to the `<router-outlet>` in AppComponent.
 
-In this example, the `Settings` component will display the desired panel based on what the user selects. One of the unique things you'll notice about child routes is that the component often has its own `<nav>` and `<router-outlet>`.
+In this example, the `Settings` component will display the desired panel based on what the user selects. One of the unique things you’ll notice about child routes is that the component often has its own `<nav>` and `<router-outlet>`.
 
 ```angular-html
 <h1>Settings</h1>
@@ -96,7 +96,7 @@ In this example, the `Settings` component will display the desired panel based o
 
 A child route is like any other route, in that it needs both a `path` and a `component`. The one difference is that you place child routes in a children array within the parent route.
 
-```angular-ts
+```ts
 const routes: Routes = [
   {
     path: 'settings-component',
@@ -133,7 +133,7 @@ Each outlet must have a unique name. The name cannot be set or changed dynamical
 
 Angular matches the outlet's name to the `outlet` property defined on each route:
 
-```angular-ts
+```ts
 {
   path: 'user/:id',
   component: UserDetails,
@@ -163,7 +163,47 @@ You can add event listeners with the standard event binding syntax:
 />
 ```
 
-Check out the [API docs for RouterOutlet](/api/router/RouterOutlet?tab=api) if you'd like to learn more.
+Check out the [API docs for RouterOutlet](/api/router/RouterOutlet?tab=api) if you’d like to learn more.
+
+## Passing contextual data to routed components
+
+Passing contextual data to routed components often requires global state or complicated route configurations. To make this easier, each `RouterOutlet` supports a `routerOutletData` input. Routed components and their children can read this data as a signal using the `ROUTER_OUTLET_DATA` injection token, allowing outlet-specific configuration without modifying route definitions.
+
+```angular-ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-dashboard',
+  imports: [RouterOutlet],
+  template: `
+    <h2>Dashboard</h2>
+    <router-outlet [routerOutletData]="{ layout: 'sidebar' }" />
+  `,
+})
+export class DashboardComponent {}
+```
+
+The routed component can inject the provided outlet data using `ROUTER_OUTLET_DATA`:
+
+```angular-ts
+import { Component, inject } from '@angular/core';
+import { ROUTER_OUTLET_DATA } from '@angular/router';
+
+@Component({
+  selector: 'app-stats',
+  template: `<p>Stats view (layout: {{ outletData().layout }})</p>`,
+})
+export class StatsComponent {
+  outletData = inject(ROUTER_OUTLET_DATA) as Signal<{ layout: string }>;
+}
+```
+
+When Angular activates the `StatsComponent` in that outlet, it receives `{ layout: 'sidebar' }` as injected data.
+
+NOTE: When the `routerOutletData` input is unset, the injected value is null by default.
+
+---
 
 ## Next steps
 

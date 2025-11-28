@@ -1,8 +1,8 @@
 <docs-decorative-header title="Angular Signals" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
-Las Signals en Angular son un sistema que raestrea granularmente cómo y dónde se usa tu estado a lo largo de una aplicación, permitiendo al framework optimizar las actualizaciones de renderizado.
+Las Signals en Angular son un sistema que rastrea granularmente cómo y dónde se usa tu estado a lo largo de una aplicación, permitiendo al framework optimizar las actualizaciones de renderizado.
 </docs-decorative-header>
 
-SUGERENCIA: Revisa los [Fundamentos](essentials/signals) de Angular antes de profundizar en esta guía completa.
+CONSEJO: Revisa los [Fundamentos](essentials/signals) de Angular antes de profundizar en esta guía completa.
 
 ## ¿Qué son las Signals?
 
@@ -10,7 +10,7 @@ Una **signal** es un contenedor alrededor de un valor que notifica a los consumi
 
 Lees el valor de una signal llamando a su función getter, lo que permite a Angular rastrear dónde se usa la signal.
 
-Las signals puede ser Escribibles (_writable_) o Solo Lectura (_read-only_).
+Las signals pueden ser Escribibles (_writable_) o Solo Lectura (_read-only_).
 
 ### Signals escribibles (_writable_)
 
@@ -36,11 +36,11 @@ O usa la operación `.update()` para calcular un nuevo valor desde el anterior:
 count.update(value => value + 1);
 ```
 
-Las signals escribibles tiene el tipo `WritableSignal`.
+Las signals escribibles tienen el tipo `WritableSignal`.
 
 ### Signals computadas
 
-Las **Signals computadas** son signals de solo lectura que derivan su valor de otras signals. Defines signals computadas usando la función `computed` and especificando una derivación.
+Las **signals computadas** son signals de solo lectura que derivan su valor de otras signals. Defines signals computadas usando la función `computed` y especificando una derivación.
 
 ```typescript
 const count: WritableSignal<number> = signal(0);
@@ -49,9 +49,9 @@ const doubleCount: Signal<number> = computed(() => count() * 2);
 La signals `doubleCount` depende de la signal `count`.
 Cada vez que la signal `count` se actualiza, Angular sabe que `doubleCount` también necesita actualizarse.
 
-#### Signals computadas se evalún y memorizan de forma perezosa
+#### Signals computadas se evalúan y memorizan de forma perezosa
 
-La functión de derivación de `doubleCount` no se ejecuta para calcular su valor hasta la primera que vez que lees `doubleCount`. El valor calculado se almacena en caché, y si lees `doubleCount` nuevamente, devolverá el valor en caché sin recalcular.
+La función de derivación de `doubleCount` no se ejecuta para calcular su valor hasta la primera vez que lees `doubleCount`. El valor calculado se almacena en caché, y si lees `doubleCount` nuevamente, devolverá el valor en caché sin recalcular.
 
 Si luego cambias `count`, Angular sabe que el valor en caché de `doubleCount` ya no es válido, y la próxima vez que leas `doubleCount` se calculará su nuevo valor.
 
@@ -193,7 +193,30 @@ data.set(['test']);
 
 Las funciones de igualdad pueden ser proporcionadas tanto a signals escribibles como computadas.
 
-ÚTIL: Por defecto, las signals usan igualdad referencial (comparación [`Object.is()`](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Object/is)).
+CONSEJO: Por defecto, las signals usan igualdad referencial (comparación [`Object.is()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is)).
+
+### Verificación de tipos de signals
+
+Puedes usar `isSignal` para verificar si un valor es una `Signal`:
+
+```ts
+const count = signal(0);
+const doubled = computed(() => count() * 2);
+
+isSignal(count); // true
+isSignal(doubled); // true
+isSignal(42); // false
+```
+
+Para verificar específicamente si una signal es escribible, usa `isWritableSignal`:
+
+```ts
+const count = signal(0);
+const doubled = computed(() => count() * 2);
+
+isWritableSignal(count); // true
+isWritableSignal(doubled); // false
+```
 
 ### Leer sin rastrear dependencias
 

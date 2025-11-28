@@ -14,9 +14,9 @@ Angular usa el *identificador de configuración regional* Unicode \(Unicode loca
 Un ID de configuración regional especifica el idioma, país y un código opcional para variantes o subdivisiones adicionales.
 Un ID de configuración regional consiste en el identificador de idioma, un carácter guión \(`-`\) y la extensión de configuración regional.
 
-<docs-code language="html">
+```html
 {language_id}-{locale_extension}
-</docs-code>
+```
 
 ÚTIL: Para traducir con precisión tu proyecto Angular, debes decidir qué idiomas y configuraciones regionales vas a usar para la internacionalización.
 
@@ -26,7 +26,7 @@ Las diferencias incluyen gramática, puntuación, formatos de moneda, números d
 Para los ejemplos en esta guía, usa los siguientes idiomas y configuraciones regionales.
 
 | Idioma   | Configuración regional   | ID de configuración regional Unicode |
-|:---      |:---                      |:---               |
+|:-------- |:------------------------ |:----------------- |
 | Inglés   | Canadá                   | `en-CA`           |
 | Inglés   | Estados Unidos de América| `en-US`           |
 | Francés  | Canadá                   | `fr-CA`           |
@@ -48,6 +48,7 @@ Para cambiar la configuración regional de origen de tu proyecto para la compila
 
 1. Abre el archivo de configuración de compilación del espacio de trabajo [`angular.json`][GuideWorkspaceConfig].
 2. Agrega o modifica el campo `sourceLocale` dentro de la sección `i18n`:
+
 ```json
 {
   "projects": {
@@ -66,12 +67,8 @@ Para cambiar la configuración regional de origen de tu proyecto para la compila
   <docs-pill href="guide/i18n/format-data-locale" title="Formatear datos según la configuración regional"/>
 </docs-pill-row>
 
-[GuideWorkspaceConfig]: reference/configs/workspace-config "Angular workspace configuration | Angular"
-
-[GithubAngularAngularTreeMasterPackagesCommonLocales]: <https://github.com/angular/angular/tree/main/packages/common/locales> "angular/packages/common/locales | angular/angular | GitHub"
-
-[RfcEditorInfoBcp47]: https://www.rfc-editor.org/info/bcp47 "BCP 47 | RFC Editor"
-
-[UnicodeCldrDevelopmentCoreSpecification]: https://cldr.unicode.org/index/cldr-spec "Core Specification | Unicode CLDR Project"
-
-[UnicodeCldrDevelopmentCoreSpecificationLocaleID]: https://cldr.unicode.org/index/cldr-spec/picking-the-right-language-code "Unicode Language and Locale Identifiers - Core Specification | Unicode CLDR Project"
+[GuideWorkspaceConfig]: reference/configs/workspace-config 'Angular workspace configuration | Angular'
+[GithubAngularAngularTreeMasterPackagesCommonLocales]: <https://github.com/angular/angular/tree/main/packages/common/locales> 'angular/packages/common/locales | angular/angular | GitHub'
+[RfcEditorInfoBcp47]: https://www.rfc-editor.org/info/bcp47 'BCP 47 | RFC Editor'
+[UnicodeCldrDevelopmentCoreSpecification]: https://cldr.unicode.org/index/cldr-spec 'Core Specification | Unicode CLDR Project'
+[UnicodeCldrDevelopmentCoreSpecificationLocaleID]: https://cldr.unicode.org/index/cldr-spec/picking-the-right-language-code 'Unicode Language and Locale Identifiers - Core Specification | Unicode CLDR Project'

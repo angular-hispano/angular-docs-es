@@ -47,7 +47,7 @@ El ejemplo incluye el `DynamicFormQuestionComponent`, que define una pregunta co
 
 El siguiente `QuestionBase` es una clase base para un conjunto de controles que pueden representar la pregunta y su respuesta en el formulario.
 
-<docs-code header="src/app/question-base.ts" path="adev/src/content/examples/dynamic-form/src/app/question-base.ts"/>
+<docs-code header="question-base.ts" path="adev/src/content/examples/dynamic-form/src/app/question-base.ts"/>
 
 ### Define clases de control
 
@@ -68,7 +68,7 @@ Un formulario dinámico usa un servicio para crear conjuntos agrupados de contro
 El siguiente `QuestionControlService` recopila un conjunto de instancias de `FormGroup` que consumen los metadatos del modelo de preguntas.
 Puedes especificar valores por defecto y reglas de validación.
 
-<docs-code header="src/app/question-control.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question-control.service.ts"/>
+<docs-code header="question-control.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question-control.service.ts"/>
 
 ## Compón el contenido del formulario dinámico
 
@@ -100,7 +100,7 @@ Para mantener el cuestionario a medida que cambian los requisitos, solo necesita
 
 El `QuestionService` proporciona un conjunto de preguntas en forma de un array vinculado a `input()` questions.
 
-<docs-code header="src/app/question.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question.service.ts"/>
+<docs-code header="question.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question.service.ts"/>
 
 ## Crea una plantilla de formulario dinámico
 
@@ -136,6 +136,6 @@ La siguiente figura muestra el formulario final.
 ## Próximos pasos
 
 <docs-pill-row>
-  <docs-pill title="Validating form input" href="guide/forms/reactive-forms#validating-form-input" />
-  <docs-pill title="Form validation guide" href="guide/forms/form-validation" />
+  <docs-pill title="Validar entrada de formulario" href="guide/forms/reactive-forms#validating-form-input" />
+  <docs-pill title="Guía de validación de formularios" href="guide/forms/form-validation" />
 </docs-pill-row>

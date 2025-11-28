@@ -13,12 +13,12 @@ Luego puedes usar el comando `ng deploy` para desplegar ese proyecto.
 
 Por ejemplo, el siguiente comando despliega automáticamente un proyecto a [Firebase](https://firebase.google.com/).
 
-<docs-code language="shell">
+```shell
 
 ng add @angular/fire
 ng deploy
 
-</docs-code>
+```
 
 El comando es interactivo.
 En este caso, debes tener o crear una cuenta de Firebase y autenticarte usándola.
@@ -42,7 +42,7 @@ Si estás desplegando a un servidor autogestionado o no hay un builder para tu p
 
 Para desplegar manualmente tu aplicación, crea una construcción de producción y copia el directorio de salida a un servidor web o red de entrega de contenido (CDN).
 Por defecto, `ng build` usa la configuración `production`.
-Si has personalizado tus configuraciones de construcción, es posible que quieras confirmar que se están aplicando las [optimizaciones de producción](tools/cli/deployment#production-optimizations) antes de desplegar.
+Si has personalizado tus configuraciones de construcción, es posible que quieras confirmar que se están aplicando las [optimizaciones de producción](tools/cli/deployment#optimizaciones-de-producción) antes de desplegar.
 
 `ng build` genera los artefactos construidos en `dist/my-app/` por defecto, sin embargo esta ruta puede configurarse con la opción `outputPath` en el builder `@angular-devkit/build-angular:browser`.
 Copia este directorio al servidor y configúralo para servir el directorio.
@@ -60,17 +60,17 @@ Las aplicaciones Angular renderizadas del lado del cliente son candidatas perfec
 Si la aplicación usa el router de Angular, debes configurar el servidor para que devuelva la página host de la aplicación (`index.html`) cuando se le pide un archivo que no tiene.
 
 Una aplicación enrutada debería soportar "deep links".
-Un *deep link* es una URL que especifica una ruta a un componente dentro de la aplicación.
-Por ejemplo, `http://my-app.test/users/42` es un *deep link* a la página de detalle del usuario que muestra el usuario con `id` 42.
+Un _deep link_ es una URL que especifica una ruta a un componente dentro de la aplicación.
+Por ejemplo, `http://my-app.test/users/42` es un _deep link_ a la página de detalle del usuario que muestra el usuario con `id` 42.
 
 No hay problema cuando el usuario inicialmente carga la página índice y luego navega a esa URL desde dentro de un cliente en ejecución.
-El router de Angular realiza la navegación *del lado del cliente* y no solicita una nueva página HTML.
+El router de Angular realiza la navegación _del lado del cliente_ y no solicita una nueva página HTML.
 
-Pero hacer clic en un deep link en un correo electrónico, ingresarlo en la barra de direcciones del navegador, o incluso refrescar el navegador mientras ya estás en la página del deep link será manejado por el navegador mismo, *fuera* de la aplicación en ejecución.
+Pero hacer clic en un deep link en un correo electrónico, ingresarlo en la barra de direcciones del navegador, o incluso refrescar el navegador mientras ya estás en la página del deep link será manejado por el navegador mismo, _fuera_ de la aplicación en ejecución.
 El navegador hace una petición directa al servidor por `/users/42`, evitando el router de Angular.
 
 Un servidor estático rutinariamente devuelve `index.html` cuando recibe una petición para `http://my-app.test/`.
-Pero la mayoría de los servidores por defecto rechazarán `http://my-app.test/users/42` y devolverán un error `404 - Not Found` *a menos que* esté configurado para devolver `index.html` en su lugar.
+Pero la mayoría de los servidores por defecto rechazarán `http://my-app.test/users/42` y devolverán un error `404 - Not Found` _a menos que_ esté configurado para devolver `index.html` en su lugar.
 Configura la ruta de respaldo o la página 404 a `index.html` para tu servidor, para que Angular se sirva para deep links y pueda mostrar la ruta correcta.
 Algunos servidores llaman a este comportamiento de respaldo modo "Single-Page Application" (SPA).
 
@@ -81,7 +81,7 @@ Las [páginas 404 implementadas en el router de Angular](guide/routing/common-ro
 
 ### Solicitar datos de un servidor diferente (CORS)
 
-Los desarrolladores web pueden encontrar un error de [*intercambio de recursos de origen cruzado*](https://developer.mozilla.org/docs/Web/HTTP/CORS "Cross-origin resource sharing") al hacer una petición de red a un servidor diferente al servidor host propio de la aplicación.
+Los desarrolladores web pueden encontrar un error de [_intercambio de recursos de origen cruzado_](https://developer.mozilla.org/docs/Web/HTTP/CORS "Cross-origin resource sharing") al hacer una petición de red a un servidor diferente al servidor host propio de la aplicación.
 Los navegadores prohíben tales peticiones a menos que el servidor las permita explícitamente.
 
 No hay nada que Angular o la aplicación cliente puedan hacer sobre estos errores.
@@ -95,7 +95,7 @@ Lee sobre cómo habilitar CORS para servidores específicos en [enable-cors.org]
 | Características                                                           | Detalles                                                                                       |
 |:---                                                                |:---                                                                                           |
 | [Compilación Ahead-of-Time (AOT)](tools/cli/aot-compiler)          | Precompila las plantillas de componentes Angular.                                                     |
-| [Modo de producción](tools/cli/deployment#development-only-features) | Optimiza la aplicación para el mejor rendimiento en tiempo de ejecución                                    |
+| [Modo de producción](tools/cli/deployment#características-solo-de-desarrollo) | Optimiza la aplicación para el mejor rendimiento en tiempo de ejecución                                    |
 | Bundling                                                           | Concatena tus muchos archivos de aplicación y librería en un número mínimo de archivos desplegados. |
 | Minificación                                                       | Elimina espacios en blanco excesivos, comentarios y tokens opcionales.                                     |
 | Mangling                                                           | Renombra funciones, clases y variables para usar identificadores más cortos y arbitrarios.              |
@@ -108,9 +108,9 @@ Consulta [`ng build`](cli/build) para más sobre las opciones de construcción d
 Cuando ejecutas una aplicación localmente usando `ng serve`, Angular usa la configuración de desarrollo
 en tiempo de ejecución que habilita:
 
-* Verificaciones de seguridad adicionales como la detección de [`expression-changed-after-checked`](errors/NG0100).
-* Mensajes de error más detallados.
-* Utilidades de depuración adicionales como la variable global `ng` con [funciones de depuración](api#core-global) y soporte de [Angular DevTools](tools/devtools).
+- Verificaciones de seguridad adicionales como la detección de [`expression-changed-after-checked`](errors/NG0100).
+- Mensajes de error más detallados.
+- Utilidades de depuración adicionales como la variable global `ng` con [funciones de depuración](api#core-global) y soporte de [Angular DevTools](tools/devtools).
 
 Estas características son útiles durante el desarrollo, pero requieren código extra en la aplicación, lo cual es
 indeseable en producción. Para asegurar que estas características no impacten negativamente el tamaño del bundle para los usuarios finales, Angular CLI
@@ -120,13 +120,13 @@ Construir tu aplicación con `ng build` por defecto usa la configuración `produ
 
 ## `--deploy-url`
 
-`--deploy-url` es una opción de línea de comandos usada para especificar la ruta base para resolver URLs relativas para recursos como imágenes, scripts y hojas de estilo en tiempo de *compilación*.
+`--deploy-url` es una opción de línea de comandos usada para especificar la ruta base para resolver URLs relativas para recursos como imágenes, scripts y hojas de estilo en tiempo de _compilación_.
 
-<docs-code language="shell">
+```shell
 
 ng build --deploy-url /my/assets
 
-</docs-code>
+```
 
 El efecto y propósito de `--deploy-url` se superpone con [`<base href>`](guide/routing/common-router-tasks). Ambos pueden usarse para scripts iniciales, hojas de estilo, scripts lazy y recursos css.
 

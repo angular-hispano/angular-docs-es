@@ -6,13 +6,24 @@ Angular CLI incluye un [servidor de Model Context Protocol (MCP)](https://modelc
 
 El servidor MCP de Angular CLI proporciona varias herramientas para asistirte en tu flujo de trabajo de desarrollo. Por defecto, las siguientes herramientas están habilitadas:
 
-| Nombre                 | Descripción                                                                                                                                                                                        | `local-only` | `read-only` |
-| :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: | :---------: |
-| `get_best_practices`   | Recupera la Guía de Mejores Prácticas de Angular. Esta guía es esencial para asegurar que todo el código se adhiera a los estándares modernos, incluyendo componentes standalone, formularios tipados y flujo de control moderno. |      ✅      |      ✅     |
-| `list_projects`        | Lista los nombres de todas las aplicaciones y bibliotecas definidas dentro de un espacio de trabajo de Angular. Lee el archivo de configuración `angular.json` para identificar los proyectos.                                    |      ✅      |      ✅     |
-| `search_documentation` | Busca en la documentación oficial de Angular en https://angular.dev. Esta herramienta debe usarse para responder cualquier pregunta sobre Angular, como para APIs, tutoriales y mejores prácticas.               |      ❌      |      ✅     |
+| Nombre                        | Descripción                                                                                                                                                                                        | `local-only` | `read-only` |
+| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: | :---------: |
+| `ai_tutor`                  | Inicia un tutor de Angular interactivo potenciado por IA. Se recomienda ejecutarlo desde un nuevo proyecto Angular usando v20 o posterior. [Aprende más](ai/ai-tutor).                                                     |      ✅      |     ✅      |
+| `find_examples`             | Encuentra ejemplos de código autorizados de una base de datos curada de ejemplos oficiales y de mejores prácticas, enfocándose en características de Angular **modernas, nuevas y recientemente actualizadas**.                                 |      ✅      |     ✅      |
+| `get_best_practices`        | Recupera la Guía de Mejores Prácticas de Angular. Esta guía es esencial para asegurar que todo el código se adhiera a los estándares modernos, incluyendo componentes standalone, formularios tipados y flujo de control moderno. |      ✅      |     ✅      |
+| `list_projects`             | Lista los nombres de todas las aplicaciones y bibliotecas definidas dentro de un espacio de trabajo de Angular. Lee el archivo de configuración `angular.json` para identificar los proyectos.                                    |      ✅      |     ✅      |
+| `onpush_zoneless_migration` | Analiza código Angular y proporciona un plan paso a paso e iterativo para migrarlo a detección de cambios `OnPush`, un prerrequisito para una aplicación sin zona.                                           |      ✅      |     ✅      |
+| `search_documentation`      | Busca en la documentación oficial de Angular en <https://angular.dev>. Esta herramienta debe usarse para responder cualquier pregunta sobre Angular, como para APIs, tutoriales y mejores prácticas.             |      ❌      |     ✅      |
 
-## Primeros Pasos
+### Herramientas Experimentales
+
+Algunas herramientas se proporcionan en estado experimental / de vista previa ya que son nuevas o no están completamente probadas. Habilítalas individualmente con la opción [`--experimental-tool`](#opciones-de-comando) y úsalas con precaución.
+
+| Nombre        | Descripción                                                                                                                                                                                                             | `local-only` | `read-only` |
+| :------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: | :---------: |
+| `modernize`.  | Realiza migraciones de código y proporciona más instrucciones sobre cómo modernizar código Angular para alinearse con las últimas mejores prácticas y sintaxis. [Aprende más](https://angular.dev/reference/migrations) |      ✅     |     ❌       |
+
+## Get Started
 
 Para comenzar, ejecuta el siguiente comando en tu terminal:
 
@@ -69,19 +80,20 @@ Crea un archivo llamado `.gemini/settings.json` en la raíz de tu proyecto y agr
 
 ### IDEs de JetBrains
 
-En los IDEs de JetBrains (como IntelliJ IDEA o WebStorm), después de instalar el plugin JetBrains AI Assistant, ve a `Settings | Tools | AI Assistant | Model Context Protocol (MCP)`. Agrega un nuevo servidor y selecciona `As JSON`. Pega la siguiente configuración, que no usa una propiedad de nivel superior para la lista de servidores.
+En los IDEs de JetBrains (como IntelliJ IDEA o WebStorm), después de instalar el plugin JetBrains AI Assistant, ve a `Settings | Tools | AI Assistant | Model Context Protocol (MCP)`. Agrega un nuevo servidor (`+`) y selecciona `As JSON`. Luego pega la siguiente configuración:
 
 ```json
 {
-  "name": "Angular CLI",
-  "command": "npx",
-  "args": [
-    "-y",
-    "@angular/cli",
-    "mcp"
-  ]
+  "mcpServers": {
+    "angular-cli": {
+      "command": "npx",
+      "args": ["-y", "@angular/cli", "mcp"]
+    }
+  }
 }
 ```
+
+Para las instrucciones más actualizadas sobre cómo configurar servidores MCP, consulta la documentación de JetBrains: [Connect to an MCP server](https://www.jetbrains.com/help/ai-assistant/mcp.html#connect-to-an-mcp-server).
 
 ### VS Code
 
@@ -117,11 +129,11 @@ Para otros IDEs, consulta la documentación de tu IDE para la ubicación adecuad
 
 El comando `mcp` puede configurarse con las siguientes opciones pasadas como argumentos en la configuración MCP de tu IDE:
 
-| Opción         | Tipo      | Descripción                                                                                                | Predeterminado |
-| :------------- | :-------- | :--------------------------------------------------------------------------------------------------------- | :------ |
-| `--read-only`  | `boolean` | Solo registra herramientas que no realizan cambios en el proyecto. Tu editor o agente de codificación aún puede realizar ediciones. | `false` |
-| `--local-only` | `boolean` | Solo registra herramientas que no requieren una conexión a internet. Tu editor o agente de codificación aún puede enviar datos a través de la red. | `false` |
-
+| Opción                        | Tipo      | Descripción                                                                                                                       | Default |
+| :---------------------------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------- | :------ |
+| `--read-only`                 | `boolean` | Solo registra herramientas que no realizan cambios en el proyecto. Tu editor o agente de codificación aún puede realizar ediciones.                 | `false` |
+| `--local-only`                | `boolean` | Solo registra herramientas que no requieren una conexión a internet. Tu editor o agente de codificación aún puede enviar datos a través de la red. | `false` |
+| `--experimental-tool`<br>`-E` | `string`  | Habilita una [herramienta experimental](#herramientas-experimentales). Separa múltiples opciones con espacios, ej. `-E tool_a tool_b`.                 |         |
 
 Por ejemplo, para ejecutar el servidor en modo de solo lectura en VS Code, actualizarías tu `mcp.json` así:
 

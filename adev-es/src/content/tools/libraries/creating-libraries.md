@@ -9,18 +9,18 @@ Un ejemplo simple podría ser un botón que envía usuarios al sitio web de tu e
 
 Usa el Angular CLI para generar un nuevo esqueleto de librería en un nuevo espacio de trabajo con los siguientes comandos.
 
-<docs-code language="shell">
+```shell
 
 ng new my-workspace --no-create-application
 cd my-workspace
 ng generate library my-lib
 
-</docs-code>
+```
 
 <docs-callout title="Nombrando tu librería">
 
 Debes tener mucho cuidado al elegir el nombre de tu librería si quieres publicarla más tarde en un registro de paquetes público como npm.
-Consulta [Publicando tu librería](tools/libraries/creating-libraries#publishing-your-library).
+Consulta [Publicando tu librería](tools/libraries/creating-libraries#publicando-tu-librería).
 
 Evita usar un nombre que esté prefijado con `ng-`, como `ng-library`.
 El prefijo `ng-` es una palabra clave reservada usada por el framework Angular y sus librerías.
@@ -38,7 +38,7 @@ Consulta [Configurando un espacio de trabajo multi-proyecto](reference/configs/f
 
 Cuando generas una nueva librería, el archivo de configuración del espacio de trabajo, `angular.json`, se actualiza con un proyecto de tipo `library`.
 
-<docs-code language="json">
+```json
 
 "projects": {
   …
@@ -52,17 +52,17 @@ Cuando generas una nueva librería, el archivo de configuración del espacio de 
         "builder": "@angular-devkit/build-angular:ng-packagr",
         …
 
-</docs-code>
+```
 
 Construye, prueba y verifica el proyecto con comandos del CLI:
 
-<docs-code language="shell">
+```shell
 
 ng build my-lib --configuration development
 ng test my-lib
 ng lint my-lib
 
-</docs-code>
+```
 
 Observa que el builder configurado para el proyecto es diferente del builder predeterminado para proyectos de aplicación.
 Este builder, entre otras cosas, asegura que la librería siempre se construya con el [compilador AOT](tools/cli/aot-compiler).
@@ -81,30 +81,29 @@ Tu librería debería proporcionar documentación \(típicamente un archivo READ
 Para hacer tu solución reutilizable, necesitas ajustarla para que no dependa de código específico de la aplicación.
 Aquí hay algunas cosas a considerar al migrar funcionalidad de aplicación a una librería.
 
-* Las declaraciones como componentes y pipes deberían diseñarse como sin estado, lo que significa que no dependen ni alteran variables externas.
-    Si dependes del estado, necesitas evaluar cada caso y decidir si es estado de aplicación o estado que la librería gestionaría.
+- Las declaraciones como componentes y pipes deberían diseñarse como sin estado, lo que significa que no dependen ni alteran variables externas.
+  Si dependes del estado, necesitas evaluar cada caso y decidir si es estado de aplicación o estado que la librería gestionaría.
 
-* Cualquier observable al que los componentes se suscriban internamente debería limpiarse y eliminarse durante el ciclo de vida de esos componentes
-* Los componentes deberían exponer sus interacciones a través de entradas para proporcionar contexto, y salidas para comunicar eventos a otros componentes
+- Cualquier observable al que los componentes se suscriban internamente debería limpiarse y eliminarse durante el ciclo de vida de esos componentes
+- Los componentes deberían exponer sus interacciones a través de entradas para proporcionar contexto, y salidas para comunicar eventos a otros componentes
 
-* Verifica todas las dependencias internas.
-  * Para clases personalizadas o interfaces usadas en componentes o servicios, verifica si dependen de clases o interfaces adicionales que también necesitan ser migradas
-  * De manera similar, si tu código de librería depende de un servicio, ese servicio necesita ser migrado
-  * Si tu código de librería o sus plantillas dependen de otras librerías \(como Angular Material, por ejemplo\), debes configurar tu librería con esas dependencias
+- Verifica todas las dependencias internas.
+  - Para clases personalizadas o interfaces usadas en componentes o servicios, verifica si dependen de clases o interfaces adicionales que también necesitan ser migradas
+  - De manera similar, si tu código de librería depende de un servicio, ese servicio necesita ser migrado
+  - Si tu código de librería o sus plantillas dependen de otras librerías \(como Angular Material, por ejemplo\), debes configurar tu librería con esas dependencias
 
-* Considera cómo proporcionas servicios a las aplicaciones cliente.
+- Considera cómo proporcionas servicios a las aplicaciones cliente.
+  - Los servicios deberían declarar sus propios proveedores, en lugar de declarar proveedores en el NgModule o un componente.
+    Declarar un proveedor hace que ese servicio sea _tree-shakable_.
+    Esta práctica permite que el compilador deje el servicio fuera del bundle si nunca se inyecta en la aplicación que importa la librería.
+    Para más información sobre esto, consulta [Proveedores tree-shakable](guide/di/lightweight-injection-tokens).
 
-  * Los servicios deberían declarar sus propios proveedores, en lugar de declarar proveedores en el NgModule o un componente.
-        Declarar un proveedor hace que ese servicio sea *tree-shakable*.
-        Esta práctica permite que el compilador deje el servicio fuera del bundle si nunca se inyecta en la aplicación que importa la librería.
-        Para más información sobre esto, consulta [Proveedores tree-shakable](guide/di/lightweight-injection-tokens).
-
-  * Si registras proveedores de servicios globales, expone una función proveedor `provideXYZ()`.
-  * Si tu librería proporciona servicios opcionales que podrían no ser usados por todas las aplicaciones cliente, soporta tree-shaking apropiado para ese caso usando el [patrón de diseño de token ligero](guide/di/lightweight-injection-tokens)
+  - Si registras proveedores de servicios globales, expone una función proveedor `provideXYZ()`.
+  - Si tu librería proporciona servicios opcionales que podrían no ser usados por todas las aplicaciones cliente, soporta tree-shaking apropiado para ese caso usando el [patrón de diseño de token ligero](guide/di/lightweight-injection-tokens)
 
 ## Integración con el CLI usando schematics de generación de código
 
-Una librería típicamente incluye *código reutilizable* que define componentes, servicios y otros artefactos de Angular \(pipes, directivas\) que importas en un proyecto.
+Una librería típicamente incluye _código reutilizable_ que define componentes, servicios y otros artefactos de Angular \(pipes, directivas\) que importas en un proyecto.
 Una librería se empaqueta en un paquete npm para publicación y distribución.
 Este paquete también puede incluir schematics que proporcionan instrucciones para generar o transformar código directamente en tu proyecto, de la misma manera que el CLI crea un nuevo componente genérico con `ng generate component`.
 Un schematic que se empaqueta con una librería puede, por ejemplo, proporcionar al Angular CLI la información que necesita para generar un componente que configure y use una característica particular, o conjunto de características, definidas en esa librería.
@@ -112,9 +111,9 @@ Un ejemplo de esto es el [schematic de navegación de Angular Material](https://
 
 Crea e incluye los siguientes tipos de schematics:
 
-* Incluye un schematic de instalación para que `ng add` pueda agregar tu librería a un proyecto
-* Incluye schematics de generación en tu librería para que `ng generate` pueda crear tus artefactos definidos \(componentes, servicios, pruebas\) en un proyecto
-* Incluye un schematic de actualización para que `ng update` pueda actualizar las dependencias de tu librería y proporcionar migraciones para cambios disruptivos en nuevas versiones
+- Incluye un schematic de instalación para que `ng add` pueda agregar tu librería a un proyecto
+- Incluye schematics de generación en tu librería para que `ng generate` pueda crear tus artefactos definidos \(componentes, servicios, pruebas\) en un proyecto
+- Incluye un schematic de actualización para que `ng update` pueda actualizar las dependencias de tu librería y proporcionar migraciones para cambios disruptivos en nuevas versiones
 
 Lo que incluyas en tu librería depende de tu tarea.
 Por ejemplo, podrías definir un schematic para crear un dropdown que esté pre-poblado con datos predefinidos para mostrar cómo agregarlo a una aplicación.
@@ -133,18 +132,19 @@ Para más información, consulta [Visión general de Schematics](tools/cli/schem
 Usa el Angular CLI y el gestor de paquetes npm para construir y publicar tu librería como un paquete npm.
 
 Angular CLI usa una herramienta llamada [ng-packagr](https://github.com/ng-packagr/ng-packagr/blob/master/README.md) para crear paquetes desde tu código compilado que pueden publicarse en npm.
-Consulta [Construyendo librerías con Ivy](tools/libraries/creating-libraries#publishing-libraries) para información sobre los formatos de distribución soportados por `ng-packagr` y orientación sobre cómo elegir el formato correcto para tu librería.
+Consulta [Construyendo librerías con Ivy](tools/libraries/creating-libraries#publicando-librerías) para información sobre los formatos de 
+distribución soportados por `ng-packagr` y orientación sobre cómo elegir el formato correcto para tu librería.
 
 Siempre debes construir librerías para distribución usando la configuración `production`.
 Esto asegura que la salida generada use las optimizaciones apropiadas y el formato de paquete correcto para npm.
 
-<docs-code language="shell">
+```shell
 
 ng build my-lib
 cd dist/my-lib
 npm publish
 
-</docs-code>
+```
 
 ## Gestionando recursos en una librería
 
@@ -152,11 +152,11 @@ En tu librería de Angular, el distribuible puede incluir recursos adicionales c
 Para más información [copia recursos en tu librería como parte de la compilación](https://github.com/ng-packagr/ng-packagr/blob/master/docs/copy-assets.md) e [incrusta recursos en estilos de componentes](https://github.com/ng-packagr/ng-packagr/blob/master/docs/embed-assets-css.md).
 
 IMPORTANTE: Cuando incluyas recursos adicionales como mixins de Sass o CSS pre-compilado.
-Necesitas agregar estos manualmente a las ["exports"](tools/libraries/angular-package-format#quotexportsquot) condicionales en el `package.json` del punto de entrada principal.
+IMPORTANTE: Necesitas agregar estos manualmente a las ["exports"](tools/libraries/angular-package-format#exports) condicionales en el `package.json` del punto de entrada principal.
 
 `ng-packagr` fusionará las `"exports"` escritas manualmente con las auto-generadas, permitiendo que los autores de librerías configuren subpaths de exportación adicionales, o condiciones personalizadas.
 
-<docs-code language="json">
+```json
 
 "exports": {
   ".": {
@@ -170,7 +170,7 @@ Necesitas agregar estos manualmente a las ["exports"](tools/libraries/angular-pa
   }
 }
 
-</docs-code>
+```
 
 Lo anterior es un extracto del distribuible de [@angular/material](https://unpkg.com/browse/@angular/material/package.json).
 
@@ -186,22 +186,18 @@ No tienes que publicar tu librería en el gestor de paquetes npm para usarla en 
 
 Para usar tu propia librería en una aplicación:
 
-* Construye la librería.
-    No puedes usar una librería antes de que se construya.
+- Construye la librería.
+  No puedes usar una librería antes de que se construya.
 
-    <docs-code language="shell">
+```shell
+  ng build my-lib
+```
 
-    ng build my-lib
+- En tus aplicaciones, importa desde la librería por nombre:
 
-    </docs-code>
-
-* En tus aplicaciones, importa desde la librería por nombre:
-
-    <docs-code language="typescript">
-
-    import { myExport } from 'my-lib';
-
-    </docs-code>
+```ts
+  import { myExport } from 'my-lib';
+```
 
 ### Construyendo y reconstruyendo tu librería
 
@@ -217,32 +213,87 @@ El Angular CLI usa las rutas `tsconfig` para decirle al sistema de compilación 
 
 Para más información, consulta [Visión general del mapeo de rutas](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping).
 
-Si encuentras que los cambios en tu librería no se reflejan en tu aplicación, tu aplicación probablemente esté usando una construcción antigua de la librería.
-
 Puedes reconstruir tu librería cuando hagas cambios en ella, pero este paso extra lleva tiempo.
-La funcionalidad de *compilaciones incrementales* mejora la experiencia de desarrollo de librerías.
+La funcionalidad de _compilaciones incrementales_ mejora la experiencia de desarrollo de librerías.
 Cada vez que se cambia un archivo, se realiza una compilación parcial que emite los archivos modificados.
 
 Las compilaciones incrementales pueden ejecutarse como un proceso en segundo plano en tu entorno de desarrollo.
 Para aprovechar esta característica, agrega la bandera `--watch` al comando de compilación:
 
-<docs-code language="shell">
+```shell
 
 ng build my-lib --watch
 
-</docs-code>
+```
 
 IMPORTANTE: El comando `build` del CLI usa un builder diferente e invoca una herramienta de compilación diferente para librerías que para aplicaciones.
 
-* El sistema de compilación para aplicaciones, `@angular-devkit/build-angular`, está basado en `webpack`, y está incluido en todos los nuevos proyectos de Angular CLI
-* El sistema de compilación para librerías está basado en `ng-packagr`.
-    Solo se agrega a tus dependencias cuando agregas una librería usando `ng generate library my-lib`.
+- El sistema de compilación para aplicaciones, `@angular-devkit/build-angular`, está basado en `webpack`, y está incluido en todos los nuevos proyectos de Angular CLI
+- El sistema de compilación para librerías está basado en `ng-packagr`.
+  Solo se agrega a tus dependencias cuando agregas una librería usando `ng generate library my-lib`.
 
 Los dos sistemas de compilación soportan cosas diferentes, e incluso donde soportan las mismas cosas, hacen esas cosas de manera diferente.
 Esto significa que el código fuente TypeScript puede resultar en código JavaScript diferente en una librería construida que en una aplicación construida.
 
-Por esta razón, una aplicación que depende de una librería debería usar solo mapeos de rutas de TypeScript que apunten a la *librería construida*.
-Los mapeos de rutas de TypeScript *no* deberían apuntar a los archivos `.ts` fuente de la librería.
+Por esta razón, una aplicación que depende de una librería debería usar solo mapeos de rutas de TypeScript que apunten a la _librería construida_.
+Los mapeos de rutas de TypeScript _no_ deberían apuntar a los archivos `.ts` fuente de la librería.
+
+### Enlazando librerías para desarrollo local
+
+Esta sección explica cómo usar la característica de enlace local de tu gestor de paquetes
+(como [`npm link`](https://pnpm.io/cli/link) o [`pnpm link`](https://pnpm.io/cli/link)) para probar una librería Angular independiente con una aplicación externa durante
+el desarrollo local, sin depender de la estructura de workspace monorepo o publicar en el registro NPM.
+
+NOTA: Si tu librería y aplicación están en el mismo workspace de Angular (una configuración monorepo), el flujo de trabajo monorepo estándar maneja el enlace automáticamente y generalmente es más eficiente. Este enfoque de enlace local es mejor cuando:
+
+- Estás desarrollando una librería independiente y necesitas probar cambios con una aplicación externa que la consume.
+- Estás probando cambios de librería en una aplicación que la consume fuera del workspace monorepo.
+
+#### Configurando la aplicación que consume
+
+Para usar librerías enlazadas, necesitas configurar el archivo `angular.json` de tu aplicación con las siguientes configuraciones:
+
+```json
+{
+  "projects": {
+    "your-app": {
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "preserveSymlinks": true
+          },
+          "configurations": {
+            "development": {
+              "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "vendor": true
+              }
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "prebundle": {
+              "exclude": [
+                "my-lib"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Opciones de configuración explicadas:**
+
+- `preserveSymlinks: true`: Instruye al sistema de compilación a seguir los enlaces simbólicos creados por el comando de enlace de tu gestor de paquetes en lugar de resolver a la ubicación original del enlace simbólico. Esto es esencial para evitar múltiples copias de los paquetes de nodos dependientes.
+- `sourceMap.vendor`: Habilitar mapas de código fuente de vendor (especialmente `vendor: true`) para facilitar la depuración del código de librería enlazada.
+- `prebundle.exclude`: Por defecto, el Angular CLI puede pre-empaquetar todas las dependencias de nodos. Excluir tu librería asegura que el código fuente enlazado sea observado y reconstruido correctamente cuando ocurran cambios.
 
 ## Publicando librerías
 
@@ -251,7 +302,7 @@ Hay dos formatos de distribución para usar al publicar una librería:
 | Formatos de distribución     | Detalles |
 |:---                          |:---     |
 | Partial-Ivy \(recomendado\) | Contiene código portable que puede ser consumido por aplicaciones Ivy construidas con cualquier versión de Angular desde v12 en adelante. |
-| Full-Ivy                    | Contiene instrucciones privadas de Angular Ivy, que no están garantizadas para funcionar en diferentes versiones de Angular. Este formato requiere que la librería y la aplicación sean construidas con la *misma* versión exacta de Angular. Este formato es útil para entornos donde todo el código de librería y aplicación se construye directamente desde el código fuente. |
+| Full-Ivy                    | Contiene instrucciones privadas de Angular Ivy, que no están garantizadas para funcionar en diferentes versiones de Angular. Este formato requiere que la librería y la aplicación sean construidas con la _misma_ versión exacta de Angular. Este formato es útil para entornos donde todo el código de librería y aplicación se construye directamente desde el código fuente. |
 
 Para publicar en npm usa el formato partial-Ivy ya que es estable entre versiones de parche de Angular.
 

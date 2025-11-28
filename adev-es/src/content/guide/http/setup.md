@@ -6,17 +6,17 @@ Antes de poder usar `HttpClient` en tu aplicación, debes configurarlo usando [i
 
 `HttpClient` se proporciona usando la función auxiliar `provideHttpClient`, que la mayoría de aplicaciones incluyen en los `providers` de la aplicación en `app.config.ts`.
 
-<docs-code language="ts">
+```ts
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
   ]
 };
-</docs-code>
+```
 
 Si tu aplicación usa el método de inicialización basado en NgModule, puedes incluir `provideHttpClient` en los providers del NgModule de tu aplicación:
 
-<docs-code language="ts">
+```ts
 @NgModule({
   providers: [
     provideHttpClient(),
@@ -24,17 +24,17 @@ Si tu aplicación usa el método de inicialización basado en NgModule, puedes i
   // ... otra configuración de la aplicación
 })
 export class AppModule {}
-</docs-code>
+```
 
 Luego puedes inyectar el servicio `HttpClient` como una dependencia de tus componentes, servicios u otras clases:
 
-<docs-code language="ts">
+```ts
 @Injectable({providedIn: 'root'})
 export class ConfigService {
   private http = inject(HttpClient);
   // Este servicio ahora puede hacer solicitudes HTTP a través de `this.http`.
 }
-</docs-code>
+```
 
 ## Configurando características `HttpClient`
 
@@ -42,7 +42,7 @@ export class ConfigService {
 
 ### `withFetch`
 
-<docs-code language="ts">
+```ts
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
@@ -50,7 +50,7 @@ export const appConfig: ApplicationConfig = {
     ),
   ]
 };
-</docs-code>
+```
 
 Por defecto, `HttpClient` usa la API [`XMLHttpRequest`](https://developer.mozilla.org/es/docs/Web/API/XMLHttpRequest) para hacer solicitudes. La característica `withFetch` cambia el cliente para usar la API [`fetch`](https://developer.mozilla.org/es/docs/Web/API/Fetch_API) en su lugar.
 
@@ -78,7 +78,7 @@ CRÍTICO: Debes configurar una instancia de `HttpClient` en un inyector superior
 
 Incluir `withJsonpSupport` habilita el método `.jsonp()` en `HttpClient`, que realiza una solicitud GET a través de la [convención JSONP](https://es.wikipedia.org/wiki/JSONP) para la carga de datos entre dominios.
 
-ÚTIL: Simpre que sea posible, prefiere usar [CORS](https://developer.mozilla.org/docs/Web/HTTP/CORS) para hacer solicitudes entre dominios en lugar de JSONP.
+ÚTIL: Siempre que sea posible, prefiere usar [CORS](https://developer.mozilla.org/docs/Web/HTTP/CORS) para hacer solicitudes entre dominios en lugar de JSONP.
 
 ### `withXsrfConfiguration(...)`
 
@@ -92,9 +92,9 @@ Incluir esta opción deshabilita la funcionalidad de seguridad XSRF integrada de
 
 Algunas aplicaciones pueden configurar `HttpClient` usando la API más antigua basada en NgModules.
 
-Esta tabla muestra los NgModules disponibles en `@angular/common/http` y cómo se relacionan con las funciones de configuración de proveedores anteriores.
+Esta tabla lista los NgModules disponibles en `@angular/common/http` y cómo se relacionan con las funciones de configuración de proveedores anteriores.
 
-| **NgModule**                            | `provideHttpClient()` Equivalente              |
+| **NgModule**                            | `provideHttpClient()` equivalent              |
 | --------------------------------------- | --------------------------------------------- |
 | `HttpClientModule`                      | `provideHttpClient(withInterceptorsFromDi())` |
 | `HttpClientJsonpModule`                 | `withJsonpSupport()`                          |

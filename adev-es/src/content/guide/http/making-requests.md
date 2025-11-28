@@ -1,6 +1,6 @@
 # Realizando solicitudes HTTP
 
-`HttpClient` tiene métodos correspondientes a los diferentes verbos HTTP utilizados para hacer solicitudes, tanto para cargar datos como para aplicar mutaciones en el servidor. Cada método devuelve un [RxJS `Observable`](https://rxjs.dev/guide/observable) que, al sucribirse se suscribe, envía la solicitud y luego emite los resultados cuando el servidor responde.
+`HttpClient` tiene métodos correspondientes a los diferentes verbos HTTP utilizados para hacer solicitudes, tanto para cargar datos como para aplicar mutaciones en el servidor. Cada método devuelve un [RxJS `Observable`](https://rxjs.dev/guide/observable) que, al suscribirse, envía la solicitud y luego emite los resultados cuando el servidor responde.
 
 NOTA: Los `Observable`s creados por `HttpClient` pueden suscribirse cualquier número de veces y harán una nueva solicitud al backend por cada suscripción.
 
@@ -12,11 +12,11 @@ Obtener datos de un backend con frecuencia requiere hacer una solicitud GET usan
 
 Por ejemplo, para obtener datos de configuración de una API hipotética usando el método `HttpClient.get()`:
 
-<docs-code language="ts">
+```ts
 http.get<Config>('/api/config').subscribe(config => {
   // procesar la configuración.
 });
-</docs-code>
+```
 
 Observa el argumento de tipo genérico que especifica que los datos devueltos por el servidor serán de tipo `Config`. Este argumento es opcional, y si lo omites, los datos devueltos tendrán tipo `Object`.
 
@@ -28,20 +28,20 @@ CRÍTICO: El tipo genérico de los métodos de solicitud es una **afirmación** 
 
 Por defecto, `HttpClient` asume que los servidores devolverán datos JSON. Cuando interactúes con una API que no sea JSON, puedes decirle a `HttpClient` qué tipo de respuesta esperar y devolver al hacer la solicitud. Esto se hace con la opción `responseType`.
 
-| **`Valor de responseType`** | **Tipo de respuesta devuelto** |
-| - | - |
-| `'json'` (por defecto) | Datos JSON del tipo genérico dado |
-| `'text'` | Cadena de texto (string) |
-| `'arraybuffer'` | [`ArrayBuffer`](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) que contiene los bytes de respuesta sin procesar |
-| `'blob'` | instance [`Blob`](https://developer.mozilla.org/es/docs/Web/API/Blob) |
+| **`Valor de responseType`** | **Tipo de respuesta devuelto**                                                                                                                         |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `'json'` (por defecto) | Datos JSON del tipo genérico dado                                                                                                                           |
+| `'text'`               | Cadena de texto (string)                                                                                                                                    |
+| `'arraybuffer'`        | [`ArrayBuffer`](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) que contiene los bytes de respuesta sin procesar |
+| `'blob'`               | una instancia [`Blob`](https://developer.mozilla.org/es/docs/Web/API/Blob)                                                                                  |
 
 Por ejemplo, puedes pedirle al `HttpClient` que descargue los bytes sin procesar de una imagen `.jpeg` en un `ArrayBuffer`:
 
-<docs-code language="ts">
+```ts
 http.get('/images/dog.jpg', {responseType: 'arraybuffer'}).subscribe(buffer => {
   console.log('La imagen tiene ' + buffer.byteLength + ' bytes de tamaño');
 });
-</docs-code>
+```
 
 <docs-callout important title="Valor literal para `responseType">
 Debido a que el valor de `responseType` afecta el tipo devuelto por `HttpClient`, debe tener un tipo literal y no un tipo `string`.
@@ -55,11 +55,11 @@ Las APIs del servidor que realizan mutaciones con frecuencia requieren hacer sol
 
 El método [`HttpClient.post()`](api/common/http/HttpClient#post) se comporta de manera similar a `get()`, y acepta un argumento `body` adicional antes de sus opciones:
 
-<docs-code language="ts">
+```ts
 http.post<Config>('/api/config', newConfig).subscribe(config => {
   console.log('Configuración actualizada:', config);
 });
-</docs-code>
+```
 
 Se pueden proporcionar muchos tipos diferentes de valores como `body` de la solicitud, y `HttpClient` los serializará en consecuencia:
 
@@ -68,31 +68,31 @@ Se pueden proporcionar muchos tipos diferentes de valores como `body` de la soli
 | string | Texto plano |
 | number, boolean, array, u objeto plano | JSON |
 | [`ArrayBuffer`](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) | datos sin procesar del buffer |
-| [`Blob`](https://developer.mozilla.org/es/docs/Web/API/Blob) | datos sin procesar con el tipo de contenido del `Blob |
+| [`Blob`](https://developer.mozilla.org/es/docs/Web/API/Blob) | datos sin procesar con el tipo de contenido del `Blob` |
 | [`FormData`](https://developer.mozilla.org/es/docs/Web/API/FormData) | datos codificados `multipart/form-data` |
 | [`HttpParams`](api/common/http/HttpParams) o [`URLSearchParams`](https://developer.mozilla.org/es/docs/Web/API/URLSearchParams) | string formateado `application/x-www-form-urlencoded` |
 
 IMPORTANTE: Recuerda hacer `.subscribe()` a los `Observable`s de solicitudes de mutación para realmente ejecutar la solicitud.
 
-## Configurando parámetros de URL parameters
+## Configurando parámetros de URL
 
 Especifica los parámetros de solicitud que deben incluirse en la URL de la solicitud usando la opción `params`.
 
 Pasar un objeto literal es la forma más simple de configurar parámetros de URL:
 
-<docs-code language="ts">
+```ts
 http.get('/api/config', {
   params: {filter: 'all'},
 }).subscribe(config => {
   // ...
 });
-</docs-code>
+```
 
 Alternativamente, puedes pasar una instancia de `HttpParams` si necesitas más control sobre la construcción o serialización de los parámetros.
 
 IMPORTANTE: Las instancias de `HttpParams` son _inmutables_ y no se pueden cambiar directamente. En su lugar, los métodos de mutación como `append()` devuelven una nueva instancia de `HttpParams` con la mutación aplicada.
 
-<docs-code language="ts">
+```ts
 const baseParams = new HttpParams().set('filter', 'all');
 
 http.get('/api/config', {
@@ -100,7 +100,7 @@ http.get('/api/config', {
 }).subscribe(config => {
   // ...
 });
-</docs-code>
+```
 
 Puedes instanciar `HttpParams` con un `HttpParameterCodec` personalizado que determine cómo `HttpClient` codificará los parámetros en la URL.
 
@@ -153,7 +153,7 @@ Especifica los encabezados de solicitud que deben incluirse en la solicitud usan
 
 Pasar un objeto literal es la forma más simple de configurar encabezados de solicitud:
 
-<docs-code language="ts">
+```ts
 http.get('/api/config', {
   headers: {
     'X-Debug-Level': 'verbose',
@@ -161,13 +161,13 @@ http.get('/api/config', {
 }).subscribe(config => {
   // ...
 });
-</docs-code>
+```
 
 Alternativamente, pasa una instancia de `HttpHeaders` si necesitas más control sobre la construcción de encabezados
 
 IMPORTANTE: Las instancias de `HttpHeaders` son _inmutables_ y no se pueden cambiar directamente. En su lugar, los métodos de mutación como `append()` devuelven una nueva instancia de `HttpHeaders` con la mutación aplicada.
 
-<docs-code language="ts">
+```ts
 const baseHeaders = new HttpHeaders().set('X-Debug-Level', 'minimal');
 
 http.get<Config>('/api/config', {
@@ -175,7 +175,7 @@ http.get<Config>('/api/config', {
 }).subscribe(config => {
   // ...
 });
-</docs-code>
+```
 
 ## Interactuando con los eventos de respuesta del servidor
 
@@ -183,12 +183,12 @@ Por conveniencia, `HttpClient` devuelve por defecto un `Observable` con los dato
 
 Para acceder a toda la respuesta, establece la opción `observe` en `'response'`:
 
-<docs-code language="ts">
+```ts
 http.get<Config>('/api/config', {observe: 'response'}).subscribe(res => {
   console.log('Estado de respuesta:', res.status);
   console.log('Cuerpo:', res.body);
 });
-</docs-code>
+```
 
 <docs-callout important title="Valor literal para `observe`">
 Debido a que el valor de `observe` afecta el tipo devuelto por `HttpClient`, debe tener un tipo literal y no un tipo `string`.
@@ -206,7 +206,7 @@ NOTA: La implementación opcional `fetch` de `HttpClient` no reporta eventos de 
 
 Para observar la secuencia de eventos, establece la opción `observe` en `'events'`:
 
-<docs-code language="ts">
+```ts
 http.post('/api/upload', myData, {
   reportProgress: true,
   observe: 'events',
@@ -220,7 +220,7 @@ http.post('/api/upload', myData, {
       break;
   }
 });
-</docs-code>
+```
 
 <docs-callout important title="Valor literal para `observe`">
 Debido a que el valor de `observe` afecta el tipo devuelto por `HttpClient`, debe tener un tipo literal y no un tipo `string`.
@@ -235,7 +235,7 @@ Cada `HttpEvent` reportado en la secuencia de eventos tiene un `type` que distin
 | `HttpEventType.Sent` | La solicitud ha sido enviada al servidor |
 | `HttpEventType.UploadProgress` | Un `HttpUploadProgressEvent` reportando progreso en la carga del cuerpo de la solicitud |
 | `HttpEventType.ResponseHeader` | Se ha recibido el encabezado de la respuesta, incluyendo estado y encabezados |
-| `HttpEventType.DownloadProgress` | An `HttpDownloadProgressEvent` reporting progress on downloading the response body |
+| `HttpEventType.DownloadProgress` | Un `HttpDownloadProgressEvent` que reporta el progreso de la descarga del cuerpo de la respuesta |
 | `HttpEventType.Response` | Se ha recibido toda la respuesta, incluyendo el cuerpo de la respuesta |
 | `HttpEventType.User` | Un evento personalizado de un interceptor Http.
 
@@ -261,7 +261,7 @@ Para establecer un tiempo de espera para una solicitud, puedes configurar la opc
 
 NOTA: El timeout solo se aplica a la solicitud HTTP al backend en sí. No es un tiempo de espera para toda la cadena de manejo de la solicitud. Por lo tanto, esta opción no se ve afectada por ningún retraso introducido por los interceptores.
 
-<docs-code language="ts">
+```ts
 http.get('/api/config', {
   timeout: 3000,
 }).subscribe({
@@ -272,7 +272,7 @@ http.get('/api/config', {
     // Si la solicitud supera el tiempo de espera, se habrá emitido un error.
   }
 });
-</docs-code>
+```
 
 ## Opciones avanzadas de Fetch
 
@@ -286,17 +286,17 @@ Las siguientes opciones permiten un control detallado sobre el comportamiento de
 
 La opción `keepalive` permite que una solicitud continúe incluso si la página que la inició se cierra. Esto es útil para solicitudes de analíticas o registro que deben completarse aunque el usuario navegue fuera de la página.
 
-<docs-code language="ts">
+```ts
 http.post('/api/analytics', analyticsData, {
   keepalive: true
 }).subscribe();
-</docs-code>
+```
 
 #### Control de caché HTTP
 
 La opción `cache` controla cómo interactúa la solicitud con la caché HTTP del navegador, lo que puede mejorar significativamente el rendimiento en solicitudes repetidas.
 
-<docs-code language="ts">
+```ts
 // Usar respuesta en caché sin importar su antigüedad
 http.get('/api/config', {
   cache: 'force-cache'
@@ -317,13 +317,13 @@ http.get('/api/static-data', {
 }).subscribe(data => {
   // ...
 });
-</docs-code>
+```
 
 #### Prioridad de solicitud para Core Web Vitals
 
 La opción `priority` permite indicar la importancia relativa de una solicitud, ayudando a los navegadores a optimizar la carga de recursos para mejorar los Core Web Vitals.
 
-<docs-code language="ts">
+```ts
 // Alta prioridad para recursos críticos
 http.get('/api/user-profile', {
   priority: 'high'
@@ -344,20 +344,21 @@ http.get('/api/settings', {
 }).subscribe(settings => {
   // ...
 });
-</docs-code>
+```
 
 Valores disponibles para `priority`:
+
 - `'high'`: Prioridad alta, se carga pronto (por ejemplo, datos críticos del usuario, contenido que se ve sin hacer scroll)
 - `'low'`: Prioridad baja, se carga cuando los recursos están disponibles (por ejemplo, análisis, datos de precarga)
 - `'auto'`: El navegador determina la prioridad basándose en el contexto de la solicitud (valor por defecto)
 
-TIP: Usa `priority: 'high'` para solicitudes que afectan Largest Contentful Paint (LCP) y `priority: 'low'` para solicitudes que no impactan la experiencia inicial del usuario.
+CONSEJO: Usa `priority: 'high'` para solicitudes que afectan Largest Contentful Paint (LCP) y `priority: 'low'` para solicitudes que no impactan la experiencia inicial del usuario.
 
 #### Modo de solicitud
 
 La opción `mode` controla cómo se manejan las solicitudes cross-origin y determina el tipo de respuesta.
 
-<docs-code language="ts">
+```ts
 // Solo solicitudes same-origin
 http.get('/api/local-data', {
   mode: 'same-origin'
@@ -378,20 +379,21 @@ http.get('https://external-api.com/public-data', {
 }).subscribe(data => {
   // ...
 });
-</docs-code>
+```
 
 Valores disponibles para `mode`:
+
 - `'same-origin'`: Solo permite solicitudes same-origin, falla si es cross-origin
 - `'cors'`: Permite solicitudes cross-origin con CORS (por defecto)
 - `'no-cors'`: Permite solicitudes simples cross-origin sin CORS, la respuesta es opaca
 
-TIP: Usa `mode: 'same-origin'` para solicitudes sensibles que nunca deberían ser cross-origin.
+CONSEJO: Usa `mode: 'same-origin'` para solicitudes sensibles que nunca deberían ser cross-origin.
 
 #### Manejo de redirecciones
 
 La opción `redirect` especifica cómo manejar respuestas de redirección del servidor.
 
-<docs-code language="ts">
+```ts
 // Seguir redirecciones automáticamente (comportamiento por defecto)
 http.get('/api/resource', {
   redirect: 'follow'
@@ -417,20 +419,21 @@ http.get('/api/resource', {
     // Las redirecciones activarán este manejador de errores
   }
 });
-</docs-code>
+```
 
 Valores disponibles para `redirect`:
+
 - `'follow'`: Seguir redirecciones automáticamente (por defecto)
 - `'error'`: Tratar redirecciones como errores
 - `'manual'`: No seguir redirecciones automáticamente, devolver la respuesta de redirección
 
-TIP: Usa `redirect: 'manual'` cuando necesites manejar redirecciones con lógica personalizada.
+CONSEJO: Usa `redirect: 'manual'` cuando necesites manejar redirecciones con lógica personalizada.
 
 #### Manejo de credenciales
 
 La opción `credentials` controla si se envían cookies, encabezados de autorización y otras credenciales en solicitudes cross-origin. Esto es importante para escenarios de autenticación.
 
-<docs-code language="ts">
+```ts
 // Incluir credenciales en solicitudes cross-origin
 http.get('https://api.example.com/protected-data', {
   credentials: 'include'
@@ -466,22 +469,23 @@ http.get('https://api.example.com/data', {
 }).subscribe(data => {
   // Equivalente a credentials: 'include'
 });
-</docs-code>
+```
 
-IMPORTANTE: La opción `withCredentials` tiene prioridad sobre `credentials`. Si se especifican ambas, `withCredentials: tru`e` siempre resultará en `credentials: 'include'`, sin importar el valor explícito de `credentials`.
+IMPORTANTE: La opción `withCredentials` tiene prioridad sobre `credentials`. Si se especifican ambas, `withCredentials: true` siempre resultará en `credentials: 'include'`, sin importar el valor explícito de `credentials`.
 
-Valores disponivles para `credentials`:
+Valores disponibles para `credentials`:
+
 - `'omit'`: Nunca enviar credenciales
 - `'same-origin'`: Enviar credenciales solo para solicitudes same-origin (por defecto)
 - `'include'`: Siempre enviar credenciales, incluso en solicitudes cross-origin
 
-TIP: Usa `credentials: 'include'` cuando necesites enviar cookies o encabezados de autenticación a un dominio diferente que soporte CORS. Evita mezclar `credentials` y `withCredentials` para no generar confusión.
+CONSEJO: Usa `credentials: 'include'` cuando necesites enviar cookies o encabezados de autenticación a un dominio diferente que soporte CORS. Evita mezclar `credentials` y `withCredentials` para no generar confusión.
 
 #### Referente (Referrer)
 
 La opción `referrer` permite controlar qué información de referencia se envía con la solicitud, importante por motivos de privacidad y seguridad.
 
-<docs-code language="ts">
+```ts
 // Enviar una URL específica como referrer
 http.get('/api/data', {
   referrer: 'https://example.com/page'
@@ -495,20 +499,50 @@ http.get('/api/analytics', {
 }).subscribe(data => {
   // ...
 });
-</docs-code>
+```
 
 La opción `referrer` acepta:
+
 - Una cadena de URL válida: establece la URL de referrer a enviar
 - Una cadena vacía `''`: No envía información de referrer
-- `'about:client'`: Utiliza el referente referrer (la URL de la página actual).
+- `'about:client'`: Utiliza el referrer (la URL de la página actual).
 
-TIP: Usa `referrer: ''` para solicitudes sensibles donde no quieres filtrar la URL de la página que refirió la solicitud.
+CONSEJO: Usa `referrer: ''` para solicitudes sensibles donde no quieres filtrar la URL de la página que refirió la solicitud.
+
+#### Política de referrer
+
+La opción `referrerPolicy` controla cuánta información de referrer, la URL de la página que realiza la solicitud, se envía junto con una solicitud HTTP. Esta configuración afecta tanto la privacidad como los análisis, permitiéndote equilibrar la visibilidad de datos con consideraciones de seguridad.
+
+```ts
+// No enviar información de referrer independientemente de la página actual
+http.get('/api/data', {
+  referrerPolicy: 'no-referrer'
+}).subscribe();
+
+// Enviar solo el origen (por ejemplo, https://example.com)
+http.get('/api/analytics', {
+  referrerPolicy: 'origin'
+}).subscribe();
+```
+
+La opción `referrerPolicy` acepta:
+
+- `'no-referrer'`: Nunca envía el encabezado `Referer`.
+- `'no-referrer-when-downgrade'`: Envía el referrer para solicitudes same-origin y seguras (HTTPS→HTTPS), pero lo omite al navegar desde un origen seguro a uno menos seguro (HTTPS→HTTP).
+- `'origin'`: Envía solo el origen (esquema, host, puerto) del referrer, omitiendo información de ruta y consulta.
+- `'origin-when-cross-origin'`: Envía la URL completa para solicitudes same-origin, pero solo el origen para solicitudes cross-origin.
+- `'same-origin'`: Envía la URL completa para solicitudes same-origin y ningún referrer para solicitudes cross-origin.
+- `'strict-origin'`: Envía solo el origen, y solo si el nivel de seguridad del protocolo no se degrada (por ejemplo, HTTPS→HTTPS). Omite el referrer en caso de degradación.
+- `'strict-origin-when-cross-origin'`: Comportamiento predeterminado del navegador. Envía la URL completa para solicitudes same-origin, el origen para solicitudes cross-origin cuando no hay degradación, y omite el referrer en caso de degradación.
+- `'unsafe-url'`: Siempre envía la URL completa (incluyendo ruta y consulta). Esto puede exponer datos sensibles y debe usarse con precaución.
+
+CONSEJO: Prefiere valores conservadores como `'no-referrer'`, `'origin'`, o `'strict-origin-when-cross-origin'` para solicitudes sensibles a la privacidad.
 
 #### Integridad (Integrity)
 
 La opción `integrity` permite verificar que la respuesta no ha sido alterada, proporcionando un hash criptográfico del contenido esperado. Esto es útil al cargar scripts u otros recursos desde CDNs.
 
-<docs-code language="ts">
+```ts
 // Verificar integridad de la respuesta con hash SHA-256
 http.get('/api/script.js', {
   integrity: 'sha256-ABC123...',
@@ -516,11 +550,11 @@ http.get('/api/script.js', {
 }).subscribe(script => {
   // El contenido del script se verifica contra el hash
 });
-</docs-code>
+```
 
 IMPORTANTE: La opción `integrity` requiere una coincidencia exacta entre el contenido de la respuesta y el hash proporcionado. Si el contenido no coincide, la solicitud fallará con un error de red.
 
-TIP: Usa integridad de subrecursos (subresource integrity) al cargar recursos críticos de fuentes externas para asegurar que no han sido modificados. Genera los hashes usando herramientas como `openssl`
+CONSEJO: Usa integridad de subrecursos (subresource integrity) al cargar recursos críticos de fuentes externas para asegurar que no han sido modificados. Genera los hashes usando herramientas como `openssl`.
 
 ## `Observable`s Http
 
@@ -542,7 +576,7 @@ CONSEJO: Usar el pipe `async` o la operación `toSignal` para suscribirse a `Obs
 
 Aunque `HttpClient` puede ser inyectado y usado directamente desde los componentes, generalmente se recomienda que crees servicios reutilizables e inyectables que aíslen y encapsulen la lógica de acceso a datos. Por ejemplo, este `UserService` encapsula la lógica para solicitar datos de un usuario por su id:
 
-<docs-code language="ts">
+```ts
 @Injectable({providedIn: 'root'})
 export class UserService {
   private http = inject(HttpClient);
@@ -551,11 +585,11 @@ export class UserService {
     return this.http.get<User>(`/api/user/${id}`);
   }
 }
-</docs-code>
+```
 
 Dentro de un componente, puedes combinar `@if` con el `async` pipe para renderizar la interfaz de usuario para los datos solo después de que hayan terminado de cargarse:
 
-<docs-code language="ts">
+```ts
 import { AsyncPipe } from '@angular/common';
 @Component({
   imports: [AsyncPipe],
@@ -578,4 +612,4 @@ export class UserProfileComponent {
     });
   }
 }
-</docs-code>
+```

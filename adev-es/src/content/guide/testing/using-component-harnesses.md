@@ -8,9 +8,9 @@ CONSEJO: Esta guía asume que ya leíste la [guía de visión general de compone
 
 El [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) es un conjunto de primitivas de comportamiento para construir componentes. Para usar los component harnesses, primero instala `@angular/cdk` desde npm. Puedes hacer esto desde tu terminal usando Angular CLI:
 
-<docs-code language="shell">
-  ng add @angular/cdk
-</docs-code>
+```shell
+ng add @angular/cdk
+```
 
 ## Entornos de test harness y loaders
 
@@ -91,27 +91,27 @@ let loader: HarnessLoader;
 let rootLoader: HarnessLoader;
 
 beforeEach(() => {
-  fixture = TestBed.createComponent(MyDialogButton);
-  loader = TestbedHarnessEnvironment.loader(fixture);
-  rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+fixture = TestBed.createComponent(MyDialogButton);
+loader = TestbedHarnessEnvironment.loader(fixture);
+rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 });
 
 it('loads harnesses', async () => {
-  // Cargar un harness para el componente bootstrap con `harnessForFixture`
-  dialogButtonHarness =
-    await TestbedHarnessEnvironment.harnessForFixture(fixture, MyDialogButtonHarness);
+// Cargar un harness para el componente bootstrap con `harnessForFixture`
+dialogButtonHarness =
+  await TestbedHarnessEnvironment.harnessForFixture(fixture, MyDialogButtonHarness);
 
-  // El elemento button está dentro del elemento raíz del fixture, así que usamos `loader`.
-  const buttonHarness = await loader.getHarness(MyButtonHarness);
+// El elemento button está dentro del elemento raíz del fixture, así que usamos `loader`.
+const buttonHarness = await loader.getHarness(MyButtonHarness);
 
-  // Hacer clic en el botón para abrir el diálogo
-  await buttonHarness.click();
+// Hacer clic en el botón para abrir el diálogo
+await buttonHarness.click();
 
-  // El diálogo se adjunta a `document.body`, fuera del elemento raíz del fixture,
-  // así que usamos `rootLoader` en este caso.
-  const dialogHarness = await rootLoader.getHarness(MyDialogHarness);
+// El diálogo se adjunta a `document.body`, fuera del elemento raíz del fixture,
+// así que usamos `rootLoader` en este caso.
+const dialogHarness = await rootLoader.getHarness(MyDialogHarness);
 
-  // ... hacer algunas afirmaciones
+// ... hacer algunas afirmaciones
 });
 </docs-code>
 

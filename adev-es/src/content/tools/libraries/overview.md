@@ -2,7 +2,7 @@
 
 Muchas aplicaciones necesitan resolver los mismos problemas generales, como presentar una interfaz de usuario unificada, presentar datos y permitir la entrada de datos.
 Los desarrolladores pueden crear soluciones generales para dominios particulares que pueden ser adaptadas para reutilización en diferentes aplicaciones.
-Tales soluciones pueden construirse como *librerías* de Angular y estas librerías pueden publicarse y compartirse como *paquetes npm*.
+Tales soluciones pueden construirse como _librerías_ de Angular y estas librerías pueden publicarse y compartirse como _paquetes npm_.
 
 Una librería de Angular es un proyecto de Angular que difiere de una aplicación en que no puede ejecutarse por sí sola.
 Una librería debe importarse y usarse en una aplicación.

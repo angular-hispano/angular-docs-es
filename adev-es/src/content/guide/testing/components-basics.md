@@ -1,13 +1,13 @@
 # Fundamentos de probar componentes
 
 Un componente, a diferencia de todas las otras partes de una aplicación Angular, combina una plantilla HTML y una clase TypeScript.
-El componente verdaderamente es la plantilla y la clase *trabajando juntas*.
+El componente verdaderamente es la plantilla y la clase _trabajando juntas_.
 Para probar adecuadamente un componente, deberías probar que trabajen juntos como se pretende.
 
 Tales pruebas requieren crear el elemento host del componente en el DOM del navegador, como hace Angular, e investigar la interacción de la clase del componente con el DOM como se describe en su plantilla.
 
 El `TestBed` de Angular facilita este tipo de pruebas como verás en las siguientes secciones.
-Pero en muchos casos, *probar la clase del componente sola*, sin involucramiento del DOM, puede validar mucho del comportamiento del componente de una manera más directa y obvia.
+Pero en muchos casos, _probar la clase del componente sola_, sin involucramiento del DOM, puede validar mucho del comportamiento del componente de una manera más directa y obvia.
 
 ## Pruebas del DOM de componentes
 
@@ -15,11 +15,11 @@ Un componente es más que solo su clase.
 Un componente interactúa con el DOM y con otros componentes.
 Las clases solas no pueden decirte si el componente va a renderizar correctamente, responder a la entrada y gestos del usuario, o integrarse con sus componentes padre e hijo.
 
-* ¿Está `Lightswitch.clicked()` vinculado a algo de modo que el usuario pueda invocarlo?
-* ¿Se muestra el `Lightswitch.message`?
-* ¿Puede el usuario realmente seleccionar el héroe mostrado por `DashboardHeroComponent`?
-* ¿Se muestra el nombre del héroe como se espera \(como mayúsculas\)?
-* ¿Se muestra el mensaje de bienvenida por la plantilla de `WelcomeComponent`?
+- ¿Está `Lightswitch.clicked()` vinculado a algo de modo que el usuario pueda invocarlo?
+- ¿Se muestra el `Lightswitch.message`?
+- ¿Puede el usuario realmente seleccionar el héroe mostrado por `DashboardHeroComponent`?
+- ¿Se muestra el nombre del héroe como se espera \(como mayúsculas\)?
+- ¿Se muestra el mensaje de bienvenida por la plantilla de `WelcomeComponent`?
 
 Estas podrían no ser preguntas problemáticas para los componentes simples precedentes ilustrados.
 Pero muchos componentes tienen interacciones complejas con los elementos DOM descritos en sus plantillas, causando que HTML aparezca y desaparezca a medida que el estado del componente cambia.
@@ -34,17 +34,15 @@ El CLI crea un archivo de prueba inicial para ti por defecto cuando le pides que
 
 Por ejemplo, el siguiente comando del CLI genera un `BannerComponent` en la carpeta `app/banner` \(con plantilla y estilos inline\):
 
-<docs-code language="shell">
-
+```shell
 ng generate component banner --inline-template --inline-style --module app
-
-</docs-code>
+```
 
 También genera un archivo de prueba inicial para el componente, `banner-external.component.spec.ts`, que se ve así:
 
-<docs-code header="app/banner/banner-external.component.spec.ts (initial)" path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v1"/>
+<docs-code header="banner-external.component.spec.ts (inicial)" path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v1"/>
 
-ÚTIL: Porque `compileComponents` es asíncrono, usa la función utilitaria [`waitForAsync`](api/core/testing/waitForAsync) importada de `@angular/core/testing`.
+CONSEJO: Porque `compileComponents` es asíncrono, usa la función utilitaria [`waitForAsync`](api/core/testing/waitForAsync) importada de `@angular/core/testing`.
 
 Consulta la sección [waitForAsync](guide/testing/components-scenarios#waitForAsync) para más detalles.
 
@@ -52,18 +50,18 @@ Consulta la sección [waitForAsync](guide/testing/components-scenarios#waitForAs
 
 Solo las últimas tres líneas de este archivo realmente prueban el componente y todo lo que hacen es afirmar que Angular puede crear el componente.
 
-El resto del archivo es código de configuración boilerplate anticipando pruebas más avanzadas que *podrían* volverse necesarias si el componente evoluciona en algo sustancial.
+El resto del archivo es código de configuración boilerplate anticipando pruebas más avanzadas que _podrían_ volverse necesarias si el componente evoluciona en algo sustancial.
 
 Aprenderás sobre estas características de prueba avanzadas en las siguientes secciones.
 Por ahora, puedes reducir radicalmente este archivo de prueba a un tamaño más manejable:
 
-<docs-code header="app/banner/banner-initial.component.spec.ts (minimal)" path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v2"/>
+<docs-code header="banner-initial.component.spec.ts (mínimo)" path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v2"/>
 
 En este ejemplo, el objeto de metadata pasado a `TestBed.configureTestingModule` simplemente declara `BannerComponent`, el componente a probar.
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="configureTestingModule"/>
 
-ÚTIL: No hay necesidad de declarar o importar nada más.
+CONSEJO: No hay necesidad de declarar o importar nada más.
 El módulo de prueba por defecto está pre-configurado con algo como el `BrowserModule` de `@angular/platform-browser`.
 
 Más tarde llamarás a `TestBed.configureTestingModule()` con imports, providers y más declarations para adaptarse a tus necesidades de pruebas.
@@ -121,7 +119,7 @@ Aquí hay otra prueba que llama a `HTMLElement.querySelector` para obtener el el
 
 ### `DebugElement`
 
-El *fixture* de Angular proporciona el elemento del componente directamente a través del `fixture.nativeElement`.
+El _fixture_ de Angular proporciona el elemento del componente directamente a través del `fixture.nativeElement`.
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="nativeElement"/>
 
@@ -132,9 +130,9 @@ Esto es en realidad un método de conveniencia, implementado como `fixture.debug
 Hay una buena razón para esta ruta indirecta al elemento.
 
 Las propiedades del `nativeElement` dependen del entorno de ejecución.
-Podrías estar ejecutando estas pruebas en una plataforma *no-navegador* que no tiene un DOM o cuya emulación de DOM no soporta la API completa de `HTMLElement`.
+Podrías estar ejecutando estas pruebas en una plataforma _no-navegador_ que no tiene un DOM o cuya emulación de DOM no soporta la API completa de `HTMLElement`.
 
-Angular depende de la abstracción `DebugElement` para trabajar de forma segura en *todas las plataformas soportadas*.
+Angular depende de la abstracción `DebugElement` para trabajar de forma segura en _todas las plataformas soportadas_.
 En lugar de crear un árbol de elementos HTML, Angular crea un árbol `DebugElement` que envuelve los *elementos nativos* para la plataforma de ejecución.
 La propiedad `nativeElement` desenvuelve el `DebugElement` y retorna el objeto de elemento específico de la plataforma.
 
@@ -172,10 +170,10 @@ El siguiente ejemplo re-implementa la prueba anterior con `DebugElement.query()`
 
 Algunas observaciones dignas de mención:
 
-* El método estático `By.css()` selecciona nodos `DebugElement` con un [selector CSS estándar](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors 'CSS selectors').
-* La consulta retorna un `DebugElement` para el párrafo.
-* Debes desenvolver ese resultado para obtener el elemento párrafo.
+- El método estático `By.css()` selecciona nodos `DebugElement` con un [selector CSS estándar](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors 'CSS selectors').
+- La consulta retorna un `DebugElement` para el párrafo.
+- Debes desenvolver ese resultado para obtener el elemento párrafo.
 
-Cuando estás filtrando por selector CSS y solo probando propiedades del *elemento nativo* de un navegador, el enfoque `By.css` podría ser excesivo.
+Cuando estás filtrando por selector CSS y solo probando propiedades del _elemento nativo_ de un navegador, el enfoque `By.css` podría ser excesivo.
 
 A menudo es más directo y claro filtrar con un método `HTMLElement` estándar como `querySelector()` o `querySelectorAll()`.

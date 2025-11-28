@@ -8,17 +8,17 @@ En la aplicación de ejemplo, el `BannerComponent` presenta texto de título est
 
 Después de algunos cambios, el `BannerComponent` presenta un título dinámico vinculándose a la propiedad `title` del componente como esto.
 
-<docs-code header="app/banner/banner.component.ts" path="adev/src/content/examples/testing/src/app/banner/banner.component.ts" visibleRegion="component"/>
+<docs-code header="banner.component.ts" path="adev/src/content/examples/testing/src/app/banner/banner.component.ts" visibleRegion="component"/>
 
 Por mínimo que sea esto, decides agregar una prueba para confirmar que el componente realmente muestra el contenido correcto donde crees que debería.
 
 ### Consultar por el `<h1>`
 
-Escribirás una secuencia de pruebas que inspeccionan el valor del elemento `<h1>` que envuelve el binding de interpolación de la propiedad *title*.
+Escribirás una secuencia de pruebas que inspeccionan el valor del elemento `<h1>` que envuelve el binding de interpolación de la propiedad _title_.
 
 Actualizas el `beforeEach` para encontrar ese elemento con un `querySelector` HTML estándar y asignarlo a la variable `h1`.
 
-<docs-code header="app/banner/banner.component.spec.ts (setup)" path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="setup"/>
+<docs-code header="banner.component.spec.ts (configuración)" path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="setup"/>
 
 ### `createComponent()` no vincula datos
 
@@ -27,7 +27,7 @@ Tu instinto es escribir una prueba que inmediatamente inspecciona el `<h1>` así
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="expect-h1-default-v1"/>
 
-*Esa prueba falla* con el mensaje:
+_Esa prueba falla_ con el mensaje:
 
 <docs-code language="javascript">
 
@@ -51,9 +51,9 @@ Solo entonces el `<h1>` tiene el título esperado.
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="expect-h1-default"/>
 
 La detección de cambios retrasada es intencional y útil.
-Le da al probador una oportunidad de inspeccionar y cambiar el estado del componente *antes de que Angular inicie el binding de datos y llame a [hooks de ciclo de vida](guide/components/lifecycle)*.
+Le da al probador una oportunidad de inspeccionar y cambiar el estado del componente _antes de que Angular inicie el binding de datos y llame a [hooks de ciclo de vida](guide/components/lifecycle)_.
 
-Aquí hay otra prueba que cambia la propiedad `title` del componente *antes* de llamar a `fixture.detectChanges()`.
+Aquí hay otra prueba que cambia la propiedad `title` del componente _antes_ de llamar a `fixture.detectChanges()`.
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="after-change"/>
 
@@ -65,17 +65,19 @@ Muchos probadores prefieren que el entorno de prueba de Angular ejecute la detec
 Eso es posible configurando el `TestBed` con el provider `ComponentFixtureAutoDetect`.
 Primero impórtalo de la librería utilitaria de testing:
 
-<docs-code header="app/banner/banner.component.detect-changes.spec.ts (import)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="import-ComponentFixtureAutoDetect"/>
+<docs-code header="banner.component.detect-changes.spec.ts (importar)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="import-ComponentFixtureAutoDetect"/>
 
 Luego agrégalo al array `providers` de la configuración del módulo de testing:
 
-<docs-code header="app/banner/banner.component.detect-changes.spec.ts (AutoDetect)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="auto-detect"/>
+<docs-code header="banner.component.detect-changes.spec.ts (AutoDetect)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="auto-detect"/>
 
-ÚTIL: También puedes usar la función `fixture.autoDetectChanges()` en su lugar si solo quieres habilitar la detección automática de cambios después de hacer actualizaciones al estado del componente del fixture. Además, la detección automática de cambios está activada por defecto cuando usas `provideZonelessChangeDetection` y desactivarla no es recomendado.
+ÚTIL: También puedes usar la función `fixture.autoDetectChanges()` en su lugar si solo quieres habilitar la detección automática de cambios 
+después de hacer actualizaciones al estado del componente del fixture. Además, la detección automática de cambios está activada por defecto 
+cuando usas `provideZonelessChangeDetection` y desactivarla no es recomendado.
 
 Aquí hay tres pruebas que ilustran cómo funciona la detección automática de cambios.
 
-<docs-code header="app/banner/banner.component.detect-changes.spec.ts (AutoDetect Tests)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="auto-detect-tests"/>
+<docs-code header="banner.component.detect-changes.spec.ts (Pruebas AutoDetect)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="auto-detect-tests"/>
 
 La primera prueba muestra el beneficio de la detección automática de cambios.
 
@@ -83,7 +85,8 @@ La segunda y tercera prueba revelan una limitación importante.
 El entorno de testing de Angular no ejecuta detección de cambios síncronamente cuando las actualizaciones ocurren dentro del caso de prueba que cambió el `title` del componente.
 La prueba debe llamar a `await fixture.whenStable` para esperar otra ronda de detección de cambios.
 
-ÚTIL: Angular no sabe sobre actualizaciones directas a valores que no son signals. La forma más fácil de asegurar que la detección de cambios se programe es usar signals para valores leídos en la plantilla.
+ÚTIL: Angular no sabe sobre actualizaciones directas a valores que no son signals. La forma más fácil de asegurar que la detección de cambios se 
+programe es usar signals para valores leídos en la plantilla.
 
 ### Cambiar un valor de input con `dispatchEvent()`
 
@@ -96,15 +99,15 @@ No leerá esa propiedad hasta que generes el evento `input` del elemento llamand
 
 El siguiente ejemplo demuestra la secuencia adecuada.
 
-<docs-code header="app/hero/hero-detail.component.spec.ts (pipe test)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="title-case-pipe"/>
+<docs-code header="hero-detail.component.spec.ts (prueba de pipe)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="title-case-pipe"/>
 
 ## Componente con archivos externos
 
-El `BannerComponent` precedente está definido con una *plantilla inline* y *css inline*, especificados en las propiedades `@Component.template` y `@Component.styles` respectivamente.
+El `BannerComponent` precedente está definido con una _plantilla inline_ y _css inline_, especificados en las propiedades `@Component.template` y `@Component.styles` respectivamente.
 
-Muchos componentes especifican *plantillas externas* y *css externo* con las propiedades `@Component.templateUrl` y `@Component.styleUrls` respectivamente, como lo hace la siguiente variante de `BannerComponent`.
+Muchos componentes especifican _plantillas externas_ y _css externo_ con las propiedades `@Component.templateUrl` y `@Component.styleUrls` respectivamente, como lo hace la siguiente variante de `BannerComponent`.
 
-<docs-code header="app/banner/banner-external.component.ts (metadata)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.ts" visibleRegion="metadata"/>
+<docs-code header="banner-external.component.ts (metadatos)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.ts" visibleRegion="metadata"/>
 
 Esta sintaxis le dice al compilador de Angular que lea los archivos externos durante la compilación del componente.
 
@@ -123,7 +126,7 @@ Please call "TestBed.compileComponents" before your test.
 
 Obtienes este mensaje de fallo de prueba cuando el entorno de runtime compila el código fuente *durante las pruebas mismas*.
 
-Para corregir el problema, llama a `compileComponents()` como se explica en la siguiente sección [Llamando compileComponents](#calling-compilecomponents).
+Para corregir el problema, llama a `compileComponents()`.
 
 ## Componente con una dependencia
 
@@ -132,13 +135,13 @@ Los componentes a menudo tienen dependencias de servicio.
 El `WelcomeComponent` muestra un mensaje de bienvenida al usuario autenticado.
 Sabe quién es el usuario basado en una propiedad del `UserService` inyectado:
 
-<docs-code header="app/welcome/welcome.component.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.ts"/>
+<docs-code header="welcome.component.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.ts"/>
 
 El `WelcomeComponent` tiene lógica de decisión que interactúa con el servicio, lógica que hace que este componente valga la pena probar.
 
 ### Proporcionar dobles de prueba de servicio
 
-Un *componente-bajo-prueba* no tiene que ser proporcionado con servicios reales.
+Un _componente-bajo-prueba_ no tiene que ser proporcionado con servicios reales.
 
 Inyectar el `UserService` real podría ser difícil.
 El servicio real podría pedirle al usuario credenciales de inicio de sesión e intentar llegar a un servidor de autenticación.
@@ -151,8 +154,8 @@ Las pruebas necesitan acceso al `UserService` inyectado en el `WelcomeComponent`
 Angular tiene un sistema de inyección jerárquico.
 Puede haber inyectores en múltiples niveles, desde el inyector raíz creado por el `TestBed` hacia abajo a través del árbol de componentes.
 
-La forma más segura de obtener el servicio inyectado, la forma que ***siempre funciona***,
-es **obtenerlo del inyector del *componente-bajo-prueba***.
+La forma más segura de obtener el servicio inyectado, la forma que **_siempre funciona_**,
+es **obtenerlo del inyector del **_componente-bajo-prueba_**.
 El inyector del componente es una propiedad del `DebugElement` del fixture.
 
 <docs-code header="WelcomeComponent's injector" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="injected-service"/>
@@ -163,21 +166,21 @@ El inyector del componente es una propiedad del `DebugElement` del fixture.
 
 Esto es más fácil de recordar y menos verboso que recuperar un servicio usando el `DebugElement` del fixture.
 
-En esta suite de pruebas, el *único* provider de `UserService` es el módulo de testing raíz, por lo que es seguro llamar a `TestBed.inject()` de la siguiente manera:
+En esta suite de pruebas, el _único_ provider de `UserService` es el módulo de testing raíz, por lo que es seguro llamar a `TestBed.inject()` de la siguiente manera:
 
 <docs-code header="TestBed injector" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="inject-from-testbed" />
 
-ÚTIL: Para un caso de uso en el que `TestBed.inject()` no funciona, consulta la sección [*Override component providers*](#override-component-providers) que explica cuándo y por qué debes obtener el servicio del inyector del componente en su lugar.
+ÚTIL: Para un caso de uso en el que `TestBed.inject()` no funciona, consulta la sección [_Override component providers_](#override-component-providers) que explica cuándo y por qué debes obtener el servicio del inyector del componente en su lugar.
 
 ### Configuración final y pruebas
 
 Aquí está el `beforeEach()` completo, usando `TestBed.inject()`:
 
-<docs-code header="app/welcome/welcome.component.spec.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="setup"/>
+<docs-code header="welcome.component.spec.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="setup"/>
 
 Y aquí hay algunas pruebas:
 
-<docs-code header="app/welcome/welcome.component.spec.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="tests"/>
+<docs-code header="welcome.component.spec.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="tests"/>
 
 La primera es una prueba de cordura; confirma que el `UserService` es llamado y funciona.
 
@@ -194,14 +197,14 @@ La tercera prueba verifica que el componente muestra el mensaje apropiado cuando
 En esta muestra, la plantilla `AboutComponent` aloja un `TwainComponent`.
 El `TwainComponent` muestra citas de Mark Twain.
 
-<docs-code header="app/twain/twain.component.ts (template)" path="adev/src/content/examples/testing/src/app/twain/twain.component.ts" visibleRegion="template" />
+<docs-code header="twain.component.ts (plantilla)" path="adev/src/content/examples/testing/src/app/twain/twain.component.ts" visibleRegion="template" />
 
 ÚTIL: El valor de la propiedad `quote` del componente pasa a través de un `AsyncPipe`.
 Eso significa que la propiedad retorna ya sea una `Promise` o un `Observable`.
 
 En este ejemplo, el método `TwainComponent.getQuote()` te dice que la propiedad `quote` retorna un `Observable`.
 
-<docs-code header="app/twain/twain.component.ts (getQuote)" path="adev/src/content/examples/testing/src/app/twain/twain.component.ts" visibleRegion="get-quote"/>
+<docs-code header="twain.component.ts (getQuote)" path="adev/src/content/examples/testing/src/app/twain/twain.component.ts" visibleRegion="get-quote"/>
 
 El `TwainComponent` obtiene citas de un `TwainService` inyectado.
 El componente inicia el `Observable` retornado con un valor placeholder \(`'...'`\), antes de que el servicio pueda retornar su primera cita.
@@ -215,9 +218,9 @@ Estas son todas características que querrás probar.
 Cuando se prueba un componente, solo la API pública del servicio debería importar.
 En general, las pruebas mismas no deberían hacer llamadas a servidores remotos.
 Deberían emular tales llamadas.
-La configuración en este `app/twain/twain.component.spec.ts` muestra una forma de hacerlo:
+La configuración en este `twain.component.spec.ts` muestra una forma de hacerlo:
 
-<docs-code header="app/twain/twain.component.spec.ts (setup)" path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="setup"/>
+<docs-code header="twain.component.spec.ts (configuración)" path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="setup"/>
 
 Enfócate en el spy.
 
@@ -244,7 +247,7 @@ La siguiente prueba confirma el comportamiento esperado cuando el servicio retor
 
 <docs-code language="javascript">
 
-fakeAsync(() => { /*test body*/ })
+fakeAsync(() => { /_test body_/ })
 
 </docs-code>
 
@@ -253,7 +256,7 @@ El cuerpo de la prueba aparece ser síncrono.
 No hay sintaxis anidada \(como un `Promise.then()`\) para interrumpir el flujo de control.
 
 ÚTIL: Limitación: La función `fakeAsync()` no funcionará si el cuerpo de la prueba hace una llamada `XMLHttpRequest` \(XHR\).
-Las llamadas XHR dentro de una prueba son raras, pero si necesitas llamar XHR, consulta la sección [`waitForAsync()`](#waitForAsync).
+Las llamadas XHR dentro de una prueba son raras, pero si necesitas llamar XHR, consulta la sección [`waitForAsync()`](#prueba-async-sin-fakeasync).
 
 IMPORTANTE: Ten en cuenta que las tareas asíncronas que ocurren dentro de la zona `fakeAsync` necesitan ejecutarse manualmente con `flush` o `tick`. Si intentas esperar a que se completen (es decir, usando `fixture.whenStable`) sin usar los helpers de prueba `fakeAsync` para avanzar el tiempo, tu prueba probablemente fallará. Ver abajo para más información.
 
@@ -302,7 +305,7 @@ Si usas Angular CLI, configura esta bandera en `src/test.ts`.
 
 <docs-code language="typescript">
 
-[window as any]('&lowbar;&lowbar;zone&lowbar;symbol__fakeAsyncPatchLock') = true;
+[window as any]('__zone_symbol__fakeAsyncPatchLock') = true;
 import 'zone.js/testing';
 
 </docs-code>
@@ -319,27 +322,27 @@ También puedes usar el scheduler de RxJS en `fakeAsync()` igual que usando `set
 
 Por defecto, `fakeAsync()` soporta las siguientes macro tasks.
 
-* `setTimeout`
-* `setInterval`
-* `requestAnimationFrame`
-* `webkitRequestAnimationFrame`
-* `mozRequestAnimationFrame`
+- `setTimeout`
+- `setInterval`
+- `requestAnimationFrame`
+- `webkitRequestAnimationFrame`
+- `mozRequestAnimationFrame`
 
-Si ejecutas otras macro tasks como `HTMLCanvasElement.toBlob()`, se lanza un error *"Unknown macroTask scheduled in fake async test"*.
+Si ejecutas otras macro tasks como `HTMLCanvasElement.toBlob()`, se lanza un error _"Unknown macroTask scheduled in fake async test"_.
 
 <docs-code-multifile>
-    <docs-code header="src/app/shared/canvas.component.spec.ts (failing)" path="adev/src/content/examples/testing/src/app/shared/canvas.component.spec.ts" visibleRegion="without-toBlob-macrotask"/>
-    <docs-code header="src/app/shared/canvas.component.ts" path="adev/src/content/examples/testing/src/app/shared/canvas.component.ts" visibleRegion="main"/>
+    <docs-code header="canvas.component.spec.ts (fallando)" path="adev/src/content/examples/testing/src/app/shared/canvas.component.spec.ts" visibleRegion="without-toBlob-macrotask"/>
+    <docs-code header="canvas.component.ts" path="adev/src/content/examples/testing/src/app/shared/canvas.component.ts" visibleRegion="main"/>
 </docs-code-multifile>
 
 Si quieres soportar tal caso, necesitas definir la macro task que quieres soportar en `beforeEach()`.
 Por ejemplo:
 
-<docs-code header="src/app/shared/canvas.component.spec.ts (excerpt)" path="adev/src/content/examples/testing/src/app/shared/canvas.component.spec.ts" visibleRegion="enable-toBlob-macrotask"/>
+<docs-code header="canvas.component.spec.ts (extracto)" path="adev/src/content/examples/testing/src/app/shared/canvas.component.spec.ts" visibleRegion="enable-toBlob-macrotask"/>
 
 ÚTIL: Para hacer que el elemento `<canvas>` sea Zone.js-aware en tu aplicación, necesitas importar el parche `zone-patch-canvas` \(ya sea en `polyfills.ts` o en el archivo específico que usa `<canvas>`\):
 
-<docs-code header="src/polyfills.ts or src/app/shared/canvas.component.ts" path="adev/src/content/examples/testing/src/app/shared/canvas.component.ts" visibleRegion="import-canvas-patch"/>
+<docs-code header="src/polyfills.ts o src/app/shared/canvas.component.ts" path="adev/src/content/examples/testing/src/app/shared/canvas.component.ts" visibleRegion="import-canvas-patch"/>
 
 ### Observables async
 
@@ -349,7 +352,7 @@ Sin embargo, podrías estar preocupado por el hecho de que el servicio real no s
 El servicio real envía solicitudes a un servidor remoto.
 Un servidor toma tiempo en responder y la respuesta ciertamente no estará disponible inmediatamente como en las dos pruebas anteriores.
 
-Tus pruebas reflejarán el mundo real más fielmente si retornas un observable *asíncrono* del spy `getQuote()` así.
+Tus pruebas reflejarán el mundo real más fielmente si retornas un observable _asíncrono_ del spy `getQuote()` así.
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="async-setup"/>
 
@@ -364,7 +367,7 @@ El observable de este helper emite el valor `data` en el siguiente turno del mot
 
 El [operador `defer()` de RxJS](http://reactivex.io/documentation/operators/defer.html) retorna un observable.
 Toma una función factory que retorna ya sea una promesa o un observable.
-Cuando algo se suscribe al observable de *defer*, agrega el suscriptor a un nuevo observable creado con esa factory.
+Cuando algo se suscribe al observable de _defer_, agrega el suscriptor a un nuevo observable creado con esa factory.
 
 El operador `defer()` transforma el `Promise.resolve()` en un nuevo observable que, como `HttpClient`, emite una vez y se completa.
 Los suscriptores se desuscriben después de recibir el valor de datos.
@@ -418,20 +421,20 @@ Hacer clic en ese héroe le dice al `DashboardComponent` que el usuario ha selec
 
 El `DashboardHeroComponent` está incrustado en la plantilla `DashboardComponent` así:
 
-<docs-code header="app/dashboard/dashboard.component.html (excerpt)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.html" visibleRegion="dashboard-hero"/>
+<docs-code header="dashboard.component.html (extracto)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.html" visibleRegion="dashboard-hero"/>
 
 El `DashboardHeroComponent` aparece en un bloque `@for`, que establece la propiedad input `hero` de cada componente al valor de bucle y escucha el evento `selected` del componente.
 
 Aquí está la definición completa del componente:
 
-<docs-code header="app/dashboard/dashboard-hero.component.ts (component)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.ts" visibleRegion="component"/>
+<docs-code header="dashboard-hero.component.ts (componente)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.ts" visibleRegion="component"/>
 
 Aunque probar un componente tan simple tiene poco valor intrínseco, vale la pena saber cómo.
 Usa uno de estos enfoques:
 
-* Probarlo como se usa por `DashboardComponent`
-* Probarlo como un componente standalone
-* Probarlo como se usa por un sustituto para `DashboardComponent`
+- Probarlo como se usa por `DashboardComponent`
+- Probarlo como un componente standalone
+- Probarlo como se usa por un sustituto para `DashboardComponent`
 
 El objetivo inmediato es probar el `DashboardHeroComponent`, no el `DashboardComponent`, así que, prueba la segunda y tercera opciones.
 
@@ -439,7 +442,7 @@ El objetivo inmediato es probar el `DashboardHeroComponent`, no el `DashboardCom
 
 Aquí está la parte principal de la configuración del archivo spec.
 
-<docs-code header="app/dashboard/dashboard-hero.component.spec.ts (setup)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="setup"/>
+<docs-code header="dashboard-hero.component.spec.ts (configuración)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="setup"/>
 
 Nota cómo el código de configuración asigna un héroe de prueba \(`expectedHero`\) a la propiedad `hero` del componente, emulando la forma en que el `DashboardComponent` lo establecería usando el property binding en su repeater.
 
@@ -447,7 +450,7 @@ La siguiente prueba verifica que el nombre del héroe se propaga a la plantilla 
 
 <docs-code path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="name-test"/>
 
-Porque la [plantilla](#dashboard-hero-component) pasa el nombre del héroe a través del `UpperCasePipe` de Angular, la prueba debe coincidir el valor del elemento con el nombre en mayúsculas.
+Porque la [plantilla](#probar-dashboardherocomponent-standalone) pasa el nombre del héroe a través del `UpperCasePipe` de Angular, la prueba debe coincidir el valor del elemento con el nombre en mayúsculas.
 
 ### Hacer clic
 
@@ -456,7 +459,7 @@ Hacer clic en el héroe debería generar un evento `selected` que el componente 
 <docs-code path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="click-test"/>
 
 La propiedad `selected` del componente retorna un `EventEmitter`, que se ve como un `Observable` síncrono de RxJS para los consumidores.
-La prueba se suscribe a él *explícitamente* igual que el componente host lo hace *implícitamente*.
+La prueba se suscribe a él _explícitamente_ igual que el componente host lo hace _implícitamente_.
 
 Si el componente se comporta como se espera, hacer clic en el elemento del héroe debería decirle a la propiedad `selected` del componente que emita el objeto `hero`.
 
@@ -470,7 +473,7 @@ Tiene propiedades y métodos de Angular que abstraen la interacción con el elem
 Esta prueba llama al `DebugElement.triggerEventHandler` con el nombre de evento "click".
 El binding de evento "click" responde llamando a `DashboardHeroComponent.click()`.
 
-El `DebugElement.triggerEventHandler` de Angular puede generar *cualquier evento vinculado a datos* por su *nombre de evento*.
+El `DebugElement.triggerEventHandler` de Angular puede generar _cualquier evento vinculado a datos_ por su _nombre de evento_.
 El segundo parámetro es el objeto de evento pasado al handler.
 
 La prueba desencadenó un evento "click".
@@ -493,29 +496,29 @@ La siguiente alternativa de prueba llama al método `click()` propio del element
 
 Hacer clic en un botón, un anchor, o un elemento HTML arbitrario es una tarea de prueba común.
 
-Haz eso consistente y directo encapsulando el proceso *click-triggering* en un helper como la siguiente función `click()`:
+Haz eso consistente y directo encapsulando el proceso _click-triggering en un helper como la siguiente función `click()`:
 
 <docs-code header="testing/index.ts (click helper)" path="adev/src/content/examples/testing/src/testing/index.ts" visibleRegion="click-event"/>
 
-El primer parámetro es el *elemento-a-hacer-clic*.
+El primer parámetro es el *elemento-a-hacer-clic_.
 Si quieres, pasa un objeto de evento personalizado como segundo parámetro.
 El predeterminado es un [objeto de evento de mouse de botón izquierdo](https://developer.mozilla.org/docs/Web/API/MouseEvent/button) parcial aceptado por muchos handlers incluyendo la directiva `RouterLink`.
 
 IMPORTANTE: La función helper `click()` **no** es una de las utilidades de testing de Angular.
-Es una función definida en el *código de muestra de esta guía*.
+Es una función definida en el _código de muestra de esta guía_.
 Todas las pruebas de muestra la usan.
 Si te gusta, agrégala a tu propia colección de helpers.
 
 Aquí está la prueba anterior, reescrita usando el helper click.
 
-<docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test with click helper)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="click-test-3"/>
+<docs-code header="dashboard-hero.component.spec.ts (prueba con helper click)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="click-test-3"/>
 
 ## Componente dentro de un test host
 
 Las pruebas anteriores jugaron el rol del `DashboardComponent` host ellas mismas.
 ¿Pero funciona correctamente el `DashboardHeroComponent` cuando está correctamente vinculado a datos a un componente host?
 
-<docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test host)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host"/>
+<docs-code header="dashboard-hero.component.spec.ts (test host)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host"/>
 
 El test host establece la propiedad input `hero` del componente con su héroe de prueba.
 Vincula el evento `selected` del componente con su handler `onSelected`, que registra el héroe emitido en su propiedad `selectedHero`.
@@ -524,7 +527,7 @@ Más tarde, las pruebas podrán verificar `selectedHero` para verificar que el e
 
 La configuración para las pruebas `test-host` es similar a la configuración para las pruebas standalone:
 
-<docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test host setup)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host-setup"/>
+<docs-code header="dashboard-hero.component.spec.ts (configuración test host)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host-setup"/>
 
 Esta configuración de módulo de testing muestra dos diferencias importantes:
 
@@ -538,23 +541,23 @@ La consulta para el elemento héroe \(`heroEl`\) aún lo encuentra en el DOM de 
 
 Las pruebas mismas son casi idénticas a la versión standalone:
 
-<docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test-host)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host-tests"/>
+<docs-code header="dashboard-hero.component.spec.ts (test-host)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host-tests"/>
 
 Solo la prueba de evento selected difiere.
 Confirma que el héroe `DashboardHeroComponent` seleccionado realmente encuentra su camino hacia arriba a través del event binding al componente host.
 
 ## Componente de enrutamiento
 
-Un *componente de enrutamiento* es un componente que le dice al `Router` que navegue a otro componente.
-El `DashboardComponent` es un *componente de enrutamiento* porque el usuario puede navegar al `HeroDetailComponent` haciendo clic en uno de los *botones de héroe* en el dashboard.
+Un _componente de enrutamiento_ es un componente que le dice al `Router` que navegue a otro componente.
+El `DashboardComponent` es un _componente de enrutamiento_ porque el usuario puede navegar al `HeroDetailComponent` haciendo clic en uno de los _botones de héroe_ en el dashboard.
 
 Angular proporciona helpers de prueba para reducir boilerplate y probar más efectivamente código que depende de `HttpClient`. La función `provideRouter` puede usarse directamente en el módulo de prueba también.
 
-<docs-code header="app/dashboard/dashboard.component.spec.ts" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.spec.ts" visibleRegion="router-harness"/>
+<docs-code header="dashboard.component.spec.ts" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.spec.ts" visibleRegion="router-harness"/>
 
 La siguiente prueba hace clic en el héroe mostrado y confirma que navegamos a la URL esperada.
 
-<docs-code header="app/dashboard/dashboard.component.spec.ts (navigate test)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.spec.ts" visibleRegion="navigate-test"/>
+<docs-code header="dashboard.component.spec.ts (prueba de navegación)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.spec.ts" visibleRegion="navigate-test"/>
 
 ## Componentes enrutados
 
@@ -570,15 +573,15 @@ Crea un objeto `ActivatedRoute` con la información de enrutamiento y lo inyecta
 
 Aquí están los servicios inyectados en `HeroDetailComponent`:
 
-<docs-code header="app/hero/hero-detail.component.ts (inject)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="inject"/>
+<docs-code header="hero-detail.component.ts (inyectar)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="inject"/>
 
 El componente `HeroDetail` necesita el parámetro `id` para poder obtener el héroe correspondiente usando el `HeroDetailService`.
 El componente tiene que obtener el `id` de la propiedad `ActivatedRoute.paramMap` que es un `Observable`.
 
 No puede simplemente referenciar la propiedad `id` del `ActivatedRoute.paramMap`.
-El componente tiene que *suscribirse* al observable `ActivatedRoute.paramMap` y estar preparado para que el `id` cambie durante su vida útil.
+El componente tiene que _suscribirse_ al observable `ActivatedRoute.paramMap` y estar preparado para que el `id` cambie durante su vida útil.
 
-<docs-code header="app/hero/hero-detail.component.ts (constructor)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="ctor"/>
+<docs-code header="hero-detail.component.ts (constructor)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="ctor"/>
 
 Las pruebas pueden explorar cómo el `HeroDetailComponent` responde a diferentes valores de parámetro `id` navegando a diferentes rutas.
 
@@ -590,9 +593,9 @@ El árbol de componentes puede ser muy profundo y a veces los componentes anidad
 
 El `AppComponent`, por ejemplo, muestra una barra de navegación con anchors y sus directivas `RouterLink`.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/testing/src/app/app.component.html"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/testing/src/app/app.component.html"/>
 
-Para validar los enlaces pero no la navegación, no necesitas el `Router` para navegar y no necesitas el `<router-outlet>` para marcar dónde el `Router` inserta *componentes enrutados*.
+Para validar los enlaces pero no la navegación, no necesitas el `Router` para navegar y no necesitas el `<router-outlet>` para marcar dónde el `Router` inserta _componentes enrutados_.
 
 El `BannerComponent` y `WelcomeComponent` \(indicados por `<app-banner>` y `<app-welcome>`\) también son irrelevantes.
 
@@ -600,7 +603,7 @@ Sin embargo, cualquier prueba que cree el `AppComponent` en el DOM también crea
 
 Si descuidas declararlos, el compilador de Angular no reconocerá las etiquetas `<app-banner>`, `<app-welcome>` y `<router-outlet>` en la plantilla `AppComponent` y lanzará un error.
 
-Si declaras los componentes reales, también tendrás que declarar *sus* componentes anidados y proporcionar *todos* los servicios inyectados en *cualquier* componente en el árbol.
+Si declaras los componentes reales, también tendrás que declarar _sus_ componentes anidados y proporcionar _todos_ los servicios inyectados en _cualquier_ componente en el árbol.
 
 Esta sección describe dos técnicas para minimizar la configuración.
 Úsalas, solas o en combinación, para mantener el foco en probar el componente primario.
@@ -609,14 +612,14 @@ Esta sección describe dos técnicas para minimizar la configuración.
 
 En la primera técnica, creas y declaras versiones stub de los componentes y directiva que juegan poco o ningún rol en las pruebas.
 
-<docs-code header="app/app.component.spec.ts (stub declaration)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="component-stubs"/>
+<docs-code header="app.component.spec.ts (declaración stub)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="component-stubs"/>
 
 Los selectores stub coinciden con los selectores para los componentes reales correspondientes.
 Pero sus plantillas y clases están vacías.
 
-Luego declár alos sobrescribiendo los `imports` de tu componente usando `TestBed.overrideComponent`. 
+Luego decláralos sobrescribiendo los `imports` de tu componente usando `TestBed.overrideComponent`. 
 
-<docs-code header="app/app.component.spec.ts (TestBed stubs)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="testbed-stubs"/>
+<docs-code header="app.component.spec.ts (stubs TestBed)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="testbed-stubs"/>
 
 ÚTIL: La clave `set` en este ejemplo reemplaza todos los imports existentes en tu componente, asegúrate de importar todas las dependencias, no solo los stubs. Alternativamente puedes usar las claves `remove`/`add` para remover y agregar imports selectivamente.
 
@@ -624,7 +627,7 @@ Luego declár alos sobrescribiendo los `imports` de tu componente usando `TestBe
 
 En el segundo enfoque, agrega `NO_ERRORS_SCHEMA` a los overrides de metadata de tu componente.
 
-<docs-code header="app/app.component.spec.ts (NO_ERRORS_SCHEMA)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="no-errors-schema"/>
+<docs-code header="app.component.spec.ts (NO_ERRORS_SCHEMA)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="no-errors-schema"/>
 
 El `NO_ERRORS_SCHEMA` le dice al compilador de Angular que ignore elementos y atributos no reconocidos.
 
@@ -637,19 +640,19 @@ Ya no necesitas los componentes stub.
 
 ### Usar ambas técnicas juntas
 
-Estas son técnicas para *Shallow Component Testing*, llamadas así porque reducen la superficie visual del componente solo a aquellos elementos en la plantilla del componente que importan para las pruebas.
+Estas son técnicas para _Shallow Component Testing_, llamadas así porque reducen la superficie visual del componente solo a aquellos elementos en la plantilla del componente que importan para las pruebas.
 
 El enfoque `NO_ERRORS_SCHEMA` es el más fácil de los dos pero no lo uses en exceso.
 
 El `NO_ERRORS_SCHEMA` también evita que el compilador te diga sobre los componentes y atributos faltantes que omitiste inadvertidamente o escribiste mal.
 Podrías desperdiciar horas persiguiendo bugs fantasma que el compilador habría capturado en un instante.
 
-El enfoque de *componente stub* tiene otra ventaja.
-Aunque los stubs en *este* ejemplo están vacíos, podrías darles plantillas y clases reducidas si tus pruebas necesitan interactuar con ellos de alguna manera.
+El enfoque de _componente stub_ tiene otra ventaja.
+Aunque los stubs en _este_ ejemplo están vacíos, podrías darles plantillas y clases reducidas si tus pruebas necesitan interactuar con ellos de alguna manera.
 
 En la práctica combinarás las dos técnicas en la misma configuración, como se ve en este ejemplo.
 
-<docs-code header="app/app.component.spec.ts (mixed setup)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="mixed-setup"/>
+<docs-code header="app.component.spec.ts (configuración mixta)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="mixed-setup"/>
 
 El compilador de Angular crea el `BannerStubComponent` para el elemento `<app-banner>` y aplica el `RouterLink` a los anchors con el atributo `routerLink`, pero ignora las etiquetas `<app-welcome>` y `<router-outlet>`.
 
@@ -657,7 +660,7 @@ El compilador de Angular crea el `BannerStubComponent` para el elemento `<app-ba
 
 Un poco más de configuración desencadena el binding de datos inicial y obtiene referencias a los enlaces de navegación:
 
-<docs-code header="app/app.component.spec.ts (test setup)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="test-setup"/>
+<docs-code header="app.component.spec.ts (configuración de prueba)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="test-setup"/>
 
 Tres puntos de interés especial:
 
@@ -667,11 +670,11 @@ Tres puntos de interés especial:
 
 Los enlaces del `AppComponent` a validar son los siguientes:
 
-<docs-code header="app/app.component.html (navigation links)" path="adev/src/content/examples/testing/src/app/app.component.html" visibleRegion="links"/>
+<docs-code header="app.component.html (enlaces de navegación)" path="adev/src/content/examples/testing/src/app/app.component.html" visibleRegion="links"/>
 
 Aquí hay algunas pruebas que confirman que esos enlaces están conectados a las directivas `routerLink` como se espera:
 
-<docs-code header="app/app.component.spec.ts (selected tests)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="tests"/>
+<docs-code header="app.component.spec.ts (pruebas seleccionadas)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="tests"/>
 
 ## Usar un objeto `page`
 
@@ -680,14 +683,14 @@ El `HeroDetailComponent` es una vista simple con un título, dos campos de héro
 Pero hay bastante complejidad de plantilla incluso en este formulario simple.
 
 <docs-code
-  path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.html" header="app/hero/hero-detail.component.html"/>
+  path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.html" header="hero-detail.component.html"/>
 
 Las pruebas que ejercitan el componente necesitan…
 
-* Esperar hasta que un héroe llegue antes de que los elementos aparezcan en el DOM
-* Una referencia al texto del título
-* Una referencia al cuadro de entrada de nombre para inspeccionarlo y establecerlo
-* Referencias a los dos botones para poder hacer clic en ellos
+- Esperar hasta que un héroe llegue antes de que los elementos aparezcan en el DOM
+- Una referencia al texto del título
+- Una referencia al cuadro de entrada de nombre para inspeccionarlo y establecerlo
+- Referencias a los dos botones para poder hacer clic en ellos
 
 Incluso un formulario pequeño como este puede producir un lío de configuración condicional tortuosa y selección de elementos CSS.
 
@@ -695,29 +698,29 @@ Domestica la complejidad con una clase `Page` que maneja el acceso a las propied
 
 Aquí hay tal clase `Page` para el `hero-detail.component.spec.ts`
 
-<docs-code header="app/hero/hero-detail.component.spec.ts (Page)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="page"/>
+<docs-code header="hero-detail.component.spec.ts (Page)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="page"/>
 
 Ahora los hooks importantes para manipulación e inspección de componentes están organizados ordenadamente y son accesibles desde una instancia de `Page`.
 
 Un método `createComponent` crea un objeto `page` y llena los espacios en blanco una vez que el `hero` llega.
 
-<docs-code header="app/hero/hero-detail.component.spec.ts (createComponent)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="create-component"/>
+<docs-code header="hero-detail.component.spec.ts (createComponent)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="create-component"/>
 
 Aquí hay algunas pruebas más de `HeroDetailComponent` para reforzar el punto.
 
-<docs-code header="app/hero/hero-detail.component.spec.ts (selected tests)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="selected-tests"/>
+<docs-code header="hero-detail.component.spec.ts (pruebas seleccionadas)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="selected-tests"/>
 
 ## Override component providers
 
 El `HeroDetailComponent` proporciona su propio `HeroDetailService`.
 
-<docs-code header="app/hero/hero-detail.component.ts (prototype)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="prototype"/>
+<docs-code header="hero-detail.component.ts (prototipo)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="prototype"/>
 
 No es posible hacer stub del `HeroDetailService` del componente en los `providers` del `TestBed.configureTestingModule`.
-Esos son providers para el *módulo de testing*, no el componente.
-Preparan el inyector de dependencias en el *nivel del fixture*.
+Esos son providers para el _módulo de testing_, no el componente.
+Preparan el inyector de dependencias en el _nivel del fixture_.
 
-Angular crea el componente con su *propio* inyector, que es un *hijo* del inyector del fixture.
+Angular crea el componente con su _propio_ inyector, que es un _hijo_ del inyector del fixture.
 Registra los providers del componente \(el `HeroDetailService` en este caso\) con el inyector hijo.
 
 Una prueba no puede llegar a servicios del inyector hijo desde el inyector del fixture.
@@ -730,25 +733,25 @@ Podría no haber un servidor remoto al cual llamar.
 
 Afortunadamente, el `HeroDetailService` delega responsabilidad para acceso a datos remotos a un `HeroService` inyectado.
 
-<docs-code header="app/hero/hero-detail.service.ts (prototype)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.service.ts" visibleRegion="prototype"/>
+<docs-code header="hero-detail.service.ts (prototipo)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.service.ts" visibleRegion="prototype"/>
 
-La [configuración de prueba anterior](#import-a-feature-module) reemplaza el `HeroService` real con un `TestHeroService` que intercepta solicitudes de servidor y falsifica sus respuestas.
+La configuración de prueba anterior reemplaza el `HeroService` real con un `TestHeroService` que intercepta solicitudes de servidor y falsifica sus respuestas.
 
 ¿Qué pasa si no tienes tanta suerte?
 ¿Qué pasa si falsificar el `HeroService` es difícil?
 ¿Qué pasa si `HeroDetailService` hace sus propias solicitudes de servidor?
 
-El método `TestBed.overrideComponent` puede reemplazar los `providers` del componente con *test doubles* fáciles de manejar como se ve en la siguiente variación de configuración:
+El método `TestBed.overrideComponent` puede reemplazar los `providers` del componente con _test doubles_ fáciles de manejar como se ve en la siguiente variación de configuración:
 
-<docs-code header="app/hero/hero-detail.component.spec.ts (Override setup)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-override"/>
+<docs-code header="hero-detail.component.spec.ts (configuración Override)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-override"/>
 
-Nota que `TestBed.configureTestingModule` ya no proporciona un `HeroService` falso porque [no es necesario](#spy-stub).
+Nota que `TestBed.configureTestingModule` ya no proporciona un `HeroService` falso porque [no es necesario](#proporcionar-un-spy-stub-herodetailservicespy).
 
 ### El método `overrideComponent`
 
 Enfócate en el método `overrideComponent`.
 
-<docs-code header="app/hero/hero-detail.component.spec.ts (overrideComponent)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="override-component-method"/>
+<docs-code header="hero-detail.component.spec.ts (overrideComponent)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="override-component-method"/>
 
 Toma dos argumentos: el tipo de componente a sobrescribir \(`HeroDetailComponent`\) y un objeto de metadata de override.
 El [objeto de metadata de override](guide/testing/utility-apis#metadata-override-object) es un genérico definido como sigue:
@@ -778,7 +781,7 @@ providers?: any[];
 
 </docs-code>
 
-### Proporcionar un *spy stub* (`HeroDetailServiceSpy`)
+### Proporcionar un _spy stub_ (`HeroDetailServiceSpy`)
 
 Este ejemplo reemplaza completamente el array `providers` del componente con un nuevo array que contiene un `HeroDetailServiceSpy`.
 
@@ -788,13 +791,13 @@ No inyecta ni delega al `HeroService` de nivel inferior, por lo que no hay neces
 Las pruebas relacionadas con `HeroDetailComponent` afirmarán que los métodos del `HeroDetailService` fueron llamados espiando en los métodos del servicio.
 En consecuencia, el stub implementa sus métodos como spies:
 
-<docs-code header="app/hero/hero-detail.component.spec.ts (HeroDetailServiceSpy)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="hds-spy"/>
+<docs-code header="hero-detail.component.spec.ts (HeroDetailServiceSpy)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="hds-spy"/>
 
 ### Las pruebas override
 
 Ahora las pruebas pueden controlar el héroe del componente directamente manipulando el `testHero` del spy-stub y confirmar que los métodos del servicio fueron llamados.
 
-<docs-code header="app/hero/hero-detail.component.spec.ts (override tests)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="override-tests"/>
+<docs-code header="hero-detail.component.spec.ts (pruebas override)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="override-tests"/>
 
 ### Más overrides
 

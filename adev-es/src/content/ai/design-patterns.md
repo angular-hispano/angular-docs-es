@@ -12,7 +12,7 @@ Un patrón común al trabajar con prompts proporcionados por el usuario es separ
 
 Esta configuración asegura que la función **`loader`** del resource solo se ejecute cuando el usuario envía explícitamente su prompt, no en cada pulsación de tecla. Puedes usar parámetros de signal adicionales, como un `sessionId` o `userId` (que pueden ser útiles para crear sesiones persistentes de LLM), en el campo `loader`. De esta manera, la solicitud siempre usa los valores actuales de estos parámetros sin volver a disparar la función asíncrona definida en el campo `loader`.
 
-Muchos SDKs de IA proporcionan métodos auxiliares para hacer llamadas a la API. Por ejemplo, la biblioteca cliente de Genkit expone un método `runFlow` para llamar flows de Genkit, que puedes llamar desde el `loader` de un resource. Para otras APIs, puedes usar el [`httpResource`](guide/signals/resource#reactive-data-fetching-with-httpresource).
+Muchos SDKs de IA proporcionan métodos auxiliares para hacer llamadas a la API. Por ejemplo, la biblioteca cliente de Genkit expone un método `runFlow` para llamar flows de Genkit, que puedes llamar desde el `loader` de un resource. Para otras APIs, puedes usar el [`httpResource`](guide/signals/resource#obtención-de-datos-reactiva-con-httpresource).
 
 El siguiente ejemplo muestra un `resource` que obtiene partes de una historia generada por IA. El `loader` se dispara solo cuando el signal `storyInput` cambia.
 
@@ -40,8 +40,9 @@ storyResource = resource({
 Puedes configurar APIs de LLM para que devuelvan datos estructurados. Tipar fuertemente tu `resource` para que coincida con la salida esperada del LLM proporciona mejor seguridad de tipos y autocompletado del editor.
 
 Para gestionar estado derivado de un resource, usa un signal `computed` o `linkedSignal`. Dado que `linkedSignal` [proporciona acceso a valores previos](guide/signals/linked-signal), puede servir una variedad de casos de uso relacionados con IA, incluyendo
-  * construir un historial de chat
-  * preservar o personalizar datos que las plantillas muestran mientras los LLMs generan contenido
+
+- construir un historial de chat
+- preservar o personalizar datos que las plantillas muestran mientras los LLMs generan contenido
 
 En el ejemplo a continuación, `storyParts` es un `linkedSignal` que agrega las últimas partes de la historia devueltas desde `storyResource` al array existente de partes de la historia.
 
@@ -63,10 +64,10 @@ storyParts = linkedSignal<string[], string[]>({
 
 Las APIs de LLM pueden ser más lentas y más propensas a errores que las APIs convencionales, más determinísticas. Puedes usar varias características de Angular para construir una interfaz eficiente y amigable para el usuario.
 
-* **Carga Acotada:** coloca el `resource` en el componente que directamente usa los datos. Esto ayuda a limitar los ciclos de detección de cambios (especialmente en aplicaciones zoneless) y previene bloquear otras partes de tu aplicación. Si los datos necesitan ser compartidos entre múltiples componentes, proporciona el `resource` desde un servicio.
-* **SSR e Hidratación:** usa Server-Side Rendering (SSR) con hidratación incremental para renderizar el contenido inicial de la página rápidamente. Puedes mostrar un placeholder para el contenido generado por IA y diferir la obtención de datos hasta que el componente se hidrate en el cliente.
-* **Estado de Carga:** usa el [estado](guide/signals/resource#resource-status) `LOADING` del `resource` para mostrar un indicador, como un spinner, mientras la solicitud está en curso. Este estado cubre tanto cargas iniciales como recargas.
-* **Manejo de Errores y Reintentos:** usa el método [**`reload()`**](guide/signals/resource#reloading) del `resource` como una forma simple para que los usuarios reintenten solicitudes fallidas, que pueden ser más prevalentes al depender de contenido generado por IA.
+- **Carga Acotada:** coloca el `resource` en el componente que directamente usa los datos. Esto ayuda a limitar los ciclos de detección de cambios (especialmente en aplicaciones zoneless) y previene bloquear otras partes de tu aplicación. Si los datos necesitan ser compartidos entre múltiples componentes, proporciona el `resource` desde un servicio.
+- **SSR e Hidratación:** usa Server-Side Rendering (SSR) con hidratación incremental para renderizar el contenido inicial de la página rápidamente. Puedes mostrar un placeholder para el contenido generado por IA y diferir la obtención de datos hasta que el componente se hidrate en el cliente.
+- **Estado de Carga:** usa el [estado](guide/signals/resource#estado-del-resource) `LOADING` del `resource` para mostrar un indicador, como un spinner, mientras la solicitud está en curso. Este estado cubre tanto cargas iniciales como recargas.
+- **Manejo de Errores y Reintentos:** usa el método [**`reload()`**](guide/signals/resource#recargando) del `resource` como una forma simple para que los usuarios reintenten solicitudes fallidas, que pueden ser más prevalentes al depender de contenido generado por IA.
 
 El siguiente ejemplo demuestra cómo crear una interfaz de usuario responsiva para mostrar dinámicamente una imagen generada por IA con funcionalidad de carga y reintento.
 
@@ -90,6 +91,7 @@ El siguiente ejemplo demuestra cómo crear una interfaz de usuario responsiva pa
 
 
 ## Patrones de IA en acción: streaming de respuestas de chat
+
 Las interfaces a menudo muestran resultados parciales de APIs basadas en LLM de forma incremental a medida que llegan los datos de respuesta. La API de resource de Angular proporciona la capacidad de hacer streaming de respuestas para soportar este tipo de patrón. La propiedad `stream` de `resource` acepta una función asíncrona que puedes usar para aplicar actualizaciones a un valor de signal a lo largo del tiempo. El signal que se está actualizando representa los datos que se están transmitiendo en streaming.
 
 ```ts

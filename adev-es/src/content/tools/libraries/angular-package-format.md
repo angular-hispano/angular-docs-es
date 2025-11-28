@@ -28,14 +28,14 @@ El siguiente ejemplo muestra una versión simplificada del diseño de archivos d
 node_modules/@angular/core
 ├── README.md
 ├── package.json
-├── index.d.ts
 ├── fesm2022
 │   ├── core.mjs
 │   ├── core.mjs.map
 │   ├── testing.mjs
 │   └── testing.mjs.map
-└── testing
-    └── index.d.ts
+└── types
+│   ├── core.d.ts
+│   ├── testing.d.ts
 ```
 
 Esta tabla describe el diseño de archivos bajo `node_modules/@angular/core` anotado para describir el propósito de archivos y directorios:
@@ -44,33 +44,29 @@ Esta tabla describe el diseño de archivos bajo `node_modules/@angular/core` ano
 |:---                                                                                                                                                       |:---     |
 | `README.md`                                                                                                                                               | README del paquete, usado por la interfaz web de npmjs.                                                                                                                                                                          |
 | `package.json`                                                                                                                                            | `package.json` principal, describiendo el paquete en sí así como todos los puntos de entrada disponibles y formatos de código. Este archivo contiene el mapeo "exports" usado por runtimes y herramientas para realizar resolución de módulos. |
-| `index.d.ts`                                                                                                                                               | `.d.ts` empaquetado para el punto de entrada principal `@angular/core`.                                                                                                                                                                    |
 | `fesm2022/` <br /> &nbsp;&nbsp;─ `core.mjs` <br /> &nbsp;&nbsp;─ `core.mjs.map` <br /> &nbsp;&nbsp;─ `testing.mjs` <br /> &nbsp;&nbsp;─ `testing.mjs.map` | Código para todos los puntos de entrada en formato ES2022 aplanado \(FESM\), junto con mapas de código fuente.                                                                                                                           |
-| `testing/`                                                                                                                                                | Directorio representando el punto de entrada "testing".                                                                                                                                                               |
-| `testing/index.d.ts`                                                                                                                                    | `.d.ts` empaquetado para el punto de entrada `@angular/core/testing`.                                                                                                                                                                     |
+| `types/` <br /> &nbsp;&nbsp;─ `core.d.ts` <br /> &nbsp;&nbsp;─ `testing.d.ts`                                                                             | Definiciones de tipo TypeScript empaquetadas para todos los puntos de entrada públicos.                                                                                                                                                |
 
 ## `package.json`
 
 El `package.json` principal contiene metadatos importantes del paquete, incluyendo lo siguiente:
 
-* [Declara](#esm-declaration) que el paquete está en formato de módulo EcmaScript \(ESM\)
-* Contiene un [campo `"exports"`](#exports) que define los formatos de código fuente disponibles de todos los puntos de entrada
-* Contiene [claves](#legacy-resolution-keys) que definen los formatos de código fuente disponibles del punto de entrada principal `@angular/core`, para herramientas que no entienden `"exports"`.
-    Estas claves se consideran deprecadas, y podrían eliminarse a medida que el soporte para `"exports"` se implemente en todo el ecosistema.
+- [Declara](#declaración-esm) que el paquete está en formato de módulo EcmaScript \(ESM\)
+- Contiene un campo `"exports"` que define los formatos de código fuente disponibles de todos los puntos de entrada
+- Contiene [claves](#claves-de-resolución-heredadas) que definen los formatos de código fuente disponibles del punto de entrada principal `@angular/core`, para herramientas que no entienden `"exports"`.
+  Estas claves se consideran deprecadas, y podrían eliminarse a medida que el soporte para `"exports"` se implemente en todo el ecosistema.
 
-* Declara si el paquete contiene [efectos secundarios](#side-effects)
+- Declara si el paquete contiene [efectos secundarios](#efectos-secundarios)
 
 ### Declaración ESM
 
 El `package.json` de nivel superior contiene la clave:
 
-<docs-code language="javascript">
-
+```js
 {
   "type": "module"
 }
-
-</docs-code>
+```
 
 Esto informa a los resolvers que el código dentro del paquete está usando módulos EcmaScript en oposición a módulos CommonJS.
 
@@ -78,8 +74,7 @@ Esto informa a los resolvers que el código dentro del paquete está usando mód
 
 El campo `"exports"` tiene la siguiente estructura:
 
-<docs-code language="javascript">
-
+```js
 "exports": {
   "./schematics/*": {
     "default": "./schematics/*.js"
@@ -88,16 +83,15 @@ El campo `"exports"` tiene la siguiente estructura:
     "default": "./package.json"
   },
   ".": {
-    "types": "./core.d.ts",
+    "types": "./types/core.d.ts",
     "default": "./fesm2022/core.mjs"
   },
   "./testing": {
-    "types": "./testing/testing.d.ts",
+    "types": "./types/testing.d.ts",
     "default": "./fesm2022/testing.mjs"
   }
 }
-
-</docs-code>
+```
 
 De interés principal son las claves `"."` y `"./testing"`, que definen los formatos de código disponibles para el punto de entrada principal `@angular/core` y el punto de entrada secundario `@angular/core/testing`, respectivamente.
 Para cada punto de entrada, los formatos disponibles son:
@@ -111,35 +105,31 @@ Las herramientas que conocen estas claves pueden seleccionar preferentemente un 
 
 Las librerías pueden querer exponer archivos estáticos adicionales que no están capturados por las exportaciones de los puntos de entrada basados en JavaScript, como mixins de Sass o CSS pre-compilado.
 
-Para más información, consulta [Gestionando recursos en una librería](tools/libraries/creating-libraries#managing-assets-in-a-library).
+Para más información, consulta [Gestionando recursos en una librería](tools/libraries/creating-libraries#gestionando-recursos-en-una-librería).
 
 ### Claves de resolución heredadas
 
 Además de `"exports"`, el `package.json` de nivel superior también define claves de resolución de módulos heredadas para resolvers que no soportan `"exports"`.
 Para `@angular/core` estas son:
 
-<docs-code language="javascript">
-
+```js
 {
   "module": "./fesm2022/core.mjs",
-  "typings": "./core.d.ts",
+  "typings": "./types/core.d.ts",
 }
-
-</docs-code>
+```
 
 Como se muestra en el fragmento de código anterior, un resolver de módulos puede usar estas claves para cargar un formato de código específico.
 
 ### Efectos secundarios
 
-La última función de `package.json` es declarar si el paquete tiene [efectos secundarios](#sideeffects-flag).
+La última función de `package.json` es declarar si el paquete tiene [efectos secundarios](#bandera-sideeffects).
 
-<docs-code language="javascript">
-
+```js
 {
   "sideEffects": false
 }
-
-</docs-code>
+```
 
 La mayoría de los paquetes de Angular no deberían depender de efectos secundarios de nivel superior, y por lo tanto deberían incluir esta declaración.
 
@@ -150,15 +140,15 @@ Los puntos de entrada sirven para varias funciones.
 
 1. Definen los especificadores de módulo desde los cuales los usuarios importan código \(por ejemplo, `@angular/core` y `@angular/core/testing`\).
 
-    Los usuarios típicamente perciben estos puntos de entrada como grupos distintos de símbolos, con diferentes propósitos o capacidades.
+   Los usuarios típicamente perciben estos puntos de entrada como grupos distintos de símbolos, con diferentes propósitos o capacidades.
 
-    Puntos de entrada específicos podrían usarse solo para propósitos especiales, como pruebas.
-    Tales APIs pueden separarse del punto de entrada principal para reducir la posibilidad de que se usen accidental o incorrectamente.
+   Puntos de entrada específicos podrían usarse solo para propósitos especiales, como pruebas.
+   Tales APIs pueden separarse del punto de entrada principal para reducir la posibilidad de que se usen accidental o incorrectamente.
 
 1. Definen la granularidad a la que el código puede cargarse de forma diferida.
 
-    Muchas herramientas de compilación modernas solo son capaces de "dividir código" \(también conocido como lazy loading\) a nivel de módulo ES.
-    El formato de paquete Angular usa principalmente un único módulo ES "aplanado" por punto de entrada. Esto significa que la mayoría de las herramientas de compilación no pueden dividir código con un único punto de entrada en múltiples fragmentos de salida.
+   Muchas herramientas de compilación modernas solo son capaces de "dividir código" \(también conocido como lazy loading\) a nivel de módulo ES.
+   El formato de paquete Angular usa principalmente un único módulo ES "aplanado" por punto de entrada. Esto significa que la mayoría de las herramientas de compilación no pueden dividir código con un único punto de entrada en múltiples fragmentos de salida.
 
 La regla general para paquetes APF es usar puntos de entrada para los conjuntos más pequeños posibles de código lógicamente conectado.
 Por ejemplo, el paquete Angular Material publica cada componente lógico o conjunto de componentes como un punto de entrada separado - uno para Button, uno para Tabs, etc.
@@ -178,7 +168,7 @@ El archivo README en formato Markdown que se usa para mostrar la descripción de
 
 Ejemplo de contenido README del paquete @angular/core:
 
-<docs-code language="html">
+```html
 
 Angular
 &equals;&equals;&equals;&equals;&equals;&equals;&equals;
@@ -187,7 +177,7 @@ The sources for this package are in the main [Angular](https://github.com/angula
 
 License: MIT
 
-</docs-code>
+```
 
 ## Compilación parcial
 
@@ -196,20 +186,18 @@ Este es un modo de compilación para `ngc` que produce código Angular compilado
 
 Para compilar parcialmente código Angular, usa la bandera `compilationMode` en la propiedad `angularCompilerOptions` de tu `tsconfig.json`:
 
-<docs-code language="javascript">
-
+```js
 {
   …
   "angularCompilerOptions": {
     "compilationMode": "partial",
   }
 }
-
-</docs-code>
+```
 
 El código de librería compilado parcialmente se convierte luego a código completamente compilado durante el proceso de compilación de la aplicación por el Angular CLI.
 
-Si tu pipeline de compilación no usa el Angular CLI, consulta la guía [Consumiendo código partial ivy fuera del Angular CLI](tools/libraries/creating-libraries#consuming-partial-ivy-code-outside-the-angular-cli).
+Si tu pipeline de compilación no usa el Angular CLI, consulta la guía [Consumiendo código partial ivy fuera del Angular CLI](tools/libraries/creating-libraries#consumiendo-código-partial-ivy-fuera-del-angular-cli).
 
 ## Optimizaciones
 
@@ -219,19 +207,18 @@ El formato de paquete Angular especifica que el código se publique en formato d
 Esto reduce significativamente el tiempo de compilación de aplicaciones de Angular así como el tiempo de descarga y análisis del bundle final de la aplicación.
 Por favor revisa el excelente post ["The cost of small modules"](https://nolanlawson.com/2016/08/15/the-cost-of-small-modules) de Nolan Lawson.
 
-El compilador de Angular puede generar archivos de módulos ES índice. Herramientas como Rollup pueden usar estos archivos para generar módulos aplanados en un formato de archivo *Módulo ES Aplanado* (FESM).
+El compilador de Angular puede generar archivos de módulos ES índice. Herramientas como Rollup pueden usar estos archivos para generar módulos aplanados en un formato de archivo _Módulo ES Aplanado_ (FESM).
 
 FESM es un formato de archivo creado aplanando todos los módulos ES accesibles desde un punto de entrada en un único módulo ES.
 Se forma siguiendo todas las importaciones desde un paquete y copiando ese código en un único archivo mientras se preservan todas las exportaciones públicas de ES y se eliminan todas las importaciones privadas.
 
-El nombre abreviado, FESM, pronunciado *fe-som*, puede ir seguido de un número como FESM2020.
+El nombre abreviado, FESM, pronunciado _phe-som_, puede ir seguido de un número como FESM2020.
 El número se refiere al nivel de lenguaje del JavaScript dentro del módulo.
 Por lo tanto, un archivo FESM2022 sería ESM+ES2022 e incluiría declaraciones de importación/exportación y código fuente ES2022.
 
 Para generar un archivo índice de módulo ES aplanado, usa las siguientes opciones de configuración en tu archivo tsconfig.json:
 
-<docs-code language="javascript">
-
+```js
 {
   "compilerOptions": {
     …
@@ -245,8 +232,7 @@ Para generar un archivo índice de módulo ES aplanado, usa las siguientes opcio
     "flatModuleId": "my-ui-lib"
   }
 }
-
-</docs-code>
+```
 
 Una vez que el archivo índice \(por ejemplo, `my-ui-lib.js`\) es generado por ngc, bundlers y optimizadores como Rollup pueden usarse para producir el archivo ESM aplanado.
 

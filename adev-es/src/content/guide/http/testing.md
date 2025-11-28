@@ -12,7 +12,7 @@ Para comenzar a probar el uso de `HttpClient`, configura `TestBed` e incluye `pr
 
 Ten en cuenta que debes proporcionar `provideHttpClient()` **antes** que `provideHttpClientTesting()`, ya que `provideHttpClientTesting()` sobrescribirá partes de `provideHttpClient()`. Hacerlo al revés puede romper potencialmente tus pruebas.
 
-<docs-code language="ts">
+```ts
 TestBed.configureTestingModule({
   providers: [
     // ... otros providers de prueba
@@ -22,7 +22,7 @@ TestBed.configureTestingModule({
 });
 
 const httpTesting = TestBed.inject(HttpTestingController);
-</docs-code>
+```
 
 Ahora cuando tus pruebas hagan solicitudes, llegarán al backend de prueba en lugar del normal. Puedes usar `httpTesting` para hacer afirmaciones sobre esas solicitudes.
 
@@ -30,7 +30,7 @@ Ahora cuando tus pruebas hagan solicitudes, llegarán al backend de prueba en lu
 
 Por ejemplo, puedes escribir una prueba que espera que ocurra una solicitud GET y proporciona una respuesta simulada:
 
-<docs-code language="ts">
+```ts
 TestBed.configureTestingModule({
   providers: [
     ConfigService,
@@ -64,56 +64,56 @@ expect(await configPromise).toEqual(DEFAULT_CONFIG);
 
 // Finalmente, podemos afirmar que no se hicieron otras solicitudes.
 httpTesting.verify();
-</docs-code>
+```
 
 NOTA: `expectOne` fallará si la prueba ha hecho más de una solicitud que coincida con los criterios dados.
 
 Como alternativa a aseverar en `req.method`, podrías usar una forma expandida de `expectOne` para también coincidir con el método de solicitud:
 
-<docs-code language="ts">
+```ts
 const req = httpTesting.expectOne({
   method: 'GET',
   url: '/api/config',
 }, 'Solicitud para cargar la configuración');
-</docs-code>
+```
 
 ÚTIL: Las APIs de expectativa coinciden contra la URL completa de las solicitudes, incluyendo cualquier parámetro de consulta.
 
 El último paso, verificar que no queden solicitudes pendientes, es lo suficientemente común para que lo muevas a un paso `afterEach()`:
 
-<docs-code language="ts">
+```ts
 afterEach(() => {
   // Verificar que ninguna de las pruebas haga solicitudes HTTP adicionales.
   TestBed.inject(HttpTestingController).verify();
 });
-</docs-code>
+```
 
 ## Manejando más de una solicitud a la vez
 
 Si necesitas responder a solicitudes duplicadas en tu prueba, usa la API `match()` en lugar de `expectOne()`. Toma los mismos argumentos pero devuelve un array de solicitudes coincidentes. Una vez devueltas, estas solicitudes se eliminan de futuras coincidencias y eres responsable de limpiarlas y verificarlas.
 
-<docs-code language="ts">
+```ts
 const allGetRequests = httpTesting.match({method: 'GET'});
 for (const req of allGetRequests) {
   // Manejar la respuesta a cada petición.
 }
-</docs-code>
+```
 
 ## Coincidencia avanzada
 
 Todas las funciones de coincidencia aceptan una función predicado para lógica de coincidencia personalizada:
 
-<docs-code language="ts">
+```ts
 // Busca una petición que tenga un cuerpo de petición.
 const requestsWithBody = httpTesting.expectOne(req => req.body !== null);
-</docs-code>
+```
 
 La función `expectNone` afirma que ninguna petición coincide con los criterios dados.
 
-<docs-code language="ts">
+```ts
 // Afirma que no se han emitido peticiones de mutación.
 httpTesting.expectNone(req => req.method !== 'GET');
-</docs-code>
+```
 
 ## Probando el manejo de errores
 
@@ -123,23 +123,23 @@ Debes probar las respuestas de tu aplicación cuando las solicitudes HTTP fallan
 
 Para probar el manejo de errores del backend (cuando el servidor devuelve un código de estado no exitoso), limpia las solicitudes con una respuesta de error que emule lo que tu backend devolvería cuando una solicitud falla.
 
-<docs-code language="ts">
+```ts
 const req = httpTesting.expectOne('/api/config');
 req.flush('¡Falló!', {status: 500, statusText: 'Error interno del servidor'});
 
 // Afirma que la aplicación manejó con éxito el error del backend.
-</docs-code>
+```
 
 ### Errores de red
 
 Las solicitudes también pueden fallar debido a errores de red, que se manifiestan como errores `ProgressEvent`. Estos se pueden entregar con el método `error()`:
 
-<docs-code language="ts">
+```ts
 const req = httpTesting.expectOne('/api/config');
 req.error(new ProgressEvent('network error!'));
 
 // Afirma que la aplicación manejó con éxito el error de red.
-</docs-code>
+```
 
 ## Probando un Interceptor
 
@@ -148,7 +148,7 @@ Debes probar que tus interceptores funcionen bajo las circunstancias deseadas.
 Por ejemplo, una aplicación puede requerir agregar un token de autenticación generado por un servicio a cada solicitud saliente.
 Este comportamiento se puede hacer cumplir con el uso de un interceptor:
 
-<docs-code language="ts">
+```ts
 export function authInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const authService = inject(AuthService);
 
@@ -157,11 +157,11 @@ export function authInterceptor(request: HttpRequest<unknown>, next: HttpHandler
   });
   return next(clonedRequest);
 }
-</docs-code>
+```
 
 La configuración de `TestBed` para este interceptor debe depender de la característica `withInterceptors`.
 
-<docs-code language="ts">
+```ts
 TestBed.configureTestingModule({
   providers: [
     AuthService,
@@ -170,20 +170,20 @@ TestBed.configureTestingModule({
     provideHttpClientTesting(),
   ],
 });
-</docs-code>
+```
 
 El `HttpTestingController` puede recuperar la instancia de la solicitud que luego se puede inspeccionar para asegurar que la solicitud fue modificada.
 
-<docs-code language="ts">
+```ts
 const service = TestBed.inject(AuthService);
 const req = httpTesting.expectOne('/api/config');
 
 expect(req.request.headers.get('X-Authentication-Token')).toEqual(service.getAuthToken());
-</docs-code>
+```
 
 Un interceptor similar podría implementarse con interceptores basados en clases:
 
-<docs-code language="ts">
+```ts
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private authService = inject(AuthService);
@@ -195,11 +195,11 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(clonedRequest);
   }
 }
-</docs-code>
+```
 
 Para probarlo, la configuración de `TestBed` debería ser en su lugar:
 
-<docs-code language="ts">
+```ts
 TestBed.configureTestingModule({
   providers: [
     AuthService,
@@ -209,4 +209,4 @@ TestBed.configureTestingModule({
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 });
-</docs-code>
+```

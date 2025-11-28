@@ -8,7 +8,7 @@ La directiva `RouterOutlet` es un marcador de posición que marca la ubicación 
 <app-footer />
 ```
 
-```angular-ts
+```ts
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -23,7 +23,7 @@ export class AppComponent {}
 
 En este ejemplo, si una aplicación tiene las siguientes rutas definidas:
 
-```angular-ts
+```ts
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProductsComponent } from './products/products.component';
@@ -96,7 +96,7 @@ En este ejemplo, el componente `Settings` mostrará el panel deseado según lo q
 
 Una ruta hija es como cualquier otra ruta, en que necesita tanto un `path` como un `component`. La única diferencia es que colocas las rutas hijas en un array children dentro de la ruta padre.
 
-```angular-ts
+```ts
 const routes: Routes = [
   {
     path: 'settings-component',
@@ -164,6 +164,46 @@ Puedes agregar escuchadores de eventos con la sintaxis estándar de vinculación
 ```
 
 Consulta la [documentación de la API para RouterOutlet](/api/router/RouterOutlet?tab=api) si deseas aprender más.
+
+## Pasar datos contextuales a componentes enrutados
+
+Pasar datos contextuales a componentes enrutados a menudo requiere estado global o configuraciones de ruta complicadas. Para facilitar esto, cada `RouterOutlet` soporta un input `routerOutletData`. Los componentes enrutados y sus hijos pueden leer estos datos como un signal usando el token de inyección `ROUTER_OUTLET_DATA`, permitiendo configuración específica del outlet sin modificar definiciones de ruta.
+
+```angular-ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-dashboard',
+  imports: [RouterOutlet],
+  template: `
+    <h2>Dashboard</h2>
+    <router-outlet [routerOutletData]="{ layout: 'sidebar' }" />
+  `,
+})
+export class DashboardComponent {}
+```
+
+El componente enrutado puede inyectar los datos del outlet proporcionados usando `ROUTER_OUTLET_DATA`:
+
+```angular-ts
+import { Component, inject } from '@angular/core';
+import { ROUTER_OUTLET_DATA } from '@angular/router';
+
+@Component({
+  selector: 'app-stats',
+  template: `<p>Stats view (layout: {{ outletData().layout }})</p>`,
+})
+export class StatsComponent {
+  outletData = inject(ROUTER_OUTLET_DATA) as Signal<{ layout: string }>;
+}
+```
+
+Cuando Angular activa el `StatsComponent` en ese outlet, recibe `{ layout: 'sidebar' }` como datos inyectados.
+
+NOTA: Cuando el input `routerOutletData` no está establecido, el valor inyectado es null por defecto.
+
+---
 
 ## Próximos pasos
 
