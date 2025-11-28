@@ -15,10 +15,10 @@ Si `@angular/localize` no está instalado e intentas construir una versión loca
 
 ## Opciones
 
-| OPCIÓN           | DESCRIPCIÓN | TIPO DE VALOR | VALOR PREDETERMINADO
-|:---              |:---    |:------     |:------
-| `--project`      | El nombre del proyecto. | `string` |
-| `--use-at-runtime` | Si se establece, entonces `$localize` puede usarse en runtime. Además `@angular/localize` se incluye en la sección `dependencies` de `package.json`, en lugar de `devDependencies`, que es el valor predeterminado.  | `boolean` | `false`
+| OPCIÓN             | DESCRIPCIÓN                                                                                                                                                                                                          | TIPO DE VALOR | VALOR PREDETERMINADO |
+|:------------------ |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:------------- |:-------------------- | 
+| `--project`        | El nombre del proyecto.                                                                                                                                                                                              | `string`      |
+| `--use-at-runtime` | Si se establece, entonces `$localize` puede usarse en runtime. Además `@angular/localize` se incluye en la sección `dependencies` de `package.json`, en lugar de `devDependencies`, que es el valor predeterminado.  | `boolean`     | `false`              | 
 
 Para más opciones disponibles, consulta `ng add` en el [CLI de Angular][CliMain].
 
@@ -28,8 +28,6 @@ Para más opciones disponibles, consulta `ng add` en el [CLI de Angular][CliMain
   <docs-pill href="guide/i18n/locale-id" title="Referirse a configuraciones regionales por ID"/>
 </docs-pill-row>
 
-[CliMain]: cli "CLI Overview and Command Reference | Angular"
-
-[GuideNpmPackages]: reference/configs/npm-packages "Workspace npm dependencies | Angular"
-
-[GuideTsConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html "TypeScript Configuration"
+[CliMain]: cli 'CLI Overview and Command Reference | Angular'
+[GuideNpmPackages]: reference/configs/npm-packages 'Workspace npm dependencies | Angular'
+[GuideTsConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html 'TypeScript Configuration'

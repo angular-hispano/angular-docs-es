@@ -35,21 +35,25 @@ Abre una terminal (si estás usando [Visual Studio Code](https://code.visualstud
 <docs-code-multifile>
   <docs-code
     header="npm"
+    language="shell"
     >
     npm install -g @angular/cli
     </docs-code>
   <docs-code
     header="pnpm"
+    language="shell"
     >
     pnpm install -g @angular/cli
     </docs-code>
   <docs-code
     header="yarn"
+    language="shell"
     >
     yarn global add @angular/cli
     </docs-code>
   <docs-code
     header="bun"
+    language="shell"
     >
     bun install -g @angular/cli
     </docs-code>
@@ -62,11 +66,9 @@ Si tienes problemas ejecutando este comando en Windows o Unix, consulta la [Docu
 
 En tu terminal, ejecuta el comando de la CLI `ng new` con el nombre del proyecto deseado. En los siguientes ejemplos, usaremos el nombre de proyecto de ejemplo `my-first-angular-app`.
 
-<docs-code language="shell">
-
+```shell
 ng new <project-name>
-
-</docs-code>
+```
 
 Se te presentarán algunas opciones de configuración para tu proyecto. Usa las teclas de flecha y enter para navegar y seleccionar las opciones que desees.
 
@@ -74,7 +76,7 @@ Si no tienes ninguna preferencia, simplemente presiona enter para aceptar las op
 
 Después de seleccionar las opciones de configuración y que la CLI la ejecute, deberias ver el siguiente mensaje:
 
-```shell
+```text
 ✔ Packages installed successfully.
     Successfully initialized git.
 ```
@@ -85,23 +87,19 @@ En este punto, ¡ya estás listo para ejecutar tu proyecto localmente!
 
 En tu termina, cambia a tu nuevo proyecto en Angular.
 
-<docs-code language="shell">
-
+```shell
 cd my-first-angular-app
-
-</docs-code>
+```
 
 Todas tus dependencias deberían estar instaladas en este punto (lo cual puedes verificar revisando la existencia de una carpeta `node_modules` en tu proyecto), así que puedes iniciar tu proyecto ejecutando el comando:
 
-<docs-code language="shell">
-
+```shell
 npm start
-
-</docs-code>
+```
 
 Si todo es exitoso, deberías ver un mensaje de confirmación similar en tu terminal:
 
-```shell
+```text
 Watch mode enabled. Watching for file changes...
 NOTE: Raw file sizes do not reflect development server per-request transformations.
   ➜  Local:   http://localhost:4200/
@@ -110,11 +108,9 @@ NOTE: Raw file sizes do not reflect development server per-request transformatio
 
 Y ahora puedes visitar la ruta en `Local` (por ejemplo, `http://localhost:4200`) para ver tu aplicación. ¡Disfruta programando! 🎉
 
-
 ### Usar IA para el desarrollo
 
 Para comenzar a construir en tu IDE preferido con IA, [consulta las reglas de prompts de Angular y las mejores prácticas](/ai/develop-with-ai).
-
 
 ## Próximos pasos
 

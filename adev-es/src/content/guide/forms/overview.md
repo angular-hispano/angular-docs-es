@@ -4,8 +4,11 @@ Manejar la entrada del usuario con formularios es la piedra angular de muchas ap
 
 Las aplicaciones usan formularios para permitir a los usuarios iniciar sesión, actualizar un perfil, ingresar información confidencial y realizar muchas otras tareas de entrada de datos.
 
-Angular proporciona dos enfoques diferentes para manejar la entrada del usuario a través de formularios: reactivos y basados en plantillas. 
+Angular proporciona dos enfoques diferentes para manejar la entrada del usuario a través de formularios: reactivos y basados en plantillas.
+
 Ambos capturan los eventos de entrada del usuario desde la vista, validan la entrada del usuario, crean un modelo de formulario y un modelo de datos para actualizar, y proporcionan una forma de rastrear los cambios.
+
+CONSEJO: Si estás buscando los nuevos formularios experimentales Signal Forms, consulta nuestra [guía esencial de Signal Forms](/essentials/signal-forms)!
 
 Esta guía proporciona información para ayudarte a decidir qué tipo de formulario funciona mejor para tu situación.
 Introduce los bloques de construcción comunes utilizados por ambos enfoques.
@@ -70,7 +73,7 @@ La directiva `[formControl]` vincula la instancia de `FormControl` explícitamen
 El siguiente componente implementa un campo de entrada para un control único, usando formularios reactivos.
 En este ejemplo, el modelo de formulario es la instancia de `FormControl`.
 
-<docs-code path="adev/src/content/examples/forms-overview/src/app/reactive/favorite-color/favorite-color.component.ts"/>
+<docs-code language="angular-ts" path="adev/src/content/examples/forms-overview/src/app/reactive/favorite-color/favorite-color.component.ts"/>
 
 IMPORTANTE: En formularios reactivos, el modelo de formulario es la fuente de la verdad; proporciona el valor y el estado del elemento del formulario en cualquier momento dado, a través de la directiva `[formControl]` en el elemento `<input>`.
 
@@ -81,7 +84,7 @@ La directiva `NgModel` crea y gestiona una instancia de `FormControl` para un el
 
 El siguiente componente implementa el mismo campo de entrada para un control único, usando formularios basados en plantillas.
 
-<docs-code path="adev/src/content/examples/forms-overview/src/app/template/favorite-color/favorite-color.component.ts"/>
+<docs-code language="angular-ts" path="adev/src/content/examples/forms-overview/src/app/template/favorite-color/favorite-color.component.ts"/>
 
 IMPORTANTE: En un formulario basado en plantillas, la fuente de verdad es la plantilla. La directiva `NgModel` gestiona automáticamente la instancia de `FormControl` por ti.
 

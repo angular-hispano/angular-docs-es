@@ -10,7 +10,6 @@ Para más información sobre el patrón `resource` de Angular, consulta [Reactiv
 
 CONSEJO: Asegúrate de incluir `provideHttpClient` en los providers de tu aplicación. Consulta [Configurar HttpClient](/guide/http/setup) para más detalles.
 
-
 Puedes definir un recurso HTTP devolviendo una URL:
 
 ```ts
@@ -46,7 +45,8 @@ user = httpResource(() => ({
   cache : 'force-cache',
   credentials: 'include',
   referrer: 'no-referrer',
-  integrity: 'sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GhEXAMPLEKEY='
+  integrity: 'sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GhEXAMPLEKEY=',
+  referrerPolicy: 'no-referrer'
 }));
 ```
 
@@ -56,7 +56,7 @@ Las signals del `httpResource` se pueden usar en la plantilla para controlar qu�
 
 ```angular-html
 @if(user.hasValue()) {
-  <user-details user="[user.value()]">
+  <user-details [user]="user.value()">
 } @else if (user.error()) {
   <div>No se pudo cargar la información del usuario</div>
 } @else if (user.isLoading()) {
@@ -64,7 +64,7 @@ Las signals del `httpResource` se pueden usar en la plantilla para controlar qu�
 }
 ```
 
-ÚTIL: Leer la signal `value`  en un `resource` que está en estado de error lanza una excepción en tiempo de ejecución. Se recomienda proteger las lecturas de `value` con `hasValue()`.
+ÚTIL: Leer la signal `value` en un `resource` que está en estado de error lanza una excepción en tiempo de ejecución. Se recomienda proteger las lecturas de `value` con `hasValue()`.
 
 ### Tipos de respuestas
 

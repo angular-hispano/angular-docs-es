@@ -10,8 +10,8 @@ Si confías en que una parte de la aplicación no está afectada por un cambio d
 
 El change detection OnPush le indica a Angular que ejecute change detection para un subárbol de componentes **solo** cuando:
 
-* El componente raíz del subárbol recibe nuevas entradas como resultado de un enlace de plantilla. Angular compara el valor actual y pasado de la entrada con `==`.
-* Angular maneja un evento _(por ejemplo usando enlace de evento, enlace de salida, o `@HostListener`)_ en el componente raíz del subárbol o cualquiera de sus hijos, ya sea que estén usando change detection OnPush o no.
+- El componente raíz del subárbol recibe nuevas entradas como resultado de un enlace de plantilla. Angular compara el valor actual y pasado de la entrada con `==`.
+- Angular maneja un evento _(por ejemplo usando enlace de evento, enlace de salida, o `@HostListener`)_ en el componente raíz del subárbol o cualquiera de sus hijos, ya sea que estén usando change detection OnPush o no.
 
 Puedes establecer la estrategia de change detection de un componente a `OnPush` en el decorador `@Component`:
 

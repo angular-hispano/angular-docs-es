@@ -16,7 +16,7 @@ const routes: Routes = [
   // Redirect with path parameters
   { path: 'legacy-user/:id', redirectTo: 'users/:id' },
 
-  // Redirect any other URLs that don't match
+  // Redirect any other URLs that don’t match
   // (also known as a "wildcard" redirect)
   { path: '**', redirectTo: '/login' }
 ];
@@ -26,7 +26,7 @@ In this example, there are three redirects:
 
 1. When a user visits the `/marketing` path, they are redirected to `/newsletter`.
 2. When a user visits any `/legacy-user/:id` path, they are routed to the corresponding `/users/:id` path.
-3. When a user visit any path that's not defined in the router, they are redirected to the login page because of the `**` wildcard path definition.
+3. When a user visit any path that’s not defined in the router, they are redirected to the login page because of the `**` wildcard path definition.
 
 ## Understanding `pathMatch`
 

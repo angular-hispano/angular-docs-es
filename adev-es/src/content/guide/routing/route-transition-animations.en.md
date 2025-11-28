@@ -108,7 +108,7 @@ Here's an example that adds a rotation effect to a counter element:
 
 IMPORTANT: Define view transition animations in your global styles file, not in component styles. Angular's [view encapsulation](/guide/components/styling#view-encapsulation) scopes component styles, which prevents them from targeting the transition pseudo-elements correctly.
 
-[Try the updated "count" example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
+[Try the updated “count” example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
 
 ## Advanced transition control with onViewTransitionCreated
 

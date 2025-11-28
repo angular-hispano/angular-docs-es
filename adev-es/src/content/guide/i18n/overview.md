@@ -1,18 +1,18 @@
 # Internacionalización de Angular (i18n)
 
-La *internacionalización*, a veces referenciada como i18n, es el proceso de diseñar y preparar tu proyecto para su uso en diferentes configuraciones regionales (locales) alrededor del mundo.
-La *localización* es el proceso de construir versiones de tu proyecto para diferentes configuraciones regionales.
+La _internacionalización_, a veces referenciada como i18n, es el proceso de diseñar y preparar tu proyecto para su uso en diferentes configuraciones regionales (locales) alrededor del mundo.
+La _localización_ es el proceso de construir versiones de tu proyecto para diferentes configuraciones regionales.
 El proceso de localización incluye las siguientes acciones.
 
-* Extraer texto para traducción a diferentes idiomas
-* Formatear datos para una configuración regional específica
+- Extraer texto para traducción a diferentes idiomas
+- Formatear datos para una configuración regional específica
 
 Una *configuración regional* (locale) identifica una región en la que las personas hablan un idioma particular o variante del idioma.
 Las posibles regiones incluyen países y regiones geográficas.
 Una configuración regional determina el formato y análisis de los siguientes detalles.
 
-* Unidades de medida incluyendo fecha y hora, números y monedas
-* Nombres traducidos incluyendo zonas horarias, idiomas y países
+- Unidades de medida incluyendo fecha y hora, números y monedas
+- Nombres traducidos incluyendo zonas horarias, idiomas y países
 
 Para una introducción rápida a la localización e internacionalización mira este video:
 

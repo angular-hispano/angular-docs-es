@@ -87,15 +87,12 @@ flowchart TD
 Aquí, el componente `UserProfile` utiliza varios otros componentes para generar la página final.
 
 Para importar y usar un componente, debes:
+
 1. En el archivo TypeScript de tu componente, agregar una declaración `import` para el componente que deseas usar.
 2. En el decorador `@Component`, agregar el componente que deseas usar al arreglo `imports`.
 3. En la plantilla de tu componente, agregar un elemento que coincida con el selector del componente que deseas usar.
 
 Aquí tienes un ejemplo del componente `UserProfile` que importa y utiliza el componente `ProfilePhoto`:
-
-```angular-ts
-// user-profile.ts
-import {ProfilePhoto} from 'profile-photo.ts';
 
 ```angular-ts
 // user-profile.ts

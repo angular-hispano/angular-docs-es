@@ -108,7 +108,7 @@ Aquí hay un ejemplo que agrega un efecto de rotación a un elemento contador:
 
 IMPORTANTE: Define animaciones de view transition en tu archivo de estilos globales, no en estilos de componentes. La [encapsulación de vista](/guide/components/styling#view-encapsulation) de Angular limita el alcance de los estilos de componentes, lo que les impide seleccionar correctamente los pseudo-elementos de transición.
 
-[Prueba el ejemplo actualizado "count" en StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
+[Prueba el ejemplo actualizado “count“ en StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
 
 ## Control avanzado de transición con onViewTransitionCreated
 

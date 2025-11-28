@@ -4,11 +4,9 @@ El [CLI de Angular][CliMain] incluye automáticamente datos de configuración re
 
 <!--todo: replace with docs-code -->
 
-<docs-code language="shell">
-
+```shell
 ng build --localize
-
-</docs-code>
+```
 
 ÚTIL: La instalación inicial de Angular ya contiene datos de configuración regional para inglés en Estados Unidos \(`en-US`\).
 El [CLI de Angular][CliMain] incluye automáticamente los datos de configuración regional y establece el valor de `LOCALE_ID` cuando usas la opción `--localize` con el comando [`ng build`][CliBuild].
@@ -24,5 +22,5 @@ Por ejemplo, podrías importar las variantes globales para francés \(`fr`\) en 
 
 ÚTIL: En una aplicación `NgModules`, lo importarías en tu `app.module`.
 
-[CliMain]: cli "CLI Overview and Command Reference | Angular"
-[CliBuild]: cli/build "ng build | CLI | Angular"
+[CliMain]: cli 'CLI Overview and Command Reference | Angular'
+[CliBuild]: cli/build 'ng build | CLI | Angular'

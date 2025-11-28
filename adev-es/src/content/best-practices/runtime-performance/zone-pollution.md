@@ -4,8 +4,8 @@
 
 En algunos casos, las [tareas](https://developer.mozilla.org/docs/Web/API/HTML_DOM_API/Microtask_guide#tasks) o [microtareas](https://developer.mozilla.org/docs/Web/API/HTML_DOM_API/Microtask_guide#microtasks) programadas no hacen ningún cambio en el modelo de datos, lo que hace que ejecutar change detection sea innecesario. Ejemplos comunes son:
 
-* `requestAnimationFrame`, `setTimeout` o `setInterval`
-* Programación de tareas o microtareas por bibliotecas de terceros
+- `requestAnimationFrame`, `setTimeout` o `setInterval`
+- Programación de tareas o microtareas por bibliotecas de terceros
 
 Esta sección cubre cómo identificar tales condiciones, y cómo ejecutar código fuera de la zone de Angular para evitar llamadas innecesarias de change detection.
 
@@ -26,11 +26,11 @@ import { Component, NgZone, OnInit } from '@angular/core';
 
 @Component(...)
 class AppComponent implements OnInit {
-  private ngZone = inject(NgZone);
+private ngZone = inject(NgZone);
 
-  ngOnInit() {
-    this.ngZone.runOutsideAngular(() => setInterval(pollForUpdates), 500);
-  }
+ngOnInit() {
+  this.ngZone.runOutsideAngular(() => setInterval(pollForUpdates), 500);
+}
 }
 </docs-code>
 
@@ -44,13 +44,13 @@ import * as Plotly from 'plotly.js-dist-min';
 
 @Component(...)
 class AppComponent implements OnInit {
-  private ngZone = inject(NgZone);
+private ngZone = inject(NgZone);
 
-  ngOnInit() {
-    this.ngZone.runOutsideAngular(() => {
-      Plotly.newPlot('chart', data);
-    });
-  }
+ngOnInit() {
+this.ngZone.runOutsideAngular(() => {
+Plotly.newPlot('chart', data);
+});
+}
 }
 </docs-code>
 
@@ -66,18 +66,18 @@ import * as Plotly from 'plotly.js-dist-min';
 
 @Component(...)
 class AppComponent implements OnInit {
-  private ngZone = inject(NgZone);
+private ngZone = inject(NgZone);
 
-  plotlyClick = output<Plotly.PlotMouseEvent>();
+plotlyClick = output<Plotly.PlotMouseEvent>();
 
-  ngOnInit() {
-    this.ngZone.runOutsideAngular(() => {
-      this.createPlotly();
-    });
-  }
+ngOnInit() {
+this.ngZone.runOutsideAngular(() => {
+this.createPlotly();
+});
+}
 
-  private async createPlotly() {
-    const plotly = await Plotly.newPlot('chart', data);
+private async createPlotly() {
+const plotly = await Plotly.newPlot('chart', data);
 
     plotly.on('plotly_click', (event: Plotly.PlotMouseEvent) => {
       // Este manejador será llamado fuera de la zone de Angular porque
@@ -86,7 +86,8 @@ class AppComponent implements OnInit {
       console.log(NgZone.isInAngularZone());
       this.plotlyClick.emit(event);
     });
-  }
+
+}
 }
 </docs-code>
 
@@ -98,25 +99,26 @@ import * as Plotly from 'plotly.js-dist-min';
 
 @Component(...)
 class AppComponent implements OnInit {
-  private ngZone = inject(NgZone);
+private ngZone = inject(NgZone);
 
-  plotlyClick = output<Plotly.PlotMouseEvent>();
+plotlyClick = output<Plotly.PlotMouseEvent>();
 
-  ngOnInit() {
-    this.ngZone.runOutsideAngular(() => {
-      this.createPlotly();
-    });
-  }
+ngOnInit() {
+this.ngZone.runOutsideAngular(() => {
+this.createPlotly();
+});
+}
 
-  private async createPlotly() {
-    const plotly = await Plotly.newPlot('chart', data);
+private async createPlotly() {
+const plotly = await Plotly.newPlot('chart', data);
 
     plotly.on('plotly_click', (event: Plotly.PlotMouseEvent) => {
       this.ngZone.run(() => {
         this.plotlyClick.emit(event);
       });
     });
-  }
+
+}
 }
 </docs-code>
 

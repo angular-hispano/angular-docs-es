@@ -59,11 +59,11 @@ En el curso de este tutorial, vinculas un formulario de muestra a datos y maneja
 
 1. La aplicación de ejemplo proporcionada crea la clase `Actor` que define el modelo de datos reflejado en el formulario.
 
-<docs-code header="src/app/actor.ts" language="typescript" path="adev/src/content/examples/forms/src/app/actor.ts"/>
+<docs-code header="actor.ts" language="typescript" path="adev/src/content/examples/forms/src/app/actor.ts"/>
 
 1. El diseño y detalles del formulario están definidos en la clase `ActorFormComponent`.
 
-   <docs-code header="src/app/actor-form/actor-form.component.ts (v1)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="v1"/>
+   <docs-code header="actor-form.component.ts (v1)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="v1"/>
 
    El valor `selector` del componente de "app-actor-form" significa que puedes colocar este formulario en una plantilla padre usando la etiqueta `<app-actor-form>`.
 
@@ -80,12 +80,11 @@ En el curso de este tutorial, vinculas un formulario de muestra a datos y maneja
 
 1. El formulario se muestra en el diseño de la aplicación definido por la plantilla del componente raíz.
 
-   <docs-code header="src/app/app.component.html" language="html" path="adev/src/content/examples/forms/src/app/app.component.html"/>
+   <docs-code header="app.component.html" language="html" path="adev/src/content/examples/forms/src/app/app.component.html"/>
 
    La plantilla inicial define el diseño para un formulario con dos grupos de formulario y un botón de envío.
    Los grupos de formulario corresponden a dos propiedades del modelo de datos Actor, nombre y estudio.
    Cada grupo tiene una etiqueta y una caja para entrada de datos del usuario.
-
    - El elemento de control **Name** `<input>` tiene el atributo HTML5 `required`
    - El elemento de control **Studio** `<input>` no lo tiene porque `studio` es opcional
 
@@ -100,7 +99,7 @@ En el curso de este tutorial, vinculas un formulario de muestra a datos y maneja
 1. El formulario requiere que la habilidad de un actor se elija de una lista predefinida de `skills` mantenida internamente en `ActorFormComponent`.
    El bucle Angular `@for` itera sobre los valores de datos para llenar el elemento `<select>`.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (skills)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="skills"/>
+<docs-code header="actor-form.component.html (habilidades)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="skills"/>
 
 Si ejecutas la aplicación, verás la lista de habilidades en el control de selección. 
 Los elementos de entrada aún no están enlazados a valores de datos o eventos, por lo que todavía están en blanco y no tienen comportamiento.
@@ -116,9 +115,9 @@ Cuando incluyes la directiva usando la sintaxis para enlace de datos bidireccion
 1. Encuentra la etiqueta `<input>` junto a la etiqueta **Name**.
 1. Agrega la directiva `ngModel`, usando la sintaxis de enlace de datos bidireccional `[(ngModel)]="..."`.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModelName-1"/>
+<docs-code header="actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModelName-1"/>
 
-ÚTIL: Este ejemplo tiene una interpolación de diagnóstico temporal después de cada etiqueta de entrada, `{{model.name}}`, para mostrar el valor de datos actual de la propiedad correspondiente. El comentario te recuerda eliminar las líneas de diagnóstico cuando hayas terminado de observar el enlace de datos bidireccional en funcionamiento.
+CONSEJO: Este ejemplo tiene una interpolación de diagnóstico temporal después de cada etiqueta de entrada, `{{model.name}}`, para mostrar el valor de datos actual de la propiedad correspondiente. El comentario te recuerda eliminar las líneas de diagnóstico cuando hayas terminado de observar el enlace de datos bidireccional en funcionamiento.
 
 ### Acceder al estado general del formulario
 
@@ -129,7 +128,7 @@ Para obtener acceso a `NgForm` y el estado general del formulario, declara una [
 1. Edita el archivo de plantilla `actor-form.component.html`.
 1. Actualiza la etiqueta `<form>` con una variable de referencia de plantilla, `#actorForm`, y establece su valor como sigue.
 
-   <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="template-variable"/>
+   <docs-code header="actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="template-variable"/>
 
 La variable de plantilla `actorForm` ahora es una referencia a la instancia de directiva `NgForm` que gobierna el formulario como un todo.
 
@@ -154,7 +153,7 @@ Cualquier valor único funcionará, pero es útil usar un nombre descriptivo.
 
 Después de estas revisiones, la plantilla del formulario debería verse como así:
 
-<docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModel-2"/>
+<docs-code header="actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModel-2"/>
 
 Notarás que:
 
@@ -197,14 +196,12 @@ Usando las herramientas de desarrollador de tu navegador, encuentra el elemento 
 
 1. Cuando lo abres por primera vez, las clases indican que tiene un valor válido, que el valor no ha sido cambiado desde la inicialización o reset, y que el control no ha sido visitado desde la inicialización o reset.
 
-   <docs-code language="html">
+   ```html
 
    <input class="form-control ng-untouched ng-pristine ng-valid">;
-
-   </docs-code>
+   ```
 
 1. Realiza las siguientes acciones en la caja de entrada `<input>` **Name**, y observa qué clases aparecen.
-
    - Observa sin tocar.
      Las clases indican que está sin tocar, pristino y válido.
 
@@ -236,7 +233,7 @@ Para cambiar la apariencia de esta manera, sigue estos pasos.
 
 1. In the `index.html` file, update the `<head>` tag to include the new style sheet.
 
-<docs-code header="src/index.html (styles)" path="adev/src/content/examples/forms/src/index.html" visibleRegion="styles"/>
+<docs-code header="index.html (estilos)" path="adev/src/content/examples/forms/src/index.html" visibleRegion="styles"/>
 
 ### Mostrar y ocultar mensajes de error de validación
 
@@ -263,12 +260,12 @@ Agrega un `<div>` que contenga un mensaje de error apropiado.
 Muestra u oculta el mensaje de error vinculando propiedades del control `name` a la propiedad `hidden` del elemento `<div>` del mensaje.
 </docs-step>
 
-<docs-code header="src/app/actor-form/actor-form.component.html (hidden-error-msg)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="hidden-error-msg"/>
+<docs-code header="actor-form.component.html (mensaje de error oculto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="hidden-error-msg"/>
 
 <docs-step title="Agregar un mensaje de error condicional al nombre">
 Agrega un mensaje de error condicional a la caja de entrada `name`, como en el siguiente ejemplo.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="name-with-error-msg"/>
+<docs-code header="actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="name-with-error-msg"/>
 </docs-step>
 </docs-workflow>
 
@@ -293,11 +290,11 @@ Para permitir que los usuarios del formulario agreguen un nuevo actor, agregará
 1. En la plantilla, coloca un elemento `<button>` "New Actor" en la parte inferior del formulario.
 1. En el archivo del componente, agrega el método de creación de actor al modelo de datos de actor.
 
-<docs-code header="src/app/actor-form/actor-form.component.ts (New Actor method)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="new-actor"/>
+<docs-code header="actor-form.component.ts (método New Actor)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="new-actor"/>
 
 1. Vincula el evento de clic del botón a un método de creación de actor, `newActor()`.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (New Actor button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-no-reset"/>
+<docs-code header="actor-form.component.html (botón New Actor)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-no-reset"/>
 
 1. Ejecuta la aplicación nuevamente y haz clic en el botón **New Actor**.
 
@@ -312,7 +309,7 @@ Para permitir que los usuarios del formulario agreguen un nuevo actor, agregará
 
 1. Para restaurar el estado pristino de los controles del formulario, limpia todas las banderas imperativamente llamando al método `reset()` del formulario después de llamar al método `newActor()`.
 
-   <docs-code header="src/app/actor-form/actor-form.component.html (Reset the form)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-form-reset"/>
+   <docs-code header="actor-form.component.html (Restablecer el formulario)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-form-reset"/>
 
    Ahora hacer clic en **New Actor** resetea tanto el formulario como sus banderas de control.
 
@@ -328,7 +325,7 @@ Para responder a este evento, sigue los siguientes pasos.
 <docs-step title="Escuchar ngOnSubmit">
 Vincula la propiedad de evento [`ngSubmit`](api/forms/NgForm#properties) del formulario al método `onSubmit()` del componente actor-form.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (ngSubmit)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngSubmit"/>
+<docs-code header="actor-form.component.html (ngSubmit)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngSubmit"/>
 </docs-step>
 
 <docs-step title="Vincular la propiedad disabled">
@@ -336,7 +333,7 @@ Usa la variable de referencia de plantilla, `#actorForm` para acceder al formula
 
 Vincularás la propiedad del formulario que indica su validez general a la propiedad `disabled` del botón **Submit**.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (submit-button)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submit-button"/>
+<docs-code header="actor-form.component.html (botón de envío)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submit-button"/>
 </docs-step>
 
 <docs-step title="Ejecutar la aplicación">
@@ -359,11 +356,11 @@ Para mostrar una respuesta al envío del formulario, puedes ocultar el área de 
 <docs-step title="Envolver el formulario">
 Envuelve todo el formulario en un `<div>` y vincula su propiedad `hidden` a la propiedad `ActorFormComponent.submitted`.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="edit-div"/>
+<docs-code header="actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="edit-div"/>
 
 El formulario principal es visible desde el inicio porque la propiedad `submitted` es falsa hasta que envías el formulario, como muestra este fragmento de `ActorFormComponent`:
 
-<docs-code header="src/app/actor-form/actor-form.component.ts (submitted)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="submitted"/>
+<docs-code header="actor-form.component.ts (enviado)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="submitted"/>
 
 Cuando haces clic en el botón **Submit**, la bandera `submitted` se vuelve verdadera y el formulario desaparece.
 </docs-step>
@@ -371,7 +368,7 @@ Cuando haces clic en el botón **Submit**, la bandera `submitted` se vuelve verd
 <docs-step title="Agregar el estado enviado">
 Para mostrar algo más mientras el formulario está en el estado enviado, agrega el siguiente HTML debajo del nuevo envoltorio `<div>`.
 
-<docs-code header="src/app/actor-form/actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submitted"/>
+<docs-code header="actor-form.component.html (extracto)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="submitted"/>
 
 Este `<div>`, que muestra un actor de solo lectura con enlaces de interpolación, aparece solo mientras el componente está en el estado enviado.
 
@@ -401,8 +398,8 @@ características del framework para proporcionar soporte para modificación de d
 Aquí está el código para la versión final de la aplicación:
 
 <docs-code-multifile>
-    <docs-code header="actor-form/actor-form.component.ts" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="final"/>
-    <docs-code header="actor-form/actor-form.component.html" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="final"/>
+    <docs-code header="actor-form.component.ts" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="final"/>
+    <docs-code header="actor-form.component.html" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="final"/>
     <docs-code header="actor.ts" path="adev/src/content/examples/forms/src/app/actor.ts"/>
     <docs-code header="app.component.html" path="adev/src/content/examples/forms/src/app/app.component.html"/>
     <docs-code header="app.component.ts" path="adev/src/content/examples/forms/src/app/app.component.ts"/>
