@@ -42,7 +42,7 @@ export const routes: Routes = [
 ];
 ```
 
-Consejo: Si generaste un proyecto con Angular CLI, tus rutas están definidas en `src/app/app.routes.ts`.
+CONSEJO: Si generaste un proyecto con Angular CLI, tus rutas están definidas en `app.routes.ts`.
 
 ### Agregando el router a tu aplicación
 

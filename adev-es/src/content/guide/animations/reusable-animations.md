@@ -9,7 +9,7 @@ Este tema proporciona algunos ejemplos de cómo crear animaciones reutilizables.
 Para crear una animación reutilizable, usa la función [`animation()`](api/animations/animation) para definir una animación en un archivo `.ts` separado y declara esta definición de animación como una variable de exportación `const`.
 Luego puedes importar y reutilizar esta animación en cualquiera de los componentes de tu aplicación usando la función [`useAnimation()`](api/animations/useAnimation).
 
-<docs-code header="src/app/animations.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" visibleRegion="animation-const"/>
+<docs-code header="animations.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" visibleRegion="animation-const"/>
 
 En el fragmento de código anterior, `transitionAnimation` se hace reutilizable declarándola como una variable de exportación.
 
@@ -18,12 +18,12 @@ En el fragmento de código anterior, `transitionAnimation` se hace reutilizable 
 También puedes exportar una parte de una animación.
 Por ejemplo, el siguiente fragmento exporta el `trigger` de animación.
 
-<docs-code header="src/app/animations.1.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" visibleRegion="trigger-const"/>
+<docs-code header="animations.1.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" visibleRegion="trigger-const"/>
 
 Desde este punto, puedes importar variables de animación reutilizables en la clase de tu componente.
 Por ejemplo, el siguiente fragmento de código importa la variable `transitionAnimation` y la usa a través de la función `useAnimation()`.
 
-<docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.3.ts" visibleRegion="reusable"/>
+<docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.3.ts" visibleRegion="reusable"/>
 
 ## Más sobre animaciones de Angular
 

@@ -1,57 +1,114 @@
+# Cobertura de código
 
-# Descubrir cuánto código estás probando
-
-Angular CLI puede ejecutar pruebas unitarias y crear reportes de cobertura de código.
 Los reportes de cobertura de código te muestran cualquier parte de tu código base que podría no estar correctamente probada por tus pruebas unitarias.
 
-Para generar un reporte de cobertura ejecuta el siguiente comando en la raíz de tu proyecto.
+## Prerrequisitos
 
-<docs-code language="shell">
-ng test --no-watch --code-coverage
-</docs-code>
+Para generar reportes de cobertura de código con Vitest, debes instalar el paquete `@vitest/coverage-v8`:
 
-Cuando las pruebas estén completas, el comando crea un nuevo directorio `/coverage` en el proyecto.
-Abre el archivo `index.html` para ver un reporte con tu código fuente y valores de cobertura de código.
+<docs-code-multifile>
+  <docs-code header="npm" language="shell">
+    npm install --save-dev @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="yarn" language="shell">
+    yarn add --dev @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="pnpm" language="shell">
+    pnpm add -D @vitest/coverage-v8
+  </docs-code>
+  <docs-code header="bun" language="shell">
+    bun add --dev @vitest/coverage-v8
+  </docs-code>
+</docs-code-multifile>
 
-Si quieres crear reportes de cobertura de código cada vez que pruebas, establece la siguiente opción en el archivo de configuración de Angular CLI, `angular.json`:
+## Generar un reporte
 
-<docs-code language="json">
-"test": {
-  "options": {
-    "codeCoverage": true
-  }
-}
-</docs-code>
+Para generar un reporte de cobertura, agrega la bandera `--coverage` al comando `ng test`:
 
-## Aplicación de cobertura de código
+```shell
+ng test --coverage
+```
 
-Los porcentajes de cobertura de código te permiten estimar cuánto de tu código está probado.
-Si tu equipo decide sobre una cantidad mínima establecida para ser probada unitariamente, aplica este mínimo con Angular CLI.
+Después de que se ejecuten las pruebas, el comando crea un nuevo directorio `coverage/` en el proyecto. Abre el archivo `index.html` para ver un reporte con tu código fuente y valores de cobertura de código.
 
-Por ejemplo, supón que quieres que la base de código tenga un mínimo de 80% de cobertura de código.
-Para habilitar esto, abre el archivo de configuración de la plataforma de pruebas [Karma](https://karma-runner.github.io), `karma.conf.js`, y agrega la propiedad `check` en la clave `coverageReporter:`.
+Si quieres crear reportes de cobertura de código cada vez que pruebas, puedes establecer la opción `coverage` en `true` en tu archivo `angular.json`:
 
-<docs-code language="javascript">
-coverageReporter: {
-  dir: require('path').join(__dirname, './coverage/<project-name>'),
-  subdir: '.',
-  reporters: [
-    { type: 'html' },
-    { type: 'text-summary' }
-  ],
-  check: {
-    global: {
-      statements: 80,
-      branches: 80,
-      functions: 80,
-      lines: 80
+```json
+{
+  "projects": {
+    "your-project-name": {
+      "architect": {
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverage": true
+          }
+        }
+      }
     }
   }
 }
-</docs-code>
+```
 
-ÚTIL: Lee más sobre crear y ajustar la configuración de Karma en la [guía de pruebas](guide/testing#configuration).
+## Aplicar umbrales de cobertura de código
 
-La propiedad `check` hace que la herramienta aplique un mínimo de 80% de cobertura de código cuando las pruebas unitarias se ejecutan en el proyecto.
+Los porcentajes de cobertura de código te permiten estimar cuánto de tu código está probado. Si tu equipo decide sobre una cantidad mínima para ser probada unitariamente, puedes aplicar este mínimo en tu configuración.
 
-Lee más sobre opciones de configuración de cobertura en la [documentación de karma coverage](https://github.com/karma-runner/karma-coverage/blob/master/docs/configuration.md).
+Por ejemplo, supón que quieres que la base de código tenga un mínimo de 80% de cobertura de código. Para habilitar esto, agrega la opción `coverageThresholds` a tu archivo `angular.json`:
+
+```json
+{
+  "projects": {
+    "your-project-name": {
+      "architect": {
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverage": true,
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Ahora, si tu cobertura cae por debajo del 80% cuando ejecutas tus pruebas, el comando fallará.
+
+## Configuración avanzada
+
+Puedes configurar varias otras opciones de cobertura en tu archivo `angular.json`:
+
+- `coverageInclude`: Patrones glob de archivos para incluir en el reporte de cobertura.
+- `coverageReporters`: Un array de reportes para usar (por ejemplo, `html`, `lcov`, `json`).
+- `coverageWatermarks`: Un objeto que especifica marcas de agua `[low, high]` para el reporte HTML, que puede afectar la codificación de colores del reporte.
+
+```json
+{
+  "projects": {
+    "your-project-name": {
+      "architect": {
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverage": true,
+            "coverageReporters": ["html", "lcov"],
+            "coverageWatermarks": {
+              "statements": [50, 80],
+              "branches": [50, 80],
+              "functions": [50, 80],
+              "lines": [50, 80]
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```

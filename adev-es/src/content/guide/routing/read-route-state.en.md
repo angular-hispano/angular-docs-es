@@ -39,7 +39,7 @@ Page navigations are events over time, and you can access the router state at a 
 
 Route snapshots contain essential information about the route, including its parameters, data, and child routes. In addition, snapshots are static and will not reflect future changes.
 
-Here's an example of how you'd access a route snapshot:
+Here’s an example of how you’d access a route snapshot:
 
 ```angular-ts
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
@@ -177,9 +177,46 @@ export class ProductListComponent implements OnInit {
 }
 ```
 
-In this example, users can use a select element to sort the product list by name or price. The associated change handler updates the URL's query parameters, which in turn triggers a change event that can read the updated query parameters and update the product list.
+In this example, users can use a select element to sort the product list by name or price. The associated change handler updates the URL’s query parameters, which in turn triggers a change event that can read the updated query parameters and update the product list.
 
 For more information, check out the [official docs on QueryParamsHandling](/api/router/QueryParamsHandling).
+
+### Matrix Parameters
+
+Matrix parameters are optional parameters that belong to a specific URL segment, rather than applying to the entire route. Unlike query parameters which appear after a `?` and apply globally, matrix parameters use semicolons (`;`) and are scoped to individual path segments.
+
+Matrix parameters are useful when you need to pass auxiliary data to a specific route segment without affecting the route definition or matching behavior. Like query parameters, they don't need to be defined in your route configuration.
+
+```ts
+// URL format: /path;key=value
+// Multiple parameters: /path;key1=value1;key2=value2
+
+// Navigate with matrix parameters
+this.router.navigate(['/awesome-products', { view: 'grid', filter: 'new' }]);
+// Results in URL: /awesome-products;view=grid;filter=new
+```
+
+**Using ActivatedRoute**
+
+```ts
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component(/* ... */)
+export class AwesomeProducts  {
+  private route = inject(ActivatedRoute);
+
+  constructor() {
+    // Access matrix parameters via params
+    this.route.params.subscribe((params) => {
+      const view = params['view']; // e.g., 'grid'
+      const filter = params['filter']; // e.g., 'new'
+    });
+  }
+}
+```
+
+NOTE: As an alternative to using `ActivatedRoute`, matrix parameters are also bound to component inputs when using the `withComponentInputBinding`.
 
 ## Detect active current route with RouterLinkActive
 
@@ -216,7 +253,7 @@ If you need to add multiple classes onto the element, you can use either a space
 
 When you specify a value for routerLinkActive, you are also defining the same value for `ariaCurrentWhenActive`. This makes sure that visually impaired users (which may not perceive the different styling being applied) can also identify the active button.
 
-If you want to define a different value for aria, you'll need to explicitly set the value using the `ariaCurrentWhenActive` directive.
+If you want to define a different value for aria, you’ll need to explicitly set the value using the `ariaCurrentWhenActive` directive.
 
 ### Route matching strategy
 
@@ -252,7 +289,7 @@ If you only want to apply the class on an exact match, you need to provide the `
 </a>
 ```
 
-If you want to be more precise in how a route is matched, it's worth noting that `exact: true` is actually syntactic sugar for the full set of matching options:
+If you want to be more precise in how a route is matched, it’s worth noting that `exact: true` is actually syntactic sugar for the full set of matching options:
 
 ```angular-ts
 // `exact: true` is equivalent to

@@ -2,8 +2,8 @@
 
 El extractor de Angular genera un archivo con una entrada de unidad de traducción en cada uno de los siguientes casos.
 
-* Cada atributo `i18n` en una plantilla de componente
-* Cada cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize] en el código del componente
+- Cada atributo `i18n` en una plantilla de componente
+- Cada cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize] en el código del componente
 
 Como se describe en [Cómo los significados controlan la extracción y la fusión de texto][GuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges], Angular asigna a cada unidad de traducción un ID único.
 
@@ -24,7 +24,7 @@ Los metadatos adicionales pueden incluir la biblioteca, el componente o el área
 Para especificar un ID personalizado en el atributo `i18n` o en la cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize], usa el prefijo `@@`.
 El siguiente ejemplo define el ID personalizado `introductionHeader` en un elemento de encabezado.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-solo-id"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-solo-id"/>
 
 El siguiente ejemplo define el ID personalizado `introductionHeader` para una variable.
 
@@ -50,7 +50,7 @@ Usa un ID personalizado en combinación con una descripción y un significado pa
 
 El siguiente ejemplo incluye una descripción, seguida del ID personalizado.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-id"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-id"/>
 
 El siguiente ejemplo define el ID personalizado `introductionHeader` y una descripción para una variable.
 
@@ -64,7 +64,7 @@ variableText2 = $localize`:An introduction header for this sample@@introductionH
 
 El siguiente ejemplo agrega un significado.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-meaning-and-id"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-meaning-and-id"/>
 
 El siguiente ejemplo define el ID personalizado `introductionHeader` para una variable.
 
@@ -83,7 +83,7 @@ Si usas el mismo ID para dos elementos de texto diferentes, la herramienta de ex
 
 Por ejemplo, en el siguiente fragmento de código se define el mismo ID personalizado `myId` para dos elementos de texto diferentes.
 
-<docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-duplicate-custom-id"/>
+<docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-duplicate-custom-id"/>
 
 Lo siguiente muestra la traducción en francés.
 

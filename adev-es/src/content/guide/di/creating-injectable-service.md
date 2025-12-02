@@ -21,7 +21,7 @@ Angular te ayuda a seguir estos principios haciendo que sea fácil factorizar la
 
 Aquí tienes un ejemplo de una clase de servicio que registra en la consola del navegador:
 
-<docs-code header="src/app/logger.service.ts (class)" language="typescript">
+<docs-code header="logger.service.ts (class)" language="typescript">
 export class Logger {
   log(msg: unknown) { console.log(msg); }
   error(msg: unknown) { console.error(msg); }
@@ -33,23 +33,23 @@ Los servicios pueden depender de otros servicios.
 Por ejemplo, aquí tienes un `HeroService` que depende del servicio `Logger`, y también usa `BackendService` para obtener héroes.
 Ese servicio a su vez podría depender del servicio `HttpClient` para obtener héroes de forma asíncrona desde un servidor:
 
-<docs-code header="src/app/hero.service.ts" language="typescript"
+<docs-code header="hero.service.ts" language="typescript"
            highlight="[7,8,12,13]">
 import { inject } from "@angular/core";
 
 export class HeroService {
-  private heroes: Hero[] = [];
+private heroes: Hero[] = [];
 
-  private backend = inject(BackendService);
-  private logger = inject(Logger);
+private backend = inject(BackendService);
+private logger = inject(Logger);
 
-  async getHeroes() {
-    // Fetch
-    this.heroes = await this.backend.getAll(Hero);
-    // Log
-    this.logger.log(`Obtenidos ${this.heroes.length} héroes.`);
-    return this.heroes;
-  }
+async getHeroes() {
+// Fetch
+this.heroes = await this.backend.getAll(Hero);
+// Log
+this.logger.log(`Fetched ${this.heroes.length} heroes.`);
+return this.heroes;
+}
 }
 </docs-code>
 
@@ -67,23 +67,23 @@ ng generate service heroes/hero
 
 Este comando crea el siguiente `HeroService` por defecto:
 
-<docs-code header="src/app/heroes/hero.service.ts (CLI-generated)" language="typescript">
-import { Injectable } from '@angular/core';
+```ts {header: 'heroes/hero.service.ts (CLI-generated)'}
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HeroService {}
-</docs-code>
+```
 
 El decorador `@Injectable()` especifica que Angular puede usar esta clase en el sistema DI.
 Los metadatos, `providedIn: 'root'`, significan que el `HeroService` se provee en toda la aplicación.
 
 Agrega un método `getHeroes()` que devuelva los héroes de `mock.heroes.ts` para obtener los datos simulados de héroes:
 
-<docs-code header="src/app/heroes/hero.service.ts" language="typescript">
-import { Injectable } from '@angular/core';
-import { HEROES } from './mock-heroes';
+```ts {header: 'hero.service.ts'}
+import {Injectable} from '@angular/core';
+import {HEROES} from './mock-heroes';
 
 @Injectable({
   // declara que este servicio debe ser creado
@@ -95,7 +95,7 @@ export class HeroService {
     return HEROES;
   }
 }
-</docs-code>
+```
 
 Para claridad y mantenibilidad, se recomienda que definas componentes y servicios en archivos separados.
 
@@ -106,19 +106,19 @@ Para inyectar un servicio como dependencia en un componente, puedes declarar un 
 El siguiente ejemplo especifica el `HeroService` en el `HeroListComponent`.
 El tipo de `heroService` es `HeroService`.
 
-<docs-code header="src/app/heroes/hero-list.component.ts" language="typescript">
-import { inject } from "@angular/core";
+```ts
+import {inject} from '@angular/core';
 
 export class HeroListComponent {
   private heroService = inject(HeroService);
 }
-</docs-code>
+```
 
 También es posible inyectar un servicio en un componente usando el constructor del componente:
 
-<docs-code header="src/app/heroes/hero-list.component.ts (constructor signature)" language="typescript">
+```ts {header: 'hero-list.component.ts (constructor signature)'}
   constructor(private heroService: HeroService)
-</docs-code>
+```
 
 El método `inject` puede ser usado tanto en clases como en funciones, mientras que el método constructor naturalmente solo puede ser usado en un constructor de clase. Sin embargo, en cualquier caso una dependencia solo puede ser inyectada en un [contexto de inyección](guide/di/dependency-injection-context) válido, usualmente en la construcción o inicialización de un componente.
 
@@ -127,11 +127,10 @@ El método `inject` puede ser usado tanto en clases como en funciones, mientras 
 Cuando un servicio depende de otro servicio, sigue el mismo patrón que inyectar en un componente.
 En el siguiente ejemplo, `HeroService` depende de un servicio `Logger` para reportar sus actividades:
 
-<docs-code header="src/app/heroes/hero.service.ts" language="typescript"
-           highlight="[3,9,12]">
-import { inject, Injectable } from '@angular/core';
-import { HEROES } from './mock-heroes';
-import { Logger } from '../logger.service';
+```ts {header: 'hero.service.ts', highlight: [[3],[9],[12]]}
+import {inject, Injectable} from '@angular/core';
+import {HEROES} from './mock-heroes';
+import {Logger} from '../logger.service';
 
 @Injectable({
   providedIn: 'root',
@@ -144,7 +143,7 @@ export class HeroService {
     return HEROES;
   }
 }
-</docs-code>
+```
 
 En este ejemplo, el método `getHeroes()` usa el servicio `Logger` registrando un mensaje cuando obtiene héroes.
 

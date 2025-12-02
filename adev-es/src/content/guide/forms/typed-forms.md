@@ -8,7 +8,7 @@ Como antecedente para esta guía, te recomendamos familiarizarte con los [Formul
 
 <docs-video src="https://www.youtube.com/embed/L-odCf4MfJc" alt="Formularios Tipados en Angular" />
 
-Con los formularios reactivos de Angular, especificas explícitamente un *modelo de formulario*. Como ejemplo simple, considera este formulario básico de inicio de sesión:
+Con los formularios reactivos de Angular, especificas explícitamente un _modelo de formulario_. Como ejemplo simple, considera este formulario básico de inicio de sesión:
 
 ```ts
 const login = new FormGroup({
@@ -99,9 +99,24 @@ const names = new FormArray([new FormControl('Alex')]);
 names.push(new FormControl('Jess'));
 ```
 
+Puedes pasar un array de controles a `aliases.push()` cuando necesites agregar varias entradas a la vez.
+
+```ts
+const aliases = new FormArray([new FormControl('ng')]);
+aliases.push([new FormControl('ngDev'), new FormControl('ngAwesome')]);
+```
+
 Este `FormArray` tendrá el tipo de controles internos `FormControl<string|null>`.
 
-Si necesitas tener múltiples tipos de elementos dentro del array, debes usar `UntypedFormArray`, ya que TypeScript no puede inferir el tipo de elemento en cada posición
+Si necesitas tener múltiples tipos de elementos dentro del array, debes usar `UntypedFormArray`, ya que TypeScript no puede inferir el tipo de elemento en cada posición.
+
+Un `FormArray` también proporciona un método `clear()` para eliminar todos los controles que contiene:
+
+```ts
+const aliases = new FormArray([new FormControl('ngDev'), new FormControl('ngAwesome')]);
+aliases.clear();
+console.log(aliases.length); // 0
+```
 
 ## `FormGroup` y `FormRecord`
 

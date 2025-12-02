@@ -4,7 +4,7 @@ Para fusionar las traducciones completas en tu proyecto, realiza las siguientes 
 
 1. Usa el [CLI de Angular][CliMain] para compilar una copia de los archivos distribuibles de tu proyecto
 1. Usa la opción `"localize"` para reemplazar todos los mensajes i18n con las traducciones válidas y compilar una variante localizada de la aplicación.
-    Una aplicación variante es una copia completa de los archivos distribuibles de tu aplicación traducida para una sola configuración regional.
+   Una aplicación variante es una copia completa de los archivos distribuibles de tu aplicación traducida para una sola configuración regional.
 
 Después de fusionar las traducciones, sirve cada copia distribuible de la aplicación usando detección de idioma del lado del servidor o subdirectorios diferentes.
 
@@ -31,10 +31,10 @@ Usa la opción de proyecto `i18n` en el archivo [`angular.json`][GuideWorkspaceC
 
 Las siguientes subopciones identifican el idioma fuente e indican al compilador dónde encontrar traducciones compatibles para el proyecto.
 
-| Subopción      | Detalles |
-|:---            |:--- |
+| Subopción      | Detalles                                                                                            |
+|:-------------- |:--------------------------------------------------------------------------------------------------- |
 | `sourceLocale` | La configuración regional que usas dentro del código fuente de la aplicación \(`en-US` por defecto\) |
-| `locales`      | Un mapa de identificadores de configuración regional a archivos de traducción                        |
+| `locales`      | Un mapa de identificadores de configuración regional a archivos de traducción                         |
 
 ### Ejemplo de `angular.json` para `en-US` y `fr`
 
@@ -46,9 +46,9 @@ Por ejemplo, el siguiente extracto de un archivo [`angular.json`][GuideWorkspace
 
 Para usar tu definición de configuraciones regionales en la configuración de compilación, usa la opción `"localize"` en el archivo [`angular.json`][GuideWorkspaceConfig] para indicar al CLI qué configuraciones regionales generar para la compilación.
 
-* Establece `"localize"` en `true` para todas las configuraciones regionales definidas previamente en la configuración de compilación.
-* Establece `"localize"` en un array con un subconjunto de los identificadores de configuración regional definidos previamente para compilar solo esas versiones.
-* Establece `"localize"` en `false` para deshabilitar la localización y no generar versiones específicas por configuración regional.
+- Establece `"localize"` en `true` para todas las configuraciones regionales definidas previamente en la configuración de compilación.
+- Establece `"localize"` en un array con un subconjunto de los identificadores de configuración regional definidos previamente para compilar solo esas versiones.
+- Establece `"localize"` en `false` para deshabilitar la localización y no generar versiones específicas por configuración regional.
 
 ÚTIL: Se requiere compilación por adelantado (AOT) para localizar las plantillas de componentes.
 
@@ -110,11 +110,11 @@ Para compilaciones de producción, usa composición de configuraciones para ejec
 Cuando falta una traducción, la compilación tiene éxito pero genera una advertencia como `Missing translation for message "{translation_text}"`.
 Para configurar el nivel de advertencia que genera el compilador de Angular, especifica uno de los siguientes niveles.
 
-| Nivel de advertencia | Detalles                                              | Salida |
-|:---           |:---                                                  |:---    |
-| `error`       | Lanza un error y la compilación falla                | n/a                                                    |
-| `ignore`      | No hace nada                                         | n/a                                                    |
-| `warning`     | Muestra la advertencia predeterminada en la consola o shell | `Missing translation for message "{translation_text}"` |
+| Nivel de advertencia | Detalles                                                    | Salida                                                 |
+|:-------------------- |:----------------------------------------------------------- |:------------------------------------------------------ |
+| `error`              | Lanza un error y la compilación falla                       | n/a                                                    |
+| `ignore`             | No hace nada                                                | n/a                                                    |
+| `warning`            | Muestra la advertencia predeterminada en la consola o shell | `Missing translation for message "{translation_text}"` |
 
 Especifica el nivel de advertencia en la sección `options` para el objetivo `build` de tu archivo [`angular.json`][GuideWorkspaceConfig] de configuración de compilación del espacio de trabajo.
 
@@ -139,18 +139,13 @@ TL;DR: Compila una vez, luego traduce para cada configuración regional.
   <docs-pill href="guide/i18n/deploy" title="Desplegar múltiples configuraciones regionales"/>
 </docs-pill-row>
 
-[ApiLocalizeInitLocalize]: api/localize/init/$localize "$localize | init - localize - API | Angular"
-
-[CliMain]: cli "CLI Overview and Command Reference | Angular"
-[CliBuild]: cli/build "ng build | CLI | Angular"
-
-[GuideBuild]: tools/cli/build "Building and serving Angular apps | Angular"
-
-[GuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale]: guide/i18n/merge#apply-specific-build-options-for-just-one-locale "Apply specific build options for just one locale - Merge translations into the application | Angular"
-[GuideI18nCommonMergeBuildFromTheCommandLine]: guide/i18n/merge#build-from-the-command-line "Build from the command line - Merge translations into the application | Angular"
-[GuideI18nCommonMergeDefineLocalesInTheBuildConfiguration]: guide/i18n/merge#define-locales-in-the-build-configuration "Define locales in the build configuration - Merge translations into the application | Angular"
-[GuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]: guide/i18n/merge#generate-application-variants-for-each-locale "Generate application variants for each locale - Merge translations into the application | Angular"
-
-[GuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]: guide/i18n/translation-files#change-the-source-language-file-format "Change the source language file format - Work with translation files | Angular"
-
-[GuideWorkspaceConfig]: reference/configs/workspace-config "Angular workspace configuration | Angular"
+[ApiLocalizeInitLocalize]: api/localize/init/$localize '$localize | init - localize - API | Angular'
+[CliMain]: cli 'CLI Overview and Command Reference | Angular'
+[CliBuild]: cli/build 'ng build | CLI | Angular'
+[GuideBuild]: tools/cli/build 'Building and serving Angular apps | Angular'
+[GuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale]: guide/i18n/merge#apply-specific-build-options-for-just-one-locale 'Apply specific build options for just one locale - Merge translations into the application | Angular'
+[GuideI18nCommonMergeBuildFromTheCommandLine]: guide/i18n/merge#build-from-the-command-line 'Build from the command line - Merge translations into the application | Angular'
+[GuideI18nCommonMergeDefineLocalesInTheBuildConfiguration]: guide/i18n/merge#define-locales-in-the-build-configuration 'Define locales in the build configuration - Merge translations into the application | Angular'
+[GuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]: guide/i18n/merge#generate-application-variants-for-each-locale 'Generate application variants for each locale - Merge translations into the application | Angular'
+[GuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]: guide/i18n/translation-files#change-the-source-language-file-format 'Change the source language file format - Work with translation files | Angular'
+[GuideWorkspaceConfig]: reference/configs/workspace-config 'Angular workspace configuration | Angular'

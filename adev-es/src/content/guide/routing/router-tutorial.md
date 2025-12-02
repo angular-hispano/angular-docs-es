@@ -12,25 +12,25 @@ También puedes configurar rutas para protegerse contra comportamientos inespera
 
 ## Objetivos
 
-* Organizar las características de una aplicación de ejemplo en módulos.
-* Definir cómo navegar a un componente.
-* Pasar información a un componente usando un parámetro.
-* Estructurar rutas anidando varias rutas.
-* Verificar si los usuarios pueden acceder a una ruta.
-* Controlar si la aplicación puede descartar cambios no guardados.
-* Mejorar el rendimiento precargando datos de ruta y cargando módulos de características con lazy loading.
-* Requerir criterios específicos para cargar componentes.
+- Organizar las características de una aplicación de ejemplo en módulos.
+- Definir cómo navegar a un componente.
+- Pasar información a un componente usando un parámetro.
+- Estructurar rutas anidando varias rutas.
+- Verificar si los usuarios pueden acceder a una ruta.
+- Controlar si la aplicación puede descartar cambios no guardados.
+- Mejorar el rendimiento precargando datos de ruta y cargando módulos de características con lazy loading.
+- Requerir criterios específicos para cargar componentes.
 
 ## Crear una aplicación de ejemplo
 
-Usando Angular CLI, crea una nueva aplicación, *angular-router-sample*.
-Esta aplicación tendrá dos componentes: *crisis-list* y *heroes-list*.
+Usando Angular CLI, crea una nueva aplicación, _angular-router-sample_.
+Esta aplicación tendrá dos componentes: _crisis-list_ y _heroes-list_.
 
-1. Crea un nuevo proyecto Angular, *angular-router-sample*.
+1. Crea un nuevo proyecto Angular, _angular-router-sample_.
 
-    <docs-code language="shell">
+    ```shell
     ng new angular-router-sample
-    </docs-code>
+    ```
 
     Cuando se te pregunte `Would you like to add Angular routing?`, selecciona `N`.
 
@@ -39,35 +39,35 @@ Esta aplicación tendrá dos componentes: *crisis-list* y *heroes-list*.
     Después de unos momentos, un nuevo proyecto, `angular-router-sample`, estará listo.
 
 1. Desde tu terminal, navega al directorio `angular-router-sample`.
-1. Crea un componente, *crisis-list*.
+1. Crea un componente, _crisis-list_.
 
-    <docs-code language="shell">
+    ```shell
     ng generate component crisis-list
-    </docs-code>
+    ```
 
 1. En tu editor de código, localiza el archivo `crisis-list.component.html` y reemplaza el contenido placeholder con el siguiente HTML.
 
-    <docs-code header="src/app/crisis-list/crisis-list.component.html" path="adev/src/content/examples/router-tutorial/src/app/crisis-list/crisis-list.component.html"/>
+    <docs-code header="crisis-list/crisis-list.component.html" path="adev/src/content/examples/router-tutorial/src/app/crisis-list/crisis-list.component.html"/>
 
-1. Crea un segundo componente, *heroes-list*.
+1. Crea un segundo componente, _heroes-list_.
 
-    <docs-code language="shell">
+    ```shell
     ng generate component heroes-list
-    </docs-code>
+    ```
 
 1. En tu editor de código, localiza el archivo `heroes-list.component.html` y reemplaza el contenido placeholder con el siguiente HTML.
 
-    <docs-code header="src/app/heroes-list/heroes-list.component.html" path="adev/src/content/examples/router-tutorial/src/app/heroes-list/heroes-list.component.html"/>
+    <docs-code header="heroes-list/heroes-list.component.html" path="adev/src/content/examples/router-tutorial/src/app/heroes-list/heroes-list.component.html"/>
 
 1. En tu editor de código, abre el archivo `app.component.html` y reemplaza su contenido con el siguiente HTML.
 
-    <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="setup"/>
+    <docs-code header="app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="setup"/>
 
 1. Verifica que tu nueva aplicación se ejecuta como se espera ejecutando el comando `ng serve`.
 
-    <docs-code language="shell">
+    ```shell
     ng serve
-    </docs-code>
+    ```
 
 1. Abre un navegador en `http://localhost:4200`.
 
@@ -77,8 +77,8 @@ Esta aplicación tendrá dos componentes: *crisis-list* y *heroes-list*.
 
 En esta sección, definirás dos rutas:
 
-* La ruta `/crisis-center` abre el componente `crisis-center`.
-* La ruta `/heroes-list` abre el componente `heroes-list`.
+- La ruta `/crisis-center` abre el componente `crisis-center`.
+- La ruta `/heroes-list` abre el componente `heroes-list`.
 
 Una definición de ruta es un objeto JavaScript.
 Cada ruta típicamente tiene dos propiedades.
@@ -136,11 +136,11 @@ Para implementar esta funcionalidad, agregas la directiva `router-outlet` a tu a
 1. Desde tu editor de código, abre el archivo `app.component.html`.
 1. Elimina las siguientes líneas.
 
-    <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="components"/>
+    <docs-code header="app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="components"/>
 
 1. Agrega la directiva `router-outlet`.
 
-    <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="router-outlet"/>
+    <docs-code header="app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="router-outlet"/>
 
 1. Agrega `RouterOutlet` a los imports del `AppComponent` en `app.component.ts`
 
@@ -176,7 +176,7 @@ Agregarás esa funcionalidad en la siguiente sección.
 
 1. Abre el archivo `app.component.html` y agrega el siguiente HTML debajo del título.
 
-    <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="nav"/>
+    <docs-code header="app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="nav"/>
 
     Este HTML usa una directiva de Angular, `routerLink`.
     Esta directiva conecta las rutas que definiste a tus archivos de plantilla.
@@ -185,7 +185,7 @@ Agregarás esa funcionalidad en la siguiente sección.
 
 1. Abre el archivo `app.component.css` y agrega los siguientes estilos.
 
-    <docs-code header="src/app/app.component.css" path="adev/src/content/examples/router-tutorial/src/app/app.component.css"/>
+    <docs-code header="app.component.css" path="adev/src/content/examples/router-tutorial/src/app/app.component.css"/>
 
 Si visualizas tu aplicación en el navegador, deberías ver estos dos enlaces.
 Cuando haces clic en un enlace, aparece el componente correspondiente.
@@ -198,7 +198,8 @@ Agrega esta funcionalidad usando la directiva `routerLinkActive` de Angular.
 1. Desde tu editor de código, abre el archivo `app.component.html`.
 1. Actualiza las etiquetas anchor para incluir la directiva `routerLinkActive`.
 
-    <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="routeractivelink"/>
+    <docs-code header="app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="routeractivelink"/>
+    
 1. Agrega la directiva `RouterLinkActive` a la lista de `imports` de `AppComponent` en `app.component.ts`.
 
 Visualiza tu aplicación nuevamente.
@@ -222,9 +223,9 @@ En este paso del tutorial, agregas una ruta que redirige al usuario para mostrar
     Nota que esta nueva ruta usa un string vacío como su ruta.
     Además, reemplaza la propiedad `component` con dos nuevas:
 
-    | Propiedades   | Detalles |
-    |:---        |:---    |
-    | `redirectTo` | Esta propiedad instruye a Angular a redirigir desde una ruta vacía a la ruta `heroes-list`.                                                                                                                                                       |
+    | Propiedades  | Detalles                                                                                                                                                                                                                                                                                                                        |
+    |:-----------  |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | `redirectTo` | Esta propiedad instruye a Angular a redirigir desde una ruta vacía a la ruta `heroes-list`.                                                                                                                                                                                                                                     |
     | `pathMatch`  | Esta propiedad instruye a Angular sobre cuánto de la URL debe coincidir. Para este tutorial, deberías establecer esta propiedad en `full`. Esta estrategia se recomienda cuando tienes un string vacío para una ruta. Para más información sobre esta propiedad, consulta la [documentación de la API Route](api/router/Route). |
 
 Ahora cuando abres tu aplicación, muestra el componente `heroes-list` por defecto.
@@ -237,9 +238,9 @@ En esta sección, crearás una página 404 y actualizarás tu configuración de 
 
 1. Desde la terminal, crea un nuevo componente, `PageNotFound`.
 
-    <docs-code language="shell">
+    ```shell
     ng generate component page-not-found
-    </docs-code>
+    ```
 
 1. Desde tu editor de código, abre el archivo `page-not-found.component.html` y reemplaza su contenido con el siguiente HTML.
 

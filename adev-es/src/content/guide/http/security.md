@@ -38,7 +38,7 @@ Si tu servicio backend usa nombres diferentes para la cookie o encabezado del to
 
 Agrégalo a la llamada de `provideHttpClient` de la siguiente manera:
 
-<docs-code language="ts">
+```ts
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
@@ -49,13 +49,13 @@ export const appConfig: ApplicationConfig = {
     ),
   ]
 };
-</docs-code>
+```
 
-### Desabilitando la protección XSRF 
+### Deshabilitando la protección XSRF 
 
 Si el mecanismo de protección XSRF integrado no funciona para tu aplicación, puedes deshabilitarlo usando la característica `withNoXsrfProtection`:
 
-<docs-code language="ts">
+```ts
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
@@ -63,4 +63,4 @@ export const appConfig: ApplicationConfig = {
     ),
   ]
 };
-</docs-code>
+```
