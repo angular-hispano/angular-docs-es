@@ -16,7 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "chokidar": "^3.6.0",
-    "firebase-tools": "^13.10.0",
+    "firebase-tools": "^15.3.1",
     "zx": "^7.2.3"
   }
 }
