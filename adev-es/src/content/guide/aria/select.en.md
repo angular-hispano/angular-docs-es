@@ -1,9 +1,9 @@
 <docs-decorative-header title="Select">
 </docs-decorative-header>
 
-## Visión general
+## Overview
 
-Un patrón que combina combobox de solo lectura con listbox para crear dropdowns de selección simple con navegación por teclado y soporte para lectores de pantalla.
+A pattern that combines readonly combobox with listbox to create single-selection dropdowns with keyboard navigation and screen reader support.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -31,41 +31,41 @@ Un patrón que combina combobox de solo lectura con listbox para crear dropdowns
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Usage
 
-El patrón de select funciona mejor cuando los usuarios necesitan elegir un único valor de un conjunto familiar de opciones.
+The select pattern works best when users need to choose a single value from a familiar set of options.
 
-Considera usar este patrón cuando:
+Consider using this pattern when:
 
-- **La lista de opciones es fija** (menos de 20 elementos) - Los usuarios pueden escanear y elegir sin filtrar
-- **Las opciones son familiares** - Los usuarios reconocen las opciones sin necesidad de buscar
-- **Los formularios necesitan campos estándar** - Selección de país, estado, categoría o status
-- **Configuraciones y ajustes** - Menús desplegables para preferencias u opciones
-- **Etiquetas de opciones claras** - Cada opción tiene un nombre distinto y escaneable
+- **The option list is fixed** (fewer than 20 items) - Users can scan and choose without filtering
+- **Options are familiar** - Users recognize the choices without needing to search
+- **Forms need standard fields** - Country, state, category, or status selection
+- **Settings and configuration** - Dropdown menus for preferences or options
+- **Clear option labels** - Each choice has a distinct, scannable name
 
-Evita este patrón cuando:
+Avoid this pattern when:
 
-- **La lista tiene más de 20 elementos** - Usa el [patrón Autocomplete](guide/aria/autocomplete) para mejor filtrado
-- **Los usuarios necesitan buscar opciones** - [Autocomplete](guide/aria/autocomplete) proporciona entrada de texto y filtrado
-- **Se necesita selección múltiple** - Usa el [patrón Multiselect](guide/aria/multiselect) en su lugar
-- **Existen muy pocas opciones (2-3)** - Los botones de radio proporcionan mejor visibilidad de todas las opciones
+- **The list has more than 20 items** - Use the [Autocomplete pattern](guide/aria/autocomplete) for better filtering
+- **Users need to search options** - [Autocomplete](guide/aria/autocomplete) provides text input and filtering
+- **Multiple selection is needed** - Use the [Multiselect pattern](guide/aria/multiselect) instead
+- **Very few options exist (2-3)** - Radio buttons provide better visibility of all choices
 
-## Características
+## Features
 
-El patrón de select combina directivas [Combobox](guide/aria/combobox) y [Listbox](guide/aria/listbox) para proporcionar un dropdown completamente accesible con:
+The select pattern combines [Combobox](guide/aria/combobox) and [Listbox](guide/aria/listbox) directives to provide a fully accessible dropdown with:
 
-- **Navegación por Teclado** - Navega por opciones con teclas de flecha, selecciona con Enter, cierra con Escape
-- **Soporte para Lectores de Pantalla** - Atributos ARIA integrados para tecnologías asistivas
-- **Visualización Personalizada** - Muestra valores seleccionados con iconos, formato o contenido enriquecido
-- **Reactividad Basada en Signals** - Gestión de estado reactivo usando signals de Angular
-- **Posicionamiento Inteligente** - CDK Overlay maneja bordes de viewport y desplazamiento
-- **Soporte de Texto Bidireccional** - Maneja automáticamente idiomas de derecha a izquierda (RTL)
+- **Keyboard Navigation** - Navigate options with arrow keys, select with Enter, close with Escape
+- **Screen Reader Support** - Built-in ARIA attributes for assistive technologies
+- **Custom Display** - Show selected values with icons, formatting, or rich content
+- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **Smart Positioning** - CDK Overlay handles viewport edges and scrolling
+- **Bidirectional Text Support** - Automatically handles right-to-left (RTL) languages
 
-## Ejemplos
+## Examples
 
-### Select básico
+### Basic select
 
-Los usuarios necesitan un dropdown estándar para elegir de una lista de valores. Un combobox de solo lectura emparejado con un listbox proporciona la experiencia familiar de select con soporte de accesibilidad completo.
+Users need a standard dropdown to choose from a list of values. A readonly combobox paired with a listbox provides the familiar select experience with full accessibility support.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -93,11 +93,11 @@ Los usuarios necesitan un dropdown estándar para elegir de una lista de valores
   </docs-tab>
 </docs-tab-group>
 
-El atributo `readonly` en `ngCombobox` previene entrada de texto mientras preserva la navegación por teclado. Los usuarios interactúan con el dropdown usando teclas de flecha y Enter, justo como un elemento select nativo.
+The `readonly` attribute on `ngCombobox` prevents text input while preserving keyboard navigation. Users interact with the dropdown using arrow keys and Enter, just like a native select element.
 
-### Select con visualización personalizada
+### Select with custom display
 
-Las opciones a menudo necesitan indicadores visuales como iconos o badges para ayudar a los usuarios a identificar opciones rápidamente. Las plantillas personalizadas dentro de las opciones permiten formato enriquecido mientras se mantiene la accesibilidad.
+Options often need visual indicators like icons or badges to help users identify choices quickly. Custom templates within options allow rich formatting while maintaining accessibility.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -125,11 +125,11 @@ Las opciones a menudo necesitan indicadores visuales como iconos o badges para a
   </docs-tab>
 </docs-tab-group>
 
-Cada opción muestra un icono junto a la etiqueta. El valor seleccionado se actualiza para mostrar el icono y texto de la opción elegida, proporcionando retroalimentación visual clara.
+Each option displays an icon alongside the label. The selected value updates to show the chosen option's icon and text, providing clear visual feedback.
 
-### Select deshabilitado
+### Disabled select
 
-Los selects pueden ser deshabilitados para prevenir interacción del usuario cuando ciertas condiciones de formulario no se cumplen. El estado deshabilitado proporciona retroalimentación visual y previene interacción por teclado.
+Selects can be disabled to prevent user interaction when certain form conditions aren't met. The disabled state provides visual feedback and prevents keyboard interaction.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -157,37 +157,37 @@ Los selects pueden ser deshabilitados para prevenir interacción del usuario cua
   </docs-tab>
 </docs-tab-group>
 
-Cuando está deshabilitado, el select muestra un estado visual deshabilitado y bloquea toda interacción del usuario. Los lectores de pantalla anuncian el estado deshabilitado a usuarios de tecnología asistiva.
+When disabled, the select shows a disabled visual state and blocks all user interaction. Screen readers announce the disabled state to assistive technology users.
 
 ## APIs
 
-El patrón de select usa las siguientes directivas de la biblioteca Aria de Angular. Consulta la documentación completa del API en las guías enlazadas.
+The select pattern uses the following directives from Angular's Aria library. See the full API documentation in the linked guides.
 
-### Directivas Combobox
+### Combobox Directives
 
-El patrón de select usa `ngCombobox` con el atributo `readonly` para prevenir entrada de texto mientras preserva la navegación por teclado.
+The select pattern uses `ngCombobox` with the `readonly` attribute to prevent text input while preserving keyboard navigation.
 
 #### Inputs
 
-| Propiedad  | Tipo      | Por defecto | Descripción                                      |
-| ---------- | --------- | ----------- | ------------------------------------------------ |
-| `readonly` | `boolean` | `false`     | Establece a `true` para crear comportamiento de dropdown |
-| `disabled` | `boolean` | `false`     | Deshabilita todo el select                       |
+| Property   | Type      | Default | Description                               |
+| ---------- | --------- | ------- | ----------------------------------------- |
+| `readonly` | `boolean` | `false` | Set to `true` to create dropdown behavior |
+| `disabled` | `boolean` | `false` | Disables the entire select                |
 
-Consulta la [documentación del API de Combobox](guide/aria/combobox#apis) para detalles completos sobre todos los inputs y signals disponibles.
+See the [Combobox API documentation](guide/aria/combobox#apis) for complete details on all available inputs and signals.
 
-### Directivas Listbox
+### Listbox Directives
 
-El patrón de select usa `ngListbox` para la lista desplegable y `ngOption` para cada elemento seleccionable.
+The select pattern uses `ngListbox` for the dropdown list and `ngOption` for each selectable item.
 
 #### Model
 
-| Propiedad | Tipo    | Descripción                                                                     |
-| --------- | ------- | ------------------------------------------------------------------------------- |
-| `values`  | `any[]` | Array enlazable bidireccionalmente de valores seleccionados (contiene un único valor para select) |
+| Property | Type    | Description                                                                  |
+| -------- | ------- | ---------------------------------------------------------------------------- |
+| `values` | `any[]` | Two-way bindable array of selected values (contains single value for select) |
 
-Consulta la [documentación del API de Listbox](guide/aria/listbox#apis) para detalles completos sobre configuración de listbox, modos de selección y propiedades de opciones.
+See the [Listbox API documentation](guide/aria/listbox#apis) for complete details on listbox configuration, selection modes, and option properties.
 
-### Posicionamiento
+### Positioning
 
-El patrón de select se integra con [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) para posicionamiento inteligente. Usa `cdkConnectedOverlay` para manejar bordes de viewport y desplazamiento automáticamente.
+The select pattern integrates with [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) for smart positioning. Use `cdkConnectedOverlay` to handle viewport edges and scrolling automatically.

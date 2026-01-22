@@ -648,7 +648,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         status: 'new',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión General',
             path: 'guide/aria/overview',
             contentPath: 'guide/aria/overview',
           },
@@ -804,31 +804,31 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Build with AI',
+    label: 'Construir con IA',
     status: 'new',
     children: [
       {
-        label: 'Get Started',
+        label: 'Empezar',
         path: 'ai',
         contentPath: 'ai/overview',
       },
       {
-        label: 'LLM prompts and AI IDE setup',
+        label: 'Prompts para LLM y configuración de IDE con IA',
         path: 'ai/develop-with-ai',
         contentPath: 'ai/develop-with-ai',
       },
       {
-        label: 'Design Patterns',
+        label: 'Patrones de diseño',
         path: 'ai/design-patterns',
         contentPath: 'ai/design-patterns',
       },
       {
-        label: 'Angular CLI MCP Server setup',
+        label: 'Configuración del servidor MCP de Angular CLI',
         path: 'ai/mcp',
         contentPath: 'ai/mcp-server-setup',
       },
       {
-        label: 'Angular AI Tutor',
+        label: 'Tutor de IA para Angular',
         path: 'ai/ai-tutor',
         contentPath: 'ai/ai-tutor',
       },
