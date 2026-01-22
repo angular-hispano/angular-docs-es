@@ -66,7 +66,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'introduction/essentials/templates',
           },
           {
-            label: 'Forms with signals',
+            label: 'Formularios con signals',
             path: 'essentials/signal-forms',
             contentPath: 'introduction/essentials/signal-forms',
             status: 'new',
