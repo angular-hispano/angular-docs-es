@@ -2,13 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/" title="Combobox ARIA pattern"/>
-  <docs-pill href="/api?query=combobox#angular_aria_combobox" title="Combobox API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/" title="Patrón ARIA de Combobox"/>
+  <docs-pill href="/api?query=combobox#angular_aria_combobox" title="Referencia API de Combobox"/>
 </docs-pill-row>
 
-## Overview
+## Visión general
 
-A directive that coordinates a text input with a popup, providing the primitive directive for autocomplete, select, and multiselect patterns.
+Una directiva que coordina un campo de entrada de texto con un popup, proporcionando la directiva primitiva para patrones de autocomplete, select y multiselect.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -36,39 +36,39 @@ A directive that coordinates a text input with a popup, providing the primitive 
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## Uso
 
-Combobox is the primitive directive that coordinates a text input with a popup. It provides the foundation for autocomplete, select, and multiselect patterns. Consider using combobox directly when:
+Combobox es la directiva primitiva que coordina un campo de entrada de texto con un popup. Proporciona la base para patrones de autocomplete, select y multiselect. Considera usar combobox directamente cuando:
 
-- **Building custom autocomplete patterns** - Creating specialized filtering or suggestion behavior
-- **Creating custom selection components** - Developing dropdowns with unique requirements
-- **Coordinating input with popup** - Pairing text input with listbox, tree, or dialog content
-- **Implementing specific filter modes** - Using manual, auto-select, or highlight behaviors
+- **Construyas patrones personalizados de autocomplete** - Creando comportamientos especializados de filtrado o sugerencias
+- **Crees componentes de selección personalizados** - Desarrollando menús desplegables con requisitos únicos
+- **Coordines entrada con popup** - Emparejando entrada de texto con contenido de listbox, tree o dialog
+- **Implementes modos de filtro específicos** - Usando comportamientos manual, auto-selección o resaltado
 
-Use documented patterns instead when:
+Usa patrones documentados en su lugar cuando:
 
-- Standard autocomplete with filtering is needed - See the [Autocomplete pattern](guide/aria/autocomplete) for ready-to-use examples
-- Single-selection dropdowns are needed - See the [Select pattern](guide/aria/select) for complete dropdown implementation
-- Multiple-selection dropdowns are needed - See the [Multiselect pattern](guide/aria/multiselect) for multi-select with compact display
+- Se necesite autocomplete estándar con filtrado - Consulta el [patrón Autocomplete](guide/aria/autocomplete) para ejemplos listos para usar
+- Se necesiten menús desplegables de selección única - Consulta el [patrón Select](guide/aria/select) para implementación completa de menú desplegable
+- Se necesiten menús desplegables de selección múltiple - Consulta el [patrón Multiselect](guide/aria/multiselect) para multi-selección con visualización compacta
 
-Note: The [Autocomplete](guide/aria/autocomplete), [Select](guide/aria/select), and [Multiselect](guide/aria/multiselect) guides show documented patterns that combine this directive with [Listbox](guide/aria/listbox) for specific use cases.
+Nota: Las guías de [Autocomplete](guide/aria/autocomplete), [Select](guide/aria/select) y [Multiselect](guide/aria/multiselect) muestran patrones documentados que combinan esta directiva con [Listbox](guide/aria/listbox) para casos de uso específicos.
 
-## Features
+## Características
 
-Angular's combobox provides a fully accessible input-popup coordination system with:
+El combobox de Angular proporciona un sistema de coordinación entrada-popup totalmente accesible con:
 
-- **Text Input with Popup** - Coordinates input field with popup content
-- **Three Filter Modes** - Manual, auto-select, or highlight behaviors
-- **Keyboard Navigation** - Arrow keys, Enter, Escape handling
-- **Screen Reader Support** - Built-in ARIA attributes including role="combobox" and aria-expanded
-- **Popup Management** - Automatic show/hide based on user interaction
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **Entrada de Texto con Popup** - Coordina campo de entrada con contenido de popup
+- **Tres Modos de Filtro** - Comportamientos manual, auto-selección o resaltado
+- **Navegación por Teclado** - Manejo de teclas de flecha, Enter, Escape
+- **Soporte para Lectores de Pantalla** - Atributos ARIA integrados incluyendo role="combobox" y aria-expanded
+- **Gestión de Popup** - Mostrar/ocultar automático basado en interacción del usuario
+- **Reactividad Basada en Signals** - Gestión de estado reactiva usando signals de Angular
 
-## Examples
+## Ejemplos
 
 ### Autocomplete
 
-An accessible input field that filters and suggests options as users type, helping them find and select values from a list.
+Un campo de entrada accesible que filtra y sugiere opciones mientras los usuarios escriben, ayudándoles a encontrar y seleccionar valores de una lista.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -96,11 +96,11 @@ An accessible input field that filters and suggests options as users type, helpi
   </docs-tab>
 </docs-tab-group>
 
-The `filterMode="manual"` setting gives complete control over filtering and selection. The input updates a signal that filters the options list. Users navigate with arrow keys and select with Enter or click. This mode provides the most flexibility for custom filtering logic. See the [Autocomplete guide](guide/aria/autocomplete) for complete filtering patterns and examples.
+La configuración `filterMode="manual"` proporciona control completo sobre el filtrado y la selección. La entrada actualiza un signal que filtra la lista de opciones. Los usuarios navegan con teclas de flecha y seleccionan con Enter o clic. Este modo proporciona la mayor flexibilidad para lógica de filtrado personalizada. Consulta la [guía de Autocomplete](guide/aria/autocomplete) para patrones de filtrado completos y ejemplos.
 
-### Readonly mode
+### Modo de solo lectura
 
-A pattern that combines a readonly combobox with listbox to create single-selection dropdowns with keyboard navigation and screen reader support.
+Un patrón que combina un combobox de solo lectura con listbox para crear menús desplegables de selección única con navegación por teclado y soporte para lectores de pantalla.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -128,13 +128,13 @@ A pattern that combines a readonly combobox with listbox to create single-select
   </docs-tab>
 </docs-tab-group>
 
-The `readonly` attribute prevents typing in the input field. The popup opens on click or arrow keys. Users navigate options with keyboard and select with Enter or click.
+El atributo `readonly` previene la escritura en el campo de entrada. El popup se abre al hacer clic o con teclas de flecha. Los usuarios navegan opciones con teclado y seleccionan con Enter o clic.
 
-This configuration provides the foundation for the [Select](guide/aria/select) and [Multiselect](guide/aria/multiselect) patterns. See those guides for complete dropdown implementations with triggers and overlay positioning.
+Esta configuración proporciona la base para los patrones de [Select](guide/aria/select) y [Multiselect](guide/aria/multiselect). Consulta esas guías para implementaciones completas de menú desplegable con activadores y posicionamiento de overlay.
 
-### Dialog popup
+### Popup de diálogo
 
-Popups sometimes need modal behavior with a backdrop and focus trap. The combobox dialog directive provides this pattern for specialized use cases.
+Los popups a veces necesitan comportamiento modal con un fondo y trampa de foco. La directiva de diálogo de combobox proporciona este patrón para casos de uso especializados.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -162,64 +162,64 @@ Popups sometimes need modal behavior with a backdrop and focus trap. The combobo
   </docs-tab>
 </docs-tab-group>
 
-The `ngComboboxDialog` directive creates a modal popup using the native dialog element. This provides backdrop behavior and focus trapping. Use dialog popups when the selection interface requires modal interaction or when the popup content is complex enough to warrant full-screen focus.
+La directiva `ngComboboxDialog` crea un popup modal usando el elemento dialog nativo. Esto proporciona comportamiento de fondo y trampa de foco. Usa popups de diálogo cuando la interfaz de selección requiere interacción modal o cuando el contenido del popup es lo suficientemente complejo como para justificar foco a pantalla completa.
 
 ## APIs
 
-### Combobox Directive
+### Directiva Combobox
 
-The `ngCombobox` directive coordinates a text input with a popup.
+La directiva `ngCombobox` coordina un campo de entrada de texto con un popup.
 
 #### Inputs
 
-| Property         | Type                                           | Default    | Description                                      |
-| ---------------- | ---------------------------------------------- | ---------- | ------------------------------------------------ |
-| `filterMode`     | `'manual'` \| `'auto-select'` \| `'highlight'` | `'manual'` | Controls selection behavior                      |
-| `disabled`       | `boolean`                                      | `false`    | Disables the combobox                            |
-| `readonly`       | `boolean`                                      | `false`    | Makes combobox readonly (for Select/Multiselect) |
-| `firstMatch`     | `V`                                            | -          | Value of first matching item for auto-select     |
-| `alwaysExpanded` | `boolean`                                      | `false`    | Keeps popup always open                          |
+| Propiedad        | Tipo                                           | Predeterminado | Descripción                                          |
+| ---------------- | ---------------------------------------------- | -------------- | ---------------------------------------------------- |
+| `filterMode`     | `'manual'` \| `'auto-select'` \| `'highlight'` | `'manual'`     | Controla el comportamiento de selección              |
+| `disabled`       | `boolean`                                      | `false`        | Deshabilita el combobox                              |
+| `readonly`       | `boolean`                                      | `false`        | Hace el combobox de solo lectura (para Select/Multiselect) |
+| `firstMatch`     | `V`                                            | -              | Valor del primer elemento coincidente para auto-selección |
+| `alwaysExpanded` | `boolean`                                      | `false`        | Mantiene el popup siempre abierto                    |
 
-**Filter Modes:**
+**Modos de Filtro:**
 
-- **`'manual'`** - User controls filtering and selection explicitly. The popup shows options based on your filtering logic. Users select with Enter or click. This mode provides the most flexibility.
-- **`'auto-select'`** - Input value automatically updates to the first matching option as users type. Requires the `firstMatch` input for coordination. See the [Autocomplete guide](guide/aria/autocomplete#auto-select-mode) for examples.
-- **`'highlight'`** - Highlights matching text without changing the input value. Users navigate with arrow keys and select with Enter.
+- **`'manual'`** - El usuario controla el filtrado y selección explícitamente. El popup muestra opciones basadas en tu lógica de filtrado. Los usuarios seleccionan con Enter o clic. Este modo proporciona la mayor flexibilidad.
+- **`'auto-select'`** - El valor de entrada se actualiza automáticamente a la primera opción coincidente mientras los usuarios escriben. Requiere el input `firstMatch` para coordinación. Consulta la [guía de Autocomplete](guide/aria/autocomplete#auto-select-mode) para ejemplos.
+- **`'highlight'`** - Resalta texto coincidente sin cambiar el valor de entrada. Los usuarios navegan con teclas de flecha y seleccionan con Enter.
 
 #### Signals
 
-| Property   | Type              | Description                     |
-| ---------- | ----------------- | ------------------------------- |
-| `expanded` | `Signal<boolean>` | Whether popup is currently open |
+| Propiedad  | Tipo              | Descripción                          |
+| ---------- | ----------------- | ------------------------------------ |
+| `expanded` | `Signal<boolean>` | Si el popup está actualmente abierto |
 
-#### Methods
+#### Métodos
 
-| Method     | Parameters | Description            |
+| Método     | Parámetros | Descripción            |
 | ---------- | ---------- | ---------------------- |
-| `open`     | none       | Opens the combobox     |
-| `close`    | none       | Closes the combobox    |
-| `expand`   | none       | Expands the combobox   |
-| `collapse` | none       | Collapses the combobox |
+| `open`     | ninguno    | Abre el combobox       |
+| `close`    | ninguno    | Cierra el combobox     |
+| `expand`   | ninguno    | Expande el combobox    |
+| `collapse` | ninguno    | Colapsa el combobox    |
 
-### ComboboxInput Directive
+### Directiva ComboboxInput
 
-The `ngComboboxInput` directive connects an input element to the combobox.
+La directiva `ngComboboxInput` conecta un elemento input al combobox.
 
-#### Model
+#### Modelo
 
-| Property | Type     | Description                              |
-| -------- | -------- | ---------------------------------------- |
-| `value`  | `string` | Two-way bindable value using `[(value)]` |
+| Propiedad | Tipo     | Descripción                                                 |
+| --------- | -------- | ----------------------------------------------------------- |
+| `value`   | `string` | Valor enlazable bidireccionalmente usando `[(value)]`       |
 
-The input element receives keyboard handling and ARIA attributes automatically.
+El elemento input recibe manejo de teclado y atributos ARIA automáticamente.
 
-### ComboboxPopup Directive
+### Directiva ComboboxPopup
 
-The `ngComboboxPopup` directive (host directive) manages popup visibility and coordination. Typically used with `ngComboboxPopupContainer` in an `ng-template` or with CDK Overlay.
+La directiva `ngComboboxPopup` (directiva host) gestiona la visibilidad y coordinación del popup. Típicamente usada con `ngComboboxPopupContainer` en un `ng-template` o con CDK Overlay.
 
-### ComboboxPopupContainer Directive
+### Directiva ComboboxPopupContainer
 
-The `ngComboboxPopupContainer` directive marks an `ng-template` as the popup content.
+La directiva `ngComboboxPopupContainer` marca un `ng-template` como el contenido del popup.
 
 ```html
 <ng-template ngComboboxPopupContainer>
@@ -227,11 +227,11 @@ The `ngComboboxPopupContainer` directive marks an `ng-template` as the popup con
 </ng-template>
 ```
 
-Used with Popover API or CDK Overlay for positioning.
+Usada con Popover API o CDK Overlay para posicionamiento.
 
-### ComboboxDialog Directive
+### Directiva ComboboxDialog
 
-The `ngComboboxDialog` directive creates a modal combobox popup.
+La directiva `ngComboboxDialog` crea un popup de combobox modal.
 
 ```html
 <dialog ngComboboxDialog>
@@ -239,17 +239,17 @@ The `ngComboboxDialog` directive creates a modal combobox popup.
 </dialog>
 ```
 
-Use for modal popup behavior with backdrop and focus trap.
+Usa para comportamiento de popup modal con fondo y trampa de foco.
 
-### Related patterns and directives
+### Patrones y directivas relacionados
 
-Combobox is the primitive directive for these documented patterns:
+Combobox es la directiva primitiva para estos patrones documentados:
 
-- **[Autocomplete](guide/aria/autocomplete)** - Filtering and suggestions pattern (uses Combobox with filter modes)
-- **[Select](guide/aria/select)** - Single selection dropdown pattern (uses Combobox with `readonly`)
-- **[Multiselect](guide/aria/multiselect)** - Multiple selection pattern (uses Combobox with `readonly` + multi-enabled Listbox)
+- **[Autocomplete](guide/aria/autocomplete)** - Patrón de filtrado y sugerencias (usa Combobox con modos de filtro)
+- **[Select](guide/aria/select)** - Patrón de menú desplegable de selección única (usa Combobox con `readonly`)
+- **[Multiselect](guide/aria/multiselect)** - Patrón de selección múltiple (usa Combobox con `readonly` + Listbox multi-habilitado)
 
-Combobox typically combines with:
+Combobox típicamente se combina con:
 
-- **[Listbox](guide/aria/listbox)** - Most common popup content
-- **[Tree](guide/aria/tree)** - Hierarchical popup content (see Tree guide for examples)
+- **[Listbox](guide/aria/listbox)** - Contenido de popup más común
+- **[Tree](guide/aria/tree)** - Contenido de popup jerárquico (consulta la guía de Tree para ejemplos)

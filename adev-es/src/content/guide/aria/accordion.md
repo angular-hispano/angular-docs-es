@@ -2,13 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/accordion/" title="Accordion ARIA pattern"/>
-  <docs-pill href="/api?query=accordion#angular_aria_accordion" title="Accordion API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/accordion/" title="Patrón ARIA de Accordion"/>
+  <docs-pill href="/api?query=accordion#angular_aria_accordion" title="Referencia API de Accordion"/>
 </docs-pill-row>
 
-## Overview
+## Visión general
 
-An accordion organizes related content into expandable and collapsible sections, reducing page scrolling and helping users focus on relevant information. Each section has a trigger button and a content panel. Clicking a trigger toggles the visibility of its associated panel.
+Un accordion organiza contenido relacionado en secciones expandibles y colapsables, reduciendo el desplazamiento de la página y ayudando a los usuarios a enfocarse en la información relevante. Cada sección tiene un botón de activación y un panel de contenido. Al hacer clic en un botón de activación se alterna la visibilidad de su panel asociado.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.ts">
   <docs-code header="TS" path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.ts"/>
@@ -16,39 +16,39 @@ An accordion organizes related content into expandable and collapsible sections,
   <docs-code header="CSS" path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## Uso
 
-Accordions work well for organizing content into logical groups where users typically need to view one section at a time.
+Los accordions funcionan bien para organizar contenido en grupos lógicos donde los usuarios típicamente necesitan ver una sección a la vez.
 
-**Use accordions when:**
+**Usa accordions cuando:**
 
-- Displaying FAQs with multiple questions and answers
-- Organizing long forms into manageable sections
-- Reducing scrolling on content-heavy pages
-- Progressively disclosing related information
+- Muestres FAQs con múltiples preguntas y respuestas
+- Organices formularios largos en secciones manejables
+- Reduzcas el desplazamiento en páginas con mucho contenido
+- Reveles información relacionada de forma progresiva
 
-**Avoid accordions when:**
+**Evita accordions cuando:**
 
-- Building navigation menus (use the [Menu](guide/aria/menu) component instead)
-- Creating tabbed interfaces (use the [Tabs](guide/aria/tabs) component instead)
-- Showing a single collapsible section (use a disclosure pattern instead)
-- Users need to see multiple sections simultaneously (consider a different layout)
+- Construyas menús de navegación (usa el componente [Menu](guide/aria/menu) en su lugar)
+- Crees interfaces con pestañas (usa el componente [Tabs](guide/aria/tabs) en su lugar)
+- Muestres una sola sección colapsable (usa un patrón de revelación en su lugar)
+- Los usuarios necesiten ver múltiples secciones simultáneamente (considera un diseño diferente)
 
-## Features
+## Características
 
-- **Expansion modes** - Control whether one or multiple panels can be open at the same time
-- **Keyboard navigation** - Navigate between triggers using arrow keys, Home, and End
-- **Lazy rendering** - Content is only created when a panel first expands, improving initial load performance
-- **Disabled states** - Disable the entire group or individual triggers
-- **Focus management** - Control whether disabled items can receive keyboard focus
-- **Programmatic control** - Expand, collapse, or toggle panels from your component code
-- **RTL support** - Automatic support for right-to-left languages
+- **Modos de expansión** - Controla si uno o múltiples paneles pueden estar abiertos al mismo tiempo
+- **Navegación por teclado** - Navega entre botones de activación usando las teclas de flecha, Inicio y Fin
+- **Renderización lazy** - El contenido solo se crea cuando un panel se expande por primera vez, mejorando el rendimiento de carga inicial
+- **Estados deshabilitados** - Deshabilita el grupo completo o botones de activación individuales
+- **Gestión de foco** - Controla si los elementos deshabilitados pueden recibir foco del teclado
+- **Control programático** - Expande, colapsa o alterna paneles desde el código de tu componente
+- **Soporte RTL** - Soporte automático para idiomas de derecha a izquierda
 
-## Examples
+## Ejemplos
 
-### Single expansion mode
+### Modo de expansión única
 
-Set `[multiExpandable]="false"` to allow only one panel to be open at a time. Opening a new panel automatically closes any previously open panel.
+Establece `[multiExpandable]="false"` para permitir que solo un panel esté abierto a la vez. Abrir un nuevo panel cierra automáticamente cualquier panel previamente abierto.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -74,11 +74,11 @@ Set `[multiExpandable]="false"` to allow only one panel to be open at a time. Op
   </docs-tab>
 </docs-tab-group>
 
-This mode works well for FAQs or situations where you want users to focus on one answer at a time.
+Este modo funciona bien para FAQs o situaciones donde quieres que los usuarios se enfoquen en una respuesta a la vez.
 
-### Multiple expansion mode
+### Modo de expansión múltiple
 
-Set `[multiExpandable]="true"` to allow multiple panels to be open simultaneously. Users can expand as many panels as needed without closing others.
+Establece `[multiExpandable]="true"` para permitir que múltiples paneles estén abiertos simultáneamente. Los usuarios pueden expandir tantos paneles como necesiten sin cerrar otros.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -104,13 +104,13 @@ Set `[multiExpandable]="true"` to allow multiple panels to be open simultaneousl
   </docs-tab>
 </docs-tab-group>
 
-This mode is useful for form sections or when users need to compare content across multiple panels.
+Este modo es útil para secciones de formularios o cuando los usuarios necesitan comparar contenido entre múltiples paneles.
 
-NOTE: The `multiExpandable` input defaults to `true`. Set it to `false` explicitly if you want single expansion behavior.
+NOTA: El input `multiExpandable` tiene como valor predeterminado `true`. Establécelo en `false` explícitamente si quieres el comportamiento de expansión única.
 
-### Disabled accordion items
+### Elementos de accordion deshabilitados
 
-Disable specific triggers using the `disabled` input. Control how disabled items behave during keyboard navigation using the `softDisabled` input on the accordion group.
+Deshabilita botones de activación específicos usando el input `disabled`. Controla cómo se comportan los elementos deshabilitados durante la navegación por teclado usando el input `softDisabled` en el grupo de accordion.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -136,22 +136,22 @@ Disable specific triggers using the `disabled` input. Control how disabled items
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` (the default), disabled items can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled items are skipped entirely during keyboard navigation.
+Cuando `[softDisabled]="true"` (el valor predeterminado), los elementos deshabilitados pueden recibir foco pero no pueden activarse. Cuando `[softDisabled]="false"`, los elementos deshabilitados se omiten por completo durante la navegación por teclado.
 
-### Lazy content rendering
+### Renderización lazy de contenido
 
-Use the `ngAccordionContent` directive on an `ng-template` to defer rendering content until the panel first expands. This improves performance for accordions with heavy content like images, charts, or complex components.
+Usa la directiva `ngAccordionContent` en un `ng-template` para diferir la renderización del contenido hasta que el panel se expanda por primera vez. Esto mejora el rendimiento para accordions con contenido pesado como imágenes, gráficos o componentes complejos.
 
 ```angular-html
 <div ngAccordionGroup>
   <div>
     <button ngAccordionTrigger panelId="item-1">
-      Trigger Text
+      Texto del Botón de Activación
     </button>
     <div ngAccordionPanel panelId="item-1">
       <ng-template ngAccordionContent>
-        <!-- This content only renders when the panel first opens -->
-        <img src="large-image.jpg" alt="Description">
+        <!-- Este contenido solo se renderiza cuando el panel se abre por primera vez -->
+        <img src="large-image.jpg" alt="Descripción">
         <app-expensive-component />
       </ng-template>
     </div>
@@ -159,93 +159,93 @@ Use the `ngAccordionContent` directive on an `ng-template` to defer rendering co
 </div>
 ```
 
-By default, content remains in the DOM after the panel collapses. Set `[preserveContent]="false"` to remove the content from the DOM when the panel closes.
+Por defecto, el contenido permanece en el DOM después de que el panel se colapsa. Establece `[preserveContent]="false"` para eliminar el contenido del DOM cuando el panel se cierra.
 
 ## APIs
 
 ### AccordionGroup
 
-The container directive that manages keyboard navigation and expansion behavior for a group of accordion items.
+La directiva contenedora que gestiona la navegación por teclado y el comportamiento de expansión para un grupo de elementos de accordion.
 
 #### Inputs
 
-| Property          | Type      | Default | Description                                                               |
-| ----------------- | --------- | ------- | ------------------------------------------------------------------------- |
-| `disabled`        | `boolean` | `false` | Disables all triggers in the group                                        |
-| `multiExpandable` | `boolean` | `true`  | Whether multiple panels can be expanded simultaneously                    |
-| `softDisabled`    | `boolean` | `true`  | When `true`, disabled items are focusable. When `false`, they are skipped |
-| `wrap`            | `boolean` | `false` | Whether keyboard navigation wraps from last to first item and vice versa  |
+| Propiedad         | Tipo      | Predeterminado | Descripción                                                                                       |
+| ----------------- | --------- | -------------- | ------------------------------------------------------------------------------------------------- |
+| `disabled`        | `boolean` | `false`        | Deshabilita todos los botones de activación en el grupo                                           |
+| `multiExpandable` | `boolean` | `true`         | Si múltiples paneles pueden ser expandidos simultáneamente                                        |
+| `softDisabled`    | `boolean` | `true`         | Cuando es `true`, los elementos deshabilitados son focalizables. Cuando es `false`, se omiten    |
+| `wrap`            | `boolean` | `false`        | Si la navegación por teclado se envuelve del último al primer elemento y viceversa               |
 
-#### Methods
+#### Métodos
 
-| Method        | Parameters | Description                                                      |
-| ------------- | ---------- | ---------------------------------------------------------------- |
-| `expandAll`   | none       | Expands all panels (only works when `multiExpandable` is `true`) |
-| `collapseAll` | none       | Collapses all panels                                             |
+| Método        | Parámetros | Descripción                                                                       |
+| ------------- | ---------- | --------------------------------------------------------------------------------- |
+| `expandAll`   | ninguno    | Expande todos los paneles (solo funciona cuando `multiExpandable` es `true`)     |
+| `collapseAll` | ninguno    | Colapsa todos los paneles                                                         |
 
 ### AccordionTrigger
 
-The directive applied to the button element that toggles panel visibility.
+La directiva aplicada al elemento button que alterna la visibilidad del panel.
 
 #### Inputs
 
-| Property   | Type      | Default | Description                                                    |
-| ---------- | --------- | ------- | -------------------------------------------------------------- |
-| `id`       | `string`  | auto    | Unique identifier for the trigger                              |
-| `panelId`  | `string`  | —       | **Required.** Must match the `panelId` of the associated panel |
-| `disabled` | `boolean` | `false` | Disables this trigger                                          |
-| `expanded` | `boolean` | `false` | Whether the panel is expanded (supports two-way binding)       |
+| Propiedad  | Tipo      | Predeterminado | Descripción                                                                       |
+| ---------- | --------- | -------------- | --------------------------------------------------------------------------------- |
+| `id`       | `string`  | auto           | Identificador único para el botón de activación                                   |
+| `panelId`  | `string`  | —              | **Requerido.** Debe coincidir con el `panelId` del panel asociado                |
+| `disabled` | `boolean` | `false`        | Deshabilita este botón de activación                                              |
+| `expanded` | `boolean` | `false`        | Si el panel está expandido (soporta enlace bidireccional)                         |
 
 #### Signals
 
-| Property | Type              | Description                             |
-| -------- | ----------------- | --------------------------------------- |
-| `active` | `Signal<boolean>` | Whether the trigger currently has focus |
+| Propiedad | Tipo              | Descripción                                                |
+| --------- | ----------------- | ---------------------------------------------------------- |
+| `active`  | `Signal<boolean>` | Si el botón de activación actualmente tiene foco          |
 
-#### Methods
+#### Métodos
 
-| Method     | Parameters | Description                       |
-| ---------- | ---------- | --------------------------------- |
-| `expand`   | none       | Expands the associated panel      |
-| `collapse` | none       | Collapses the associated panel    |
-| `toggle`   | none       | Toggles the panel expansion state |
+| Método     | Parámetros | Descripción                                |
+| ---------- | ---------- | ------------------------------------------ |
+| `expand`   | ninguno    | Expande el panel asociado                  |
+| `collapse` | ninguno    | Colapsa el panel asociado                  |
+| `toggle`   | ninguno    | Alterna el estado de expansión del panel   |
 
 ### AccordionPanel
 
-The directive applied to the element containing the collapsible content.
+La directiva aplicada al elemento que contiene el contenido colapsable.
 
 #### Inputs
 
-| Property          | Type      | Default | Description                                                      |
-| ----------------- | --------- | ------- | ---------------------------------------------------------------- |
-| `id`              | `string`  | auto    | Unique identifier for the panel                                  |
-| `panelId`         | `string`  | —       | **Required.** Must match the `panelId` of the associated trigger |
-| `preserveContent` | `boolean` | `true`  | Whether to keep content in DOM after panel collapses             |
+| Propiedad         | Tipo      | Predeterminado | Descripción                                                                |
+| ----------------- | --------- | -------------- | -------------------------------------------------------------------------- |
+| `id`              | `string`  | auto           | Identificador único para el panel                                          |
+| `panelId`         | `string`  | —              | **Requerido.** Debe coincidir con el `panelId` del botón de activación asociado |
+| `preserveContent` | `boolean` | `true`         | Si mantener el contenido en el DOM después de que el panel se colapsa     |
 
 #### Signals
 
-| Property  | Type              | Description                             |
-| --------- | ----------------- | --------------------------------------- |
-| `visible` | `Signal<boolean>` | Whether the panel is currently expanded |
+| Propiedad | Tipo              | Descripción                          |
+| --------- | ----------------- | ------------------------------------ |
+| `visible` | `Signal<boolean>` | Si el panel está actualmente expandido |
 
-#### Methods
+#### Métodos
 
-| Method     | Parameters | Description                 |
-| ---------- | ---------- | --------------------------- |
-| `expand`   | none       | Expands this panel          |
-| `collapse` | none       | Collapses this panel        |
-| `toggle`   | none       | Toggles the expansion state |
+| Método     | Parámetros | Descripción                         |
+| ---------- | ---------- | ----------------------------------- |
+| `expand`   | ninguno    | Expande este panel                  |
+| `collapse` | ninguno    | Colapsa este panel                  |
+| `toggle`   | ninguno    | Alterna el estado de expansión      |
 
 ### AccordionContent
 
-The structural directive applied to an `ng-template` inside an accordion panel to enable lazy rendering.
+La directiva estructural aplicada a un `ng-template` dentro de un panel de accordion para habilitar la renderización lazy.
 
-This directive has no inputs, outputs, or methods. Apply it to an `ng-template` element:
+Esta directiva no tiene inputs, outputs ni métodos. Aplícala a un elemento `ng-template`:
 
 ```angular-html
 <div ngAccordionPanel panelId="item-1">
   <ng-template ngAccordionContent>
-    <!-- Content here is lazily rendered -->
+    <!-- El contenido aquí se renderiza de forma lazy -->
   </ng-template>
 </div>
 ```

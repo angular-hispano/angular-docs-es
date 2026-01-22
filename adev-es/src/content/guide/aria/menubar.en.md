@@ -6,71 +6,9 @@
   <docs-pill href="/api/aria/menu/MenuBar" title="Menubar API Reference"/>
 </docs-pill-row>
 
-## Visión general
+## Overview
 
-El menubar es una barra de navegación horizontal que proporciona acceso persistente a los menús de la aplicación. Los menubars organizan comandos en categorías lógicas como File, Edit y View, ayudando a los usuarios a descubrir y ejecutar características de la aplicación a través de interacción por teclado o mouse.
-
-<docs-tab-group>
-  <docs-tab label="Basic">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Material">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Retro">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-</docs-tab-group>
-
-## Uso
-
-Los menubars funcionan bien para organizar comandos de aplicación en navegación persistente y descubrible.
-
-**Usa menubars cuando:**
-
-- Construir barras de comandos de aplicación (como File, Edit, View, Insert, Format)
-- Crear navegación persistente que permanezca visible a través de la interfaz
-- Organizar comandos en categorías de nivel superior lógicas
-- Necesitar navegación de menú horizontal con soporte de teclado
-- Construir interfaces de aplicación estilo escritorio
-
-**Evita menubars cuando:**
-
-- Construir menús desplegables para acciones individuales (usa [Menu con trigger](guide/aria/menu) en su lugar)
-- Crear menús contextuales (usa el patrón de guía [Menu](guide/aria/menu))
-- Listas de acciones independientes simples (usa [Menu](guide/aria/menu) en su lugar)
-- Interfaces móviles donde el espacio horizontal es limitado
-- La navegación pertenece a un patrón de navegación de sidebar o header
-
-## Características
-
-- **Navegación horizontal** - Las teclas de flecha Izquierda/Derecha se mueven entre categorías de nivel superior
-- **Visibilidad persistente** - Siempre visible, no modal o descartable
-- **Hover para abrir** - Los submenús se abren al pasar el cursor después de la primera interacción por teclado o clic
-- **Submenús anidados** - Soporte para múltiples niveles de profundidad de menú
-- **Navegación por teclado** - Teclas de flecha, Enter/Espacio, Escape y búsqueda typeahead
-- **Estados deshabilitados** - Deshabilitar todo el menubar o elementos individuales
-- **Soporte RTL** - Navegación automática para idiomas de derecha a izquierda
-
-## Ejemplos
-
-### Menubar básico
-
-Un menubar proporciona acceso persistente a comandos de aplicación organizados en categorías de nivel superior. Los usuarios navegan entre categorías con flechas Izquierda/Derecha y abren menús con Enter o flecha Abajo.
+The manubar is a horizontal navigation bar that provides persistent access to application menus. Menubars organize commands into logical categories like File, Edit, and View, helping users discover and execute application features through keyboard or mouse interaction.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -98,11 +36,73 @@ Un menubar proporciona acceso persistente a comandos de aplicación organizados 
   </docs-tab>
 </docs-tab-group>
 
-Presiona la flecha Derecha para moverte entre File, Edit y View. Presiona Enter o flecha Abajo para abrir un menú y navegar por los elementos del submenú con flechas Arriba/Abajo.
+## Usage
 
-### Elementos de menubar deshabilitados
+Menubars work well for organizing application commands into persistent, discoverable navigation.
 
-Deshabilita elementos de menú específicos o todo el menubar para prevenir interacción. Controla si los elementos deshabilitados pueden recibir foco de teclado con el input `softDisabled`.
+**Use menubars when:**
+
+- Building application command bars (such as File, Edit, View, Insert, Format)
+- Creating persistent navigation that stays visible across the interface
+- Organizing commands into logical top-level categories
+- Need horizontal menu navigation with keyboard support
+- Building desktop-style application interfaces
+
+**Avoid menubars when:**
+
+- Building dropdown menus for individual actions (use [Menu with trigger](guide/aria/menu) instead)
+- Creating context menus (use [Menu](guide/aria/menu) guide pattern)
+- Simple standalone action lists (use [Menu](guide/aria/menu) instead)
+- Mobile interfaces where horizontal space is limited
+- Navigation belongs in a sidebar or header navigation pattern
+
+## Features
+
+- **Horizontal navigation** - Left/Right arrow keys move between top-level categories
+- **Persistent visibility** - Always visible, not modal or dismissable
+- **Hover-to-open** - Submenus open on hover after first keyboard or click interaction
+- **Nested submenus** - Support multiple levels of menu depth
+- **Keyboard navigation** - Arrow keys, Enter/Space, Escape, and typeahead search
+- **Disabled states** - Disable entire menubar or individual items
+- **RTL support** - Automatic right-to-left language navigation
+
+## Examples
+
+### Basic menubar
+
+A menubar provides persistent access to application commands organized into top-level categories. Users navigate between categories with Left/Right arrows and open menus with Enter or Down arrow.
+
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+Press Right arrow to move between File, Edit, and View. Press Enter or Down arrow to open a menu and navigate submenu items with Up/Down arrows.
+
+### Disabled menubar items
+
+Disable specific menu items or the entire menubar to prevent interaction. Control whether disabled items can receive keyboard focus with the `softDisabled` input.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -130,11 +130,11 @@ Deshabilita elementos de menú específicos o todo el menubar para prevenir inte
   </docs-tab>
 </docs-tab-group>
 
-Cuando `[softDisabled]="true"` en el menubar, los elementos deshabilitados pueden recibir foco pero no pueden ser activados. Cuando `[softDisabled]="false"`, los elementos deshabilitados se omiten durante la navegación por teclado.
+When `[softDisabled]="true"` on the menubar, disabled items can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled items are skipped during keyboard navigation.
 
-### Soporte RTL
+### RTL support
 
-Los menubars se adaptan automáticamente a idiomas de derecha a izquierda (RTL). La navegación por teclas de flecha invierte la dirección y los submenús se posicionan en el lado izquierdo.
+Menubars automatically adapt to right-to-left (RTL) languages. Arrow key navigation reverses direction, and submenus position on the left side.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -162,37 +162,37 @@ Los menubars se adaptan automáticamente a idiomas de derecha a izquierda (RTL).
   </docs-tab>
 </docs-tab-group>
 
-El atributo `dir="rtl"` habilita el modo RTL. La flecha Izquierda se mueve a la derecha, la flecha Derecha se mueve a la izquierda, manteniendo navegación natural para usuarios de idiomas RTL.
+The `dir="rtl"` attribute enables RTL mode. Left arrow moves right, Right arrow moves left, maintaining natural navigation for RTL language users.
 
 ## APIs
 
-El patrón de menubar usa directivas de la biblioteca Aria de Angular. Consulta la [guía de Menu](guide/aria/menu) para documentación completa del API.
+The menubar pattern uses directives from Angular's Aria library. See the [Menu guide](guide/aria/menu) for complete API documentation.
 
 ### MenuBar
 
-El contenedor horizontal para elementos de menú de nivel superior.
+The horizontal container for top-level menu items.
 
 #### Inputs
 
-| Propiedad      | Tipo      | Por defecto | Descripción                                                      |
-| -------------- | --------- | ----------- | ---------------------------------------------------------------- |
-| `disabled`     | `boolean` | `false`     | Deshabilita todo el menubar                                      |
-| `wrap`         | `boolean` | `true`      | Si la navegación por teclado se envuelve del último al primer elemento |
-| `softDisabled` | `boolean` | `true`      | Cuando es `true`, los elementos deshabilitados son enfocables pero no interactivos |
+| Property       | Type      | Default | Description                                                   |
+| -------------- | --------- | ------- | ------------------------------------------------------------- |
+| `disabled`     | `boolean` | `false` | Disables the entire menubar                                   |
+| `wrap`         | `boolean` | `true`  | Whether keyboard navigation wraps from last to first item     |
+| `softDisabled` | `boolean` | `true`  | When `true`, disabled items are focusable but not interactive |
 
-Consulta la [documentación del API de Menu](guide/aria/menu#apis) para detalles completos sobre todos los inputs y signals disponibles.
+See the [Menu API documentation](guide/aria/menu#apis) for complete details on all available inputs and signals.
 
 ### MenuItem
 
-Elementos individuales dentro del menubar. El mismo API que Menu - consulta [MenuItem](guide/aria/menu#menuitem).
+Individual items within the menubar. Same API as Menu - see [MenuItem](guide/aria/menu#menuitem).
 
-**Comportamiento específico del menubar:**
+**Menubar-specific behavior:**
 
-- Las flechas Izquierda/Derecha navegan entre elementos del menubar (vs Arriba/Abajo en menús verticales)
-- La primera interacción por teclado o clic habilita hover para abrir para submenús
-- Enter o flecha Abajo abre el submenú y enfoca el primer elemento
-- `aria-haspopup="menu"` indica elementos con submenús
+- Left/Right arrows navigate between menubar items (vs Up/Down in vertical menus)
+- First keyboard interaction or click enables hover-to-open for submenus
+- Enter or Down arrow opens the submenu and focuses the first item
+- `aria-haspopup="menu"` indicates items with submenus
 
 ### MenuTrigger
 
-No se usa típicamente en menubars - MenuItem maneja el comportamiento de trigger directamente cuando tiene un submenú asociado. Consulta [MenuTrigger](guide/aria/menu#menutrigger) para patrones de trigger de menú independiente.
+Not typically used in menubars - MenuItem handles trigger behavior directly when it has an associated submenu. See [MenuTrigger](guide/aria/menu#menutrigger) for standalone menu trigger patterns.
