@@ -602,12 +602,12 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/testing/code-coverage',
           },
           {
-            label: 'Testing utility APIs',
+            label: 'APIs utilitarias de pruebas',
             path: 'guide/testing/utility-apis',
             contentPath: 'guide/testing/utility-apis',
           },
           {
-            label: 'Zone.js Testing Utilities',
+            label: 'Utilidades de pruebas de Zone.js',
             path: 'guide/testing/zone-js-testing-utilities',
             contentPath: 'guide/testing/zone-js-testing-utilities',
           },
@@ -632,12 +632,12 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/testing/component-harnesses-testing-environments',
           },
           {
-            label: 'Migrating from Karma to Vitest',
+            label: 'Migrando de Karma a Vitest',
             path: 'guide/testing/migrating-to-vitest',
             contentPath: 'guide/testing/migrating-to-vitest',
           },
           {
-            label: 'Testing with Karma and Jasmine',
+            label: 'Pruebas con Karma y Jasmine',
             path: 'guide/testing/karma',
             contentPath: 'guide/testing/karma',
           },
