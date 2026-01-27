@@ -1,14 +1,14 @@
-# Variables in templates
+# Variables en plantillas
 
-Angular has two types of variable declarations in templates: local template variables and template reference variables.
+Angular tiene dos tipos de declaraciones de variables en plantillas: variables locales de plantilla y variables de referencia de plantilla.
 
-## Local template variables with `@let`
+## Variables locales de plantilla con `@let`
 
-Angular's `@let` syntax allows you to define a local variable and re-use it across a template, similar to the [JavaScript `let` syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let).
+La sintaxis `@let` de Angular te permite definir una variable local y reutilizarla en toda la plantilla, similar a la [sintaxis `let` de JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let).
 
-### Using `@let`
+### Usando `@let`
 
-Use `@let` to declare a variable whose value is based on the result of a template expression. Angular automatically keeps the variable's value up-to-date with the given expression, similar to [bindings](./templates/bindings).
+Usa `@let` para declarar una variable cuyo valor se basa en el resultado de una expresión de plantilla. Angular mantiene automáticamente el valor de la variable actualizado con la expresión dada, similar a los [bindings](./templates/bindings).
 
 ```angular-html
 @let name = user.name;
@@ -21,11 +21,11 @@ Use `@let` to declare a variable whose value is based on the result of a templat
                       'Ut enim ad minim veniam...';
 ```
 
-Each `@let` block can declare exactly one variable. You cannot declare multiple variables in the same block with a comma.
+Cada bloque `@let` puede declarar exactamente una variable. No puedes declarar múltiples variables en el mismo bloque con una coma.
 
-### Referencing the value of `@let`
+### Referenciando el valor de `@let`
 
-Once you've declared a variable with `@let`, you can reuse it in the same template:
+Una vez que has declarado una variable con `@let`, puedes reutilizarla en la misma plantilla:
 
 ```angular-html
 @let user = user$ | async;
@@ -44,22 +44,22 @@ Once you've declared a variable with `@let`, you can reuse it in the same templa
 }
 ```
 
-### Assignability
+### Asignabilidad
 
-A key difference between `@let` and JavaScript's `let` is that `@let` cannot be reassigned after declaration. However, Angular automatically keeps the variable's value up-to-date with the given expression.
+Una diferencia clave entre `@let` y el `let` de JavaScript es que `@let` no puede ser reasignado después de la declaración. Sin embargo, Angular mantiene automáticamente el valor de la variable actualizado con la expresión dada.
 
 ```angular-html
 @let value = 1;
 
-<!-- Invalid - This does not work! -->
+<!-- Inválido - ¡Esto no funciona! -->
 <button (click)="value = value + 1">Increment the value</button>
 ```
 
-### Variable scope
+### Alcance de variables
 
-`@let` declarations are scoped to the current view and its descendants. Angular creates a new view at component boundaries and wherever a template might contain dynamic content, such as control flow blocks, `@defer` blocks, or structural directives.
+Las declaraciones `@let` tienen alcance a la vista actual y sus descendientes. Angular crea una nueva vista en los límites de componentes y en cualquier lugar donde una plantilla pueda contener contenido dinámico, como bloques de control de flujo, bloques `@defer`, o directivas estructurales.
 
-Since `@let` declarations are not hoisted, they **cannot** be accessed by parent views or siblings:
+Dado que las declaraciones `@let` no se elevan (no son hoisted), **no pueden** ser accedidas por vistas padres o hermanas:
 
 ```angular-html
 @let topLevel = value;
@@ -68,84 +68,84 @@ Since `@let` declarations are not hoisted, they **cannot** be accessed by parent
   @let insideDiv = value;
 </div>
 
-{{topLevel}} <!-- Valid -->
-{{insideDiv}} <!-- Valid -->
+{{topLevel}} <!-- Válido -->
+{{insideDiv}} <!-- Válido -->
 
 @if (condition) {
-  {{topLevel + insideDiv}} <!-- Valid -->
+  {{topLevel + insideDiv}} <!-- Válido -->
 
   @let nested = value;
 
   @if (condition) {
-    {{topLevel + insideDiv + nested}} <!-- Valid -->
+    {{topLevel + insideDiv + nested}} <!-- Válido -->
   }
 }
 
-{{nested}} <!-- Error, not hoisted from @if -->
+{{nested}} <!-- Error, no se eleva desde @if -->
 ```
 
-### Full syntax
+### Sintaxis completa
 
-The `@let` syntax is formally defined as:
+La sintaxis `@let` está formalmente definida como:
 
-- The `@let` keyword.
-- Followed by one or more whitespaces, not including new lines.
-- Followed by a valid JavaScript name and zero or more whitespaces.
-- Followed by the = symbol and zero or more whitespaces.
-- Followed by an Angular expression which can be multi-line.
-- Terminated by the `;` symbol.
+- La palabra clave `@let`.
+- Seguida de uno o más espacios en blanco, sin incluir nuevas líneas.
+- Seguida de un nombre JavaScript válido y cero o más espacios en blanco.
+- Seguida del símbolo = y cero o más espacios en blanco.
+- Seguida de una expresión Angular que puede ser multilínea.
+- Terminada por el símbolo `;`.
 
-## Template reference variables
+## Variables de referencia de plantilla
 
-Template reference variables give you a way to declare a variable that references a value from an element in your template.
+Las variables de referencia de plantilla te dan una forma de declarar una variable que referencia un valor de un elemento en tu plantilla.
 
-A template reference variable can refer to the following:
+Una variable de referencia de plantilla puede referirse a lo siguiente:
 
-- a DOM element within a template (including [custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements))
-- an Angular component or directive
-- a [TemplateRef](/api/core/TemplateRef) from an [ng-template](/api/core/ng-template)
+- un elemento DOM dentro de una plantilla (incluyendo [elementos personalizados](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements))
+- un componente o directiva de Angular
+- un [TemplateRef](/api/core/TemplateRef) de un [ng-template](/api/core/ng-template)
 
-You can use template reference variables to read information from one part of the template in another part of the same template.
+Puedes usar variables de referencia de plantilla para leer información de una parte de la plantilla en otra parte de la misma plantilla.
 
-### Declaring a template reference variable
+### Declarando una variable de referencia de plantilla
 
-You can declare a variable on an element in a template by adding an attribute that starts with the hash character (`#`) followed by the variable name.
+Puedes declarar una variable en un elemento de una plantilla agregando un atributo que comienza con el carácter hash (`#`) seguido del nombre de la variable.
 
 ```angular-html
-<!-- Create a template reference variable named "taskInput", referring to the HTMLInputElement. -->
+<!-- Crea una variable de referencia de plantilla llamada "taskInput", que referencia al HTMLInputElement. -->
 <input #taskInput placeholder="Enter task name">
 ```
 
-### Assigning values to template reference variables
+### Asignando valores a variables de referencia de plantilla
 
-Angular assigns a value to template variables based on the element on which the variable is declared.
+Angular asigna un valor a las variables de plantilla basándose en el elemento en el que se declara la variable.
 
-If you declare the variable on a Angular component, the variable refers to the component instance.
+Si declaras la variable en un componente de Angular, la variable se refiere a la instancia del componente.
 
 ```angular-html
-<!-- The `startDate` variable is assigned the instance of `MyDatepicker`. -->
+<!-- La variable `startDate` se asigna a la instancia de `MyDatepicker`. -->
 <my-datepicker #startDate />
 ```
 
-If you declare the variable on an `<ng-template>` element, the variable refers to a TemplateRef instance which represents the template. For more information, see [How Angular uses the asterisk, \*, syntax](/guide/directives/structural-directives#structural-directive-shorthand) in [Structural directives](/guide/directives/structural-directives).
+Si declaras la variable en un elemento `<ng-template>`, la variable se refiere a una instancia de TemplateRef que representa la plantilla. Para más información, consulta [Cómo Angular usa el asterisco, \*, sintaxis](/guide/directives/structural-directives#structural-directive-shorthand) en [Directivas estructurales](/guide/directives/structural-directives).
 
 ```angular-html
-<!-- The `myFragment` variable is assigned the `TemplateRef` instance corresponding to this template fragment. -->
+<!-- La variable `myFragment` se asigna a la instancia de `TemplateRef` correspondiente a este fragmento de plantilla. -->
 <ng-template #myFragment>
   <p>This is a template fragment</p>
 </ng-template>
 ```
 
-If you declare the variable on any other displayed element, the variable refers to the `HTMLElement` instance.
+Si declaras la variable en cualquier otro elemento mostrado, la variable se refiere a la instancia de `HTMLElement`.
 
 ```angular-html
-<!-- The "taskInput" variable refers to the HTMLInputElement instance. -->
+<!-- La variable "taskInput" se refiere a la instancia de HTMLInputElement. -->
 <input #taskInput placeholder="Enter task name">
 ```
 
-#### Assigning a reference to an Angular directive
+#### Asignando una referencia a una directiva de Angular
 
-Angular directives may have an `exportAs` property that defines a name by which the directive can be referenced in a template:
+Las directivas de Angular pueden tener una propiedad `exportAs` que define un nombre por el cual la directiva puede ser referenciada en una plantilla:
 
 ```angular-ts
 @Directive({
@@ -155,20 +155,20 @@ Angular directives may have an `exportAs` property that defines a name by which 
 export class DropZone { /* ... */ }
 ```
 
-When you declare a template variable on an element, you can assign that variable a directive instance by specifying this `exportAs` name:
+Cuando declaras una variable de plantilla en un elemento, puedes asignar a esa variable una instancia de directiva especificando este nombre `exportAs`:
 
 ```angular-html
-<!-- The `firstZone` variable refers to the `DropZone` directive instance. -->
+<!-- La variable `firstZone` se refiere a la instancia de la directiva `DropZone`. -->
 <section dropZone #firstZone="dropZone"> ... </section>
 ```
 
-You cannot refer to a directive that does not specify an `exportAs` name.
+No puedes referirte a una directiva que no especifica un nombre `exportAs`.
 
-### Using template reference variables with queries
+### Usando variables de referencia de plantilla con consultas
 
-In addition to using template variables to read values from another part of the same template, you can also use this style of variable declaration to "mark" an element for [component and directive queries](/guide/components/queries).
+Además de usar variables de plantilla para leer valores de otra parte de la misma plantilla, también puedes usar este estilo de declaración de variable para "marcar" un elemento para [consultas de componentes y directivas](/guide/components/queries).
 
-When you want to query for a specific element in a template, you can declare a template variable on that element and then query for the element based on the variable name.
+Cuando quieres consultar por un elemento específico en una plantilla, puedes declarar una variable de plantilla en ese elemento y luego consultar por el elemento basándote en el nombre de la variable.
 
 ```angular-html
  <input #description value="Original description">
@@ -180,9 +180,9 @@ When you want to query for a specific element in a template, you can declare a t
   template: `<input #description value="Original description">`,
 })
 export class AppComponent {
-  // Query for the input element based on the template variable name.
+  // Consulta por el elemento input basándose en el nombre de la variable de plantilla.
   @ViewChild('description') input: ElementRef | undefined;
 }
 ```
 
-See [Referencing children with queries](/guide/components/queries) for more information on queries.
+Consulta [Referenciando hijos con consultas](/guide/components/queries) para más información sobre consultas.
