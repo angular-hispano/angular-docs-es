@@ -1,16 +1,16 @@
-# Two-way binding
+# Enlace bidireccional
 
-**Two way binding** is a shorthand to simultaneously bind a value into an element, while also giving that element the ability to propagate changes back through this binding.
+El **enlace bidireccional** es una forma abreviada de enlazar simultáneamente un valor a un elemento, mientras también le da a ese elemento la capacidad de propagar cambios de vuelta a través de este enlace.
 
-## Syntax
+## Sintaxis
 
-The syntax for two-way binding is a combination of square brackets and parentheses, `[()]`. It combines the syntax from property binding, `[]`, and the syntax from event binding, `()`. The Angular community informally refers to this syntax as "banana-in-a-box".
+La sintaxis para el enlace bidireccional es una combinación de corchetes y paréntesis, `[()]`. Combina la sintaxis del enlace de propiedad, `[]`, y la sintaxis del enlace de evento, `()`. La comunidad de Angular se refiere informalmente a esta sintaxis como "banana-in-a-box" (plátano en una caja).
 
-## Two-way binding with form controls
+## Enlace bidireccional con controles de formulario
 
-Developers commonly use two-way binding to keep component data in sync with a form control as a user interacts with the control. For example, when a user fills out a text input, it should update the state in the component.
+Los desarrolladores comúnmente usan el enlace bidireccional para mantener los datos del componente sincronizados con un control de formulario mientras el usuario interactúa con el control. Por ejemplo, cuando un usuario llena un campo de texto, debería actualizar el estado en el componente.
 
-The following example dynamically updates the `firstName` attribute on the page:
+El siguiente ejemplo actualiza dinámicamente el atributo `firstName` en la página:
 
 ```angular-ts
 import { Component } from '@angular/core';
@@ -30,21 +30,21 @@ export class AppComponent {
 }
 ```
 
-To use two-way binding with native form controls, you need to:
+Para usar el enlace bidireccional con controles de formulario nativos, necesitas:
 
-1. Import the `FormsModule` from `@angular/forms`
-1. Use the `ngModel` directive with the two-way binding syntax (e.g., `[(ngModel)]`)
-1. Assign it the state that you want it to update (e.g., `firstName`)
+1. Importar el `FormsModule` desde `@angular/forms`
+1. Usar la directiva `ngModel` con la sintaxis de enlace bidireccional (por ejemplo, `[(ngModel)]`)
+1. Asignarle el estado que quieres que actualice (por ejemplo, `firstName`)
 
-Once that is set up, Angular will ensure that any updates in the text input will reflect correctly inside of the component state!
+Una vez que esté configurado, Angular asegurará que cualquier actualización en el campo de texto se refleje correctamente dentro del estado del componente.
 
-Learn more about [`NgModel`](guide/directives#displaying-and-updating-properties-with-ngmodel) in the official docs.
+Aprende más sobre [`NgModel`](guide/directives#displaying-and-updating-properties-with-ngmodel) en la documentación oficial.
 
-## Two-way binding between components
+## Enlace bidireccional entre componentes
 
-Leveraging two-way binding between a parent and child component requires more configuration compared to form elements.
+Aprovechar el enlace bidireccional entre un componente padre e hijo requiere más configuración en comparación con elementos de formulario.
 
-Here is an example where the `AppComponent` is responsible for setting the initial count state, but the logic for updating and rendering the UI for the counter primarily resides inside its child `CounterComponent`.
+Aquí hay un ejemplo donde el `AppComponent` es responsable de establecer el estado de conteo inicial, pero la lógica para actualizar y renderizar la UI del contador reside principalmente dentro de su componente hijo `CounterComponent`.
 
 ```angular-ts
 // ./app.component.ts
@@ -87,13 +87,13 @@ export class CounterComponent {
 }
 ```
 
-### Enabling two-way binding between components
+### Habilitar el enlace bidireccional entre componentes
 
-If we break down the example above to its core, each two-way binding for components requires the following:
+Si desglosamos el ejemplo anterior a su núcleo, cada enlace bidireccional para componentes requiere lo siguiente:
 
-The child component must contain a `model` property.
+El componente hijo debe contener una propiedad `model`.
 
-Here is a simplified example:
+Aquí hay un ejemplo simplificado:
 
 ```angular-ts
 // './counter/counter.component.ts';
@@ -109,12 +109,12 @@ export class CounterComponent {
 }
 ```
 
-The parent component must:
+El componente padre debe:
 
-1. Wrap the `model` property name in the two-way binding syntax.
-1. Assign a property or a signal to the `model` property.
+1. Envolver el nombre de la propiedad `model` en la sintaxis de enlace bidireccional.
+1. Asignar una propiedad o un signal a la propiedad `model`.
 
-Here is a simplified example:
+Aquí hay un ejemplo simplificado:
 
 ```angular-ts
 // ./app.component.ts
