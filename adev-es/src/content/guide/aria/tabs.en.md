@@ -6,70 +6,9 @@
   <docs-pill href="/api/aria/tabs/Tabs" title="Tabs API Reference"/>
 </docs-pill-row>
 
-## Visión general
+## Overview
 
-Las pestañas muestran secciones de contenido en capas donde solo un panel es visible a la vez. Los usuarios cambian entre paneles haciendo clic en botones de pestaña o usando teclas de flecha para navegar la lista de pestañas.
-
-<docs-tab-group>
-  <docs-tab label="Basic">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Material">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Retro">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-</docs-tab-group>
-
-## Uso
-
-Las pestañas funcionan bien para organizar contenido relacionado en secciones distintas donde los usuarios cambian entre diferentes vistas o categorías.
-
-**Usa pestañas cuando:**
-
-- Organizar contenido relacionado en secciones distintas
-- Crear paneles de configuración con múltiples categorías
-- Construir documentación con múltiples temas
-- Implementar dashboards con diferentes vistas
-- Mostrar contenido donde los usuarios necesitan cambiar contextos
-
-**Evita pestañas cuando:**
-
-- Construir formularios secuenciales o wizards (usa un patrón stepper)
-- Navegar entre páginas (usa navegación por router)
-- Mostrar secciones de contenido único (no hay necesidad de pestañas)
-- Tener más de 7-8 pestañas (considera un diseño diferente)
-
-## Características
-
-- **Modos de selección** - Las pestañas se activan automáticamente al enfocar o requieren activación manual
-- **Navegación por teclado** - Teclas de flecha, Home y End para navegación eficiente de pestañas
-- **Orientación** - Diseños de lista de pestañas horizontal o vertical
-- **Contenido lazy** - Los paneles de pestañas se renderizan solo cuando se activan por primera vez
-- **Pestañas deshabilitadas** - Deshabilitar pestañas individuales con gestión de foco
-- **Modos de foco** - Estrategias de foco roving tabindex o activedescendant
-- **Soporte RTL** - Navegación para idiomas de derecha a izquierda
-
-## Ejemplos
-
-### La selección sigue al foco
-
-Cuando la selección sigue al foco, las pestañas se activan inmediatamente mientras navegas con teclas de flecha. Esto proporciona retroalimentación instantánea y funciona bien para contenido ligero.
+Tabs display layered content sections where only one panel is visible at a time. Users switch between panels by clicking tab buttons or using arrow keys to navigate the tab list.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -97,11 +36,72 @@ Cuando la selección sigue al foco, las pestañas se activan inmediatamente mien
   </docs-tab>
 </docs-tab-group>
 
-Establece `[selectionMode]="'follow'"` en la lista de pestañas para habilitar este comportamiento.
+## Usage
 
-### Activación manual
+Tabs work well for organizing related content into distinct sections where users switch between different views or categories.
 
-Con activación manual, las teclas de flecha mueven el foco entre pestañas sin cambiar la pestaña seleccionada. Los usuarios presionan Espacio o Enter para activar la pestaña enfocada.
+**Use tabs when:**
+
+- Organizing related content into distinct sections
+- Creating settings panels with multiple categories
+- Building documentation with multiple topics
+- Implementing dashboards with different views
+- Showing content where users need to switch contexts
+
+**Avoid tabs when:**
+
+- Building sequential forms or wizards (use a stepper pattern)
+- Navigating between pages (use router navigation)
+- Showing single content sections (no need for tabs)
+- Having more than 7-8 tabs (consider a different layout)
+
+## Features
+
+- **Selection modes** - Tabs activate automatically on focus or require manual activation
+- **Keyboard navigation** - Arrow keys, Home, and End for efficient tab navigation
+- **Orientation** - Horizontal or vertical tab list layouts
+- **Lazy content** - Tab panels render only when first activated
+- **Disabled tabs** - Disable individual tabs with focus management
+- **Focus modes** - Roving tabindex or activedescendant focus strategies
+- **RTL support** - Right-to-left language navigation
+
+## Examples
+
+### Selection follows focus
+
+When selection follows focus, tabs activate immediately as you navigate with arrow keys. This provides instant feedback and works well for lightweight content.
+
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+Set `[selectionMode]="'follow'"` on the tab list to enable this behavior.
+
+### Manual activation
+
+With manual activation, arrow keys move focus between tabs without changing the selected tab. Users press Space or Enter to activate the focused tab.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -129,11 +129,11 @@ Con activación manual, las teclas de flecha mueven el foco entre pestañas sin 
   </docs-tab>
 </docs-tab-group>
 
-Usa `[selectionMode]="'explicit'"` para paneles de contenido pesado para evitar renderización innecesaria.
+Use `[selectionMode]="'explicit'"` for heavy content panels to avoid unnecessary rendering.
 
-### Pestañas verticales
+### Vertical tabs
 
-Organiza pestañas verticalmente para interfaces como paneles de configuración o barras laterales de navegación.
+Arrange tabs vertically for interfaces like settings panels or navigation sidebars.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -161,11 +161,11 @@ Organiza pestañas verticalmente para interfaces como paneles de configuración 
   </docs-tab>
 </docs-tab-group>
 
-Establece `[orientation]="'vertical'"` en la lista de pestañas. La navegación cambia a teclas de flecha Arriba/Abajo.
+Set `[orientation]="'vertical'"` on the tab list. Navigation changes to Up/Down arrow keys.
 
-### Renderización lazy de contenido
+### Lazy content rendering
 
-Usa la directiva `ngTabContent` en un `ng-template` para diferir la renderización de paneles de pestañas hasta que se muestren por primera vez.
+Use the `ngTabContent` directive on an `ng-template` to defer rendering tab panels until they're first shown.
 
 ```angular-html
 <div ngTabs>
@@ -176,25 +176,25 @@ Usa la directiva `ngTabContent` en un `ng-template` para diferir la renderizaci�
 
   <div ngTabPanel value="tab1">
     <ng-template ngTabContent>
-      <!-- Este contenido solo se renderiza cuando Tab 1 se muestra por primera vez -->
+      <!-- This content only renders when Tab 1 is first shown -->
       <app-heavy-component />
     </ng-template>
   </div>
 
   <div ngTabPanel value="tab2">
     <ng-template ngTabContent>
-      <!-- Este contenido solo se renderiza cuando Tab 2 se muestra por primera vez -->
+      <!-- This content only renders when Tab 2 is first shown -->
       <app-another-component />
     </ng-template>
   </div>
 </div>
 ```
 
-Por defecto, el contenido permanece en el DOM después de que el panel se oculta. Establece `[preserveContent]="false"` para remover el contenido cuando el panel se desactiva.
+By default, content remains in the DOM after the panel is hidden. Set `[preserveContent]="false"` to remove content when the panel is deactivated.
 
-### Pestañas deshabilitadas
+### Disabled tabs
 
-Deshabilita pestañas específicas para prevenir interacción del usuario. Controla si las pestañas deshabilitadas pueden recibir foco de teclado.
+Disable specific tabs to prevent user interaction. Control whether disabled tabs can receive keyboard focus.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -222,75 +222,75 @@ Deshabilita pestañas específicas para prevenir interacción del usuario. Contr
   </docs-tab>
 </docs-tab-group>
 
-Cuando `[softDisabled]="true"` en la lista de pestañas, las pestañas deshabilitadas pueden recibir foco pero no pueden ser activadas. Cuando `[softDisabled]="false"`, las pestañas deshabilitadas se omiten durante la navegación por teclado.
+When `[softDisabled]="true"` on the tab list, disabled tabs can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled tabs are skipped during keyboard navigation.
 
 ## APIs
 
 ### Tabs
 
-La directiva contenedor que coordina listas de pestañas y paneles.
+The container directive that coordinates tab lists and panels.
 
-Esta directiva no tiene inputs ni outputs. Sirve como el contenedor raíz para las directivas `ngTabList`, `ngTab` y `ngTabPanel`.
+This directive has no inputs or outputs. It serves as the root container for `ngTabList`, `ngTab`, and `ngTabPanel` directives.
 
 ### TabList
 
-El contenedor para botones de pestaña que gestiona la selección y navegación por teclado.
+The container for tab buttons that manages selection and keyboard navigation.
 
 #### Inputs
 
-| Propiedad       | Tipo                         | Por defecto    | Descripción                                                        |
+| Property        | Type                         | Default        | Description                                                        |
 | --------------- | ---------------------------- | -------------- | ------------------------------------------------------------------ |
-| `orientation`   | `'horizontal' \| 'vertical'` | `'horizontal'` | Dirección de diseño de la lista de pestañas                        |
-| `wrap`          | `boolean`                    | `false`        | Si la navegación por teclado se envuelve de la última a la primera pestaña |
-| `softDisabled`  | `boolean`                    | `true`         | Cuando es `true`, las pestañas deshabilitadas son enfocables pero no activables |
-| `selectionMode` | `'follow' \| 'explicit'`     | `'follow'`     | Si las pestañas se activan al enfocar o requieren activación explícita |
-| `selectedTab`   | `any`                        | —              | El valor de la pestaña seleccionada actualmente (soporta enlace bidireccional) |
+| `orientation`   | `'horizontal' \| 'vertical'` | `'horizontal'` | Tab list layout direction                                          |
+| `wrap`          | `boolean`                    | `false`        | Whether keyboard navigation wraps from last to first tab           |
+| `softDisabled`  | `boolean`                    | `true`         | When `true`, disabled tabs are focusable but not activatable       |
+| `selectionMode` | `'follow' \| 'explicit'`     | `'follow'`     | Whether tabs activate on focus or require explicit activation      |
+| `selectedTab`   | `any`                        | —              | The value of the currently selected tab (supports two-way binding) |
 
 ### Tab
 
-Un botón de pestaña individual.
+An individual tab button.
 
 #### Inputs
 
-| Propiedad  | Tipo      | Por defecto | Descripción                                    |
-| ---------- | --------- | ----------- | ---------------------------------------------- |
-| `value`    | `any`     | —           | **Requerido.** Valor único para esta pestaña   |
-| `disabled` | `boolean` | `false`     | Deshabilita esta pestaña                       |
+| Property   | Type      | Default | Description                             |
+| ---------- | --------- | ------- | --------------------------------------- |
+| `value`    | `any`     | —       | **Required.** Unique value for this tab |
+| `disabled` | `boolean` | `false` | Disables this tab                       |
 
 #### Signals
 
-| Propiedad  | Tipo              | Descripción                                  |
-| ---------- | ----------------- | -------------------------------------------- |
-| `selected` | `Signal<boolean>` | Si la pestaña está seleccionada actualmente  |
-| `active`   | `Signal<boolean>` | Si la pestaña tiene el foco actualmente      |
+| Property   | Type              | Description                           |
+| ---------- | ----------------- | ------------------------------------- |
+| `selected` | `Signal<boolean>` | Whether the tab is currently selected |
+| `active`   | `Signal<boolean>` | Whether the tab currently has focus   |
 
 ### TabPanel
 
-El panel de contenido asociado con una pestaña.
+The content panel associated with a tab.
 
 #### Inputs
 
-| Propiedad         | Tipo      | Por defecto | Descripción                                                   |
-| ----------------- | --------- | ----------- | ------------------------------------------------------------- |
-| `value`           | `any`     | —           | **Requerido.** Debe coincidir con el `value` de la pestaña asociada |
-| `preserveContent` | `boolean` | `true`      | Si mantener el contenido del panel en el DOM después de desactivación |
+| Property          | Type      | Default | Description                                                |
+| ----------------- | --------- | ------- | ---------------------------------------------------------- |
+| `value`           | `any`     | —       | **Required.** Must match the `value` of the associated tab |
+| `preserveContent` | `boolean` | `true`  | Whether to keep panel content in DOM after deactivation    |
 
 #### Signals
 
-| Propiedad | Tipo              | Descripción                                   |
-| --------- | ----------------- | --------------------------------------------- |
-| `visible` | `Signal<boolean>` | Si el panel está visible actualmente          |
+| Property  | Type              | Description                            |
+| --------- | ----------------- | -------------------------------------- |
+| `visible` | `Signal<boolean>` | Whether the panel is currently visible |
 
 ### TabContent
 
-Una directiva estructural para renderización lazy de contenido de panel de pestaña.
+A structural directive for lazy rendering tab panel content.
 
-Esta directiva no tiene inputs, outputs ni métodos. Aplícala a un elemento `ng-template` dentro de un panel de pestaña:
+This directive has no inputs, outputs, or methods. Apply it to an `ng-template` element inside a tab panel:
 
 ```angular-html
 <div ngTabPanel value="tab1">
   <ng-template ngTabContent>
-    <!-- El contenido aquí se renderiza de forma lazy -->
+    <!-- Content here is lazily rendered -->
   </ng-template>
 </div>
 ```
