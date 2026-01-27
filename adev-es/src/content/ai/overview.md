@@ -4,7 +4,7 @@
 Construye aplicaciones potenciadas por IA. Desarrolla más rápido con IA.
 </docs-decorative-header>
 
-CONSEJO: ¿Buscas comenzar a construir en tu IDE potenciado por IA favorito? <br>Consulta nuestras [reglas de prompts y mejores prácticas](/ai/develop-with-ai).
+CONSEJO: ¿Buscas comenzar a construir en tu IDE favorito potenciado por IA? <br>Consulta nuestras [reglas de prompts y mejores prácticas](/ai/develop-with-ai).
 
 La IA generativa (GenAI) con modelos de lenguaje grandes (LLMs) permite la creación de experiencias de aplicación sofisticadas y atractivas, incluyendo contenido personalizado, recomendaciones inteligentes, generación y comprensión de medios, resúmenes de información y funcionalidad dinámica.
 
@@ -112,5 +112,5 @@ Considera este ejemplo: El proveedor de LLM no está respondiendo. Una estrategi
 Para aprender sobre prompts de LLM y configuración de IDE con IA, consulta las siguientes guías:
 
 <docs-pill-row>
-  <docs-pill href="ai/develop-with-ai" title="LLM prompts and IDE setup"/>
+  <docs-pill href="ai/develop-with-ai" title="Prompts para LLM y configuración de IDE con IA"/>
 </docs-pill-row>
