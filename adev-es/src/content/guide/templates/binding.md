@@ -1,10 +1,10 @@
-# Binding dynamic text, properties and attributes
+# Enlazar texto, propiedades y atributos dinámicos
 
-In Angular, a **binding** creates a dynamic connection between a component's template and its data. This connection ensures that changes to the component's data automatically update the rendered template.
+En Angular, un **enlace** (binding) crea una conexión dinámica entre la plantilla de un componente y sus datos. Esta conexión asegura que los cambios en los datos del componente actualicen automáticamente la plantilla renderizada.
 
-## Render dynamic text with text interpolation
+## Renderizar texto dinámico con interpolación de texto
 
-You can bind dynamic text in templates with double curly braces, which tells Angular that it is responsible for the expression inside and ensuring it is updated correctly. This is called **text interpolation**.
+Puedes enlazar texto dinámico en plantillas con llaves dobles, lo que le indica a Angular que es responsable de la expresión dentro y asegurar que se actualice correctamente. Esto se llama **interpolación de texto**.
 
 ```angular-ts
 @Component({
@@ -18,22 +18,22 @@ export class AppComponent {
 }
 ```
 
-In this example, when the snippet is rendered to the page, Angular will replace `{{ theme }}` with `dark`.
+En este ejemplo, cuando el fragmento se renderiza en la página, Angular reemplazará `{{ theme }}` con `dark`.
 
 ```angular-html
-<!-- Rendered Output -->
+<!-- Salida renderizada -->
 <p>Your color preference is dark.</p>
 ```
 
-Bindings that change over time should read values from [signals](/guide/signals). Angular tracks the signals read in the template, and updates the rendered page when those signal values change.
+Los enlaces que cambian con el tiempo deben leer valores de [signals](/guide/signals). Angular rastrea los signals leídos en la plantilla, y actualiza la página renderizada cuando esos valores de signals cambian.
 
 ```angular-ts
 @Component({
   template: `
-    <!-- Does not necessarily update when `welcomeMessage` changes. -->
+    <!-- No necesariamente se actualiza cuando `welcomeMessage` cambia. -->
     <p>{{ welcomeMessage }}</p>
 
-    <p>Your color preference is {{ theme() }}.</p> <!-- Always updates when the value of the `name` signal changes. -->
+    <p>Your color preference is {{ theme() }}.</p> <!-- Siempre se actualiza cuando el valor del signal `name` cambia. -->
   `
   ...
 })
@@ -43,96 +43,96 @@ export class AppComponent {
 }
 ```
 
-For more details, see the [Signals guide](/guide/signals).
+Para más detalles, consulta la [guía de Signals](/guide/signals).
 
-Continuing the theme example, if a user clicks on a button that updates the `theme` signal to `'light'` after the page loads, the page updates accordingly to:
+Continuando con el ejemplo del tema, si un usuario hace clic en un botón que actualiza el signal `theme` a `'light'` después de que se carga la página, la página se actualiza en consecuencia a:
 
 ```angular-html
-<!-- Rendered Output -->
+<!-- Salida renderizada -->
 <p>Your color preference is light.</p>
 ```
 
-You can use text interpolation anywhere you would normally write text in HTML.
+Puedes usar interpolación de texto en cualquier lugar donde normalmente escribirías texto en HTML.
 
-All expression values are converted to a string. Objects and arrays are converted using the value’s `toString` method.
+Todos los valores de expresión se convierten a una cadena. Los objetos y arrays se convierten usando el método `toString` del valor.
 
-## Binding dynamic properties and attributes
+## Enlazar propiedades y atributos dinámicos
 
-Angular supports binding dynamic values into object properties and HTML attributes with square brackets.
+Angular soporta enlazar valores dinámicos a propiedades de objetos y atributos HTML con corchetes.
 
-You can bind to properties on an HTML element's DOM instance, a [component](guide/components) instance, or a [directive](guide/directives) instance.
+Puedes enlazar a propiedades en la instancia DOM de un elemento HTML, una instancia de [componente](guide/components), o una instancia de [directiva](guide/directives).
 
-### Native element properties
+### Propiedades de elementos nativos
 
-Every HTML element has a corresponding DOM representation. For example, each `<button>` HTML element corresponds to an instance of `HTMLButtonElement` in the DOM. In Angular, you use property bindings to set values directly to the DOM representation of the element.
+Cada elemento HTML tiene una representación DOM correspondiente. Por ejemplo, cada elemento HTML `<button>` corresponde a una instancia de `HTMLButtonElement` en el DOM. En Angular, usas enlaces de propiedad para establecer valores directamente a la representación DOM del elemento.
 
 ```angular-html
-<!-- Bind the `disabled` property on the button element's DOM object -->
+<!-- Enlaza la propiedad `disabled` en el objeto DOM del elemento button -->
 <button [disabled]="isFormValid()">Save</button>
 ```
 
-In this example, every time `isFormValid` changes, Angular automatically sets the `disabled` property of the `HTMLButtonElement` instance.
+En este ejemplo, cada vez que `isFormValid` cambia, Angular establece automáticamente la propiedad `disabled` de la instancia `HTMLButtonElement`.
 
-### Component and directive properties
+### Propiedades de componentes y directivas
 
-When an element is an Angular component, you can use property bindings to set component input properties using the same square bracket syntax.
+Cuando un elemento es un componente de Angular, puedes usar enlaces de propiedad para establecer propiedades de entrada de componentes usando la misma sintaxis de corchetes.
 
 ```angular-html
-<!-- Bind the `value` property on the `MyListbox` component instance. -->
+<!-- Enlaza la propiedad `value` en la instancia del componente `MyListbox`. -->
 <my-listbox [value]="mySelection()" />
 ```
 
-In this example, every time `mySelection` changes, Angular automatically sets the `value` property of the `MyListbox` instance.
+En este ejemplo, cada vez que `mySelection` cambia, Angular establece automáticamente la propiedad `value` de la instancia `MyListbox`.
 
-You can bind to directive properties as well.
+También puedes enlazar a propiedades de directivas.
 
 ```angular-html
-<!-- Bind to the `ngSrc` property of the `NgOptimizedImage` directive  -->
+<!-- Enlaza a la propiedad `ngSrc` de la directiva `NgOptimizedImage` -->
 <img [ngSrc]="profilePhotoUrl()" alt="The current user's profile photo">
 ```
 
-### Attributes
+### Atributos
 
-When you need to set HTML attributes that do not have corresponding DOM properties, such as SVG attributes, you can bind attributes to elements in your template with the `attr.` prefix.
+Cuando necesitas establecer atributos HTML que no tienen propiedades DOM correspondientes, como atributos SVG, puedes enlazar atributos a elementos en tu plantilla con el prefijo `attr.`.
 
 ```angular-html
-<!-- Bind the `role` attribute on the `<ul>` element to the component's `listRole` property. -->
+<!-- Enlaza el atributo `role` en el elemento `<ul>` a la propiedad `listRole` del componente. -->
 <ul [attr.role]="listRole()">
 ```
 
-In this example, every time `listRole` changes, Angular automatically sets the `role` attribute of the `<ul>` element by calling `setAttribute`.
+En este ejemplo, cada vez que `listRole` cambia, Angular establece automáticamente el atributo `role` del elemento `<ul>` llamando a `setAttribute`.
 
-If the value of an attribute binding is `null`, Angular removes the attribute by calling `removeAttribute`.
+Si el valor de un enlace de atributo es `null`, Angular elimina el atributo llamando a `removeAttribute`.
 
-### Text interpolation in properties and attributes
+### Interpolación de texto en propiedades y atributos
 
-You can also use text interpolation syntax in properties and attributes by using the double curly brace syntax instead of square braces around the property or attribute name. When using this syntax, Angular treats the assignment as a property binding.
+También puedes usar sintaxis de interpolación de texto en propiedades y atributos usando la sintaxis de llaves dobles en lugar de corchetes alrededor del nombre de la propiedad o atributo. Cuando uses esta sintaxis, Angular trata la asignación como un enlace de propiedad.
 
 ```angular-html
-<!-- Binds a value to the `alt` property of the image element's DOM object. -->
+<!-- Enlaza un valor a la propiedad `alt` del objeto DOM del elemento imagen. -->
 <img src="profile-photo.jpg" alt="Profile photo of {{ firstName() }}" >
 ```
 
-## CSS class and style property bindings
+## Enlaces de clases CSS y propiedades de estilo
 
-Angular supports additional features for binding CSS classes and CSS style properties to elements.
+Angular soporta funcionalidades adicionales para enlazar clases CSS y propiedades de estilo CSS a elementos.
 
-### CSS classes
+### Clases CSS
 
-You can create a CSS class binding to conditionally add or remove a CSS class on an element based on whether the bound value is [truthy or falsy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy).
+Puedes crear un enlace de clase CSS para agregar o quitar condicionalmente una clase CSS en un elemento basándose en si el valor enlazado es [truthy o falsy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy).
 
 ```angular-html
-<!-- When `isExpanded` is truthy, add the `expanded` CSS class. -->
+<!-- Cuando `isExpanded` es truthy, agrega la clase CSS `expanded`. -->
 <ul [class.expanded]="isExpanded()">
 ```
 
-You can also bind directly to the `class` property. Angular accepts three types of value:
+También puedes enlazar directamente a la propiedad `class`. Angular acepta tres tipos de valor:
 
-| Description of `class` value                                                                                                                                      | TypeScript type       |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| A string containing one or more CSS classes separated by spaces                                                                                                   | `string`              |
-| An array of CSS class strings                                                                                                                                     | `string[]`            |
-| An object where each property name is a CSS class name and each corresponding value determines whether that class is applied to the element, based on truthiness. | `Record<string, any>` |
+| Descripción del valor de `class`                                                                                                                                                 | Tipo TypeScript       |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Una cadena que contiene una o más clases CSS separadas por espacios                                                                                                              | `string`              |
+| Un array de cadenas de clases CSS                                                                                                                                                | `string[]`            |
+| Un objeto donde cada nombre de propiedad es un nombre de clase CSS y cada valor correspondiente determina si esa clase se aplica al elemento, basado en su valor de truthiness. | `Record<string, any>` |
 
 ```angular-ts
 @Component({
@@ -153,7 +153,7 @@ export class UserProfile {
 }
 ```
 
-The above example renders the following DOM:
+El ejemplo anterior renderiza el siguiente DOM:
 
 ```angular-html
 <ul class="full-width outlined"> ... </ul>
@@ -161,9 +161,9 @@ The above example renders the following DOM:
 <button class="highlighted"> ... </button>
 ```
 
-Angular ignores any string values that are not valid CSS class names.
+Angular ignora cualquier valor de cadena que no sea un nombre de clase CSS válido.
 
-When using static CSS classes, directly binding `class`, and binding specific classes, Angular intelligently combines all of the classes in the rendered result.
+Cuando usas clases CSS estáticas, enlazando `class` directamente, y enlazando clases específicas, Angular combina inteligentemente todas las clases en el resultado renderizado.
 
 ```angular-ts
 @Component({
@@ -176,42 +176,42 @@ export class Listbox {
 }
 ```
 
-In the example above, Angular renders the `ul` element with all three CSS classes.
+En el ejemplo anterior, Angular renderiza el elemento `ul` con las tres clases CSS.
 
 ```angular-html
 <ul class="list box expanded">
 ```
 
-Angular does not guarantee any specific order of CSS classes on rendered elements.
+Angular no garantiza ningún orden específico de clases CSS en los elementos renderizados.
 
-When binding `class` to an array or an object, Angular compares the previous value to the current value with the triple-equals operator (`===`). You must create a new object or array instance when you modify these values in order for Angular to apply any updates.
+Cuando enlazas `class` a un array o un objeto, Angular compara el valor anterior con el valor actual usando el operador de triple igualdad (`===`). Debes crear una nueva instancia de objeto o array cuando modifiques estos valores para que Angular aplique cualquier actualización.
 
-If an element has multiple bindings for the same CSS class, Angular resolves collisions by following its style precedence order.
+Si un elemento tiene múltiples enlaces para la misma clase CSS, Angular resuelve las colisiones siguiendo su orden de precedencia de estilos.
 
-NOTE: Class bindings do not support space-separated class names in a single key. They also don't support mutations on objects as the reference of the binding remains the same. If you need one or the other, use the [ngClass](/api/common/NgClass) directive.
+NOTA: Los enlaces de clase no soportan nombres de clase separados por espacios en una sola clave. Tampoco soportan mutaciones en objetos ya que la referencia del enlace permanece igual. Si necesitas una u otra, usa la directiva [ngClass](/api/common/NgClass).
 
-### CSS style properties
+### Propiedades de estilo CSS
 
-You can also bind to CSS style properties directly on an element.
+También puedes enlazar directamente a propiedades de estilo CSS en un elemento.
 
 ```angular-html
-<!-- Set the CSS `display` property based on the `isExpanded` property. -->
+<!-- Establece la propiedad CSS `display` basada en la propiedad `isExpanded`. -->
 <section [style.display]="isExpanded() ? 'block' : 'none'">
 ```
 
-You can further specify units for CSS properties that accept units.
+Puedes especificar además unidades para propiedades CSS que aceptan unidades.
 
 ```angular-html
-<!-- Set the CSS `height` property to a pixel value based on the `sectionHeightInPixels` property. -->
+<!-- Establece la propiedad CSS `height` a un valor en píxeles basado en la propiedad `sectionHeightInPixels`. -->
 <section [style.height.px]="sectionHeightInPixels()">
 ```
 
-You can also set multiple style values in one binding. Angular accepts the following types of value:
+También puedes establecer múltiples valores de estilo en un enlace. Angular acepta los siguientes tipos de valor:
 
-| Description of `style` value                                                                                              | TypeScript type       |
-| ------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| A string containing zero or more CSS declarations, such as `"display: flex; margin: 8px"`.                                | `string`              |
-| An object where each property name is a CSS property name and each corresponding value is the value of that CSS property. | `Record<string, any>` |
+| Descripción del valor de `style`                                                                                                                     | Tipo TypeScript       |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| Una cadena que contiene cero o más declaraciones CSS, como `"display: flex; margin: 8px"`.                                                           | `string`              |
+| Un objeto donde cada nombre de propiedad es un nombre de propiedad CSS y cada valor correspondiente es el valor de esa propiedad CSS.                | `Record<string, any>` |
 
 ```angular-ts
 @Component({
@@ -230,20 +230,20 @@ export class UserProfile {
 }
 ```
 
-The above example renders the following DOM.
+El ejemplo anterior renderiza el siguiente DOM.
 
 ```angular-html
 <ul style="display: flex; padding: 8px"> ... </ul>
 <section style="border: 1px solid black; font-weight: bold"> ... </section>
 ```
 
-When binding `style` to an object, Angular compares the previous value to the current value with the triple-equals operator (`===`). You must create a new object instance when you modify these values in order to Angular to apply any updates.
+Cuando enlazas `style` a un objeto, Angular compara el valor anterior con el valor actual usando el operador de triple igualdad (`===`). Debes crear una nueva instancia de objeto cuando modifiques estos valores para que Angular aplique cualquier actualización.
 
-If an element has multiple bindings for the same style property, Angular resolves collisions by following its style precedence order.
+Si un elemento tiene múltiples enlaces para la misma propiedad de estilo, Angular resuelve las colisiones siguiendo su orden de precedencia de estilos.
 
-## ARIA attributes
+## Atributos ARIA
 
-Angular supports binding string values to ARIA attributes.
+Angular soporta enlazar valores de cadena a atributos ARIA.
 
 ```angular-html
 <button type="button" [aria-label]="actionLabel()">
@@ -251,6 +251,6 @@ Angular supports binding string values to ARIA attributes.
 </button>
 ```
 
-Angular writes the string value to the element’s `aria-label` attribute and removes it when the bound value is `null`.
+Angular escribe el valor de cadena al atributo `aria-label` del elemento y lo elimina cuando el valor enlazado es `null`.
 
-Some ARIA features expose DOM properties or directive inputs that accept structured values (such as element references). Use standard property bindings for those cases. See the [accessibility guide](best-practices/a11y#aria-attributes-and-properties) for examples and additional guidance.
+Algunas funcionalidades ARIA exponen propiedades DOM o entradas de directivas que aceptan valores estructurados (como referencias a elementos). Usa enlaces de propiedad estándar para esos casos. Consulta la [guía de accesibilidad](best-practices/a11y#aria-attributes-and-properties) para ejemplos y orientación adicional.

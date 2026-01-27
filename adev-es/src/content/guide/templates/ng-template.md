@@ -1,10 +1,10 @@
-# Create template fragments with ng-template
+# Crear fragmentos de plantilla con ng-template
 
-Inspired by the [native `<template>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template), the `<ng-template>` element lets you declare a **template fragment** – a section of content that you can dynamically or programmatically render.
+Inspirado por el [elemento nativo `<template>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template), el elemento `<ng-template>` te permite declarar un **fragmento de plantilla** – una sección de contenido que puedes renderizar dinámica o programáticamente.
 
-## Creating a template fragment
+## Creando un fragmento de plantilla
 
-You can create a template fragment inside of any component template with the `<ng-template>` element:
+Puedes crear un fragmento de plantilla dentro de cualquier plantilla de componente con el elemento `<ng-template>`:
 
 ```angular-html
 <p>This is a normal element</p>
@@ -14,11 +14,11 @@ You can create a template fragment inside of any component template with the `<n
 </ng-template>
 ```
 
-When the above is rendered, the content of the `<ng-template>` element is not rendered on the page. Instead, you can get a reference to the template fragment and write code to dynamically render it.
+Cuando lo anterior se renderiza, el contenido del elemento `<ng-template>` no se renderiza en la página. En su lugar, puedes obtener una referencia al fragmento de plantilla y escribir código para renderizarlo dinámicamente.
 
-### Binding context for fragments
+### Contexto de enlace para fragmentos
 
-Template fragments may contain bindings with dynamic expressions:
+Los fragmentos de plantilla pueden contener enlaces con expresiones dinámicas:
 
 ```angular-ts
 @Component({
@@ -30,21 +30,21 @@ export class ItemCounter {
 }
 ```
 
-Expressions or statements in a template fragment are evaluated against the component in which the fragment is declared, regardless of where the fragment is rendered.
+Las expresiones o declaraciones en un fragmento de plantilla se evalúan contra el componente en el que se declara el fragmento, independientemente de dónde se renderice el fragmento.
 
-## Getting a reference to a template fragment
+## Obteniendo una referencia a un fragmento de plantilla
 
-You can get a reference to a template fragment in one of three ways:
+Puedes obtener una referencia a un fragmento de plantilla de una de tres formas:
 
-- By declaring a [template reference variable](/guide/templates/variables#template-reference-variables) on the `<ng-template>` element
-- By querying for the fragment with [a component or directive query](/guide/components/queries)
-- By injecting the fragment in a directive that's applied directly to an `<ng-template>` element.
+- Declarando una [variable de referencia de plantilla](/guide/templates/variables#template-reference-variables) en el elemento `<ng-template>`
+- Consultando por el fragmento con [una consulta de componente o directiva](/guide/components/queries)
+- Inyectando el fragmento en una directiva que se aplica directamente a un elemento `<ng-template>`.
 
-In all three cases, the fragment is represented by a [TemplateRef](/api/core/TemplateRef) object.
+En los tres casos, el fragmento está representado por un objeto [TemplateRef](/api/core/TemplateRef).
 
-### Referencing a template fragment with a template reference variable
+### Referenciando un fragmento de plantilla con una variable de referencia de plantilla
 
-You can add a template reference variable to an `<ng-template>` element to reference that template fragment in other parts of the same template file:
+Puedes agregar una variable de referencia de plantilla a un elemento `<ng-template>` para referenciar ese fragmento de plantilla en otras partes del mismo archivo de plantilla:
 
 ```angular-html
 <p>This is a normal element</p>
@@ -54,13 +54,13 @@ You can add a template reference variable to an `<ng-template>` element to refer
 </ng-template>
 ```
 
-You can then reference this fragment anywhere else in the template via the `myFragment` variable.
+Luego puedes referenciar este fragmento en cualquier otro lugar de la plantilla a través de la variable `myFragment`.
 
-### Referencing a template fragment with queries
+### Referenciando un fragmento de plantilla con consultas
 
-You can get a reference to a template fragment using any [component or directive query API](/guide/components/queries).
+Puedes obtener una referencia a un fragmento de plantilla usando cualquier [API de consulta de componente o directiva](/guide/components/queries).
 
-You can query the `TemplateRef` object directly using a `viewChild` query.
+Puedes consultar el objeto `TemplateRef` directamente usando una consulta `viewChild`.
 
 ```angular-ts
 @Component({
@@ -78,9 +78,9 @@ export class ComponentWithFragment {
 }
 ```
 
-You can then reference this fragment in your component code or the component's template like any other class member.
+Luego puedes referenciar este fragmento en el código de tu componente o en la plantilla del componente como cualquier otro miembro de clase.
 
-If a template contains multiple fragments, you can assign a name to each fragment by adding a template reference variable to each `<ng-template>` element and querying for the fragments based on that name:
+Si una plantilla contiene múltiples fragmentos, puedes asignar un nombre a cada fragmento agregando una variable de referencia de plantilla a cada elemento `<ng-template>` y consultando por los fragmentos basándote en ese nombre:
 
 ```angular-ts
 @Component({
@@ -103,11 +103,11 @@ export class ComponentWithFragment {
 }
 ```
 
-Again, you can then reference these fragments in your component code or the component's template like any other class members.
+Nuevamente, luego puedes referenciar estos fragmentos en el código de tu componente o en la plantilla del componente como cualquier otro miembro de clase.
 
-### Injecting a template fragment
+### Inyectando un fragmento de plantilla
 
-A directive can inject a `TemplateRef` if that directive is applied directly to an `<ng-template>` element:
+Una directiva puede inyectar un `TemplateRef` si esa directiva se aplica directamente a un elemento `<ng-template>`:
 
 ```angular-ts
 @Directive({
@@ -124,23 +124,23 @@ export class MyDirective {
 </ng-template>
 ```
 
-You can then reference this fragment in your directive code like any other class member.
+Luego puedes referenciar este fragmento en el código de tu directiva como cualquier otro miembro de clase.
 
-## Rendering a template fragment
+## Renderizando un fragmento de plantilla
 
-Once you have a reference to a template fragment's `TemplateRef` object, you can render a fragment in one of two ways: in your template with the `NgTemplateOutlet` directive or in your TypeScript code with `ViewContainerRef`.
+Una vez que tienes una referencia al objeto `TemplateRef` de un fragmento de plantilla, puedes renderizar un fragmento de una de dos formas: en tu plantilla con la directiva `NgTemplateOutlet` o en tu código TypeScript con `ViewContainerRef`.
 
-### Using `NgTemplateOutlet`
+### Usando `NgTemplateOutlet`
 
-The `NgTemplateOutlet` directive from `@angular/common` accepts a `TemplateRef` and renders the fragment as a **sibling** to the element with the outlet. You should generally use `NgTemplateOutlet` on an [`<ng-container>` element](/guide/templates/ng-container).
+La directiva `NgTemplateOutlet` de `@angular/common` acepta un `TemplateRef` y renderiza el fragmento como un **hermano** del elemento con el outlet. Generalmente deberías usar `NgTemplateOutlet` en un [elemento `<ng-container>`](/guide/templates/ng-container).
 
-First, import `NgTemplateOutlet`:
+Primero, importa `NgTemplateOutlet`:
 
 ```typescript
 import { NgTemplateOutlet } from '@angular/common';
 ```
 
-The following example declares a template fragment and renders that fragment to a `<ng-container>` element with `NgTemplateOutlet`:
+El siguiente ejemplo declara un fragmento de plantilla y renderiza ese fragmento en un elemento `<ng-container>` con `NgTemplateOutlet`:
 
 ```angular-html
 <p>This is a normal element</p>
@@ -152,20 +152,20 @@ The following example declares a template fragment and renders that fragment to 
 <ng-container *ngTemplateOutlet="myFragment"></ng-container>
 ```
 
-This example produces the following rendered DOM:
+Este ejemplo produce el siguiente DOM renderizado:
 
 ```angular-html
 <p>This is a normal element</p>
 <p>This is a fragment</p>
 ```
 
-### Using `ViewContainerRef`
+### Usando `ViewContainerRef`
 
-A **view container** is a node in Angular's component tree that can contain content. Any component or directive can inject `ViewContainerRef` to get a reference to a view container corresponding to that component or directive's location in the DOM.
+Un **contenedor de vista** es un nodo en el árbol de componentes de Angular que puede contener contenido. Cualquier componente o directiva puede inyectar `ViewContainerRef` para obtener una referencia a un contenedor de vista correspondiente a la ubicación de ese componente o directiva en el DOM.
 
-You can use the `createEmbeddedView` method on `ViewContainerRef` to dynamically render a template fragment. When you render a fragment with a `ViewContainerRef`, Angular appends it into the DOM as the next sibling of the component or directive that injected the `ViewContainerRef`.
+Puedes usar el método `createEmbeddedView` en `ViewContainerRef` para renderizar dinámicamente un fragmento de plantilla. Cuando renderizas un fragmento con un `ViewContainerRef`, Angular lo agrega al DOM como el siguiente hermano del componente o directiva que inyectó el `ViewContainerRef`.
 
-The following example shows a component that accepts a reference to a template fragment as an input and renders that fragment into the DOM on a button click.
+El siguiente ejemplo muestra un componente que acepta una referencia a un fragmento de plantilla como entrada y renderiza ese fragmento en el DOM al hacer clic en un botón.
 
 ```angular-ts
 @Component({
@@ -198,7 +198,7 @@ export class MyOutlet {
 }
 ```
 
-In the example above, clicking the "Show" button results in the following output:
+En el ejemplo anterior, hacer clic en el botón "Show" resulta en la siguiente salida:
 
 ```angular-html
 <component-with-fragment>
@@ -210,11 +210,11 @@ In the example above, clicking the "Show" button results in the following output
 </component-with-fragment>
 ```
 
-## Passing parameters when rendering a template fragment
+## Pasando parámetros al renderizar un fragmento de plantilla
 
-When declaring a template fragment with `<ng-template>`, you can additionally declare parameters accepted by the fragment. When you render a fragment, you can optionally pass a `context` object corresponding to these parameters. You can use data from this context object in binding expressions and statements, in addition to referencing data from the component in which the fragment is declared.
+Al declarar un fragmento de plantilla con `<ng-template>`, puedes adicionalmente declarar parámetros aceptados por el fragmento. Cuando renderizas un fragmento, puedes opcionalmente pasar un objeto `context` correspondiente a estos parámetros. Puedes usar datos de este objeto de contexto en expresiones y declaraciones de enlace, además de referenciar datos del componente en el que se declara el fragmento.
 
-Each parameter is written as an attribute prefixed with `let-` with a value matching a property name in the context object:
+Cada parámetro se escribe como un atributo con prefijo `let-` con un valor que coincide con un nombre de propiedad en el objeto de contexto:
 
 ```angular-html
 <ng-template let-pizzaTopping="topping">
@@ -222,9 +222,9 @@ Each parameter is written as an attribute prefixed with `let-` with a value matc
 </ng-template>
 ```
 
-### Using `NgTemplateOutlet`
+### Usando `NgTemplateOutlet`
 
-You can bind a context object to the `ngTemplateOutletContext` input:
+Puedes vincular un objeto de contexto a la entrada `ngTemplateOutletContext`:
 
 ```angular-html
 <ng-template #myFragment let-pizzaTopping="topping">
@@ -237,22 +237,22 @@ You can bind a context object to the `ngTemplateOutletContext` input:
 />
 ```
 
-### Using `ViewContainerRef`
+### Usando `ViewContainerRef`
 
-You can pass a context object as the second argument to `createEmbeddedView`:
+Puedes pasar un objeto de contexto como segundo argumento a `createEmbeddedView`:
 
 ```angular-ts
 this.viewContainer.createEmbeddedView(this.myFragment, {topping: 'onion'});
 ```
 
-## Structural directives
+## Directivas estructurales
 
-A **structural directive** is any directive that:
+Una **directiva estructural** es cualquier directiva que:
 
-- Injects `TemplateRef`
-- Injects `ViewContainerRef` and programmatically renders the injected `TemplateRef`
+- Inyecta `TemplateRef`
+- Inyecta `ViewContainerRef` y renderiza programáticamente el `TemplateRef` inyectado
 
-Angular supports a special convenience syntax for structural directives. If you apply the directive to an element and prefix the directive's selector with an asterisk (`*`) character, Angular interprets the entire element and all of its content as a template fragment:
+Angular soporta una sintaxis de conveniencia especial para directivas estructurales. Si aplicas la directiva a un elemento y prefigas el selector de la directiva con un carácter asterisco (`*`), Angular interpreta el elemento completo y todo su contenido como un fragmento de plantilla:
 
 ```angular-html
 <section *myDirective>
@@ -260,7 +260,7 @@ Angular supports a special convenience syntax for structural directives. If you 
 </section>
 ```
 
-This is equivalent to:
+Esto es equivalente a:
 
 ```angular-html
 <ng-template myDirective>
@@ -270,13 +270,13 @@ This is equivalent to:
 </ng-template>
 ```
 
-Developers typically use structural directives to conditionally render fragments or render fragments multiple times.
+Los desarrolladores típicamente usan directivas estructurales para renderizar fragmentos condicionalmente o renderizar fragmentos múltiples veces.
 
-For more details, see [Structural Directives](/guide/directives/structural-directives).
+Para más detalles, consulta [Directivas Estructurales](/guide/directives/structural-directives).
 
-## Additional resources
+## Recursos adicionales
 
-For examples of how `ng-template` is used in other libraries, check out:
+Para ejemplos de cómo se usa `ng-template` en otras bibliotecas, consulta:
 
-- [Tabs from Angular Material](https://material.angular.dev/components/tabs/overview) - nothing gets rendered into the DOM until the tab is activated
-- [Table from Angular Material](https://material.angular.dev/components/table/overview) - allows developers to define different ways to render data
+- [Tabs de Angular Material](https://material.angular.dev/components/tabs/overview) - nada se renderiza en el DOM hasta que la pestaña se activa
+- [Table de Angular Material](https://material.angular.dev/components/table/overview) - permite a los desarrolladores definir diferentes formas de renderizar datos

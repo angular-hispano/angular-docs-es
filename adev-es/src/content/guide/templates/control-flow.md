@@ -1,10 +1,10 @@
-# Control flow
+# Flujo de control
 
-Angular templates support control flow blocks that let you conditionally show, hide, and repeat elements.
+Las plantillas de Angular soportan bloques de flujo de control que te permiten mostrar, ocultar y repetir elementos condicionalmente.
 
-## Conditionally display content with `@if`, `@else-if` and `@else`
+## Mostrar contenido condicionalmente con `@if`, `@else-if` y `@else`
 
-The `@if` block conditionally displays its content when its condition expression is truthy:
+El bloque `@if` muestra condicionalmente su contenido cuando su expresión de condición es truthy:
 
 ```angular-html
 @if (a > b) {
@@ -12,7 +12,7 @@ The `@if` block conditionally displays its content when its condition expression
 }
 ```
 
-If you want to display alternative content, you can do so by providing any number of `@else if` blocks and a singular `@else` block.
+Si quieres mostrar contenido alternativo, puedes hacerlo proporcionando cualquier número de bloques `@else if` y un único bloque `@else`.
 
 ```angular-html
 @if (a > b) {
@@ -24,9 +24,9 @@ If you want to display alternative content, you can do so by providing any numbe
 }
 ```
 
-### Referencing the conditional expression's result
+### Referenciar el resultado de la expresión condicional
 
-The `@if` conditional supports saving the result of the conditional expression into a variable for reuse inside of the block.
+El condicional `@if` soporta guardar el resultado de la expresión condicional en una variable para reutilizarla dentro del bloque.
 
 ```angular-html
 @if (user.profile.settings.startDate; as startDate) {
@@ -34,13 +34,13 @@ The `@if` conditional supports saving the result of the conditional expression i
 }
 ```
 
-This can be useful for referencing longer expressions that would be easier to read and maintain within the template.
+Esto puede ser útil para referenciar expresiones más largas que serían más fáciles de leer y mantener dentro de la plantilla.
 
-## Repeat content with the `@for` block
+## Repetir contenido con el bloque `@for`
 
-The `@for` block loops through a collection and repeatedly renders the content of a block. The collection can be any JavaScript [iterable](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols), but Angular has additional performance optimizations for `Array` values.
+El bloque `@for` recorre una colección y renderiza repetidamente el contenido de un bloque. La colección puede ser cualquier [iterable](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols) de JavaScript, pero Angular tiene optimizaciones de rendimiento adicionales para valores de `Array`.
 
-A typical `@for` loop looks like:
+Un bucle `@for` típico se ve así:
 
 ```angular-html
 @for (item of items; track item.id) {
@@ -48,34 +48,34 @@ A typical `@for` loop looks like:
 }
 ```
 
-Angular's `@for` block does not support flow-modifying statements like JavaScript's `continue` or `break`.
+El bloque `@for` de Angular no soporta declaraciones que modifican el flujo como `continue` o `break` de JavaScript.
 
-### Why is `track` in `@for` blocks important?
+### ¿Por qué es importante `track` en los bloques `@for`?
 
-The `track` expression allows Angular to maintain a relationship between your data and the DOM nodes on the page. This allows Angular to optimize performance by executing the minimum necessary DOM operations when the data changes.
+La expresión `track` permite a Angular mantener una relación entre tus datos y los nodos DOM en la página. Esto permite a Angular optimizar el rendimiento ejecutando las operaciones DOM mínimas necesarias cuando los datos cambian.
 
-Using track effectively can significantly improve your application's rendering performance when looping over data collections.
+Usar track efectivamente puede mejorar significativamente el rendimiento de renderización de tu aplicación al iterar sobre colecciones de datos.
 
-Select a property that uniquely identifies each item in the `track` expression. If your data model includes a uniquely identifying property, commonly `id` or `uuid`, use this value. If your data does not include a field like this, strongly consider adding one.
+Selecciona una propiedad que identifique únicamente cada elemento en la expresión `track`. Si tu modelo de datos incluye una propiedad que identifica únicamente, comúnmente `id` o `uuid`, usa este valor. Si tus datos no incluyen un campo como este, considera seriamente agregar uno.
 
-For static collections that never change, you can use `$index` to tell Angular to track each item by its index in the collection.
+Para colecciones estáticas que nunca cambian, puedes usar `$index` para indicarle a Angular que rastree cada elemento por su índice en la colección.
 
-If no other option is available, you can specify `identity`. This tells Angular to track the item by its reference identity using the triple-equals operator (`===`). Avoid this option whenever possible as it can lead to significantly slower rendering updates, as Angular has no way to map which data item corresponds to which DOM nodes.
+Si no hay otra opción disponible, puedes especificar `identity`. Esto le indica a Angular que rastree el elemento por su identidad de referencia usando el operador de triple igualdad (`===`). Evita esta opción siempre que sea posible, ya que puede llevar a actualizaciones de renderización significativamente más lentas, ya que Angular no tiene forma de mapear qué elemento de datos corresponde a qué nodos DOM.
 
-### Contextual variables in `@for` blocks
+### Variables contextuales en bloques `@for`
 
-Inside `@for` blocks, several implicit variables are always available:
+Dentro de los bloques `@for`, varias variables implícitas siempre están disponibles:
 
-| Variable | Meaning                                       |
-| -------- | --------------------------------------------- |
-| `$count` | Number of items in a collection iterated over |
-| `$index` | Index of the current row                      |
-| `$first` | Whether the current row is the first row      |
-| `$last`  | Whether the current row is the last row       |
-| `$even`  | Whether the current row index is even         |
-| `$odd`   | Whether the current row index is odd          |
+| Variable | Significado                                              |
+| -------- | -------------------------------------------------------- |
+| `$count` | Número de elementos en la colección iterada              |
+| `$index` | Índice de la fila actual                                 |
+| `$first` | Si la fila actual es la primera fila                     |
+| `$last`  | Si la fila actual es la última fila                      |
+| `$even`  | Si el índice de la fila actual es par                    |
+| `$odd`   | Si el índice de la fila actual es impar                  |
 
-These variables are always available with these names, but can be aliased via a `let` segment:
+Estas variables siempre están disponibles con estos nombres, pero pueden ser renombradas mediante un segmento `let`:
 
 ```angular-html
 @for (item of items; track item.id; let idx = $index, e = $even) {
@@ -83,11 +83,11 @@ These variables are always available with these names, but can be aliased via a 
 }
 ```
 
-The aliasing is useful when nesting `@for` blocks, letting you read variables from the outer `@for` block from an inner `@for` block.
+El renombrado es útil al anidar bloques `@for`, permitiéndote leer variables del bloque `@for` externo desde un bloque `@for` interno.
 
-### Providing a fallback for `@for` blocks with the `@empty` block
+### Proporcionar un fallback para bloques `@for` con el bloque `@empty`
 
-You can optionally include an `@empty` section immediately after the `@for` block content. The content of the `@empty` block displays when there are no items:
+Opcionalmente puedes incluir una sección `@empty` inmediatamente después del contenido del bloque `@for`. El contenido del bloque `@empty` se muestra cuando no hay elementos:
 
 ```angular-html
 @for (item of items; track item.name) {
@@ -97,9 +97,9 @@ You can optionally include an `@empty` section immediately after the `@for` bloc
 }
 ```
 
-## Conditionally display content with the `@switch` block
+## Mostrar contenido condicionalmente con el bloque `@switch`
 
-While the `@if` block is great for most scenarios, the `@switch` block provides an alternate syntax to conditionally render data. Its syntax closely resembles JavaScript's `switch` statement.
+Aunque el bloque `@if` es excelente para la mayoría de escenarios, el bloque `@switch` proporciona una sintaxis alternativa para renderizar datos condicionalmente. Su sintaxis se asemeja mucho a la declaración `switch` de JavaScript.
 
 ```angular-html
 @switch (userPermissions) {
@@ -118,10 +118,10 @@ While the `@if` block is great for most scenarios, the `@switch` block provides 
 }
 ```
 
-The value of the conditional expression is compared to the case expression using the triple-equals (`===`) operator.
+El valor de la expresión condicional se compara con la expresión case usando el operador de triple igualdad (`===`).
 
-**`@switch` does not have a fallthrough**, so you do not need an equivalent to a `break` or `return` statement in the block.
+**`@switch` no tiene fallthrough**, por lo que no necesitas un equivalente a una declaración `break` o `return` en el bloque.
 
-You can optionally include a `@default` block. The content of the `@default` block displays if none of the preceding case expressions match the switch value.
+Opcionalmente puedes incluir un bloque `@default`. El contenido del bloque `@default` se muestra si ninguna de las expresiones case precedentes coincide con el valor del switch.
 
-If no `@case` matches the expression and there is no `@default` block, nothing is shown.
+Si ningún `@case` coincide con la expresión y no hay un bloque `@default`, no se muestra nada.

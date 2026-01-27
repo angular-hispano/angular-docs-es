@@ -1,8 +1,8 @@
-# Renderizar plantillas desde un componente padre con `ng-content`
+# Render templates from a parent component with `ng-content`
 
-`<ng-content>` es un elemento especial que acepta marcado o un fragmento de plantilla y controla cómo los componentes renderizan contenido. No renderiza un elemento DOM real.
+`<ng-content>` is a special element that accepts markup or a template fragment and controls how components render content. It does not render a real DOM element.
 
-Aquí hay un ejemplo de un componente `BaseButton` que acepta cualquier marcado de su padre.
+Here is an example of a `BaseButton` component that accepts any markup from its parent.
 
 ```angular-ts
 // ./base-button/base-button.component.ts
@@ -34,4 +34,4 @@ import { BaseButton } from './base-button/base-button.component';
 export class AppComponent {}
 ```
 
-Para más detalle, consulta la [guía en profundidad de `<ng-content>`](/guide/components/content-projection) para otras formas en que puedes aprovechar este patrón.
+For more detail, check out the [`<ng-content>` in-depth guide](/guide/components/content-projection) for other ways you can leverage this pattern.
