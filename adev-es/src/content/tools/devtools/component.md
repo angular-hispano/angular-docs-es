@@ -1,76 +1,76 @@
-# Inspect the component tree
+# Inspeccionar el árbol de componentes
 
-## Debug your application
+## Depura tu aplicación
 
-The **Components** tab lets you explore the structure of your application.
-You can visualize the component and directive instances in the DOM and inspect or modify their state.
+La pestaña **Components** te permite explorar la estructura de tu aplicación.
+Puedes visualizar las instancias de componentes y directivas en el DOM e inspeccionar o modificar su estado.
 
-### Explore the application structure
+### Explora la estructura de la aplicación
 
-The component tree displays a hierarchical relationship of the _components and directives_ within your application.
+El árbol de componentes muestra una relación jerárquica de los _componentes y directivas_ dentro de tu aplicación.
 
-<img src="assets/images/guide/devtools/component-explorer.png" alt="A screenshot of the 'Components' tab showing a tree of Angular components and directives starting the root of the application.">
+<img src="assets/images/guide/devtools/component-explorer.png" alt="Una captura de pantalla de la pestaña 'Components' mostrando un árbol de componentes y directivas de Angular comenzando desde la raíz de la aplicación.">
 
-Click the individual components or directives in the component explorer to select them and preview their properties.
-Angular DevTools displays properties and metadata on the right side of the component tree.
+Haz clic en los componentes o directivas individuales en el explorador de componentes para seleccionarlos y previsualizar sus propiedades.
+Angular DevTools muestra las propiedades y metadatos en el lado derecho del árbol de componentes.
 
-To look up a component or directive by name use the search box above the component tree.
+Para buscar un componente o directiva por nombre, usa el cuadro de búsqueda encima del árbol de componentes.
 
-<img src="assets/images/guide/devtools/search.png" alt="A screenshot of the 'Components' tab. The filter bar immediately underneath the tab is searching for 'todo' and all components with 'todo' in the name are highlighted in the tree. `app-todos` is currently selected and a sidebar to the right displays information about the component's properties. This includes a section of `@Output` fields and another section for other properties.">
+<img src="assets/images/guide/devtools/search.png" alt="Una captura de pantalla de la pestaña 'Components'. La barra de filtro inmediatamente debajo de la pestaña está buscando 'todo' y todos los componentes con 'todo' en el nombre están resaltados en el árbol. `app-todos` está actualmente seleccionado y una barra lateral a la derecha muestra información sobre las propiedades del componente. Esto incluye una sección de campos `@Output` y otra sección para otras propiedades.">
 
-### Navigate to the host node
+### Navegar al nodo host
 
-To go to the host element of a particular component or directive, double-click it in the component explorer.
-Angular DevTools will open the Elements tab in Chrome or the Inspector tab in Firefox, and select the associated DOM node.
+Para ir al elemento host de un componente o directiva en particular, haz doble clic en él en el explorador de componentes.
+Angular DevTools abrirá la pestaña Elements en Chrome o la pestaña Inspector en Firefox, y seleccionará el nodo DOM asociado.
 
-### Navigate to source
+### Navegar al código fuente
 
-For components, Angular DevTools lets you navigate to the component definition in the Sources tab (Chrome) and Debugger tab (Firefox).
-After you select a particular component, click the icon at the top-right of the properties view:
+Para los componentes, Angular DevTools te permite navegar a la definición del componente en la pestaña Sources (Chrome) y la pestaña Debugger (Firefox).
+Después de seleccionar un componente en particular, haz clic en el ícono en la esquina superior derecha de la vista de propiedades:
 
-<img src="assets/images/guide/devtools/navigate-source.png" alt="A screenshot of the 'Components' tab. The properties view on the right is visible for a component and the mouse rests in the upper right corner of that view on top of a `<>` icon. An adjacent tooltip reads 'Open component source'.">
+<img src="assets/images/guide/devtools/navigate-source.png" alt="Una captura de pantalla de la pestaña 'Components'. La vista de propiedades a la derecha es visible para un componente y el ratón descansa en la esquina superior derecha de esa vista sobre un ícono `<>`. Un tooltip adyacente dice 'Open component source'.">
 
-### Update property value
+### Actualizar el valor de una propiedad
 
-Like browsers' DevTools, the properties view lets you edit the value of an input, output, or other properties.
-Right-click on the property value and if edit functionality is available for this value type, a text input will appear.
-Type the new value and press `Enter` to apply this value to the property.
+Al igual que las DevTools del navegador, la vista de propiedades te permite editar el valor de una entrada, salida u otras propiedades.
+Haz clic derecho en el valor de la propiedad y si la funcionalidad de edición está disponible para este tipo de valor, aparecerá un campo de texto.
+Escribe el nuevo valor y presiona `Enter` para aplicar este valor a la propiedad.
 
-<img src="assets/images/guide/devtools/update-property.png" alt="A screenshot of the 'Components' tab with the properties view open for a component. An `@Input` named `todo` contains a `label` property which is currently selected and has been manually updated to the value 'Buy milk'.">
+<img src="assets/images/guide/devtools/update-property.png" alt="Una captura de pantalla de la pestaña 'Components' con la vista de propiedades abierta para un componente. Un `@Input` llamado `todo` contiene una propiedad `label` que está actualmente seleccionada y ha sido actualizada manualmente al valor 'Buy milk'.">
 
-### Access selected component or directive in console
+### Acceder al componente o directiva seleccionada en la consola
 
-As a shortcut in the console, Angular DevTools provides access to instances of recently selected components or directives.
-Type `$ng0` to get a reference to the instance of the currently selected component or directive, and type `$ng1` for the previously selected instance, `$ng2` for the instance selected before that, and so on.
+Como atajo en la consola, Angular DevTools proporciona acceso a instancias de componentes o directivas seleccionados recientemente.
+Escribe `$ng0` para obtener una referencia a la instancia del componente o directiva actualmente seleccionada, y escribe `$ng1` para la instancia seleccionada previamente, `$ng2` para la instancia seleccionada antes de esa, y así sucesivamente.
 
-<img src="assets/images/guide/devtools/access-console.png" alt="A screenshot of the 'Components' tab with the browser console underneath. In the console, the user has typed three commands, `$ng0`, `$ng1`, and `$ng2` to view the three most recently selected elements. After each statement, the console prints a different component reference.">
+<img src="assets/images/guide/devtools/access-console.png" alt="Una captura de pantalla de la pestaña 'Components' con la consola del navegador debajo. En la consola, el usuario ha escrito tres comandos, `$ng0`, `$ng1` y `$ng2` para ver los tres elementos seleccionados más recientemente. Después de cada instrucción, la consola imprime una referencia de componente diferente.">
 
-### Select a directive or component
+### Seleccionar una directiva o componente
 
-Similar to browsers' DevTools, you can inspect the page to select a particular component or directive.
-Click the **_Inspect element_** icon in the top left corner within Angular DevTools and hover over a DOM element on the page.
-The extension recognizes the associated directives and/or components and lets you select the corresponding element in the Component tree.
+Similar a las DevTools del navegador, puedes inspeccionar la página para seleccionar un componente o directiva en particular.
+Haz clic en el ícono de **_Inspect element_** en la esquina superior izquierda dentro de Angular DevTools y pasa el cursor sobre un elemento DOM en la página.
+La extensión reconoce las directivas y/o componentes asociados y te permite seleccionar el elemento correspondiente en el árbol de componentes.
 
-<img src="assets/images/guide/devtools/inspect-element.png" alt="A screenshot of the 'Components' tab with an Angular todo application visible. In the very top-left corner of Angular DevTools, an icon of a screen with a mouse icon inside it is selected. The mouse rests on a todo element in the Angular application UI. The element is highlighted with a `<TodoComponent>` label displayed in an adjacent tooltip.">
+<img src="assets/images/guide/devtools/inspect-element.png" alt="Una captura de pantalla de la pestaña 'Components' con una aplicación Angular de tareas visible. En la esquina superior izquierda de Angular DevTools, un ícono de una pantalla con un ícono de ratón dentro está seleccionado. El ratón descansa sobre un elemento de tarea en la interfaz de la aplicación Angular. El elemento está resaltado con una etiqueta `<TodoComponent>` mostrada en un tooltip adyacente.">
 
-### Inspect Deferrable views
+### Inspeccionar vistas diferibles
 
-Alongside the directives, the directive tree also includes [`@defer` blocks](/guide/templates/defer).
+Junto a las directivas, el árbol de directivas también incluye [bloques `@defer`](/guide/templates/defer).
 
 <img src="assets/images/guide/devtools/defer-block.png" />
 
-Clicking a defer block shows more details in the properties sidebar: the different optional blocks (for example `@loading`, `@placeholder`, and `@error`), the configured triggers (defer triggers, prefetch triggers, and hydrate triggers), and timing options such as the `minimum` and `after` values.
+Al hacer clic en un bloque defer se muestran más detalles en la barra lateral de propiedades: los diferentes bloques opcionales (por ejemplo `@loading`, `@placeholder` y `@error`), los triggers configurados (triggers de defer, triggers de precarga y triggers de hidratación), y opciones de temporización como los valores `minimum` y `after`.
 
-### Hydration
+### Hidratación
 
-When [hydration](/guide/hydration) is enabled on your SSR/SSG application, the directive tree shows the hydration status of each component.
+Cuando la [hidratación](/guide/hydration) está habilitada en tu aplicación SSR/SSG, el árbol de directivas muestra el estado de hidratación de cada componente.
 
-In case of errors, an error message is displayed on the affected component.
+En caso de errores, se muestra un mensaje de error en el componente afectado.
 
 <img src="assets/images/guide/devtools/hydration-status.png" />
 
-The hydration status can also be visualized on the application itself by enabling the overlay.
+El estado de hidratación también se puede visualizar en la propia aplicación habilitando la superposición.
 
 <img src="assets/images/guide/devtools/hydration-overlay-ecom.png" />
 
-Here is an illustration of the hydration overlays on a Angular e-shop example app.
+Aquí se muestra una ilustración de las superposiciones de hidratación en una aplicación de ejemplo de tienda Angular.
