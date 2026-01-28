@@ -1,20 +1,20 @@
-# Creating and using services
+# Creando y usando servicios
 
-Services are reusable pieces of code that can be shared across your Angular application. They typically handle data fetching, business logic, or other functionality that multiple components need to access.
+Los servicios son piezas de código reutilizables que pueden compartirse a través de tu aplicación Angular. Típicamente manejan la obtención de datos, lógica de negocio u otra funcionalidad que múltiples componentes necesitan acceder.
 
-## Creating a service
+## Creando un servicio
 
-You can create a service with the [Angular CLI](tools/cli) with the following command:
+Puedes crear un servicio con el [Angular CLI](tools/cli) con el siguiente comando:
 
 ```bash
 ng generate service CUSTOM_NAME
 ```
 
-This creates a dedicated `CUSTOM_NAME.ts` file in your `src` directory.
+Esto crea un archivo dedicado `CUSTOM_NAME.ts` en tu directorio `src`.
 
-You can also manually create a service by adding the `@Injectable()` decorator to a TypeScript class. This tells Angular that the service can be injected as a dependency.
+También puedes crear manualmente un servicio añadiendo el decorador `@Injectable()` a una clase TypeScript. Esto le indica a Angular que el servicio puede ser inyectado como una dependencia.
 
-Here is an example of a service that allows users to add and request data:
+Aquí hay un ejemplo de un servicio que permite a los usuarios agregar y solicitar datos:
 
 ```ts
 // 📄 src/app/basic-data-store.ts
@@ -34,21 +34,21 @@ export class BasicDataStore {
 }
 ```
 
-## How services become available
+## Cómo los servicios se vuelven disponibles
 
-When you use `@Injectable({ providedIn: 'root' })` in your service, Angular:
+Cuando usas `@Injectable({ providedIn: 'root' })` en tu servicio, Angular:
 
-- **Creates a single instance** (singleton) for your entire application
-- **Makes it available everywhere** without any additional configuration
-- **Enables tree-shaking** so the service is only included in your JavaScript bundle if it's actually used
+- **Crea una única instancia** (singleton) para toda tu aplicación
+- **Lo hace disponible en todas partes** sin ninguna configuración adicional
+- **Habilita tree-shaking** para que el servicio solo se incluya en tu bundle de JavaScript si realmente se usa
 
-This is the recommended approach for most services.
+Este es el enfoque recomendado para la mayoría de los servicios.
 
-## Injecting a service
+## Inyectando un servicio
 
-Once you've created a service with `providedIn: 'root'`, you can inject it anywhere in your application using the `inject()` function from `@angular/core`.
+Una vez que has creado un servicio con `providedIn: 'root'`, puedes inyectarlo en cualquier parte de tu aplicación usando la función `inject()` de `@angular/core`.
 
-### Injecting into a component
+### Inyectando en un componente
 
 ```angular-ts
 import { Component, inject } from '@angular/core';
@@ -70,7 +70,7 @@ export class ExampleComponent {
 }
 ```
 
-### Injecting into another service
+### Inyectando en otro servicio
 
 ```ts
 import { inject, Injectable } from '@angular/core';
@@ -93,13 +93,13 @@ export class BasicDataStore {
 }
 ```
 
-## Next steps
+## Próximos pasos
 
-While `providedIn: 'root'` covers most use cases, Angular offers additional ways to provide services for specialized scenarios:
+Aunque `providedIn: 'root'` cubre la mayoría de los casos de uso, Angular ofrece formas adicionales de proveer servicios para escenarios especializados:
 
-- **Component-specific instances** - When components need their own isolated service instances
-- **Manual configuration** - For services that require runtime configuration
-- **Factory providers** - For dynamic service creation based on runtime conditions
-- **Value providers** - For providing configuration objects or constants
+- **Instancias específicas de componente** - Cuando los componentes necesitan sus propias instancias aisladas de servicio
+- **Configuración manual** - Para servicios que requieren configuración en tiempo de ejecución
+- **Proveedores factory** - Para creación dinámica de servicios basada en condiciones de tiempo de ejecución
+- **Proveedores de valor** - Para proveer objetos de configuración o constantes
 
-You can learn more about these advanced patterns in the next guide: [defining dependency providers](/guide/di/defining-dependency-providers).
+Puedes aprender más sobre estos patrones avanzados en la siguiente guía: [definiendo proveedores de dependencias](/guide/di/defining-dependency-providers).
