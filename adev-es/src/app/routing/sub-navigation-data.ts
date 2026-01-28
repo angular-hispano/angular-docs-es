@@ -298,13 +298,13 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             status: 'updated',
           },
           {
-            label: 'Creating and using services',
+            label: 'Creando y usando servicios',
             path: 'guide/di/creating-and-using-services',
             contentPath: 'guide/di/creating-and-using-services',
             status: 'updated',
           },
           {
-            label: 'Defining dependency providers',
+            label: 'Definiendo proveedores de dependencias',
             path: 'guide/di/defining-dependency-providers',
             contentPath: 'guide/di/defining-dependency-providers',
             status: 'updated',
