@@ -946,22 +946,22 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'DevTools',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'tools/devtools',
             contentPath: 'tools/devtools/overview',
           },
           {
-            label: 'Components',
+            label: 'Componentes',
             path: 'tools/devtools/component',
             contentPath: 'tools/devtools/component',
           },
           {
-            label: 'Profiler',
+            label: 'Perfilador',
             path: 'tools/devtools/profiler',
             contentPath: 'tools/devtools/profiler',
           },
           {
-            label: 'Injectors',
+            label: 'Inyectores',
             path: 'tools/devtools/injectors',
             contentPath: 'tools/devtools/injectors',
           },
