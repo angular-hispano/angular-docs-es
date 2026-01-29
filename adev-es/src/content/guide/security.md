@@ -21,7 +21,7 @@ Estas son algunas mejores prácticas para asegurar que tu aplicación Angular se
 
 1. **Mantente actualizado con las últimas versiones de las bibliotecas de Angular** - Las bibliotecas de Angular reciben actualizaciones regulares, y estas actualizaciones pueden corregir defectos de seguridad descubiertos en versiones anteriores. Revisa el [registro de cambios](https://github.com/angular/angular/blob/main/CHANGELOG.md) de Angular para actualizaciones relacionadas con seguridad.
 2. **No alteres tu copia de Angular** - Las versiones privadas y personalizadas de Angular tienden a quedarse atrás de la versión actual y podrían no incluir correcciones de seguridad importantes y mejoras. En su lugar, comparte tus mejoras de Angular con la comunidad y haz un pull request.
-3. **Evita las APIs de Angular marcadas en la documentación como "_Riesgo de Seguridad_"** - Para más información, consulta la sección [Confiar en valores seguros](#trusting-safe-values) de esta página.
+3. **Evita las APIs de Angular marcadas en la documentación como "_Riesgo de Seguridad_"** - Para más información, consulta la sección [Confiar en valores seguros](#confiar-en-valores-seguros) de esta página.
 
 ## Prevenir cross-site scripting (XSS)
 
@@ -38,16 +38,16 @@ Si datos controlados por atacantes entran al DOM, espera vulnerabilidades de seg
 
 Para bloquear sistemáticamente bugs de XSS, Angular trata todos los valores como no confiables por defecto.
 Cuando un valor se inserta en el DOM desde un enlace de plantilla o interpolación, Angular sanitiza y escapa los valores no confiables.
-Si un valor ya fue sanitizado fuera de Angular y se considera seguro, comunícalo a Angular marcando el [valor como confiable](#trusting-safe-values).
+Si un valor ya fue sanitizado fuera de Angular y se considera seguro, comunícalo a Angular marcando el [valor como confiable](#confiar-en-valores-seguros).
 
 A diferencia de los valores usados para renderizar, las plantillas de Angular se consideran confiables por defecto y deben tratarse como código ejecutable.
 Nunca crees plantillas concatenando entrada de usuario y sintaxis de plantilla.
 Hacer esto permitiría a los atacantes [inyectar código arbitrario](https://en.wikipedia.org/wiki/Code_injection) en tu aplicación.
-Para prevenir estas vulnerabilidades, siempre usa el [compilador de plantillas Ahead-Of-Time (AOT)](#use-the-aot-template-compiler) por defecto en despliegues de producción.
+Para prevenir estas vulnerabilidades, siempre usa el [compilador de plantillas Ahead-Of-Time (AOT)](#usar-el-compilador-de-plantillas-aot) por defecto en despliegues de producción.
 
 Se puede proporcionar una capa extra de protección mediante el uso de Content Security Policy y Trusted Types.
 Estas características de la plataforma web operan a nivel del DOM, que es el lugar más efectivo para prevenir problemas de XSS. Aquí no pueden ser evadidas usando otras APIs de nivel inferior.
-Por esta razón, se recomienda encarecidamente aprovechar estas características. Para hacerlo, configura la [política de seguridad de contenido](#content-security-policy) para la aplicación y habilita la [aplicación de trusted types](#enforcing-trusted-types).
+Por esta razón, se recomienda encarecidamente aprovechar estas características. Para hacerlo, configura la [política de seguridad de contenido](#política-de-seguridad-de-contenido) para la aplicación y habilita la [aplicación de trusted types](#aplicar-trusted-types).
 
 ### Sanitización y contextos de seguridad
 
@@ -58,12 +58,12 @@ Por ejemplo, un valor que es inofensivo en CSS es potencialmente peligroso en un
 
 Angular define los siguientes contextos de seguridad:
 
-| Contextos de seguridad | Detalles                                                                           |
-| :--------------------- | :--------------------------------------------------------------------------------- |
+| Contextos de seguridad | Detalles                                                                              |
+| :--------------------- | :------------------------------------------------------------------------------------ |
 | HTML                   | Usado cuando se interpreta un valor como HTML, por ejemplo, al enlazar a `innerHtml`. |
-| Style                  | Usado cuando se enlaza CSS a la propiedad `style`.                                 |
-| URL                    | Usado para propiedades de URL, como `<a href>`.                                    |
-| Resource URL           | Una URL que se carga y ejecuta como código, por ejemplo, en `<script src>`.        |
+| Style                  | Usado cuando se enlaza CSS a la propiedad `style`.                                    |
+| URL                    | Usado para propiedades de URL, como `<a href>`.                                       |
+| Resource URL           | Una URL que se carga y ejecuta como código, por ejemplo, en `<script src>`.           |
 
 Angular sanitiza valores no confiables para HTML y URLs. Sanitizar URLs de recursos no es posible porque contienen código arbitrario.
 En modo de desarrollo, Angular imprime una advertencia en la consola cuando tiene que cambiar un valor durante la sanitización.
@@ -95,7 +95,7 @@ Evita interactuar directamente con el DOM y en su lugar usa plantillas de Angula
 
 Para casos donde esto es inevitable, usa las funciones de sanitización integradas de Angular.
 Sanitiza valores no confiables con el método [DomSanitizer.sanitize](api/platform-browser/DomSanitizer#sanitize) y el `SecurityContext` apropiado.
-Esa función también acepta valores que fueron marcados como confiables usando las funciones `bypassSecurityTrust`, y no los sanitiza, como se [describe a continuación](#trusting-safe-values).
+Esa función también acepta valores que fueron marcados como confiables usando las funciones `bypassSecurityTrust`, y no los sanitiza, como se [describe a continuación](#confiar-en-valores-seguros).
 
 ### Confiar en valores seguros
 
@@ -155,14 +155,16 @@ Puedes establecer el nonce para Angular de una de estas maneras:
 1. Proporciona el nonce usando el token de inyección `CSP_NONCE`. Usa este enfoque si tienes acceso al nonce en tiempo de ejecución y quieres poder cachear el `index.html`.
 
 ```ts
-import {bootstrapApplication, CSP_NONCE} from '@angular/core';
-import {AppComponent} from './app/app.component';
+import { bootstrapApplication, CSP_NONCE } from "@angular/core";
+import { AppComponent } from "./app/app.component";
 
 bootstrapApplication(AppComponent, {
-  providers: [{
-    provide: CSP_NONCE,
-    useValue: globalThis.myRandomNonceValue
-  }]
+  providers: [
+    {
+      provide: CSP_NONCE,
+      useValue: globalThis.myRandomNonceValue,
+    },
+  ],
 });
 ```
 
@@ -202,13 +204,13 @@ Consulta [caniuse.com/trusted-types](https://caniuse.com/trusted-types) para el 
 
 Para aplicar Trusted Types en tu aplicación, debes configurar el servidor web de tu aplicación para emitir encabezados HTTP con una de las siguientes políticas de Angular:
 
-| Políticas                | Detalle                                                                                                                                                                                                                                                                                     |
-| :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `angular`                | Esta política se usa en código revisado de seguridad que es interno de Angular, y es requerida para que Angular funcione cuando Trusted Types está aplicado. Cualquier valor de plantilla en línea o contenido sanitizado por Angular es tratado como seguro por esta política.             |
-| `angular#bundler`        | Esta política es usada por el bundler de Angular CLI al crear archivos de chunks lazy.                                                                                                                                                                                                      |
-| `angular#unsafe-bypass`  | Esta política se usa para aplicaciones que usan cualquiera de los métodos en [DomSanitizer](api/platform-browser/DomSanitizer) de Angular que evaden la seguridad, como `bypassSecurityTrustHtml`. Cualquier aplicación que use estos métodos debe habilitar esta política.                 |
+| Políticas                | Detalle                                                                                                                                                                                                                                                                                                |
+| :----------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `angular`                | Esta política se usa en código revisado de seguridad que es interno de Angular, y es requerida para que Angular funcione cuando Trusted Types está aplicado. Cualquier valor de plantilla en línea o contenido sanitizado por Angular es tratado como seguro por esta política.                        |
+| `angular#bundler`        | Esta política es usada por el bundler de Angular CLI al crear archivos de chunks lazy.                                                                                                                                                                                                                 |
+| `angular#unsafe-bypass`  | Esta política se usa para aplicaciones que usan cualquiera de los métodos en [DomSanitizer](api/platform-browser/DomSanitizer) de Angular que evaden la seguridad, como `bypassSecurityTrustHtml`. Cualquier aplicación que use estos métodos debe habilitar esta política.                            |
 | `angular#unsafe-jit`     | Esta política es usada por el [compilador Just-In-Time (JIT)](api/core/Compiler). Debes habilitar esta política si tu aplicación interactúa directamente con el compilador JIT o está ejecutándose en modo JIT usando [platform browser dynamic](api/platform-browser-dynamic/platformBrowserDynamic). |
-| `angular#unsafe-upgrade` | Esta política es usada por el paquete [@angular/upgrade](api/upgrade/static/UpgradeModule). Debes habilitar esta política si tu aplicación es un híbrido de AngularJS.                                                                                                                      |
+| `angular#unsafe-upgrade` | Esta política es usada por el paquete [@angular/upgrade](api/upgrade/static/UpgradeModule). Debes habilitar esta política si tu aplicación es un híbrido de AngularJS.                                                                                                                                 |
 
 Debes configurar los encabezados HTTP para Trusted Types en las siguientes ubicaciones:
 
@@ -219,25 +221,29 @@ Debes configurar los encabezados HTTP para Trusted Types en las siguientes ubica
 El siguiente es un ejemplo de un encabezado específicamente configurado para Trusted Types y Angular:
 
 ```html
-Content-Security-Policy: trusted-types angular; require-trusted-types-for 'script';
+Content-Security-Policy: trusted-types angular; require-trusted-types-for
+'script';
 ```
 
 Un ejemplo de un encabezado específicamente configurado para Trusted Types y aplicaciones Angular que usan cualquiera de los métodos de Angular en [DomSanitizer](api/platform-browser/DomSanitizer) que evaden la seguridad:
 
 ```html
-Content-Security-Policy: trusted-types angular angular#unsafe-bypass; require-trusted-types-for 'script';
+Content-Security-Policy: trusted-types angular angular#unsafe-bypass;
+require-trusted-types-for 'script';
 ```
 
 El siguiente es un ejemplo de un encabezado específicamente configurado para Trusted Types y aplicaciones Angular usando JIT:
 
 ```html
-Content-Security-Policy: trusted-types angular angular#unsafe-jit; require-trusted-types-for 'script';
+Content-Security-Policy: trusted-types angular angular#unsafe-jit;
+require-trusted-types-for 'script';
 ```
 
 El siguiente es un ejemplo de un encabezado específicamente configurado para Trusted Types y aplicaciones Angular que usan lazy loading de módulos:
 
 ```html
-Content-Security-Policy: trusted-types angular angular#bundler; require-trusted-types-for 'script';
+Content-Security-Policy: trusted-types angular angular#bundler;
+require-trusted-types-for 'script';
 ```
 
 <docs-callout title="Contribuciones de la comunidad">
@@ -324,11 +330,11 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(
       withXsrfConfiguration({
-        cookieName: 'CUSTOM_XSRF_TOKEN',
-        headerName: 'X-Custom-Xsrf-Header',
+        cookieName: "CUSTOM_XSRF_TOKEN",
+        headerName: "X-Custom-Xsrf-Header",
       }),
     ),
-  ]
+  ],
 };
 ```
 
@@ -338,18 +344,14 @@ Si el mecanismo de protección XSRF integrado no funciona para tu aplicación, p
 
 ```ts
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideHttpClient(
-      withNoXsrfProtection(),
-    ),
-  ]
+  providers: [provideHttpClient(withNoXsrfProtection())],
 };
 ```
 
 Para información sobre CSRF en el Open Web Application Security Project \(OWASP\), consulta [Cross-Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) y [Cross-Site Request Forgery (CSRF) Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
 El documento de la Universidad de Stanford [Robust Defenses for Cross-Site Request Forgery](https://seclab.stanford.edu/websec/csrf/csrf.pdf) es una fuente rica en detalles.
 
-Consulta también la [charla de Dave Smith sobre XSRF en AngularConnect 2016](https://www.youtube.com/watch?v=9inczw6qtpY 'Cross Site Request Funkery Securing Your Angular Apps From Evil Doers').
+Consulta también la [charla de Dave Smith sobre XSRF en AngularConnect 2016](https://www.youtube.com/watch?v=9inczw6qtpY "Cross Site Request Funkery Securing Your Angular Apps From Evil Doers").
 
 ### Cross-site script inclusion (XSSI)
 
@@ -366,4 +368,4 @@ Para más información, consulta la sección XSSI de esta [publicación del blog
 ## Auditar aplicaciones Angular
 
 Las aplicaciones Angular deben seguir los mismos principios de seguridad que las aplicaciones web regulares, y deben ser auditadas como tales.
-Las APIs específicas de Angular que deberían ser auditadas en una revisión de seguridad, como los métodos [_bypassSecurityTrust_](#trusting-safe-values), están marcadas en la documentación como sensibles a la seguridad.
+Las APIs específicas de Angular que deberían ser auditadas en una revisión de seguridad, como los métodos [_bypassSecurityTrust_](#confiar-en-valores-seguros), están marcadas en la documentación como sensibles a la seguridad.
