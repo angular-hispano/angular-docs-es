@@ -4,10 +4,10 @@ Esta es una lista visual de todos los componentes y estilos personalizados para 
 
 Como sistema de diseño, esta página contiene guías visuales y de redacción en Markdown para:
 
-- Elementos personalizados de la documentación de Angular: [`docs-card`](#cards), [`docs-callout`](#callouts), [`docs-pill`](#pills) y [`docs-steps`](#workflow)
-- Elementos de texto personalizados: [alertas](#alerts)
-- Ejemplos de código: [`docs-code`](#code)
-- Elementos de estilo Markdown integrados: enlaces, listas, [encabezados](#headers-h2), [líneas horizontales](#horizontal-line-divider)
+- Elementos personalizados de la documentación de Angular: [`docs-card`](#tarjetas), [`docs-callout`](#callouts), [`docs-pill`](#pills) y [`docs-steps`](#flujo-de-trabajo)
+- Elementos de texto personalizados: [alertas](#alertas)
+- Ejemplos de código: [`docs-code`](#código)
+- Elementos de estilo Markdown integrados: enlaces, listas, [encabezados](#encabezados-h2), [líneas horizontales](#divisor-de-línea-horizontal)
 - ¡y más!
 
 Prepárate para:
@@ -119,7 +119,7 @@ IMPORTANTE: Usa Important para información que es crucial para comprender el te
 
 ÚTIL: Usa Best practice para resaltar prácticas que se sabe que son exitosas o mejores que las alternativas.
 
-NOTA: ¡Atención `desarrolladores`! ¡Las alertas _pueden_ tener un [enlace](#alerts) y otros estilos anidados (pero trata de **usar esto con moderación**)!.
+NOTA: ¡Atención `desarrolladores`! ¡Las alertas _pueden_ tener un [enlace](#alertas) y otros estilos anidados (pero trata de **usar esto con moderación**)!.
 
 ## Código
 
