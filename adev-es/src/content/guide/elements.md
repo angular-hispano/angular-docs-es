@@ -1,22 +1,22 @@
-# Angular elements overview
+# Visión general de Angular elements
 
-_Angular elements_ are Angular components packaged as _custom elements_ \(also called Web Components\), a web standard for defining new HTML elements in a framework-agnostic way.
+Los _Angular elements_ son componentes de Angular empaquetados como _elementos personalizados_ \(también llamados Web Components\), un estándar web para definir nuevos elementos HTML de manera agnóstica al framework.
 
-[Custom elements](https://developer.mozilla.org/docs/Web/Web_Components/Using_custom_elements) are a Web Platform feature available on all browsers supported by Angular.
-A custom element extends HTML by allowing you to define a tag whose content is created and controlled by JavaScript code.
-The browser maintains a `CustomElementRegistry` of defined custom elements, which maps an instantiable JavaScript class to an HTML tag.
+Los [elementos personalizados](https://developer.mozilla.org/es/docs/Web/API/Web_components/Using_custom_elements) son una característica de la Plataforma Web disponible en todos los navegadores soportados por Angular.
+Un elemento personalizado extiende HTML al permitirte definir una etiqueta cuyo contenido es creado y controlado por código JavaScript.
+El navegador mantiene un `CustomElementRegistry` de elementos personalizados definidos, que mapea una clase JavaScript instanciable a una etiqueta HTML.
 
-The `@angular/elements` package exports a `createCustomElement()` API that provides a bridge from Angular's component interface and change detection functionality to the built-in DOM API.
+El paquete `@angular/elements` exporta una API `createCustomElement()` que proporciona un puente desde la interfaz de componentes de Angular y la funcionalidad de detección de cambios hacia la API del DOM incorporada.
 
-Transforming a component to a custom element makes all the required Angular infrastructure available to the browser.
-Creating a custom element is simple and straightforward, and automatically connects your component-defined view with change detection and data binding, mapping Angular functionality to the corresponding built-in HTML equivalents.
+Transformar un componente a un elemento personalizado hace toda la infraestructura requerida de Angular disponible para el navegador.
+Crear un elemento personalizado es simple y directo, y conecta automáticamente la vista definida por tu componente con la detección de cambios y el enlace de datos, mapeando la funcionalidad de Angular a los equivalentes HTML incorporados correspondientes.
 
-## Using custom elements
+## Usando elementos personalizados
 
-Custom elements bootstrap themselves - they start when they are added to the DOM, and are destroyed when removed from the DOM.
-Once a custom element is added to the DOM for any page, it looks and behaves like any other HTML element, and does not require any special knowledge of Angular terms or usage conventions.
+Los elementos personalizados hacen bootstrap de sí mismos - comienzan cuando se agregan al DOM, y se destruyen cuando se eliminan del DOM.
+Una vez que un elemento personalizado se agrega al DOM de cualquier página, se ve y comporta como cualquier otro elemento HTML, y no requiere ningún conocimiento especial de términos o convenciones de uso de Angular.
 
-To add the `@angular/elements` package to your workspace, run the following command:
+Para agregar el paquete `@angular/elements` a tu espacio de trabajo, ejecuta el siguiente comando:
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -33,10 +33,10 @@ To add the `@angular/elements` package to your workspace, run the following comm
   </docs-code>
 </docs-code-multifile>
 
-### How it works
+### Cómo funciona
 
-The `createCustomElement()` function converts a component into a class that can be registered with the browser as a custom element.
-After you register your configured class with the browser's custom-element registry, use the new element just like a built-in HTML element in content that you add directly into the DOM:
+La función `createCustomElement()` convierte un componente en una clase que puede ser registrada con el navegador como un elemento personalizado.
+Después de registrar tu clase configurada con el registro de elementos personalizados del navegador, usa el nuevo elemento igual que un elemento HTML incorporado en el contenido que agregas directamente al DOM:
 
 ```html
 
@@ -44,58 +44,58 @@ After you register your configured class with the browser's custom-element regis
 
 ```
 
-When your custom element is placed on a page, the browser creates an instance of the registered class and adds it to the DOM.
-The content is provided by the component's template, which uses Angular template syntax, and is rendered using the component and DOM data.
-Input properties in the component correspond to input attributes for the element.
+Cuando tu elemento personalizado se coloca en una página, el navegador crea una instancia de la clase registrada y la agrega al DOM.
+El contenido es proporcionado por la plantilla del componente, que usa la sintaxis de plantillas de Angular, y se renderiza usando los datos del componente y del DOM.
+Las propiedades de entrada en el componente corresponden a los atributos de entrada del elemento.
 
-## Transforming components to custom elements
+## Transformando componentes a elementos personalizados
 
-Angular provides the `createCustomElement()` function for converting an Angular component, together with its dependencies, to a custom element.
+Angular proporciona la función `createCustomElement()` para convertir un componente de Angular, junto con sus dependencias, a un elemento personalizado.
 
-The conversion process implements the `NgElementConstructor` interface, and creates a
-constructor class that is configured to produce a self-bootstrapping instance of your component.
+El proceso de conversión implementa la interfaz `NgElementConstructor`, y crea una
+clase constructora que está configurada para producir una instancia self-bootstrapping de tu componente.
 
-Use the browser's native [`customElements.define()`](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry/define) function to register the configured constructor and its associated custom-element tag with the browser's [`CustomElementRegistry`](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry).
-When the browser encounters the tag for the registered element, it uses the constructor to create a custom-element instance.
+Usa la función nativa del navegador [`customElements.define()`](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry/define) para registrar el constructor configurado y su etiqueta de elemento personalizado asociada con el [`CustomElementRegistry`](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry) del navegador.
+Cuando el navegador encuentra la etiqueta del elemento registrado, usa el constructor para crear una instancia del elemento personalizado.
 
-IMPORTANT: Avoid using the component's selector as the custom element tag name.
-This can lead to unexpected behavior, due to Angular creating two component instances for a single DOM element:
-One regular Angular component and a second one using the custom element.
+IMPORTANTE: Evita usar el selector del componente como el nombre de etiqueta del elemento personalizado.
+Esto puede llevar a comportamiento inesperado, debido a que Angular crea dos instancias del componente para un solo elemento DOM:
+Un componente de Angular regular y un segundo usando el elemento personalizado.
 
-### Mapping
+### Mapeo
 
-A custom element _hosts_ an Angular component, providing a bridge between the data and logic defined in the component and standard DOM APIs.
-Component properties and logic maps directly into HTML attributes and the browser's event system.
+Un elemento personalizado _aloja_ un componente de Angular, proporcionando un puente entre los datos y la lógica definidos en el componente y las APIs estándar del DOM.
+Las propiedades y la lógica del componente se mapean directamente a los atributos HTML y al sistema de eventos del navegador.
 
-- The creation API parses the component looking for input properties, and defines corresponding attributes for the custom element.
-  It transforms the property names to make them compatible with custom elements, which do not recognize case distinctions.
-  The resulting attribute names use dash-separated lowercase.
-  For example, for a component with `inputProp = input({alias: 'myInputProp'})`, the corresponding custom element defines an attribute `my-input-prop`.
+- La API de creación analiza el componente buscando propiedades de entrada, y define los atributos correspondientes para el elemento personalizado.
+  Transforma los nombres de las propiedades para hacerlos compatibles con los elementos personalizados, que no reconocen distinciones de mayúsculas y minúsculas.
+  Los nombres de atributos resultantes usan minúsculas separadas por guiones.
+  Por ejemplo, para un componente con `inputProp = input({alias: 'myInputProp'})`, el elemento personalizado correspondiente define un atributo `my-input-prop`.
 
-- Component outputs are dispatched as HTML [Custom Events](https://developer.mozilla.org/docs/Web/API/CustomEvent), with the name of the custom event matching the output name.
-  For example, for a component `with valueChanged = output()`, the corresponding custom element dispatches events with the name "valueChanged", and the emitted data is stored on the event's `detail` property.
-  If you provide an alias, that value is used; for example, `clicks = output<string>({alias: 'myClick'});` results in dispatch events with the name "myClick".
+- Los outputs del componente se despachan como [Custom Events](https://developer.mozilla.org/docs/Web/API/CustomEvent) HTML, con el nombre del evento personalizado coincidiendo con el nombre del output.
+  Por ejemplo, para un componente con `valueChanged = output()`, el elemento personalizado correspondiente despacha eventos con el nombre "valueChanged", y los datos emitidos se almacenan en la propiedad `detail` del evento.
+  Si proporcionas un alias, ese valor se usa; por ejemplo, `clicks = output<string>({alias: 'myClick'});` resulta en despacho de eventos con el nombre "myClick".
 
-For more information, see Web Component documentation for [Creating custom events](https://developer.mozilla.org/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events).
+Para más información, ve la documentación de Web Components para [Creación de eventos personalizados](https://developer.mozilla.org/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events).
 
-## Example: A Popup Service
+## Ejemplo: Un Servicio de Popup
 
-Previously, when you wanted to add a component to an application at runtime, you had to define a _dynamic component_, and then you would have to load it, attach it to an element in the DOM, and wire up all of the dependencies, change detection, and event handling.
+Anteriormente, cuando querías agregar un componente a una aplicación en tiempo de ejecución, tenías que definir un _componente dinámico_, y luego tendrías que cargarlo, adjuntarlo a un elemento en el DOM, y conectar todas las dependencias, detección de cambios, y manejo de eventos.
 
-Using an Angular custom element makes the process simpler and more transparent, by providing all the infrastructure and framework automatically —all you have to do is define the kind of event handling you want.
-\(You do still have to exclude the component from compilation, if you are not going to use it in your application.\)
+Usar un elemento personalizado de Angular hace el proceso más simple y transparente, al proporcionar toda la infraestructura y el framework automáticamente —todo lo que tienes que hacer es definir el tipo de manejo de eventos que quieres.
+\(Aún tienes que excluir el componente de la compilación, si no vas a usarlo en tu aplicación.\)
 
-The following Popup Service example application defines a component that you can either load dynamically or convert to a custom element.
+La siguiente aplicación de ejemplo de Servicio de Popup define un componente que puedes cargar dinámicamente o convertir a un elemento personalizado.
 
-| Files                | Details                                                                                                                                                                                                                      |
-| :------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `popup.component.ts` | Defines a simple pop-up element that displays an input message, with some animation and styling.                                                                                                                             |
-| `popup.service.ts`   | Creates an injectable service that provides two different ways to invoke the `PopupComponent`; as a dynamic component, or as a custom element. Notice how much more setup is required for the dynamic-loading method.        |
-| `app.component.ts`   | Defines the application's root component, which uses the `PopupService` to add the pop-up to the DOM at run time. When the application runs, the root component's constructor converts `PopupComponent` to a custom element. |
+| Archivos             | Detalles                                                                                                                                                                                                                              |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `popup.component.ts` | Define un simple elemento pop-up que muestra un mensaje de entrada, con algo de animación y estilos.                                                                                                                                  |
+| `popup.service.ts`   | Crea un servicio inyectable que proporciona dos formas diferentes de invocar el `PopupComponent`; como un componente dinámico, o como un elemento personalizado. Nota cuánta más configuración se requiere para el método de carga dinámica. |
+| `app.component.ts`   | Define el componente raíz de la aplicación, que usa el `PopupService` para agregar el pop-up al DOM en tiempo de ejecución. Cuando la aplicación se ejecuta, el constructor del componente raíz convierte `PopupComponent` a un elemento personalizado. |
 
-For comparison, the demo shows both methods.
-One button adds the popup using the dynamic-loading method, and the other uses the custom element.
-The result is the same, but the preparation is different.
+Para comparación, la demo muestra ambos métodos.
+Un botón agrega el popup usando el método de carga dinámica, y el otro usa el elemento personalizado.
+El resultado es el mismo, pero la preparación es diferente.
 
 <docs-code-multifile>
     <docs-code header="popup.component.ts" path="adev/src/content/examples/elements/src/app/popup.component.ts"/>
@@ -103,20 +103,20 @@ The result is the same, but the preparation is different.
     <docs-code header="app.component.ts" path="adev/src/content/examples/elements/src/app/app.component.ts"/>
 </docs-code-multifile>
 
-## Typings for custom elements
+## Tipado para elementos personalizados
 
-Generic DOM APIs, such as `document.createElement()` or `document.querySelector()`, return an element type that is appropriate for the specified arguments.
-For example, calling `document.createElement('a')` returns an `HTMLAnchorElement`, which TypeScript knows has an `href` property.
-Similarly, `document.createElement('div')` returns an `HTMLDivElement`, which TypeScript knows has no `href` property.
+Las APIs genéricas del DOM, como `document.createElement()` o `document.querySelector()`, devuelven un tipo de elemento que es apropiado para los argumentos especificados.
+Por ejemplo, llamar `document.createElement('a')` devuelve un `HTMLAnchorElement`, que TypeScript sabe que tiene una propiedad `href`.
+De manera similar, `document.createElement('div')` devuelve un `HTMLDivElement`, que TypeScript sabe que no tiene propiedad `href`.
 
-When called with unknown elements, such as a custom element name \(`popup-element` in our example\), the methods return a generic type, such as `HTMLElement`, because TypeScript can't infer the correct type of the returned element.
+Cuando se llama con elementos desconocidos, como el nombre de un elemento personalizado \(`popup-element` en nuestro ejemplo\), los métodos devuelven un tipo genérico, como `HTMLElement`, porque TypeScript no puede inferir el tipo correcto del elemento devuelto.
 
-Custom elements created with Angular extend `NgElement` \(which in turn extends `HTMLElement`\).
-Additionally, these custom elements will have a property for each input of the corresponding component.
-For example, our `popup-element` has a `message` property of type `string`.
+Los elementos personalizados creados con Angular extienden `NgElement` \(que a su vez extiende `HTMLElement`\).
+Además, estos elementos personalizados tendrán una propiedad por cada input del componente correspondiente.
+Por ejemplo, nuestro `popup-element` tiene una propiedad `message` de tipo `string`.
 
-There are a few options if you want to get correct types for your custom elements.
-Assume you create a `my-dialog` custom element based on the following component:
+Hay algunas opciones si quieres obtener tipos correctos para tus elementos personalizados.
+Asume que creas un elemento personalizado `my-dialog` basado en el siguiente componente:
 
 ```ts
 
@@ -127,22 +127,22 @@ class MyDialog {
 
 ```
 
-The most straightforward way to get accurate typings is to cast the return value of the relevant DOM methods to the correct type.
-For that, use the `NgElement` and `WithProperties` types \(both exported from `@angular/elements`\):
+La forma más directa de obtener tipado preciso es hacer cast del valor de retorno de los métodos DOM relevantes al tipo correcto.
+Para eso, usa los tipos `NgElement` y `WithProperties` \(ambos exportados de `@angular/elements`\):
 
 ```ts
 
 const aDialog = document.createElement('my-dialog') as NgElement & WithProperties<{content: string}>;
 aDialog.content = 'Hello, world!';
-aDialog.content = 123; // <-- ERROR: TypeScript knows this should be a string.
-aDialog.body = 'News'; // <-- ERROR: TypeScript knows there is no `body` property on `aDialog`.
+aDialog.content = 123; // <-- ERROR: TypeScript sabe que esto debería ser un string.
+aDialog.body = 'News'; // <-- ERROR: TypeScript sabe que no hay propiedad `body` en `aDialog`.
 
 ```
 
-This is a good way to quickly get TypeScript features, such as type checking and autocomplete support, for your custom element.
-But it can get cumbersome if you need it in several places, because you have to cast the return type on every occurrence.
+Esta es una buena forma de obtener rápidamente las características de TypeScript, como verificación de tipos y soporte de autocompletado, para tu elemento personalizado.
+Pero puede volverse engorroso si lo necesitas en varios lugares, porque tienes que hacer cast del tipo de retorno en cada ocurrencia.
 
-An alternative way, that only requires defining each custom element's type once, is augmenting the `HTMLElementTagNameMap`, which TypeScript uses to infer the type of a returned element based on its tag name \(for DOM methods such as `document.createElement()`, `document.querySelector()`, etc.\):
+Una forma alternativa, que solo requiere definir el tipo de cada elemento personalizado una vez, es aumentar el `HTMLElementTagNameMap`, que TypeScript usa para inferir el tipo de un elemento devuelto basado en su nombre de etiqueta \(para métodos DOM como `document.createElement()`, `document.querySelector()`, etc.\):
 
 ```ts
 
@@ -156,20 +156,20 @@ declare global {
 
 ```
 
-Now, TypeScript can infer the correct type the same way it does for built-in elements:
+Ahora, TypeScript puede inferir el tipo correcto de la misma forma que lo hace para los elementos incorporados:
 
 ```ts
 
-document.createElement('div')               //--> HTMLDivElement (built-in element)
-document.querySelector('foo')               //--> Element        (unknown element)
-document.createElement('my-dialog')         //--> NgElement & WithProperties<{content: string}> (custom element)
-document.querySelector('my-other-element')  //--> NgElement & WithProperties<{foo: 'bar'}>      (custom element)
+document.createElement('div')               //--> HTMLDivElement (elemento incorporado)
+document.querySelector('foo')               //--> Element        (elemento desconocido)
+document.createElement('my-dialog')         //--> NgElement & WithProperties<{content: string}> (elemento personalizado)
+document.querySelector('my-other-element')  //--> NgElement & WithProperties<{foo: 'bar'}>      (elemento personalizado)
 
 ```
 
-## Limitations
+## Limitaciones
 
-Care should be taken when destroying and then re-attaching custom elements created with `@angular/elements` due to issues with the [disconnect()](https://github.com/angular/angular/issues/38778) callback. Cases where you may run into this issue are:
+Se debe tener cuidado al destruir y luego volver a adjuntar elementos personalizados creados con `@angular/elements` debido a problemas con el callback [disconnect()](https://github.com/angular/angular/issues/38778). Los casos donde puedes encontrar este problema son:
 
-- Rendering a component in an `ng-if` or `ng-repeat` in `AngularJs`
-- Manually detaching and re-attaching an element to the DOM
+- Renderizar un componente en un `ng-if` o `ng-repeat` en AngularJS
+- Desconectar y volver a conectar manualmente un elemento al DOM

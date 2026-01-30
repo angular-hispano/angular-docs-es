@@ -1,9 +1,9 @@
-# Function-based outputs
+# Outputs basados en funciones
 
-The `output()` function declares an output in a directive or component.
-Outputs allow you to emit values to parent components.
+La función `output()` declara un output en una directiva o componente.
+Los outputs te permiten emitir valores a los componentes padre.
 
-HELPFUL: The `output()` function is currently in [developer preview](/reference/releases#developer-preview).
+ÚTIL: La función `output()` está actualmente en [developer preview](/reference/releases#developer-preview).
 
 <docs-code language="ts" highlight="[[5], [8]]">
 import {Component, output} from '@angular/core';
@@ -18,17 +18,17 @@ export class MyComp {
 }
 </docs-code>
 
-An output is automatically recognized by Angular whenever you use the `output` function as an initializer of a class member.
-Parent components can listen to outputs in templates by using the event binding syntax.
+Un output es automáticamente reconocido por Angular cada vez que usas la función `output` como inicializador de un miembro de clase.
+Los componentes padre pueden escuchar outputs en las plantillas usando la sintaxis de enlace de eventos.
 
 ```html
 <my-comp (onNameChange)="showNewName($event)" />
 ```
 
-## Aliasing an output
+## Alias de un output
 
-Angular uses the class member name as the name of the output.
-You can alias outputs to change their public name to be different.
+Angular usa el nombre del miembro de clase como el nombre del output.
+Puedes crear un alias para los outputs para cambiar su nombre público y que sea diferente.
 
 ```typescript
 class MyComp {
@@ -36,12 +36,12 @@ class MyComp {
 }
 ```
 
-This allows users to bind to your output using `(ngxNameChange)`, while inside your component you can access the output emitter using `this.onNameChange`.
+Esto permite a los usuarios enlazar a tu output usando `(ngxNameChange)`, mientras que dentro de tu componente puedes acceder al emisor de output usando `this.onNameChange`.
 
-## Subscribing programmatically
+## Suscripción programática
 
-Consumers may create your component dynamically with a reference to a `ComponentRef`.
-In those cases, parents can subscribe to outputs by directly accessing the property of type `OutputRef`.
+Los consumidores pueden crear tu componente dinámicamente con una referencia a un `ComponentRef`.
+En esos casos, los padres pueden suscribirse a los outputs accediendo directamente a la propiedad de tipo `OutputRef`.
 
 ```ts
 const myComp = viewContainerRef.createComponent(...);
@@ -51,15 +51,15 @@ myComp.instance.onNameChange.subscribe(newName => {
 });
 ```
 
-Angular will automatically clean up the subscription when `myComp` is destroyed.
-Alternatively, an object with a function to explicitly unsubscribe earlier is returned.
+Angular limpiará automáticamente la suscripción cuando `myComp` sea destruido.
+Alternativamente, se devuelve un objeto con una función para cancelar explícitamente la suscripción antes.
 
-## Using RxJS observables as source
+## Usando observables de RxJS como fuente
 
-In some cases, you may want to emit output values based on RxJS observables.
-Angular provides a way to use RxJS observables as source for outputs.
+En algunos casos, puedes querer emitir valores de output basados en observables de RxJS.
+Angular proporciona una forma de usar observables de RxJS como fuente para outputs.
 
-The `outputFromObservable` function is a compiler primitive, similar to the `output()` function, and declares outputs that are driven by RxJS observables.
+La función `outputFromObservable` es una primitiva del compilador, similar a la función `output()`, y declara outputs que son impulsados por observables de RxJS.
 
 <docs-code language="ts" highlight="[7]">
 import {Directive} from '@angular/core';
@@ -72,15 +72,15 @@ class MyDir {
 }
 </docs-code>
 
-Angular will forward subscriptions to the observable, but will stop forwarding values when the owning directive is destroyed.
-In the example above, if `MyDir` is destroyed, `nameChange` will no longer emit values.
+Angular reenviará las suscripciones al observable, pero dejará de reenviar valores cuando la directiva propietaria sea destruida.
+En el ejemplo anterior, si `MyDir` es destruida, `nameChange` dejará de emitir valores.
 
-HELPFUL: Most of the time, using `output()` is sufficient and you can emit values imperatively.
+ÚTIL: La mayoría de las veces, usar `output()` es suficiente y puedes emitir valores imperativamente.
 
-## Converting an output to an observable
+## Convirtiendo un output a un observable
 
-You can subscribe to outputs by calling `.subscribe` method on `OutputRef`.
-In other cases, Angular provides a helper function that converts an `OutputRef` to an observable.
+Puedes suscribirte a outputs llamando al método `.subscribe` en `OutputRef`.
+En otros casos, Angular proporciona una función auxiliar que convierte un `OutputRef` a un observable.
 
 <docs-code language="ts" highlight="[11]">
 import {outputToObservable} from '@angular/core/rxjs-interop';
@@ -90,7 +90,7 @@ class MyComp {
   onNameChange = output<string>();
 }
 
-// Instance reference to `MyComp`.
+// Referencia de instancia a `MyComp`.
 const myComp: MyComp;
 
 outputToObservable(this.myComp.instance.onNameChange) // Observable<string>
@@ -98,12 +98,12 @@ outputToObservable(this.myComp.instance.onNameChange) // Observable<string>
   .subscribe(...);
 </docs-code>
 
-## Why you should use `output()` over decorator-based `@Output()`?
+## ¿Por qué deberías usar `output()` sobre `@Output()` basado en decoradores?
 
-The `output()` function provides numerous benefits over decorator-based `@Output` and `EventEmitter`:
+La función `output()` proporciona numerosos beneficios sobre `@Output` y `EventEmitter` basados en decoradores:
 
-1. Simpler mental model and API:
-  <br/>• No concept of error channel, completion channels, or other APIs from RxJS.
-  <br/>• Outputs are simple emitters. You can emit values using the `.emit` function.
-2. More accurate types.
-  <br/>• `OutputEmitterRef.emit(value)` is now correctly typed, while `EventEmitter` has broken types and can cause runtime errors.
+1. Modelo mental y API más simples:
+  <br/>• Sin concepto de canal de error, canales de completado, u otras APIs de RxJS.
+  <br/>• Los outputs son simples emisores. Puedes emitir valores usando la función `.emit`.
+2. Tipos más precisos.
+  <br/>• `OutputEmitterRef.emit(value)` ahora está correctamente tipado, mientras que `EventEmitter` tiene tipos rotos y puede causar errores en tiempo de ejecución.
