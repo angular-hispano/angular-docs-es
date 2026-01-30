@@ -1,38 +1,38 @@
-# Advanced component configuration
+# Configuración avanzada de componentes
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+CONSEJO: Esta guía asume que ya has leído la [Guía de Esenciales](essentials). Lee eso primero si eres nuevo en Angular.
 
 ## ChangeDetectionStrategy
 
-The `@Component` decorator accepts a `changeDetection` option that controls the component's **change
-detection mode**. There are two change detection mode options.
+El decorador `@Component` acepta una opción `changeDetection` que controla el **modo de
+detección de cambios** del componente. Hay dos opciones de modo de detección de cambios.
 
-**`ChangeDetectionStrategy.Default`** is, unsurprisingly, the default strategy. In this mode,
-Angular checks whether the component's DOM needs an update whenever any activity may have occurred
-application-wide. Activities that trigger this checking include user interaction, network response,
-timers, and more.
+**`ChangeDetectionStrategy.Default`** es, como era de esperar, la estrategia por defecto. En este modo,
+Angular verifica si el DOM del componente necesita una actualización cada vez que cualquier actividad puede haber ocurrido
+en toda la aplicación. Las actividades que desencadenan esta verificación incluyen interacción del usuario, respuesta de red,
+temporizadores, y más.
 
-**`ChangeDetectionStrategy.OnPush`** is an optional mode that reduces the amount of checking Angular
-needs to perform. In this mode, the framework only checks if a component's DOM needs an update when:
+**`ChangeDetectionStrategy.OnPush`** es un modo opcional que reduce la cantidad de verificación que Angular
+necesita realizar. En este modo, el framework solo verifica si el DOM de un componente necesita una actualización cuando:
 
-- A component input has changes as a result of a binding in a template, or
-- An event listener in this component runs
-- The component is explicitly marked for check, via `ChangeDetectorRef.markForCheck` or something which wraps it, like `AsyncPipe`.
+- Un input del componente ha cambiado como resultado de un enlace en una plantilla, o
+- Un event listener en este componente se ejecuta
+- El componente es explícitamente marcado para verificación, a través de `ChangeDetectorRef.markForCheck` o algo que lo envuelve, como `AsyncPipe`.
 
-Additionally, when an OnPush component is checked, Angular _also_ checks all of its ancestor
-components, traversing upwards through the application tree.
+Además, cuando un componente OnPush es verificado, Angular _también_ verifica todos sus componentes
+ancestros, atravesando hacia arriba a través del árbol de la aplicación.
 
 ## PreserveWhitespaces
 
-By default, Angular removes and collapses superfluous whitespace in templates, most commonly from
-newlines and indentation. You can change this setting by explicitly setting `preserveWhitespaces` to
-`true` in a component's metadata.
+Por defecto, Angular elimina y colapsa los espacios en blanco superfluos en las plantillas, más comúnmente de
+saltos de línea e indentación. Puedes cambiar esta configuración estableciendo explícitamente `preserveWhitespaces` a
+`true` en los metadatos del componente.
 
-## Custom element schemas
+## Esquemas de elementos personalizados
 
-By default, Angular throws an error when it encounters an unknown HTML element. You can
-disable this behavior for a component by including `CUSTOM_ELEMENTS_SCHEMA` in the `schemas`
-property in your component metadata.
+Por defecto, Angular lanza un error cuando encuentra un elemento HTML desconocido. Puedes
+deshabilitar este comportamiento para un componente incluyendo `CUSTOM_ELEMENTS_SCHEMA` en la propiedad `schemas`
+en los metadatos de tu componente.
 
 ```angular-ts
 import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
@@ -45,4 +45,4 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 export class ComponentWithCustomElements { }
 ```
 
-Angular does not support any other schemas at this time.
+Angular no soporta ningún otro esquema en este momento.

@@ -1,14 +1,14 @@
-# Importing and using components
+# Importar y usar componentes
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+CONSEJO: Esta guía asume que ya has leído la [Guía de Esenciales](essentials). Lee esa primero si eres nuevo en Angular.
 
-Angular supports two ways of making a component available to other components: as a standalone component or in an `NgModule`.
+Angular admite dos formas de hacer que un componente esté disponible para otros componentes: como componente standalone o en un `NgModule`.
 
-## Standalone components
+## Componentes standalone
 
-A **standalone component** is a component that sets `standalone: true` in its component metadata.
-Standalone components directly import other components, directives, and pipes used in their
-templates:
+Un **componente standalone** es un componente que establece `standalone: true` en los metadatos de su componente.
+Los componentes standalone importan directamente otros componentes, directivas y pipes usados en sus
+plantillas:
 
 <docs-code language="ts" highlight="[2, [8, 9]]">
 @Component({
@@ -25,11 +25,11 @@ export class ProfilePhoto { }
 export class UserProfile { }
 </docs-code>
 
-Standalone components are directly importable into other standalone components.
+Los componentes standalone son directamente importables en otros componentes standalone.
 
-The Angular team recommends using standalone components for all new development.
+El equipo de Angular recomienda usar componentes standalone para todo desarrollo nuevo.
 
 ## NgModules
 
-Angular code that predates standalone components uses `NgModule` as a mechanism for importing and
-using other components. See the full [`NgModule` guide](guide/ngmodules) for details.
+El código de Angular anterior a los componentes standalone usa `NgModule` como mecanismo para importar y
+usar otros componentes. Consulta la [guía completa de `NgModule`](guide/ngmodules) para más detalles.

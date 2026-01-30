@@ -1,19 +1,19 @@
-# Referencing component children with queries
+# Referenciando hijos de componentes con consultas
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+CONSEJO: Esta guía asume que ya has leído la [Guía de Esenciales](essentials). Lee eso primero si eres nuevo en Angular.
 
-A component can define **queries** that find child elements and read values from their injectors.
+Un componente puede definir **consultas** que encuentran elementos hijos y leen valores de sus inyectores.
 
-Developers most commonly use queries to retrieve references to child components, directives, DOM elements, and more.
+Los desarrolladores más comúnmente usan consultas para recuperar referencias a componentes hijos, directivas, elementos DOM, y más.
 
-All query functions return signals that reflect the most up-to-date results. You can read the
-result by calling the signal function, including in reactive contexts like `computed` and `effect`.
+Todas las funciones de consulta devuelven signals que reflejan los resultados más actualizados. Puedes leer el
+resultado llamando a la función signal, incluyendo en contextos reactivos como `computed` y `effect`.
 
-There are two categories of query: **view queries** and **content queries.**
+Hay dos categorías de consulta: **consultas de vista** y **consultas de contenido.**
 
-## View queries
+## Consultas de vista
 
-View queries retrieve results from the elements in the component's _view_ — the elements defined in the component's own template. You can query for a single result with the `viewChild` function.
+Las consultas de vista recuperan resultados de los elementos en la _vista_ del componente — los elementos definidos en la propia plantilla del componente. Puedes consultar por un solo resultado con la función `viewChild`.
 
 ```typescript {highlight: [14, 15]}
 @Component({
@@ -34,11 +34,11 @@ export class CustomCard {
 }
 ```
 
-In this example, the `CustomCard` component queries for a child `CustomCardHeader` and uses the result in a `computed`.
+En este ejemplo, el componente `CustomCard` consulta por un hijo `CustomCardHeader` y usa el resultado en un `computed`.
 
-If the query does not find a result, its value is `undefined`. This may occur if the target element is hidden by `@if`. Angular keeps the result of `viewChild` up to date as your application state changes.
+Si la consulta no encuentra un resultado, su valor es `undefined`. Esto puede ocurrir si el elemento objetivo está oculto por `@if`. Angular mantiene el resultado de `viewChild` actualizado a medida que el estado de tu aplicación cambia.
 
-You can also query for multiple results with the `viewChildren` function.
+También puedes consultar por múltiples resultados con la función `viewChildren`.
 
 ```typescript {highlight: [17]}
 @Component({
@@ -61,13 +61,13 @@ export class CustomCard {
 }
 ```
 
-`viewChildren` creates a signal with an `Array` of the query results.
+`viewChildren` crea un signal con un `Array` de los resultados de la consulta.
 
-**Queries never pierce through component boundaries.** View queries can only retrieve results from the component's template.
+**Las consultas nunca atraviesan los límites de los componentes.** Las consultas de vista solo pueden recuperar resultados de la plantilla del componente.
 
-## Content queries
+## Consultas de contenido
 
-Content queries retrieve results from the elements in the component's _content_— the elements nested inside the component in the template where it's used. You can query for a single result with the `contentChild` function.
+Las consultas de contenido recuperan resultados de los elementos en el _contenido_ del componente — los elementos anidados dentro del componente en la plantilla donde se usa. Puedes consultar por un solo resultado con la función `contentChild`.
 
 ```typescript {highlight: [14, 15]}
 @Component({
@@ -89,7 +89,7 @@ export class CustomExpando {
 
 @Component({
 /* ... */
-// CustomToggle is used inside CustomExpando as content.
+// CustomToggle se usa dentro de CustomExpando como contenido.
 template: `
     <custom-expando>
       <custom-toggle>Show</custom-toggle>
@@ -100,11 +100,11 @@ template: `
 export class UserProfile { }
 ```
 
-If the query does not find a result, its value is `undefined`. This may occur if the target element is absent or hidden by `@if`. Angular keeps the result of `contentChild` up to date as your application state changes.
+Si la consulta no encuentra un resultado, su valor es `undefined`. Esto puede ocurrir si el elemento objetivo está ausente u oculto por `@if`. Angular mantiene el resultado de `contentChild` actualizado a medida que el estado de tu aplicación cambia.
 
-By default, content queries find only _direct_ children of the component and do not traverse into descendants.
+Por defecto, las consultas de contenido encuentran solo hijos _directos_ del componente y no atraviesan hacia los descendientes.
 
-You can also query for multiple results with the `contentChildren` function.
+También puedes consultar por múltiples resultados con la función `contentChildren`.
 
 ```typescript {highlight: [14, 16, 17, 18, 19, 20]}
 @Component({
@@ -137,15 +137,15 @@ export class CustomMenu {
 export class UserProfile { }
 ```
 
-`contentChildren` creates a signal with an `Array` of the query results.
+`contentChildren` crea un signal con un `Array` de los resultados de la consulta.
 
-**Queries never pierce through component boundaries.** Content queries can only retrieve results from the same template as the component itself.
+**Las consultas nunca atraviesan los límites de los componentes.** Las consultas de contenido solo pueden recuperar resultados de la misma plantilla que el componente mismo.
 
-## Required queries
+## Consultas requeridas
 
-If a child query (`viewChild` or `contentChild`) does not find a result, its value is `undefined`. This may occur if the target element is hidden by a control flow statement like `@if` or `@for`. Because of this, the child queries return a signal that include `undefined` in their value type.
+Si una consulta de hijo (`viewChild` o `contentChild`) no encuentra un resultado, su valor es `undefined`. Esto puede ocurrir si el elemento objetivo está oculto por una declaración de flujo de control como `@if` o `@for`. Debido a esto, las consultas de hijo devuelven un signal que incluye `undefined` en su tipo de valor.
 
-In some cases, especially with `viewChild`, you know with certainty that a specific child is always available. In other cases, you may want to strictly enforce that a specific child is present. For these cases, you can use a _required query_.
+En algunos casos, especialmente con `viewChild`, sabes con certeza que un hijo específico siempre está disponible. En otros casos, puedes querer exigir estrictamente que un hijo específico esté presente. Para estos casos, puedes usar una _consulta requerida_.
 
 ```angular-ts
 @Component({/* ... */})
@@ -155,16 +155,16 @@ export class CustomCard {
 }
 ```
 
-If a required query does not find a matching result, Angular reports an error. Because this guarantees that a result is available, required queries do not automatically include `undefined` in the signal's value type.
+Si una consulta requerida no encuentra un resultado coincidente, Angular reporta un error. Debido a que esto garantiza que un resultado está disponible, las consultas requeridas no incluyen automáticamente `undefined` en el tipo de valor del signal.
 
-## Query locators
+## Localizadores de consulta
 
-This first parameter for each query decorator is its **locator**.
+El primer parámetro para cada decorador de consulta es su **localizador**.
 
-Most of the time, you want to use a component or directive as your locator.
+La mayoría de las veces, quieres usar un componente o directiva como tu localizador.
 
-You can alternatively specify a string locator corresponding to
-a [template reference variable](guide/templates/variables#template-reference-variables).
+Alternativamente puedes especificar un localizador de cadena correspondiente a
+una [variable de referencia de plantilla](guide/templates/variables#template-reference-variables).
 
 ```angular-ts
 @Component({
@@ -179,15 +179,15 @@ export class ActionBar {
 }
 ```
 
-If more than one element defines the same template reference variable, the query retrieves the first matching element.
+Si más de un elemento define la misma variable de referencia de plantilla, la consulta recupera el primer elemento coincidente.
 
-Angular does not support CSS selectors as query locators.
+Angular no soporta selectores CSS como localizadores de consulta.
 
-### Queries and the injector tree
+### Consultas y el árbol de inyectores
 
-TIP: See [Dependency Injection](guide/di) for background on providers and Angular's injection tree.
+CONSEJO: Ve [Inyección de Dependencias](guide/di) para información de fondo sobre providers y el árbol de inyección de Angular.
 
-For more advanced cases, you can use any `ProviderToken` as a locator. This lets you locate elements based on component and directive providers.
+Para casos más avanzados, puedes usar cualquier `ProviderToken` como localizador. Esto te permite localizar elementos basados en providers de componentes y directivas.
 
 ```angular-ts
 const SUB_ITEM = new InjectionToken<string>('sub-item');
@@ -204,15 +204,15 @@ export class CustomList {
 }
 ```
 
-The above example uses an `InjectionToken` as a locator, but you can use any `ProviderToken` to locate specific elements.
+El ejemplo anterior usa un `InjectionToken` como localizador, pero puedes usar cualquier `ProviderToken` para localizar elementos específicos.
 
-## Query options
+## Opciones de consulta
 
-All query functions accept an options object as a second parameter. These options control how the query finds its results.
+Todas las funciones de consulta aceptan un objeto de opciones como segundo parámetro. Estas opciones controlan cómo la consulta encuentra sus resultados.
 
-### Reading specific values from an element's injector
+### Leyendo valores específicos del inyector de un elemento
 
-By default, the query locator indicates both the element you're searching for and the value retrieved. You can alternatively specify the `read` option to retrieve a different value from the element matched by the locator.
+Por defecto, el localizador de consulta indica tanto el elemento que estás buscando como el valor recuperado. Alternativamente puedes especificar la opción `read` para recuperar un valor diferente del elemento coincidente con el localizador.
 
 ```ts
 
@@ -222,15 +222,15 @@ export class CustomExpando {
 }
 ```
 
-The above example, locates an element with the directive `ExpandoContent` and retrieves
-the `TemplateRef` associated with that element.
+El ejemplo anterior localiza un elemento con la directiva `ExpandoContent` y recupera
+el `TemplateRef` asociado con ese elemento.
 
-Developers most commonly use `read` to retrieve `ElementRef` and `TemplateRef`.
+Los desarrolladores más comúnmente usan `read` para recuperar `ElementRef` y `TemplateRef`.
 
-### Content descendants
+### Descendientes de contenido
 
-By default, `contentChildren` queries find only _direct_ children of the component and do not traverse into descendants.
-`contentChild` queries do traverse into descendants by default.
+Por defecto, las consultas de `contentChildren` encuentran solo hijos _directos_ del componente y no atraviesan hacia los descendientes.
+Las consultas de `contentChild` sí atraviesan hacia los descendientes por defecto.
 
 ```typescript {highlight: [13, 14, 15, 16]}
 @Component({
@@ -238,8 +238,8 @@ By default, `contentChildren` queries find only _direct_ children of the compone
   /*...*/
 })
 export class CustomExpando {
-  toggle = contentChildren(CustomToggle); // none found
-  // toggle = contentChild(CustomToggle); // found
+  toggle = contentChildren(CustomToggle); // ninguno encontrado
+  // toggle = contentChild(CustomToggle); // encontrado
 }
 
 @Component({
@@ -254,20 +254,20 @@ export class CustomExpando {
 export class UserProfile { }
 ```
 
-In the example above, `CustomExpando` cannot find `<custom-toggle>` with `contentChildren` because it is not a direct child of `<custom-expando>`. By setting `descendants: true`, you configure the query to traverse all descendants in the same template. Queries, however, _never_ pierce into components to traverse elements in other templates.
+En el ejemplo anterior, `CustomExpando` no puede encontrar `<custom-toggle>` con `contentChildren` porque no es un hijo directo de `<custom-expando>`. Estableciendo `descendants: true`, configuras la consulta para atravesar todos los descendientes en la misma plantilla. Las consultas, sin embargo, _nunca_ atraviesan hacia dentro de componentes para recorrer elementos en otras plantillas.
 
-View queries do not have this option because they _always_ traverse into descendants.
+Las consultas de vista no tienen esta opción porque _siempre_ atraviesan hacia los descendientes.
 
-## Decorator-based queries
+## Consultas basadas en decoradores
 
-TIP: While the Angular team recommends using the signal-based query function for new projects, the
-original decorator-based query APIs remain fully supported.
+CONSEJO: Aunque el equipo de Angular recomienda usar la función de consulta basada en signals para proyectos nuevos, las
+APIs de consulta basadas en decoradores originales permanecen completamente soportadas.
 
-You can alternatively declare queries by adding the corresponding decorator to a property. Decorator-based queries behave the same way as signal-based queries except as described below.
+Alternativamente puedes declarar consultas añadiendo el decorador correspondiente a una propiedad. Las consultas basadas en decoradores se comportan de la misma manera que las consultas basadas en signals excepto como se describe a continuación.
 
-### View queries
+### Consultas de vista
 
-You can query for a single result with the `@ViewChild` decorator.
+Puedes consultar por un solo resultado con el decorador `@ViewChild`.
 
 ```typescript {highlight: [14, 16, 17, 18]}
 @Component({
@@ -291,13 +291,13 @@ export class CustomCard {
 }
 ```
 
-In this example, the `CustomCard` component queries for a child `CustomCardHeader` and accesses the result in `ngAfterViewInit`.
+En este ejemplo, el componente `CustomCard` consulta por un hijo `CustomCardHeader` y accede al resultado en `ngAfterViewInit`.
 
-Angular keeps the result of `@ViewChild` up to date as your application state changes.
+Angular mantiene el resultado de `@ViewChild` actualizado a medida que el estado de tu aplicación cambia.
 
-**View query results become available in the `ngAfterViewInit` lifecycle method**. Before this point, the value is `undefined`. See the [Lifecycle](guide/components/lifecycle) section for details on the component lifecycle.
+**Los resultados de consulta de vista están disponibles en el método de ciclo de vida `ngAfterViewInit`**. Antes de este punto, el valor es `undefined`. Ve la sección [Ciclo de vida](guide/components/lifecycle) para detalles sobre el ciclo de vida del componente.
 
-You can also query for multiple results with the `@ViewChildren` decorator.
+También puedes consultar por múltiples resultados con el decorador `@ViewChildren`.
 
 ```typescript {highlight: [17, 19, 20, 21, 22, 23]}
 @Component({
@@ -326,11 +326,11 @@ export class CustomCard {
 }
 ```
 
-`@ViewChildren` creates a `QueryList` object that contains the query results. You can subscribe to changes to the query results over time via the `changes` property.
+`@ViewChildren` crea un objeto `QueryList` que contiene los resultados de la consulta. Puedes suscribirte a cambios en los resultados de la consulta a lo largo del tiempo a través de la propiedad `changes`.
 
-### Content queries
+### Consultas de contenido
 
-You can query for a single result with the `@ContentChild` decorator.
+Puedes consultar por un solo resultado con el decorador `@ContentChild`.
 
 ```typescript {highlight: [14, 16, 17, 18, 25]}
 @Component({
@@ -365,13 +365,13 @@ export class CustomExpando {
 export class UserProfile { }
 ```
 
-In this example, the `CustomExpando` component queries for a child `CustomToggle` and accesses the result in `ngAfterContentInit`.
+En este ejemplo, el componente `CustomExpando` consulta por un hijo `CustomToggle` y accede al resultado en `ngAfterContentInit`.
 
-Angular keeps the result of `@ContentChild` up to date as your application state changes.
+Angular mantiene el resultado de `@ContentChild` actualizado a medida que el estado de tu aplicación cambia.
 
-**Content query results become available in the `ngAfterContentInit` lifecycle method**. Before this point, the value is `undefined`. See the [Lifecycle](guide/components/lifecycle) section for details on the component lifecycle.
+**Los resultados de consulta de contenido están disponibles en el método de ciclo de vida `ngAfterContentInit`**. Antes de este punto, el valor es `undefined`. Ve la sección [Ciclo de vida](guide/components/lifecycle) para detalles sobre el ciclo de vida del componente.
 
-You can also query for multiple results with the `@ContentChildren` decorator.
+También puedes consultar por múltiples resultados con el decorador `@ContentChildren`.
 
 ```typescript {highlight: [15, 17, 18, 19, 20, 21]}
 @Component({
@@ -409,15 +409,15 @@ export class CustomMenu {
 export class UserProfile { }
 ```
 
-`@ContentChildren` creates a `QueryList` object that contains the query results. You can subscribe to changes to the query results over time via the `changes` property.
+`@ContentChildren` crea un objeto `QueryList` que contiene los resultados de la consulta. Puedes suscribirte a cambios en los resultados de la consulta a lo largo del tiempo a través de la propiedad `changes`.
 
-### Decorator-based query options
+### Opciones de consulta basadas en decoradores
 
-All query decorators accept an options object as a second parameter. These options work the same way as signal-based queries except where described below.
+Todos los decoradores de consulta aceptan un objeto de opciones como segundo parámetro. Estas opciones funcionan de la misma manera que las consultas basadas en signals excepto donde se describe a continuación.
 
-### Static queries
+### Consultas estáticas
 
-`@ViewChild` and `@ContentChild` decorators accept the `static` option.
+Los decoradores `@ViewChild` y `@ContentChild` aceptan la opción `static`.
 
 ```angular-ts
 @Component({
@@ -433,26 +433,26 @@ export class CustomCard {
 }
 ```
 
-By setting `static: true`, you guarantee to Angular that the target of this query is _always_ present and is not conditionally rendered. This makes the result available earlier, in the `ngOnInit` lifecycle method.
+Estableciendo `static: true`, garantizas a Angular que el objetivo de esta consulta está _siempre_ presente y no se renderiza condicionalmente. Esto hace que el resultado esté disponible antes, en el método de ciclo de vida `ngOnInit`.
 
-Static query results do not update after initialization.
+Los resultados de consultas estáticas no se actualizan después de la inicialización.
 
-The `static` option is not available for `@ViewChildren` and `@ContentChildren` queries.
+La opción `static` no está disponible para las consultas `@ViewChildren` y `@ContentChildren`.
 
-### Using QueryList
+### Usando QueryList
 
-`@ViewChildren` and `@ContentChildren` both provide a `QueryList` object that contains a list of results.
+`@ViewChildren` y `@ContentChildren` ambos proporcionan un objeto `QueryList` que contiene una lista de resultados.
 
-`QueryList` offers a number of convenience APIs for working with results in an array-like manner, such as `map`, `reduce`, and `forEach`. You can get an array of the current results by calling `toArray`.
+`QueryList` ofrece varias APIs de conveniencia para trabajar con resultados de manera similar a un array, como `map`, `reduce` y `forEach`. Puedes obtener un array de los resultados actuales llamando a `toArray`.
 
-You can subscribe to the `changes` property to do something any time the results change.
+Puedes suscribirte a la propiedad `changes` para hacer algo cada vez que los resultados cambien.
 
-## Common query pitfalls
+## Errores comunes con consultas
 
-When using queries, common pitfalls can make your code harder to understand and maintain.
+Al usar consultas, errores comunes pueden hacer que tu código sea más difícil de entender y mantener.
 
-Always maintain a single source of truth for state shared between multiple components. This avoids scenarios where repeated state in different components becomes out of sync.
+Siempre mantén una única fuente de verdad para el estado compartido entre múltiples componentes. Esto evita escenarios donde el estado repetido en diferentes componentes se desincroniza.
 
-Avoid directly writing state to child components. This pattern can lead to brittle code that is hard to understand and is prone to [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) errors.
+Evita escribir estado directamente a componentes hijos. Este patrón puede llevar a código frágil que es difícil de entender y es propenso a errores de [ExpressionChangedAfterItHasBeenChecked](errors/NG0100).
 
-Never directly write state to parent or ancestor components. This pattern can lead to brittle code that is hard to understand and is prone to [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) errors.
+Nunca escribas estado directamente a componentes padre o ancestros. Este patrón puede llevar a código frágil que es difícil de entender y es propenso a errores de [ExpressionChangedAfterItHasBeenChecked](errors/NG0100).
