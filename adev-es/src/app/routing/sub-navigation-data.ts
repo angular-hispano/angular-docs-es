@@ -434,32 +434,32 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             status: 'new',
             children: [
               {
-                label: 'Overview',
+                label: 'Visión general',
                 path: 'guide/forms/signals/overview',
                 contentPath: 'guide/forms/signals/overview',
               },
               {
-                label: 'Form models',
+                label: 'Modelos de formularios',
                 path: 'guide/forms/signals/models',
                 contentPath: 'guide/forms/signals/models',
               },
               {
-                label: 'Field state management',
+                label: 'Gestión de estado de campos',
                 path: 'guide/forms/signals/field-state-management',
                 contentPath: 'guide/forms/signals/field-state-management',
               },
               {
-                label: 'Validation',
+                label: 'Validación',
                 path: 'guide/forms/signals/validation',
                 contentPath: 'guide/forms/signals/validation',
               },
               {
-                label: 'Custom controls',
+                label: 'Controles personalizados',
                 path: 'guide/forms/signals/custom-controls',
                 contentPath: 'guide/forms/signals/custom-controls',
               },
               {
-                label: 'Comparison with other form systems',
+                label: 'Comparación con otros enfoques de formularios',
                 path: 'guide/forms/signals/comparison',
                 contentPath: 'guide/forms/signals/comparison',
               },
