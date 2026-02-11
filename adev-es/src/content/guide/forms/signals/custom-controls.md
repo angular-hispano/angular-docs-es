@@ -1,18 +1,18 @@
-# Custom Controls
+# Controles Personalizados
 
-NOTE: This guide assumes familiarity with [Signal Forms essentials](essentials/signal-forms).
+NOTA: Esta guía asume familiaridad con [Fundamentos de Signal Forms](essentials/signal-forms).
 
-The browser's built-in form controls (like input, select, textarea) handle common cases, but applications often need specialized inputs. A date picker with calendar UI, a rich text editor with formatting toolbar, or a tag selector with autocomplete all require custom implementations.
+Los controles de formulario integrados del navegador (como input, select, textarea) manejan casos comunes, pero las aplicaciones a menudo necesitan entradas especializadas. Un selector de fecha con UI de calendario, un editor de texto enriquecido con barra de herramientas de formato, o un selector de etiquetas con autocompletado, todos requieren implementaciones personalizadas.
 
-Signal Forms works with any component that implements specific interfaces. A **control interface** defines the properties and signals that allow your component to communicate with the form system. When your component implements one of these interfaces, the `[field]` directive automatically connects your control to form state, validation, and data binding.
+Signal Forms funciona con cualquier componente que implemente interfaces específicas. Una **interfaz de control** define las propiedades y signals que permiten a tu componente comunicarse con el sistema de formularios. Cuando tu componente implementa una de estas interfaces, la directiva `[field]` conecta automáticamente tu control al estado del formulario, validación, y enlace de datos.
 
-## Creating a basic custom control
+## Creando un control personalizado básico
 
-Let's start with a minimal implementation and add features as needed.
+Empecemos con una implementación mínima y agreguemos características según sea necesario.
 
-### Minimal input control
+### Control de entrada mínimo
 
-A basic custom input only needs to implement the `FormValueControl` interface and define the required `value` model signal.
+Un input personalizado básico solo necesita implementar la interfaz `FormValueControl` y definir el signal modelo `value` requerido.
 
 ```angular-ts
 import { Component, model } from '@angular/core';
@@ -37,12 +37,12 @@ export class BasicInput implements FormValueControl<string> {
 }
 ```
 
-### Minimal checkbox control
+### Control de checkbox mínimo
 
-A checkbox-style control needs two things:
+Un control estilo checkbox necesita dos cosas:
 
-1. Implement the `FormCheckboxControl` interface so the `Field` directive will recognize it as a form control
-2. Provide a `checked` model signal
+1. Implementar la interfaz `FormCheckboxControl` para que la directiva `Field` lo reconozca como un control de formulario
+2. Proporcionar un signal modelo `checked`
 
 ```angular-ts
 import { Component, model, ChangeDetectionStrategy } from '@angular/core';
@@ -71,9 +71,9 @@ export class BasicToggle implements FormCheckboxControl {
 }
 ```
 
-### Using your custom control
+### Usando tu control personalizado
 
-Once you've created a control, you can use it anywhere you would use a built-in input by adding the `Field` directive to it:
+Una vez que hayas creado un control, puedes usarlo en cualquier lugar donde usarías un input integrado agregándole la directiva `Field`:
 
 ```angular-ts
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
@@ -118,99 +118,99 @@ export class Registration {
 }
 ```
 
-NOTE: The schema callback parameter (`schemaPath` in these examples) is a `SchemaPathTree` object that provides paths to all fields in your form. You can name this parameter anything you like.
+NOTA: El parámetro callback del esquema (`schemaPath` en estos ejemplos) es un objeto `SchemaPathTree` que proporciona rutas a todos los campos en tu formulario. Puedes nombrar este parámetro como desees.
 
-The `[field]` directive works identically for custom controls and built-in inputs. Signal Forms treats them the same - validation runs, state updates, and data binding works automatically.
+La directiva `[field]` funciona de manera idéntica para controles personalizados e inputs integrados. Signal Forms los trata igual - la validación se ejecuta, el estado se actualiza, y el enlace de datos funciona automáticamente.
 
-## Understanding control interfaces
+## Entendiendo las interfaces de control
 
-Now that you've seen custom controls in action, let's explore how they integrate with Signal Forms.
+Ahora que has visto los controles personalizados en acción, exploremos cómo se integran con Signal Forms.
 
-### Control interfaces
+### Interfaces de control
 
-The `BasicInput` and `BasicToggle` components you created implement specific control interfaces that tell Signal Forms how to interact with them.
+Los componentes `BasicInput` y `BasicToggle` que creaste implementan interfaces de control específicas que le dicen a Signal Forms cómo interactuar con ellos.
 
 #### FormValueControl
 
-`FormValueControl` is the interface for most input types - text inputs, number inputs, date pickers, select dropdowns, and any control that edits a single value. When your component implements this interface:
+`FormValueControl` es la interfaz para la mayoría de tipos de entrada - inputs de texto, inputs de número, selectores de fecha, dropdowns select, y cualquier control que edite un solo valor. Cuando tu componente implementa esta interfaz:
 
-- **Required property**: Your component must provide a `value` model signal
-- **What the Field directive does**: Binds the form field's value to your control's `value` signal
+- **Propiedad requerida**: Tu componente debe proporcionar un signal modelo `value`
+- **Lo que hace la directiva Field**: Vincula el valor del campo del formulario al signal `value` de tu control
 
-IMPORTANT: Controls implementing `FormValueControl` must NOT have a `checked` property
+IMPORTANTE: Los controles que implementan `FormValueControl` NO deben tener una propiedad `checked`
 
 #### FormCheckboxControl
 
-`FormCheckboxControl` is the interface for checkbox-like controls - toggles, switches, and any control that represents a boolean on/off state. When your component implements this interface:
+`FormCheckboxControl` es la interfaz para controles tipo checkbox - toggles, switches, y cualquier control que represente un estado booleano de encendido/apagado. Cuando tu componente implementa esta interfaz:
 
-- **Required property**: Your component must provide a `checked` model signal
-- **What the Field directive does**: Binds the form field's value to your control's `checked` signal
+- **Propiedad requerida**: Tu componente debe proporcionar un signal modelo `checked`
+- **Lo que hace la directiva Field**: Vincula el valor del campo del formulario al signal `checked` de tu control
 
-IMPORTANT: Controls implementing `FormCheckboxControl` must NOT have a `value` property
+IMPORTANTE: Los controles que implementan `FormCheckboxControl` NO deben tener una propiedad `value`
 
-### Optional state properties
+### Propiedades de estado opcionales
 
-Both `FormValueControl` and `FormCheckboxControl` extend `FormUiControl` - a base interface that provides optional properties for integrating with form state.
+Tanto `FormValueControl` como `FormCheckboxControl` extienden `FormUiControl` - una interfaz base que proporciona propiedades opcionales para integrarse con el estado del formulario.
 
-All properties are optional. Implement only what your control needs.
+Todas las propiedades son opcionales. Implementa solo lo que tu control necesita.
 
-#### Interaction state
+#### Estado de interacción
 
-Track when users interact with your control:
+Rastrea cuando los usuarios interactúan con tu control:
 
-| Property  | Purpose                                          |
-| --------- | ------------------------------------------------ |
-| `touched` | Whether the user has interacted with the field   |
-| `dirty`   | Whether the value differs from its initial state |
+| Propiedad | Propósito                                                     |
+| --------- | ------------------------------------------------------------- |
+| `touched` | Si el usuario ha interactuado con el campo                    |
+| `dirty`   | Si el valor difiere de su estado inicial                      |
 
-#### Validation state
+#### Estado de validación
 
-Display validation feedback to users:
+Muestra comentarios de validación a los usuarios:
 
-| Property  | Purpose                                 |
-| --------- | --------------------------------------- |
-| `errors`  | Array of current validation errors      |
-| `valid`   | Whether the field is valid              |
-| `invalid` | Whether the field has validation errors |
-| `pending` | Whether async validation is in progress |
+| Propiedad | Propósito                                   |
+| --------- | ------------------------------------------- |
+| `errors`  | Array de errores de validación actuales     |
+| `valid`   | Si el campo es válido                       |
+| `invalid` | Si el campo tiene errores de validación     |
+| `pending` | Si la validación asíncrona está en progreso |
 
-#### Availability state
+#### Estado de disponibilidad
 
-Control whether users can interact with your field:
+Controla si los usuarios pueden interactuar con tu campo:
 
-| Property          | Purpose                                                  |
-| ----------------- | -------------------------------------------------------- |
-| `disabled`        | Whether the field is disabled                            |
-| `disabledReasons` | Reasons why the field is disabled                        |
-| `readonly`        | Whether the field is readonly (visible but not editable) |
-| `hidden`          | Whether the field is hidden from view                    |
+| Propiedad         | Propósito                                                           |
+| ----------------- | ------------------------------------------------------------------- |
+| `disabled`        | Si el campo está deshabilitado                                      |
+| `disabledReasons` | Razones por las que el campo está deshabilitado                     |
+| `readonly`        | Si el campo es de solo lectura (visible pero no editable)           |
+| `hidden`          | Si el campo está oculto de la vista                                 |
 
-NOTE: `disabledReasons` is an array of `DisabledReason` objects. Each object has a `field` property (reference to the field tree) and an optional `message` property. Access the message via `reason.message`.
+NOTA: `disabledReasons` es un array de objetos `DisabledReason`. Cada objeto tiene una propiedad `field` (referencia al árbol de campo) y una propiedad `message` opcional. Accede al mensaje a través de `reason.message`.
 
-#### Validation constraints
+#### Restricciones de validación
 
-Receive validation constraint values from the form:
+Recibe valores de restricción de validación del formulario:
 
-| Property    | Purpose                                              |
-| ----------- | ---------------------------------------------------- |
-| `required`  | Whether the field is required                        |
-| `min`       | Minimum numeric value (`undefined` if no constraint) |
-| `max`       | Maximum numeric value (`undefined` if no constraint) |
-| `minLength` | Minimum string length (undefined if no constraint)   |
-| `maxLength` | Maximum string length (undefined if no constraint)   |
-| `pattern`   | Array of regular expression patterns to match        |
+| Propiedad   | Propósito                                                                   |
+| ----------- | --------------------------------------------------------------------------- |
+| `required`  | Si el campo es requerido                                                    |
+| `min`       | Valor numérico mínimo (`undefined` si no hay restricción)                   |
+| `max`       | Valor numérico máximo (`undefined` si no hay restricción)                   |
+| `minLength` | Longitud mínima de cadena (undefined si no hay restricción)                 |
+| `maxLength` | Longitud máxima de cadena (undefined si no hay restricción)                 |
+| `pattern`   | Array de patrones de expresión regular a coincidir                          |
 
-#### Field metadata
+#### Metadatos de campo
 
-| Property | Purpose                                                            |
-| -------- | ------------------------------------------------------------------ |
-| `name`   | The field's name attribute (which is unique across forms and apps) |
+| Propiedad | Propósito                                                                          |
+| --------- | ---------------------------------------------------------------------------------- |
+| `name`    | El atributo name del campo (que es único entre formularios y aplicaciones)         |
 
-The "[Adding state signals](#adding-state-signals)" section below shows how to implement these properties in your controls.
+La sección "[Agregando signals de estado](#agregando-signals-de-estado)" a continuación muestra cómo implementar estas propiedades en tus controles.
 
-### How the Field directive works
+### Cómo funciona la directiva Field
 
-The `[field]` directive detects which interface your control implements and automatically binds the appropriate signals:
+La directiva `[field]` detecta qué interfaz implementa tu control y automáticamente vincula los signals apropiados:
 
 ```angular-ts
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
@@ -241,20 +241,20 @@ export class MyForm {
 }
 ```
 
-TIP: For complete coverage of creating and managing form models, see the [Form Models guide](guide/forms/signals/models).
+CONSEJO: Para una cobertura completa de la creación y gestión de modelos de formulario, consulta la [guía de Modelos de Formulario](guide/forms/signals/models).
 
-When you bind `[field]="userForm.username"`, the Field directive:
+Cuando vinculas `[field]="userForm.username"`, la directiva Field:
 
-1. Detects your control implements `FormValueControl`
-2. Internally accesses `userForm.username().value()` and binds it to your control's `value` model signal
-3. Binds form state signals (`disabled()`, `errors()`, etc.) to your control's optional input signals
-4. Updates occur automatically through signal reactivity
+1. Detecta que tu control implementa `FormValueControl`
+2. Accede internamente a `userForm.username().value()` y lo vincula al signal modelo `value` de tu control
+3. Vincula signals de estado del formulario (`disabled()`, `errors()`, etc.) a los signals de entrada opcionales de tu control
+4. Las actualizaciones ocurren automáticamente a través de la reactividad de signals
 
-## Adding state signals
+## Agregando signals de estado
 
-The minimal controls shown above work, but they don't respond to form state. You can add optional input signals to make your controls react to disabled state, display validation errors, and track user interaction.
+Los controles mínimos mostrados arriba funcionan, pero no responden al estado del formulario. Puedes agregar signals de entrada opcionales para hacer que tus controles reaccionen al estado deshabilitado, muestren errores de validación, y rastreen la interacción del usuario.
 
-Here's a comprehensive example that implements common state properties:
+Aquí hay un ejemplo completo que implementa propiedades de estado comunes:
 
 ```angular-ts
 import { Component, model, input, ChangeDetectionStrategy } from '@angular/core';
@@ -314,7 +314,7 @@ export class StatefulInput implements FormValueControl<string> {
 }
 ```
 
-As a result, you can use the control with validation and state management:
+Como resultado, puedes usar el control con validación y gestión de estado:
 
 ```angular-ts
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
@@ -343,17 +343,17 @@ export class Login {
 }
 ```
 
-When the user types an invalid email, the Field directive automatically updates `invalid()` and `errors()`. Your control can display the validation feedback.
+Cuando el usuario escribe un email inválido, la directiva Field actualiza automáticamente `invalid()` y `errors()`. Tu control puede mostrar los comentarios de validación.
 
-### Signal types for state properties
+### Tipos de signal para propiedades de estado
 
-Most state properties use `input()` (read-only from the form). Use `model()` for `touched` when your control updates it on user interaction. The `touched` property uniquely supports `model()`, `input()`, or `OutputRef` depending on your needs.
+La mayoría de las propiedades de estado usan `input()` (solo lectura desde el formulario). Usa `model()` para `touched` cuando tu control lo actualice en la interacción del usuario. La propiedad `touched` admite de manera única `model()`, `input()`, o `OutputRef` dependiendo de tus necesidades.
 
-## Value transformation
+## Transformación de valores
 
-Controls sometimes display values differently than the form model stores them - a date picker might display "January 15, 2024" while storing "2024-01-15", or a currency input might show "$1,234.56" while storing 1234.56.
+Los controles a veces muestran valores de manera diferente a como el modelo del formulario los almacena - un selector de fecha podría mostrar "January 15, 2024" mientras almacena "2024-01-15", o un input de moneda podría mostrar "$1,234.56" mientras almacena 1234.56.
 
-Use `computed()` signals (from `@angular/core`) to transform the model value for display, and handle input events to parse user input back to the storage format:
+Usa signals `computed()` (de `@angular/core`) para transformar el valor del modelo para visualización, y maneja eventos de entrada para parsear la entrada del usuario de vuelta al formato de almacenamiento:
 
 ```angular-ts
 import { Component, model, computed, ChangeDetectionStrategy } from '@angular/core';
@@ -384,11 +384,11 @@ export class CurrencyInput implements FormValueControl<number> {
 }
 ```
 
-## Validation integration
+## Integración de validación
 
-Controls display validation state but don't perform validation. Validation happens in the form schema - your control receives `invalid()` and `errors()` signals from the Field directive and displays them (as shown in the StatefulInput example above).
+Los controles muestran el estado de validación pero no realizan validación. La validación ocurre en el esquema del formulario - tu control recibe signals `invalid()` y `errors()` de la directiva Field y los muestra (como se muestra en el ejemplo de StatefulInput arriba).
 
-The Field directive also passes validation constraint values like `required`, `min`, `max`, `minLength`, `maxLength`, and `pattern`. Your control can use these to enhance the UI:
+La directiva Field también pasa valores de restricción de validación como `required`, `min`, `max`, `minLength`, `maxLength`, y `pattern`. Tu control puede usarlos para mejorar la UI:
 
 ```ts
 export class NumberInput implements FormValueControl<number> {
@@ -401,28 +401,28 @@ export class NumberInput implements FormValueControl<number> {
 }
 ```
 
-When you add `min()` and `max()` validation rules to the schema, the Field directive passes these values to your control. Use them to apply HTML5 attributes or show constraint hints in your template.
+Cuando agregas reglas de validación `min()` y `max()` al esquema, la directiva Field pasa estos valores a tu control. Úsalos para aplicar atributos HTML5 o mostrar sugerencias de restricción en tu plantilla.
 
-IMPORTANT: Don't implement validation logic in your control. Define validation rules in the form schema and let your control display the results:
+IMPORTANTE: No implementes lógica de validación en tu control. Define reglas de validación en el esquema del formulario y deja que tu control muestre los resultados:
 
 ```typescript
-// Avoid: Validation in control
+// Evitar: Validación en el control
 export class BadControl implements FormValueControl<string> {
   value = model<string>('')
   isValid() { return this.value().length >= 8 } // Don't do this!
 }
 
-// Good: Validation in schema, control displays results
+// Bien: Validación en el esquema, el control muestra resultados
 accountForm = form(this.accountModel, schemaPath => {
   minLength(schemaPath.password, 8, { message: 'Password must be at least 8 characters' })
 })
 ```
 
-## Next steps
+## Próximos pasos
 
-This guide covered building custom controls that integrate with Signal Forms. Related guides explore other aspects of Signal Forms:
+Esta guía cubrió la construcción de controles personalizados que se integran con Signal Forms. Las guías relacionadas exploran otros aspectos de Signal Forms:
 
-- [Form Models guide](guide/forms/signals/models) - Creating and updating form models
+- [Guía de Modelos de Formulario](guide/forms/signals/models) - Creando y actualizando modelos de formulario
   <!-- TODO: Uncomment when guides are available -->
-  <!-- - [Field State Management guide](guide/forms/signals/field-state-management) - Using form state signals -->
-  <!-- - [Validation guide](guide/forms/signals/validation) - Adding validation to your forms -->
+  <!-- - [Guía de Gestión de Estado de Campo](guide/forms/signals/field-state-management) - Usando signals de estado de formulario -->
+  <!-- - [Guía de Validación](guide/forms/signals/validation) - Agregando validación a tus formularios -->

@@ -1,8 +1,8 @@
-# Validation
+# Validación
 
-Forms need validation to ensure users provide correct, complete data before submission. Without validation, you would need to handle data quality issues on the server, provide poor user experience with unclear error messages, and manually check every constraint.
+Los formularios necesitan validación para asegurar que los usuarios proporcionen datos correctos y completos antes del envío. Sin validación, tendrías que manejar problemas de calidad de datos en el servidor, proporcionar una mala experiencia de usuario con mensajes de error poco claros, y verificar manualmente cada restricción.
 
-Signal Forms provides a schema-based validation approach. Validation rules bind to fields using a schema function, run automatically when values change, and expose errors through field state signals. This enables reactive validation that updates as users interact with the form.
+Signal Forms proporciona un enfoque de validación basado en esquemas. Las reglas de validación se vinculan a los campos usando una función de esquema, se ejecutan automáticamente cuando los valores cambian, y exponen errores a través de signals de estado de campo. Esto permite una validación reactiva que se actualiza a medida que los usuarios interactúan con el formulario.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/signal-forms/src/login-validation-complete/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/signal-forms/src/login-validation-complete/app/app.ts"/>
@@ -10,13 +10,13 @@ Signal Forms provides a schema-based validation approach. Validation rules bind 
   <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-validation-complete/app/app.css"/>
 </docs-code-multifile>
 
-## Validation basics
+## Fundamentos de validación
 
-Validation in Signal Forms is defined through a schema function passed as the second argument to `form()`.
+La validación en Signal Forms se define a través de una función de esquema pasada como segundo argumento a `form()`.
 
-### The schema function
+### La función de esquema
 
-The schema function receives a `SchemaPathTree` object that lets you define your validation rules:
+La función de esquema recibe un objeto `SchemaPathTree` que te permite definir tus reglas de validación:
 
 <docs-code
   header="app.ts"
@@ -25,40 +25,40 @@ The schema function receives a `SchemaPathTree` object that lets you define your
   highlight="[23,24,26]"
 />
 
-The schema function runs once during form initialization. Validation rules bind to fields using the schema path parameter (such as `schemaPath.email`, `schemaPath.password`), and validation runs automatically whenever field values change.
+La función de esquema se ejecuta una vez durante la inicialización del formulario. Las reglas de validación se vinculan a los campos usando el parámetro de ruta de esquema (como `schemaPath.email`, `schemaPath.password`), y la validación se ejecuta automáticamente cuando los valores de los campos cambian.
 
-NOTE: The schema callback parameter (`schemaPath` in these examples) is a `SchemaPathTree` object that provides paths to all fields in your form. You can name this parameter anything you like.
+NOTA: El parámetro callback del esquema (`schemaPath` en estos ejemplos) es un objeto `SchemaPathTree` que proporciona rutas a todos los campos en tu formulario. Puedes nombrar este parámetro como desees.
 
-### How validation works
+### Cómo funciona la validación
 
-Validation in Signal Forms follows this pattern:
+La validación en Signal Forms sigue este patrón:
 
-1. **Define validation rules in schema** - Bind validation rules to fields in the schema function
-2. **Automatic execution** - Validation rules run when field values change
-3. **Error propagation** - Validation errors are exposed through field state signals
-4. **Reactive updates** - UI automatically updates when validation state changes
+1. **Definir reglas de validación en el esquema** - Vincular reglas de validación a los campos en la función de esquema
+2. **Ejecución automática** - Las reglas de validación se ejecutan cuando los valores de los campos cambian
+3. **Propagación de errores** - Los errores de validación se exponen a través de signals de estado de campo
+4. **Actualizaciones reactivas** - La UI se actualiza automáticamente cuando el estado de validación cambia
 
-Validation runs on every value change for interactive fields. Hidden and disabled fields don't run validation - their validation rules are skipped until the field becomes interactive again.
+La validación se ejecuta en cada cambio de valor para campos interactivos. Los campos ocultos y deshabilitados no ejecutan validación - sus reglas de validación se omiten hasta que el campo se vuelve interactivo nuevamente.
 
-### Validation timing
+### Momento de la validación
 
-Validation rules execute in this order:
+Las reglas de validación se ejecutan en este orden:
 
-1. **Synchronous validation** - All synchronous validation rules run when value changes
-2. **Asynchronous validation** - Asynchronous validation rules run only after all synchronous validation rules pass
-3. **Field state updates** - The `valid()`, `invalid()`, `errors()`, and `pending()` signals update
+1. **Validación síncrona** - Todas las reglas de validación síncronas se ejecutan cuando el valor cambia
+2. **Validación asíncrona** - Las reglas de validación asíncronas se ejecutan solo después de que todas las reglas de validación síncronas pasen
+3. **Actualizaciones de estado de campo** - Los signals `valid()`, `invalid()`, `errors()`, y `pending()` se actualizan
 
-Synchronous validation rules (like `required()`, `email()`) complete immediately. Asynchronous validation rules (like `validateHttp()`) may take time and set the `pending()` signal to `true` while executing.
+Las reglas de validación síncronas (como `required()`, `email()`) se completan inmediatamente. Las reglas de validación asíncronas (como `validateHttp()`) pueden tomar tiempo y establecen el signal `pending()` en `true` mientras se ejecutan.
 
-All validation rules run on every change - validation doesn't short-circuit after the first error. If a field has both `required()` and `email()` validation rules, both run, and both can produce errors simultaneously.
+Todas las reglas de validación se ejecutan en cada cambio - la validación no se detiene después del primer error. Si un campo tiene reglas de validación `required()` y `email()`, ambas se ejecutan, y ambas pueden producir errores simultáneamente.
 
-## Built-in validation rules
+## Reglas de validación integradas
 
-Signal Forms provides validation rules for common validation scenarios. All built-in validation rules accept an options object for custom error messages and conditional logic.
+Signal Forms proporciona reglas de validación para escenarios de validación comunes. Todas las reglas de validación integradas aceptan un objeto de opciones para mensajes de error personalizados y lógica condicional.
 
 ### required()
 
-The `required()` validation rule ensures a field has a value:
+La regla de validación `required()` asegura que un campo tenga un valor:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
@@ -96,15 +96,15 @@ export class RegistrationComponent {
 }
 ```
 
-A field is considered "empty" when:
+Un campo se considera "vacío" cuando:
 
-| Condition                | Example |
-| ------------------------ | ------- |
-| Value is `null`          | `null`, |
-| Value is an empty string | `''`    |
-| Value is an empty array  | `[]`    |
+| Condición                   | Ejemplo |
+| --------------------------- | ------- |
+| El valor es `null`          | `null`, |
+| El valor es una cadena vacía| `''`    |
+| El valor es un array vacío  | `[]`    |
 
-For conditional requirements, use the `when` option:
+Para requisitos condicionales, usa la opción `when`:
 
 ```ts
 registrationForm = form(this.registrationModel, (schemaPath) => {
@@ -115,11 +115,11 @@ registrationForm = form(this.registrationModel, (schemaPath) => {
 })
 ```
 
-The validation rule only runs when the `when` function returns `true`.
+La regla de validación solo se ejecuta cuando la función `when` devuelve `true`.
 
 ### email()
 
-The `email()` validation rule checks for valid email format:
+La regla de validación `email()` verifica un formato de email válido:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
@@ -146,11 +146,11 @@ export class ContactComponent {
 }
 ```
 
-The `email()` validation rule uses a standard email format regex. It accepts addresses like `user@example.com` but rejects malformed addresses like `user@` or `@example.com`.
+La regla de validación `email()` usa una expresión regular de formato de email estándar. Acepta direcciones como `user@example.com` pero rechaza direcciones malformadas como `user@` o `@example.com`.
 
-### min() and max()
+### min() y max()
 
-The `min()` and `max()` validation rules work with numeric values:
+Las reglas de validación `min()` y `max()` funcionan con valores numéricos:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
@@ -189,7 +189,7 @@ export class AgeFormComponent {
 }
 ```
 
-You can use computed values for dynamic constraints:
+Puedes usar valores computed para restricciones dinámicas:
 
 ```ts
 ageForm = form(this.ageModel, (schemaPath) => {
@@ -199,9 +199,9 @@ ageForm = form(this.ageModel, (schemaPath) => {
 })
 ```
 
-### minLength() and maxLength()
+### minLength() y maxLength()
 
-The `minLength()` and `maxLength()` validation rules work with strings and arrays:
+Las reglas de validación `minLength()` y `maxLength()` funcionan con cadenas y arrays:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
@@ -239,11 +239,11 @@ export class PasswordFormComponent {
 }
 ```
 
-For strings, "length" means the number of characters. For arrays, "length" means the number of elements.
+Para cadenas, "longitud" significa el número de caracteres. Para arrays, "longitud" significa el número de elementos.
 
 ### pattern()
 
-The `pattern()` validation rule validates against a regular expression:
+La regla de validación `pattern()` valida contra una expresión regular:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
@@ -284,37 +284,37 @@ export class PhoneFormComponent {
 }
 ```
 
-Common patterns:
+Patrones comunes:
 
-| Pattern Type     | Regular Expression      | Example      |
-| ---------------- | ----------------------- | ------------ |
-| Phone            | `/^\d{3}-\d{3}-\d{4}$/` | 555-123-4567 |
-| Postal code (US) | `/^\d{5}$/`             | 12345        |
-| Alphanumeric     | `/^[a-zA-Z0-9]+$/`      | abc123       |
-| URL-safe         | `/^[a-zA-Z0-9_-]+$/`    | my-url_123   |
+| Tipo de Patrón       | Expresión Regular       | Ejemplo      |
+| -------------------- | ----------------------- | ------------ |
+| Teléfono             | `/^\d{3}-\d{3}-\d{4}$/` | 555-123-4567 |
+| Código postal (US)   | `/^\d{5}$/`             | 12345        |
+| Alfanumérico         | `/^[a-zA-Z0-9]+$/`      | abc123       |
+| Seguro para URL      | `/^[a-zA-Z0-9_-]+$/`    | my-url_123   |
 
-## Validation errors
+## Errores de validación
 
-When validation rules fail, they produce error objects that describe what went wrong. Understanding error structure helps you provide clear feedback to users.
+Cuando las reglas de validación fallan, producen objetos de error que describen qué salió mal. Entender la estructura de errores te ayuda a proporcionar comentarios claros a los usuarios.
 
 <!-- TODO: Uncomment when field state management guide is published
 
-NOTE: This section covers the errors that validation rules produce. For displaying and using validation errors in your UI, see the [Field State Management guide](guide/forms/signals/field-state-management). -->
+NOTA: Esta sección cubre los errores que producen las reglas de validación. Para mostrar y usar errores de validación en tu UI, consulta la [guía de Gestión de Estado de Campo](guide/forms/signals/field-state-management). -->
 
-### Error structure
+### Estructura del error
 
-Each validation error object contains these properties:
+Cada objeto de error de validación contiene estas propiedades:
 
-| Property  | Description                                                              |
-| --------- | ------------------------------------------------------------------------ |
-| `kind`    | The validation rule that failed (e.g., "required", "email", "minLength") |
-| `message` | Optional human-readable error message                                    |
+| Propiedad | Descripción                                                                 |
+| --------- | --------------------------------------------------------------------------- |
+| `kind`    | La regla de validación que falló (ej., "required", "email", "minLength")   |
+| `message` | Mensaje de error legible opcional                                           |
 
-Built-in validation rules automatically set the `kind` property. The `message` property is optional - you can provide custom messages through validation rule options.
+Las reglas de validación integradas establecen automáticamente la propiedad `kind`. La propiedad `message` es opcional - puedes proporcionar mensajes personalizados a través de las opciones de regla de validación.
 
-### Custom error messages
+### Mensajes de error personalizados
 
-All built-in validation rules accept a `message` option for custom error text:
+Todas las reglas de validación integradas aceptan una opción `message` para texto de error personalizado:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
@@ -358,11 +358,11 @@ export class SignupComponent {
 }
 ```
 
-Custom messages should be clear, specific, and tell users how to fix the problem. Instead of "Invalid input", use "Password must be at least 12 characters for security".
+Los mensajes personalizados deben ser claros, específicos, y decirle a los usuarios cómo solucionar el problema. En lugar de "Invalid input", usa "Password must be at least 12 characters for security".
 
-### Multiple errors per field
+### Múltiples errores por campo
 
-When a field has multiple validation rules, each validation rule runs independently and can produce an error:
+Cuando un campo tiene múltiples reglas de validación, cada regla de validación se ejecuta independientemente y puede producir un error:
 
 ```ts
 signupForm = form(this.signupModel, (schemaPath) => {
@@ -372,22 +372,22 @@ signupForm = form(this.signupModel, (schemaPath) => {
 })
 ```
 
-If the email field is empty, only the `required()` error appears. If the user types "a@b", both `email()` and `minLength()` errors appear. All validation rules run - validation doesn't stop after the first failure.
+Si el campo de email está vacío, solo aparece el error de `required()`. Si el usuario escribe "a@b", aparecen ambos errores de `email()` y `minLength()`. Todas las reglas de validación se ejecutan - la validación no se detiene después del primer fallo.
 
-TIP: Use the `touched() && invalid()` pattern in your templates to prevent errors from appearing before users have interacted with a field. For comprehensive guidance on displaying validation errors, see the [Field State Management guide](guide/forms/signals/field-state-management#conditional-error-display).
+CONSEJO: Usa el patrón `touched() && invalid()` en tus plantillas para evitar que los errores aparezcan antes de que los usuarios hayan interactuado con un campo. Para una guía completa sobre cómo mostrar errores de validación, consulta la [guía de Gestión de Estado de Campo](guide/forms/signals/field-state-management#conditional-error-display).
 
-## Custom validation rules
+## Reglas de validación personalizadas
 
-While built-in validation rules handle common cases, you'll often need custom validation logic for business rules, complex formats, or domain-specific constraints.
+Aunque las reglas de validación integradas manejan casos comunes, a menudo necesitarás lógica de validación personalizada para reglas de negocio, formatos complejos, o restricciones específicas del dominio.
 
-### Using validate()
+### Usando validate()
 
-The `validate()` function creates custom validation rules. It receives a validator function that accesses the field context and returns:
+La función `validate()` crea reglas de validación personalizadas. Recibe una función validadora que accede al contexto del campo y devuelve:
 
-| Return Value          | Meaning          |
-| --------------------- | ---------------- |
-| Error object          | Value is invalid |
-| `null` or `undefined` | Value is valid   |
+| Valor de Retorno      | Significado       |
+| --------------------- | ----------------- |
+| Objeto de error       | El valor es inválido |
+| `null` o `undefined`  | El valor es válido   |
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
@@ -423,25 +423,25 @@ export class UrlFormComponent {
 }
 ```
 
-The validator function receives a `FieldContext` object with:
+La función validadora recibe un objeto `FieldContext` con:
 
-| Property        | Type       | Description                                 |
-| --------------- | ---------- | ------------------------------------------- |
-| `value`         | Signal     | Signal containing the current field value   |
-| `state`         | FieldState | The field state reference                   |
-| `field`         | FieldTree  | The field tree reference                    |
-| `valueOf()`     | Method     | Get the value of another field by path      |
-| `stateOf()`     | Method     | Get the state of another field by path      |
-| `fieldTreeOf()` | Method     | Get the field tree of another field by path |
-| `pathKeys`      | Signal     | Path keys from root to current field        |
+| Propiedad       | Tipo       | Descripción                                        |
+| --------------- | ---------- | -------------------------------------------------- |
+| `value`         | Signal     | Signal que contiene el valor actual del campo      |
+| `state`         | FieldState | La referencia al estado del campo                  |
+| `field`         | FieldTree  | La referencia al árbol de campo                    |
+| `valueOf()`     | Método     | Obtener el valor de otro campo por ruta            |
+| `stateOf()`     | Método     | Obtener el estado de otro campo por ruta           |
+| `fieldTreeOf()` | Método     | Obtener el árbol de campo de otro campo por ruta   |
+| `pathKeys`      | Signal     | Claves de ruta desde la raíz hasta el campo actual |
 
-NOTE: Child fields also have a `key` signal, and array item fields have both `key` and `index` signals.
+NOTA: Los campos hijos también tienen un signal `key`, y los campos de elementos de array tienen tanto `key` como `index` signals.
 
-Return an error object with `kind` and `message` when validation fails. Return `null` or `undefined` when validation passes.
+Devuelve un objeto de error con `kind` y `message` cuando la validación falla. Devuelve `null` o `undefined` cuando la validación pasa.
 
-### Reusable validation rules
+### Reglas de validación reutilizables
 
-Create reusable validation rule functions by wrapping `validate()`:
+Crea funciones de reglas de validación reutilizables envolviendo `validate()`:
 
 ```ts
 function url(field: any, options?: { message?: string }) {
@@ -474,7 +474,7 @@ function phoneNumber(field: any, options?: { message?: string }) {
 }
 ```
 
-You can use custom validation rules just like built-in validation rules:
+Puedes usar reglas de validación personalizadas igual que las reglas de validación integradas:
 
 ```ts
 urlForm = form(this.urlModel, (schemaPath) => {
@@ -483,11 +483,11 @@ urlForm = form(this.urlModel, (schemaPath) => {
 })
 ```
 
-## Cross-field validation
+## Validación entre campos
 
-Cross-field validation compares or relates multiple field values.
+La validación entre campos compara o relaciona valores de múltiples campos.
 
-A common scenario for cross-field validation is password confirmation:
+Un escenario común para validación entre campos es la confirmación de contraseña:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
@@ -541,15 +541,15 @@ export class PasswordChangeComponent {
 }
 ```
 
-The confirmation validation rule accesses the password field value using `valueOf(schemaPath.password)` and compares it to the confirmation value. This validation rule runs reactively - if either password changes, validation reruns automatically.
+La regla de validación de confirmación accede al valor del campo de contraseña usando `valueOf(schemaPath.password)` y lo compara con el valor de confirmación. Esta regla de validación se ejecuta de forma reactiva - si cualquiera de las contraseñas cambia, la validación se vuelve a ejecutar automáticamente.
 
-## Async validation
+## Validación asíncrona
 
-Async validation handles validation that requires external data sources, like checking username availability on a server or validating against an API.
+La validación asíncrona maneja validación que requiere fuentes de datos externas, como verificar la disponibilidad de nombre de usuario en un servidor o validar contra una API.
 
-### Using validateHttp()
+### Usando validateHttp()
 
-The `validateHttp()` function performs HTTP-based validation:
+La función `validateHttp()` realiza validación basada en HTTP:
 
 ```angular-ts
 import { Component, signal, inject } from '@angular/core'
@@ -600,17 +600,17 @@ export class UsernameFormComponent {
 }
 ```
 
-The `validateHttp()` validation rule:
+La regla de validación `validateHttp()`:
 
-1. Calls the URL or request returned by the `request` function
-2. Maps the successful response to a validation error or `null` using `onSuccess`
-3. Handles request failures (network errors, HTTP errors) using `onError`
-4. Sets `pending()` to `true` while the request is in progress
-5. Only runs after all synchronous validation rules pass
+1. Llama a la URL o petición devuelta por la función `request`
+2. Mapea la respuesta exitosa a un error de validación o `null` usando `onSuccess`
+3. Maneja fallos de petición (errores de red, errores HTTP) usando `onError`
+4. Establece `pending()` en `true` mientras la petición está en progreso
+5. Solo se ejecuta después de que todas las reglas de validación síncronas pasen
 
-### Pending state
+### Estado pendiente
 
-While async validation runs, the field's `pending()` signal returns `true`. Use this to show loading indicators:
+Mientras se ejecuta la validación asíncrona, el signal `pending()` del campo devuelve `true`. Usa esto para mostrar indicadores de carga:
 
 ```ts
 @if (form.username().pending()) {
@@ -618,12 +618,12 @@ While async validation runs, the field's `pending()` signal returns `true`. Use 
 }
 ```
 
-The `valid()` signal returns `false` while validation is pending, even if there are no errors yet. The `invalid()` signal only returns `true` if errors exist.
+El signal `valid()` devuelve `false` mientras la validación está pendiente, incluso si aún no hay errores. El signal `invalid()` solo devuelve `true` si existen errores.
 
-## Next steps
+## Próximos pasos
 
-This guide covered creating and applying validation rules. Related guides explore other aspects of Signal Forms:
+Esta guía cubrió la creación y aplicación de reglas de validación. Las guías relacionadas exploran otros aspectos de Signal Forms:
 
-- [Form Models guide](guide/forms/signals/models) - Creating and updating form models
+- [Guía de Modelos de Formulario](guide/forms/signals/models) - Creando y actualizando modelos de formulario
   <!-- TODO: Uncomment when Field State Management guide is published -->
-  <!-- - [Field State Management guide](guide/forms/signals/field-state-management) - Using validation state in templates and displaying errors -->
+  <!-- - [Guía de Gestión de Estado de Campo](guide/forms/signals/field-state-management) - Usando estado de validación en plantillas y mostrando errores -->
