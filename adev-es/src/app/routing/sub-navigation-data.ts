@@ -188,30 +188,30 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Templates',
+        label: 'Plantillas',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/templates',
             contentPath: 'guide/templates/overview',
           },
           {
-            label: 'Binding dynamic text, properties and attributes',
+            label: 'Enlazar texto, propiedades y atributos dinámicos',
             path: 'guide/templates/binding',
             contentPath: 'guide/templates/binding',
           },
           {
-            label: 'Adding event listeners',
+            label: 'Agregando escuchadores de eventos',
             path: 'guide/templates/event-listeners',
             contentPath: 'guide/templates/event-listeners',
           },
           {
-            label: 'Two-way binding',
+            label: 'Enlance bidireccional',
             path: 'guide/templates/two-way-binding',
             contentPath: 'guide/templates/two-way-binding',
           },
           {
-            label: 'Control flow',
+            label: 'Flujo de control',
             path: 'guide/templates/control-flow',
             contentPath: 'guide/templates/control-flow',
           },
@@ -221,37 +221,37 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/templates/pipes',
           },
           {
-            label: 'Slotting child content with ng-content',
+            label: 'Proyectar contenido hijo ng-content',
             path: 'guide/templates/ng-content',
             contentPath: 'guide/templates/ng-content',
           },
           {
-            label: 'Create template fragments with ng-template',
+            label: 'Crear fragmentos de plantilla con ng-template',
             path: 'guide/templates/ng-template',
             contentPath: 'guide/templates/ng-template',
           },
           {
-            label: 'Grouping elements with ng-container',
+            label: 'Agrupando elementos con ng-container',
             path: 'guide/templates/ng-container',
             contentPath: 'guide/templates/ng-container',
           },
           {
-            label: 'Variables in templates',
+            label: 'Variables en plantillas',
             path: 'guide/templates/variables',
             contentPath: 'guide/templates/variables',
           },
           {
-            label: 'Deferred loading with @defer',
+            label: 'Carga diferida con @defer',
             path: 'guide/templates/defer',
             contentPath: 'guide/templates/defer',
           },
           {
-            label: 'Expression syntax',
+            label: 'Sintaxis de expresiones',
             path: 'guide/templates/expression-syntax',
             contentPath: 'guide/templates/expression-syntax',
           },
           {
-            label: 'Whitespace in templates',
+            label: 'Espacios en blanco en plantillas',
             path: 'guide/templates/whitespace',
             contentPath: 'guide/templates/whitespace',
           },
