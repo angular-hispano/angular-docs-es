@@ -648,7 +648,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         status: 'new',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión General',
             path: 'guide/aria/overview',
             contentPath: 'guide/aria/overview',
           },

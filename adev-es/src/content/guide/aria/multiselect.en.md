@@ -1,9 +1,9 @@
 <docs-decorative-header title="Multiselect">
 </docs-decorative-header>
 
-## Visión general
+## Overview
 
-Un patrón que combina combobox de solo lectura con listbox habilitado para múltiple selección para crear dropdowns de selección múltiple con navegación por teclado y soporte para lectores de pantalla.
+A pattern that combines readonly combobox with multi-enabled listbox to create multiple-selection dropdowns with keyboard navigation and screen reader support.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -31,41 +31,41 @@ Un patrón que combina combobox de solo lectura con listbox habilitado para múl
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Usage
 
-El patrón de multiselect funciona mejor cuando los usuarios necesitan elegir múltiples elementos relacionados de un conjunto familiar de opciones.
+The multiselect pattern works best when users need to choose multiple related items from a familiar set of options.
 
-Considera usar este patrón cuando:
+Consider using this pattern when:
 
-- **Los usuarios necesitan múltiples selecciones** - Etiquetas, categorías, filtros o labels donde aplican múltiples opciones
-- **La lista de opciones es fija** (menos de 20 elementos) - Los usuarios pueden escanear opciones sin búsqueda
-- **Filtrar contenido** - Múltiples criterios pueden estar activos simultáneamente
-- **Asignar atributos** - Labels, permisos o características donde múltiples valores tienen sentido
-- **Opciones relacionadas** - Opciones que funcionan lógicamente juntas (como seleccionar múltiples miembros del equipo)
+- **Users need multiple selections** - Tags, categories, filters, or labels where multiple choices apply
+- **The option list is fixed** (fewer than 20 items) - Users can scan options without search
+- **Filtering content** - Multiple criteria can be active simultaneously
+- **Assigning attributes** - Labels, permissions, or features where multiple values make sense
+- **Related choices** - Options that logically work together (such as selecting multiple team members)
 
-Evita este patrón cuando:
+Avoid this pattern when:
 
-- **Solo se necesita selección simple** - Usa el [patrón Select](guide/aria/select) para dropdowns de opción única más simples
-- **La lista tiene más de 20 elementos con búsqueda necesaria** - Usa el [patrón Autocomplete](guide/aria/autocomplete) con capacidad de multiselección
-- **La mayoría o todas las opciones serán seleccionadas** - Un patrón de checklist proporciona mejor visibilidad
-- **Las opciones son opciones binarias independientes** - Las casillas individuales comunican las opciones más claramente
+- **Only single selection is needed** - Use the [Select pattern](guide/aria/select) for simpler single-choice dropdowns
+- **The list has more than 20 items with search needed** - Use the [Autocomplete pattern](guide/aria/autocomplete) with multiselect capability
+- **Most or all options will be selected** - A checklist pattern provides better visibility
+- **Choices are independent binary options** - Individual checkboxes communicate the choices more clearly
 
-## Características
+## Features
 
-El patrón de multiselect combina directivas [Combobox](guide/aria/combobox) y [Listbox](guide/aria/listbox) para proporcionar un dropdown completamente accesible con:
+The multiselect pattern combines [Combobox](guide/aria/combobox) and [Listbox](guide/aria/listbox) directives to provide a fully accessible dropdown with:
 
-- **Navegación por Teclado** - Navega por opciones con teclas de flecha, alterna con Espacio, cierra con Escape
-- **Soporte para Lectores de Pantalla** - Atributos ARIA integrados incluyendo aria-multiselectable
-- **Visualización de Conteo de Selección** - Muestra patrón compacto "Item + 2 más" para múltiples selecciones
-- **Reactividad Basada en Signals** - Gestión de estado reactivo usando signals de Angular
-- **Posicionamiento Inteligente** - CDK Overlay maneja bordes de viewport y desplazamiento
-- **Selección Persistente** - Las opciones seleccionadas permanecen visibles con marcas de verificación después de la selección
+- **Keyboard Navigation** - Navigate options with arrow keys, toggle with Space, close with Escape
+- **Screen Reader Support** - Built-in ARIA attributes including aria-multiselectable
+- **Selection Count Display** - Shows compact "Item + 2 more" pattern for multiple selections
+- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **Smart Positioning** - CDK Overlay handles viewport edges and scrolling
+- **Persistent Selection** - Selected options remain visible with checkmarks after selection
 
-## Ejemplos
+## Examples
 
-### Multiselect básico
+### Basic multiselect
 
-Los usuarios necesitan seleccionar múltiples elementos de una lista de opciones. Un combobox de solo lectura emparejado con un listbox habilitado para multi proporciona funcionalidad de multiselección familiar con soporte de accesibilidad completo.
+Users need to select multiple items from a list of options. A readonly combobox paired with a multi-enabled listbox provides familiar multiselect functionality with full accessibility support.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -93,11 +93,11 @@ Los usuarios necesitan seleccionar múltiples elementos de una lista de opciones
   </docs-tab>
 </docs-tab-group>
 
-El atributo `multi` en `ngListbox` habilita selección múltiple. Presiona Espacio para alternar opciones, y el popup permanece abierto para selecciones adicionales. La visualización muestra el primer elemento seleccionado más un conteo de selecciones restantes.
+The `multi` attribute on `ngListbox` enables multiple selection. Press Space to toggle options, and the popup remains open for additional selections. The display shows the first selected item plus a count of remaining selections.
 
-### Multiselect con visualización personalizada
+### Multiselect with custom display
 
-Las opciones a menudo necesitan indicadores visuales como iconos o colores para ayudar a los usuarios a identificar opciones. Las plantillas personalizadas dentro de las opciones permiten formato enriquecido mientras el valor de visualización muestra un resumen compacto.
+Options often need visual indicators like icons or colors to help users identify choices. Custom templates within options allow rich formatting while the display value shows a compact summary.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -125,11 +125,11 @@ Las opciones a menudo necesitan indicadores visuales como iconos o colores para 
   </docs-tab>
 </docs-tab-group>
 
-Cada opción muestra un icono junto a su etiqueta. El valor de visualización se actualiza para mostrar el icono y texto de la primera selección, seguido de un conteo de selecciones adicionales. Las opciones seleccionadas muestran una marca de verificación para retroalimentación visual clara.
+Each option displays an icon alongside its label. The display value updates to show the first selection's icon and text, followed by a count of additional selections. Selected options show a checkmark for clear visual feedback.
 
-### Selección controlada
+### Controlled selection
 
-Los formularios a veces necesitan limitar el número de selecciones o validar opciones de usuario. El control programático sobre la selección habilita estas restricciones mientras mantiene la accesibilidad.
+Forms sometimes need to limit the number of selections or validate user choices. Programmatic control over selection enables these constraints while maintaining accessibility.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -157,45 +157,45 @@ Los formularios a veces necesitan limitar el número de selecciones o validar op
   </docs-tab>
 </docs-tab-group>
 
-Este ejemplo limita las selecciones a tres elementos. Cuando se alcanza el límite, las opciones no seleccionadas se deshabilitan, previniendo selecciones adicionales. Un mensaje informa a los usuarios sobre la restricción.
+This example limits selections to three items. When the limit is reached, unselected options become disabled, preventing additional selections. A message informs users about the constraint.
 
 ## APIs
 
-El patrón de multiselect usa las siguientes directivas de la biblioteca Aria de Angular. Consulta la documentación completa del API en las guías enlazadas.
+The multiselect pattern uses the following directives from Angular's Aria library. See the full API documentation in the linked guides.
 
-### Directivas Combobox
+### Combobox Directives
 
-El patrón de multiselect usa `ngCombobox` con el atributo `readonly` para prevenir entrada de texto mientras preserva la navegación por teclado.
-
-#### Inputs
-
-| Propiedad  | Tipo      | Por defecto | Descripción                                      |
-| ---------- | --------- | ----------- | ------------------------------------------------ |
-| `readonly` | `boolean` | `false`     | Establece a `true` para crear comportamiento de dropdown |
-| `disabled` | `boolean` | `false`     | Deshabilita todo el multiselect                  |
-
-Consulta la [documentación del API de Combobox](guide/aria/combobox#apis) para detalles completos sobre todos los inputs y signals disponibles.
-
-### Directivas Listbox
-
-El patrón de multiselect usa `ngListbox` con el atributo `multi` para selección múltiple y `ngOption` para cada elemento seleccionable.
+The multiselect pattern uses `ngCombobox` with the `readonly` attribute to prevent text input while preserving keyboard navigation.
 
 #### Inputs
 
-| Propiedad | Tipo      | Por defecto | Descripción                                   |
-| --------- | --------- | ----------- | --------------------------------------------- |
-| `multi`   | `boolean` | `false`     | Establece a `true` para habilitar selección múltiple |
+| Property   | Type      | Default | Description                               |
+| ---------- | --------- | ------- | ----------------------------------------- |
+| `readonly` | `boolean` | `false` | Set to `true` to create dropdown behavior |
+| `disabled` | `boolean` | `false` | Disables the entire multiselect           |
+
+See the [Combobox API documentation](guide/aria/combobox#apis) for complete details on all available inputs and signals.
+
+### Listbox Directives
+
+The multiselect pattern uses `ngListbox` with the `multi` attribute for multiple selection and `ngOption` for each selectable item.
+
+#### Inputs
+
+| Property | Type      | Default | Description                                |
+| -------- | --------- | ------- | ------------------------------------------ |
+| `multi`  | `boolean` | `false` | Set to `true` to enable multiple selection |
 
 #### Model
 
-| Propiedad | Tipo    | Descripción                                          |
-| --------- | ------- | ---------------------------------------------------- |
-| `values`  | `any[]` | Array enlazable bidireccionalmente de valores seleccionados |
+| Property | Type    | Description                               |
+| -------- | ------- | ----------------------------------------- |
+| `values` | `any[]` | Two-way bindable array of selected values |
 
-Cuando `multi` es true, los usuarios pueden seleccionar múltiples opciones usando Espacio para alternar selección. El popup permanece abierto después de la selección, permitiendo opciones adicionales.
+When `multi` is true, users can select multiple options using Space to toggle selection. The popup remains open after selection, allowing additional choices.
 
-Consulta la [documentación del API de Listbox](guide/aria/listbox#apis) para detalles completos sobre configuración de listbox, modos de selección y propiedades de opciones.
+See the [Listbox API documentation](guide/aria/listbox#apis) for complete details on listbox configuration, selection modes, and option properties.
 
-### Posicionamiento
+### Positioning
 
-El patrón de multiselect se integra con [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) para posicionamiento inteligente. Usa `cdkConnectedOverlay` para manejar bordes de viewport y desplazamiento automáticamente.
+The multiselect pattern integrates with [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) for smart positioning. Use `cdkConnectedOverlay` to handle viewport edges and scrolling automatically.

@@ -6,9 +6,9 @@
   <docs-pill href="/api/aria/tree/Tree" title="Tree API Reference"/>
 </docs-pill-row>
 
-## Overview
+## Visión general
 
-A tree displays hierarchical data where items can expand to reveal children or collapse to hide them. Users navigate with arrow keys, expand and collapse nodes, and optionally select items for navigation or data selection scenarios.
+Un árbol muestra datos jerárquicos donde los elementos pueden expandirse para revelar hijos o colapsar para ocultarlos. Los usuarios navegan con teclas de flecha, expanden y colapsan nodos y opcionalmente seleccionan elementos para escenarios de navegación o selección de datos.
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.ts">
   <docs-code header="TS" path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.ts"/>
@@ -16,42 +16,42 @@ A tree displays hierarchical data where items can expand to reveal children or c
   <docs-code header="CSS" path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## Uso
 
-Trees work well for displaying hierarchical data where users need to navigate through nested structures.
+Los árboles funcionan bien para mostrar datos jerárquicos donde los usuarios necesitan navegar a través de estructuras anidadas.
 
-**Use trees when:**
+**Usa árboles cuando:**
 
-- Building file system navigation
-- Showing folder and document hierarchies
-- Creating nested menu structures
-- Displaying organization charts
-- Browsing hierarchical data
-- Implementing site navigation with nested sections
+- Construir navegación de sistema de archivos
+- Mostrar jerarquías de carpetas y documentos
+- Crear estructuras de menú anidadas
+- Mostrar organigramas
+- Navegar datos jerárquicos
+- Implementar navegación de sitio con secciones anidadas
 
-**Avoid trees when:**
+**Evita árboles cuando:**
 
-- Displaying flat lists (use [Listbox](guide/aria/listbox) instead)
-- Showing data tables (use [Grid](guide/aria/grid) instead)
-- Creating simple dropdowns (use [Select](guide/aria/select) instead)
-- Building breadcrumb navigation (use breadcrumb patterns)
+- Mostrar listas planas (usa [Listbox](guide/aria/listbox) en su lugar)
+- Mostrar tablas de datos (usa [Grid](guide/aria/grid) en su lugar)
+- Crear dropdowns simples (usa [Select](guide/aria/select) en su lugar)
+- Construir navegación breadcrumb (usa patrones breadcrumb)
 
-## Features
+## Características
 
-- **Hierarchical navigation** - Nested tree structure with expand and collapse functionality
-- **Selection modes** - Single or multi-selection with explicit or follow-focus behavior
-- **Selection follows focus** - Optional automatic selection when focus changes
-- **Keyboard navigation** - Arrow keys, Home, End, and type-ahead search
-- **Expand/collapse** - Right/Left arrows or Enter to toggle parent nodes
-- **Disabled items** - Disable specific nodes with focus management
-- **Focus modes** - Roving tabindex or activedescendant focus strategies
-- **RTL support** - Right-to-left language navigation
+- **Navegación jerárquica** - Estructura de árbol anidada con funcionalidad de expandir y colapsar
+- **Modos de selección** - Selección simple o múltiple con comportamiento explícito o de seguir foco
+- **La selección sigue al foco** - Selección automática opcional cuando el foco cambia
+- **Navegación por teclado** - Teclas de flecha, Home, End y búsqueda typeahead
+- **Expandir/colapsar** - Flechas Derecha/Izquierda o Enter para alternar nodos padre
+- **Elementos deshabilitados** - Deshabilitar nodos específicos con gestión de foco
+- **Modos de foco** - Estrategias de foco roving tabindex o activedescendant
+- **Soporte RTL** - Navegación para idiomas de derecha a izquierda
 
-## Examples
+## Ejemplos
 
-### Navigation tree
+### Árbol de navegación
 
-Use a tree for navigation where clicking items triggers actions rather than selecting them.
+Usa un árbol para navegación donde hacer clic en elementos activa acciones en lugar de seleccionarlos.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -63,11 +63,11 @@ Use a tree for navigation where clicking items triggers actions rather than sele
   </docs-tab>
 </docs-tab-group>
 
-Set `[nav]="true"` to enable navigation mode. This uses `aria-current` to indicate the current page instead of selection.
+Establece `[nav]="true"` para habilitar el modo de navegación. Esto usa `aria-current` para indicar la página actual en lugar de selección.
 
-### Single selection
+### Selección simple
 
-Enable single selection for scenarios where users choose one item from the tree.
+Habilita selección simple para escenarios donde los usuarios eligen un elemento del árbol.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -86,11 +86,11 @@ Enable single selection for scenarios where users choose one item from the tree.
   </docs-tab>
 </docs-tab-group>
 
-Leave `[multi]="false"` (the default) for single selection. Users press Space to select the focused item.
+Deja `[multi]="false"` (el valor predeterminado) para selección simple. Los usuarios presionan Espacio para seleccionar el elemento enfocado.
 
-### Multi-selection
+### Multi-selección
 
-Allow users to select multiple items from the tree.
+Permite a los usuarios seleccionar múltiples elementos del árbol.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -109,11 +109,11 @@ Allow users to select multiple items from the tree.
   </docs-tab>
 </docs-tab-group>
 
-Set `[multi]="true"` on the tree. Users select items individually with Space or select ranges with Shift+Arrow keys.
+Establece `[multi]="true"` en el árbol. Los usuarios seleccionan elementos individualmente con Espacio o seleccionan rangos con Shift+teclas de flecha.
 
-### Selection follows focus
+### La selección sigue al foco
 
-When selection follows focus, the focused item is automatically selected. This simplifies interaction for navigation scenarios.
+Cuando la selección sigue al foco, el elemento enfocado se selecciona automáticamente. Esto simplifica la interacción para escenarios de navegación.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -132,11 +132,11 @@ When selection follows focus, the focused item is automatically selected. This s
   </docs-tab>
 </docs-tab-group>
 
-Set `[selectionMode]="'follow'"` on the tree. Selection automatically updates as users navigate with arrow keys.
+Establece `[selectionMode]="'follow'"` en el árbol. La selección se actualiza automáticamente mientras los usuarios navegan con teclas de flecha.
 
-### Disabled tree items
+### Elementos de árbol deshabilitados
 
-Disable specific tree nodes to prevent interaction. Control whether disabled items can receive focus.
+Deshabilita nodos de árbol específicos para prevenir interacción. Controla si los elementos deshabilitados pueden recibir foco.
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -155,69 +155,69 @@ Disable specific tree nodes to prevent interaction. Control whether disabled ite
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` on the tree, disabled items can receive focus but cannot be activated or selected. When `[softDisabled]="false"`, disabled items are skipped during keyboard navigation.
+Cuando `[softDisabled]="true"` en el árbol, los elementos deshabilitados pueden recibir foco pero no pueden ser activados o seleccionados. Cuando `[softDisabled]="false"`, los elementos deshabilitados se omiten durante la navegación por teclado.
 
 ## APIs
 
 ### Tree
 
-The container directive that manages hierarchical navigation and selection.
+La directiva contenedor que gestiona navegación y selección jerárquica.
 
 #### Inputs
 
-| Property        | Type                             | Default      | Description                                                   |
-| --------------- | -------------------------------- | ------------ | ------------------------------------------------------------- |
-| `disabled`      | `boolean`                        | `false`      | Disables the entire tree                                      |
-| `softDisabled`  | `boolean`                        | `true`       | When `true`, disabled items are focusable but not interactive |
-| `multi`         | `boolean`                        | `false`      | Whether multiple items can be selected                        |
-| `selectionMode` | `'explicit' \| 'follow'`         | `'explicit'` | Whether selection requires explicit action or follows focus   |
-| `nav`           | `boolean`                        | `false`      | Whether the tree is in navigation mode (uses `aria-current`)  |
-| `wrap`          | `boolean`                        | `true`       | Whether keyboard navigation wraps from last to first item     |
-| `focusMode`     | `'roving' \| 'activedescendant'` | `'roving'`   | Focus strategy used by the tree                               |
-| `values`        | `any[]`                          | `[]`         | Selected item values (supports two-way binding)               |
+| Propiedad       | Tipo                             | Por defecto  | Descripción                                                      |
+| --------------- | -------------------------------- | ------------ | ---------------------------------------------------------------- |
+| `disabled`      | `boolean`                        | `false`      | Deshabilita todo el árbol                                        |
+| `softDisabled`  | `boolean`                        | `true`       | Cuando es `true`, los elementos deshabilitados son enfocables pero no interactivos |
+| `multi`         | `boolean`                        | `false`      | Si múltiples elementos pueden ser seleccionados                  |
+| `selectionMode` | `'explicit' \| 'follow'`         | `'explicit'` | Si la selección requiere acción explícita o sigue al foco        |
+| `nav`           | `boolean`                        | `false`      | Si el árbol está en modo de navegación (usa `aria-current`)      |
+| `wrap`          | `boolean`                        | `true`       | Si la navegación por teclado se envuelve del último al primer elemento |
+| `focusMode`     | `'roving' \| 'activedescendant'` | `'roving'`   | Estrategia de foco usada por el árbol                            |
+| `values`        | `any[]`                          | `[]`         | Valores de elementos seleccionados (soporta enlace bidireccional) |
 
-#### Methods
+#### Métodos
 
-| Method           | Parameters | Description                                   |
-| ---------------- | ---------- | --------------------------------------------- |
-| `expandAll`      | none       | Expands all tree nodes                        |
-| `collapseAll`    | none       | Collapses all tree nodes                      |
-| `selectAll`      | none       | Selects all items (only in multi-select mode) |
-| `clearSelection` | none       | Clears all selection                          |
+| Método           | Parámetros | Descripción                                        |
+| ---------------- | ---------- | -------------------------------------------------- |
+| `expandAll`      | none       | Expande todos los nodos del árbol                  |
+| `collapseAll`    | none       | Colapsa todos los nodos del árbol                  |
+| `selectAll`      | none       | Selecciona todos los elementos (solo en modo multi-selección) |
+| `clearSelection` | none       | Limpia toda selección                              |
 
 ### TreeItem
 
-An individual node in the tree that can contain child nodes.
+Un nodo individual en el árbol que puede contener nodos hijo.
 
 #### Inputs
 
-| Property   | Type      | Default | Description                                             |
-| ---------- | --------- | ------- | ------------------------------------------------------- |
-| `value`    | `any`     | —       | **Required.** Unique value for this tree item           |
-| `disabled` | `boolean` | `false` | Disables this item                                      |
-| `expanded` | `boolean` | `false` | Whether the node is expanded (supports two-way binding) |
+| Propiedad  | Tipo      | Por defecto | Descripción                                                |
+| ---------- | --------- | ----------- | ---------------------------------------------------------- |
+| `value`    | `any`     | —           | **Requerido.** Valor único para este elemento del árbol    |
+| `disabled` | `boolean` | `false`     | Deshabilita este elemento                                  |
+| `expanded` | `boolean` | `false`     | Si el nodo está expandido (soporta enlace bidireccional)   |
 
 #### Signals
 
-| Property      | Type              | Description                          |
-| ------------- | ----------------- | ------------------------------------ |
-| `selected`    | `Signal<boolean>` | Whether the item is selected         |
-| `active`      | `Signal<boolean>` | Whether the item currently has focus |
-| `hasChildren` | `Signal<boolean>` | Whether the item has child nodes     |
+| Propiedad     | Tipo              | Descripción                                 |
+| ------------- | ----------------- | ------------------------------------------- |
+| `selected`    | `Signal<boolean>` | Si el elemento está seleccionado            |
+| `active`      | `Signal<boolean>` | Si el elemento tiene el foco actualmente    |
+| `hasChildren` | `Signal<boolean>` | Si el elemento tiene nodos hijo             |
 
-#### Methods
+#### Métodos
 
-| Method     | Parameters | Description                 |
-| ---------- | ---------- | --------------------------- |
-| `expand`   | none       | Expands this node           |
-| `collapse` | none       | Collapses this node         |
-| `toggle`   | none       | Toggles the expansion state |
+| Método     | Parámetros | Descripción                      |
+| ---------- | ---------- | -------------------------------- |
+| `expand`   | none       | Expande este nodo                |
+| `collapse` | none       | Colapsa este nodo                |
+| `toggle`   | none       | Alterna el estado de expansión   |
 
 ### TreeGroup
 
-A container for child tree items.
+Un contenedor para elementos de árbol hijo.
 
-This directive has no inputs, outputs, or methods. It serves as a container to organize child `ngTreeItem` elements:
+Esta directiva no tiene inputs, outputs ni métodos. Sirve como un contenedor para organizar elementos `ngTreeItem` hijo:
 
 ```angular-html
 <li ngTreeItem value="parent">
