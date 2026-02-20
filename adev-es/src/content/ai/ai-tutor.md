@@ -1,150 +1,150 @@
-# Angular AI Tutor
+# Tutor de IA de Angular
 
-The Angular AI Tutor is designed to interactively guide you step-by-step through building a complete, modern Angular application from the ground up. You'll learn the latest patterns and best practices by building a real, tangible project: a **"Smart Recipe Box"** for creating and managing recipes.
+El Tutor de IA de Angular está diseñado para guiarte interactivamente paso a paso a través de la construcción de una aplicación Angular moderna y completa desde cero. Aprenderás los patrones más recientes y las mejores prácticas construyendo un proyecto real y tangible: una **"Caja de Recetas Inteligente"** para crear y gestionar recetas.
 
-Our goal is to foster critical thinking and help you retain what you learn. Instead of just giving you code, the tutor will explain concepts, show you examples, and then give you project-specific exercises to solve on your own.
+Nuestro objetivo es fomentar el pensamiento crítico y ayudarte a retener lo que aprendes. En lugar de simplemente darte código, el tutor explicará conceptos, te mostrará ejemplos y luego te dará ejercicios específicos del proyecto para que los resuelvas por tu cuenta.
 
-## Get Started
+## Primeros Pasos
 
-You can access the AI tutor via the [Angular MCP server](ai/mcp).
+Puedes acceder al tutor de IA a través del [servidor MCP de Angular](ai/mcp).
 
-1. [Install](ai/mcp#get-started) the Angular MCP server
-2. Create a new Angular project `ng new <project-name>`
-3. Navigate to your new project (`cd <project-name>`) in an AI-powered editor or tool, like the [Gemini CLI](https://geminicli.com/)
-4. Enter a prompt like `launch the Angular AI tutor`
-   ![A screenshot demonstrating how to launch the Angular AI Tutor in the Gemini CLI.](assets/images/launch-ai-tutor.png 'Launch the Angular AI Tutor')
+1. [Instala](ai/mcp#get-started) el servidor MCP de Angular
+2. Crea un nuevo proyecto Angular `ng new <nombre-proyecto>`
+3. Navega a tu nuevo proyecto (`cd <nombre-proyecto>`) en un editor o herramienta con IA, como [Gemini CLI](https://geminicli.com/)
+4. Ingresa un prompt como `inicia el Tutor de IA de Angular`
+   ![Una captura de pantalla que demuestra cómo iniciar el Tutor de IA de Angular en Gemini CLI.](assets/images/launch-ai-tutor.png 'Iniciar el Tutor de IA de Angular')
 
-## Using the AI Tutor
+## Usando el Tutor de IA
 
-Each module begins with a brief concept explanation.
-![A screenshot of the Angular AI Tutor presenting a brief concept explanation.](assets/images/ai-tutor-preview-1.png 'Angular AI Tutor explanation')
-If applicable, the tutor will present a code example to demonstrate the concept.
-![A screenshot of the Angular AI Tutor showing a code example.](assets/images/ai-tutor-preview-2.png 'Angular AI Tutor code example')
-The tutor will also provide an open-ended exercise to test your understanding.
-![A screenshot of the Angular AI Tutor providing an exercise.](assets/images/ai-tutor-preview-3.png 'Angular AI Tutor exercise')
-Finally, the tutor will check your work before moving onto the next module.
-![A screenshot of the Angular AI Tutor checking the user's work.](assets/images/ai-tutor-preview-4.png 'Angular AI Tutor check')
+Cada módulo comienza con una breve explicación del concepto.
+![Una captura de pantalla del Tutor de IA de Angular presentando una breve explicación del concepto.](assets/images/ai-tutor-preview-1.png 'Explicación del Tutor de IA de Angular')
+Si es aplicable, el tutor presentará un ejemplo de código para demostrar el concepto.
+![Una captura de pantalla del Tutor de IA de Angular mostrando un ejemplo de código.](assets/images/ai-tutor-preview-2.png 'Ejemplo de código del Tutor de IA de Angular')
+El tutor también proporcionará un ejercicio abierto para probar tu comprensión.
+![Una captura de pantalla del Tutor de IA de Angular proporcionando un ejercicio.](assets/images/ai-tutor-preview-3.png 'Ejercicio del Tutor de IA de Angular')
+Finalmente, el tutor verificará tu trabajo antes de pasar al siguiente módulo.
+![Una captura de pantalla del Tutor de IA de Angular verificando el trabajo del usuario.](assets/images/ai-tutor-preview-4.png 'Verificación del Tutor de IA de Angular')
 
-## How It Works: The Learning Cycle
+## Cómo Funciona: El Ciclo de Aprendizaje
 
-For each new topic, you'll follow a learning loop that emphasizes critical thinking to help you better retain what you learn.
+Para cada nuevo tema, seguirás un ciclo de aprendizaje que enfatiza el pensamiento crítico para ayudarte a retener mejor lo que aprendes.
 
-1. **Learn the Concept:** The tutor will briefly explain a core Angular feature and show you a generic code example to illustrate it.
-2. **Apply Your Knowledge:** You'll immediately get a hands-on exercise. The tutor presents these exercises at a high level with objectives and expected outcomes, encouraging you to think through the solution yourself.
-3. **Get Feedback & Support:** When you're ready, let the tutor know. It will **automatically read your project files** to verify your solution is correct. If you get stuck, you are in complete control. You can ask for a **"hint"** for more guidance, or get step-by-step instructions by typing **"detailed guide"** or **"step-by-step instructions."**
+1. **Aprende el Concepto:** El tutor explicará brevemente una característica central de Angular y te mostrará un ejemplo de código genérico para ilustrarla.
+2. **Aplica tu Conocimiento:** Inmediatamente obtendrás un ejercicio práctico. El tutor presenta estos ejercicios a alto nivel con objetivos y resultados esperados, animándote a pensar en la solución por ti mismo.
+3. **Obtén Retroalimentación y Apoyo:** Cuando estés listo, avísale al tutor. Este **leerá automáticamente los archivos de tu proyecto** para verificar que tu solución sea correcta. Si te quedas atascado, tienes el control completo. Puedes pedir una **"pista"** para más orientación, u obtener instrucciones paso a paso escribiendo **"guía detallada"** o **"instrucciones paso a paso"**.
 
-Once you've succeeded, the tutor will move directly to the next topic. You can also ask the tutor for more information on a topic or ask any related Angular questions at any time.
-
----
-
-## **Features & Commands**
-
-You are in control of your learning experience. Use these features at any time:
-
-### **Leave and Come Back**
-
-Feel free to take a break. Your progress is tied to your project's code. When you return for a new session, the tutor will automatically analyze your files to determine exactly where you left off, allowing you to seamlessly pick up right where you were.
-
-**Pro Tip:** We highly recommend using Git to save your progress. After completing a module, it's a great idea to commit your changes (e.g., `git commit -m "Complete Phase 1, Module 8"`). This acts as a personal checkpoint you can always return to.
-
-### **Adjust Your Experience Level**
-
-You can set your experience level to **Beginner (1-3)**, **Intermediate (4-7)**, or **Experienced (8-10)**. You can change this setting at any time during your session, and the tutor will immediately adapt its teaching style to match.
-
-**Example Prompts:**
-
-- "Set my experience level to beginner."
-- "Change my rating to 8."
-
-### **See the Full Learning Plan**
-
-Want to see the big picture or check how far you've come? Just ask for the table of contents.
-
-**Example Prompts:**
-
-- "Where are we?"
-- "Show the table of contents."
-- "Show the plan."
-
-The tutor will display the full learning plan and mark your current location.
-
-### **A Note on Styling**
-
-The tutor will apply basic styling to your application to keep things looking clean. You are highly encouraged to apply your own styling to make the app your own.
-
-### **Skip the Current Module**
-
-If you'd rather move on to the next topic in the learning path, you can ask the tutor to skip the current exercise.
-
-**Example Prompts:**
-
-- "Skip this section."
-- "Auto-complete this step for me."
-
-The tutor will ask for confirmation and then present you with the complete code solution for the current module and attempt to automatically apply any required updates to ensure you can continue smoothly with the next module.
-
-### **Jump to Any Topic**
-
-If you want to learn about a specific topic out of order (e.g., jump from the basics to forms), you can. The tutor will provide the necessary code to update your project to the correct starting point for the selected module and attempt to automatically apply any required updates.
-
-**Example Prompts:**
-
-- "Take me to the forms lesson."
-- "I want to learn about Route Guards now."
-- "Jump to the section on Services."
+Una vez que hayas tenido éxito, el tutor pasará directamente al siguiente tema. También puedes pedirle al tutor más información sobre un tema o hacer cualquier pregunta relacionada con Angular en cualquier momento.
 
 ---
 
-## **Troubleshooting**
+## **Características y Comandos**
 
-If the tutor doesn't respond correctly or you suspect an issue with your application, here are a few things to try:
+Tienes el control de tu experiencia de aprendizaje. Usa estas características en cualquier momento:
 
-1. **Type "proceed":** This can often nudge the tutor to continue to the next step in the event it gets stuck.
-2. **Correct the Tutor:** If the tutor is mistaken about your progress (e.g., it says you're on Module 3 but you've completed Module 8), just tell it. For example: _"I'm actually on Module 8."_ The tutor will re-evaluate your code and adjust.
-3. **Verify Your UI:** If you want to confirm what your application's user interface should look like, just ask the tutor. For example: _"What should I see in my UI?"_
-4. **Reload the Browser Window:** A refresh can solve many issues related to your application.
-5. **Hard Restart the Browser:** Errors are sometimes only surfaced in the browser's developer console. A hard restart can help clear underlying issues related to the application.
-6. **Start a New Chat:** You can always start a new chat to remove the existing history and begin fresh. The tutor will read your files to find the latest step you were on.
+### **Salir y Volver**
 
-## **Your Learning Journey: The Phased Path**
+Siéntete libre de tomar un descanso. Tu progreso está vinculado al código de tu proyecto. Cuando regreses para una nueva sesión, el tutor analizará automáticamente tus archivos para determinar exactamente dónde lo dejaste, permitiéndote retomar sin problemas justo donde estabas.
 
-You will build your application over a four-phase journey. You can follow this path from start to finish to create a complete, fully-functional Angular application. Each module builds logically upon the last, taking you from the basics to advanced, real-world features.
+**Consejo Pro:** Recomendamos encarecidamente usar Git para guardar tu progreso. Después de completar un módulo, es una buena idea hacer commit de tus cambios (por ejemplo, `git commit -m "Complete Phase 1, Module 8"`). Esto actúa como un punto de control personal al que siempre puedes volver.
 
-**A Note on Automated Setup:** Some modules require a setup step, like creating interfaces or mock data. In these cases, the tutor will present you with the code and file instructions. You will be responsible for creating and modifying these files as instructed before the exercise begins.
+### **Ajusta tu Nivel de Experiencia**
 
-### **Phase 1: Angular Fundamentals**
+Puedes establecer tu nivel de experiencia en **Principiante (1-3)**, **Intermedio (4-7)**, o **Experimentado (8-10)**. Puedes cambiar esta configuración en cualquier momento durante tu sesión, y el tutor adaptará inmediatamente su estilo de enseñanza para coincidir.
 
-- **Module 1:** Getting Started
-- **Module 2:** Dynamic Text with Interpolation
-- **Module 3:** Event Listeners (`(click)`)
+**Ejemplos de Prompts:**
 
-### **Phase 2: State and Signals**
+- "Establece mi nivel de experiencia en principiante."
+- "Cambia mi calificación a 8."
 
-- **Module 4:** State Management with Writable Signals (Part 1: `set`)
-- **Module 5:** State Management with Writable Signals (Part 2: `update`)
-- **Module 6:** Computed Signals
+### **Ver el Plan de Aprendizaje Completo**
 
-### **Phase 3: Component Architecture**
+¿Quieres ver el panorama general o verificar qué tan lejos has llegado? Solo pide la tabla de contenidos.
 
-- **Module 7:** Template Binding (Properties & Attributes)
-- **Module 8:** Creating & Nesting Components
-- **Module 9:** Component Inputs with Signals
-- **Module 10:** Styling Components
-- **Module 11:** List Rendering with `@for`
-- **Module 12:** Conditional Rendering with `@if`
+**Ejemplos de Prompts:**
 
-### **Phase 4: Advanced Features & Architecture**
+- "¿Dónde estamos?"
+- "Muestra la tabla de contenidos."
+- "Muestra el plan."
 
-- **Module 13:** Two-Way Binding
-- **Module 14:** Services & Dependency Injection (DI)
-- **Module 15:** Basic Routing
-- **Module 16:** Introduction to Forms
-- **Module 17:** Intro to Angular Material
+El tutor mostrará el plan de aprendizaje completo y marcará tu ubicación actual.
+
+### **Una Nota sobre los Estilos**
+
+El tutor aplicará estilos básicos a tu aplicación para mantener las cosas con un aspecto limpio. Te animamos encarecidamente a aplicar tus propios estilos para hacer la aplicación tuya.
+
+### **Saltar el Módulo Actual**
+
+Si prefieres pasar al siguiente tema en el camino de aprendizaje, puedes pedirle al tutor que salte el ejercicio actual.
+
+**Ejemplos de Prompts:**
+
+- "Omite esta sección."
+- "Auto-completa este paso por mí."
+
+El tutor pedirá confirmación y luego te presentará la solución de código completa para el módulo actual e intentará aplicar automáticamente cualquier actualización requerida para asegurar que puedas continuar sin problemas con el siguiente módulo.
+
+### **Saltar a Cualquier Tema**
+
+Si quieres aprender sobre un tema específico fuera de orden (por ejemplo, saltar de los básicos a formularios), puedes hacerlo. El tutor proporcionará el código necesario para actualizar tu proyecto al punto de inicio correcto para el módulo seleccionado e intentará aplicar automáticamente cualquier actualización requerida.
+
+**Ejemplos de Prompts:**
+
+- "Llévame a la lección de formularios."
+- "Quiero aprender sobre Route Guards ahora."
+- "Salta a la sección sobre Servicios."
 
 ---
 
-## **A Note on AI & Feedback**
+## **Solución de Problemas**
 
-This tutor is powered by a Large Language Model (LLM). While we've worked hard to make it an expert, AIs can make mistakes. If you encounter an explanation or code example that seems incorrect, please let us know. You can correct the tutor, and it will use your feedback to adjust its response.
+Si el tutor no responde correctamente o sospechas un problema con tu aplicación, aquí hay algunas cosas que puedes intentar:
 
-For any technical bugs or feature requests, please [submit an issue](https://github.com/angular/angular-cli/issues).
+1. **Escribe "continuar":** Esto a menudo puede impulsar al tutor a continuar al siguiente paso en caso de que se quede atascado.
+2. **Corrige al Tutor:** Si el tutor se equivoca sobre tu progreso (por ejemplo, dice que estás en el Módulo 3 pero has completado el Módulo 8), simplemente díselo. Por ejemplo: _"En realidad estoy en el Módulo 8."_ El tutor reevaluará tu código y se ajustará.
+3. **Verifica tu UI:** Si quieres confirmar cómo debería verse la interfaz de usuario de tu aplicación, solo pregúntale al tutor. Por ejemplo: _"¿Qué debería ver en mi UI?"_
+4. **Recarga la Ventana del Navegador:** Una actualización puede resolver muchos problemas relacionados con tu aplicación.
+5. **Reinicio Completo del Navegador:** Los errores a veces solo se muestran en la consola de desarrollador del navegador. Un reinicio completo puede ayudar a limpiar problemas subyacentes relacionados con la aplicación.
+6. **Inicia un Nuevo Chat:** Siempre puedes iniciar un nuevo chat para eliminar el historial existente y comenzar de nuevo. El tutor leerá tus archivos para encontrar el último paso en el que estabas.
+
+## **Tu Viaje de Aprendizaje: El Camino por Fases**
+
+Construirás tu aplicación a lo largo de un viaje de cuatro fases. Puedes seguir este camino de principio a fin para crear una aplicación Angular completa y totalmente funcional. Cada módulo se construye lógicamente sobre el anterior, llevándote desde los básicos hasta características avanzadas del mundo real.
+
+**Una Nota sobre la Configuración Automatizada:** Algunos módulos requieren un paso de configuración, como crear interfaces o datos de prueba. En estos casos, el tutor te presentará el código e instrucciones de archivo. Serás responsable de crear y modificar estos archivos según las instrucciones antes de que comience el ejercicio.
+
+### **Fase 1: Fundamentos de Angular**
+
+- **Módulo 1:** Primeros Pasos
+- **Módulo 2:** Texto Dinámico con Interpolación
+- **Módulo 3:** Escuchadores de Eventos (`(click)`)
+
+### **Fase 2: Estado y Signals**
+
+- **Módulo 4:** Gestión de Estado con Writable Signals (Parte 1: `set`)
+- **Módulo 5:** Gestión de Estado con Writable Signals (Parte 2: `update`)
+- **Módulo 6:** Computed Signals
+
+### **Fase 3: Arquitectura de Componentes**
+
+- **Módulo 7:** Enlace de Plantilla (Propiedades y Atributos)
+- **Módulo 8:** Creando y Anidando Componentes
+- **Módulo 9:** Entradas de Componentes con Signals
+- **Módulo 10:** Estilizando Componentes
+- **Módulo 11:** Renderizado de Listas con `@for`
+- **Módulo 12:** Renderizado Condicional con `@if`
+
+### **Fase 4: Características Avanzadas y Arquitectura**
+
+- **Módulo 13:** Enlace Bidireccional
+- **Módulo 14:** Servicios e Inyección de Dependencias (DI)
+- **Módulo 15:** Enrutamiento Básico
+- **Módulo 16:** Introducción a los Formularios
+- **Módulo 17:** Introducción a Angular Material
+
+---
+
+## **Una Nota sobre IA y Retroalimentación**
+
+Este tutor está impulsado por un Modelo de Lenguaje Grande (LLM). Aunque hemos trabajado arduamente para hacerlo un experto, las IAs pueden cometer errores. Si encuentras una explicación o ejemplo de código que parece incorrecto, por favor háganoslo saber. Puedes corregir al tutor, y este usará tu retroalimentación para ajustar su respuesta.
+
+Para cualquier error técnico o solicitud de características, por favor [envía un issue](https://github.com/angular/angular-cli/issues).

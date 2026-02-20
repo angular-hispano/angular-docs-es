@@ -1,19 +1,19 @@
-# Content projection with ng-content
+# Proyección de contenido con ng-content
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+CONSEJO: Esta guía asume que ya has leído la [Guía de Esenciales](essentials). Lee esa primero si eres nuevo en Angular.
 
-You often need to create components that act as containers for different types of content. For
-example, you may want to create a custom card component:
+Frecuentemente necesitas crear componentes que actúen como contenedores para diferentes tipos de contenido. Por
+ejemplo, puedes querer crear un componente de tarjeta personalizado:
 
 ```angular-ts
 @Component({
   selector: 'custom-card',
-  template: '<div class="card-shadow"> <!-- card content goes here --> </div>',
+  template: '<div class="card-shadow"> <!-- el contenido de la tarjeta va aquí --> </div>',
 })
 export class CustomCard {/* ... */}
 ```
 
-**You can use the `<ng-content>` element as a placeholder to mark where content should go**:
+**Puedes usar el elemento `<ng-content>` como marcador de posición para indicar dónde debe ir el contenido**:
 
 ```angular-ts
 @Component({
@@ -23,15 +23,15 @@ export class CustomCard {/* ... */}
 export class CustomCard {/* ... */}
 ```
 
-TIP: `<ng-content>` works similarly
-to [the native `<slot>` element](https://developer.mozilla.org/docs/Web/HTML/Element/slot),
-but with some Angular-specific functionality.
+CONSEJO: `<ng-content>` funciona de manera similar
+al [elemento nativo `<slot>`](https://developer.mozilla.org/es/docs/Web/HTML/Reference/Elements/slot),
+pero con alguna funcionalidad específica de Angular.
 
-When you use a component with `<ng-content>`, any children of the component host element are
-rendered, or **projected**, at the location of that `<ng-content>`:
+Cuando usas un componente con `<ng-content>`, cualquier hijo del elemento host del componente se
+renderiza, o **proyecta**, en la ubicación de ese `<ng-content>`:
 
 ```angular-ts
-// Component source
+// Código fuente del componente
 @Component({
   selector: 'custom-card',
   template: `
@@ -44,40 +44,39 @@ export class CustomCard {/* ... */}
 ```
 
 ```angular-html
-<!-- Using the component -->
+<!-- Usando el componente -->
 <custom-card>
-  <p>This is the projected content</p>
+  <p>Este es el contenido proyectado</p>
 </custom-card>
 ```
 
 ```angular-html
-<!-- The rendered DOM -->
+<!-- El DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <p>This is the projected content</p>
+    <p>Este es el contenido proyectado</p>
   </div>
 </custom-card>
 ```
 
-Angular refers to any children of a component passed this way as that component's **content**. This
-is distinct from the component's **view**, which refers to the elements defined in the component's
-template.
+Angular se refiere a cualquier hijo de un componente pasado de esta manera como el **contenido** de ese componente. Esto
+es distinto de la **vista** del componente, que se refiere a los elementos definidos en la plantilla del componente.
 
-**The `<ng-content>` element is neither a component nor DOM element**. Instead, it is a special
-placeholder that tells Angular where to render content. Angular's compiler processes
-all `<ng-content>` elements at build-time. You cannot insert, remove, or modify `<ng-content>` at
-run time. You cannot add directives, styles, or arbitrary attributes to `<ng-content>`.
+**El elemento `<ng-content>` no es ni un componente ni un elemento DOM**. En su lugar, es un marcador de posición
+especial que le dice a Angular dónde renderizar el contenido. El compilador de Angular procesa
+todos los elementos `<ng-content>` en tiempo de compilación. No puedes insertar, eliminar o modificar `<ng-content>` en
+tiempo de ejecución. No puedes agregar directivas, estilos o atributos arbitrarios a `<ng-content>`.
 
-IMPORTANT: You should not conditionally include `<ng-content>` with `@if`, `@for`, or `@switch`. Angular always
-instantiates and creates DOM nodes for content rendered to a `<ng-content>` placeholder, even if
-that `<ng-content>` placeholder is hidden. For conditional rendering of component content,
-see [Template fragments](api/core/ng-template).
+IMPORTANTE: No debes incluir condicionalmente `<ng-content>` con `@if`, `@for` o `@switch`. Angular siempre
+instancia y crea nodos DOM para el contenido renderizado en un marcador de posición `<ng-content>`, incluso si
+ese marcador de posición `<ng-content>` está oculto. Para renderizado condicional del contenido del componente,
+consulta [Fragmentos de plantilla](api/core/ng-template).
 
-## Multiple content placeholders
+## Múltiples marcadores de posición de contenido
 
-Angular supports projecting multiple different elements into different `<ng-content>` placeholders
-based on CSS selector. Expanding the card example from above, you could create two placeholders for
-a card title and a card body by using the `select` attribute:
+Angular admite proyectar múltiples elementos diferentes en diferentes marcadores de posición `<ng-content>`
+basándose en selectores CSS. Expandiendo el ejemplo de la tarjeta de arriba, podrías crear dos marcadores de posición para
+un título de tarjeta y un cuerpo de tarjeta usando el atributo `select`:
 
 ```angular-ts
 @Component({
@@ -94,7 +93,7 @@ export class CardBody {}
 ```
 
 ```angular-ts
-<!-- Component template -->
+<!-- Plantilla del componente -->
 Component({
   selector: 'custom-card',
   template: `
@@ -109,14 +108,14 @@ export class CustomCard {}
 ```
 
 ```angular-ts
-<!-- Using the component -->
+<!-- Usando el componente -->
 @Component({
   selector: 'app-root',
   imports: [CustomCard, CardTitle, CardBody],
   template: `
     <custom-card>
-      <card-title>Hello</card-title>
-      <card-body>Welcome to the example</card-body>
+      <card-title>Hola</card-title>
+      <card-body>Bienvenido al ejemplo</card-body>
     </custom-card>
 `,
 })
@@ -124,97 +123,97 @@ export class App {}
 ```
 
 ```angular-html
-<!-- Rendered DOM -->
+<!-- DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <card-title>Hello</card-title>
+    <card-title>Hola</card-title>
     <div class="card-divider"></div>
-    <card-body>Welcome to the example</card-body>
+    <card-body>Bienvenido al ejemplo</card-body>
   </div>
 </custom-card>
 ```
 
-The `<ng-content>` placeholder supports the same CSS selectors
-as [component selectors](guide/components/selectors).
+El marcador de posición `<ng-content>` admite los mismos selectores CSS
+que los [selectores de componentes](guide/components/selectors).
 
-If you include one or more `<ng-content>` placeholders with a `select` attribute and
-one `<ng-content>` placeholder without a `select` attribute, the latter captures all elements that
-did not match a `select` attribute:
+Si incluyes uno o más marcadores de posición `<ng-content>` con un atributo `select` y
+un marcador de posición `<ng-content>` sin un atributo `select`, el último captura todos los elementos que
+no coincidieron con un atributo `select`:
 
 ```angular-html
-<!-- Component template -->
+<!-- Plantilla del componente -->
 <div class="card-shadow">
   <ng-content select="card-title"></ng-content>
   <div class="card-divider"></div>
-  <!-- capture anything except "card-title" -->
+  <!-- captura cualquier cosa excepto "card-title" -->
   <ng-content></ng-content>
 </div>
 ```
 
 ```angular-html
-<!-- Using the component -->
+<!-- Usando el componente -->
 <custom-card>
-  <card-title>Hello</card-title>
+  <card-title>Hola</card-title>
   <img src="..." />
-  <p>Welcome to the example</p>
+  <p>Bienvenido al ejemplo</p>
 </custom-card>
 ```
 
 ```angular-html
-<!-- Rendered DOM -->
+<!-- DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <card-title>Hello</card-title>
+    <card-title>Hola</card-title>
     <div class="card-divider"></div>
     <img src="..." />
-    <p>Welcome to the example</p>
+    <p>Bienvenido al ejemplo</p>
   </div>
 </custom-card>
 ```
 
-If a component does not include an `<ng-content>` placeholder without a `select` attribute, any
-elements that don't match one of the component's placeholders do not render into the DOM.
+Si un componente no incluye un marcador de posición `<ng-content>` sin un atributo `select`, cualquier
+elemento que no coincida con uno de los marcadores de posición del componente no se renderiza en el DOM.
 
-## Fallback content
+## Contenido de respaldo
 
-Angular can show _fallback content_ for a component's `<ng-content>` placeholder if that component doesn't have any matching child content. You can specify fallback content by adding child content to the `<ng-content>` element itself.
+Angular puede mostrar _contenido de respaldo_ para el marcador de posición `<ng-content>` de un componente si ese componente no tiene ningún contenido hijo coincidente. Puedes especificar contenido de respaldo agregando contenido hijo al propio elemento `<ng-content>`.
 
 ```angular-html
-<!-- Component template -->
+<!-- Plantilla del componente -->
 <div class="card-shadow">
-  <ng-content select="card-title">Default Title</ng-content>
+  <ng-content select="card-title">Título predeterminado</ng-content>
   <div class="card-divider"></div>
-  <ng-content select="card-body">Default Body</ng-content>
+  <ng-content select="card-body">Cuerpo predeterminado</ng-content>
 </div>
 ```
 
 ```angular-html
-<!-- Using the component -->
+<!-- Usando el componente -->
 <custom-card>
-  <card-title>Hello</card-title>
-  <!-- No card-body provided -->
+  <card-title>Hola</card-title>
+  <!-- No se proporcionó card-body -->
 </custom-card>
 ```
 
 ```angular-html
-<!-- Rendered DOM -->
+<!-- DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <card-title>Hello</card-title>
+    <card-title>Hola</card-title>
     <div class="card-divider"></div>
-    Default Body
+    Cuerpo predeterminado
   </div>
 </custom-card>
 ```
 
-## Aliasing content for projection
+## Alias de contenido para proyección
 
-Angular supports a special attribute, `ngProjectAs`, that allows you to specify a CSS selector on
-any element. Whenever an element with `ngProjectAs` is checked against an `<ng-content>`
-placeholder, Angular compares against the `ngProjectAs` value instead of the element's identity:
+Angular admite un atributo especial, `ngProjectAs`, que te permite especificar un selector CSS en
+cualquier elemento. Siempre que un elemento con `ngProjectAs` se compara contra un marcador de posición `<ng-content>`,
+Angular compara contra el valor de `ngProjectAs` en lugar de la identidad del elemento:
 
 ```angular-html
-<!-- Component template -->
+<!-- Plantilla del componente -->
 <div class="card-shadow">
   <ng-content select="card-title"></ng-content>
   <div class="card-divider"></div>
@@ -223,23 +222,23 @@ placeholder, Angular compares against the `ngProjectAs` value instead of the ele
 ```
 
 ```angular-html
-<!-- Using the component -->
+<!-- Usando el componente -->
 <custom-card>
-  <h3 ngProjectAs="card-title">Hello</h3>
+  <h3 ngProjectAs="card-title">Hola</h3>
 
-  <p>Welcome to the example</p>
+  <p>Bienvenido al ejemplo</p>
 </custom-card>
 ```
 
 ```angular-html
-<!-- Rendered DOM -->
+<!-- DOM renderizado -->
 <custom-card>
   <div class="card-shadow">
-    <h3>Hello</h3>
+    <h3>Hola</h3>
     <div class="card-divider"></div>
-    <p>Welcome to the example</p>
+    <p>Bienvenido al ejemplo</p>
   </div>
 </custom-card>
 ```
 
-`ngProjectAs` supports only static values and cannot be bound to dynamic expressions.
+`ngProjectAs` solo admite valores estáticos y no se puede enlazar a expresiones dinámicas.

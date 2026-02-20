@@ -59,10 +59,10 @@ los estilos globales definidos fuera de un componente aún puede afectar element
 con encapsulación emulada.
 
 En modo emulado, Angular admite
-la pseudo-clase [`:host`](https://developer.mozilla.org/docs/Web/CSS/:host).
+la pseudo-clase [`:host`](https://developer.mozilla.org/es/docs/Web/CSS/Reference/Selectors/:host).
 Aunque la pseudo-clase [`:host-context()`](https://developer.mozilla.org/docs/Web/CSS/:host-context) está
 deprecada en navegadores modernos, el compilador de Angular proporciona soporte completo para ella. Ambas pseudo-clases
-pueden usarse sin depender de [Shadow DOM](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM) nativo.
+pueden usarse sin depender de [Shadow DOM](https://developer.mozilla.org/es/docs/Web/API/Web_components/Using_shadow_DOM) nativo.
 Durante la compilación, el framework transforma estas pseudo-clases en atributos para que no
 cumpla con las reglas de estas pseudo-clases nativas en tiempo de ejecución
 (ej. compatibilidad del navegador, especificidad). El modo de encapsulación emulada de Angular no admite ninguna otra pseudo-clase relacionada con Shadow DOM,
@@ -86,7 +86,7 @@ Los estilos dentro del árbol de sombra no pueden afectar a elementos fuera de e
 
 Habilitar la encapsulación `ShadowDom`, sin embargo, impacta más que el alcance de estilos. Renderizar el
 componente en un árbol de sombra afecta la propagación de eventos, la interacción
-con [la API `<slot>`](https://developer.mozilla.org/docs/Web/Web_Components/Using_templates_and_slots),
+con [la API `<slot>`](https://developer.mozilla.org/es/docs/Web/API/Web_components/Using_templates_and_slots),
 y cómo las herramientas de desarrollador del navegador muestran elementos. Siempre entiende las implicaciones completas de usar
 Shadow DOM en tu aplicación antes de habilitar esta opción.
 
@@ -114,7 +114,7 @@ Angular no admite enlaces dentro de elementos de estilo.
 ## Referenciar archivos de estilo externos
 
 Las plantillas de componentes pueden
-usar [el elemento `<link>`](https://developer.mozilla.org/docs/Web/HTML/Element/link) para
+usar [el elemento `<link>`](https://developer.mozilla.org/es/docs/Web/HTML/Reference/Elements/link) para
 referenciar archivos CSS. Además, tu CSS puede
 usar [la regla at `@import`](https://developer.mozilla.org/es/docs/Web/CSS/@import) para referenciar
 archivos CSS. Angular trata estas referencias como estilos _externos_. Los estilos externos no se ven afectados por
