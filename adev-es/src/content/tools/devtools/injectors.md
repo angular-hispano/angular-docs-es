@@ -1,23 +1,23 @@
-## Inspect your injectors
+## Inspecciona tus inyectores
 
-NOTE: The Injector Tree is available for Angular Applications built with version 17 or higher.
+NOTA: El Árbol de Inyectores está disponible para aplicaciones de Angular compiladas con la versión 17 o superior.
 
-### View the injector hierarchy of your application
+### Visualiza la jerarquía de inyectores de tu aplicación
 
-The **Injector Tree** tab lets you explore the structure of the Injectors configured in your application. Here you will see two trees representing the [injector hierarchy](guide/di/hierarchical-dependency-injection) of your application. One tree is your environment hierarchy, the other is your element hierarchy.
+La pestaña **Árbol de Inyectores** te permite explorar la estructura de los inyectores configurados en tu aplicación. Aquí verás dos árboles que representan la [jerarquía de inyectores](guide/di/hierarchical-dependency-injection) de tu aplicación. Un árbol es tu jerarquía de entorno, el otro es tu jerarquía de elementos.
 
-<img src="assets/images/guide/devtools/di-injector-tree.png" alt="A screenshot of the 'Profiler' tab displaying the injector tree tab in Angular Devtools visualizing the injector graph for an example application.">
+<img src="assets/images/guide/devtools/di-injector-tree.png" alt="Una captura de pantalla de la pestaña 'Profiler' mostrando la pestaña del árbol de inyectores en Angular Devtools visualizando el gráfico de inyectores para una aplicación de ejemplo.">
 
-### Visualize resolution paths
+### Visualiza las rutas de resolución
 
-When a specific injector is selected, the path that Angular's dependency injection algorithm traverses from that injector to the root is highlighted. For element injectors, this includes highlighting the environment injectors that the dependency injection algorithm jumps to when a dependency cannot be resolved in the element hierarchy.
+Cuando se selecciona un inyector específico, se resalta la ruta que el algoritmo de inyección de dependencias de Angular recorre desde ese inyector hasta la raíz. Para los inyectores de elementos, esto incluye resaltar los inyectores de entorno a los que el algoritmo de inyección de dependencias salta cuando una dependencia no puede ser resuelta en la jerarquía de elementos.
 
-See [resolution rules](guide/di/hierarchical-dependency-injection#resolution-rules) for more details about how Angular resolves resolution paths.
+Consulta las [reglas de resolución](guide/di/hierarchical-dependency-injection#resolution-rules) para más detalles sobre cómo Angular resuelve las rutas de resolución.
 
-<img src="assets/images/guide/devtools/di-injector-tree-selected.png" alt="A screenshot of the 'Profiler' tab displaying how the injector tree visualize highlights resolution paths when an injector is selected.">
+<img src="assets/images/guide/devtools/di-injector-tree-selected.png" alt="Una captura de pantalla de la pestaña 'Profiler' mostrando cómo el árbol de inyectores visualiza y resalta las rutas de resolución cuando se selecciona un inyector.">
 
-### View injector providers
+### Visualiza los proveedores del inyector
 
-Clicking an injector that has configured providers will display those providers in a list on the right of the injector tree view. Here you can view the provided token and it's type. The button on the right of each provider allows you to log the provider in the console.
+Al hacer clic en un inyector que tiene proveedores configurados, se mostrarán esos proveedores en una lista a la derecha de la vista del árbol de inyectores. Aquí puedes ver el token proporcionado y su tipo. El botón a la derecha de cada proveedor te permite registrar el proveedor en la consola.
 
-<img src="assets/images/guide/devtools/di-injector-tree-providers.png" alt="A screenshot of the 'Profiler' tab displaying how providers are made visible when an injector is selected.">
+<img src="assets/images/guide/devtools/di-injector-tree-providers.png" alt="Una captura de pantalla de la pestaña 'Profiler' mostrando cómo los proveedores se hacen visibles cuando se selecciona un inyector.">

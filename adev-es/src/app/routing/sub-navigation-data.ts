@@ -221,7 +221,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/templates/pipes',
           },
           {
-            label: 'Insertar contenido hijo con ng-content',
+            label: 'Proyectar contenido hijo ng-content',
             path: 'guide/templates/ng-content',
             contentPath: 'guide/templates/ng-content',
           },
@@ -648,7 +648,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         status: 'new',
         children: [
           {
-            label: 'Visión general',
+            label: 'Visión General',
             path: 'guide/aria/overview',
             contentPath: 'guide/aria/overview',
           },
@@ -956,7 +956,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'tools/devtools/component',
           },
           {
-            label: 'Profiler',
+            label: 'Perfilador',
             path: 'tools/devtools/profiler',
             contentPath: 'tools/devtools/profiler',
           },

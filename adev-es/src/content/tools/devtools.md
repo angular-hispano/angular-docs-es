@@ -1,196 +1,196 @@
-# DevTools Overview
+# Descripción general de DevTools
 
-Angular DevTools is a browser extension that provides debugging and profiling capabilities for Angular applications.
+Angular DevTools es una extensión de navegador que proporciona capacidades de depuración y creación de perfiles para aplicaciones de Angular.
 
 <docs-video src="https://www.youtube.com/embed/bavWOHZM6zE"/>
 
-Install Angular DevTools from the [Chrome Web Store](https://chrome.google.com/webstore/detail/angular-developer-tools/ienfalfjdbdpebioblfackkekamfmbnh) or from [Firefox Addons](https://addons.mozilla.org/firefox/addon/angular-devtools/).
+Instala Angular DevTools desde la [Chrome Web Store](https://chrome.google.com/webstore/detail/angular-developer-tools/ienfalfjdbdpebioblfackkekamfmbnh) o desde [Firefox Addons](https://addons.mozilla.org/firefox/addon/angular-devtools/).
 
-You can open Chrome or Firefox DevTools on any web page by pressing <kbd>F12</kbd> or <kbd><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></kbd> (Windows or Linux) and <kbd><kbd>Fn</kbd>+<kbd>F12</kbd></kbd> or <kbd><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></kbd> (Mac).
-Once browser DevTools is open and Angular DevTools is installed, you can find it under the "Angular" tab.
+Puedes abrir Chrome o Firefox DevTools en cualquier página web presionando <kbd>F12</kbd> o <kbd><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></kbd> (Windows o Linux) y <kbd><kbd>Fn</kbd>+<kbd>F12</kbd></kbd> o <kbd><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></kbd> (Mac).
+Una vez que las DevTools del navegador estén abiertas y Angular DevTools esté instalado, puedes encontrarlo en la pestaña "Angular".
 
-HELPFUL: Chrome's new tab page does not run installed extensions, so the Angular tab will not appear in DevTools. Visit any other page to see it.
+ÚTIL: La página de nueva pestaña de Chrome no ejecuta extensiones instaladas, por lo que la pestaña de Angular no aparecerá en DevTools. Visita cualquier otra página para verla.
 
-<img src="assets/images/guide/devtools/devtools.png" alt="An overview of Angular DevTools showing a tree of components for an application.">
+<img src="assets/images/guide/devtools/devtools.png" alt="Una descripción general de Angular DevTools mostrando un árbol de componentes para una aplicación.">
 
-## Open your application
+## Abre tu aplicación
 
-When you open the extension, you'll see two additional tabs:
+Cuando abras la extensión, verás dos pestañas adicionales:
 
-| Tabs                                     | Details |
+| Pestañas                                     | Detalles |
 |:---                                      |:---     |
-| [Components](tools/devtools#debug-your-application) | Lets you explore the components and directives in your application and preview or edit their state.                    |
-| [Profiler](tools/devtools#profile-your-application)     | Lets you profile your application and understand what the performance bottleneck is during change detection execution. |
+| [Components](tools/devtools#debug-your-application) | Te permite explorar los componentes y directivas en tu aplicación y previsualizar o editar su estado.                    |
+| [Profiler](tools/devtools#profile-your-application)     | Te permite perfilar tu aplicación y entender cuál es el cuello de botella de rendimiento durante la ejecución de la detección de cambios. |
 
-<img src="assets/images/guide/devtools/devtools-tabs.png" alt="A screenshot of the top of Angular DevTools illustrating two tabs in the upper-left corner, one labeled 'Components' and another labeled 'Profiler'.">
+<img src="assets/images/guide/devtools/devtools-tabs.png" alt="Una captura de pantalla de la parte superior de Angular DevTools ilustrando dos pestañas en la esquina superior izquierda, una etiquetada 'Components' y otra etiquetada 'Profiler'.">
 
-In the top-right corner of Angular DevTools you'll find which version of Angular is running on the page as well as the latest commit hash for the extension.
+En la esquina superior derecha de Angular DevTools encontrarás qué versión de Angular se está ejecutando en la página, así como el último hash de commit de la extensión.
 
-### Angular application not detected
+### Aplicación de Angular no detectada
 
-If you see an error message "Angular application not detected" when opening Angular DevTools, this means it is not able to communicate with an Angular app on the page.
-The most common reason for this is because the web page you are inspecting does not contain an Angular application.
-Double check that you are inspecting the right web page and that the Angular app is running.
+Si ves un mensaje de error "Angular application not detected" al abrir Angular DevTools, esto significa que no puede comunicarse con una aplicación de Angular en la página.
+La razón más común es que la página web que estás inspeccionando no contiene una aplicación de Angular.
+Verifica que estás inspeccionando la página web correcta y que la aplicación de Angular se está ejecutando.
 
-### We detected an application built with production configuration
+### Detectamos una aplicación compilada con configuración de producción
 
-If you see an error message "We detected an application built with production configuration. Angular DevTools only supports development builds.", this means that an Angular application was found on the page, but it was compiled with production optimizations.
-When compiling for production, Angular CLI removes various debug features to minimize the amount of the JavaScript on the page to improve performance. This includes features needed to communicate with DevTools.
+Si ves un mensaje de error "We detected an application built with production configuration. Angular DevTools only supports development builds.", esto significa que se encontró una aplicación de Angular en la página, pero fue compilada con optimizaciones de producción.
+Al compilar para producción, Angular CLI elimina varias características de depuración para minimizar la cantidad de JavaScript en la página y mejorar el rendimiento. Esto incluye las características necesarias para comunicarse con DevTools.
 
-To run DevTools, you need to compile your application with optimizations disabled. `ng serve` does this by default.
-If you need to debug a deployed application, disable optimizations in your build with the [`optimization` configuration option](reference/configs/workspace-config#optimization-configuration) (`{"optimization": false}`).
+Para ejecutar DevTools, necesitas compilar tu aplicación con las optimizaciones deshabilitadas. `ng serve` hace esto por defecto.
+Si necesitas depurar una aplicación desplegada, deshabilita las optimizaciones en tu compilación con la [opción de configuración `optimization`](reference/configs/workspace-config#optimization-configuration) (`{"optimization": false}`).
 
-## Debug your application
+## Depura tu aplicación
 
-The **Components** tab lets you explore the structure of your application.
-You can visualize the component and directive instances in the DOM and inspect or modify their state.
+La pestaña **Components** te permite explorar la estructura de tu aplicación.
+Puedes visualizar las instancias de componentes y directivas en el DOM e inspeccionar o modificar su estado.
 
-### Explore the application structure
+### Explora la estructura de la aplicación
 
-The component tree displays a hierarchical relationship of the *components and directives* within your application.
+El árbol de componentes muestra una relación jerárquica de los *componentes y directivas* dentro de tu aplicación.
 
-<img src="assets/images/guide/devtools/component-explorer.png" alt="A screenshot of the 'Components' tab showing a tree of Angular components and directives starting the root of the application.">
+<img src="assets/images/guide/devtools/component-explorer.png" alt="Una captura de pantalla de la pestaña 'Components' mostrando un árbol de componentes y directivas de Angular comenzando desde la raíz de la aplicación.">
 
-Click the individual components or directives in the component explorer to select them and preview their properties.
-Angular DevTools displays properties and metadata on the right side of the component tree.
+Haz clic en los componentes o directivas individuales en el explorador de componentes para seleccionarlos y previsualizar sus propiedades.
+Angular DevTools muestra las propiedades y metadatos en el lado derecho del árbol de componentes.
 
-To look up a component or directive by name use the search box above the component tree.
+Para buscar un componente o directiva por nombre, usa el cuadro de búsqueda encima del árbol de componentes.
 
-<img src="assets/images/guide/devtools/search.png" alt="A screenshot of the 'Components' tab. The filter bar immediately underneath the tab is searching for 'todo' and all components with 'todo' in the name are highlighted in the tree. `app-todos` is currently selected and a sidebar to the right displays information about the component's properties. This includes a section of `@Output` fields and another section for other properties.">
+<img src="assets/images/guide/devtools/search.png" alt="Una captura de pantalla de la pestaña 'Components'. La barra de filtro inmediatamente debajo de la pestaña está buscando 'todo' y todos los componentes con 'todo' en el nombre están resaltados en el árbol. `app-todos` está actualmente seleccionado y una barra lateral a la derecha muestra información sobre las propiedades del componente. Esto incluye una sección de campos `@Output` y otra sección para otras propiedades.">
 
-### Navigate to the host node
+### Navegar al nodo host
 
-To go to the host element of a particular component or directive, double-click it in the component explorer.
-Angular DevTools will open the Elements tab in Chrome or the Inspector tab in Firefox, and select the associated DOM node.
+Para ir al elemento host de un componente o directiva en particular, haz doble clic en él en el explorador de componentes.
+Angular DevTools abrirá la pestaña Elements en Chrome o la pestaña Inspector en Firefox, y seleccionará el nodo DOM asociado.
 
-### Navigate to source
+### Navegar al código fuente
 
-For components, Angular DevTools lets you navigate to the component definition in the Sources tab (Chrome) and Debugger tab (Firefox).
-After you select a particular component, click the icon at the top-right of the properties view:
+Para los componentes, Angular DevTools te permite navegar a la definición del componente en la pestaña Sources (Chrome) y la pestaña Debugger (Firefox).
+Después de seleccionar un componente en particular, haz clic en el ícono en la esquina superior derecha de la vista de propiedades:
 
-<img src="assets/images/guide/devtools/navigate-source.png" alt="A screenshot of the 'Components' tab. The properties view on the right is visible for a component and the mouse rests in the upper right corner of that view on top of a `<>` icon. An adjacent tooltip reads 'Open component source'.">
+<img src="assets/images/guide/devtools/navigate-source.png" alt="Una captura de pantalla de la pestaña 'Components'. La vista de propiedades a la derecha es visible para un componente y el ratón descansa en la esquina superior derecha de esa vista sobre un ícono `<>`. Un tooltip adyacente dice 'Open component source'.">
 
-### Update property value
+### Actualizar el valor de una propiedad
 
-Like browsers' DevTools, the properties view lets you edit the value of an input, output, or other properties.
-Right-click on the property value and if edit functionality is available for this value type, a text input will appear.
-Type the new value and press `Enter` to apply this value to the property.
+Al igual que las DevTools del navegador, la vista de propiedades te permite editar el valor de una entrada, salida u otras propiedades.
+Haz clic derecho en el valor de la propiedad y si la funcionalidad de edición está disponible para este tipo de valor, aparecerá un campo de texto.
+Escribe el nuevo valor y presiona `Enter` para aplicar este valor a la propiedad.
 
-<img src="assets/images/guide/devtools/update-property.png" alt="A screenshot of the 'Components' tab with the properties view open for a component. An `@Input` named `todo` contains a `label` property which is currently selected and has been manually updated to the value 'Buy milk'.">
+<img src="assets/images/guide/devtools/update-property.png" alt="Una captura de pantalla de la pestaña 'Components' con la vista de propiedades abierta para un componente. Un `@Input` llamado `todo` contiene una propiedad `label` que está actualmente seleccionada y ha sido actualizada manualmente al valor 'Buy milk'.">
 
-### Access selected component or directive in console
+### Acceder al componente o directiva seleccionada en la consola
 
-As a shortcut in the console, Angular DevTools provides access to instances of recently selected components or directives.
-Type `$ng0` to get a reference to the instance of the currently selected component or directive, and type `$ng1` for the previously selected instance, `$ng2` for the instance selected before that, and so on.
+Como atajo en la consola, Angular DevTools proporciona acceso a instancias de componentes o directivas seleccionados recientemente.
+Escribe `$ng0` para obtener una referencia a la instancia del componente o directiva actualmente seleccionada, y escribe `$ng1` para la instancia seleccionada previamente, `$ng2` para la instancia seleccionada antes de esa, y así sucesivamente.
 
-<img src="assets/images/guide/devtools/access-console.png" alt="A screenshot of the 'Components' tab with the browser console underneath. In the console, the user has typed three commands, `$ng0`, `$ng1`, and `$ng2` to view the three most recently selected elements. After each statement, the console prints a different component reference.">
+<img src="assets/images/guide/devtools/access-console.png" alt="Una captura de pantalla de la pestaña 'Components' con la consola del navegador debajo. En la consola, el usuario ha escrito tres comandos, `$ng0`, `$ng1` y `$ng2` para ver los tres elementos seleccionados más recientemente. Después de cada instrucción, la consola imprime una referencia de componente diferente.">
 
-### Select a directive or component
+### Seleccionar una directiva o componente
 
-Similar to browsers' DevTools, you can inspect the page to select a particular component or directive.
-Click the ***Inspect element*** icon in the top left corner within Angular DevTools and hover over a DOM element on the page.
-The extension recognizes the associated directives and/or components and lets you select the corresponding element in the Component tree.
+Similar a las DevTools del navegador, puedes inspeccionar la página para seleccionar un componente o directiva en particular.
+Haz clic en el ícono de ***Inspect element*** en la esquina superior izquierda dentro de Angular DevTools y pasa el cursor sobre un elemento DOM en la página.
+La extensión reconoce las directivas y/o componentes asociados y te permite seleccionar el elemento correspondiente en el árbol de componentes.
 
-<img src="assets/images/guide/devtools/inspect-element.png" alt="A screenshot of the 'Components' tab with an Angular todo application visible. In the very top-left corner of Angular DevTools, an icon of a screen with a mouse icon inside it is selected. The mouse rests on a todo element in the Angular application UI. The element is highlighted with a `<TodoComponent>` label displayed in an adjacent tooltip.">
+<img src="assets/images/guide/devtools/inspect-element.png" alt="Una captura de pantalla de la pestaña 'Components' con una aplicación Angular de tareas visible. En la esquina superior izquierda de Angular DevTools, un ícono de una pantalla con un ícono de ratón dentro está seleccionado. El ratón descansa sobre un elemento de tarea en la interfaz de la aplicación Angular. El elemento está resaltado con una etiqueta `<TodoComponent>` mostrada en un tooltip adyacente.">
 
-## Profile your application
+## Perfila tu aplicación
 
-The **Profiler** tab lets you visualize the execution of Angular's change detection.
-This is useful for determining when and how change detection impacts your application's performance.
+La pestaña **Profiler** te permite visualizar la ejecución de la detección de cambios de Angular.
+Esto es útil para determinar cuándo y cómo la detección de cambios impacta el rendimiento de tu aplicación.
 
-<img src="assets/images/guide/devtools/profiler.png" alt="A screenshot of the 'Profiler' tab which reads 'Click the play button to start a new recording, or upload a json file containing profiler data.' Next to this is a record button to being recording a new profile as well as a file picker to select an existing profile.">
+<img src="assets/images/guide/devtools/profiler.png" alt="Una captura de pantalla de la pestaña 'Profiler' que dice 'Click the play button to start a new recording, or upload a json file containing profiler data.' Al lado hay un botón de grabación para comenzar a grabar un nuevo perfil y un selector de archivos para seleccionar un perfil existente.">
 
-The Profiler tab lets you start profiling the current application or import an existing profile from a previous run.
-To start profiling your application, hover over the circle in the top-left corner within the **Profiler** tab and click **Start recording**.
+La pestaña Profiler te permite comenzar a perfilar la aplicación actual o importar un perfil existente de una ejecución anterior.
+Para comenzar a perfilar tu aplicación, pasa el cursor sobre el círculo en la esquina superior izquierda dentro de la pestaña **Profiler** y haz clic en **Start recording**.
 
-During profiling, Angular DevTools captures execution events, such as change detection and lifecycle hook execution.
-Interact with your application to trigger change detection and generate data Angular DevTools can use.
-To finish recording, click the circle again to **Stop recording**.
+Durante la creación de perfiles, Angular DevTools captura eventos de ejecución, como la detección de cambios y la ejecución de hooks de ciclo de vida.
+Interactúa con tu aplicación para activar la detección de cambios y generar datos que Angular DevTools pueda usar.
+Para finalizar la grabación, haz clic en el círculo nuevamente para **Stop recording**.
 
-You can also import an existing recording.
-Read more about this feature in the [Import recording](tools/devtools#import-and-export-recordings) section.
+También puedes importar una grabación existente.
+Lee más sobre esta característica en la sección [Importar grabación](tools/devtools#import-and-export-recordings).
 
-### Understand your application's execution
+### Comprende la ejecución de tu aplicación
 
-After recording or importing a profile, Angular DevTools displays a visualization of change detection cycles.
+Después de grabar o importar un perfil, Angular DevTools muestra una visualización de los ciclos de detección de cambios.
 
-<img src="assets/images/guide/devtools/default-profiler-view.png" alt="A screenshot of the 'Profiler' tab after a profile has been recorded or uploaded. It displays a bar chart illustrating various change detection cycles with some text which reads 'Select a bar to preview a particular change detection cycle'.">
+<img src="assets/images/guide/devtools/default-profiler-view.png" alt="Una captura de pantalla de la pestaña 'Profiler' después de que un perfil ha sido grabado o cargado. Muestra un gráfico de barras ilustrando varios ciclos de detección de cambios con texto que dice 'Select a bar to preview a particular change detection cycle'.">
 
-Each bar in the sequence represents a change detection cycle in your app.
-The taller a bar is, the longer the application spent running change detection in this cycle.
-When you select a bar, DevTools displays useful information about it including:
+Cada barra en la secuencia representa un ciclo de detección de cambios en tu aplicación.
+Cuanto más alta sea una barra, más tiempo pasó la aplicación ejecutando la detección de cambios en ese ciclo.
+Cuando seleccionas una barra, DevTools muestra información útil sobre ella incluyendo:
 
-* A bar chart with all the components and directives that it captured during this cycle
-* How much time Angular spent running change detection in this cycle.
-* An estimated frame rate as experienced by the user.
-* The source which triggered change detection.
+* Un gráfico de barras con todos los componentes y directivas que capturó durante este ciclo
+* Cuánto tiempo pasó Angular ejecutando la detección de cambios en este ciclo.
+* Una tasa de cuadros estimada según la experiencia del usuario.
+* La fuente que activó la detección de cambios.
 
-<img src="assets/images/guide/devtools/profiler-selected-bar.png" alt="A screenshot of the 'Profiler' tab. A single bar has been selected by the user and a nearby dropdown menu displays 'Bar chart`, showing a second bar chart underneath it. The new chart has two bars which take up the majority of the space, one labeled `TodosComponent` and the other labeled `NgForOf`. The other bars are small enough to be negligible in comparison.">
+<img src="assets/images/guide/devtools/profiler-selected-bar.png" alt="Una captura de pantalla de la pestaña 'Profiler'. Una sola barra ha sido seleccionada por el usuario y un menú desplegable cercano muestra 'Bar chart', mostrando un segundo gráfico de barras debajo. El nuevo gráfico tiene dos barras que ocupan la mayor parte del espacio, una etiquetada `TodosComponent` y la otra etiquetada `NgForOf`. Las otras barras son lo suficientemente pequeñas como para ser insignificantes en comparación.">
 
-### Understand component execution
+### Comprende la ejecución de componentes
 
-The bar chart displayed after clicking on a change detection cycle displays a detailed view about how much time your application spent running change detection in that particular component or directive.
+El gráfico de barras que se muestra después de hacer clic en un ciclo de detección de cambios muestra una vista detallada sobre cuánto tiempo pasó tu aplicación ejecutando la detección de cambios en ese componente o directiva en particular.
 
-This example shows the total time spent by the `NgForOf` directive and which method was called on it.
+Este ejemplo muestra el tiempo total empleado por la directiva `NgForOf` y qué método fue llamado en ella.
 
-<img src="assets/images/guide/devtools/directive-details.png" alt="A screenshot of the 'Profiler' tab where the `NgForOf` bar is selected. A detailed view of `NgForOf` is visible to the right where it lists 'Total time spent: 1.76 ms'. It includes a with exactly one row, listing `NgForOf` as a directives with an `ngDoCheck` method which took 1.76 ms. It also includes a list labeled 'Parent Hierarchy' containing the parent components of this directive.">
+<img src="assets/images/guide/devtools/directive-details.png" alt="Una captura de pantalla de la pestaña 'Profiler' donde la barra `NgForOf` está seleccionada. Una vista detallada de `NgForOf` es visible a la derecha donde lista 'Total time spent: 1.76 ms'. Incluye exactamente una fila, listando `NgForOf` como directiva con un método `ngDoCheck` que tomó 1.76 ms. También incluye una lista etiquetada 'Parent Hierarchy' que contiene los componentes padre de esta directiva.">
 
-### Hierarchical views
+### Vistas jerárquicas
 
-<img src="assets/images/guide/devtools/flame-graph-view.png" alt="A screenshot of the 'Profiler' tab. A single bar has been selected by the user and a nearby dropdown menu now displays 'Flame graph', showing a flame graph underneath it. The flame graph starts with a row called 'Entire application' and another row called 'AppComponent'. Beneath those, the rows start to break up into multiple items, starting with `[RouterOutlet]` and `DemoAppComponent` on the third row. A few layers deep, one cell is highlighted red.">
+<img src="assets/images/guide/devtools/flame-graph-view.png" alt="Una captura de pantalla de la pestaña 'Profiler'. Una sola barra ha sido seleccionada por el usuario y un menú desplegable cercano ahora muestra 'Flame graph', mostrando un gráfico de llamas debajo. El gráfico de llamas comienza con una fila llamada 'Entire application' y otra fila llamada 'AppComponent'. Debajo de esas, las filas comienzan a dividirse en múltiples elementos, comenzando con `[RouterOutlet]` y `DemoAppComponent` en la tercera fila. Algunas capas más profundo, una celda está resaltada en rojo.">
 
-You can also visualize the change detection execution in a flame graph-like view.
+También puedes visualizar la ejecución de la detección de cambios en una vista similar a un gráfico de llamas.
 
-Each tile in the graph represents an element on the screen at a specific position in the render tree.
-For example, consider a change detection cycle where a `LoggedOutUserComponent` is removed and in its place Angular rendered a `LoggedInUserComponent`. In this scenario both components will be displayed in the same tile.
+Cada mosaico en el gráfico representa un elemento en la pantalla en una posición específica en el árbol de renderización.
+Por ejemplo, considera un ciclo de detección de cambios donde un `LoggedOutUserComponent` es eliminado y en su lugar Angular renderizó un `LoggedInUserComponent`. En este escenario, ambos componentes se mostrarán en el mismo mosaico.
 
-The x-axis represents the full time it took to render this change detection cycle.
-The y-axis represents the element hierarchy. Running change detection for an element requires render its directives and child components.
-Together, this graph visualizes which components are taking the longest time to render and where that time is going.
+El eje x representa el tiempo total que tomó renderizar este ciclo de detección de cambios.
+El eje y representa la jerarquía de elementos. Ejecutar la detección de cambios para un elemento requiere renderizar sus directivas y componentes hijos.
+Juntos, este gráfico visualiza qué componentes están tomando más tiempo en renderizar y hacia dónde va ese tiempo.
 
-Each tile is colored depending on how much time Angular spent there.
-Angular DevTools determines the intensity of the color by the time spent relative to the tile where rendering took the most time.
+Cada mosaico está coloreado dependiendo de cuánto tiempo pasó Angular ahí.
+Angular DevTools determina la intensidad del color por el tiempo empleado relativo al mosaico donde la renderización tomó más tiempo.
 
-When you click on a certain tile, you'll see details about it in the panel on the right.
-Double-clicking the tile zooms it in so you can more easily view its nested children.
+Cuando haces clic en un mosaico determinado, verás detalles sobre él en el panel de la derecha.
+Hacer doble clic en el mosaico lo amplía para que puedas ver más fácilmente sus hijos anidados.
 
-### Debug change detection and `OnPush` components
+### Depurar la detección de cambios y componentes `OnPush`
 
-Normally, the graph visualizes the time it takes to *render* an application, for any given change detection frame. However some components such as `OnPush` components will only re-render if their input properties change. It can be useful to visualize the flame graph without these components for particular frames.
+Normalmente, el gráfico visualiza el tiempo que toma *renderizar* una aplicación, para cualquier marco de detección de cambios dado. Sin embargo, algunos componentes como los componentes `OnPush` solo se re-renderizarán si sus propiedades de entrada cambian. Puede ser útil visualizar el gráfico de llamas sin estos componentes para marcos particulares.
 
-To visualize only the components in a change detection frame that went through the change detection process, select the **Change detection** checkbox at the top, above the flame graph.
+Para visualizar solo los componentes en un marco de detección de cambios que pasaron por el proceso de detección de cambios, selecciona la casilla **Change detection** en la parte superior, encima del gráfico de llamas.
 
-This view highlights all the components that went through change detection and displays those that did not in gray, such as `OnPush` components that did not re-render.
+Esta vista resalta todos los componentes que pasaron por la detección de cambios y muestra en gris aquellos que no lo hicieron, como los componentes `OnPush` que no se re-renderizaron.
 
-<img src="assets/images/guide/devtools/debugging-onpush.png" alt="A screenshot of the 'Profiler' tab displaying a flame chart visualization of a change detection cycle. A checkbox labeled 'Show only change detection' is now checked. The flame graph looks very similar to before, however the color of components has changed from orange to blue. Several tiles labeled `[RouterOutlet]` are no longer highlighted with any color.">
+<img src="assets/images/guide/devtools/debugging-onpush.png" alt="Una captura de pantalla de la pestaña 'Profiler' mostrando una visualización de gráfico de llamas de un ciclo de detección de cambios. Una casilla etiquetada 'Show only change detection' ahora está marcada. El gráfico de llamas se ve muy similar al anterior, sin embargo el color de los componentes ha cambiado de naranja a azul. Varios mosaicos etiquetados `[RouterOutlet]` ya no están resaltados con ningún color.">
 
-### Import and export recordings
+### Importar y exportar grabaciones
 
-Click the **Save Profile** button at the top-right of a recorded profiling session to export it as a JSON file and save it to the disk.
-Later, import the file in the initial view of the profiler by clicking the **Choose file** input.
+Haz clic en el botón **Save Profile** en la esquina superior derecha de una sesión de perfilado grabada para exportarla como un archivo JSON y guardarla en el disco.
+Después, importa el archivo en la vista inicial del profiler haciendo clic en la entrada **Choose file**.
 
-<img src="assets/images/guide/devtools/save-profile.png" alt="A screenshot of the 'Profiler' tab displaying change detection cycles. On the right side a 'Save Profile' button is visible.">
+<img src="assets/images/guide/devtools/save-profile.png" alt="Una captura de pantalla de la pestaña 'Profiler' mostrando ciclos de detección de cambios. En el lado derecho un botón 'Save Profile' es visible.">
 
- ## Inspect your injectors
+ ## Inspecciona tus inyectores
 
- NOTE: The Injector Tree is available for Angular Applications built with version 17 or higher.
+ NOTA: El Árbol de Inyectores está disponible para aplicaciones de Angular compiladas con la versión 17 o superior.
 
-### View the injector hierarchy of your application
+### Visualiza la jerarquía de inyectores de tu aplicación
 
- The **Injector Tree** tab lets you explore the structure of the Injectors configured in your application. Here you will see two trees representing the [injector hierarchy](guide/di/hierarchical-dependency-injection) of your application. One tree is your environment hierarchy, the other is your element hierarchy.
+ La pestaña **Árbol de Inyectores** te permite explorar la estructura de los inyectores configurados en tu aplicación. Aquí verás dos árboles que representan la [jerarquía de inyectores](guide/di/hierarchical-dependency-injection) de tu aplicación. Un árbol es tu jerarquía de entorno, el otro es tu jerarquía de elementos.
 
-<img src="assets/images/guide/devtools/di-injector-tree.png" alt="A screenshot of the 'Profiler' tab displaying the injector tree tab in Angular Devtools visualizing the injector graph for an example application.">
+<img src="assets/images/guide/devtools/di-injector-tree.png" alt="Una captura de pantalla de la pestaña 'Profiler' mostrando la pestaña del árbol de inyectores en Angular Devtools visualizando el gráfico de inyectores para una aplicación de ejemplo.">
 
- ### Visualize resolution paths
+ ### Visualiza las rutas de resolución
 
- When a specific injector is selected, the path that Angular's dependency injection algorithm traverses from that injector to the root is highlighted. For element injectors, this includes highlighting the environment injectors that the dependency injection algorithm jumps to when a dependency cannot be resolved in the element hierarchy.
+ Cuando se selecciona un inyector específico, se resalta la ruta que el algoritmo de inyección de dependencias de Angular recorre desde ese inyector hasta la raíz. Para los inyectores de elementos, esto incluye resaltar los inyectores de entorno a los que el algoritmo de inyección de dependencias salta cuando una dependencia no puede ser resuelta en la jerarquía de elementos.
 
-See [resolution rules](guide/di/hierarchical-dependency-injection#resolution-rules) for more details about how Angular resolves resolution paths.
+Consulta las [reglas de resolución](guide/di/hierarchical-dependency-injection#resolution-rules) para más detalles sobre cómo Angular resuelve las rutas de resolución.
 
-<img src="assets/images/guide/devtools/di-injector-tree-selected.png" alt="A screenshot of the 'Profiler' tab displaying how the injector tree visualize highlights resolution paths when an injector is selected.">
+<img src="assets/images/guide/devtools/di-injector-tree-selected.png" alt="Una captura de pantalla de la pestaña 'Profiler' mostrando cómo el árbol de inyectores visualiza y resalta las rutas de resolución cuando se selecciona un inyector.">
 
- ### View injector providers
+ ### Visualiza los proveedores del inyector
 
- Clicking an injector that has configured providers will display those providers in a list on the right of the injector tree view. Here you can view the provided token and it's type.
+ Al hacer clic en un inyector que tiene proveedores configurados, se mostrarán esos proveedores en una lista a la derecha de la vista del árbol de inyectores. Aquí puedes ver el token proporcionado y su tipo.
 
-<img src="assets/images/guide/devtools/di-injector-tree-providers.png" alt="A screenshot of the 'Profiler' tab displaying how providers are made visible when an injector is selected.">
+<img src="assets/images/guide/devtools/di-injector-tree-providers.png" alt="Una captura de pantalla de la pestaña 'Profiler' mostrando cómo los proveedores se hacen visibles cuando se selecciona un inyector.">
