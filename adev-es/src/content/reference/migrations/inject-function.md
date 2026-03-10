@@ -1,16 +1,16 @@
-# Migration to the `inject` function
+# Migración a la función `inject`
 
-Angular's `inject` function offers more accurate types and better compatibility with standard decorators, compared to constructor-based injection.
+La función `inject` de Angular ofrece tipos más precisos y mejor compatibilidad con los decoradores estándar, en comparación con la inyección basada en constructor.
 
-This schematic converts constructor-based injection in your classes to use the `inject` function instead.
+Este schematic convierte la inyección basada en constructor en tus clases para usar la función `inject` en su lugar.
 
-Run the schematic using the following command:
+Ejecuta el schematic usando el siguiente comando:
 
 ```shell
 ng generate @angular/core:inject
 ```
 
-#### Before
+#### Antes
 
 ```typescript
 import { Component, Inject, Optional } from '@angular/core';
@@ -26,7 +26,7 @@ export class MyComp {
 }
 ```
 
-#### After
+#### Después
 
 ```typescript
 import { Component, inject } from '@angular/core';
@@ -40,31 +40,31 @@ export class MyComp {
 }
 ```
 
-## Migration options
+## Opciones de migración
 
-The migration includes several options to customize its output.
+La migración incluye varias opciones para personalizar su salida.
 
 ### `path`
 
-Determines which sub-path in your project should be migrated. Pass in `.` or leave it blank to
-migrate the entire directory.
+Determina qué sub-ruta de tu proyecto debe migrarse. Pasa `.` o déjalo en blanco para
+migrar todo el directorio.
 
 ### `migrateAbstractClasses`
 
-Angular doesn't validate that parameters of abstract classes are injectable. This means that the
-migration can't reliably migrate them to `inject` without risking breakages which is why they're
-disabled by default. Enable this option if you want abstract classes to be migrated, but note
-that you may have to **fix some breakages manually**.
+Angular no valida que los parámetros de las clases abstractas sean inyectables. Esto significa que la
+migración no puede migrarlos de forma confiable a `inject` sin arriesgarse a errores, razón por la que están
+deshabilitados por defecto. Habilita esta opción si quieres que las clases abstractas sean migradas, pero ten en cuenta
+que es posible que tengas que **corregir algunos errores manualmente**.
 
 ### `backwardsCompatibleConstructors`
 
-By default the migration tries to clean up the code as much as it can, which includes deleting
-parameters from the constructor, or even the entire constructor if it doesn't include any code.
-In some cases this can lead to compilation errors when classes with Angular decorators inherit from
-other classes with Angular decorators. If you enable this option, the migration will generate an
-additional constructor signature to keep it backwards compatible, at the expense of more code.
+Por defecto, la migración intenta limpiar el código tanto como sea posible, lo que incluye eliminar
+parámetros del constructor, o incluso el constructor completo si no incluye ningún código.
+En algunos casos esto puede provocar errores de compilación cuando clases con decoradores de Angular heredan de
+otras clases con decoradores de Angular. Si habilitas esta opción, la migración generará una
+firma de constructor adicional para mantener la compatibilidad con versiones anteriores, a expensas de más código.
 
-#### Before
+#### Antes
 
 ```typescript
 import { Component } from '@angular/core';
@@ -76,7 +76,7 @@ export class MyComp {
 }
 ```
 
-#### After
+#### Después
 
 ```typescript
 import { Component } from '@angular/core';
@@ -86,7 +86,7 @@ import { MyService } from './service';
 export class MyComp {
 private service = inject(MyService);
 
-/\*_ Inserted by Angular inject() migration for backwards compatibility _/
+/\*_ Insertado por la migración inject() de Angular para compatibilidad con versiones anteriores _/
 constructor(...args: unknown[]);
 
 constructor() {}
@@ -95,17 +95,17 @@ constructor() {}
 
 ### `nonNullableOptional`
 
-If injection fails for a parameter with the `@Optional` decorator, Angular returns `null` which
-means that the real type of any `@Optional` parameter will be `| null`. However, because decorators
-cannot influence their types, there is a lot of existing code whose type is incorrect. The type is
-fixed in `inject()` which can cause new compilation errors to show up. If you enable this option,
-the migration will produce a non-null assertion after the `inject()` call to match the old type,
-at the expense of potentially hiding type errors.
+Si la inyección falla para un parámetro con el decorador `@Optional()`, Angular devuelve `null`, lo que
+significa que el tipo real de cualquier parámetro `@Optional()` será `| null`. Sin embargo, debido a que los decoradores
+no pueden influir en sus tipos, hay mucho código existente cuyo tipo es incorrecto. El tipo se
+corrige en `inject()`, lo que puede provocar que aparezcan nuevos errores de compilación. Si habilitas esta opción,
+la migración producirá una aserción non-null después de la llamada a `inject()` para coincidir con el tipo anterior,
+a expensas de potencialmente ocultar errores de tipo.
 
-**NOTE:** non-null assertions won't be added to parameters that are already typed to be nullable,
-because the code that depends on them likely already accounts for their nullability.
+**NOTA:** las aserciones non-null no se agregarán a parámetros que ya estén tipados como anulables,
+porque el código que depende de ellos probablemente ya tiene en cuenta su anulabilidad.
 
-#### Before
+#### Antes
 
 ```typescript
 import { Component, Inject, Optional } from '@angular/core';
@@ -120,7 +120,7 @@ export class MyComp {
 }
 ```
 
-#### After
+#### Después
 
 ```typescript
 import { Component, inject } from '@angular/core';
@@ -128,10 +128,10 @@ import { TOKEN_ONE, TOKEN_TWO } from './token';
 
 @Component()
 export class MyComp {
-  // Note the `!` at the end.
+  // Nota el `!` al final.
   private tokenOne = inject(TOKEN_ONE, { optional: true })!;
 
-  // Does not have `!` at the end, because the type was already nullable.
+  // No tiene `!` al final, porque el tipo ya era anulable.
   private tokenTwo = inject(TOKEN_TWO, { optional: true });
 }
 ```
