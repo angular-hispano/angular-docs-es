@@ -1,14 +1,14 @@
-# Extended Diagnostics
+# Diagnósticos Extendidos
 
-There are many coding patterns that are technically valid to the compiler or runtime, but which may have complex nuances or caveats.
-These patterns may not have the intended effect expected by a developer, which often leads to bugs.
-The Angular compiler includes "extended diagnostics" which identify many of these patterns, in order to warn developers about the potential issues and enforce common best practices within a codebase.
+Existen muchos patrones de código que son técnicamente válidos para el compilador o el tiempo de ejecución, pero que pueden tener matices o advertencias complejas.
+Estos patrones pueden no tener el efecto esperado por el desarrollador, lo que frecuentemente genera errores.
+El compilador de Angular incluye "diagnósticos extendidos" que identifican muchos de estos patrones, con el fin de advertir a los desarrolladores sobre los posibles problemas y hacer cumplir las mejores prácticas comunes en una base de código.
 
-## Diagnostics
+## Diagnósticos
 
-Currently, Angular supports the following extended diagnostics:
+Actualmente, Angular admite los siguientes diagnósticos extendidos:
 
-| Code     | Name                                                                  |
+| Código   | Nombre                                                                |
 | :------- | :-------------------------------------------------------------------- |
 | `NG8101` | [`invalidBananaInBox`](extended-diagnostics/NG8101)                   |
 | `NG8102` | [`nullishCoalescingNotNullable`](extended-diagnostics/NG8102)         |
@@ -27,18 +27,18 @@ Currently, Angular supports the following extended diagnostics:
 | `NG8117` | [`uninvokedFunctionInTextInterpolation`](extended-diagnostics/NG8117) |
 | `NG8021` | [`deferTriggerMisconfiguration`](extended-diagnostics/NG8021)         |
 
-## Configuration
+## Configuración
 
-Extended diagnostics are warnings by default and do not block compilation.
-Each diagnostic can be configured as either:
+Los diagnósticos extendidos son advertencias por defecto y no bloquean la compilación.
+Cada diagnóstico puede configurarse como:
 
-| Error category | Effect                                                                                                                                                                   |
-| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `warning`      | Default - The compiler emits the diagnostic as a warning but does not block compilation. The compiler will still exist with status code 0, even if warnings are emitted. |
-| `error`        | The compiler emits the diagnostic as an error and fails the compilation. The compiler will exit with a non-zero status code if one or more errors are emitted.           |
-| `suppress`     | The compiler does _not_ emit the diagnostic at all.                                                                                                                      |
+| Categoría de error | Efecto                                                                                                                                                                          |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `warning`          | Predeterminado - El compilador emite el diagnóstico como advertencia pero no bloquea la compilación. El compilador seguirá existiendo con código de estado 0, incluso si se emiten advertencias. |
+| `error`            | El compilador emite el diagnóstico como un error y falla la compilación. El compilador saldrá con un código de estado distinto de cero si se emite uno o más errores.          |
+| `suppress`         | El compilador _no_ emite el diagnóstico en absoluto.                                                                                                                            |
 
-Check severity can be configured as an [Angular compiler option](reference/configs/angular-compiler-options):
+La severidad de las verificaciones puede configurarse como una [opción del compilador de Angular](reference/configs/angular-compiler-options):
 
 ```json
 
@@ -54,37 +54,36 @@ Check severity can be configured as an [Angular compiler option](reference/confi
 }
 ```
 
-The `checks` field maps the name of individual diagnostics to their associated category.
-See [Diagnostics](#diagnostics) for a complete list of extended diagnostics and the name to use for configuring them.
+El campo `checks` mapea el nombre de los diagnósticos individuales a su categoría asociada.
+Consulta [Diagnósticos](#diagnósticos) para obtener una lista completa de los diagnósticos extendidos y el nombre a usar para configurarlos.
 
-The `defaultCategory` field is used for any diagnostics that are not explicitly listed under `checks`.
-If not set, such diagnostics will be treated as `warning`.
+El campo `defaultCategory` se usa para cualquier diagnóstico que no esté listado explícitamente en `checks`.
+Si no se establece, dichos diagnósticos se tratarán como `warning`.
 
-Extended diagnostics will emit when [`strictTemplates`](tools/cli/template-typecheck#strict-mode) is enabled.
-This is required to allow the compiler to better understand Angular template types and provide accurate and meaningful diagnostics.
+Los diagnósticos extendidos se emitirán cuando [`strictTemplates`](tools/cli/template-typecheck#strict-mode) esté habilitado.
+Esto es necesario para permitir que el compilador comprenda mejor los tipos de plantillas de Angular y proporcione diagnósticos precisos y significativos.
 
-## Semantic Versioning
+## Versionado semántico
 
-The Angular team intends to add or enable new extended diagnostics in **minor** versions of Angular (see [semver](https://docs.npmjs.com/about-semantic-versioning)).
-This means that upgrading Angular may show new warnings in your existing codebase.
-This enables the team to deliver features more quickly and to make extended diagnostics more accessible to developers.
+El equipo de Angular tiene la intención de agregar o habilitar nuevos diagnósticos extendidos en versiones **menores** de Angular (consulta [semver](https://docs.npmjs.com/about-semantic-versioning)).
+Esto significa que actualizar Angular puede mostrar nuevas advertencias en tu base de código existente.
+Esto permite al equipo entregar características más rápidamente y hacer los diagnósticos extendidos más accesibles a los desarrolladores.
 
-However, setting `"defaultCategory": "error"` will promote such warnings to hard errors.
-This can cause a minor version upgrade to introduce compilation errors, which may be seen as a semver non-compliant breaking change.
-Any new diagnostics can be suppressed or demoted to warnings via the above [configuration](#configuration), so the impact of a new diagnostic should be minimal to
-projects that treat extended diagnostics as errors by default.
-Defaulting to error is a very powerful tool; just be aware of this semver caveat when deciding if `error` is the right default for your project.
+Sin embargo, establecer `"defaultCategory": "error"` promoverá dichas advertencias a errores graves.
+Esto puede causar que una actualización de versión menor introduzca errores de compilación, lo que puede verse como un cambio disruptivo no conforme con semver.
+Cualquier nuevo diagnóstico puede suprimirse o degradarse a advertencias a través de la [configuración](#configuración) anterior, por lo que el impacto de un nuevo diagnóstico debería ser mínimo para los proyectos que tratan los diagnósticos extendidos como errores por defecto.
+Usar error como valor predeterminado es una herramienta muy poderosa; solo ten en cuenta esta advertencia de semver al decidir si `error` es el valor predeterminado correcto para tu proyecto.
 
-## New Diagnostics
+## Nuevos diagnósticos
 
-The Angular team is always open to suggestions about new diagnostics that could be added.
-Extended diagnostics should generally:
+El equipo de Angular siempre está abierto a sugerencias sobre nuevos diagnósticos que podrían agregarse.
+Los diagnósticos extendidos generalmente deben:
 
-- Detect a common, non-obvious developer mistake with Angular templates
-- Clearly articulate why this pattern can lead to bugs or unintended behavior
-- Suggest one or more clear solutions
-- Have a low, preferably zero, false-positive rate
-- Apply to the vast majority of Angular applications (not specific to an unofficial library)
-- Improve program correctness or performance (not style, that responsibility falls to a linter)
+- Detectar un error de desarrollador común y no obvio con las plantillas de Angular
+- Articular claramente por qué este patrón puede llevar a errores o comportamientos no deseados
+- Sugerir una o más soluciones claras
+- Tener una tasa de falsos positivos baja, preferiblemente cero
+- Aplicarse a la gran mayoría de las aplicaciones Angular (no específico a una librería no oficial)
+- Mejorar la corrección o el rendimiento del programa (no el estilo; esa responsabilidad recae en un linter)
 
-If you have an idea for an extended diagnostic which fits these criteria, consider filing a [feature request](https://github.com/angular/angular/issues/new?template=2-feature-request.yaml).
+Si tienes una idea para un diagnóstico extendido que cumpla estos criterios, considera presentar una [solicitud de característica](https://github.com/angular/angular/issues/new?template=2-feature-request.yaml).
