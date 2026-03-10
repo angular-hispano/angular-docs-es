@@ -1,16 +1,16 @@
-# Migration to self-closing tags
+# Migración a etiquetas auto-cerrables
 
-Self-closing tags are supported in Angular templates since [v16](https://blog.angular.dev/angular-v16-is-here-4d7a28ec680d#7065). .
+Las etiquetas auto-cerrables son compatibles con las plantillas de Angular desde [v16](https://blog.angular.dev/angular-v16-is-here-4d7a28ec680d#7065).
 
-This schematic migrates the templates in your application to use self-closing tags.
+Este schematic migra las plantillas de tu aplicación para usar etiquetas auto-cerrables.
 
-Run the schematic using the following command:
+Ejecuta el schematic usando el siguiente comando:
 
 ```shell
 ng generate @angular/core:self-closing-tag
 ```
 
-#### Before
+#### Antes
 
 <docs-code language="angular-html">
 
@@ -18,7 +18,7 @@ ng generate @angular/core:self-closing-tag
 
 </docs-code>
 
-#### After
+#### Después
 
 <docs-code language="angular-html">
 

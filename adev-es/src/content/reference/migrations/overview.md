@@ -1,45 +1,45 @@
-# Migrations
+# Migraciones
 
-Learn about how you can migrate your existing angular project to the latest features incrementally.
+Aprende cómo puedes migrar tu proyecto Angular existente a las últimas características de forma incremental.
 
 <docs-card-container>
-  <docs-card title="Standalone" link="Migrate now" href="reference/migrations/standalone">
-    Standalone components provide a simplified way to build Angular applications. Standalone components specify their dependencies directly instead of getting them through NgModules.
+  <docs-card title="Standalone" link="Migrar ahora" href="reference/migrations/standalone">
+    Los componentes standalone ofrecen una forma simplificada de construir aplicaciones Angular. Los componentes standalone especifican sus dependencias directamente en lugar de obtenerlas a través de NgModules.
   </docs-card>
-  <docs-card title="Control Flow Syntax" link="Migrate now" href="reference/migrations/control-flow">
-    Built-in Control Flow Syntax allows you to use more ergonomic syntax which is close to JavaScript and has better type checking. It replaces the need to import `CommonModule` to use functionality like `*ngFor`, `*ngIf` and `*ngSwitch`.
+  <docs-card title="Sintaxis de flujo de control" link="Migrar ahora" href="reference/migrations/control-flow">
+    La sintaxis de flujo de control integrada te permite usar una sintaxis más ergonómica que es cercana a JavaScript y tiene mejor verificación de tipos. Reemplaza la necesidad de importar `CommonModule` para usar funcionalidades como `*ngFor`, `*ngIf` y `*ngSwitch`.
   </docs-card>
-  <docs-card title="inject() Function" link="Migrate now" href="reference/migrations/inject-function">
-    Angular's `inject` function offers more accurate types and better compatibility with standard decorators, compared to constructor-based injection.
+  <docs-card title="Función `inject()`" link="Migrar ahora" href="reference/migrations/inject-function">
+    La función `inject` de Angular ofrece tipos más precisos y mejor compatibilidad con los decoradores estándar, en comparación con la inyección basada en constructor.
   </docs-card>
-  <docs-card title="Lazy-loaded routes" link="Migrate now" href="reference/migrations/route-lazy-loading">
-    Convert eagerly loaded component routes to lazy loaded ones. This allows the build process to split production bundles into smaller chunks, to load less JavaScript at initial page load.
+  <docs-card title="Rutas con lazy loading" link="Migrar ahora" href="reference/migrations/route-lazy-loading">
+    Convierte rutas de componentes cargadas de forma eager a rutas con lazy loading. Esto permite que el proceso de compilación divida los bundles de producción en fragmentos más pequeños, para cargar menos JavaScript en la carga inicial de la página.
   </docs-card>
-  <docs-card title="New `input()` API" link="Migrate now" href="reference/migrations/signal-inputs">
-    Convert existing `@Input` fields to the new signal input API that is now production ready.
+  <docs-card title="Nueva API `input()`" link="Migrar ahora" href="reference/migrations/signal-inputs">
+    Convierte los campos `@Input` existentes a la nueva API de signal input que ya está lista para producción.
   </docs-card>
-  <docs-card title="New `output()` function" link="Migrate now" href="reference/migrations/outputs">
-    Convert existing `@Output` custom events to the new output function that is now production ready.
+  <docs-card title="Nueva función `output()`" link="Migrar ahora" href="reference/migrations/outputs">
+    Convierte los eventos personalizados `@Output` existentes a la nueva función output que ya está lista para producción.
   </docs-card>
-  <docs-card title="Queries as signal" link="Migrate now" href="reference/migrations/signal-queries">
-    Convert existing decorator query fields to the improved signal queries API. The API is now production ready.
+  <docs-card title="Consultas como signal" link="Migrar ahora" href="reference/migrations/signal-queries">
+    Convierte los campos de consulta de decoradores existentes a la API mejorada de signal queries. La API ya está lista para producción.
   </docs-card>
-  <docs-card title="Cleanup unused imports" link="Try it now" href="reference/migrations/cleanup-unused-imports">
-    Clean up unused imports in your project.
+  <docs-card title="Limpiar importaciones no utilizadas" link="Pruébalo ahora" href="reference/migrations/cleanup-unused-imports">
+    Limpia las importaciones no utilizadas en tu proyecto.
   </docs-card>
-  <docs-card title="Self-closing tags" link="Migrate now" href="reference/migrations/self-closing-tags">
-    Convert component templates to use self-closing tags where possible.
+  <docs-card title="Etiquetas auto-cerrables" link="Migrar ahora" href="reference/migrations/self-closing-tags">
+    Convierte las plantillas de componentes para usar etiquetas auto-cerrables donde sea posible.
   </docs-card>
-  <docs-card title="NgClass to Class Bindings" link="Migrate now" href="reference/migrations/ngclass-to-class">
-      Convert component templates to prefer class bindings over the `NgClass` directives when possible.
+  <docs-card title="NgClass a enlaces de clase" link="Migrar ahora" href="reference/migrations/ngclass-to-class">
+      Convierte las plantillas de componentes para preferir los enlaces de clase sobre las directivas `NgClass` cuando sea posible.
   </docs-card>
-  <docs-card title="NgStyle to Style Bindings" link="Migrate now" href="reference/migrations/ngstyle-to-style">
-      Convert component templates to prefer style bindings over the `NgStyle` directives when possible.
+  <docs-card title="NgStyle a enlaces de estilo" link="Migrar ahora" href="reference/migrations/ngstyle-to-style">
+      Convierte las plantillas de componentes para preferir los enlaces de estilo sobre las directivas `NgStyle` cuando sea posible.
   </docs-card>
-  <docs-card title="RouterTestingModule migration" link="Migrate now" href="reference/migrations/router-testing-module-migration">
-    Convert `RouterTestingModule` usages to `RouterModule` in TestBed configurations and add `provideLocationMocks()` when appropriate.
+  <docs-card title="Migración de RouterTestingModule" link="Migrar ahora" href="reference/migrations/router-testing-module-migration">
+    Convierte los usos de `RouterTestingModule` a `RouterModule` en configuraciones de TestBed y agrega `provideLocationMocks()` cuando sea apropiado.
   </docs-card>
-  <docs-card title="CommonModule to standalone imports" link="Migrate now" href="reference/migrations/common-to-standalone">
-    Replace imports of the `CommonModule` with imports of the individual directives and pipes used in the templates when possible.
+  <docs-card title="CommonModule a importaciones standalone" link="Migrar ahora" href="reference/migrations/common-to-standalone">
+    Reemplaza las importaciones de `CommonModule` con importaciones de las directivas y pipes individuales utilizados en las plantillas cuando sea posible.
   </docs-card>
 </docs-card-container>
