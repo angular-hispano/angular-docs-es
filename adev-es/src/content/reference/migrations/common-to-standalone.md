@@ -1,22 +1,22 @@
-# Convert CommonModule usage to standalone imports
+# Convertir el uso de CommonModule a importaciones standalone
 
-This migration helps projects remove imports of the `CommonModule` inside components by adding the minimal set of directive and pipe imports each template requires (for example, `NgIf`, `NgFor`, `AsyncPipe`, etc.).
+Esta migración ayuda a los proyectos a eliminar las importaciones de `CommonModule` dentro de los componentes agregando el conjunto mínimo de importaciones de directivas y pipes que cada plantilla requiere (por ejemplo, `NgIf`, `NgFor`, `AsyncPipe`, etc.).
 
-Run the schematic using the following command:
+Ejecuta el schematic usando el siguiente comando:
 
 ```shell
 ng generate @angular/core:common-to-standalone
 ```
 
-## Options
+## Opciones
 
-| Option | Details                                                                                                                       |
-| :----- | :---------------------------------------------------------------------------------------------------------------------------- |
-| `path` | The path (relative to project root) to migrate. Defaults to `./`. Use this to incrementally migrate a subset of your project. |
+| Opción | Detalles                                                                                                                                   |
+| :----- | :----------------------------------------------------------------------------------------------------------------------------------------- |
+| `path` | La ruta (relativa a la raíz del proyecto) a migrar. Por defecto es `./`. Úsala para migrar de forma incremental un subconjunto de tu proyecto. |
 
-## Example
+## Ejemplo
 
-Before:
+Antes:
 
 ```angular-ts
 import { Component } from '@angular/core';
@@ -37,7 +37,7 @@ export class ExampleComponent {
 }
 ```
 
-After running the migration (component imports added, CommonModule removed):
+Después de ejecutar la migración (importaciones del componente agregadas, CommonModule eliminado):
 
 ```angular-ts
 import { Component } from '@angular/core';
