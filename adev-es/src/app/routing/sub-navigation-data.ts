@@ -84,7 +84,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Start coding! 🚀',
+        label: '¡Comienza a programar! 🚀',
         path: 'tutorials/learn-angular',
       },
     ],
@@ -206,7 +206,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/templates/event-listeners',
           },
           {
-            label: 'Enlance bidireccional',
+            label: 'Enlace bidireccional',
             path: 'guide/templates/two-way-binding',
             contentPath: 'guide/templates/two-way-binding',
           },
@@ -281,7 +281,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
             contentPath: 'guide/directives/directive-composition-api',
           },
           {
-            label: 'Optimizing images with NgOptimizedImage',
+            label: 'Optimizando imágenes con NgOptimizedImage',
             path: 'guide/image-optimization',
             contentPath: 'guide/image-optimization',
           },
@@ -439,12 +439,12 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
                 contentPath: 'guide/forms/signals/overview',
               },
               {
-                label: 'Modelos de formularios',
+                label: 'Modelos de formulario',
                 path: 'guide/forms/signals/models',
                 contentPath: 'guide/forms/signals/models',
               },
               {
-                label: 'Gestión de estado de campos',
+                label: 'Gestión del estado de campos',
                 path: 'guide/forms/signals/field-state-management',
                 contentPath: 'guide/forms/signals/field-state-management',
               },
@@ -459,7 +459,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
                 contentPath: 'guide/forms/signals/custom-controls',
               },
               {
-                label: 'Comparación con otros enfoques de formularios',
+                label: 'Comparación con otros sistemas de formulario',
                 path: 'guide/forms/signals/comparison',
                 contentPath: 'guide/forms/signals/comparison',
               },
@@ -528,25 +528,25 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Server-side & hybrid-rendering',
+        label: 'Renderización del lado del servidor e híbrida',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/performance',
             contentPath: 'guide/performance/overview',
           },
           {
-            label: 'Server-side and hybrid-rendering',
+            label: 'Renderización del lado del servidor e híbrida',
             path: 'guide/ssr',
             contentPath: 'guide/ssr',
           },
           {
-            label: 'Hydration',
+            label: 'Hidratación',
             path: 'guide/hydration',
             contentPath: 'guide/hydration',
           },
           {
-            label: 'Incremental Hydration',
+            label: 'Hidratación incremental',
             path: 'guide/incremental-hydration',
             contentPath: 'guide/incremental-hydration',
           },
@@ -775,22 +775,22 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Animations',
+        label: 'Animaciones',
         status: 'updated',
         children: [
           {
-            label: 'Enter and Leave animations',
+            label: 'Animaciones de entrada y salida',
             path: 'guide/animations',
             contentPath: 'guide/animations/enter-and-leave',
             status: 'new',
           },
           {
-            label: 'Complex Animations with CSS',
+            label: 'Animaciones complejas con CSS',
             path: 'guide/animations/css',
             contentPath: 'guide/animations/css',
           },
           {
-            label: 'Route transition animations',
+            label: 'Animaciones de transición de ruta',
             path: 'guide/routing/route-transition-animations',
             contentPath: 'guide/routing/route-transition-animations',
           },
@@ -835,7 +835,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Developer Tools',
+    label: 'Herramientas de Desarrollo',
     children: [
       {
         label: 'Angular CLI',
@@ -918,25 +918,25 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Libraries',
+        label: 'Librerías',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'tools/libraries',
             contentPath: 'tools/libraries/overview',
           },
           {
-            label: 'Creating Libraries',
+            label: 'Creando librerías',
             path: 'tools/libraries/creating-libraries',
             contentPath: 'tools/libraries/creating-libraries',
           },
           {
-            label: 'Using Libraries',
+            label: 'Usando librerías',
             path: 'tools/libraries/using-libraries',
             contentPath: 'tools/libraries/using-libraries',
           },
           {
-            label: 'Angular Package Format',
+            label: 'Formato de Paquete Angular',
             path: 'tools/libraries/angular-package-format',
             contentPath: 'tools/libraries/angular-package-format',
           },
@@ -980,61 +980,61 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Language Service',
+        label: 'Servicio de Lenguaje',
         path: 'tools/language-service',
         contentPath: 'tools/language-service',
       },
     ],
   },
   {
-    label: 'Best Practices',
+    label: 'Mejores Prácticas',
     children: [
       {
-        label: 'Style Guide',
+        label: 'Guía de Estilos',
         path: 'style-guide',
         contentPath: 'best-practices/style-guide',
         status: 'updated',
       },
       {
-        label: 'Security',
+        label: 'Seguridad',
         path: 'best-practices/security',
         contentPath: 'guide/security', // Have not refactored due to build issues
       },
       {
-        label: 'Accessibility',
+        label: 'Accesibilidad',
         path: 'best-practices/a11y',
         contentPath: 'best-practices/a11y',
       },
       {
-        label: 'Unhandled errors in Angular',
+        label: 'Errores no manejados en Angular',
         path: 'best-practices/error-handling',
         contentPath: 'best-practices/error-handling',
       },
       {
-        label: 'Performance',
+        label: 'Rendimiento',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'best-practices/runtime-performance',
             contentPath: 'best-practices/runtime-performance/overview',
           },
           {
-            label: 'Zone pollution',
+            label: 'Contaminación de Zone',
             path: 'best-practices/zone-pollution',
             contentPath: 'best-practices/runtime-performance/zone-pollution',
           },
           {
-            label: 'Slow computations',
+            label: 'Cómputos lentos',
             path: 'best-practices/slow-computations',
             contentPath: 'best-practices/runtime-performance/slow-computations',
           },
           {
-            label: 'Skipping component subtrees',
+            label: 'Omitir sub-árboles de componentes',
             path: 'best-practices/skipping-subtrees',
             contentPath: 'best-practices/runtime-performance/skipping-subtrees',
           },
           {
-            label: 'Profiling with the Chrome DevTools',
+            label: 'Perfilado con Chrome DevTools',
             path: 'best-practices/profiling-with-chrome-devtools',
             contentPath: 'best-practices/runtime-performance/profiling-with-chrome-devtools',
           },
@@ -1042,17 +1042,17 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         ],
       },
       {
-        label: 'Keeping up-to-date',
+        label: 'Mantenerse actualizado',
         path: 'update',
         contentPath: 'best-practices/update',
       },
     ],
   },
   {
-    label: 'Developer Events',
+    label: 'Eventos para Desarrolladores',
     children: [
       {
-        label: 'Angular v21 Release',
+        label: 'Lanzamiento de Angular v21',
         path: 'events/v21',
         contentPath: 'events/v21',
         status: 'new',
@@ -1068,37 +1068,37 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'guide/ngmodules/overview',
       },
       {
-        label: 'Legacy Animations',
+        label: 'Animaciones legacy',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'guide/legacy-animations',
             contentPath: 'guide/animations/overview',
           },
           {
-            label: 'Transition and Triggers',
+            label: 'Transiciones y Triggers',
             path: 'guide/legacy-animations/transition-and-triggers',
             contentPath: 'guide/animations/transition-and-triggers',
           },
           {
-            label: 'Complex Sequences',
+            label: 'Secuencias complejas',
             path: 'guide/legacy-animations/complex-sequences',
             contentPath: 'guide/animations/complex-sequences',
           },
           {
-            label: 'Reusable Animations',
+            label: 'Animaciones reutilizables',
             path: 'guide/legacy-animations/reusable-animations',
             contentPath: 'guide/animations/reusable-animations',
           },
           {
-            label: 'Migrating to Native CSS Animations',
+            label: 'Migrando a Animaciones CSS nativas',
             path: 'guide/animations/migration',
             contentPath: 'guide/animations/migration',
           },
         ],
       },
       {
-        label: 'Using RxJS with Angular',
+        label: 'Usando RxJS con Angular',
         children: [
           {
             label: 'Interoperabilidad con signals',
@@ -1207,7 +1207,7 @@ const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
   ...(isDevMode()
   ? [
       {
-        label: 'Adev Dev Guide',
+        label: 'Guía de Desarrollo Adev',
         children: [
           {
             label: 'Kitchen Sink',
@@ -1229,35 +1229,35 @@ export const TUTORIALS_SUB_NAVIGATION_DATA: NavigationItem[] = [
   {
     path: DEFAULT_PAGES.TUTORIALS,
     contentPath: 'tutorials/home',
-    label: 'Tutorials',
+    label: 'Tutoriales',
   },
 ];
 
 const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
   {
-    label: 'Roadmap',
+    label: 'Hoja de ruta',
     path: 'roadmap',
     contentPath: 'reference/roadmap',
   },
   {
-    label: 'Get involved',
+    label: 'Participa',
     path: 'https://github.com/angular/angular/blob/main/CONTRIBUTING.md',
   },
   {
-    label: 'API Reference',
+    label: 'Referencia de API',
     children: [
       {
-        label: 'Overview',
+        label: 'Visión general',
         path: 'api',
       },
       ...getApiNavigationItems(),
     ],
   },
   {
-    label: 'CLI Reference',
+    label: 'Referencia de CLI',
     children: [
       {
-        label: 'Overview',
+        label: 'Visión general',
         path: 'cli',
         contentPath: 'reference/cli',
       },
@@ -1269,7 +1269,7 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'ng analytics',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'cli/analytics',
           },
           {
@@ -1298,7 +1298,7 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'ng cache',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'cli/cache',
           },
           {
@@ -1323,7 +1323,7 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'ng completion',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'cli/completion',
           },
           {
@@ -1352,7 +1352,7 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         label: 'ng generate',
         children: [
           {
-            label: 'Overview',
+            label: 'Visión general',
             path: 'cli/generate',
           },
           {
@@ -1464,10 +1464,10 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Error Encyclopedia',
+    label: 'Enciclopedia de Errores',
     children: [
       {
-        label: 'Overview',
+        label: 'Visión general',
         path: 'errors',
         contentPath: 'reference/errors/overview',
       },
@@ -1475,10 +1475,10 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Extended Diagnostics',
+    label: 'Diagnósticos Extendidos',
     children: [
       {
-        label: 'Overview',
+        label: 'Visión general',
         path: 'extended-diagnostics',
         contentPath: 'reference/extended-diagnostics/overview',
       },
@@ -1486,49 +1486,49 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
     ],
   },
   {
-    label: 'Versioning and releases',
+    label: 'Versiones y lanzamientos',
     path: 'reference/releases',
     contentPath: 'reference/releases',
   },
   {
-    label: 'Version compatibility',
+    label: 'Compatibilidad de versiones',
     path: 'reference/versions',
     contentPath: 'reference/versions',
   },
   {
-    label: 'Update guide',
+    label: 'Guía de actualización',
     path: 'update-guide',
   },
   {
-    label: 'Configurations',
+    label: 'Configuraciones',
     children: [
       {
-        label: 'File structure',
+        label: 'Estructura de archivos',
         path: 'reference/configs/file-structure',
         contentPath: 'reference/configs/file-structure',
       },
       {
-        label: 'Workspace configuration',
+        label: 'Configuración del espacio de trabajo',
         path: 'reference/configs/workspace-config',
         contentPath: 'reference/configs/workspace-config',
       },
       {
-        label: 'Angular compiler options',
+        label: 'Opciones del compilador Angular',
         path: 'reference/configs/angular-compiler-options',
         contentPath: 'reference/configs/angular-compiler-options',
       },
       {
-        label: 'npm dependencies',
+        label: 'Dependencias npm',
         path: 'reference/configs/npm-packages',
         contentPath: 'reference/configs/npm-packages',
       },
     ],
   },
   {
-    label: 'Migrations',
+    label: 'Migraciones',
     children: [
       {
-        label: 'Overview',
+        label: 'Visión general',
         path: 'reference/migrations',
         contentPath: 'reference/migrations/overview',
       },
@@ -1538,65 +1538,65 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
         contentPath: 'reference/migrations/standalone',
       },
       {
-        label: 'Control Flow Syntax',
+        label: 'Sintaxis de flujo de control',
         path: 'reference/migrations/control-flow',
         contentPath: 'reference/migrations/control-flow',
       },
       {
-        label: 'inject() Function',
+        label: 'Función inject()',
         path: 'reference/migrations/inject-function',
         contentPath: 'reference/migrations/inject-function',
       },
       {
-        label: 'Lazy-loaded routes',
+        label: 'Rutas con lazy loading',
         path: 'reference/migrations/route-lazy-loading',
         contentPath: 'reference/migrations/route-lazy-loading',
       },
       {
-        label: 'Signal inputs',
+        label: 'Entradas de signal',
         path: 'reference/migrations/signal-inputs',
         contentPath: 'reference/migrations/signal-inputs',
       },
       {
-        label: 'Outputs',
+        label: 'Salidas',
         path: 'reference/migrations/outputs',
         contentPath: 'reference/migrations/outputs',
       },
       {
-        label: 'Signal queries',
+        label: 'Consultas de signal',
         path: 'reference/migrations/signal-queries',
         contentPath: 'reference/migrations/signal-queries',
       },
       {
-        label: 'Clean up unused imports',
+        label: 'Limpiar importaciones no utilizadas',
         path: 'reference/migrations/cleanup-unused-imports',
         contentPath: 'reference/migrations/cleanup-unused-imports',
       },
       {
-        label: 'Self-closing tags',
+        label: 'Etiquetas de auto-cierre',
         path: 'reference/migrations/self-closing-tags',
         contentPath: 'reference/migrations/self-closing-tags',
       },
       {
-        label: 'NgClass to Class',
+        label: 'NgClass a Class',
         path: 'reference/migrations/ngclass-to-class',
         contentPath: 'reference/migrations/ngclass-to-class',
         status: 'new',
       },
       {
-        label: 'NgStyle to Style',
+        label: 'NgStyle a Style',
         path: 'reference/migrations/ngstyle-to-style',
         contentPath: 'reference/migrations/ngstyle-to-style',
         status: 'new',
       },
       {
-        label: 'Router Testing Module Migration',
+        label: 'Migración del módulo de pruebas del Router',
         path: 'reference/migrations/router-testing-module-migration',
         contentPath: 'reference/migrations/router-testing-module-migration',
         status: 'new',
       },
       {
-        label: 'CommonModule to Standalone',
+        label: 'CommonModule a Standalone',
         path: 'reference/migrations/common-to-standalone',
         contentPath: 'reference/migrations/common-to-standalone',
         status: 'new',
@@ -1607,12 +1607,12 @@ const REFERENCE_SUB_NAVIGATION_DATA: NavigationItem[] = [
 
 const FOOTER_NAVIGATION_DATA: NavigationItem[] = [
   {
-    label: 'Press Kit',
+    label: 'Kit de prensa',
     path: 'press-kit',
     contentPath: 'reference/press-kit',
   },
   {
-    label: 'License',
+    label: 'Licencia',
     path: 'license',
     contentPath: 'reference/license',
   },
