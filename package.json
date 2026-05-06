@@ -17,6 +17,6 @@
   "devDependencies": {
     "chokidar": "^3.6.0",
     "firebase-tools": "^13.10.0",
-    "zx": "^7.2.3"
+    "zx": "^8.8.5"
   }
 }
