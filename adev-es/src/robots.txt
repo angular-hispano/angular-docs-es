@@ -1,17 +1,11 @@
 # Block OpenAI
 User-agent: GPTBot
-Disallow: /
 User-agent: OAI-SearchBot
 Disallow: /
 
 # Block Anthropic (Claude)
 User-agent: anthropic-ai
-Disallow: /
 User-agent: Claude-Web
-Disallow: /
-
-# Block Microsoft/Bing AI
-User-agent: bingbot
 Disallow: /
 
 # Block Google AI (Gemini training)
@@ -44,4 +38,4 @@ Disallow: /
 
 # Allow all standard search engines (like Google)
 User-agent: *
-Disallow:
+Allow: /
