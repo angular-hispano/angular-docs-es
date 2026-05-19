@@ -1,0 +1,47 @@
+# Block OpenAI
+User-agent: GPTBot
+Disallow: /
+User-agent: OAI-SearchBot
+Disallow: /
+
+# Block Anthropic (Claude)
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+
+# Block Microsoft/Bing AI
+User-agent: bingbot
+Disallow: /
+
+# Block Google AI (Gemini training)
+User-agent: Google-Extended
+Disallow: /
+
+# Block Apple (Siri/Apple Intelligence)
+User-agent: Applebot-Extended
+Disallow: /
+
+# Block Meta (Facebook AI)
+User-agent: FacebookBot
+Disallow: /
+
+# Block Amazon (Alexa AI)
+User-agent: Amazonbot
+Disallow: /
+
+# Block ByteDance (TikTok)
+User-agent: Bytespider
+Disallow: /
+
+# Block Diffbot (AI data extraction)
+User-agent: Diffbot
+Disallow: /
+
+# Block Common Crawl (open dataset used for AI training)
+User-agent: CCBot
+Disallow: /
+
+# Allow all standard search engines (like Google)
+User-agent: *
+Disallow:
