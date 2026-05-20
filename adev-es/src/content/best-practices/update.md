@@ -13,7 +13,7 @@ _AngularJS_ es el nombre para todas las versiones v1.x de Angular.
 
 ## Recibiendo notificaciones de nuevos lanzamientos
 
-Para recibir notificaciones cuando nuevos lanzamientos estén disponibles, sigue a [@angular](https://x.com/angular '@angular en X') en X (anteriormente Twitter) o suscríbete al [blog de Angular](https://blog.angular.dev 'Blog de Angular').
+Para recibir notificaciones cuando nuevos lanzamientos estén disponibles, suscríbete al [blog de Angular](https://blog.angular.dev 'Blog de Angular').
 
 ## Aprendiendo sobre nuevas funcionalidades
 
