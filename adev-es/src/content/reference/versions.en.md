@@ -1,11 +1,11 @@
-# Compatibilidad de versiones
+# Version compatibility
 
-Las siguientes tablas describen las versiones de Node.js, TypeScript y RxJS que cada versión de
-Angular requiere.
+The following tables describe the versions of Node.js, TypeScript, and RxJS that each version of
+Angular requires.
 
-## Versiones con soporte activo
+## Actively supported versions
 
-Esta tabla cubre [versiones de Angular con soporte activo](reference/releases#actively-supported-versions).
+This table covers [Angular versions under active support](reference/releases#actively-supported-versions).
 
 | Angular            | Node.js                             | TypeScript     | RxJS               |
 | ------------------ | ----------------------------------- | -------------- | ------------------ |
@@ -16,11 +16,11 @@ Esta tabla cubre [versiones de Angular con soporte activo](reference/releases#ac
 | 19.1.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.8.0 | ^6.5.3 \|\| ^7.4.0 |
 | 19.0.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.7.0 | ^6.5.3 \|\| ^7.4.0 |
 
-## Versiones de Angular sin soporte
+## Unsupported Angular versions
 
-Esta tabla cubre versiones de Angular que ya no están bajo soporte a largo plazo (LTS). Esta
-información era correcta cuando cada versión salió de LTS y se proporciona sin ninguna garantía
-adicional. Se incluye aquí como referencia histórica.
+This table covers Angular versions that are no longer under long-term support (LTS). This
+information was correct when each version went out of LTS and is provided without any further
+guarantees. It is listed here for historical reference.
 
 | Angular            | Node.js                              | TypeScript     | RxJS               |
 | ------------------ | ------------------------------------ | -------------- | ------------------ |
@@ -50,9 +50,9 @@ adicional. Se incluye aquí como referencia histórica.
 | 9.1.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.9.0 | ^6.5.3             |
 | 9.0.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.8.0 | ^6.5.3             |
 
-### Antes de v9
+### Before v9
 
-Hasta Angular v9, las versiones de Angular y Angular CLI no estaban sincronizadas.
+Until Angular v9, Angular and Angular CLI versions were not synced.
 
 | Angular                     | Angular CLI                 | Node.js             | TypeScript     | RxJS   |
 | --------------------------- | --------------------------- | ------------------- | -------------- | ------ |
@@ -69,56 +69,56 @@ Hasta Angular v9, las versiones de Angular y Angular CLI no estaban sincronizada
 | 4.0.x \|\| 4.1.x            | 1.0.x \|\| 1.1.x \|\| 1.2.x | ^6.9.0              | >=2.1.6 <2.4.0 | ^5.0.1 |
 | 2.x                         | -                           | ^6.9.0              | >=1.8.0 <2.2.0 | ^5.0.1 |
 
-## Soporte de navegadores
+## Browser support
 
-Angular usa el criterio ["widely available" Baseline](https://web.dev/baseline) para definir el soporte
-de navegadores. Para cada versión principal, Angular soporta los navegadores incluidos en el Baseline de una
-fecha elegida cercana a la fecha de lanzamiento de esa versión principal.
+Angular uses the ["widely available" Baseline](https://web.dev/baseline) to define browser
+support. For each major version, Angular supports browsers included in the Baseline of a
+chosen date near the release date for that major.
 
-El Baseline "widely available" incluye navegadores lanzados hace menos de 30 meses (2.5 años)
-de la fecha elegida dentro del conjunto de navegadores principales de Baseline (Chrome, Edge, Firefox, Safari) y
-apunta a soportar aproximadamente el 95% de los usuarios web.
+The "widely available" Baseline includes browsers released less than 30 months (2.5 years)
+of the chosen date within Baseline's core browser set (Chrome, Edge, Firefox, Safari) and
+targets supporting approximately 95% of web users.
 
-| Angular | Fecha de Baseline | Conjunto de navegadores                 |
+| Angular | Baseline Date | Browser Set                 |
 | ------- | ------------- | --------------------------- |
-| v21     | 2025-10-20    | [Conjunto de navegadores][browsers-v21] |
-| v20     | 2025-04-30    | [Conjunto de navegadores][browsers-v20] |
+| v21     | 2025-10-20    | [Browser Set][browsers-v21] |
+| v20     | 2025-04-30    | [Browser Set][browsers-v20] |
 
 [browsers-v21]: https://web-platform-dx.github.io/web-features/supported-browsers/?widelyAvailableOnDate=2025-10-20&includeDownstream=false
 [browsers-v20]: https://web-platform-dx.github.io/web-features/supported-browsers/?widelyAvailableOnDate=2025-04-30&includeDownstream=false
 
-Las versiones de Angular anteriores a v20 soportan las siguientes versiones específicas de navegadores:
+Angular versions prior to v20 support the following specific browser versions:
 
-| Navegador | Versiones compatibles                          |
+| Browser | Supported versions                          |
 | :------ | :------------------------------------------ |
-| Chrome  | 2 versiones más recientes                      |
-| Firefox | última y versión de soporte extendido \(ESR\) |
-| Edge    | 2 versiones principales más recientes                |
-| Safari  | 2 versiones principales más recientes                |
-| iOS     | 2 versiones principales más recientes                |
-| Android | 2 versiones principales más recientes                |
+| Chrome  | 2 most recent versions                      |
+| Firefox | latest and extended support release \(ESR\) |
+| Edge    | 2 most recent major versions                |
+| Safari  | 2 most recent major versions                |
+| iOS     | 2 most recent major versions                |
+| Android | 2 most recent major versions                |
 
 ## Polyfills
 
-Angular está construido sobre los estándares más recientes de la plataforma web.
-Apuntar a una gama tan amplia de navegadores es un desafío porque no todos soportan todas las características de los navegadores modernos.
-Puedes compensar esto cargando scripts polyfill ("polyfills") para los navegadores que debes soportar.
-A continuación, encontrarás instrucciones sobre cómo incluir polyfills en tu proyecto.
+Angular is built on the latest standards of the web platform.
+Targeting such a wide range of browsers is challenging because they do not support all features of modern browsers.
+You compensate by loading polyfill scripts \("polyfills"\) for the browsers that you must support.
+See instructions on how to include polyfills into your project below.
 
-IMPORTANTE: Los polyfills sugeridos son los que ejecutan aplicaciones Angular completas.
-Es posible que necesites polyfills adicionales para soportar características no cubiertas por esta lista.
+IMPORTANT: The suggested polyfills are the ones that run full Angular applications.
+You might need additional polyfills to support features not covered by this list.
 
-ÚTIL: Los polyfills no pueden transformar mágicamente un navegador antiguo y lento en uno moderno y rápido.
+HELPFUL: Polyfills cannot magically transform an old, slow browser into a modern, fast one.
 
-## Habilitando polyfills en proyectos CLI
+## Enabling polyfills with CLI projects
 
-El [Angular CLI](tools/cli) proporciona soporte para polyfills.
-Si no estás usando el CLI para crear tus proyectos, consulta las [Instrucciones de polyfills para usuarios sin CLI](#polyfills-para-usuarios-sin-cli).
+The [Angular CLI](tools/cli) provides support for polyfills.
+If you are not using the CLI to create your projects, see [Polyfill instructions for non-CLI users](#polyfills-for-non-cli-users).
 
-La opción `polyfills` del [builder de navegador y pruebas](tools/cli/cli-builder) puede ser una ruta completa de un archivo \(Ejemplo: `src/polyfills.ts`\) o,
-relativa al espacio de trabajo actual o especificador de módulo \(Ejemplo: `zone.js`\).
+The `polyfills` options of the [browser and test builder](tools/cli/cli-builder) can be a full path for a file \(Example: `src/polyfills.ts`\) or,
+relative to the current workspace or module specifier \(Example: `zone.js`\).
 
-Si creas un archivo TypeScript, asegúrate de incluirlo en la propiedad `files` de tu archivo `tsconfig`.
+If you create a TypeScript file, make sure to include it in the `files` property of your `tsconfig` file.
 
 ```json
 
@@ -135,31 +135,31 @@ Si creas un archivo TypeScript, asegúrate de incluirlo en la propiedad `files` 
 }
 ```
 
-## Polyfills para usuarios sin CLI
+## Polyfills for non-CLI users
 
-Si no estás usando el CLI, agrega tus scripts polyfill directamente a la página web host \(`index.html`\).
+If you are not using the CLI, add your polyfill scripts directly to the host web page \(`index.html`\).
 
-  Por ejemplo:
+For example:
 
 <docs-code header="src/index.html" language="html">
-<!-- polyfills pre-zone -->
+<!-- pre-zone polyfills -->
 <script src="node_modules/core-js/client/shim.min.js"></script>
 <script>
   /**
-   * puedes configurar algunos flags de zone que pueden deshabilitar la intercepción de zone para algunas
-   * actividades asíncronas para mejorar el rendimiento de inicio - usa estas opciones solo
-   * si sabes lo que estás haciendo, ya que podría resultar en errores difíciles de rastrear.
+   * you can configure some zone flags which can disable zone interception for some
+   * asynchronous activities to improve startup performance - use these options only
+   * if you know what you are doing as it could result in hard to trace down bugs.
    */
-  // __Zone_disable_requestAnimationFrame = true; // deshabilitar patch de requestAnimationFrame
-  // __Zone_disable_on_property = true; // deshabilitar patch de onProperty como onclick
-  // __zone_symbol__UNPATCHED_EVENTS = ['scroll', 'mousemove']; // deshabilitar patch de eventNames especificados
+  // __Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
+  // __Zone_disable_on_property = true; // disable patch onProperty such as onclick
+  // __zone_symbol__UNPATCHED_EVENTS = ['scroll', 'mousemove']; // disable patch specified eventNames
   /*
-   * en las herramientas de desarrollo de Edge, addEventListener también será envuelto por zone.js
-   * con el siguiente flag, se omitirá el patch de `zone.js` para Edge.
+   * in Edge developer tools, the addEventListener will also be wrapped by zone.js
+   * with the following flag, it will bypass `zone.js` patch for Edge.
    */
   // __Zone_enable_cross_context_check = true;
 </script>
-<!-- zone.js requerido por Angular -->
+<!-- zone.js required by Angular -->
 <script src="node_modules/zone.js/bundles/zone.umd.js"></script>
-<!-- polyfills de la aplicación -->
+<!-- application polyfills -->
 </docs-code>
