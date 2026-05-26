@@ -1,60 +1,60 @@
-# Integrate details page into application
+# Integrar página de detalles en la aplicación
 
-This tutorial lesson demonstrates how to connect the details page to your app.
+Esta lección del tutorial demuestra cómo conectar la página de detalles a tu aplicación.
 
 <docs-video src="https://www.youtube.com/embed/-jRxG84AzCI?si=CbqIpmRpwp5ZZDnu&amp;start=345"/>
 
-IMPORTANT: We recommend using your local environment to learn routing.
+IMPORTANTE: Recomendamos usar tu entorno local para aprender routing.
 
-## What you'll learn
+## ¿Qué aprenderás?
 
-At the end of this lesson your application will have support for routing to the details page.
+Al final de esta lección tu aplicación tendrá soporte para routing hacia la página de detalles.
 
-## Conceptual preview of routing with route parameters
+## Vista previa conceptual de routing con parámetros de ruta
 
-Each housing location has specific details that should be displayed when a user navigates to the details page for that item. To accomplish this goal, you will need to use route parameters.
+Cada ubicación de vivienda tiene detalles específicos que deberían mostrarse cuando un usuario navega a la página de detalles para ese elemento. Para lograr este objetivo, necesitarás usar parámetros de ruta.
 
-Route parameters enable you to include dynamic information as a part of your route URL. To identify which housing location a user has clicked on you will use the `id` property of the `HousingLocation` type.
+Los parámetros de ruta te permiten incluir información dinámica como parte de la URL de tu ruta. Para identificar qué ubicación de vivienda ha seleccionado un usuario, usarás la propiedad `id` del tipo `HousingLocation`.
 
 <docs-workflow>
 
-<docs-step title="Using `routerLink` for dynamic navigation">
-In lesson 10, you added a second route to `src/app/routes.ts` which includes a special segment that identifies the route parameter, `id`:
+<docs-step title="Usando `routerLink` para navegación dinámica">
+En la lección 10, agregaste una segunda ruta a `src/app/routes.ts` que incluye un segmento especial que identifica el parámetro de ruta, `id`:
 
 ```
 'details/:id'
 ```
 
-In this case, `:id` is dynamic and will change based on how the route is requested by the code.
+En este caso, `:id` es dinámico y cambiará según cómo la ruta sea solicitada por el código.
 
-1. In `src/app/housing-location/housing-location.ts`, add an anchor tag to the `section` element and include the `routerLink` directive:
+1. En `src/app/housing-location/housing-location.ts`, agrega una etiqueta de anclaje al elemento `section` e incluye la directiva `routerLink`:
 
-   <docs-code language="angular-ts" header="Add anchor with a routerLink directive to housing-location.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/housing-location/housing-location.ts" visibleLines="[18]"/>
+   <docs-code language="angular-ts" header="Agregar anclaje con directiva routerLink a housing-location.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/housing-location/housing-location.ts" visibleLines="[18]"/>
 
-   The `routerLink` directive enables Angular's router to create dynamic links in the application. The value assigned to the `routerLink` is an array with two entries: the static portion of the path and the dynamic data.
+   La directiva `routerLink` permite al router de Angular crear enlaces dinámicos en la aplicación. El valor asignado a `routerLink` es un arreglo con dos entradas: la parte estática de la ruta y los datos dinámicos.
 
-   For the `routerLink` to work in the template, add a file level import of `RouterLink` and `RouterOutlet` from '@angular/router', then update the component `imports` array to include both `RouterLink` and `RouterOutlet`.
+   Para que `routerLink` funcione en la plantilla, agrega una importación a nivel de archivo de `RouterLink` y `RouterOutlet` desde '@angular/router', luego actualiza el arreglo `imports` del componente para incluir tanto `RouterLink` como `RouterOutlet`.
 
-1. At this point you can confirm that the routing is working in your app. In the browser, refresh the home page and click the "Learn More" button for a housing location.
+1. En este punto puedes confirmar que el routing funciona en tu aplicación. En el navegador, actualiza la página de inicio y haz clic en el botón "Learn More" para una ubicación de vivienda.
 
-<img alt="details page displaying the text 'details works!'" src="assets/images/tutorials/first-app/homes-app-lesson-11-step-1.png">
+<img alt="página de detalles mostrando el texto 'details works!'" src="assets/images/tutorials/first-app/homes-app-lesson-11-step-1.png">
 
 </docs-step>
 
-<docs-step title="Get route parameters">
-In this step, you will get the route parameter in the `Details`. Currently, the app displays `details works!`. Next you'll update the code to display the `id` value passed using the route parameters.
+<docs-step title="Obtén los parámetros de ruta">
+En este paso, obtendrás el parámetro de ruta en el componente `Details`. Actualmente, la aplicación muestra `details works!`. A continuación, actualizarás el código para mostrar el valor `id` pasado usando los parámetros de ruta.
 
-1. In `src/app/details/details.ts` update the template to import the functions, classes and services that you'll need to use in the `Details`:
+1. En `src/app/details/details.ts` actualiza la plantilla para importar las funciones, clases y servicios que necesitarás usar en `Details`:
 
-<docs-code header="Update file level imports" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[1,4]"/>
+<docs-code header="Actualizar importaciones a nivel de archivo" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[1,4]"/>
 
-1. Update the `template` property of the `@Component` decorator to display the value `housingLocationId`:
+1. Actualiza la propiedad `template` del decorador `@Component` para mostrar el valor `housingLocationId`:
 
    ```angular-ts
      template: `<p>details works! {{ housingLocationId }}</p>`,
    ```
 
-1. Update the body of the `Details` class with the following code:
+1. Actualiza el cuerpo de la clase `Details` con el siguiente código:
 
    ```ts
    export class Details {
@@ -66,73 +66,73 @@ In this step, you will get the route parameter in the `Details`. Currently, the 
    }
    ```
 
-   This code gives the `Details` access to the `ActivatedRoute` router feature that enables you to have access to the data about the current route. In the `constructor`, the code converts the `id` parameter acquired from the route from a string to a number.
+   Este código le da a `Details` acceso a la funcionalidad del router `ActivatedRoute` que te permite tener acceso a los datos sobre la ruta actual. En el `constructor`, el código convierte el parámetro `id` adquirido de la ruta de string a número.
 
-1. Save all changes.
+1. Guarda todos los cambios.
 
-1. In the browser, click on one of the housing location's "Learn More" links and confirm that the numeric value displayed on the page matches the `id` property for that location in the data.
+1. En el navegador, haz clic en uno de los enlaces "Learn More" de una ubicación de vivienda y confirma que el valor numérico mostrado en la página coincide con la propiedad `id` para esa ubicación en los datos.
    </docs-step>
 
-<docs-step title="Customize the `Details`">
-Now that routing is working properly in the application this is a great time to update the template of the `Details` to display the specific data represented by the housing location for the route parameter.
+<docs-step title="Personaliza el componente `Details`">
+Ahora que el routing funciona correctamente en la aplicación, este es un buen momento para actualizar la plantilla de `Details` para mostrar los datos específicos representados por la ubicación de vivienda para el parámetro de ruta.
 
-To access the data you will add a call to the `HousingService`.
+Para acceder a los datos, agregarás una llamada a `HousingService`.
 
-1. Update the template code to match the following code:
+1. Actualiza el código de la plantilla para que coincida con el siguiente código:
 
-   <docs-code language="angular-ts" header="Update the Details template in src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[8,29]"/>
+   <docs-code language="angular-ts" header="Actualizar la plantilla de Details en src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[8,29]"/>
 
-   Notice that the `housingLocation` properties are being accessed with the optional chaining operator `?`. This ensures that if the `housingLocation` value is null or undefined the application doesn't crash.
+   Observa que las propiedades de `housingLocation` se están accediendo con el operador de encadenamiento opcional `?`. Esto asegura que si el valor de `housingLocation` es nulo o indefinido, la aplicación no se bloquee.
 
-1. Update the body of the `Details` class to match the following code:
+1. Actualiza el cuerpo de la clase `Details` para que coincida con el siguiente código:
 
-   <docs-code language="angular-ts" header="Update the Details class in src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[32,41]"/>
+   <docs-code language="angular-ts" header="Actualizar la clase Details en src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[32,41]"/>
 
-   Now the component has the code to display the correct information based on the selected housing location. The `constructor` now includes a call to the `HousingService` to pass the route parameter as an argument to the `getHousingLocationById` service function.
+   Ahora el componente tiene el código para mostrar la información correcta basada en la ubicación de vivienda seleccionada. El `constructor` ahora incluye una llamada a `HousingService` para pasar el parámetro de ruta como argumento a la función del servicio `getHousingLocationById`.
 
-1. Copy the following styles into the `src/app/details/details.css` file:
+1. Copia los siguientes estilos en el archivo `src/app/details/details.css`:
 
-   <docs-code header="Add styles for the Details" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.css" visibleLines="[1,71]"/>
+   <docs-code header="Agregar estilos para Details" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.css" visibleLines="[1,71]"/>
 
-   and save your changes
+   y guarda tus cambios
 
-1. In `Details` use the just created `details.css` file as the source for the styles:
-   <docs-code language="angular-ts" header="Update details.ts to use the created css file" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[30]"/>
+1. En `Details` usa el archivo `details.css` recién creado como fuente para los estilos:
+   <docs-code language="angular-ts" header="Actualizar details.ts para usar el archivo css creado" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[30]"/>
 
-1. In the browser refresh the page and confirm that when you click on the "Learn More" link for a given housing location the details page displays the correct information based on the data for that selected item.
+1. En el navegador, actualiza la página y confirma que cuando haces clic en el enlace "Learn More" para una ubicación de vivienda determinada, la página de detalles muestra la información correcta basada en los datos para ese elemento seleccionado.
 
-<img alt="Details page listing home info" src="assets/images/tutorials/first-app/homes-app-lesson-11-step-3.png">
+<img alt="Página de detalles mostrando información de la casa" src="assets/images/tutorials/first-app/homes-app-lesson-11-step-3.png">
 
 </docs-step>
 
-<docs-step title="Check navigation in the `Home`">
-In a previous lesson you updated the `App` template to include a `routerLink`. Adding that code updated your app to enable navigation back to the `Home` whenever the logo is clicked.
+<docs-step title="Verifica la navegación en `Home`">
+En una lección anterior actualizaste la plantilla de `App` para incluir un `routerLink`. Agregar ese código actualizó tu aplicación para habilitar la navegación de regreso a `Home` cada vez que se hace clic en el logo.
 
-1.  Confirm that your code matches the following:
+1.  Confirma que tu código coincide con lo siguiente:
 
-        <docs-code language="angular-ts" header="Confirm the routerLink in app.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/app.ts" visibleLines="[8,19]"/>
+        <docs-code language="angular-ts" header="Confirmar el routerLink en app.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/app.ts" visibleLines="[8,19]"/>
 
-        Your code should already be up-to-date but confirm to be sure.
+        Tu código ya debería estar actualizado, pero confírmalo para estar seguro.
 
     </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson you added routing to show details pages.
+RESUMEN: En esta lección agregaste routing para mostrar páginas de detalles.
 
-You now know how to:
+Ahora sabes cómo:
 
-- use route parameters to pass data to a route
-- use the `routerLink` directive to use dynamic data to create a route
-- use route parameter to retrieve data from the `HousingService` to display specific housing location information.
+- usar parámetros de ruta para pasar datos a una ruta
+- usar la directiva `routerLink` para usar datos dinámicos para crear una ruta
+- usar parámetros de ruta para recuperar datos de `HousingService` para mostrar información específica de una ubicación de vivienda
 
-Really great work so far.
+Realmente un gran trabajo hasta ahora.
 
-For more information about the topics covered in this lesson, visit:
+Para obtener más información sobre los temas cubiertos en esta lección, visita:
 
 <docs-pill-row>
-  <docs-pill href="guide/routing/common-router-tasks#accessing-query-parameters-and-fragments" title="Route Parameters"/>
-  <docs-pill href="guide/routing" title="Routing in Angular Overview"/>
-  <docs-pill href="guide/routing/common-router-tasks" title="Common Routing Tasks"/>
-  <docs-pill href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Optional_chaining" title="Optional Chaining Operator"/>
+  <docs-pill href="guide/routing/common-router-tasks#accessing-query-parameters-and-fragments" title="Parámetros de Ruta"/>
+  <docs-pill href="guide/routing" title="Descripción general de Routing en Angular"/>
+  <docs-pill href="guide/routing/common-router-tasks" title="Tareas Comunes de Routing"/>
+  <docs-pill href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Optional_chaining" title="Operador de Encadenamiento Opcional"/>
 </docs-pill-row>

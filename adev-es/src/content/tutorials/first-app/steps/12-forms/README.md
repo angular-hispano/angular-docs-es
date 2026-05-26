@@ -1,106 +1,106 @@
-# Adding a form to your Angular app
+# Agregar un formulario a tu aplicación Angular
 
-This tutorial lesson demonstrates how to add a form that collects user data to an Angular app.
-This lesson starts with a functional Angular app and shows how to add a form to it.
+Esta lección del tutorial demuestra cómo agregar un formulario que recopila datos del usuario a una aplicación Angular.
+Esta lección comienza con una aplicación Angular funcional y muestra cómo agregar un formulario a ella.
 
-The data that the form collects is sent only to the app's service, which writes it to the browser's console.
-Using a REST API to send and receive the form's data is not covered in this lesson.
+Los datos que el formulario recopila se envían solo al servicio de la aplicación, que los escribe en la consola del navegador.
+El uso de una API REST para enviar y recibir los datos del formulario no se cubre en esta lección.
 
 <docs-video src="https://www.youtube.com/embed/kWbk-dOJaNQ?si=FYMXGdUiT-qh321h"/>
 
-IMPORTANT: We recommend using your local environment for this step of the tutorial.
+IMPORTANTE: Recomendamos usar tu entorno local para este paso del tutorial.
 
-## What you'll learn
+## ¿Qué aprenderás?
 
-- Your app has a form into which users can enter data that is sent to your app's service.
-- The service writes the data from the form to the browser's console log.
+- Tu aplicación tiene un formulario en el que los usuarios pueden ingresar datos que se envían al servicio de tu aplicación.
+- El servicio escribe los datos del formulario en el registro de la consola del navegador.
 
 <docs-workflow>
 
-<docs-step title="Add a method to send form data">
-This step adds a method to your app's service that receives the form data to send to the data's destination.
-In this example, the method writes the data from the form to the browser's console log.
+<docs-step title="Agrega un método para enviar datos del formulario">
+Este paso agrega un método al servicio de tu aplicación que recibe los datos del formulario para enviarlos al destino de los datos.
+En este ejemplo, el método escribe los datos del formulario en el registro de la consola del navegador.
 
-In the **Edit** pane of your IDE:
+En el panel de **Edición** de tu IDE:
 
-1. In `src/app/housing.service.ts`, inside the `HousingService` class, paste this method at the bottom of the class definition.
+1. En `src/app/housing.service.ts`, dentro de la clase `HousingService`, pega este método al final de la definición de la clase.
 
-<docs-code header="Submit method in src/app/housing.service.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/housing.service.ts" visibleLines="[120,124]"/>
+<docs-code header="Método submit en src/app/housing.service.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/housing.service.ts" visibleLines="[120,124]"/>
 
-1. Confirm that the app builds without error.
-   Correct any errors before you continue to the next step.
+1. Confirma que la aplicación se construye sin errores.
+   Corrige cualquier error antes de continuar al siguiente paso.
    </docs-step>
 
-<docs-step title="Add the form functions to the details page">
-This step adds the code to the details page that handles the form's interactions.
+<docs-step title="Agrega las funciones del formulario a la página de detalles">
+Este paso agrega el código a la página de detalles que maneja las interacciones del formulario.
 
-In the **Edit** pane of your IDE, in `src/app/details/details.ts`:
+En el panel de **Edición** de tu IDE, en `src/app/details/details.ts`:
 
-1. After the `import` statements at the top of the file, add the following code to import the Angular form classes.
+1. Después de las declaraciones `import` en la parte superior del archivo, agrega el siguiente código para importar las clases de formulario de Angular.
 
-<docs-code header="Forms imports in src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[5]"/>
+<docs-code header="Importaciones de formularios en src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[5]"/>
 
-1. In the `Details` decorator metadata, update the `imports` property with the following code:
+1. En los metadatos del decorador `Details`, actualiza la propiedad `imports` con el siguiente código:
 
-<docs-code header="imports directive in src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[9]"/>
+<docs-code header="Directiva imports en src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[9]"/>
 
-1. In the `Details` class, before the `constructor()` method, add the following code to create the form object.
+1. En la clase `Details`, antes del método `constructor()`, agrega el siguiente código para crear el objeto del formulario.
 
-   <docs-code header="template directive in src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[52,56]"/>
+   <docs-code header="Directiva template en src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[52,56]"/>
 
-   In Angular, `FormGroup` and `FormControl` are types that enable you to build forms. The `FormControl` type can provide a default value and shape the form data. In this example `firstName` is a `string` and the default value is empty string.
+   En Angular, `FormGroup` y `FormControl` son tipos que te permiten construir formularios. El tipo `FormControl` puede proporcionar un valor predeterminado y dar forma a los datos del formulario. En este ejemplo, `firstName` es un `string` y el valor predeterminado es string vacío.
 
-1. In the `Details` class, after the `constructor()` method, add the following code to handle the **Apply now** click.
+1. En la clase `Details`, después del método `constructor()`, agrega el siguiente código para manejar el clic de **Apply now**.
 
-   <docs-code header="template directive in src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[62,68]"/>
+   <docs-code header="Directiva template en src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[62,68]"/>
 
-   This button does not exist yet - you will add it in the next step. In the above code, the `FormControl`s may return `null`. This code uses the nullish coalescing operator to default to empty string if the value is `null`.
+   Este botón aún no existe — lo agregarás en el siguiente paso. En el código anterior, los `FormControl`s pueden devolver `null`. Este código usa el operador de coalescencia nula para usar string vacío por defecto si el valor es `null`.
 
-1. Confirm that the app builds without error.
-   Correct any errors before you continue to the next step.
+1. Confirma que la aplicación se construye sin errores.
+   Corrige cualquier error antes de continuar al siguiente paso.
    </docs-step>
 
-<docs-step title="Add the form's markup to the details page">
-This step adds the markup to the details page that displays the form.
+<docs-step title="Agrega el marcado del formulario a la página de detalles">
+Este paso agrega el marcado a la página de detalles que muestra el formulario.
 
-In the **Edit** pane of your IDE, in `src/app/details/details.ts`:
+En el panel de **Edición** de tu IDE, en `src/app/details/details.ts`:
 
-1. In the `Details` decorator metadata, update the `template` HTML to match the following code to add the form's markup.
+1. En los metadatos del decorador `Details`, actualiza el HTML de `template` para que coincida con el siguiente código para agregar el marcado del formulario.
 
-   <docs-code language="angular-ts" header="template directive in src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[10,45]"/>
+   <docs-code language="angular-ts" header="Directiva template en src/app/details/details.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.ts" visibleLines="[10,45]"/>
 
-   The template now includes an event handler `(submit)="submitApplication()"`. Angular uses parentheses syntax around the event name to define events in the template code. The code on the right hand side of the equals sign is the code that should be executed when this event is triggered. You can bind to browser events and custom events.
+   La plantilla ahora incluye un manejador de eventos `(submit)="submitApplication()"`. Angular usa la sintaxis de paréntesis alrededor del nombre del evento para definir eventos en el código de la plantilla. El código en el lado derecho del signo igual es el código que debe ejecutarse cuando se dispara este evento. Puedes enlazarte a eventos del navegador y eventos personalizados.
 
-1. Confirm that the app builds without error.
-   Correct any errors before you continue to the next step.
+1. Confirma que la aplicación se construye sin errores.
+   Corrige cualquier error antes de continuar al siguiente paso.
 
-<img alt="details page with a form for applying to live at this location" src="assets/images/tutorials/first-app/homes-app-lesson-12-step-3.png">
+<img alt="página de detalles con un formulario para solicitar vivir en esta ubicación" src="assets/images/tutorials/first-app/homes-app-lesson-12-step-3.png">
 
 </docs-step>
 
-<docs-step title="Test your app's new form">
-This step tests the new form to see that when the form data is submitted to the app, the form data appears in the console log.
+<docs-step title="Prueba el nuevo formulario de tu aplicación">
+Este paso prueba el nuevo formulario para ver que cuando los datos del formulario se envían a la aplicación, los datos del formulario aparecen en el registro de la consola.
 
-1. In the **Terminal** pane of your IDE, run `ng serve`, if it isn't already running.
-1. In your browser, open your app at `http://localhost:4200`.
-1. Right click on the app in the browser and from the context menu, choose **Inspect**.
-1. In the developer tools window, choose the **Console** tab.
-   Make sure that the developer tools window is visible for the next steps
-1. In your app:
-   1. Select a housing location and click **Learn more**, to see details about the house.
-   1. In the house's details page, scroll to the bottom to find the new form.
-   1. Enter data into the form's fields - any data is fine.
-   1. Choose **Apply now** to submit the data.
-1. In the developer tools window, review the log output to find your form data.
+1. En el panel de **Terminal** de tu IDE, ejecuta `ng serve`, si aún no se está ejecutando.
+1. En tu navegador, abre tu aplicación en `http://localhost:4200`.
+1. Haz clic derecho en la aplicación en el navegador y desde el menú contextual, elige **Inspeccionar**.
+1. En la ventana de herramientas de desarrollador, elige la pestaña **Consola**.
+   Asegúrate de que la ventana de herramientas de desarrollador sea visible para los siguientes pasos
+1. En tu aplicación:
+   1. Selecciona una ubicación de vivienda y haz clic en **Learn more**, para ver los detalles de la casa.
+   1. En la página de detalles de la casa, desplázate hacia abajo para encontrar el nuevo formulario.
+   1. Ingresa datos en los campos del formulario — cualquier dato está bien.
+   1. Elige **Apply now** para enviar los datos.
+1. En la ventana de herramientas de desarrollador, revisa la salida del registro para encontrar los datos de tu formulario.
    </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you updated your app to add a form using Angular's forms feature, and connect the data captured in the form to a component using an event handler.
+RESUMEN: En esta lección, actualizaste tu aplicación para agregar un formulario usando la funcionalidad de formularios de Angular, y conectaste los datos capturados en el formulario a un componente usando un manejador de eventos.
 
-For more information about the topics covered in this lesson, visit:
+Para obtener más información sobre los temas cubiertos en esta lección, visita:
 
 <docs-pill-row>
-  <docs-pill href="guide/forms" title="Angular Forms"/>
-  <docs-pill href="guide/templates/event-listeners" title="Event Handling"/>
+  <docs-pill href="guide/forms" title="Formularios Angular"/>
+  <docs-pill href="guide/templates/event-listeners" title="Manejo de Eventos"/>
 </docs-pill-row>

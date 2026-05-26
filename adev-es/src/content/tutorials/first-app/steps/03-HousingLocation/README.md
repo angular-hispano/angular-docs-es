@@ -1,79 +1,79 @@
-# Create the application’s HousingLocation component
+# Crear el componente HousingLocation de la aplicación
 
-This tutorial lesson demonstrates how to add the `HousingLocation` component to your Angular app.
+Esta lección del tutorial demuestra cómo agregar el componente `HousingLocation` a tu aplicación Angular.
 
 <docs-video src="https://www.youtube.com/embed/R0nRX8jD2D0?si=U4ONEbPvtptdUHTt&amp;start=440"/>
 
-## What you'll learn
+## ¿Qué aprenderás?
 
-- Your app has a new component: `HousingLocation` and it displays a message confirming that the component was added to your application.
+- Tu aplicación tiene un nuevo componente: `HousingLocation` y muestra un mensaje que confirma que el componente fue agregado a tu aplicación.
 
 <docs-workflow>
 
-<docs-step title="Create the `HousingLocation`">
-In this step, you create a new component for your app.
+<docs-step title="Crea el `HousingLocation`">
+En este paso, creas un nuevo componente para tu aplicación.
 
-In the **Terminal** pane of your IDE:
+En el panel de **Terminal** de tu IDE:
 
-1. In your project directory, navigate to the `first-app` directory.
+1. En tu directorio del proyecto, navega al directorio `first-app`.
 
-1. Run this command to create a new `HousingLocation`
+1. Ejecuta este comando para crear un nuevo `HousingLocation`
 
    ```shell
    ng generate component housingLocation
    ```
 
-1. Run this command to build and serve your app.
+1. Ejecuta este comando para construir y servir tu aplicación.
 
    ```shell
    ng serve
    ```
 
-   NOTE: This step is only for your local environment!
+   NOTA: ¡Este paso es solo para tu entorno local!
 
-1. Open a browser and navigate to `http://localhost:4200` to find the application.
-1. Confirm that the app builds without error.
+1. Abre un navegador y navega a `http://localhost:4200` para encontrar la aplicación.
+1. Confirma que la aplicación se construye sin errores.
 
-   HELPFUL: It should render the same as it did in the previous lesson because even though you added a new component, you haven't included it in any of the app's templates, yet.
+   ÚTIL: Debería renderizar igual que en la lección anterior porque aunque agregaste un nuevo componente, aún no lo has incluido en ninguna de las plantillas de la aplicación.
 
-1. Leave `ng serve` running as you complete the next steps.
+1. Deja `ng serve` ejecutándose mientras completas los siguientes pasos.
    </docs-step>
 
-<docs-step title="Add the new component to your app's layout">
-In this step, you add the new component, `HousingLocation` to your app's `Home`, so that it displays in your app's layout.
+<docs-step title="Agrega el nuevo componente al diseño de tu aplicación">
+En este paso, agregas el nuevo componente `HousingLocation` al `Home` de tu aplicación, para que se muestre en el diseño de tu aplicación.
 
-In the **Edit** pane of your IDE:
+En el panel de **Edición** de tu IDE:
 
-1. Open `home.ts` in the editor.
-1. In `home.ts`, import `HousingLocation` by adding this line to the file level imports.
+1. Abre `home.ts` en el editor.
+1. En `home.ts`, importa `HousingLocation` agregando esta línea a las importaciones a nivel de archivo.
 
-<docs-code header="Import HousingLocation in src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/home/home.ts" visibleLines="[2]"/>
+<docs-code header="Importar HousingLocation en src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/home/home.ts" visibleLines="[2]"/>
 
-1. Next update the `imports` property of the `@Component` metadata by adding `HousingLocation` to the array.
+1. A continuación, actualiza la propiedad `imports` de los metadatos de `@Component` agregando `HousingLocation` al arreglo.
 
-<docs-code  header="Add HousingLocation to imports array in src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/home/home.ts" visibleLines="[6]"/>
+<docs-code header="Agregar HousingLocation al arreglo imports en src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/home/home.ts" visibleLines="[6]"/>
 
-1. Now the component is ready for use in the template for the `Home`. Update the `template` property of the `@Component` metadata to include a reference to the `<app-housing-location>` tag.
+1. Ahora el componente está listo para usarse en la plantilla de `Home`. Actualiza la propiedad `template` de los metadatos de `@Component` para incluir una referencia a la etiqueta `<app-housing-location>`.
 
-<docs-code language="angular-ts" header="Add housing location to the component template in src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/home/home.ts" visibleLines="[7,17]"/>
+<docs-code language="angular-ts" header="Agregar housing location a la plantilla del componente en src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/home/home.ts" visibleLines="[7,17]"/>
 
 </docs-step>
 
-<docs-step title="Add the styles for the component">
-In this step, you will copy over the pre-written styles for the `HousingLocation` to your app so that the app renders properly.
+<docs-step title="Agrega los estilos para el componente">
+En este paso, copiarás los estilos preescritos para `HousingLocation` a tu aplicación para que la aplicación se renderice correctamente.
 
-1. Open `src/app/housing-location/housing-location.css`, and paste the styles below into the file:
+1. Abre `src/app/housing-location/housing-location.css` y pega los siguientes estilos en el archivo:
 
-   NOTE: In the browser, these can go in `src/app/housing-location/housing-location.ts` in the `styles` array.
+   NOTA: En el navegador, estos pueden ir en `src/app/housing-location/housing-location.ts` en el arreglo `styles`.
 
-   <docs-code header="Add CSS styles to housing location to the component in src/app/housing-location/housing-location.css" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/housing-location/housing-location.css"/>
+   <docs-code header="Agregar estilos CSS al componente housing location en src/app/housing-location/housing-location.css" path="adev/src/content/tutorials/first-app/steps/04-interfaces/src/app/housing-location/housing-location.css"/>
 
-1. Save your code, return to the browser and confirm that the app builds without error. You should find the message "housing-location works!" rendered to the screen.Correct any errors before you continue to the next step.
+1. Guarda tu código, vuelve al navegador y confirma que la aplicación se construye sin errores. Deberías encontrar el mensaje "housing-location works!" renderizado en la pantalla. Corrige cualquier error antes de continuar al siguiente paso.
 
-<img alt="browser frame of homes-app displaying logo, filter text input box and search button and the message 'housing-location works!" src="assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
+<img alt="marco del navegador de la aplicación de viviendas mostrando logo, cuadro de entrada de texto de filtro, botón de búsqueda y el mensaje 'housing-location works!'" src="assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
 
 </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you created a new component for your app and added it to the app's layout.
+RESUMEN: En esta lección, creaste un nuevo componente para tu aplicación y lo agregaste al diseño de la aplicación.
