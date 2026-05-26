@@ -1,50 +1,50 @@
-# Add a property binding to a component’s template
+# Agregar un enlace de propiedad a la plantilla de un componente
 
-This tutorial lesson demonstrates how to add property binding to a template and use it to pass dynamic data to components.
+Esta lección del tutorial demuestra cómo agregar enlace de propiedad a una plantilla y usarlo para pasar datos dinámicos a componentes.
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=AsiczpWnMz5HhJqB&amp;start=599"/>
 
-## What you'll learn
+## ¿Qué aprenderás?
 
-- Your app has data bindings in the `Home` template.
-- Your app sends data from the `Home` to the `HousingLocation`.
+- Tu aplicación tiene enlaces de datos en la plantilla de `Home`.
+- Tu aplicación envía datos desde `Home` a `HousingLocation`.
 
-## Conceptual preview of Inputs
+## Vista previa conceptual de Inputs
 
-In this lesson, you'll continue the process of sharing data from the parent component to the child component by binding data to those properties in the template using property binding.
+En esta lección, continuarás el proceso de compartir datos desde el componente padre al componente hijo vinculando datos a esas propiedades en la plantilla usando enlace de propiedad.
 
-Property binding enables you to connect a variable to an `Input` in an Angular template. The data is then dynamically bound to the `Input`.
+El enlace de propiedad te permite conectar una variable a un `Input` en una plantilla Angular. Los datos se vinculan dinámicamente al `Input`.
 
-For a more in depth explanation, please refer to the [Property binding](guide/templates/property-binding) guide.
+Para una explicación más detallada, consulta la guía de [Enlace de propiedad](guide/templates/property-binding).
 
 <docs-workflow>
 
-<docs-step title="Update the `Home` template">
-This step adds property binding to the `<app-housing-location>` tag.
+<docs-step title="Actualiza la plantilla de `Home`">
+Este paso agrega enlace de propiedad a la etiqueta `<app-housing-location>`.
 
-In the code editor:
+En el editor de código:
 
-1.  Navigate to `src/app/home/home.ts`
-1.  In the template property of the `@Component` decorator, update the code to match the code below:
-    <docs-code language="angular-ts" header="Add housingLocation property binding" path="adev/src/content/tutorials/first-app/steps/07-dynamic-template-values/src/app/home/home.ts" visibleLines="[15,17]"/>
+1.  Navega a `src/app/home/home.ts`
+1.  En la propiedad template del decorador `@Component`, actualiza el código para que coincida con el código a continuación:
+    <docs-code language="angular-ts" header="Agregar enlace de propiedad housingLocation" path="adev/src/content/tutorials/first-app/steps/07-dynamic-template-values/src/app/home/home.ts" visibleLines="[15,17]"/>
 
-        When adding a property binding to a component tag, we use the `[attribute] = "value"` syntax to notify Angular that the assigned value should be treated as a property from the component class and not a string value.
+        Al agregar un enlace de propiedad a una etiqueta de componente, usamos la sintaxis `[atributo] = "valor"` para notificar a Angular que el valor asignado debe tratarse como una propiedad de la clase del componente y no como un valor string.
 
-        The value on the right-hand side is the name of the property from the `Home`.
+        El valor en el lado derecho es el nombre de la propiedad de `Home`.
 
     </docs-step>
 
-<docs-step title="Confirm the code still works">
-1.  Save your changes and confirm the app does not have any errors.
-1.  Correct any errors before you continue to the next step.
+<docs-step title="Confirma que el código aún funciona">
+1.  Guarda tus cambios y confirma que la aplicación no tenga errores.
+1.  Corrige cualquier error antes de continuar al siguiente paso.
 </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you added a new property binding and passed in a reference to a class property. Now, the `HousingLocation` has access to data that it can use to customize the component's display.
+RESUMEN: En esta lección, agregaste un nuevo enlace de propiedad y pasaste una referencia a una propiedad de clase. Ahora, `HousingLocation` tiene acceso a datos que puede usar para personalizar la visualización del componente.
 
-For more information about the topics covered in this lesson, visit:
+Para obtener más información sobre los temas cubiertos en esta lección, visita:
 
 <docs-pill-row>
-  <docs-pill href="/guide/templates/property-binding" title="Property binding"/>
+  <docs-pill href="/guide/templates/property-binding" title="Enlace de propiedad"/>
 </docs-pill-row>

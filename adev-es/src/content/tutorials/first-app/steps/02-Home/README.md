@@ -1,128 +1,128 @@
-# Create Home component
+# Crear el componente Home
 
-This tutorial lesson demonstrates how to create a new [component](guide/components) for your Angular app.
+Esta lección del tutorial demuestra cómo crear un nuevo [componente](guide/components) para tu aplicación Angular.
 
 <docs-video src="https://www.youtube.com/embed/R0nRX8jD2D0?si=OMVaw71EIa44yIOJ"/>
 
-## What you'll learn
+## ¿Qué aprenderás?
 
-Your app has a new component: `Home`.
+Tu aplicación tiene un nuevo componente: `Home`.
 
-## Conceptual preview of Angular components
+## Vista previa conceptual de los componentes de Angular
 
-Angular apps are built around components, which are Angular's building blocks.
-Components contain the code, HTML layout, and CSS style information that provide the function and appearance of an element in the app.
-In Angular, components can contain other components. An app's functions and appearance can be divided and partitioned into components.
+Las aplicaciones Angular se construyen alrededor de componentes, que son los bloques de construcción de Angular.
+Los componentes contienen el código, el diseño HTML y la información de estilo CSS que proporcionan la función y apariencia de un elemento en la aplicación.
+En Angular, los componentes pueden contener otros componentes. Las funciones y la apariencia de una aplicación se pueden dividir y particionar en componentes.
 
-In Angular, components have metadata that define its properties.
-When you create your `Home`, you use these properties:
+En Angular, los componentes tienen metadatos que definen sus propiedades.
+Cuando creas tu `Home`, usas estas propiedades:
 
-- `selector`: to describe how Angular refers to the component in templates.
-- `standalone`: to describe whether the component requires a `NgModule`.
-- `imports`: to describe the component's dependencies.
-- `template`: to describe the component's HTML markup and layout.
-- `styleUrls`: to list the URLs of the CSS files that the component uses in an array.
+- `selector`: para describir cómo Angular se refiere al componente en las plantillas.
+- `standalone`: para describir si el componente requiere un `NgModule`.
+- `imports`: para describir las dependencias del componente.
+- `template`: para describir el marcado HTML y el diseño del componente.
+- `styleUrls`: para listar las URLs de los archivos CSS que el componente usa en un arreglo.
 
 <docs-pill-row>
-  <docs-pill href="api/core/Component" title="Learn more about Components"/>
+  <docs-pill href="api/core/Component" title="Aprende más sobre Componentes"/>
 </docs-pill-row>
 
 <docs-workflow>
 
-<docs-step title="Create the `Home`">
-In this step, you create a new component for your app.
+<docs-step title="Crea el `Home`">
+En este paso, creas un nuevo componente para tu aplicación.
 
-In the **Terminal** pane of your IDE:
+En el panel de **Terminal** de tu IDE:
 
-1. In your project directory, navigate to the `first-app` directory.
-1. Run this command to create a new `Home`
+1. En tu directorio del proyecto, navega al directorio `first-app`.
+1. Ejecuta este comando para crear un nuevo `Home`
 
    ```shell
    ng generate component home
    ```
 
-1. Run this command to build and serve your app.
+1. Ejecuta este comando para construir y servir tu aplicación.
 
-   NOTE: This step is only for your local environment!
+   NOTA: ¡Este paso es solo para tu entorno local!
 
    ```shell
    ng serve
    ```
 
-1. Open a browser and navigate to `http://localhost:4200` to find the application.
+1. Abre un navegador y navega a `http://localhost:4200` para encontrar la aplicación.
 
-1. Confirm that the app builds without error.
+1. Confirma que la aplicación se construye sin errores.
 
-   HELPFUL: It should render the same as it did in the previous lesson because even though you added a new component, you haven't included it in any of the app's templates, yet.
+   ÚTIL: Debería renderizar igual que en la lección anterior porque aunque agregaste un nuevo componente, aún no lo has incluido en ninguna de las plantillas de la aplicación.
 
-1. Leave `ng serve` running as you complete the next steps.
+1. Deja `ng serve` ejecutándose mientras completas los siguientes pasos.
    </docs-step>
 
-<docs-step title="Add the new component to your app's layout">
-In this step, you add the new component, `Home` to your app's root component, `App`, so that it displays in your app's layout.
+<docs-step title="Agrega el nuevo componente al diseño de tu aplicación">
+En este paso, agregas el nuevo componente `Home` al componente raíz de tu aplicación, `App`, para que se muestre en el diseño de tu aplicación.
 
-In the **Edit** pane of your IDE:
+En el panel de **Edición** de tu IDE:
 
-1. Open `app.ts` in the editor.
-1. In `app.ts`, import `Home` by adding this line to the file level imports.
+1. Abre `app.ts` en el editor.
+1. En `app.ts`, importa `Home` agregando esta línea a las importaciones a nivel de archivo.
 
-<docs-code header="Import Home in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/app.ts" visibleLines="[2]"/>
+<docs-code header="Importar Home en src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/app.ts" visibleLines="[2]"/>
 
-1. In `app.ts`, in `@Component`, update the `imports` array property and add `Home`.
+1. En `app.ts`, en `@Component`, actualiza la propiedad del arreglo `imports` y agrega `Home`.
 
-<docs-code header="Replace in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/app.ts" visibleLines="[6]"/>
+<docs-code header="Reemplazar en src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/app.ts" visibleLines="[6]"/>
 
-1. In `app.ts`, in `@Component`, update the `template` property to include the following HTML code.
+1. En `app.ts`, en `@Component`, actualiza la propiedad `template` para incluir el siguiente código HTML.
 
-<docs-code language="angular-ts" header="Replace in src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/app.ts" visibleLines="[7,16]"/>
+<docs-code language="angular-ts" header="Reemplazar en src/app/app.ts" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/app.ts" visibleLines="[7,16]"/>
 
-1. Save your changes to `app.ts`.
-1. If `ng serve` is running, the app should update.
-   If `ng serve` is not running, start it again.
-   _Hello world_ in your app should change to _home works!_ from the `Home`.
-1. Check the running app in the browser and confirm that the app has been updated.
+1. Guarda tus cambios en `app.ts`.
+1. Si `ng serve` se está ejecutando, la aplicación debería actualizarse.
+   Si `ng serve` no se está ejecutando, inícialo nuevamente.
+   _Hello world_ en tu aplicación debería cambiar a _home works!_ desde `Home`.
+1. Verifica la aplicación en ejecución en el navegador y confirma que la aplicación se haya actualizado.
 
-<img alt="browser frame of page displaying the text 'home works!'" src="assets/images/tutorials/first-app/homes-app-lesson-02-step-2.png">
+<img alt="marco del navegador mostrando el texto 'home works!'" src="assets/images/tutorials/first-app/homes-app-lesson-02-step-2.png">
 
 </docs-step>
 
-<docs-step title="Add features to `Home`">
+<docs-step title="Agrega funcionalidades a `Home`">
 
-In this step you add features to `Home`.
+En este paso agregas funcionalidades a `Home`.
 
-In the previous step, you added the default `Home` to your app's template so its default HTML appeared in the app.
-In this step, you add a search filter and button that is used in a later lesson.
-For now, that's all that `Home` has.
-Note that, this step just adds the search elements to the layout without any functionality, yet.
+En el paso anterior, agregaste el `Home` predeterminado a la plantilla de tu aplicación para que su HTML predeterminado apareciera en la aplicación.
+En este paso, agregas un filtro de búsqueda y un botón que se usará en una lección posterior.
+Por ahora, eso es todo lo que tiene `Home`.
+Ten en cuenta que este paso solo agrega los elementos de búsqueda al diseño sin ninguna funcionalidad, todavía.
 
-In the **Edit** pane of your IDE:
+En el panel de **Edición** de tu IDE:
 
-1. In the `first-app` directory, open `home.ts` in the editor.
-1. In `home.ts`, in `@Component`, update the `template` property with this code.
+1. En el directorio `first-app`, abre `home.ts` en el editor.
+1. En `home.ts`, en `@Component`, actualiza la propiedad `template` con este código.
 
-<docs-code language="angular-ts" header="Replace in src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/home/home.ts" visibleLines="[5,12]"/>
+<docs-code language="angular-ts" header="Reemplazar en src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/home/home.ts" visibleLines="[5,12]"/>
 
-1. Next, open `home.css` in the editor and update the content with these styles.
+1. A continuación, abre `home.css` en el editor y actualiza el contenido con estos estilos.
 
-   NOTE: In the browser, these can go in `src/app/home/home.ts` in the `styles` array.
+   NOTA: En el navegador, estos pueden ir en `src/app/home/home.ts` en el arreglo `styles`.
 
-   <docs-code header="Replace in src/app/home/home.css" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/home/home.css"/>
+   <docs-code header="Reemplazar en src/app/home/home.css" path="adev/src/content/tutorials/first-app/steps/03-HousingLocation/src/app/home/home.css"/>
 
-1. Confirm that the app builds without error.
-   You should find the filter query box and button in your app and they should be styled.
-   Correct any errors before you continue to the next step.
+1. Confirma que la aplicación se construye sin errores.
+   Deberías encontrar el cuadro de consulta de filtro y el botón en tu aplicación y deberían tener estilo.
+   Corrige cualquier error antes de continuar al siguiente paso.
 
-<img alt="browser frame of homes-app displaying logo, filter text input box and search button" src="assets/images/tutorials/first-app/homes-app-lesson-02-step-3.png">
+<img alt="marco del navegador de la aplicación de viviendas mostrando logo, cuadro de entrada de texto de filtro y botón de búsqueda" src="assets/images/tutorials/first-app/homes-app-lesson-02-step-3.png">
 </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you created a new component for your app and gave it a filter edit control and button.
+RESUMEN: En esta lección, creaste un nuevo componente para tu aplicación y le diste un control de edición de filtro y un botón.
 
-For more information about the topics covered in this lesson, visit:
+Para obtener más información sobre los temas cubiertos en esta lección, visita:
 
 <docs-pill-row>
   <docs-pill href="cli/generate/component" title="`ng generate component`"/>
-  <docs-pill href="api/core/Component" title="`Component` reference"/>
-  <docs-pill href="guide/components" title="Angular components overview"/>
+  <docs-pill href="api/core/Component" title="Referencia de `Component`"/>
+  <docs-pill href="guide/components" title="Descripción general de componentes de Angular"/>
 </docs-pill-row>

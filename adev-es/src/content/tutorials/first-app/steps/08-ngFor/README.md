@@ -1,66 +1,66 @@
-# Use @for to list objects in component
+# Usar @for para listar objetos en el componente
 
-This tutorial lesson demonstrates how to use `@for` block in Angular templates in order to display dynamically repeated data in a template.
+Esta lección del tutorial demuestra cómo usar el bloque `@for` en plantillas Angular para mostrar datos repetidos dinámicamente en una plantilla.
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=MIl5NcRxvcLjYt5f&amp;start=477"/>
 
-NOTE: This video reflects an older syntax, but the main concepts remain valid.
+NOTA: Este video refleja una sintaxis anterior, pero los conceptos principales siguen siendo válidos.
 
-## What you'll learn
+## ¿Qué aprenderás?
 
-- You will have added a data set to the app
-- Your app will display a list of elements from the new data set using `@for`
+- Habrás agregado un conjunto de datos a la aplicación
+- Tu aplicación mostrará una lista de elementos del nuevo conjunto de datos usando `@for`
 
-## Conceptual preview of `@for`
+## Vista previa conceptual de `@for`
 
-In Angular, `@for` is a specific type of [control flow block](/guide/templates/control-flow) used to dynamically repeat data in a template. In plain JavaScript you would use a for loop - `@for` provides similar functionality for Angular templates.
+En Angular, `@for` es un tipo específico de [bloque de control de flujo](/guide/templates/control-flow) usado para repetir datos dinámicamente en una plantilla. En JavaScript plano usarías un bucle for - `@for` proporciona funcionalidad similar para las plantillas Angular.
 
-You can utilize `@for` to iterate over arrays and even asynchronous values. In this lesson, you'll add a new array of data to iterate over.
+Puedes utilizar `@for` para iterar sobre arreglos e incluso valores asíncronos. En esta lección, agregarás un nuevo arreglo de datos para iterar.
 
-For a more in depth explanation, please refer to the [control flow](guide/templates/control-flow#repeat-content-with-the-for-block) guide.
+Para una explicación más detallada, consulta la guía de [control de flujo](guide/templates/control-flow#repeat-content-with-the-for-block).
 
 <docs-workflow>
 
-<docs-step title="Add housing data to the `Home`">
+<docs-step title="Agrega datos de viviendas al `Home`">
 
-In the `Home` there is only a single housing location. In this step, you will add an array of `HousingLocation` entries.
+En `Home` solo hay una única ubicación de vivienda. En este paso, agregarás un arreglo de entradas `HousingLocation`.
 
-1. In `src/app/home/home.ts`, remove the `housingLocation` property from the `Home` class.
-1. Update the `Home` class to have a property called `housingLocationList`. Update your code to match the following code:
-   <docs-code language="angular-ts"  header="Add housingLocationList property in home.ts" path="adev/src/content/tutorials/first-app/steps/09-services/src/app/home/home.ts" visibleLines="26-131"/>
+1. En `src/app/home/home.ts`, elimina la propiedad `housingLocation` de la clase `Home`.
+1. Actualiza la clase `Home` para que tenga una propiedad llamada `housingLocationList`. Actualiza tu código para que coincida con el siguiente código:
+   <docs-code language="angular-ts" header="Agregar propiedad housingLocationList en home.ts" path="adev/src/content/tutorials/first-app/steps/09-services/src/app/home/home.ts" visibleLines="26-131"/>
 
-   IMPORTANT: Do not remove the `@Component` decorator, you will update that code in an upcoming step.
+   IMPORTANTE: No elimines el decorador `@Component`, actualizarás ese código en un próximo paso.
 
 </docs-step>
 
-<docs-step title="Update the `Home` template to use `@for`">
-Now the app has a dataset that you can use to display the entries in the browser using the `@for` block.
+<docs-step title="Actualiza la plantilla de `Home` para usar `@for`">
+Ahora la aplicación tiene un conjunto de datos que puedes usar para mostrar las entradas en el navegador usando el bloque `@for`.
 
-1. Update the `<app-housing-location>` tag in the template code to this:
-   <docs-code language="angular-ts"  header="Add @for to Home template in home.ts" path="adev/src/content/tutorials/first-app/steps/09-services/src/app/home/home.ts" visibleLines="[15,19]"/>
+1. Actualiza la etiqueta `<app-housing-location>` en el código de la plantilla a esto:
+   <docs-code language="angular-ts" header="Agregar @for a la plantilla de Home en home.ts" path="adev/src/content/tutorials/first-app/steps/09-services/src/app/home/home.ts" visibleLines="[15,19]"/>
 
-   Note, in the code `[housingLocation] = "housingLocation"` the `housingLocation` value now refers to the variable used in the `@for` block. Before this change, it referred to the property on the `Home` class.
+   Nota, en el código `[housingLocation] = "housingLocation"` el valor `housingLocation` ahora se refiere a la variable usada en el bloque `@for`. Antes de este cambio, se refería a la propiedad de la clase `Home`.
 
-1. Save all changes.
+1. Guarda todos los cambios.
 
-1. Refresh the browser and confirm that the app now renders a grid of housing locations.
+1. Actualiza el navegador y confirma que la aplicación ahora renderiza una cuadrícula de ubicaciones de vivienda.
 
 <section class="lightbox">
-<img alt="browser frame of homes-app displaying logo, filter text input box, search button and a grid of housing location cards" src="assets/images/tutorials/first-app/homes-app-lesson-08-step-2.png">
+<img alt="marco del navegador de la aplicación de viviendas mostrando logo, cuadro de entrada de texto de filtro, botón de búsqueda y una cuadrícula de tarjetas de ubicaciones de vivienda" src="assets/images/tutorials/first-app/homes-app-lesson-08-step-2.png">
 </section>
 
 </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you used the `@for` block to repeat data dynamically in Angular templates. You also added a new array of data to be used in the Angular app. The application now dynamically renders a list of housing locations in the browser.
+RESUMEN: En esta lección, usaste el bloque `@for` para repetir datos dinámicamente en plantillas Angular. También agregaste un nuevo arreglo de datos para usar en la aplicación Angular. La aplicación ahora renderiza dinámicamente una lista de ubicaciones de vivienda en el navegador.
 
-The app is taking shape, great job.
+La aplicación está tomando forma, excelente trabajo.
 
-For more information about the topics covered in this lesson, visit:
+Para obtener más información sobre los temas cubiertos en esta lección, visita:
 
 <docs-pill-row>
-  <docs-pill href="guide/templates/control-flow" title="Control flow blocks"/>
-  <docs-pill href="guide/templates/control-flow#repeat-content-with-the-for-block" title="@for guide"/>
+  <docs-pill href="guide/templates/control-flow" title="Bloques de control de flujo"/>
+  <docs-pill href="guide/templates/control-flow#repeat-content-with-the-for-block" title="Guía de @for"/>
   <docs-pill href="/api/core/@for" title="@for"/>
 </docs-pill-row>
