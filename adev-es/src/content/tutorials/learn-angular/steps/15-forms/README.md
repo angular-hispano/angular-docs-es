@@ -1,20 +1,20 @@
-# Forms Overview
+# Descripción general de formularios
 
-Forms are a big part of many apps because they enable your app to accept user input. Let's learn about how forms are handled in Angular.
+Los formularios son una gran parte de muchas aplicaciones porque permiten que tu app acepte entrada del usuario. Aprendamos cómo se manejan los formularios en Angular.
 
-In Angular, there are two types of forms: template-driven and reactive. You'll learn about both over the next few activities.
+En Angular, hay dos tipos de formularios: template-driven y reactivos. Aprenderás sobre ambos en las próximas actividades.
 
-Note: Learn more about [forms in Angular in the in-depth guide](/guide/forms).
+NOTA: Aprende más sobre [formularios en Angular en la guía detallada](/guide/forms).
 
-In this activity, you'll learn how to set up a form using a template-driven approach.
+En esta actividad, aprenderás cómo configurar un formulario usando el enfoque template-driven.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Create an input field">
+<docs-step title="Crea un campo de entrada">
 
-In `user.ts`, update the template by adding a text input with the `id` set to `framework`, type set to `text`.
+En `user.ts`, actualiza la plantilla agregando un campo de entrada de texto con el `id` establecido a `framework`, type establecido a `text`.
 
 ```angular-html
 <label for="framework">
@@ -25,11 +25,11 @@ In `user.ts`, update the template by adding a text input with the `id` set to `f
 
 </docs-step>
 
-<docs-step title="Import `FormsModule`">
+<docs-step title="Importa `FormsModule`">
 
-For this form to use Angular features that enable data binding to forms, you'll need to import the `FormsModule`.
+Para que este formulario use las características de Angular que permiten el enlace de datos a formularios, necesitarás importar el `FormsModule`.
 
-Import the `FormsModule` from `@angular/forms` and add it to the `imports` array of the `User`.
+Importa `FormsModule` desde `@angular/forms` y agrégalo al arreglo `imports` de `User`.
 
 <docs-code language="ts" highlight="[2, 7]">
 import {Component} from '@angular/core';
@@ -44,11 +44,11 @@ export class User {}
 
 </docs-step>
 
-<docs-step title="Add binding to the value of the input">
+<docs-step title="Agrega enlace al valor del input">
 
-The `FormsModule` has a directive called `ngModel` that binds the value of the input to a property in your class.
+`FormsModule` tiene una directiva llamada `ngModel` que enlaza el valor del input a una propiedad en tu clase.
 
-Update the input to use the `ngModel` directive, specifically with the following syntax `[(ngModel)]="favoriteFramework"` to bind to the `favoriteFramework` property.
+Actualiza el input para usar la directiva `ngModel`, específicamente con la siguiente sintaxis `[(ngModel)]="favoriteFramework"` para enlazar a la propiedad `favoriteFramework`.
 
 <docs-code language="html" highlight="[3]">
 <label for="framework">
@@ -57,14 +57,14 @@ Update the input to use the `ngModel` directive, specifically with the following
 </label>
 </docs-code>
 
-After you've made changes, try entering a value in the input field. Notice how it updates on the screen (yes, very cool).
+Después de hacer los cambios, intenta ingresar un valor en el campo de entrada. Nota cómo se actualiza en la pantalla (sí, muy interesante).
 
-NOTE: The syntax `[()]` is known as "banana in a box" but it represents two-way binding: property binding and event binding. Learn more in the [Angular docs about two-way data binding](guide/templates/two-way-binding).
+NOTA: La sintaxis `[()]` se conoce como "banana in a box" pero representa el enlace bidireccional: enlace de propiedad y enlace de evento. Aprende más en la [documentación de Angular sobre enlace bidireccional de datos](guide/templates/two-way-binding).
 
 </docs-step>
 
 </docs-workflow>
 
-You've now taken an important first step towards building forms with Angular.
+Has dado un primer paso importante hacia la construcción de formularios con Angular.
 
-Nice work. Let's keep the momentum going!
+Buen trabajo. ¡Mantengamos el impulso!

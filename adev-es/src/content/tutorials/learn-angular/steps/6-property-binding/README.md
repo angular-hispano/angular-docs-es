@@ -1,27 +1,27 @@
-# Property Binding in Angular
+# Enlace de propiedad en Angular
 
-Property binding in Angular enables you to set values for properties of HTML elements, Angular components and more.
+El enlace de propiedad en Angular te permite establecer valores para propiedades de elementos HTML, componentes de Angular y más.
 
-Use property binding to dynamically set values for properties and attributes. You can do things such as toggle button features, set image paths programmatically, and share values between components.
+Usa el enlace de propiedad para establecer dinámicamente valores de propiedades y atributos. Puedes hacer cosas como alternar funciones de botones, establecer rutas de imágenes programáticamente y compartir valores entre componentes.
 
-Note: Learn more about [setting dynamic properties and attributes in the essentials guide](/essentials/templates#setting-dynamic-properties-and-attributes).
+NOTA: Aprende más sobre [establecer propiedades y atributos dinámicos en la guía esencial](/essentials/templates#setting-dynamic-properties-and-attributes).
 
-In this activity, you'll learn how to use property binding in templates.
+En esta actividad, aprenderás cómo usar el enlace de propiedad en plantillas.
 
 <hr />
 
-To bind to an element's attribute, wrap the attribute name in square brackets. Here's an example:
+Para enlazar a un atributo de un elemento, envuelve el nombre del atributo entre corchetes. Aquí hay un ejemplo:
 
 ```angular-html
 <img alt="photo" [src]="imageURL">
 ```
 
-In this example, the value of the `src` attribute will be bound to the class property `imageURL`. Whatever value `imageURL` has will be set as the `src` attribute of the `img` tag.
+En este ejemplo, el valor del atributo `src` se enlazará a la propiedad de clase `imageURL`. Cualquier valor que tenga `imageURL` se establecerá como el atributo `src` de la etiqueta `img`.
 
 <docs-workflow>
 
-<docs-step title="Add a property called `isEditable`" header="app.ts" language="ts">
-Update the code in `app.ts` by adding a property to the `App` class called `isEditable` with the initial value set to `true`.
+<docs-step title="Agrega una propiedad llamada `isEditable`" header="app.ts" language="ts">
+Actualiza el código en `app.ts` agregando una propiedad a la clase `App` llamada `isEditable` con el valor inicial establecido a `true`.
 
 <docs-code highlight="[2]">
 export class App {
@@ -30,8 +30,8 @@ export class App {
 </docs-code>
 </docs-step>
 
-<docs-step title="Bind to `contentEditable`" header="app.ts" language="ts">
-Next, bind the `contentEditable` attribute of the `div` to the `isEditable` property by using the <code aria-label="square brackets">[]</code> syntax.
+<docs-step title="Enlaza a `contentEditable`" header="app.ts" language="ts">
+A continuación, enlaza el atributo `contentEditable` del `div` a la propiedad `isEditable` usando la sintaxis <code aria-label="corchetes">[]</code>.
 
 <docs-code highlight="[3]" language="angular-ts">
 @Component({
@@ -43,6 +43,6 @@ Next, bind the `contentEditable` attribute of the `div` to the `isEditable` prop
 
 </docs-workflow>
 
-The div is now editable. Nice work 👍
+El div ahora es editable. Buen trabajo 👍
 
-Property binding is one of Angular's many powerful features. If you'd like to learn more checkout [the Angular documentation](guide/templates/property-binding).
+El enlace de propiedad es una de las características más poderosas de Angular. Si deseas aprender más, consulta [la documentación de Angular](guide/templates/property-binding).

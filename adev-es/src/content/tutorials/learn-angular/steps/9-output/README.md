@@ -1,16 +1,16 @@
-# Component output properties
+# Propiedades de salida (output) de componentes
 
-When working with components it may be required to notify other components that something has happened. Perhaps a button has been clicked, an item has been added/removed from a list or some other important update has occurred. In this scenario components need to communicate with parent components.
+Cuando trabajas con componentes, puede ser necesario notificar a otros componentes que algo ha sucedido. Quizás se ha hecho clic en un botón, se ha agregado/eliminado un elemento de una lista o ha ocurrido alguna otra actualización importante. En este escenario, los componentes necesitan comunicarse con componentes padres.
 
-Angular uses the `output()` function to enable this type of behavior.
+Angular usa la función `output()` para habilitar este tipo de comportamiento.
 
-Note: Learn more about [custom events in the outputs guide](/guide/components/outputs).
+NOTA: Aprende más sobre [eventos personalizados en la guía de outputs](/guide/components/outputs).
 
-In this activity, you'll learn how to use the `output()` function to communicate with components.
+En esta actividad, aprenderás cómo usar la función `output()` para comunicarte con componentes.
 
 <hr />
 
-To create the communication path from child to parent components, use the `output` function to initialize a class property.
+Para crear la ruta de comunicación de componentes hijos a padres, usa la función `output` para inicializar una propiedad de clase.
 
 <docs-code header="child.ts" language="ts">
 @Component({...})
@@ -19,7 +19,7 @@ class Child {
 }
 </docs-code>
 
-Now the component can generate events that can be listened to by the parent component. Trigger events by calling the `emit` method:
+Ahora el componente puede generar eventos que pueden ser escuchados por el componente padre. Dispara eventos llamando al método `emit`:
 
 <docs-code header="child.ts" language="ts">
 class Child {
@@ -32,18 +32,18 @@ this.incrementCountEvent.emit(this.count);
 }
 </docs-code>
 
-The emit function will generate an event with the same type as defined by the `output`.
+La función `emit` generará un evento con el mismo tipo que el definido por `output`.
 
-Alright, your turn to give this a try. Complete the code by following these tasks:
+Bien, es tu turno de intentarlo. Completa el código siguiendo estas tareas:
 
 <docs-workflow>
 
-<docs-step title="Add an `output()` property">
-Update `child.ts` by adding an output property called `addItemEvent`, be sure to set the output type to be `string`.
+<docs-step title="Agrega una propiedad `output()`">
+Actualiza `child.ts` agregando una propiedad de salida llamada `addItemEvent`, asegúrate de establecer el tipo de output como `string`.
 </docs-step>
 
-<docs-step title="Complete `addItem` method">
-In `child.ts` update the `addItem` method; use the following code as the logic:
+<docs-step title="Completa el método `addItem`">
+En `child.ts` actualiza el método `addItem`; usa el siguiente código como lógica:
 
 <docs-code header="child.ts" highlight="[2]" language="ts">
 addItem() {
@@ -53,19 +53,19 @@ addItem() {
 
 </docs-step>
 
-<docs-step title="Update the `App` template">
-In `app.ts` update the template to listen to the emitted event by adding the following code:
+<docs-step title="Actualiza la plantilla de `App`">
+En `app.ts` actualiza la plantilla para escuchar el evento emitido agregando el siguiente código:
 
 ```angular-html
 <app-child (addItemEvent)="addItem($event)" />
 ```
 
-Now, the "Add Item" button adds a new item to the list every time the button is clicked.
+Ahora, el botón "Add Item" agrega un nuevo elemento a la lista cada vez que se hace clic.
 
 </docs-step>
 
 </docs-workflow>
 
-Wow, at this point you've completed the component fundamentals - impressive 👏
+Vaya, en este punto has completado los fundamentos de componentes - impresionante 👏
 
-Keep learning to unlock more of Angular's great features.
+Sigue aprendiendo para descubrir más características increíbles de Angular.
