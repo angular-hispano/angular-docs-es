@@ -1,18 +1,18 @@
-# Getting form control value
+# Obteniendo el valor del control de formulario
 
-Now that your forms are set up with Angular, the next step is to access the values from the form controls.
+Ahora que tus formularios están configurados con Angular, el siguiente paso es acceder a los valores de los controles de formulario.
 
-Note: Learn more about [adding a basic form control in the in-depth guide](/guide/forms/reactive-forms#adding-a-basic-form-control).
+NOTA: Aprende más sobre [agregar un control de formulario básico en la guía detallada](/guide/forms/reactive-forms#adding-a-basic-form-control).
 
-In this activity, you'll learn how to get the value from your form input.
+En esta actividad, aprenderás cómo obtener el valor de tu campo de formulario.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Show the value of the input field in the template">
+<docs-step title="Muestra el valor del campo de entrada en la plantilla">
 
-To display the input value in a template, you can use the interpolation syntax `{{}}` just like any other class property of the component:
+Para mostrar el valor del input en una plantilla, puedes usar la sintaxis de interpolación `{{}}` como cualquier otra propiedad de clase del componente:
 
 <docs-code language="angular-ts" highlight="[5]">
 @Component({
@@ -33,9 +33,9 @@ export class User {
 
 </docs-step>
 
-<docs-step title="Retrieve the value of an input field">
+<docs-step title="Obtén el valor de un campo de entrada">
 
-When you need to reference the input field value in the component class, you can do so by accessing the class property with the `this` syntax.
+Cuando necesites referenciar el valor del campo de entrada en la clase del componente, puedes hacerlo accediendo a la propiedad de la clase con la sintaxis `this`.
 
 <docs-code language="angular-ts" highlight="[15]">
 ...
@@ -61,6 +61,6 @@ alert(this.favoriteFramework);
 
 </docs-workflow>
 
-Great job learning how to display the input values in your template and access them programmatically.
+Excelente trabajo aprendiendo cómo mostrar los valores de entrada en tu plantilla y acceder a ellos programáticamente.
 
-Time to progress onto the next way of managing forms with Angular: reactive forms. If you'd like to learn more about template-driven forms, please refer to the [Angular forms documentation](guide/forms/template-driven-forms).
+Es hora de avanzar a la siguiente forma de gestionar formularios en Angular: formularios reactivos. Si deseas aprender más sobre formularios template-driven, consulta la [documentación de formularios de Angular](guide/forms/template-driven-forms).

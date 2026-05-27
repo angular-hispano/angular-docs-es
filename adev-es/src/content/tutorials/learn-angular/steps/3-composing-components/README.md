@@ -1,32 +1,32 @@
-# Composing Components
+# Composición de componentes
 
-You've learned to update the component template, component logic, and component styles, but how do you use a component in your application?
+Has aprendido a actualizar la plantilla del componente, la lógica del componente y los estilos del componente, pero ¿cómo usas un componente en tu aplicación?
 
-The `selector` property of the component configuration gives you a name to use when referencing the component in another template. You use the `selector` like an HTML tag, for example `app-user` would be `<app-user />` in the template.
+La propiedad `selector` de la configuración del componente te da un nombre para usar al referenciar el componente en otra plantilla. Usas el `selector` como una etiqueta HTML, por ejemplo `app-user` sería `<app-user />` en la plantilla.
 
-Note: Learn more about [using components in the essentials guide](/essentials/components#using-components).
+NOTA: Aprende más sobre [usar componentes en la guía esencial](/essentials/components#using-components).
 
-In this activity, you'll learn how to compose components.
+En esta actividad, aprenderás cómo componer componentes.
 
 <hr/>
 
-In this example, there are two components `User` and `App`.
+En este ejemplo, hay dos componentes: `User` y `App`.
 
 <docs-workflow>
 
-<docs-step title="Add a reference to `User`">
-Update the `App` template to include a reference to the `User` which uses the selector `app-user`. Be sure to add `User` to the imports array of `App`, this makes it available for use in the `App` template.
+<docs-step title="Agrega una referencia a `User`">
+Actualiza la plantilla de `App` para incluir una referencia a `User` que usa el selector `app-user`. Asegúrate de agregar `User` al arreglo `imports` de `App`, esto lo hace disponible para usar en la plantilla de `App`.
 
 ```ts
 template: `<app-user />`,
 imports: [User]
 ```
 
-The component now displays the message `Username: youngTech`. You can update the template code to include more markup.
+El componente ahora muestra el mensaje `Username: youngTech`. Puedes actualizar el código de la plantilla para incluir más marcado.
 </docs-step>
 
-<docs-step title="Add more markup">
-Because you can use any HTML markup that you want in a template, try updating the template for `App` to also include more HTML elements. This example will add a `<section>` element as the parent of the `<app-user>` element.
+<docs-step title="Agrega más marcado">
+Como puedes usar cualquier marcado HTML que desees en una plantilla, intenta actualizar la plantilla de `App` para incluir también más elementos HTML. Este ejemplo agregará un elemento `<section>` como padre del elemento `<app-user>`.
 
 ```ts
 template: `<section><app-user /></section>`,
@@ -35,6 +35,6 @@ template: `<section><app-user /></section>`,
 </docs-step>
 
 </docs-workflow>
-You can use as much HTML markup and as many components as you need to bring your app idea to reality. You can even have multiple copies of your component on the same page.
+Puedes usar tanto marcado HTML y tantos componentes como necesites para hacer realidad la idea de tu aplicación. Incluso puedes tener múltiples copias de tu componente en la misma página.
 
-That's a great segue, how would you conditionally show a component based on data? Head to the next section to find out.
+Esa es una buena transición, ¿cómo mostrarías condicionalmente un componente basado en datos? Dirígete a la siguiente sección para descubrirlo.
