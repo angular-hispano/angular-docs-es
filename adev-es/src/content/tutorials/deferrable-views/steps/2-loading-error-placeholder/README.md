@@ -1,43 +1,43 @@
-# @loading, @error and @placeholder blocks
+# Bloques @loading, @error y @placeholder
 
-Deferrable views let you define content to be shown in different loading states.
+Las vistas diferibles te permiten definir contenido que se mostrará en diferentes estados de carga.
 
 <div class="docs-table docs-scroll-track-transparent">
   <table>
     <tr>
       <td><code>@placeholder</code></td>
       <td>
-        By default, defer blocks do not render any content before they are triggered. The <code>@placeholder</code> is an optional block that declares content to show before the deferred content loads. Angular replaces the placeholder with the deferred content after loading completes. While this block is optional, the Angular team recommends always including a placeholder.
+        Por defecto, los bloques defer no renderizan ningún contenido antes de ser disparados. El bloque <code>@placeholder</code> es un bloque opcional que declara contenido para mostrar antes de que el contenido diferido se cargue. Angular reemplaza el placeholder con el contenido diferido después de que la carga se completa. Aunque este bloque es opcional, el equipo de Angular recomienda incluir siempre un placeholder.
         <a href="https://angular.dev/guide/templates/defer#triggers" target="_blank">
-          Learn more in the full deferrable views documentation
+          Aprende más en la documentación completa de vistas diferibles
         </a>
       </td>
     </tr>
     <tr>
       <td><code>@loading</code></td>
       <td>
-        This optional block allows you to declare content to be shown during the loading of any deferred dependencies.
+        Este bloque opcional te permite declarar contenido que se mostrará durante la carga de cualquier dependencia diferida.
       </td>
     </tr>
     <tr>
       <td><code>@error</code></td>
       <td>
-        This block allows you to declare content which is shown if deferred loading fails.
+        Este bloque te permite declarar contenido que se muestra si la carga diferida falla.
       </td>
     </tr>
   </table>
 </div>
 
-The contents of all the above sub-blocks are eagerly loaded. Additionally, some features require a `@placeholder` block.
+El contenido de todos los sub-bloques anteriores se carga de forma inmediata. Adicionalmente, algunas funcionalidades requieren un bloque `@placeholder`.
 
-In this activity, you'll learn how to use the `@loading`, `@error` and `@placeholder` blocks to manage the states of deferrable views.
+En esta actividad, aprenderás cómo usar los bloques `@loading`, `@error` y `@placeholder` para gestionar los estados de las vistas diferibles.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Add `@placeholder` block">
-In your `app.ts`, add a `@placeholder` block to the `@defer` block.
+<docs-step title="Agrega un bloque `@placeholder`">
+En tu `app.ts`, agrega un bloque `@placeholder` al bloque `@defer`.
 
 <docs-code language="angular-html" highlight="[3,4,5]">
 @defer {
@@ -48,8 +48,8 @@ In your `app.ts`, add a `@placeholder` block to the `@defer` block.
 </docs-code>
 </docs-step>
 
-<docs-step title="Configure the `@placeholder` block">
-The `@placeholder` block accepts an optional parameter to specify the `minimum` amount of time that this placeholder should be shown. This `minimum` parameter is specified in time increments of milliseconds (ms) or seconds (s). This parameter exists to prevent fast flickering of placeholder content in the case that the deferred dependencies are fetched quickly.
+<docs-step title="Configura el bloque `@placeholder`">
+El bloque `@placeholder` acepta un parámetro opcional para especificar la cantidad de tiempo `minimum` que este placeholder debe mostrarse. Este parámetro `minimum` se especifica en incrementos de tiempo de milisegundos (ms) o segundos (s). Este parámetro existe para evitar el parpadeo rápido del contenido del placeholder en caso de que las dependencias diferidas se obtengan rápidamente.
 
 <docs-code language="angular-html" highlight="[3,4,5]">
 @defer {
@@ -60,17 +60,17 @@ The `@placeholder` block accepts an optional parameter to specify the `minimum` 
 </docs-code>
 </docs-step>
 
-<docs-step title="Add `@loading` block">
-Next add a `@loading` block to the component template.
+<docs-step title="Agrega un bloque `@loading`">
+A continuación, agrega un bloque `@loading` a la plantilla del componente.
 
-The `@loading` block accepts two optional parameters:
+El bloque `@loading` acepta dos parámetros opcionales:
 
-- `minimum`: the amount of time that this block should be shown
-- `after`: the amount of time to wait after loading begins before showing the loading template
+- `minimum`: la cantidad de tiempo que este bloque debe mostrarse
+- `after`: la cantidad de tiempo a esperar después de que comience la carga antes de mostrar la plantilla de carga
 
-Both parameters are specified in time increments of milliseconds (ms) or seconds (s).
+Ambos parámetros se especifican en incrementos de tiempo de milisegundos (ms) o segundos (s).
 
-Update `app.ts` to include a `@loading` block with a minimum parameter of `1s` as well as an after parameter with the value 500ms to the @loading block.
+Actualiza `app.ts` para incluir un bloque `@loading` con un parámetro minimum de `1s` así como un parámetro after con el valor 500ms para el bloque @loading.
 
 <docs-code language="angular-html" highlight="[5,6,7]">
 @defer {
@@ -82,12 +82,12 @@ Update `app.ts` to include a `@loading` block with a minimum parameter of `1s` a
 }
 </docs-code>
 
-NOTE: this example uses two parameters, separated by the ; character.
+NOTA: este ejemplo usa dos parámetros, separados por el carácter ;.
 
 </docs-step>
 
-<docs-step title="Add `@error` block">
-Finally, add an `@error` block to the `@defer` block.
+<docs-step title="Agrega un bloque `@error`">
+Finalmente, agrega un bloque `@error` al bloque `@defer`.
 
 <docs-code language="angular-html" highlight="[7,8,9]">
 @defer {
@@ -103,4 +103,4 @@ Finally, add an `@error` block to the `@defer` block.
 </docs-step>
 </docs-workflow>
 
-Congratulations! At this point, you have a good understanding about deferrable views. Keep up the great work and let's learn about triggers next.
+¡Felicidades! En este punto, tienes un buen entendimiento sobre las vistas diferibles. Sigue con el excelente trabajo y aprendamos sobre los triggers a continuación.
