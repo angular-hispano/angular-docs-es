@@ -1,45 +1,45 @@
-# Defer triggers
+# Disparadores de defer (defer triggers)
 
-While the default options for `@defer` offer great options for lazy loading parts of your components it may still be desirable to further customize the deferred loading experience.
+Si bien las opciones predeterminadas para `@defer` ofrecen excelentes opciones para lazy loading de partes de tus componentes, puede ser deseable personalizar aún más la experiencia de carga diferida.
 
-By default, deferred content loads when the browser is idle. You can, however, customize when this loading occurs by specifying a **trigger**. This lets you pick the loading behavior best suited to your component.
+Por defecto, el contenido diferido se carga cuando el navegador está inactivo. Sin embargo, puedes personalizar cuándo ocurre esta carga especificando un **trigger** (disparador). Esto te permite elegir el comportamiento de carga más adecuado para tu componente.
 
-Deferrable views offer two types of loading trigger:
+Las vistas diferibles ofrecen dos tipos de triggers de carga:
 
 <div class="docs-table docs-scroll-track-transparent">
   <table>
     <tr>
       <td><code>on</code></td>
       <td>
-        A trigger condition using a trigger from the list of built-in triggers.<br/>
-        For example: <code>@defer (on viewport)</code>
+        Una condición de trigger usando un trigger de la lista de triggers integrados.<br/>
+        Por ejemplo: <code>@defer (on viewport)</code>
       </td>
     </tr>
     <tr>
       <td><code>when</code></td>
       <td>
-        A condition as an expression which is evaluated for truthiness. When the expression is truthy, the placeholder is swapped with the lazily loaded content.<br/>
-        For example: <code>@defer (when customizedCondition)</code>
+        Una condición como expresión que se evalúa para determinar su veracidad. Cuando la expresión es verdadera, el placeholder se reemplaza con el contenido cargado de forma diferida.<br/>
+        Por ejemplo: <code>@defer (when customizedCondition)</code>
       </td>
     </tr>
   </table>
 </div>
 
-If the `when` condition evaluates to `false`, the `defer` block is not reverted back to the placeholder. The swap is a one-time operation.
+Si la condición `when` se evalúa como `false`, el bloque `defer` no se revierte al placeholder. El intercambio es una operación de una sola vez.
 
-You can define multiple event triggers at once, these triggers will be evaluated as OR conditions.
+Puedes definir múltiples triggers de eventos a la vez, estos triggers se evaluarán como condiciones OR.
 
-- Ex: `@defer (on viewport; on timer(2s))`
-- Ex: `@defer (on viewport; when customizedCondition)`
+- Ej: `@defer (on viewport; on timer(2s))`
+- Ej: `@defer (on viewport; when customizedCondition)`
 
-In this activity, you'll learn how to use triggers to specify the condition to load the deferrable views.
+En esta actividad, aprenderás cómo usar triggers para especificar la condición para cargar las vistas diferibles.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Add `on hover` trigger">
-In your `app.ts`,  add an `on hover` trigger to the `@defer` block.
+<docs-step title="Agrega un trigger `on hover`">
+En tu `app.ts`, agrega un trigger `on hover` al bloque `@defer`.
 
 <docs-code language="angular-html" hightlight="[1]">
 @defer (on hover) {
@@ -53,11 +53,11 @@ In your `app.ts`,  add an `on hover` trigger to the `@defer` block.
 }
 </docs-code>
 
-Now, the page will not render the comments section until you hover its placeholder.
+Ahora, la página no renderizará la sección de comentarios hasta que pases el cursor sobre su placeholder.
 </docs-step>
 
-<docs-step title="Add a 'Show all comments' button">
-Next, update the template to include a button with the label "Show all comments". Include a template variable called `#showComments` with the button.
+<docs-step title="Agrega un botón 'Show all comments'">
+A continuación, actualiza la plantilla para incluir un botón con la etiqueta "Show all comments". Incluye una variable de plantilla llamada `#showComments` con el botón.
 
 <docs-code language="angular-html" hightlight="[1]">
 <button type="button" #showComments>Show all comments</button>
@@ -74,12 +74,12 @@ Next, update the template to include a button with the label "Show all comments"
 }
 </docs-code>
 
-NOTE: for more information on [template variables check the documentation](https://angular.dev/guide/templates/reference-variables#).
+NOTA: para obtener más información sobre [variables de plantilla consulta la documentación](https://angular.dev/guide/templates/reference-variables#).
 
 </docs-step>
 
-<docs-step title="Add `on interaction` trigger">
-Update the `@defer` block in the template to use the `on interaction` trigger. Provide the `showComments` template variable as the parameter to `interaction`.
+<docs-step title="Agrega un trigger `on interaction`">
+Actualiza el bloque `@defer` en la plantilla para usar el trigger `on interaction`. Proporciona la variable de plantilla `showComments` como parámetro a `interaction`.
 
 <docs-code language="angular-html" hightlight="[3]">
 <button type="button" #showComments>Show all comments</button>
@@ -96,14 +96,14 @@ Update the `@defer` block in the template to use the `on interaction` trigger. P
 }
 </docs-code>
 
-With these changes, the page will wait for one of the following conditions before rendering the comments section:
+Con estos cambios, la página esperará una de las siguientes condiciones antes de renderizar la sección de comentarios:
 
-- User hovers the comments section’s placeholder
-- User clicks on the “Show all comments" button
+- El usuario pasa el cursor sobre el placeholder de la sección de comentarios
+- El usuario hace clic en el botón "Show all comments"
 
-You can reload the page to try out different triggers to render the comments section.
+Puedes recargar la página para probar diferentes triggers para renderizar la sección de comentarios.
 </docs-step>
 </docs-workflow>
 
-If you would like to learn more, check out the documentation for [Deferrable View](https://angular.dev/guide/defer).
-Keep learning to unlock more of Angular's great features.
+Si deseas aprender más, consulta la documentación de [Deferrable View](https://angular.dev/guide/defer).
+Sigue aprendiendo para descubrir más características increíbles de Angular.
