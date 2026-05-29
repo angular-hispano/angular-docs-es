@@ -1,37 +1,37 @@
-# Deriving state with computed signals
+# Derivando estado con computed signals
 
-Now that you've learned [how to create and update signals](/tutorials/signals/1-creating-and-updating-your-first-signal), let's learn about computed signals. Computed signals are derived values that automatically update when their dependencies change. They're perfect for creating reactive calculations based on other signals.
+Ahora que has aprendido [cómo crear y actualizar signals](/tutorials/signals/1-creating-and-updating-your-first-signal), aprendamos sobre los computed signals. Los computed signals son valores derivados que se actualizan automáticamente cuando sus dependencias cambian. Son perfectos para crear cálculos reactivos basados en otros signals.
 
-In this activity, you'll learn how to use the `computed()` function to create derived state that updates automatically when the underlying signals change.
+En esta actividad, aprenderás cómo usar la función `computed()` para crear estado derivado que se actualiza automáticamente cuando los signals subyacentes cambian.
 
-Let's enhance our user status system by adding computed values that derive information from our user status signal. The starter code now includes three status options: `'online'`, `'away'`, and `'offline'`.
+Mejoremos nuestro sistema de estado de usuario agregando valores computed que deriven información de nuestro signal de estado de usuario. El código inicial ahora incluye tres opciones de estado: `'online'`, `'away'` y `'offline'`.
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import computed function">
-Add `computed` to your existing imports.
+<docs-step title="Importa la función computed">
+Agrega `computed` a tus importaciones existentes.
 
 ```ts
-// Add computed to existing imports
+// Agregar computed a las importaciones existentes
 import {Component, signal, computed, ChangeDetectionStrategy} from '@angular/core';
 ```
 
 </docs-step>
 
-<docs-step title="Create a computed signal for notifications">
-Add a computed signal that determines if notifications should be enabled based on user status.
+<docs-step title="Crea un computed signal para notificaciones">
+Agrega un computed signal que determine si las notificaciones deberían estar habilitadas según el estado del usuario.
 
 ```ts
 notificationsEnabled = computed(() => this.userStatus() === 'online');
 ```
 
-This computed signal will automatically recalculate whenever the `userStatus` signal changes. Notice how we call `this.userStatus()` inside the computed function to read the signal's value.
+Este computed signal se recalculará automáticamente cada vez que el signal `userStatus` cambie. Observa cómo llamamos `this.userStatus()` dentro de la función computed para leer el valor del signal.
 </docs-step>
 
-<docs-step title="Create a computed signal for a descriptive message">
-Add a computed signal that creates a descriptive message based on the user status.
+<docs-step title="Crea un computed signal para un mensaje descriptivo">
+Agrega un computed signal que cree un mensaje descriptivo basado en el estado del usuario.
 
 ```ts
 statusMessage = computed(() => {
@@ -45,11 +45,11 @@ statusMessage = computed(() => {
 });
 ```
 
-This shows how computed signals can handle more complex logic with switch statements and string transformations.
+Esto muestra cómo los computed signals pueden manejar lógica más compleja con sentencias switch y transformaciones de strings.
 </docs-step>
 
-<docs-step title="Create a computed signal that calculates working hours availability">
-Add a computed signal that calculates if the user is within their working hours.
+<docs-step title="Crea un computed signal que calcule disponibilidad de horario laboral">
+Agrega un computed signal que calcule si el usuario está dentro de su horario laboral.
 
 ```ts
 isWithinWorkingHours = computed(() => {
@@ -60,13 +60,13 @@ isWithinWorkingHours = computed(() => {
 });
 ```
 
-This demonstrates how computed signals can perform calculations and combine multiple data sources. The value updates automatically when the `userStatus` changes.
+Esto demuestra cómo los computed signals pueden realizar cálculos y combinar múltiples fuentes de datos. El valor se actualiza automáticamente cuando `userStatus` cambia.
 </docs-step>
 
-<docs-step title="Display the computed values in the template">
-The template already has placeholders showing "Loading...". Replace them with your computed signals:
+<docs-step title="Muestra los valores computed en la plantilla">
+La plantilla ya tiene placeholders mostrando "Loading...". Reemplázalos con tus computed signals:
 
-1. For notifications, replace `Loading...` with an @if block:
+1. Para notificaciones, reemplaza `Loading...` con un bloque @if:
 
 ```angular-html
 @if (notificationsEnabled()) {
@@ -76,13 +76,13 @@ The template already has placeholders showing "Loading...". Replace them with yo
 }
 ```
 
-2. For the message, replace `Loading...` with:
+2. Para el mensaje, reemplaza `Loading...` con:
 
 ```angular-html
 {{ statusMessage() }}
 ```
 
-3. For working hours, replace `Loading...` with an @if block:
+3. Para horario laboral, reemplaza `Loading...` con un bloque @if:
 
 ```angular-html
 @if (isWithinWorkingHours()) {
@@ -92,18 +92,18 @@ The template already has placeholders showing "Loading...". Replace them with yo
 }
 ```
 
-Notice how computed signals are called just like regular signals - with parentheses!
+Observa cómo los computed signals se llaman igual que los signals regulares — ¡con paréntesis!
 </docs-step>
 
 </docs-workflow>
 
-Excellent! You've now learned how to create computed signals.
+¡Excelente! Ahora has aprendido cómo crear computed signals.
 
-Here are some key points to remember:
+Aquí hay algunos puntos clave para recordar:
 
-- **Computed signals are reactive**: They automatically update when their dependencies change
-- **They're read-only**: You can't directly set computed values, they're derived from other signals
-- **They can contain complex logic**: Use them for calculations, transformations, and derived state
-- **They provide a way to make performant computations based on dynamic state**: Angular only recalculates them when their dependencies actually change
+- **Los computed signals son reactivos**: Se actualizan automáticamente cuando sus dependencias cambian
+- **Son de solo lectura**: No puedes establecer valores computed directamente, se derivan de otros signals
+- **Pueden contener lógica compleja**: Úsalos para cálculos, transformaciones y estado derivado
+- **Proporcionan una forma de hacer cómputos eficientes basados en estado dinámico**: Angular solo los recalcula cuando sus dependencias realmente cambian
 
-In the next lesson, you'll learn about [a different way to derive state with linkedSignals](/tutorials/signals/3-deriving-state-with-linked-signals)!
+En la próxima lección, aprenderás sobre [una forma diferente de derivar estado con linkedSignals](/tutorials/signals/3-deriving-state-with-linked-signals)!
