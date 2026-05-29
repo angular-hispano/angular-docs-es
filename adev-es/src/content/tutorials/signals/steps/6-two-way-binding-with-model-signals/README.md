@@ -1,32 +1,32 @@
-# Two-way binding with model signals
+# Enlace bidireccional con model signals
 
-Now that you've learned [passing data to components with input signals](/tutorials/signals/5-component-communication-with-signals), let's explore Angular's `model()` API for two-way binding. Model signals are perfect for UI components like checkboxes, sliders, or custom form controls where the component needs to both receive a value AND update it.
+Ahora que has aprendido [cómo pasar datos a componentes con input signals](/tutorials/signals/5-component-communication-with-signals), exploremos la API `model()` de Angular para el enlace bidireccional. Los model signals son perfectos para componentes de UI como checkboxes, sliders o controles de formulario personalizados donde el componente necesita tanto recibir un valor como actualizarlo.
 
-In this activity, you'll create a custom checkbox component that manages its own state while keeping the parent synchronized.
+En esta actividad, crearás un componente de checkbox personalizado que gestiona su propio estado mientras mantiene sincronizado al padre.
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Set up the custom checkbox with model signal">
-Create a model signal in the `custom-checkbox` component that can both receive and update the parent's value.
+<docs-step title="Configura el checkbox personalizado con model signal">
+Crea un model signal en el componente `custom-checkbox` que pueda tanto recibir como actualizar el valor del padre.
 
 ```ts
-// Add imports for model signals
+// Agregar importaciones para model signals
 import {Component, model, input, ChangeDetectionStrategy} from '@angular/core';
 
-// Model signal for two-way binding
+// Model signal para enlace bidireccional
 checked = model.required<boolean>();
 
-// Optional input for label
+// Input opcional para la etiqueta
 label = input<string>('');
 ```
 
-Unlike `input()` signals which are read-only, `model()` signals can be both read and written to.
+A diferencia de los signals `input()` que son de solo lectura, los signals `model()` pueden ser tanto leídos como escritos.
 </docs-step>
 
-<docs-step title="Create the checkbox template">
-Build the checkbox template that responds to clicks and updates its own model.
+<docs-step title="Crea la plantilla del checkbox">
+Construye la plantilla del checkbox que responde a clics y actualiza su propio model.
 
 ```html
 <label class="custom-checkbox">
@@ -39,31 +39,31 @@ Build the checkbox template that responds to clicks and updates its own model.
 </label>
 ```
 
-The component reads from its model signal and has a method to update it.
+El componente lee de su model signal y tiene un método para actualizarlo.
 </docs-step>
 
-<docs-step title="Add the toggle method">
-Implement the toggle method that updates the model signal when the checkbox is clicked.
+<docs-step title="Agrega el método toggle">
+Implementa el método toggle que actualiza el model signal cuando se hace clic en el checkbox.
 
 ```ts
 toggle() {
-  // This updates BOTH the component's state AND the parent's model!
+  // ¡Esto actualiza TANTO el estado del componente COMO el model del padre!
   this.checked.set(!this.checked());
 }
 ```
 
-When the child component calls `this.checked.set()`, it automatically propagates the change back to the parent. This is the key difference from `input()` signals.
+Cuando el componente hijo llama a `this.checked.set()`, automáticamente propaga el cambio de vuelta al padre. Esta es la diferencia clave con los signals `input()`.
 </docs-step>
 
-<docs-step title="Set up two-way binding in the parent">
-First, uncomment the model signal properties and methods in `app.ts`:
+<docs-step title="Configura el enlace bidireccional en el padre">
+Primero, descomenta las propiedades y métodos de model signal en `app.ts`:
 
 ```ts
-// Parent signal models
+// Model signals del padre
 agreedToTerms = model(false);
 enableNotifications = model(true);
 
-// Methods to test two-way binding
+// Métodos para probar el enlace bidireccional
 toggleTermsFromParent() {
   this.agreedToTerms.set(!this.agreedToTerms());
 }
@@ -74,14 +74,14 @@ resetAll() {
 }
 ```
 
-Then update the template:
+Luego actualiza la plantilla:
 
-Part 1. **Uncomment the checkboxes and add two-way binding:**
+Parte 1. **Descomenta los checkboxes y agrega enlace bidireccional:**
 
-- Replace `___ADD_TWO_WAY_BINDING___` with `[(checked)]="agreedToTerms"` for the first checkbox
-- Replace `___ADD_TWO_WAY_BINDING___` with `[(checked)]="enableNotifications"` for the second
+- Reemplaza `___ADD_TWO_WAY_BINDING___` con `[(checked)]="agreedToTerms"` para el primer checkbox
+- Reemplaza `___ADD_TWO_WAY_BINDING___` con `[(checked)]="enableNotifications"` para el segundo
 
-Part 2. **Replace the `???` placeholders with @if blocks:**
+Parte 2. **Reemplaza los placeholders `???` con bloques @if:**
 
 ```angular-html
 @if (agreedToTerms()) {
@@ -97,38 +97,38 @@ Part 2. **Replace the `???` placeholders with @if blocks:**
 }
 ```
 
-Part 3. **Add click handlers to the buttons:**
+Parte 3. **Agrega manejadores de clic a los botones:**
 
 ```html
 <button (click)="toggleTermsFromParent()">Toggle Terms from Parent</button>
 <button (click)="resetAll()">Reset All</button>
 ```
 
-The `[(checked)]` syntax creates two-way binding - data flows down to the component AND changes flow back up to the parent by emitting an event that references the signal itself and does _not_ call the signal getter directly.
+La sintaxis `[(checked)]` crea un enlace bidireccional — los datos fluyen hacia el componente Y los cambios fluyen de vuelta al padre emitiendo un evento que referencia el signal mismo y _no_ llama al getter del signal directamente.
 </docs-step>
 
-<docs-step title="Test the two-way binding">
-Interact with your app to see two-way binding in action:
+<docs-step title="Prueba el enlace bidireccional">
+Interactúa con tu aplicación para ver el enlace bidireccional en acción:
 
-1. **Click checkboxes** - Component updates its own state and notifies parent
-2. **Click "Toggle Terms from Parent"** - Parent updates propagate down to component
-3. **Click "Reset All"** - Parent resets both models and components update automatically
+1. **Haz clic en los checkboxes** - El componente actualiza su propio estado y notifica al padre
+2. **Haz clic en "Toggle Terms from Parent"** - Las actualizaciones del padre se propagan al componente
+3. **Haz clic en "Reset All"** - El padre reinicia ambos models y los componentes se actualizan automáticamente
 
-Both the parent and child can update the shared state, and both stay in sync automatically!
+¡Tanto el padre como el hijo pueden actualizar el estado compartido, y ambos se mantienen sincronizados automáticamente!
 </docs-step>
 
 </docs-workflow>
 
-Perfect! You've learned how model signals enable two-way binding:
+¡Perfecto! Has aprendido cómo los model signals permiten el enlace bidireccional:
 
-- **Model signals** - Use `model()` and `model.required()` for values that can be both read and written
-- **Two-way binding** - Use `[(property)]` syntax to bind parent signals to child models
-- **Perfect for UI components** - Checkboxes, form controls, and widgets that need to manage their own state
-- **Automatic synchronization** - Parent and child stay in sync without manual event handling
+- **Model signals** - Usa `model()` y `model.required()` para valores que pueden ser tanto leídos como escritos
+- **Enlace bidireccional** - Usa la sintaxis `[(property)]` para enlazar signals del padre a models del hijo
+- **Perfecto para componentes de UI** - Checkboxes, controles de formulario y widgets que necesitan gestionar su propio estado
+- **Sincronización automática** - Padre e hijo se mantienen sincronizados sin manejo manual de eventos
 
-**When to use `model()` vs `input()`:**
+**Cuándo usar `model()` vs `input()`:**
 
-- Use `input()` for data that only flows down (display data, configuration)
-- Use `model()` for UI components that need to update their own value (form controls, toggles)
+- Usa `input()` para datos que solo fluyen hacia abajo (datos de visualización, configuración)
+- Usa `model()` para componentes de UI que necesitan actualizar su propio valor (controles de formulario, toggles)
 
-In the next lesson, you'll learn about [using signals with services](/tutorials/signals/7-using-signals-with-services)!
+En la próxima lección, aprenderás sobre [cómo usar signals con servicios](/tutorials/signals/7-using-signals-with-services)!

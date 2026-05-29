@@ -1,31 +1,31 @@
-# Passing data to components with input signals
+# Pasando datos a componentes con input signals
 
-Now that you've learned [managing async data with signals](/tutorials/signals/4-managing-async-data-with-signals), let's explore Angular's signal-based `input()` API for passing data from parent to child components, making component data flow more reactive and efficient. If you're familiar with component props from other frameworks, inputs are the same idea.
+Ahora que has aprendido [cómo gestionar datos asíncronos con signals](/tutorials/signals/4-managing-async-data-with-signals), exploremos la API `input()` basada en signals de Angular para pasar datos de componentes padre a hijo, haciendo que el flujo de datos del componente sea más reactivo y eficiente. Si estás familiarizado con las props de componentes de otros frameworks, los inputs son la misma idea.
 
-In this activity, you'll add signal inputs to a product card component and see how parent data flows down reactively.
+En esta actividad, agregarás signal inputs a un componente de tarjeta de producto y verás cómo los datos del padre fluyen hacia abajo de forma reactiva.
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add signal inputs to ProductCard">
-Add signal `input()` functions to receive data in the `product-card` component.
+<docs-step title="Agrega signal inputs a ProductCard">
+Agrega funciones `input()` de signal para recibir datos en el componente `product-card`.
 
 ```ts
-// Add imports for signal inputs
+// Agregar importaciones para signal inputs
 import {Component, input, ChangeDetectionStrategy} from '@angular/core';
 
-// Add these signal inputs
+// Agregar estos signal inputs
 name = input.required<string>();
 price = input.required<number>();
 available = input<boolean>(true);
 ```
 
-Notice how `input.required()` creates an input that must be provided, while `input()` with a default value is optional.
+Observa cómo `input.required()` crea un input que debe ser proporcionado, mientras que `input()` con un valor predeterminado es opcional.
 </docs-step>
 
-<docs-step title="Connect inputs to the template">
-Update the template in `product-card` to display the signal input values.
+<docs-step title="Conecta los inputs a la plantilla">
+Actualiza la plantilla en `product-card` para mostrar los valores de los signal inputs.
 
 ```angular-html
 <div class="product-card">
@@ -41,21 +41,21 @@ Update the template in `product-card` to display the signal input values.
 </div>
 ```
 
-Input signals work just like regular signals in templates - call them as functions to access their values.
+Los input signals funcionan igual que los signals regulares en las plantillas — llámalos como funciones para acceder a sus valores.
 </docs-step>
 
-<docs-step title="Connect parent signals to child inputs">
-Update the `product-card` usage in `app.ts` to pass dynamic signal values instead of static ones.
+<docs-step title="Conecta signals del padre a inputs del hijo">
+Actualiza el uso de `product-card` en `app.ts` para pasar valores dinámicos de signals en lugar de valores estáticos.
 
 ```html
-<!-- Change from static values: -->
+<!-- Cambiar de valores estáticos: -->
 <product-card
   name="Static Product"
   price="99"
   available="true"
 />
 
-<!-- To dynamic signals: -->
+<!-- A signals dinámicos: -->
 <product-card
   [name]="productName()"
   [price]="productPrice()"
@@ -63,11 +63,11 @@ Update the `product-card` usage in `app.ts` to pass dynamic signal values instea
 />
 ```
 
-The square brackets `[]` create property bindings that pass the current signal values to the child.
+Los corchetes `[]` crean enlaces de propiedad que pasan los valores actuales de los signals al hijo.
 </docs-step>
 
-<docs-step title="Test reactive updates">
-Add methods in `app.ts` to update the parent signals and see how the child component reacts automatically.
+<docs-step title="Prueba las actualizaciones reactivas">
+Agrega métodos en `app.ts` para actualizar los signals del padre y ver cómo el componente hijo reacciona automáticamente.
 
 ```ts
 updateProduct() {
@@ -81,25 +81,25 @@ toggleAvailability() {
 ```
 
 ```html
-<!-- Add controls to test reactivity -->
+<!-- Agregar controles para probar la reactividad -->
 <div class="controls">
   <button (click)="updateProduct()">Update Product Info</button>
   <button (click)="toggleAvailability()">Toggle Availability</button>
 </div>
 ```
 
-When parent signals change, the child component automatically receives and displays the new values!
+¡Cuando los signals del padre cambian, el componente hijo recibe y muestra automáticamente los nuevos valores!
 </docs-step>
 
 </docs-workflow>
 
-Excellent! You've learned how signal inputs work:
+¡Excelente! Has aprendido cómo funcionan los signal inputs:
 
-- **Signal inputs** - Use `input()` and `input.required()` to receive data from parent components
-- **Reactive updates** - Child components automatically update when parent signal values change
-- **Type safety** - Signal inputs provide full TypeScript type checking
-- **Default values** - Optional inputs can have default values while required inputs must be provided
+- **Signal inputs** - Usa `input()` y `input.required()` para recibir datos de componentes padre
+- **Actualizaciones reactivas** - Los componentes hijo se actualizan automáticamente cuando los valores de los signals del padre cambian
+- **Seguridad de tipos** - Los signal inputs proporcionan verificación de tipos completa de TypeScript
+- **Valores predeterminados** - Los inputs opcionales pueden tener valores predeterminados mientras que los inputs requeridos deben ser proporcionados
 
-Signal inputs make component communication more reactive and eliminate the need for `OnChanges` lifecycle hooks in many cases.
+Los signal inputs hacen que la comunicación entre componentes sea más reactiva y eliminan la necesidad de los hooks de ciclo de vida `OnChanges` en muchos casos.
 
-In the next lesson, you'll learn about [two-way binding with model signals](/tutorials/signals/6-two-way-binding-with-model-signals)!
+En la próxima lección, aprenderás sobre [el enlace bidireccional con model signals](/tutorials/signals/6-two-way-binding-with-model-signals)!

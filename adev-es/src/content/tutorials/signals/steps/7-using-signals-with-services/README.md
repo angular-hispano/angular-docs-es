@@ -1,23 +1,23 @@
-# Using signals with services
+# Usando signals con servicios
 
-Now that you've learned [two-way binding with model signals](/tutorials/signals/6-two-way-binding-with-model-signals), let's explore how to use signals with Angular services. Services are perfect for sharing reactive state across multiple components, and signals make this even more powerful by providing automatic change detection and clean reactive patterns.
+Ahora que has aprendido [cómo usar el enlace bidireccional con model signals](/tutorials/signals/6-two-way-binding-with-model-signals), exploremos cómo usar signals con servicios de Angular. Los servicios son perfectos para compartir estado reactivo entre múltiples componentes, y los signals hacen esto aún más poderoso al proporcionar detección de cambios automática y patrones reactivos limpios.
 
-In this activity, you'll learn how to create a cart store with signals that allow the cart display component to react to state changes automatically.
+En esta actividad, aprenderás cómo crear un carrito de compras (cart store) con signals que permita que el componente de visualización del carrito reaccione a los cambios de estado automáticamente.
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add cart store signals">
-Add readonly and computed signals to make the cart state reactive in `cart-store.ts`.
+<docs-step title="Agrega signals del cart store">
+Agrega signals de solo lectura y computed para hacer reactivo el estado del carrito en `cart-store.ts`.
 
 ```ts
-// Add the computed import
+// Agregar la importación de computed
 import {Injectable, signal, computed} from '@angular/core';
 
-// Then add these signals to the class:
+// Luego agrega estos signals a la clase:
 
-// Readonly signals
+// Signals de solo lectura
 readonly cartItems = this.items.asReadonly();
 
 // Computed signals
@@ -30,11 +30,11 @@ readonly totalPrice = computed(() => {
 });
 ```
 
-These signals allow components to reactively access cart data and computed totals. The `asReadonly()` method prevents external code from modifying the cart items directly, while `computed()` creates derived state that automatically updates when the source signal changes.
+Estos signals permiten a los componentes acceder reactivamente a los datos del carrito y los totales calculados. El método `asReadonly()` evita que código externo modifique los items del carrito directamente, mientras que `computed()` crea estado derivado que se actualiza automáticamente cuando el signal fuente cambia.
 </docs-step>
 
-<docs-step title="Complete the quantity update methods">
-The cart display component in `cart-display.ts` already uses the cart store signals in its template. Complete the quantity update methods to modify cart items:
+<docs-step title="Completa los métodos de actualización de cantidad">
+El componente de visualización del carrito en `cart-display.ts` ya usa los signals del cart store en su plantilla. Completa los métodos de actualización de cantidad para modificar los items del carrito:
 
 ```ts
 increaseQuantity(id: string) {
@@ -54,11 +54,11 @@ decreaseQuantity(id: string) {
 }
 ```
 
-These methods read the current cart state using `cartItems()` and update quantities through the store's methods. The UI automatically updates when the signals change!
+Estos métodos leen el estado actual del carrito usando `cartItems()` y actualizan las cantidades a través de los métodos del store. ¡La UI se actualiza automáticamente cuando los signals cambian!
 </docs-step>
 
-<docs-step title="Update the main app component">
-Update the main app component in `app.ts` to use the cart service and display the cart component.
+<docs-step title="Actualiza el componente principal de la app">
+Actualiza el componente principal de la app en `app.ts` para usar el servicio del carrito y mostrar el componente del carrito.
 
 ```angular-ts
 import {Component, inject} from '@angular/core';
@@ -93,11 +93,11 @@ export class App {
 
 </docs-workflow>
 
-Excellent! You've now learned how to use signals with services. Key concepts to remember:
+¡Excelente! Ahora has aprendido cómo usar signals con servicios. Conceptos clave para recordar:
 
-- **Service-level signals**: Services can use signals to manage reactive state
-- **Dependency injection**: Use `inject()` to access services with signals in components
-- **Computed signals in services**: Create derived state that updates automatically
-- **Readonly signals**: Expose read-only versions of signals to prevent external mutations
+- **Signals a nivel de servicio**: Los servicios pueden usar signals para gestionar estado reactivo
+- **Inyección de dependencias**: Usa `inject()` para acceder a servicios con signals en componentes
+- **Computed signals en servicios**: Crea estado derivado que se actualiza automáticamente
+- **Signals de solo lectura**: Expone versiones de solo lectura de los signals para prevenir mutaciones externas
 
-In the next lesson, you'll learn about [how to use signals with directives](/tutorials/signals/8-using-signals-with-directives)!
+En la próxima lección, aprenderás sobre [cómo usar signals con directivas](/tutorials/signals/8-using-signals-with-directives)!

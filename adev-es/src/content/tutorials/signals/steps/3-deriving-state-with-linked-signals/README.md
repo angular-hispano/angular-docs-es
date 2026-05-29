@@ -1,54 +1,54 @@
-# Deriving state with linked signals
+# Derivando estado con linked signals
 
-Now that you've learned [how to derive state with computed signals](/tutorials/signals/2-deriving-state-with-computed-signals), you created a computed signal for `notificationsEnabled` that automatically followed your user status. But what if users want to manually disable notifications even when they're online? That's where linked signals come in.
+Ahora que has aprendido [cómo derivar estado con computed signals](/tutorials/signals/2-deriving-state-with-computed-signals), creaste un computed signal para `notificationsEnabled` que seguía automáticamente tu estado de usuario. Pero ¿qué pasa si los usuarios quieren deshabilitar manualmente las notificaciones incluso cuando están en línea? Ahí es donde entran los linked signals.
 
-Linked signals are writable signals that maintain a reactive connection to their source signals. They're perfect for creating state that normally follows a computation but can be overridden when needed.
+Los linked signals son signals editables que mantienen una conexión reactiva con sus signals fuente. Son perfectos para crear estado que normalmente sigue un cómputo pero puede ser anulado cuando sea necesario.
 
-In this activity, you'll learn how `linkedSignal()` differs from `computed()` by enhancing the previous user status system's computed `notificationsEnabled` to a writable linked signal.
+En esta actividad, aprenderás cómo `linkedSignal()` se diferencia de `computed()` mejorando el computed `notificationsEnabled` del sistema de estado de usuario anterior a un linked signal editable.
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import linkedSignal function">
-Add `linkedSignal` to your existing imports.
+<docs-step title="Importa la función linkedSignal">
+Agrega `linkedSignal` a tus importaciones existentes.
 
 ```ts
-// Add linkedSignal to existing imports
+// Agregar linkedSignal a las importaciones existentes
 import {Component, signal, computed, linkedSignal, ChangeDetectionStrategy} from '@angular/core';
 ```
 
 </docs-step>
 
-<docs-step title="Convert computed to linkedSignal with the same expression">
-Replace the computed `notificationsEnabled` with a linkedSignal using the exact same expression:
+<docs-step title="Convierte computed a linkedSignal con la misma expresión">
+Reemplaza el computed `notificationsEnabled` con un linkedSignal usando exactamente la misma expresión:
 
 ```ts
-// Previously (from lesson 2):
+// Anteriormente (de la lección 2):
 // notificationsEnabled = computed(() => this.userStatus() === 'online');
 
-// Now with linkedSignal - same expression, but writable:
+// Ahora con linkedSignal - misma expresión, pero editable:
 notificationsEnabled = linkedSignal(() => this.userStatus() === 'online');
 ```
 
-The expression is identical, but linkedSignal creates a writable signal. It will still automatically update when `userStatus` changes, but you can also set it manually.
+La expresión es idéntica, pero linkedSignal crea un signal editable. Se seguirá actualizando automáticamente cuando `userStatus` cambie, pero también puedes establecerlo manualmente.
 </docs-step>
 
-<docs-step title="Add a method to manually toggle notifications">
-Add a method to demonstrate that linked signals can be written to directly:
+<docs-step title="Agrega un método para alternar notificaciones manualmente">
+Agrega un método para demostrar que los linked signals pueden escribirse directamente:
 
 ```ts
 toggleNotifications() {
-  // This works with linkedSignal but would error with computed!
+  // Esto funciona con linkedSignal pero daría error con computed!
   this.notificationsEnabled.set(!this.notificationsEnabled());
 }
 ```
 
-This is the key difference: computed signals are read-only, but linked signals can be updated manually while still maintaining their reactive connection.
+Esta es la diferencia clave: los computed signals son de solo lectura, pero los linked signals pueden actualizarse manualmente mientras mantienen su conexión reactiva.
 </docs-step>
 
-<docs-step title="Update the template to add manual notification control">
-Update your template to add a toggle button for notifications:
+<docs-step title="Actualiza la plantilla para agregar control manual de notificaciones">
+Actualiza tu plantilla para agregar un botón de alternancia para notificaciones:
 
 ```angular-html
 <div class="status-info">
@@ -67,29 +67,29 @@ Update your template to add a toggle button for notifications:
       }
     </button>
   </div>
-  <!-- existing message and working-hours divs remain -->
+  <!-- los divs existentes de mensaje y horario laboral permanecen -->
 </div>
 ```
 
 </docs-step>
 
-<docs-step title="Observe the reactive behavior">
-Now test the behavior:
+<docs-step title="Observa el comportamiento reactivo">
+Ahora prueba el comportamiento:
 
-1. Change the user status - notice how `notificationsEnabled` updates automatically
-2. Manually toggle notifications - it overrides the computed value
-3. Change status again - the linked signal re-syncs with its computation
+1. Cambia el estado del usuario - observa cómo `notificationsEnabled` se actualiza automáticamente
+2. Alterna manualmente las notificaciones - anula el valor computed
+3. Cambia el estado nuevamente - el linked signal se re-sincroniza con su cómputo
 
-This demonstrates that linked signals maintain their reactive connection even after being manually set!
+¡Esto demuestra que los linked signals mantienen su conexión reactiva incluso después de ser establecidos manualmente!
 </docs-step>
 
 </docs-workflow>
 
-Excellent! You've learned the key differences between computed and linked signals:
+¡Excelente! Has aprendido las diferencias clave entre computed y linked signals:
 
-- **Computed signals**: Read-only, always derived from other signals
-- **Linked signals**: Writable, can be both derived AND manually updated
-- **Use computed when**: The value should always be calculated
-- **Use linkedSignal when**: You need a default computation that can be overridden
+- **Computed signals**: Solo lectura, siempre derivados de otros signals
+- **Linked signals**: Editables, pueden ser tanto derivados como actualizados manualmente
+- **Usa computed cuando**: El valor siempre debe ser calculado
+- **Usa linkedSignal cuando**: Necesitas un cómputo predeterminado que pueda ser anulado
 
-In the next lesson, you'll learn [how to manage async data with signals](/tutorials/signals/4-managing-async-data-with-signals)!
+En la próxima lección, aprenderás [cómo gestionar datos asíncronos con signals](/tutorials/signals/4-managing-async-data-with-signals)!
