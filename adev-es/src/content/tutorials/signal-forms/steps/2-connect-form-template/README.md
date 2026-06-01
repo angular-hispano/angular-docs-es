@@ -1,22 +1,22 @@
-# Connect your form to the template
+# Conectar tu formulario a la plantilla
 
-Now, you need to connect your form to the template using the `[field]` directive. This creates two-way data binding between your form model and the input elements.
+Ahora, necesitas conectar tu formulario a la plantilla usando la directiva `[field]`. Esto crea un enlace bidireccional de datos entre tu modelo de formulario y los elementos de entrada.
 
-In this lesson, you'll learn how to:
+En esta lección, aprenderás cómo:
 
-- Import the `Field` directive
-- Use the `[field]` directive to bind form fields to inputs
-- Connect text inputs and checkboxes to your form
-- Display form field values in the template
+- Importar la directiva `Field`
+- Usar la directiva `[field]` para enlazar campos del formulario a inputs
+- Conectar inputs de texto y checkboxes a tu formulario
+- Mostrar los valores de los campos del formulario en la plantilla
 
-Let's wire up the template!
+¡Conectemos la plantilla!
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import the Field directive">
-Import the `Field` directive from `@angular/forms/signals` and add it to your component's imports array:
+<docs-step title="Importa la directiva Field">
+Importa la directiva `Field` desde `@angular/forms/signals` y agrégala al arreglo imports de tu componente:
 
 ```ts
 import { form, Field } from '@angular/forms/signals';
@@ -32,18 +32,18 @@ import { form, Field } from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Bind the email field">
-In your template, add the `[field]` directive to the email input:
+<docs-step title="Enlaza el campo email">
+En tu plantilla, agrega la directiva `[field]` al input de email:
 
 ```html
 <input type="email" [field]="loginForm.email" />
 ```
 
-The `loginForm.email` expression accesses the email field from your form.
+La expresión `loginForm.email` accede al campo email desde tu formulario.
 </docs-step>
 
-<docs-step title="Bind the password field">
-Add the `[field]` directive to the password input:
+<docs-step title="Enlaza el campo password">
+Agrega la directiva `[field]` al input de password:
 
 ```html
 <input type="password" [field]="loginForm.password" />
@@ -51,8 +51,8 @@ Add the `[field]` directive to the password input:
 
 </docs-step>
 
-<docs-step title="Bind the checkbox field">
-Add the `[field]` directive to the checkbox input:
+<docs-step title="Enlaza el campo checkbox">
+Agrega la directiva `[field]` al input checkbox:
 
 ```html
 <input type="checkbox" [field]="loginForm.rememberMe" />
@@ -60,8 +60,8 @@ Add the `[field]` directive to the checkbox input:
 
 </docs-step>
 
-<docs-step title="Display the form values">
-Below the form, there's a debug section to show current form values. Display each field value using `.value()`:
+<docs-step title="Muestra los valores del formulario">
+Debajo del formulario, hay una sección de depuración para mostrar los valores actuales del formulario. Muestra cada valor de campo usando `.value()`:
 
 ```html
 <p>Email: {{ loginForm.email().value() }}</p>
@@ -69,11 +69,11 @@ Below the form, there's a debug section to show current form values. Display eac
 <p>Remember me: {{ loginForm.rememberMe().value() ? 'Yes' : 'No' }}</p>
 ```
 
-Form field values are signals, so the displayed values update automatically as you type.
+Los valores de los campos del formulario son signals, por lo que los valores mostrados se actualizan automáticamente mientras escribes.
 </docs-step>
 
 </docs-workflow>
 
-Great work! You've connected your form to the template and displayed the form values. The `[field]` directive handles two-way data binding automatically - as you type, the `loginModel` signal updates, and the displayed values update immediately.
+¡Excelente trabajo! Has conectado tu formulario a la plantilla y mostrado los valores del formulario. La directiva `[field]` maneja el enlace bidireccional de datos automáticamente — mientras escribes, el signal `loginModel` se actualiza, y los valores mostrados se actualizan inmediatamente.
 
-Next, you'll learn [how to add validation to your form](/tutorials/signal-forms/3-add-validation)!
+A continuación, aprenderás [cómo agregar validación a tu formulario](/tutorials/signal-forms/3-add-validation)!

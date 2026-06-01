@@ -1,22 +1,22 @@
-# Display validation errors
+# Mostrar errores de validación
 
-Now that you're able to validate the form, it's important to show validation errors to users.
+Ahora que puedes validar el formulario, es importante mostrar los errores de validación a los usuarios.
 
-In this activity, you'll learn how to:
+En esta actividad, aprenderás cómo:
 
-- Access field state with validation signals
-- Use `@if` to conditionally display errors
-- Loop through errors with `@for`
-- Show errors only after user interaction
+- Acceder al estado del campo con signals de validación
+- Usar `@if` para mostrar errores condicionalmente
+- Iterar sobre errores con `@for`
+- Mostrar errores solo después de la interacción del usuario
 
-Let's display validation feedback!
+¡Mostremos comentarios de validación!
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add error display for email field">
-Below the email input, add conditional error display. This will only show errors when the field is both invalid and touched:
+<docs-step title="Agrega visualización de errores para el campo email">
+Debajo del input de email, agrega visualización condicional de errores. Esto solo mostrará errores cuando el campo sea tanto inválido como touched:
 
 ```html
 <label>
@@ -32,11 +32,11 @@ Below the email input, add conditional error display. This will only show errors
 }
 ```
 
-The `loginForm.email()` call accesses the field's state signal. The `invalid()` method returns `true` when validation fails, `touched()` returns `true` after the user has interacted with the field, and `errors()` provides an array of validation errors with their custom messages.
+La llamada `loginForm.email()` accede al signal de estado del campo. El método `invalid()` devuelve `true` cuando la validación falla, `touched()` devuelve `true` después de que el usuario ha interactuado con el campo, y `errors()` proporciona un arreglo de errores de validación con sus mensajes personalizados.
 </docs-step>
 
-<docs-step title="Add error display for password field">
-Below the password input, add the same pattern for password errors:
+<docs-step title="Agrega visualización de errores para el campo password">
+Debajo del input de password, agrega el mismo patrón para errores de password:
 
 ```html
 <label>
@@ -56,6 +56,6 @@ Below the password input, add the same pattern for password errors:
 
 </docs-workflow>
 
-Excellent! You've added error display to your form. The errors appear only after users interact with a field, providing helpful feedback without being intrusive.
+¡Excelente! Has agregado visualización de errores a tu formulario. Los errores aparecen solo después de que los usuarios interactúan con un campo, proporcionando comentarios útiles sin ser intrusivos.
 
-Next, you'll learn [how to handle form submission](/tutorials/signal-forms/5-add-submission)!
+A continuación, aprenderás [cómo manejar el envío del formulario](/tutorials/signal-forms/5-add-submission)!

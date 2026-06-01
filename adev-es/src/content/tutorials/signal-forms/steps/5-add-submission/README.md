@@ -1,22 +1,22 @@
-# Add form submission
+# Agregar envío de formulario
 
-Finally, let's learn how to handle form submission. You'll learn how to use the `submit()` function to run async operations when the form is valid, and disable the submit button when the form has errors.
+Finalmente, aprendamos cómo manejar el envío del formulario. Aprenderás cómo usar la función `submit()` para ejecutar operaciones asíncronas cuando el formulario es válido, y deshabilitar el botón de envío cuando el formulario tiene errores.
 
-In this activity, you'll learn how to:
+En esta actividad, aprenderás cómo:
 
-- Import the `submit()` function
-- Create a submission handler method
-- Use `submit()` to run logic only when valid
-- Disable the submit button based on form state
+- Importar la función `submit()`
+- Crear un método manejador de envío
+- Usar `submit()` para ejecutar lógica solo cuando es válido
+- Deshabilitar el botón de envío basado en el estado del formulario
 
-Let's complete the form!
+¡Completemos el formulario!
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import the submit function">
-Import the `submit` function from `@angular/forms/signals`:
+<docs-step title="Importa la función submit">
+Importa la función `submit` desde `@angular/forms/signals`:
 
 ```ts
 import { form, Field, required, email, submit } from '@angular/forms/signals';
@@ -24,8 +24,8 @@ import { form, Field, required, email, submit } from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Add the onSubmit method">
-In your component class, add an `onSubmit()` method that handles form submission:
+<docs-step title="Agrega el método onSubmit">
+En tu clase de componente, agrega un método `onSubmit()` que maneje el envío del formulario:
 
 ```ts
 onSubmit(event: Event) {
@@ -33,16 +33,16 @@ onSubmit(event: Event) {
   submit(this.loginForm, async () => {
     const credentials = this.loginModel();
     console.log('Logging in with:', credentials);
-    // Add your login logic here
+    // Agrega tu lógica de inicio de sesión aquí
   });
 }
 ```
 
-The `submit()` function only runs your async callback if the form is valid. It also handles the form's submission state automatically.
+La función `submit()` solo ejecuta tu callback asíncrono si el formulario es válido. También maneja el estado de envío del formulario automáticamente.
 </docs-step>
 
-<docs-step title="Bind the submit handler to the form">
-In your template, bind the `onSubmit()` method to the form's submit event:
+<docs-step title="Enlaza el manejador de envío al formulario">
+En tu plantilla, enlaza el método `onSubmit()` al evento submit del formulario:
 
 ```html
 <form (submit)="onSubmit($event)">
@@ -50,8 +50,8 @@ In your template, bind the `onSubmit()` method to the form's submit event:
 
 </docs-step>
 
-<docs-step title="Disable the button when form is invalid">
-Update the submit button to be disabled when the form is invalid:
+<docs-step title="Deshabilita el botón cuando el formulario es inválido">
+Actualiza el botón de envío para que esté deshabilitado cuando el formulario sea inválido:
 
 ```html
 <button type="submit" [disabled]="loginForm().invalid()">
@@ -59,11 +59,11 @@ Update the submit button to be disabled when the form is invalid:
 </button>
 ```
 
-This prevents submission when the form has validation errors.
+Esto previene el envío cuando el formulario tiene errores de validación.
 </docs-step>
 
 </docs-workflow>
 
-Congratulations! You've built a complete login form with Signal Forms.
+¡Felicidades! Has construido un formulario de inicio de sesión completo con Signal Forms.
 
-Ready to see what you've learned and explore advanced topics? Continue to [the next steps](/tutorials/signal-forms/6-next-steps)!
+¿Listo para ver lo que has aprendido y explorar temas avanzados? Continúa a [los siguientes pasos](/tutorials/signal-forms/6-next-steps)!
