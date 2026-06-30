@@ -1,17 +1,17 @@
-# Updating the Component Class
+# Actualizando la clase del componente
 
-In Angular, the component's logic and behavior are defined in the component's TypeScript class.
+En Angular, la lógica y el comportamiento del componente se definen en la clase TypeScript del componente.
 
-Note: Learn more about [showing dynamic text in the essentials guide](/essentials/templates#showing-dynamic-text).
+NOTA: Aprende más sobre [mostrar texto dinámico en la guía esencial](/essentials/templates#showing-dynamic-text).
 
-In this activity, you'll learn how to update the component class and how to use [interpolation](/guide/templates/binding#render-dynamic-text-with-text-interpolation).
+En esta actividad, aprenderás cómo actualizar la clase del componente y cómo usar [interpolación](/guide/templates/binding#render-dynamic-text-with-text-interpolation).
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add a property called `city`">
-Update the component class by adding a property called `city` to the `App` class.
+<docs-step title="Agrega una propiedad llamada `city`">
+Actualiza la clase del componente agregando una propiedad llamada `city` a la clase `App`.
 
 ```ts
 export class App {
@@ -19,31 +19,31 @@ export class App {
 }
 ```
 
-The `city` property is of type `string` but you can omit the type because of [type inference in TypeScript](https://www.typescriptlang.org/docs/handbook/type-inference.html). The `city` property can be used in the `App` class and can be referenced in the component template.
+La propiedad `city` es de tipo `string` pero puedes omitir el tipo debido a la [inferencia de tipos en TypeScript](https://www.typescriptlang.org/docs/handbook/type-inference.html). La propiedad `city` puede usarse en la clase `App` y puede referenciarse en la plantilla del componente.
 
 <br>
 
-To use a class property in a template, you have to use the `{{ }}` syntax.
+Para usar una propiedad de la clase en una plantilla, debes usar la sintaxis `{{ }}`.
 </docs-step>
 
-<docs-step title="Update the component template">
-Update the `template` property to match the following HTML:
+<docs-step title="Actualiza la plantilla del componente">
+Actualiza la propiedad `template` para que coincida con el siguiente HTML:
 
 ```ts
 template: `Hello {{ city }}`,
 ```
 
-This is an example of interpolation and is a part of Angular template syntax. It enables you to do much more than put dynamic text in a template. You can also use this syntax to call functions, write expressions and more.
+Este es un ejemplo de interpolación y es parte de la sintaxis de plantillas de Angular. Te permite hacer mucho más que poner texto dinámico en una plantilla. También puedes usar esta sintaxis para llamar funciones, escribir expresiones y más.
 </docs-step>
 
-<docs-step title="More practice with interpolation">
-Try this - add another set of `{{ }}` with the contents being `1 + 1`:
+<docs-step title="Más práctica con interpolación">
+Intenta esto: agrega otro conjunto de `{{ }}` con el contenido `1 + 1`:
 
 ```ts
 template: `Hello {{ city }}, {{ 1 + 1 }}`,
 ```
 
-Angular evaluates the contents of the `{{ }}` and renders the output in the template.
+Angular evalúa el contenido de `{{ }}` y renderiza el resultado en la plantilla.
 </docs-step>
 
 </docs-workflow>

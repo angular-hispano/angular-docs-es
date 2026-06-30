@@ -1,22 +1,22 @@
-# Vistas diferibles (deferrable views)
+# Deferrable Views
 
-A veces en el desarrollo de aplicaciones, terminas con muchos componentes que necesitas referenciar en tu app, pero algunos de ellos no necesitan cargarse de inmediato por varias razones.
+Sometimes in app development, you end up with a lot of components that you need to reference in your app, but some of those don't need to be loaded right away for various reasons.
 
-Quizás están debajo del pliegue visible o son componentes pesados con los que no se interactúa hasta más tarde. En ese caso, podemos cargar algunos de esos recursos más tarde con vistas diferibles (deferrable views).
+Maybe they are below the visible fold or are heavy components that aren't interacted with until later. In that case, we can load some of those resources later with deferrable views.
 
-NOTA: Aprende más sobre [carga diferida con @defer en la guía detallada](/guide/templates/defer).
+Note: Learn more about [deferred loading with @defer in the in-depth guide](/guide/templates/defer).
 
-En esta actividad, aprenderás cómo usar vistas diferibles para cargar de forma diferida una sección de la plantilla de tu componente.
+In this activity, you'll learn how to use deferrable views to defer load a section of your component template.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Agrega un bloque `@defer` alrededor del componente de comentarios">
+<docs-step title="Add a `@defer` block around the comments component">
 
-En tu app, la página de publicación del blog tiene un componente de comentarios después de los detalles de la publicación.
+In your app, the blog post page has a comment component after the post details.
 
-Envuelve el componente de comentarios con un bloque `@defer` para cargarlo de forma diferida.
+Wrap the comment component with a `@defer` block to defer load it.
 
 ```angular-html
 @defer {
@@ -24,13 +24,13 @@ Envuelve el componente de comentarios con un bloque `@defer` para cargarlo de fo
 }
 ```
 
-El código anterior es un ejemplo de cómo usar un bloque `@defer` básico. Por defecto, `@defer` cargará el componente `comments` cuando el navegador esté inactivo.
+The code above is an example of how to use a basic `@defer` block. By default `@defer` will load the `comments` component when the browser is idle.
 
 </docs-step>
 
-<docs-step title="Agrega un placeholder">
+<docs-step title="Add a placeholder">
 
-Agrega un bloque `@placeholder` al bloque `@defer`. El bloque `@placeholder` es donde pones HTML que se mostrará antes de que comience la carga diferida. El contenido en los bloques `@placeholder` se carga de forma inmediata.
+Add a `@placeholder` block to the `@defer` block. The `@placeholder` block is where you put html that will show before the deferred loading starts. The content in `@placeholder` blocks is eagerly loaded.
 
 <docs-code language="angular-html" highlight="[3,4,5]">
 @defer {
@@ -42,9 +42,9 @@ Agrega un bloque `@placeholder` al bloque `@defer`. El bloque `@placeholder` es 
 
 </docs-step>
 
-<docs-step title="Agrega un bloque de carga (loading)">
+<docs-step title="Add a loading block">
 
-Agrega un bloque `@loading` al bloque `@defer`. El bloque `@loading` es donde pones HTML que se mostrará _mientras_ el contenido diferido se está obteniendo activamente, pero aún no ha terminado. El contenido en los bloques `@loading` se carga de forma inmediata.
+Add a `@loading` block to the `@defer` block. The `@loading` block is where you put html that will show _while_ the deferred content is actively being fetched, but hasn't finished yet. The content in `@loading` blocks is eagerly loaded.
 
 <docs-code language="angular-html" highlight="[5,6,7]">
 @defer {
@@ -58,9 +58,9 @@ Agrega un bloque `@loading` al bloque `@defer`. El bloque `@loading` es donde po
 
 </docs-step>
 
-<docs-step title="Agrega una duración mínima">
+<docs-step title="Add a minimum duration">
 
-Tanto las secciones `@placeholder` como `@loading` tienen parámetros opcionales para evitar parpadeos cuando la carga ocurre rápidamente. `@placeholder` tiene `minimum` y `@loading` tiene `minimum` y `after`. Agrega una duración `minimum` al bloque `@loading` para que se renderice durante al menos 2 segundos.
+Both `@placeholder` and `@loading` sections have optional parameters to prevent flickering from occurring when loading happens quickly. `@placeholder` has `minimum` and `@loading` has `minimum` and `after`. Add a `minimum` duration to the `@loading` block so it will be rendered for at least 2 seconds.
 
 <docs-code language="angular-html" highlight="[5]">
 @defer {
@@ -74,9 +74,9 @@ Tanto las secciones `@placeholder` como `@loading` tienen parámetros opcionales
 
 </docs-step>
 
-<docs-step title="Agrega un disparador de viewport">
+<docs-step title="Add a viewport trigger">
 
-Las vistas diferibles tienen varias opciones de disparadores (triggers). Agrega un disparador de viewport para que el contenido se cargue de forma diferida una vez que entre en el viewport.
+Deferrable views have a number of trigger options. Add a viewport trigger so the content will defer load once it enters the viewport.
 
 <docs-code language="angular-html" highlight="[1]">
 @defer (on viewport) {
@@ -86,9 +86,9 @@ Las vistas diferibles tienen varias opciones de disparadores (triggers). Agrega 
 
 </docs-step>
 
-<docs-step title="Agrega contenido">
+<docs-step title="Add content">
 
-Un disparador de viewport se usa mejor cuando estás difiriendo contenido que está lo suficientemente abajo en la página como para que necesite ser desplazado para verse. Así que agreguemos algo de contenido a nuestra publicación del blog. Puedes escribir el tuyo propio, o puedes copiar el contenido de abajo y ponerlo dentro del elemento `<article>`.
+A viewport trigger is best used when you're deferring content that's far enough down the page that it needs to be scrolled to see. So let's add some content to our blog post. You can either write your own, or you can copy the content below and put it inside the `<article>` element.
 
 <docs-code language="html" highlight="[1]">
 <article>
@@ -101,14 +101,14 @@ Un disparador de viewport se usa mejor cuando estás difiriendo contenido que es
 </article>
 </docs-code>
 
-Una vez que hayas agregado este código, desplázate hacia abajo para ver el contenido diferido cargarse cuando lo despliegues dentro del viewport.
+Once you've added this code, now scroll down to see the deferred content load once you scroll it into the viewport.
 
 </docs-step>
 
 </docs-workflow>
 
-En esta actividad, has aprendido cómo usar vistas diferibles en tus aplicaciones. Excelente trabajo. 🙌
+In the activity, you've learned how to use deferrable views in your applications. Great work. 🙌
 
-Hay aún más que puedes hacer con ellas, como diferentes disparadores, precarga (prefetching) y bloques `@error`.
+There's even more you can do with them, like different triggers, prefetching, and `@error` blocks.
 
-Si deseas aprender más, consulta la [documentación sobre vistas diferibles (Deferrable views)](guide/defer).
+If you would like to learn more, check out the [documentation for Deferrable views](guide/defer).

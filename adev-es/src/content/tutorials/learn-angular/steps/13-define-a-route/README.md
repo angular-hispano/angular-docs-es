@@ -1,23 +1,23 @@
-# Define a Route
+# Definiendo una ruta
 
-Now that you've set up the app to use Angular Router, you need to define the routes.
+Ahora que has configurado la app para usar el Router de Angular, necesitas definir las rutas.
 
-Note: Learn more about [defining a basic route in the in-depth guide](/guide/routing/common-router-tasks#defining-a-basic-route).
+NOTA: Aprende más sobre [definir una ruta básica en la guía detallada](/guide/routing/common-router-tasks#defining-a-basic-route).
 
-In this activity, you'll learn how to add and configure routes with your app.
+En esta actividad, aprenderás cómo agregar y configurar rutas en tu app.
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Define a route in `app.routes.ts`">
+<docs-step title="Define una ruta en `app.routes.ts`">
 
-In your app, there are two pages to display: (1) Home Page and (2) User Page.
+En tu app, hay dos páginas para mostrar: (1) Página de Inicio (Home Page) y (2) Página de Usuario (User Page).
 
-To define a route, add a route object to the `routes` array in `app.routes.ts` that contains:
+Para definir una ruta, agrega un objeto de ruta al arreglo `routes` en `app.routes.ts` que contenga:
 
-- The `path` of the route (which automatically starts at the root path (i.e., `/`))
-- The `component` that you want the route to display
+- El `path` de la ruta (que automáticamente comienza en la ruta raíz, es decir, `/`)
+- El `component` que deseas que la ruta muestre
 
 ```ts
 import {Routes} from '@angular/router';
@@ -31,17 +31,17 @@ export const routes: Routes = [
 ];
 ```
 
-The code above is an example of how `Home` can be added as a route. Now go ahead and implement this along with the `User` in the playground.
+El código anterior es un ejemplo de cómo se puede agregar `Home` como una ruta. Ahora continúa e implementa esto junto con `User` en el playground.
 
-Use `'user'` for the path of `User`.
+Usa `'user'` para el path de `User`.
 
 </docs-step>
 
-<docs-step title="Add title to route definition">
+<docs-step title="Agrega título a la definición de ruta">
 
-In addition to defining the routes correctly, Angular Router also enables you to set the page title whenever users are navigating by adding the `title` property to each route.
+Además de definir las rutas correctamente, el Router de Angular también te permite establecer el título de la página cuando los usuarios navegan, agregando la propiedad `title` a cada ruta.
 
-In `app.routes.ts`, add the `title` property to the default route (`path: ''`) and the `user` route. Here's an example:
+En `app.routes.ts`, agrega la propiedad `title` a la ruta predeterminada (`path: ''`) y a la ruta `user`. Aquí hay un ejemplo:
 
 <docs-code language="ts" highlight="[8]">
 import {Routes} from '@angular/router';
@@ -60,6 +60,6 @@ component: Home,
 
 </docs-workflow>
 
-In the activity, you've learned how to define and configure routes in your Angular app. Nice work. 🙌
+En esta actividad, has aprendido cómo definir y configurar rutas en tu app de Angular. Buen trabajo. 🙌
 
-The journey to fully enabling routing in your app is almost complete, keep going.
+El viaje para habilitar completamente el enrutamiento en tu app está casi completo, sigue adelante.
