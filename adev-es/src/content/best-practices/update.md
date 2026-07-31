@@ -11,10 +11,6 @@ Para información sobre nuestra política y prácticas de versionado —incluyen
 ÚTIL: Si actualmente estás usando AngularJS, consulta [Actualizando desde AngularJS](https://angular.io/guide/upgrade 'Actualizando desde Angular JS').
 _AngularJS_ es el nombre para todas las versiones v1.x de Angular.
 
-## Recibiendo notificaciones de nuevos lanzamientos
-
-Para recibir notificaciones cuando nuevos lanzamientos estén disponibles, sigue a [@angular](https://x.com/angular '@angular en X') en X (anteriormente Twitter) o suscríbete al [blog de Angular](https://blog.angular.dev 'Blog de Angular').
-
 ## Aprendiendo sobre nuevas funcionalidades
 
 ¿Qué hay de nuevo? ¿Qué ha cambiado? Compartimos las cosas más importantes que necesitas saber en el blog de Angular en [anuncios de lanzamiento](https://blog.angular.dev/ 'Blog de Angular - anuncios de lanzamiento').
