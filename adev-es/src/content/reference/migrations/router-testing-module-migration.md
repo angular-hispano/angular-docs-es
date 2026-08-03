@@ -10,15 +10,15 @@ Ejecuta el schematic con:
 ng generate @angular/core:router-testing-module-migration
 ```
 
-## Opciones
+## Opciones {#options}
 
 | Opción | Detalles                                                                                                                                   |
 | :----- | :----------------------------------------------------------------------------------------------------------------------------------------- |
 | `path` | La ruta (relativa a la raíz del proyecto) a migrar. Por defecto es `./`. Úsala para migrar de forma incremental un subconjunto de tu proyecto. |
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Preservar opciones del router
+### Preservar opciones del router {#preserve-router-options}
 
 Antes:
 
@@ -54,7 +54,7 @@ describe('test', () => {
 });
 ```
 
-### Agregar provideLocationMocks cuando se importa `SpyLocation` y se usa `urlChanges`
+### Agregar provideLocationMocks cuando se importa `SpyLocation` y se usa `urlChanges` {#add-providelocationmocks-when-spylocation-is-imported-and-urlchanges-is-used}
 
 Antes:
 

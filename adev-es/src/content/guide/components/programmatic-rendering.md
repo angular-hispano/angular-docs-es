@@ -14,16 +14,16 @@ usar la funcionalidad incorporada [`@defer`](/guide/templates/defer) en su lugar
 de cualquier componente, directiva y pipe dentro del bloque `@defer` sea extraído en chunks de JavaScript
 separados automáticamente y cargados solo cuando sea necesario, basado en los triggers configurados.
 
-## Usando NgComponentOutlet
+## Usando NgComponentOutlet {#using-ngcomponentoutlet}
 
 `NgComponentOutlet` es una directiva estructural que renderiza dinámicamente un componente dado en una
 plantilla.
 
 ```angular-ts
-@Component({ ... })
+@Component({/*...*/})
 export class AdminBio { /* ... */ }
 
-@Component({ ... })
+@Component({/*...*/})
 export class StandardBio { /* ... */ }
 
 @Component({
@@ -44,7 +44,145 @@ export class CustomDialog {
 Ve la [referencia de API de NgComponentOutlet](api/common/NgComponentOutlet) para más información sobre las
 capacidades de la directiva.
 
-## Usando ViewContainerRef
+### Pasar entradas a componentes renderizados dinámicamente {#passing-inputs-to-dynamically-rendered-components}
+
+Puedes pasar entradas al componente renderizado dinámicamente usando la propiedad `ngComponentOutletInputs`. Esta propiedad acepta un objeto donde las claves son nombres de entradas y los valores son los valores de las entradas.
+
+```angular-ts
+@Component({
+  selector: 'user-greeting',
+  template: `
+    <div>
+      <p>User: {{ username() }}</p>
+      <p>Role: {{ role() }}</p>
+    </div>
+  `,
+})
+export class UserGreeting {
+  username = input.required<string>();
+  role = input('guest');
+}
+
+@Component({
+  selector: 'profile-view',
+  imports: [NgComponentOutlet],
+  template: `<ng-container *ngComponentOutlet="greetingComponent; inputs: greetingInputs()" />`,
+})
+export class ProfileView {
+  greetingComponent = UserGreeting;
+  greetingInputs = signal({username: 'ngAwesome', role: 'admin'});
+}
+```
+
+Las entradas se actualizan cada vez que la signal `greetingInputs` cambia, manteniendo el componente dinámico sincronizado con el estado del padre.
+
+### Proporcionar proyección de contenido {#providing-content-projection}
+
+Usa `ngComponentOutletContent` para pasar contenido proyectado al componente renderizado dinámicamente. Esto es útil cuando el componente dinámico usa `<ng-content>` para mostrar contenido.
+
+```angular-ts
+@Component({
+  selector: 'card-wrapper',
+  template: `
+    <div class="card">
+      <ng-content />
+    </div>
+  `,
+})
+export class CardWrapper {}
+
+@Component({
+  imports: [NgComponentOutlet],
+  template: `
+    <ng-container *ngComponentOutlet="cardComponent; content: cardContent()" />
+
+    <ng-template #contentTemplate>
+      <h3>Dynamic Content</h3>
+      <p>This content is projected into the card.</p>
+    </ng-template>
+  `,
+})
+export class DynamicCard {
+  private vcr = inject(ViewContainerRef);
+  cardComponent = CardWrapper;
+
+  private contentTemplate = viewChild<TemplateRef<unknown>>('contentTemplate');
+
+  cardContent = computed(() => {
+    const template = this.contentTemplate();
+    if (!template) return [];
+    // Devuelve un array de slots de proyección. Cada elemento representa un slot <ng-content>.
+    // CardWrapper tiene un <ng-content>, así que devolvemos un array con un elemento.
+    return [this.vcr.createEmbeddedView(template).rootNodes];
+  });
+}
+```
+
+NOTA: La hidratación no admite la proyección de nodos DOM creados con APIs nativas del DOM. Esto causa un [error NG0503](/errors/NG0503). Usa APIs de Angular para crear contenido proyectado o agrega `ngSkipHydration` al componente.
+
+### Proporcionar inyectores {#providing-injectors}
+
+Puedes proporcionar un inyector personalizado al componente creado dinámicamente usando `ngComponentOutletInjector`. Esto es útil para proporcionar servicios o configuración específicos del componente.
+
+```angular-ts
+export const THEME_DATA = new InjectionToken<string>('THEME_DATA', {
+  factory: () => 'light',
+});
+
+@Component({
+  selector: 'themed-panel',
+  template: `<div [class]="theme">...</div>`,
+})
+export class ThemedPanel {
+  theme = inject(THEME_DATA);
+}
+
+@Component({
+  selector: 'dynamic-panel',
+  imports: [NgComponentOutlet],
+  template: `<ng-container *ngComponentOutlet="panelComponent; injector: customInjector" />`,
+})
+export class DynamicPanel {
+  panelComponent = ThemedPanel;
+
+  customInjector = Injector.create({
+    providers: [{provide: THEME_DATA, useValue: 'dark'}],
+  });
+}
+```
+
+### Acceder a la instancia del componente {#accessing-the-component-instance}
+
+Puedes acceder a la instancia del componente creado dinámicamente usando la característica `exportAs` de la directiva:
+
+```angular-ts
+@Component({
+  selector: 'counter',
+  template: `<p>Count: {{ count() }}</p>`,
+})
+export class Counter {
+  count = signal(0);
+  increment() {
+    this.count.update((c) => c + 1);
+  }
+}
+
+@Component({
+  imports: [NgComponentOutlet],
+  template: `
+    <ng-container [ngComponentOutlet]="counterComponent" #outlet="ngComponentOutlet" />
+
+    <button (click)="outlet.componentInstance?.increment()">Increment</button>
+  `,
+})
+export class CounterHost {
+  counterComponent = Counter;
+}
+```
+
+NOTA: La propiedad `componentInstance` es `null` antes de que el componente sea renderizado.
+
+## Usando ViewContainerRef {#using-viewcontainerref}
 
 Un **contenedor de vista** es un nodo en el árbol de componentes de Angular que puede contener contenido. Cualquier componente
 o directiva puede inyectar `ViewContainerRef` para obtener una referencia a un contenedor de vista correspondiente a
@@ -101,7 +239,7 @@ En el ejemplo anterior, hacer clic en el botón "Load content" resulta en la sig
 </outer-container>
 ```
 
-## Carga diferida de componentes
+## Carga diferida de componentes {#lazy-loading-components}
 
 ÚTIL: si quieres cargar de forma diferida algunos componentes, puedes considerar usar la funcionalidad incorporada [`@defer`](/guide/templates/defer)
 en su lugar.
@@ -140,13 +278,13 @@ export class AdminSettings {
 
 El ejemplo anterior carga y muestra el `AdvancedSettings` al recibir un clic en el botón.
 
-## Enlazando inputs, outputs y estableciendo directivas host en la creación
+## Enlazando inputs, outputs y estableciendo directivas host en la creación {#binding-inputs-outputs-and-setting-host-directives-at-creation}
 
 Cuando creas componentes dinámicamente, establecer inputs manualmente y suscribirse a outputs puede ser propenso a errores. A menudo necesitas escribir código extra solo para conectar los enlaces después de que el componente es instanciado.
 
 Para simplificar esto, tanto `createComponent` como `ViewContainerRef.createComponent` soportan pasar un array `bindings` con helpers como `inputBinding()`, `outputBinding()` y `twoWayBinding()` para configurar inputs y outputs de antemano. También puedes especificar un array `directives` para aplicar cualquier directiva host. Esto permite crear componentes programáticamente con enlaces similares a plantillas en una sola llamada declarativa.
 
-### Vista host usando `ViewContainerRef.createComponent`
+### Vista host usando `ViewContainerRef.createComponent` {#host-view-using-viewcontainerrefcreatecomponent}
 
 `ViewContainerRef.createComponent` crea un componente e inserta automáticamente su vista host y elemento host en la jerarquía de vistas del contenedor en la ubicación del contenedor. Usa esto cuando el componente dinámico debe convertirse en parte de la estructura lógica y visual del contenedor (por ejemplo, añadiendo elementos de lista o UI en línea).
 
@@ -206,7 +344,7 @@ export class HostComponent {
 
 En el ejemplo anterior, el **AppWarningComponent** dinámico es creado con su input `canClose` enlazado a un signal reactivo, un enlace bidireccional en su estado `isExpanded`, y un listener de output para `close`. El `FocusTrap` y `ThemeDirective` están adjuntos al elemento host a través de `directives`.
 
-### Popup adjunto a `document.body` con `createComponent` + `hostElement`
+### Popup adjunto a `document.body` con `createComponent` + `hostElement` {#popup-attached-to-documentbody-with-createcomponent--hostelement}
 
 Usa esto cuando renderizas fuera de la jerarquía de vistas actual (por ejemplo, overlays). El `hostElement` proporcionado se convierte en el host del componente en el DOM, por lo que Angular no crea un nuevo elemento que coincida con el selector. Te permite configurar **bindings** directamente.
 
@@ -219,10 +357,11 @@ import {
   Injectable,
   inputBinding,
   outputBinding,
+  Service,
 } from '@angular/core';
-import { PopupComponent } from './popup.component';
+import {Popup} from './popup';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class PopupService {
   private readonly injector = inject(EnvironmentInjector);
   private readonly appRef = inject(ApplicationRef);
@@ -232,7 +371,7 @@ export class PopupService {
     const host = document.createElement('popup-host');
 
     // Crear el componente y enlazar en una sola llamada
-    const ref = createComponent(PopupComponent, {
+    const ref = createComponent(Popup, {
       environmentInjector: this.injector,
       hostElement: host,
       bindings: [

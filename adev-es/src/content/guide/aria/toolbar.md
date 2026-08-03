@@ -6,7 +6,7 @@
   <docs-pill href="/api/aria/toolbar/Toolbar" title="Toolbar API Reference"/>
 </docs-pill-row>
 
-## Visión general
+## Visión general {#overview}
 
 Un contenedor para agrupar controles y acciones relacionados con navegación por teclado, comúnmente usado para formato de texto, toolbars y paneles de comandos.
 
@@ -36,7 +36,7 @@ Un contenedor para agrupar controles y acciones relacionados con navegación por
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Uso {#usage}
 
 Toolbar funciona mejor para agrupar controles relacionados a los que los usuarios acceden frecuentemente. Considera usar toolbar cuando:
 
@@ -51,7 +51,7 @@ Evita toolbar cuando:
 - Los controles no están relacionados - Toolbar implica una agrupación lógica; controles no relacionados confunden a los usuarios
 - Navegación anidada compleja - Las jerarquías profundas se sirven mejor con menús o componentes de navegación
 
-## Características
+## Características {#features}
 
 El toolbar de Angular proporciona una implementación de toolbar completamente accesible con:
 
@@ -63,9 +63,9 @@ El toolbar de Angular proporciona una implementación de toolbar completamente a
 - **Soporte de Texto Bidireccional** - Maneja automáticamente idiomas de derecha a izquierda (RTL)
 - **Foco Configurable** - Elige entre navegación envolvente o paradas duras en los bordes
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Toolbar horizontal básico
+### Toolbar horizontal básico {#basic-horizontal-toolbar}
 
 Los toolbars horizontales organizan controles de izquierda a derecha, coincidiendo con el patrón común en editores de texto y herramientas de diseño. Las teclas de flecha navegan entre widgets, manteniendo el foco dentro del toolbar hasta que los usuarios presionen Tab para moverse al siguiente elemento de la página.
 
@@ -95,7 +95,7 @@ Los toolbars horizontales organizan controles de izquierda a derecha, coincidien
   </docs-tab>
 </docs-tab-group>
 
-### Toolbar vertical
+### Toolbar vertical {#vertical-toolbar}
 
 Los toolbars verticales apilan controles de arriba a abajo, útil para paneles laterales o paletas de comandos verticales. Las teclas de flecha arriba y abajo navegan entre widgets.
 
@@ -125,7 +125,7 @@ Los toolbars verticales apilan controles de arriba a abajo, útil para paneles l
   </docs-tab>
 </docs-tab-group>
 
-### Grupos de widgets
+### Grupos de widgets {#widget-groups}
 
 Los grupos de widgets contienen controles relacionados que funcionan juntos, como opciones de alineación de texto u opciones de formato de lista. Los grupos mantienen su propio estado interno mientras participan en la navegación del toolbar.
 
@@ -157,7 +157,7 @@ El input `multi` controla si múltiples widgets dentro de un grupo pueden ser se
 </div>
 ```
 
-### Widgets deshabilitados
+### Widgets deshabilitados {#disabled-widgets}
 
 Los toolbars soportan dos modos deshabilitados:
 
@@ -192,7 +192,7 @@ Por defecto, `softDisabled` es `true`, lo que permite que los widgets deshabilit
   </docs-tab>
 </docs-tab-group>
 
-### Soporte de derecha a izquierda (RTL)
+### Soporte de derecha a izquierda (RTL) {#right-to-left-rtl-support}
 
 Los toolbars soportan automáticamente idiomas de derecha a izquierda. Envuelve el toolbar en un contenedor con `dir="rtl"` para invertir el diseño y dirección de navegación por teclado. La navegación por teclas de flecha se ajusta automáticamente: la flecha izquierda se mueve al siguiente widget, la flecha derecha al anterior.
 
@@ -222,56 +222,53 @@ Los toolbars soportan automáticamente idiomas de derecha a izquierda. Envuelve 
   </docs-tab>
 </docs-tab-group>
 
-## APIs
+## Testing
 
-### Directiva Toolbar
+Angular Aria proporciona harnesses de componentes para probar componentes toolbar.
+Aquí hay un ejemplo de cómo usar los harnesses en una prueba de componente:
 
-La directiva `ngToolbar` proporciona el contenedor para la funcionalidad de toolbar.
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ToolbarHarness} from '@angular/aria/toolbar/testing';
+import {MyToolbarComponent} from './my-toolbar'; // Tu componente
 
-#### Inputs
+describe('MyToolbarComponent', () => {
+  let fixture: ComponentFixture<MyToolbarComponent>;
+  let loader: HarnessLoader;
 
-| Propiedad      | Tipo                           | Por defecto    | Descripción                                           |
-| -------------- | ------------------------------ | -------------- | ----------------------------------------------------- |
-| `orientation`  | `'vertical'` \| `'horizontal'` | `'horizontal'` | Si el toolbar está orientado vertical u horizontalmente |
-| `disabled`     | `boolean`                      | `false`        | Deshabilita todo el toolbar                           |
-| `softDisabled` | `boolean`                      | `true`         | Si los elementos deshabilitados pueden recibir foco   |
-| `wrap`         | `boolean`                      | `true`         | Si el foco debe envolver en los bordes                |
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyToolbarComponent],
+    });
 
-### Directiva ToolbarWidget
+    fixture = TestBed.createComponent(MyToolbarComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-La directiva `ngToolbarWidget` marca un elemento como un widget navegable dentro del toolbar.
+  it('should have widgets and allow selection', async () => {
+    // Carga el harness del toolbar
+    const toolbar = await loader.getHarness(ToolbarHarness);
 
-#### Inputs
+    // Obtiene todos los widgets
+    const widgets = await toolbar.getWidgets();
+    expect(widgets.length).toBe(3);
 
-| Propiedad  | Tipo      | Por defecto | Descripción                                    |
-| ---------- | --------- | ----------- | ---------------------------------------------- |
-| `id`       | `string`  | auto        | Identificador único para el widget             |
-| `disabled` | `boolean` | `false`     | Deshabilita el widget                          |
-| `value`    | `V`       | -           | El valor asociado con el widget (requerido)    |
+    // Hace clic en el primer widget
+    await widgets[0].click();
 
-#### Signals
+    // Verifica el estado de selección
+    expect(await widgets[0].isSelected()).toBe(true);
+  });
+});
+```
 
-| Propiedad  | Tipo              | Descripción                                      |
-| ---------- | ----------------- | ------------------------------------------------ |
-| `active`   | `Signal<boolean>` | Si el widget está enfocado actualmente           |
-| `selected` | `Signal<boolean>` | Si el widget está seleccionado (en un grupo)     |
+## API reference
 
-### Directiva ToolbarWidgetGroup
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
 
-La directiva `ngToolbarWidgetGroup` agrupa widgets relacionados juntos.
-
-#### Inputs
-
-| Propiedad  | Tipo      | Por defecto | Descripción                                     |
-| ---------- | --------- | ----------- | ----------------------------------------------- |
-| `disabled` | `boolean` | `false`     | Deshabilita todos los widgets del grupo         |
-| `multi`    | `boolean` | `false`     | Si múltiples widgets pueden ser seleccionados   |
-
-### Componentes relacionados
-
-Toolbar puede contener varios tipos de widget incluyendo botones, árboles y comboboxes. Consulta la documentación de componentes individuales para implementaciones específicas de widget.
-
-<docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/" title="Toolbar ARIA pattern"/>
-  <docs-pill href="/api/aria/toolbar/Toolbar" title="Toolbar API Reference"/>
-</docs-pill-row>
+- [`Toolbar`](/api/aria/toolbar/Toolbar)
+- [`ToolbarWidget`](/api/aria/toolbar/ToolbarWidget)
+- [`ToolbarWidgetGroup`](/api/aria/toolbar/ToolbarWidgetGroup)

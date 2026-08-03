@@ -2,7 +2,7 @@
 
 Los reportes de cobertura de código te muestran cualquier parte de tu código base que podría no estar correctamente probada por tus pruebas unitarias.
 
-## Prerrequisitos
+## Prerrequisitos {#prerequisites}
 
 Para generar reportes de cobertura de código con Vitest, debes instalar el paquete `@vitest/coverage-v8`:
 
@@ -21,7 +21,7 @@ Para generar reportes de cobertura de código con Vitest, debes instalar el paqu
   </docs-code>
 </docs-code-multifile>
 
-## Generar un reporte
+## Generar un reporte {#generating-a-report}
 
 Para generar un reporte de cobertura, agrega la bandera `--coverage` al comando `ng test`:
 
@@ -50,7 +50,7 @@ Si quieres crear reportes de cobertura de código cada vez que pruebas, puedes e
 }
 ```
 
-## Aplicar umbrales de cobertura de código
+## Aplicar umbrales de cobertura de código {#enforcing-code-coverage-thresholds}
 
 Los porcentajes de cobertura de código te permiten estimar cuánto de tu código está probado. Si tu equipo decide sobre una cantidad mínima para ser probada unitariamente, puedes aplicar este mínimo en tu configuración.
 
@@ -81,7 +81,7 @@ Por ejemplo, supón que quieres que la base de código tenga un mínimo de 80% d
 
 Ahora, si tu cobertura cae por debajo del 80% cuando ejecutas tus pruebas, el comando fallará.
 
-## Configuración avanzada
+## Configuración avanzada {#advanced-configuration}
 
 Puedes configurar varias otras opciones de cobertura en tu archivo `angular.json`:
 

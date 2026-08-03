@@ -2,7 +2,7 @@
 
 Cuando estés listo para desplegar tu aplicación Angular a un servidor remoto, tienes varias opciones.
 
-## Despliegue automático con el CLI
+## Despliegue automático con el CLI {#automatic-deployment-with-the-cli}
 
 El comando `ng deploy` del Angular CLI ejecuta el [CLI builder](tools/cli/cli-builder) `deploy` asociado con tu proyecto.
 Varios builders de terceros implementan capacidades de despliegue a diferentes plataformas.
@@ -38,22 +38,22 @@ Puedes leer más siguiendo los enlaces asociados con los nombres de paquetes a c
 
 Si estás desplegando a un servidor autogestionado o no hay un builder para tu plataforma en la nube favorita, puedes [crear un builder](tools/cli/cli-builder) que te permita usar el comando `ng deploy`, o leer esta guía para aprender cómo desplegar manualmente tu aplicación.
 
-## Despliegue manual a un servidor remoto
+## Despliegue manual a un servidor remoto {#manual-deployment-to-a-remote-server}
 
 Para desplegar manualmente tu aplicación, crea una construcción de producción y copia el directorio de salida a un servidor web o red de entrega de contenido (CDN).
 Por defecto, `ng build` usa la configuración `production`.
-Si has personalizado tus configuraciones de construcción, es posible que quieras confirmar que se están aplicando las [optimizaciones de producción](tools/cli/deployment#optimizaciones-de-producción) antes de desplegar.
+Si has personalizado tus configuraciones de construcción, es posible que quieras confirmar que se están aplicando las [optimizaciones de producción](tools/cli/deployment#production-optimizations) antes de desplegar.
 
 `ng build` genera los artefactos construidos en `dist/my-app/` por defecto, sin embargo esta ruta puede configurarse con la opción `outputPath` en el builder `@angular-devkit/build-angular:browser`.
 Copia este directorio al servidor y configúralo para servir el directorio.
 
 Aunque esta es una solución de despliegue mínima, hay algunos requisitos para que el servidor sirva tu aplicación Angular correctamente.
 
-## Configuración del servidor
+## Configuración del servidor {#server-configuration}
 
 Esta sección cubre los cambios que puedes necesitar configurar en el servidor para ejecutar tu aplicación Angular.
 
-### Las aplicaciones enrutadas deben volver a `index.html`
+### Las aplicaciones enrutadas deben volver a `index.html` {#routed-apps-must-fall-back-to-indexhtml}
 
 Las aplicaciones Angular renderizadas del lado del cliente son candidatas perfectas para servir con un servidor HTML estático porque todo el contenido es estático y generado en tiempo de construcción.
 
@@ -79,7 +79,7 @@ Una vez que el navegador carga la aplicación, el router de Angular leerá la UR
 Para páginas 404 "reales" como `http://my-app.test/does-not-exist`, el servidor no requiere ninguna configuración adicional.
 Las [páginas 404 implementadas en el router de Angular](guide/routing/common-router-tasks#displaying-a-404-page) se mostrarán correctamente.
 
-### Solicitar datos de un servidor diferente (CORS)
+### Solicitar datos de un servidor diferente (CORS) {#requesting-data-from-a-different-server-cors}
 
 Los desarrolladores web pueden encontrar un error de [_intercambio de recursos de origen cruzado_](https://developer.mozilla.org/docs/Web/HTTP/CORS "Cross-origin resource sharing") al hacer una petición de red a un servidor diferente al servidor host propio de la aplicación.
 Los navegadores prohíben tales peticiones a menos que el servidor las permita explícitamente.
@@ -88,14 +88,14 @@ No hay nada que Angular o la aplicación cliente puedan hacer sobre estos errore
 El _servidor_ debe configurarse para aceptar las peticiones de la aplicación.
 Lee sobre cómo habilitar CORS para servidores específicos en [enable-cors.org](https://enable-cors.org/server.html "Enabling CORS server").
 
-## Optimizaciones de producción
+## Optimizaciones de producción {#production-optimizations}
 
 `ng build` usa la configuración `production` a menos que se configure de otra manera. Esta configuración habilita las siguientes características de optimización de construcción.
 
 | Características                                                           | Detalles                                                                                       |
 |:---                                                                |:---                                                                                           |
 | [Compilación Ahead-of-Time (AOT)](tools/cli/aot-compiler)          | Precompila las plantillas de componentes Angular.                                                     |
-| [Modo de producción](tools/cli/deployment#características-solo-de-desarrollo) | Optimiza la aplicación para el mejor rendimiento en tiempo de ejecución                                    |
+| [Modo de producción](tools/cli/deployment#development-only-features) | Optimiza la aplicación para el mejor rendimiento en tiempo de ejecución                                    |
 | Bundling                                                           | Concatena tus muchos archivos de aplicación y librería en un número mínimo de archivos desplegados. |
 | Minificación                                                       | Elimina espacios en blanco excesivos, comentarios y tokens opcionales.                                     |
 | Mangling                                                           | Renombra funciones, clases y variables para usar identificadores más cortos y arbitrarios.              |
@@ -103,7 +103,7 @@ Lee sobre cómo habilitar CORS para servidores específicos en [enable-cors.org]
 
 Consulta [`ng build`](cli/build) para más sobre las opciones de construcción del CLI y sus efectos.
 
-### Características solo de desarrollo
+### Características solo de desarrollo {#development-only-features}
 
 Cuando ejecutas una aplicación localmente usando `ng serve`, Angular usa la configuración de desarrollo
 en tiempo de ejecución que habilita:
@@ -128,7 +128,7 @@ ng build --deploy-url /my/assets
 
 ```
 
-El efecto y propósito de `--deploy-url` se superpone con [`<base href>`](guide/routing/common-router-tasks). Ambos pueden usarse para scripts iniciales, hojas de estilo, scripts lazy y recursos css.
+El efecto y propósito de `--deploy-url` se superpone con [`<base href>`](guide/routing/router-reference#base-href). Ambos pueden usarse para scripts iniciales, hojas de estilo, scripts lazy y recursos css.
 
 A diferencia de `<base href>` que puede definirse en un solo lugar en tiempo de ejecución, el `--deploy-url` necesita estar codificado en una aplicación en tiempo de construcción.
 Prefiere `<base href>` donde sea posible.

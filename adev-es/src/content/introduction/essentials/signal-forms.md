@@ -1,14 +1,12 @@
 <docs-decorative-header title="Formularios con signals" imgSrc="adev/src/assets/images/signals.svg"> </docs-decorative-header>
 
-IMPORTANTE: Signal Forms es [experimental](/reference/releases#experimental). La API puede cambiar en versiones futuras. Evita usar APIs experimentales en aplicaciones de producción sin entender los riesgos.
-
 Signal Forms gestiona el estado de formularios usando signals en Angular para proporcionar sincronización automática entre tu modelo de datos y la interfaz de usuario con Signals en Angular.
 
 Esta guía te lleva a través de los conceptos básicos para crear formularios con Signal Forms. Así es como funciona:
 
-## Creando tu primer formulario
+## Creando tu primer formulario {#creating-your-first-form}
 
-### 1. Crea un modelo de formulario con `signal()`
+### 1. Crea un modelo de formulario con `signal()` {#1-create-a-form-model-with-signal}
 
 Cada formulario comienza creando un signal que mantiene el modelo de datos de tu formulario:
 
@@ -24,43 +22,45 @@ const loginModel = signal<LoginData>({
 });
 ```
 
-### 2. Pasa el modelo de formulario a `form()` para crear un `FieldTree`
+### 2. Pasa el modelo de formulario a `form()` para crear un `FieldTree` {#2-pass-the-form-model-to-form-to-create-a-fieldtree}
 
-Luego, pasas tu modelo de formulario a la función `form()` para crear un **field tree** (árbol de campos) - una estructura de objetos que refleja la forma de tu modelo, permitiéndote acceder a los campos con notación de punto:
+Luego, pasas tu modelo de formulario a la función `form()` para crear un **field tree** (árbol de campos) - una estructura de objetos que refleja la forma de tu modelo, permitiéndote acceder a los campos con notación de punto.
+Tanto el objeto raíz del formulario como sus propiedades anidadas son nodos `FieldTree`:
 
 ```ts
 const loginForm = form(loginModel);
 
-// Accede a los campos directamente por nombre de propiedad
-loginForm.email
-loginForm.password
+loginForm; // es un FieldTree
+loginForm.email; // también es un FieldTree
 ```
 
-### 3. Vincula inputs HTML con la directiva `[field]`
+### 3. Vincula inputs HTML con la directiva `[formField]` {#3-bind-html-inputs-with-formfield-directive}
 
-A continuación, vinculas tus inputs HTML al formulario usando la directiva `[field]`, que crea enlace bidireccional entre ellos:
+A continuación, vinculas tus inputs HTML al formulario usando la directiva `[formField]`, que crea enlace bidireccional entre ellos:
 
 ```html
-<input type="email" [field]="loginForm.email" />
-<input type="password" [field]="loginForm.password" />
+<input type="email" [formField]="loginForm.email" />
+<input type="password" [formField]="loginForm.password" />
 ```
 
 Como resultado, los cambios del usuario (como escribir en el campo) actualizan automáticamente el formulario.
 
-NOTA: La directiva `[field]` también sincroniza el estado del campo para atributos como `required`, `disabled` y `readonly` cuando corresponde.
+NOTA: La directiva `[formField]` también sincroniza el estado del campo para atributos como `required`, `disabled` y `readonly` cuando corresponde.
 
-### 4. Lee valores de campo con `value()`
+### 4. Lee el estado con signals de `FieldTree` {#4-read-state-with-fieldtree-signals}
 
-Puedes acceder al estado del campo llamando al campo como una función. Esto devuelve un objeto `FieldState` que contiene signals reactivos para el valor del campo, estado de validación y estado de interacción:
+Puedes acceder al estado de cualquier parte del árbol llamando al nodo `FieldTree` como una función. Esto devuelve un objeto de estado que contiene signals reactivos para el valor, estado de validación y estado de interacción:
 
 ```ts
-loginForm.email() // Devuelve FieldState con value(), valid(), touched(), etc.
+loginForm(); // Devuelve el estado de todo el formulario
+loginForm.email(); // Devuelve el estado del campo email
 ```
 
-Para leer el valor actual del campo, accede al signal `value()`:
+Para leer el valor actual, accede al signal `value()`:
 
 ```html
-<!-- Renderiza el valor del formulario que se actualiza automáticamente mientras el usuario escribe -->
+<!-- Renderiza valores que se actualizan automáticamente mientras el usuario escribe -->
+<p>Form value: {{ loginForm().value() | json }}</p>
 <p>Email: {{ loginForm.email().value() }}</p>
 ```
 
@@ -69,9 +69,9 @@ Para leer el valor actual del campo, accede al signal `value()`:
 const currentEmail = loginForm.email().value();
 ```
 
-### 5. Actualiza valores de campo con `set()`
+### 5. Actualiza valores con `set()` {#5-update-values-with-set}
 
-Puedes actualizar programáticamente el valor de un campo usando el método `value.set()`. Esto actualiza tanto el campo como el signal del modelo subyacente:
+Puedes actualizar programáticamente valores usando el método `value.set()` en cualquier nodo. Esto actualiza tanto el `FieldTree` como el signal del modelo subyacente:
 
 ```ts
 // Actualiza el valor programáticamente
@@ -85,7 +85,7 @@ Como resultado, tanto el valor del campo como el signal del modelo se actualizan
 console.log(loginModel().email); // 'alice@wonderland.com'
 ```
 
-Aquí tienes un ejemplo completo:
+### Ejemplo completo {#complete-example}
 
 <docs-code-multifile preview path="adev/src/content/examples/signal-forms/src/login-simple/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/signal-forms/src/login-simple/app/app.ts"/>
@@ -93,37 +93,37 @@ Aquí tienes un ejemplo completo:
   <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-simple/app/app.css"/>
 </docs-code-multifile>
 
-## Uso básico
+## Uso básico {#basic-usage}
 
-La directiva `[field]` funciona con todos los tipos de input HTML estándar. Aquí están los patrones más comunes:
+La directiva `[formField]` funciona con todos los tipos de input HTML estándar. Aquí están los patrones más comunes:
 
-### Inputs de texto
+### Inputs de texto {#text-inputs}
 
 Los inputs de texto funcionan con varios atributos `type` y textareas:
 
 ```html
 <!-- Text y email -->
-<input type="text" [field]="form.name" />
-<input type="email" [field]="form.email" />
+<input type="text" [formField]="form.name" />
+<input type="email" [formField]="form.email" />
 ```
 
-#### Números
+#### Números {#numbers}
 
 Los inputs numéricos convierten automáticamente entre strings y números:
 
 ```html
 <!-- Number - convierte automáticamente al tipo number -->
-<input type="number" [field]="form.age" />
+<input type="number" [formField]="form.age" />
 ```
 
-#### Fecha y hora
+#### Fecha y hora {#date-and-time}
 
 Los inputs de fecha almacenan valores como strings `YYYY-MM-DD`, y los inputs de hora usan formato `HH:mm`:
 
 ```html
 <!-- Date y time - almacena como strings en formato ISO -->
-<input type="date" [field]="form.eventDate" />
-<input type="time" [field]="form.eventTime" />
+<input type="date" [formField]="form.eventDate" />
+<input type="time" [formField]="form.eventTime" />
 ```
 
 Si necesitas convertir strings de fecha a objetos Date, puedes hacerlo pasando el valor del campo a `Date()`:
@@ -132,13 +132,13 @@ Si necesitas convertir strings de fecha a objetos Date, puedes hacerlo pasando e
 const dateObject = new Date(form.eventDate().value());
 ```
 
-#### Texto multilínea
+#### Texto multilínea {#multiline-text}
 
 Los textareas funcionan de la misma manera que los inputs de texto:
 
 ```html
 <!-- Textarea -->
-<textarea [field]="form.message" rows="4"></textarea>
+<textarea [formField]="form.message" rows="4"></textarea>
 ```
 
 ### Checkboxes
@@ -148,57 +148,57 @@ Los checkboxes se vinculan a valores booleanos:
 ```html
 <!-- Checkbox único -->
 <label>
-  <input type="checkbox" [field]="form.agreeToTerms" />
+  <input type="checkbox" [formField]="form.agreeToTerms" />
   Acepto los términos
 </label>
 ```
 
-#### Múltiples checkboxes
+#### Múltiples checkboxes {#multiple-checkboxes}
 
 Para múltiples opciones, crea un `field` booleano separado para cada una:
 
 ```html
 <label>
-  <input type="checkbox" [field]="form.emailNotifications" />
+  <input type="checkbox" [formField]="form.emailNotifications" />
   Notificaciones por email
 </label>
 <label>
-  <input type="checkbox" [field]="form.smsNotifications" />
+  <input type="checkbox" [formField]="form.smsNotifications" />
   Notificaciones por SMS
 </label>
 ```
 
-### Botones de radio
+### Botones de radio {#radio-buttons}
 
-Los botones de radio funcionan de manera similar a los checkboxes. Mientras los botones de radio usen el mismo valor `[field]`, Signal Forms vinculará automáticamente el mismo atributo `name` a todos ellos:
+Los botones de radio funcionan de manera similar a los checkboxes. Mientras los botones de radio usen el mismo valor `[formField]`, Signal Forms vinculará automáticamente el mismo atributo `name` a todos ellos:
 
 ```html
 <label>
-  <input type="radio" value="free" [field]="form.plan" />
+  <input type="radio" value="free" [formField]="form.plan" />
   Gratis
 </label>
 <label>
-  <input type="radio" value="premium" [field]="form.plan" />
+  <input type="radio" value="premium" [formField]="form.plan" />
   Premium
 </label>
 ```
 
 Cuando un usuario selecciona un botón de radio, el `field` del formulario almacena el valor del atributo `value` de ese botón de radio. Por ejemplo, seleccionar "Premium" establece `form.plan().value()` a `"premium"`.
 
-### Menús desplegables select
+### Menús desplegables select {#select-dropdowns}
 
 Los elementos select funcionan con opciones tanto estáticas como dinámicas:
 
 ```html
 <!-- Opciones estáticas -->
-<select [field]="form.country">
+<select [formField]="form.country">
   <option value="">Selecciona un país</option>
   <option value="us">Estados Unidos</option>
   <option value="ca">Canadá</option>
 </select>
 
 <!-- Opciones dinámicas con @for -->
-<select [field]="form.productId">
+<select [formField]="form.productId">
   <option value="">Selecciona un producto</option>
   @for (product of products; track product.id) {
     <option [value]="product.id">{{ product.name }}</option>
@@ -206,9 +206,9 @@ Los elementos select funcionan con opciones tanto estáticas como dinámicas:
 </select>
 ```
 
-NOTA: Select múltiple (`<select multiple>`) no está soportado por la directiva `[field]` en este momento.
+NOTA: Select múltiple (`<select multiple>`) no está soportado por la directiva `[formField]` en este momento.
 
-## Validación y estado
+## Validación y estado {#validation-and-state}
 
 Signal Forms proporciona validadores integrados que puedes aplicar a los campos de tu formulario. Para agregar validación, pasa una función de esquema como segundo argumento a `form()`:
 
@@ -247,21 +247,30 @@ Aquí tienes un ejemplo completo:
   <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-validation/app/app.css"/>
 </docs-code-multifile>
 
-### Signals de Estado de Campo
+### Signals de estado de `FieldTree` {#fieldtree-state-signals}
 
-Cada `field()` proporciona estos signals de estado:
+Cada nodo del árbol, incluyendo el objeto raíz del formulario, proporciona los mismos signals para rastrear su estado. Dado que cada nodo es un `FieldTree`, la API para monitorear validez e interacción es idéntica en todos los niveles.
 
-| Estado       | Descripción                                                                     |
-| ------------ | ------------------------------------------------------------------------------- |
-| `valid()`    | Devuelve `true` si el campo pasa todas las reglas de validación                |
-| `touched()`  | Devuelve `true` si el usuario ha enfocado y desenfocado el campo               |
-| `dirty()`    | Devuelve `true` si el usuario ha cambiado el valor                             |
-| `disabled()` | Devuelve `true` si el campo está deshabilitado                                  |
-| `readonly()` | Devuelve `true` si el campo es de solo lectura                                  |
-| `pending()`  | Devuelve `true` si la validación asíncrona está en progreso                     |
-| `errors()`   | Devuelve un array de errores de validación con propiedades `kind` y `message`  |
+| Estado       | Descripción                                                                              |
+| ------------ | ---------------------------------------------------------------------------------------- |
+| `valid()`    | Devuelve `true` si el nodo pasa todas las reglas de validación                          |
+| `invalid()`  | Devuelve `true` si hay errores de validación                                            |
+| `pending()`  | Devuelve `true` si la validación asíncrona está en progreso                             |
+| `touched()`  | Devuelve `true` si el usuario ha enfocado y desenfocado el campo o cualquier campo hijo |
+| `dirty()`    | Devuelve `true` si el valor ha sido cambiado por el usuario                             |
+| `disabled()` | Devuelve `true` si el nodo está deshabilitado                                           |
+| `readonly()` | Devuelve `true` si el nodo es de solo lectura                                           |
+| `errors()`   | Devuelve un array de errores de validación con propiedades `kind` y `message`           |
 
-## Siguientes pasos
+### Ejemplo completo {#complete-example-1}
+
+<docs-code-multifile preview path="adev/src/content/examples/signal-forms/src/login-validation/app/app.ts">
+  <docs-code header="app.ts" path="adev/src/content/examples/signal-forms/src/login-validation/app/app.ts"/>
+  <docs-code header="app.html" path="adev/src/content/examples/signal-forms/src/login-validation/app/app.html"/>
+  <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-validation/app/app.css"/>
+</docs-code-multifile>
+
+## Siguientes pasos {#next-steps}
 
 Para aprender más sobre Signal Forms y cómo funciona, consulta las guías detalladas:
 

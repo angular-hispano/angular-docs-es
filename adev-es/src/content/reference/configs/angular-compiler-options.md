@@ -6,7 +6,7 @@ El objeto de opciones de Angular, `angularCompilerOptions`, es un hermano del ob
 
 <docs-code header="tsconfig.json" path="adev/src/content/examples/angular-compiler-options/tsconfig.json" visibleRegion="angular-compiler-options"/>
 
-## Herencia de configuración con `extends`
+## Herencia de configuración con `extends` {#configuration-inheritance-with-extends}
 
 Al igual que el compilador de TypeScript, el compilador AOT de Angular también admite `extends` en la sección `angularCompilerOptions` del archivo de configuración de TypeScript.
 La propiedad `extends` se encuentra en el nivel superior, paralela a `compilerOptions` y `angularCompilerOptions`.
@@ -20,7 +20,7 @@ Por ejemplo:
 
 Para más información, consulta el [Manual de TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 
-## Opciones de plantilla
+## Opciones de plantilla {#template-options}
 
 Las siguientes opciones están disponibles para configurar el compilador AOT de Angular.
 
@@ -130,7 +130,7 @@ Por ejemplo, si una biblioteca usa el archivo `public_api.ts` como el índice de
 La opción `flatModuleOutFile` podría entonces establecerse, por ejemplo, en `"index.js"`, que produce los archivos `index.d.ts` e `index.metadata.json`.
 El campo `module` del `package.json` de la biblioteca sería `"index.js"` y el campo `typings` sería `"index.d.ts"`.
 
-### `fullTemplateTypeCheck`
+### `fullTemplateTypeCheck` {#generatecodeforlibraries}
 
 Cuando es `true`, el valor recomendado, habilita la fase de validación de expresiones de enlace del compilador de plantillas. Esta fase usa TypeScript para verificar expresiones de enlace.
 Para más información, consulta [Comprobación de tipos en plantillas](tools/cli/template-typecheck).
@@ -139,21 +139,21 @@ El valor predeterminado es `false`, pero cuando usas el comando de Angular CLI `
 
 IMPORTANTE: La opción `fullTemplateTypeCheck` ha sido deprecada en Angular 13 a favor de la familia de opciones del compilador `strictTemplates`.
 
-### `generateCodeForLibraries`
+### `generateCodeForLibraries` {#preservewhitespaces}
 
 Cuando es `true`, crea archivos de fábrica \(`.ngfactory.js` y `.ngstyle.js`\) para los archivos `.d.ts` con un archivo `.metadata.json` correspondiente. El valor predeterminado es `true`.
 
 Cuando es `false`, los archivos de fábrica solo se crean para los archivos `.ts`.
 Haz esto cuando uses resúmenes de fábrica.
 
-### `preserveWhitespaces`
+### `preserveWhitespaces` {#skipmetadataemit}
 
 Cuando es `false`, el valor predeterminado, elimina nodos de texto en blanco de las plantillas compiladas, lo que da como resultado módulos de fábrica de plantillas emitidos más pequeños.
 Establece en `true` para preservar los nodos de texto en blanco.
 
-ÚTIL: Cuando usas la hidratación, se recomienda que uses `preserveWhitespaces: false`, que es el valor predeterminado. Si eliges habilitar la preservación de espacios en blanco agregando `preserveWhitespaces: true` a tu tsconfig, es posible que encuentres problemas con la hidratación. Esta no es todavía una configuración completamente compatible. Asegúrate de que esto también esté configurado de manera coherente entre los archivos tsconfig del servidor y del cliente. Para más detalles, consulta la [guía de hidratación](guide/hydration#preserve-whitespaces).
+ÚTIL: Cuando usas la hidratación, se recomienda que uses `preserveWhitespaces: false`, que es el valor predeterminado. Si eliges habilitar la preservación de espacios en blanco agregando `preserveWhitespaces: true` a tu tsconfig, es posible que encuentres problemas con la hidratación. Esta no es todavía una configuración completamente compatible. Asegúrate de que esto también esté configurado de manera coherente entre los archivos tsconfig del servidor y del cliente. Para más detalles, consulta la [guía de hidratación](guide/hydration#preserve-whitespaces-configuration).
 
-### `skipMetadataEmit`
+### `skipMetadataEmit` {#skiptemplatecodegen}
 
 Cuando es `true`, no produce archivos `.metadata.json`.
 El valor predeterminado es `false`.
@@ -167,7 +167,7 @@ Establécelo en `true` si estás usando la opción `--outFile` de TypeScript, po
 La comunidad de Angular no recomienda usar `--outFile` con Angular.
 En su lugar, usa un bundler, como [webpack](https://webpack.js.org).
 
-### `skipTemplateCodegen`
+### `skipTemplateCodegen` {#strictmetadataemit}
 
 Cuando es `true`, no emite los archivos `.ngfactory.js` y `.ngstyle.js`.
 Esto desactiva gran parte del compilador de plantillas y deshabilita la notificación de diagnósticos de las plantillas.
@@ -176,7 +176,7 @@ Se puede usar para indicar al compilador de plantillas que produzca los archivos
 
 Para proyectos de bibliotecas creados con el Angular CLI, el valor predeterminado de configuración de desarrollo es `true`.
 
-### `strictMetadataEmit`
+### `strictMetadataEmit` {#strictinjectionparameters}
 
 Cuando es `true`, reporta un error al archivo `.metadata.json` si `"skipMetadataEmit"` es `false`.
 El valor predeterminado es `false`.
@@ -196,7 +196,7 @@ Esta opción permite la detección de estos errores durante la fase de compilaci
 
 Para proyectos de bibliotecas creados con el Angular CLI, el valor predeterminado de configuración de desarrollo es `true`.
 
-### `strictInjectionParameters`
+### `strictInjectionParameters` {#stricttemplates}
 
 Cuando es `true`, reporta un error para un parámetro provisto cuyo tipo de inyección no se puede determinar.
 Cuando es `false`, los parámetros del constructor de las clases marcadas con `@Injectable` cuyo tipo no se puede resolver producen una advertencia.
@@ -204,7 +204,7 @@ El valor recomendado es `true`, pero el valor predeterminado es `false`.
 
 Cuando usas el comando de Angular CLI `ng new --strict`, se establece en `true` en la configuración del proyecto creado.
 
-### `strictTemplates`
+### `strictTemplates` {#strictstandalone}
 
 Cuando es `true`, habilita la [comprobación estricta de tipos de plantilla](tools/cli/template-typecheck#strict-mode).
 
@@ -213,16 +213,16 @@ Consulta [Solución de problemas en plantillas](tools/cli/template-typecheck#tro
 
 Cuando usas el comando de Angular CLI `ng new --strict`, se establece en `true` en la configuración del nuevo proyecto.
 
-### `strictStandalone`
+### `strictStandalone` {#trace}
 
 Cuando es `true`, reporta un error si un componente, directiva o pipe no es standalone.
 
-### `trace`
+### `trace` {#typecheckhostbindings}
 
 Cuando es `true`, imprime información de registro adicional al compilar las plantillas.
 El valor predeterminado es `false`.
 
-## Opciones de la línea de comandos
+## Opciones de la línea de comandos {#command-line-options}
 
 La mayoría de las veces, interactúas con el compilador de Angular indirectamente usando el [Angular CLI](reference/configs/angular-compiler-options). Sin embargo, bajo algunas circunstancias cuando depuras ciertos problemas, podrías encontrar útil invocar al compilador de Angular directamente.
 Puedes usar el comando `ngc` proporcionado por el paquete npm `@angular/compiler-cli` para llamar al compilador desde la línea de comandos.

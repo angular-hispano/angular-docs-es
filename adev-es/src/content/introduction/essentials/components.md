@@ -4,7 +4,7 @@ El elemento fundamental para crear aplicaciones en Angular.
 
 Los componentes son los bloques principales de construcción de las aplicaciones Angular. Cada componente representa una parte de una página web más grande. Organizar una aplicación en componentes ayuda a proporcionar estructura a tu proyecto, separando claramente el código en partes específicas que son fáciles de mantener y crecer con el tiempo.
 
-## Definir un Componente
+## Definir un Componente {#defining-a-component}
 
 Cada componente tiene algunas partes principales:
 
@@ -42,7 +42,7 @@ El decorador `@Component` también acepta opcionalmente una propiedad `styles` p
 export class UserProfile { /* Tu código del componente va aquí */ }
 ```
 
-### Separar HTML y CSS en archivos
+### Separar HTML y CSS en archivos {#separating-html-and-css-into-separate-files}
 
 Puedes definir el HTML y CSS de un componente en archivos separados usando `templateUrl` y `styleUrl`:
 
@@ -72,7 +72,7 @@ li {
 }
 ```
 
-## Usar un Component
+## Usar un Component {#using-components}
 
 Construyes una aplicación componiendo múltiples componentes juntos. Por ejemplo, si estás creando una página de perfil de usuario, podrías dividir la página en varios componentes como este:
 
@@ -114,7 +114,7 @@ export class UserProfile {
 
 SUGERENCIA: ¿Quieres saber más sobre los componentes en Angular? [Consulta la guía detallada de componentes](guide/components) para todos todos los detalles. 
 
-## Siguiente Paso
+## Siguiente Paso {#next-step}
 
 Ahora que sabe cómo funcionan los componentes en Angular, es hora de aprender cómo agregamos y gestionamos los datos dinámicos en nuestra aplicación.
 

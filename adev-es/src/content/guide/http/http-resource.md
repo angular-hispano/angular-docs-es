@@ -6,7 +6,7 @@ IMPORTANTE: `httpResource` es [experimental](reference/releases#experimental). E
 
 Para más información sobre el patrón `resource` de Angular, consulta [Reactividad asíncrona con `resource`](/guide/signals/resource).
 
-## `Usando httpResource`
+## `Usando httpResource` {#using-httpresource}
 
 CONSEJO: Asegúrate de incluir `provideHttpClient` en los providers de tu aplicación. Consulta [Configurar HttpClient](/guide/http/setup) para más detalles.
 
@@ -66,7 +66,7 @@ Las signals del `httpResource` se pueden usar en la plantilla para controlar qu�
 
 ÚTIL: Leer la signal `value` en un `resource` que está en estado de error lanza una excepción en tiempo de ejecución. Se recomienda proteger las lecturas de `value` con `hasValue()`.
 
-### Tipos de respuestas
+### Tipos de respuestas {#response-types}
 
 Por defecto, `httpResource` devuelve y analiza la respuesta como JSON. Sin embargo, puedes especificar un retorno alternativo con funciones adicionales en `httpResource`:
 
@@ -78,7 +78,7 @@ httpResource.blob(() => ({ … })); // devuelve un objeto Blob en value()
 httpResource.arrayBuffer(() => ({ … })); // devuelve un ArrayBuffer en value()
 ```
 
-## Análisis y validación de respuestas
+## Análisis y validación de respuestas {#response-parsing-and-validation}
 
 Al obtener datos, es posible que quieras validar las respuestas contra un esquema predefinido, a menudo usando bibliotecas populares de código abierto como [Zod](https://zod.dev) o [Valibot](https://valibot.dev). Puedes integrar bibliotecas de validación como estas con `httpResource` especificando una opción `parse`. El tipo de retorno de la función `parse` determina el tipo del `value` del recurso.
 
@@ -102,7 +102,7 @@ export class CharacterViewer {
 }
 ```
 
-## Probando un httpResource
+## Probando un httpResource {#testing-an-httpresource}
 
 Debido a que `httpResource` es un envoltorio alrededor de `HttpClient`, puedes probar `httpResource` con exactamente las mismas APIs que `HttpClient`. Consulta [Pruebas de HttpClient](/guide/http/testing) para más detalles.
 

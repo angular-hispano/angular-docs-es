@@ -2,7 +2,7 @@
 
 Esta guía cubre algunas otras tareas comunes asociadas con el uso de Angular router en tu aplicación.
 
-## Obtener información de la ruta
+## Obtener información de la ruta {#getting-route-information}
 
 A menudo, cuando un usuario navega por tu aplicación, quieres pasar información de un componente a otro.
 Por ejemplo, considera una aplicación que muestra una lista de compras de artículos de comestibles.
@@ -59,12 +59,52 @@ internalId = linkedSignal(() => this.id() ?? getDefaultId());
 </docs-workflow>
 
 NOTA: Puedes vincular todos los datos de ruta con pares clave-valor a las entradas del componente: datos de ruta estáticos o resueltos, parámetros de ruta, parámetros de matriz y parámetros de consulta.
-Si deseas usar la información de ruta del componente padre, necesitarás configurar la opción `paramsInheritanceStrategy` del router:
-`withRouterConfig({paramsInheritanceStrategy: 'always'})`. Consulta [opciones de configuración del router](guide/routing/customizing-route-behavior#opciones-de-configuración-del-router) para obtener detalles sobre otras configuraciones disponibles.
 
-## Mostrar una página 404
+### Deshabilitar el binding de parámetros de consulta {#disable-query-parameter-binding}
 
-Para mostrar una página 404, configura una [ruta comodín](guide/routing/common-router-tasks#mostrar-una-página-404) con la propiedad `component` establecida en el componente que deseas usar para tu página 404 de la siguiente manera:
+Usa `ComponentInputBindingOptions` para deshabilitar el binding de parámetros de consulta si los gestionas por separado:
+
+```ts
+provideRouter(appRoutes, withComponentInputBinding({queryParams: false}));
+```
+
+### Configurar el comportamiento para inputs no disponibles en datos del router {#configure-behavior-for-inputs-not-available-in-router-data}
+
+Por defecto, el router establece un input a `undefined` si no estaba disponible en los datos del router durante una navegación. Esto asegura que no se retienen datos obsoletos.
+
+Si deseas evitar establecer `undefined` para inputs que _nunca_ han estado disponibles en los datos del router para la instancia activa del componente, puedes establecer la opción `unmatchedInputBehavior` a `'undefinedIfStale'`:
+
+```ts
+provideRouter(appRoutes, withComponentInputBinding({unmatchedInputBehavior: 'undefinedIfStale'}));
+```
+
+Cuando combinas `unmatchedInputBehavior: 'undefinedIfStale'` con `queryParams: false`, los inputs retienen sus valores iniciales a menos que sean proporcionados explícitamente por el router. La excepción son los parámetros de matriz: si un parámetro de matriz se proporciona en una navegación y se elimina en una subsiguiente, el router establecerá el input a `undefined` para evitar retener datos obsoletos.
+
+```ts
+provideRouter(
+  appRoutes,
+  withComponentInputBinding({
+    queryParams: false,
+    unmatchedInputBehavior: 'undefinedIfStale',
+  }),
+);
+```
+
+### Heredar datos de la ruta padre {#inherit-parent-route-data}
+
+Por defecto, las rutas hijas heredan parámetros y datos de las rutas padre (equivalente a `paramsInheritanceStrategy: 'always'`). Esto significa que puedes acceder a la información de la ruta padre directamente en los componentes hijos.
+
+Si necesitas restaurar el comportamiento heredado donde los parámetros solo se heredaban de rutas con path vacío, puedes establecer `paramsInheritanceStrategy` a `'emptyOnly'`:
+
+```ts
+provideRouter(routes, withRouterConfig({paramsInheritanceStrategy: 'emptyOnly'}));
+```
+
+Consulta [opciones de configuración del router](guide/routing/customizing-route-behavior#router-configuration-options) para obtener detalles sobre otras configuraciones disponibles.
+
+## Mostrar una página 404 {#displaying-a-404-page}
+
+Para mostrar una página 404, configura una [ruta comodín](guide/routing/define-routes#wildcards) con la propiedad `component` establecida en el componente que deseas usar para tu página 404 de la siguiente manera:
 
 ```ts
 const routes: Routes = [
@@ -77,7 +117,7 @@ const routes: Routes = [
 La última ruta con el `path` de `**` es una ruta comodín.
 El router selecciona esta ruta si la URL solicitada no coincide con ninguna de las rutas anteriores en la lista y envía al usuario al `PageNotFoundComponent`.
 
-## Array de parámetros de enlace
+## Array de parámetros de enlace {#link-parameters-array}
 
 Un array de parámetros de enlace contiene los siguientes ingredientes para la navegación del router:
 
@@ -104,7 +144,7 @@ Proporciona parámetros de ruta opcionales en un objeto, como en `{ foo: 'foo' }
 <a [routerLink]="['/crisis-center', { foo: 'foo' }]">Crisis Center</a>
 ```
 
-Esta sintaxis pasa parámetros de matriz, que son parámetros opcionales asociados con un segmento de URL específico. Aprende más sobre [parámetros de matriz](/guide/routing/read-route-state#parámetros-de-matriz).
+Esta sintaxis pasa parámetros de matriz, que son parámetros opcionales asociados con un segmento de URL específico. Aprende más sobre [parámetros de matriz](/guide/routing/read-route-state#matrix-parameters).
 
 Estos tres ejemplos cubren las necesidades de una aplicación con un nivel de enrutamiento.
 Sin embargo, con un router hijo, como en el centro de crisis, creas nuevas posibilidades de array de enlaces.
@@ -155,7 +195,7 @@ export class AppComponent {}
 En resumen, puedes escribir aplicaciones con uno, dos o más niveles de enrutamiento.
 El array de parámetros de enlace ofrece la flexibilidad para representar cualquier profundidad de enrutamiento y cualquier secuencia legal de rutas, parámetros de router \(requeridos\) y objetos de parámetros de ruta \(opcionales\).
 
-## `LocationStrategy` y estilos de URL del navegador
+## `LocationStrategy` y estilos de URL del navegador {#locationstrategy-and-browser-url-styles}
 
 Cuando el router navega a una nueva vista de componente, actualiza la ubicación y el historial del navegador con una URL para esa vista.
 
@@ -186,4 +226,4 @@ El router soporta ambos estilos con dos proveedores `LocationStrategy`:
 La función `RouterModule.forRoot()` establece el `LocationStrategy` al `PathLocationStrategy`, lo que lo convierte en la estrategia predeterminada.
 También tienes la opción de cambiar al `HashLocationStrategy` con una sobrescritura durante el proceso de bootstrapping.
 
-ÚTIL: Para más información sobre proveedores y el proceso de bootstrap, consulta [Inyección de Dependencias](guide/di/dependency-injection-providers).
+ÚTIL: Para más información sobre proveedores y el proceso de bootstrap, consulta [Inyección de Dependencias](guide/di/defining-dependency-providers).

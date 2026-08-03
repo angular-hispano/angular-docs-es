@@ -6,11 +6,11 @@ Esta lección del tutorial demuestra cómo conectar la página de detalles a tu 
 
 IMPORTANTE: Recomendamos usar tu entorno local para aprender routing.
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 Al final de esta lección tu aplicación tendrá soporte para routing hacia la página de detalles.
 
-## Vista previa conceptual de routing con parámetros de ruta
+## Vista previa conceptual de routing con parámetros de ruta {#conceptual-preview-of-routing-with-route-parameters}
 
 Cada ubicación de vivienda tiene detalles específicos que deberían mostrarse cuando un usuario navega a la página de detalles para ese elemento. Para lograr este objetivo, necesitarás usar parámetros de ruta.
 
@@ -131,7 +131,7 @@ Realmente un gran trabajo hasta ahora.
 Para obtener más información sobre los temas cubiertos en esta lección, visita:
 
 <docs-pill-row>
-  <docs-pill href="guide/routing/common-router-tasks#accessing-query-parameters-and-fragments" title="Parámetros de Ruta"/>
+  <docs-pill href="guide/routing/read-route-state#get-information-about-the-current-route-with-activatedroute" title="Parámetros de Ruta"/>
   <docs-pill href="guide/routing" title="Descripción general de Routing en Angular"/>
   <docs-pill href="guide/routing/common-router-tasks" title="Tareas Comunes de Routing"/>
   <docs-pill href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Optional_chaining" title="Operador de Encadenamiento Opcional"/>

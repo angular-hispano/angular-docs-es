@@ -2,11 +2,11 @@
 
 Angular distribuye todas las aplicaciones con renderización del lado del cliente (CSR) de forma predeterminada. Si bien este enfoque proporciona una carga inicial liviana, introduce compromisos que incluyen tiempos de carga más lentos, métricas de rendimiento degradadas y mayores demandas de recursos, ya que el dispositivo del usuario realiza la mayor parte de los cálculos. Como resultado, muchas aplicaciones logran mejoras significativas de rendimiento al integrar la renderización del lado del servidor (SSR) en una estrategia de renderización híbrida.
 
-## ¿Qué es la renderización híbrida?
+## ¿Qué es la renderización híbrida? {#what-is-hybrid-rendering}
 
 La renderización híbrida permite a los desarrolladores aprovechar los beneficios de la renderización del lado del servidor (SSR), el pre-renderizado (también conocido como "generación de sitios estáticos" o SSG) y la renderización del lado del cliente (CSR) para optimizar tu aplicación Angular. Te brinda un control detallado sobre cómo se renderizan las diferentes partes de tu aplicación para ofrecer a tus usuarios la mejor experiencia posible.
 
-## Configurando la renderización híbrida
+## Configurando la renderización híbrida {#setting-up-hybrid-rendering}
 
 Puedes crear un proyecto **nuevo** con renderización híbrida utilizando el flag de renderización del lado del servidor (es decir, `--ssr`) con el comando `ng new` de Angular CLI:
 
@@ -20,11 +20,11 @@ También puedes habilitar la renderización híbrida añadiendo la renderizació
 ng add @angular/ssr
 ```
 
-NOTA: De forma predeterminada, Angular pre-renderiza toda tu aplicación y genera un archivo de servidor. Para deshabilitar esto y crear una aplicación completamente estática, establece `outputMode` en `static`. Para habilitar SSR, actualiza las rutas del servidor para usar `RenderMode.Server`. Para más detalles, consulta [`Enrutamiento en el servidor`](#enrutamiento-en-el-servidor) y [`Generar una aplicación completamente estática`](#generar-una-aplicación-completamente-estática).
+NOTA: De forma predeterminada, Angular pre-renderiza toda tu aplicación y genera un archivo de servidor. Para deshabilitar esto y crear una aplicación completamente estática, establece `outputMode` en `static`. Para habilitar SSR, actualiza las rutas del servidor para usar `RenderMode.Server`. Para más detalles, consulta [`Enrutamiento en el servidor`](#server-routing) y [`Generar una aplicación completamente estática`](#generate-a-fully-static-application).
 
-## Enrutamiento en el servidor
+## Enrutamiento en el servidor {#server-routing}
 
-### Configurando rutas del servidor
+### Configurando rutas del servidor {#configuring-server-routes}
 
 Puedes crear una configuración de rutas del servidor declarando un array de objetos [`ServerRoute`](api/ssr/ServerRoute 'API reference'). Esta configuración generalmente se encuentra en un archivo llamado `app.routes.server.ts`.
 
@@ -84,7 +84,7 @@ const serverConfig: ApplicationConfig = {
 };
 ```
 
-### Modos de renderización
+### Modos de renderización {#rendering-modes}
 
 La configuración de enrutamiento del servidor te permite especificar cómo debe renderizarse cada ruta en tu aplicación estableciendo un [`RenderMode`](api/ssr/RenderMode 'API reference'):
 
@@ -94,11 +94,11 @@ La configuración de enrutamiento del servidor te permite especificar cómo debe
 | **Client (CSR)**      | Renderiza la aplicación en el navegador. Este es el comportamiento predeterminado en Angular.                                    |
 | **Prerender (SSG)**   | Pre-renderiza la aplicación en tiempo de compilación, generando archivos HTML estáticos para cada ruta.                          |
 
-#### Eligiendo un modo de renderización
+#### Eligiendo un modo de renderización {#choosing-a-rendering-mode}
 
 Cada modo de renderización tiene diferentes beneficios e inconvenientes. Puedes elegir modos de renderización según las necesidades específicas de tu aplicación.
 
-##### Renderización del lado del cliente (CSR)
+##### Renderización del lado del cliente (CSR) {#client-side-rendering-csr}
 
 La renderización del lado del cliente tiene el modelo de desarrollo más sencillo, ya que puedes escribir código asumiendo que siempre se ejecuta en un navegador web. Esto te permite usar una amplia variedad de bibliotecas del lado del cliente que también asumen que se ejecutan en un navegador.
 
@@ -110,7 +110,7 @@ Cuando se usa renderización del lado del cliente, el servidor no necesita hacer
 
 Las aplicaciones que admiten experiencias instalables y sin conexión con [service workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) pueden depender de la renderización del lado del cliente sin necesidad de comunicarse con un servidor.
 
-##### Renderización del lado del servidor (SSR)
+##### Renderización del lado del servidor (SSR) {#server-side-rendering-ssr}
 
 La renderización del lado del servidor ofrece cargas de página más rápidas que la renderización del lado del cliente. En lugar de esperar a que JavaScript se descargue y ejecute, el servidor renderiza directamente un documento HTML al recibir una petición del navegador. El usuario experimenta únicamente la latencia necesaria para que el servidor obtenga datos y renderice la página solicitada. Este modo también elimina la necesidad de peticiones de red adicionales desde el navegador, ya que tu código puede obtener datos durante la renderización en el servidor.
 
@@ -120,7 +120,7 @@ La renderización del lado del servidor requiere que escribas código que no dep
 
 Cuando se usa renderización del lado del servidor, tu servidor ejecuta Angular para producir una respuesta HTML por cada petición, lo que puede aumentar los costos de alojamiento del servidor.
 
-##### Pre-renderizado en tiempo de compilación
+##### Pre-renderizado en tiempo de compilación {#build-time-prerendering}
 
 El pre-renderizado ofrece cargas de página más rápidas que tanto la renderización del lado del cliente como la renderización del lado del servidor. Debido a que el pre-renderizado crea documentos HTML en _tiempo de compilación_, el servidor puede responder directamente a las peticiones con el documento HTML estático sin ningún trabajo adicional.
 
@@ -136,7 +136,7 @@ El pre-renderizado incurre en una sobrecarga mínima por petición al servidor, 
 
 NOTA: Cuando se usa el service worker de Angular, la primera petición se renderiza en el servidor, pero todas las peticiones subsiguientes son gestionadas por el service worker y renderizadas del lado del cliente.
 
-### Configurando encabezados y códigos de estado
+### Configurando encabezados y códigos de estado {#setting-headers-and-status-codes}
 
 Puedes establecer encabezados y códigos de estado personalizados para rutas individuales del servidor usando las propiedades `headers` y `status` en la configuración de `ServerRoute`.
 
@@ -157,7 +157,7 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-### Redirecciones
+### Redirecciones {#redirects}
 
 Angular maneja las redirecciones especificadas por la propiedad [`redirectTo`](api/router/Route#redirectTo 'API reference') en las configuraciones de rutas de manera diferente en el lado del servidor.
 
@@ -167,11 +167,11 @@ Las redirecciones se realizan mediante redirecciones HTTP estándar (por ejemplo
 **Pre-renderizado (SSG)**
 Las redirecciones se implementan como "redirecciones suaves" usando etiquetas [`<meta http-equiv="refresh">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#refresh) en el HTML pre-renderizado.
 
-### Personalizando el pre-renderizado en tiempo de compilación (SSG)
+### Personalizando el pre-renderizado en tiempo de compilación (SSG) {#customizing-build-time-prerendering-ssg}
 
 Cuando se usa [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), puedes especificar varias opciones de configuración para personalizar el proceso de pre-renderizado y servicio.
 
-#### Rutas parametrizadas
+#### Rutas parametrizadas {#parameterized-routes}
 
 Para cada ruta con [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), puedes especificar una función [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference'). Esta función te permite controlar qué parámetros específicos producen documentos pre-renderizados separados.
 
@@ -213,7 +213,7 @@ Dado que [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPreren
 
 IMPORTANTE: Cuando se use [`inject`](api/core/inject 'API reference') dentro de `getPrerenderParams`, recuerda que `inject` debe usarse de forma síncrona. No puede invocarse dentro de callbacks asíncronos ni después de ninguna instrucción `await`. Para más información, consulta `runInInjectionContext`.
 
-#### Estrategias de alternativa
+#### Estrategias de alternativa {#fallback-strategies}
 
 Cuando se usa el modo [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), puedes especificar una estrategia de alternativa para gestionar las peticiones de rutas que no han sido pre-renderizadas.
 
@@ -242,7 +242,7 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-## Creando componentes compatibles con el servidor
+## Creando componentes compatibles con el servidor {#authoring-server-compatible-components}
 
 Algunas APIs y capacidades comunes del navegador pueden no estar disponibles en el servidor. Las aplicaciones no pueden hacer uso de objetos globales específicos del navegador como `window`, `document`, `navigator` o `location`, así como ciertas propiedades de `HTMLElement`.
 
@@ -267,14 +267,77 @@ export class MyComponent {
 }
 ```
 
-## Configurando proveedores en el servidor
+## Configurando proveedores en el servidor {#setting-providers-on-the-server}
 
 En el lado del servidor, los valores de los proveedores de nivel superior se establecen una vez cuando el código de la aplicación se parsea y evalúa inicialmente.
 Esto significa que los proveedores configurados con `useValue` mantendrán su valor entre múltiples peticiones, hasta que la aplicación del servidor se reinicie.
 
 Si deseas generar un nuevo valor para cada petición, usa un proveedor factory con `useFactory`. La función factory se ejecutará para cada petición entrante, asegurando que se cree un nuevo valor y se asigne al token cada vez.
 
-## Accediendo a Document mediante DI
+## Proveer implementaciones específicas de plataforma {#providing-platform-specific-implementations}
+
+Cuando tu aplicación necesita un comportamiento diferente en el navegador y en el servidor, provee implementaciones de servicio separadas para cada plataforma. Este enfoque centraliza la lógica de plataforma en servicios dedicados.
+
+```ts
+export abstract class AnalyticsService {
+  abstract trackEvent(name: string): void;
+}
+```
+
+Crea la implementación para el navegador:
+
+```ts
+@Injectable()
+export class BrowserAnalyticsService implements AnalyticsService {
+  trackEvent(name: string): void {
+    // Envía el evento al proveedor de análisis de terceros basado en el navegador
+  }
+}
+```
+
+Crea la implementación para el servidor:
+
+```ts
+@Injectable()
+export class ServerAnalyticsService implements AnalyticsService {
+  trackEvent(name: string): void {
+    // Registra el evento en el servidor
+  }
+}
+```
+
+Registra la implementación del navegador en la configuración principal de tu aplicación:
+
+```ts
+// app.config.ts
+export const appConfig: ApplicationConfig = {
+  providers: [{provide: AnalyticsService, useClass: BrowserAnalyticsService}],
+};
+```
+
+Sobrescribe con la implementación del servidor en la configuración del servidor:
+
+```ts
+// app.config.server.ts
+const serverConfig: ApplicationConfig = {
+  providers: [{provide: AnalyticsService, useClass: ServerAnalyticsService}],
+};
+```
+
+Inyecta y usa el servicio en tus componentes:
+
+```ts
+@Component(/* ... */)
+export class Checkout {
+  private analytics = inject(AnalyticsService);
+
+  onAction() {
+    this.analytics.trackEvent('action');
+  }
+}
+```
+
+## Accediendo a Document mediante DI {#accessing-document-via-di}
 
 Cuando se trabaja con renderización del lado del servidor, debes evitar referenciar directamente objetos globales específicos del navegador como `document`. En su lugar, usa el token [`DOCUMENT`](api/core/DOCUMENT) para acceder al objeto document de una manera agnóstica a la plataforma.
 
@@ -299,7 +362,7 @@ export class CanonicalLinkService {
 
 ÚTIL: Para gestionar metaetiquetas, Angular proporciona el servicio `Meta`.
 
-## Accediendo a Request y Response mediante DI
+## Accediendo a Request y Response mediante DI {#accessing-request-and-response-via-di}
 
 El paquete `@angular/core` proporciona varios tokens para interactuar con el entorno de renderización del lado del servidor. Estos tokens te dan acceso a información crucial y objetos dentro de tu aplicación Angular durante SSR.
 
@@ -329,7 +392,7 @@ IMPORTANTE: Los tokens anteriores serán `null` en los siguientes escenarios:
 - Cuando se realiza generación de sitios estáticos (SSG).
 - Durante la extracción de rutas en desarrollo (en el momento de la petición).
 
-## Generar una aplicación completamente estática
+## Generar una aplicación completamente estática {#generate-a-fully-static-application}
 
 De forma predeterminada, Angular pre-renderiza toda tu aplicación y genera un archivo de servidor para gestionar las peticiones. Esto permite que tu aplicación sirva contenido pre-renderizado a los usuarios. Sin embargo, si prefieres un sitio completamente estático sin servidor, puedes optar por no usar este comportamiento estableciendo `outputMode` en `static` en tu archivo de configuración `angular.json`.
 
@@ -353,11 +416,37 @@ Para configurar esto, actualiza tu archivo `angular.json` de la siguiente manera
 }
 ```
 
-## Almacenando datos en caché al usar HttpClient
+## Almacenando datos en caché al usar HttpClient {#caching-data-when-using-httpclient}
 
 `HttpClient` almacena en caché las peticiones de red salientes cuando se ejecuta en el servidor. Esta información se serializa y transfiere al navegador como parte del HTML inicial enviado desde el servidor. En el navegador, `HttpClient` verifica si tiene datos en la caché y, de ser así, los reutiliza en lugar de realizar una nueva petición HTTP durante la renderización inicial de la aplicación. `HttpClient` deja de usar la caché una vez que la aplicación se vuelve [estable](api/core/ApplicationRef#isStable) mientras se ejecuta en un navegador.
 
-### Configurando las opciones de caché
+### Configurar el límite de tamaño del cuerpo de respuesta {#configuring-the-response-body-size-limit}
+
+Cuando `HttpClient` usa el backend fetch por defecto durante la renderización del lado del servidor, Angular limita cada cuerpo de respuesta a 1 MB. Este límite evita que el servidor almacene en buffer respuestas inesperadamente grandes durante la renderización. Si una respuesta supera el límite configurado, la petición falla con el error [NG02825](errors/NG02825).
+
+Si tu aplicación necesita obtener respuestas más grandes durante la renderización del servidor, configura `maxResponseBodySize` en las opciones de `provideServerRendering`:
+
+```ts
+import {provideServerRendering, withRoutes} from '@angular/ssr';
+import {serverRoutes} from './app.routes.server';
+
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering(
+      {
+        maxResponseBodySize: 5 * 1024 * 1024, // 5MB
+      },
+      withRoutes(serverRoutes),
+    ),
+  ],
+};
+```
+
+`maxResponseBodySize` se configura en bytes y se aplica globalmente a las peticiones `HttpClient` del lado del servidor que usan el backend fetch.
+
+IMPORTANT: Mantén este límite tan pequeño como tu aplicación lo permita. Aumentarlo permite que las peticiones del lado del servidor almacenen en buffer cuerpos de respuesta más grandes, lo que puede aumentar el uso de memoria y el riesgo de denegación de servicio. Prefiere mover las descargas grandes fuera de la renderización del servidor.
+
+### Configurando las opciones de caché {#configuring-the-caching-options}
 
 Puedes personalizar cómo Angular almacena en caché las respuestas HTTP durante la renderización del lado del servidor (SSR) y las reutiliza durante la hidratación configurando `HttpTransferCacheOptions`.
 Esta configuración se proporciona globalmente usando `withHttpTransferCacheOptions` dentro de `provideClientHydration()`.
@@ -427,7 +516,37 @@ withHttpTransferCacheOptions({
 
 Habilita esto solo cuando los encabezados de autenticación **no** afecten el contenido de la respuesta (por ejemplo, tokens públicos para APIs de analíticas).
 
-### Anulaciones por petición
+---
+
+### `includeRequestsWithCredentials`
+
+Determina si las peticiones enviadas usando `withCredentials` o los modos `credentials` de la API Fetch (`include` o `same-origin`) son elegibles para el almacenamiento en caché.
+De forma predeterminada, estas se excluyen para evitar el almacenamiento en caché de respuestas específicas del usuario.
+
+```ts
+withHttpTransferCacheOptions({
+  includeRequestsWithCredentials: true,
+});
+```
+
+Habilita esto solo cuando las peticiones con credenciales devuelvan respuestas que sean seguras para almacenar en caché.
+
+---
+
+### `includeNonCacheableRequests`
+
+Determina si las peticiones y respuestas que contienen directivas `Cache-Control` que prohíben el almacenamiento en caché (`no-store`, `no-cache` o `private`), respuestas con un encabezado `Set-Cookie`, o peticiones que usan opciones `cache` de la API Fetch (`no-store` o `no-cache`), son elegibles para el almacenamiento en caché.
+De forma predeterminada, estas se excluyen para respetar los controles de caché HTTP.
+
+```ts
+withHttpTransferCacheOptions({
+  includeNonCacheableRequests: true,
+});
+```
+
+---
+
+### Anulaciones por petición {#perrequest-overrides}
 
 Puedes anular el comportamiento de caché para una petición específica usando la opción de petición `transferCache`.
 
@@ -436,11 +555,11 @@ Puedes anular el comportamiento de caché para una petición específica usando 
 http.get('/api/profile', { transferCache: { includeHeaders: ['CustomHeader'] } });
 ```
 
-### Deshabilitando la caché
+### Deshabilitando la caché {#disabling-caching}
 
 Puedes deshabilitar el almacenamiento en caché HTTP de las peticiones enviadas desde el servidor de forma global o individual.
 
-#### Globalmente
+#### Globalmente {#globally}
 
 Para deshabilitar la caché para todas las peticiones en tu aplicación, usa la característica `withNoHttpTransferCache`:
 
@@ -454,7 +573,7 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-#### `filter`
+#### `filter` {#filtering}
 
 También puedes deshabilitar selectivamente la caché para ciertas peticiones usando la opción [`filter`](api/common/http/HttpTransferCacheOptions) en `withHttpTransferCacheOptions`. Por ejemplo, puedes deshabilitar la caché para un endpoint específico de la API:
 
@@ -472,7 +591,7 @@ bootstrapApplication(AppComponent, {
 
 Usa esta opción para excluir endpoints con datos específicos del usuario o dinámicos (por ejemplo, `/api/profile`).
 
-#### Individualmente
+#### Individualmente {#per-request}
 
 Para deshabilitar la caché para una petición individual, puedes especificar la opción [`transferCache`](api/common/http/HttpRequest#transferCache) en un `HttpRequest`.
 
@@ -480,7 +599,7 @@ Para deshabilitar la caché para una petición individual, puedes especificar la
 httpClient.get('/api/sensitive-data', { transferCache: false });
 ```
 
-## Configurando un servidor
+## Configurando un servidor {#configuring-a-server}
 
 ### Node.js
 
@@ -532,3 +651,7 @@ export const reqHandler = createRequestHandler(async (req: Request) => {
   // ...
 });
 ```
+
+## Seguridad {#security}
+
+Para información detallada sobre la prevención de Server-Side Request Forgery (SSRF) y la configuración de hosts permitidos, consulta la guía de [seguridad del lado del servidor](best-practices/security#preventing-server-side-request-forgery-ssrf).

@@ -2,13 +2,13 @@
 
 La **hidratación incremental** es un tipo avanzado de [hidratación](guide/hydration) que puede dejar secciones de tu aplicación deshidratadas y activar _incrementalmente_ la hidratación de esas secciones a medida que se necesitan.
 
-## ¿Por qué usar la hidratación incremental?
+## ¿Por qué usar la hidratación incremental? {#why-use-incremental-hydration}
 
 La hidratación incremental es una mejora de rendimiento que se construye sobre la hidratación completa de la aplicación. Puede producir bundles iniciales más pequeños y al mismo tiempo proporcionar una experiencia de usuario final comparable a la de una hidratación completa de la aplicación. Los bundles más pequeños mejoran los tiempos de carga inicial, reduciendo el [First Input Delay (FID)](https://web.dev/fid) y el [Cumulative Layout Shift (CLS)](https://web.dev/cls).
 
 La hidratación incremental también te permite usar vistas diferibles (`@defer`) para contenido que quizás no podía diferirse antes. Específicamente, ahora puedes usar vistas diferibles para contenido que está sobre el pliegue. Antes de la hidratación incremental, colocar un bloque `@defer` sobre el pliegue resultaba en que el contenido del placeholder se renderizaba y luego era reemplazado por el contenido de la plantilla principal del bloque `@defer`. Esto provocaba un desplazamiento del diseño. La hidratación incremental significa que la plantilla principal del bloque `@defer` se renderizará sin desplazamiento del diseño en la hidratación.
 
-## ¿Cómo se habilita la hidratación incremental en Angular?
+## ¿Cómo se habilita la hidratación incremental en Angular? {#how-do-you-enable-incremental-hydration-in-angular}
 
 Puedes habilitar la hidratación incremental para aplicaciones que ya usan renderización del lado del servidor (SSR) con hidratación. Sigue la [Guía de SSR en Angular](guide/ssr) para habilitar la renderización del lado del servidor y la [Guía de Hidratación en Angular](guide/hydration) para habilitar la hidratación primero.
 
@@ -27,13 +27,13 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-La hidratación incremental depende del [event replay](guide/hydration#captura-y-reproducción-de-eventos) y lo habilita automáticamente. Si ya tienes `withEventReplay()` en tu lista, puedes eliminarlo de forma segura después de habilitar la hidratación incremental.
+La hidratación incremental depende del [event replay](guide/hydration#capturing-and-replaying-events) y lo habilita automáticamente. Si ya tienes `withEventReplay()` en tu lista, puedes eliminarlo de forma segura después de habilitar la hidratación incremental.
 
-## ¿Cómo funciona la hidratación incremental?
+## ¿Cómo funciona la hidratación incremental? {#how-does-incremental-hydration-work}
 
-La hidratación incremental se construye sobre la [hidratación](guide/hydration) completa de la aplicación, las [vistas diferibles](guide/defer) y el [event replay](guide/hydration#captura-y-reproducción-de-eventos). Con la hidratación incremental, puedes añadir disparadores adicionales a los bloques `@defer` que definen los límites de hidratación incremental. Añadir un disparador `hydrate` a un bloque defer le indica a Angular que debe cargar las dependencias de ese bloque defer durante la renderización del lado del servidor y renderizar la plantilla principal en lugar del `@placeholder`. Al renderizar del lado del cliente, las dependencias siguen siendo diferidas y el contenido del bloque defer permanece deshidratado hasta que su disparador `hydrate` se activa. Ese disparador le indica al bloque defer que obtenga sus dependencias e hidrate el contenido. Cualquier evento del navegador, específicamente aquellos que coinciden con los escuchadores registrados en tu componente, que sean activados por el usuario antes de la hidratación se ponen en cola y se reproducen una vez que el proceso de hidratación se completa.
+La hidratación incremental se construye sobre la [hidratación](guide/hydration) completa de la aplicación, las [vistas diferibles](guide/templates/defer) y el [event replay](guide/hydration#capturing-and-replaying-events). Con la hidratación incremental, puedes añadir disparadores adicionales a los bloques `@defer` que definen los límites de hidratación incremental. Añadir un disparador `hydrate` a un bloque defer le indica a Angular que debe cargar las dependencias de ese bloque defer durante la renderización del lado del servidor y renderizar la plantilla principal en lugar del `@placeholder`. Al renderizar del lado del cliente, las dependencias siguen siendo diferidas y el contenido del bloque defer permanece deshidratado hasta que su disparador `hydrate` se activa. Ese disparador le indica al bloque defer que obtenga sus dependencias e hidrate el contenido. Cualquier evento del navegador, específicamente aquellos que coinciden con los escuchadores registrados en tu componente, que sean activados por el usuario antes de la hidratación se ponen en cola y se reproducen una vez que el proceso de hidratación se completa.
 
-## Controlando la hidratación del contenido con disparadores
+## Controlando la hidratación del contenido con disparadores {#controlling-hydration-of-content-with-triggers}
 
 Puedes especificar **disparadores de hidratación** que controlen cuándo Angular carga e hidrata el contenido diferido. Estos son disparadores adicionales que pueden usarse junto con los disparadores regulares de `@defer`.
 
@@ -161,7 +161,7 @@ NOTA: Las condiciones de `hydrate when` solo se activan cuando son el bloque `@d
 
 NOTA: Usar `hydrate never` evita la hidratación de todo el subárbol anidado de un bloque `@defer` dado. Ningún otro disparador `hydrate` se activa para el contenido anidado dentro de ese bloque.
 
-## Disparadores de hidratación junto con disparadores regulares
+## Disparadores de hidratación junto con disparadores regulares {#hydrate-triggers-alongside-regular-triggers}
 
 Los disparadores de hidratación son disparadores adicionales que se usan junto con los disparadores regulares en un bloque `@defer`. La hidratación es una optimización de carga inicial, lo que significa que los disparadores de hidratación solo aplican a esa carga inicial. Cualquier renderización posterior del lado del cliente seguirá usando el disparador regular.
 
@@ -175,7 +175,7 @@ Los disparadores de hidratación son disparadores adicionales que se usan junto 
 
 En este ejemplo, en la carga inicial se aplica `hydrate on interaction`. La hidratación se activará al interactuar con el componente `<example-cmp />`. En cualquier carga de página posterior que se renderice del lado del cliente, por ejemplo cuando un usuario hace clic en un `routerLink` que carga una página con este componente, se aplicará `on idle`.
 
-## ¿Cómo funciona la hidratación incremental con bloques `@defer` anidados?
+## ¿Cómo funciona la hidratación incremental con bloques `@defer` anidados? {#how-does-incremental-hydration-work-with-nested-defer-blocks}
 
 El sistema de componentes y dependencias de Angular es jerárquico, lo que significa que hidratar cualquier componente requiere que todos sus padres también estén hidratados. Por lo tanto, si se activa la hidratación para un bloque `@defer` hijo de un conjunto anidado de bloques `@defer` deshidratados, la hidratación se activa desde el bloque `@defer` deshidratado más externo hasta el hijo activado, y se ejecuta en ese orden.
 
@@ -194,10 +194,10 @@ El sistema de componentes y dependencias de Angular es jerárquico, lo que signi
 
 En el ejemplo anterior, al desplazar el mouse sobre el bloque `@defer` anidado se activa la hidratación. El bloque `@defer` padre con `<parent-block-cmp />` se hidrata primero, luego el bloque `@defer` hijo con `<child-block-cmp />` se hidrata después.
 
-## Restricciones
+## Restricciones {#constraints}
 
-La hidratación incremental tiene las mismas restricciones que la hidratación completa de la aplicación, incluyendo límites en la manipulación directa del DOM y la necesidad de una estructura HTML válida. Visita la sección de [restricciones de la guía de Hidratación](guide/hydration#restricciones) para más detalles.
+La hidratación incremental tiene las mismas restricciones que la hidratación completa de la aplicación, incluyendo límites en la manipulación directa del DOM y la necesidad de una estructura HTML válida. Visita la sección de [restricciones de la guía de Hidratación](guide/hydration#constraints) para más detalles.
 
-## ¿Aún necesito especificar bloques `@placeholder`?
+## ¿Aún necesito especificar bloques `@placeholder`? {#do-i-still-need-to-specify-placeholder-blocks}
 
 Sí. El contenido del bloque `@placeholder` no se usa para la hidratación incremental, pero un `@placeholder` sigue siendo necesario para los casos de renderización posteriores del lado del cliente. Si tu contenido no estaba en la ruta que fue parte de la carga inicial, entonces cualquier navegación a la ruta que tiene el contenido de tu bloque `@defer` se renderiza como un bloque `@defer` regular. Por lo tanto, el `@placeholder` se renderiza en esos casos de renderización del lado del cliente.

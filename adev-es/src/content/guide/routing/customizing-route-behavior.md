@@ -12,11 +12,11 @@ La personalización de rutas puede volverse valiosa cuando tu aplicación necesi
 
 NOTA: Antes de implementar estrategias personalizadas, asegúrate de que el comportamiento predeterminado del router no satisfaga tus necesidades. El enrutamiento predeterminado en Angular está optimizado para casos de uso comunes y proporciona el mejor balance de rendimiento y simplicidad. Personalizar estrategias de ruta puede crear complejidad adicional en el código y tener implicaciones de rendimiento en el uso de memoria si no se gestiona cuidadosamente.
 
-## Opciones de configuración del router
+## Opciones de configuración del router {#router-configuration-options}
 
 `withRouterConfig` o `RouterModule.forRoot` permite proporcionar opciones adicionales de `RouterConfigOptions` para ajustar el comportamiento del Router.
 
-### Manejar navegaciones canceladas
+### Manejar navegaciones canceladas {#handle-canceled-navigations}
 
 `canceledNavigationResolution` controla cómo el Router restaura el historial del navegador cuando se cancela una navegación. El valor predeterminado es `'replace'`, que revierte a la URL previa a la navegación con `location.replaceState`. En la práctica, esto significa que cada vez que la barra de direcciones ya se ha actualizado para la navegación, como con los botones de retroceso o avance del navegador, la entrada del historial se sobrescribe con el "rollback" si la navegación falla o es rechazada por un guard.
 Cambiar a `'computed'` mantiene el índice del historial en vuelo sincronizado con la navegación de Angular, por lo que cancelar una navegación del botón de retroceso dispara una navegación hacia adelante (y viceversa) para volver a la página original.
@@ -27,7 +27,7 @@ Esta configuración es más útil cuando tu aplicación usa `urlUpdateStrategy: 
 provideRouter(routes, withRouterConfig({ canceledNavigationResolution: 'computed' }));
 ```
 
-### Reaccionar a navegaciones de la misma URL
+### Reaccionar a navegaciones de la misma URL {#react-to-same-url-navigations}
 
 `onSameUrlNavigation` configura qué debe suceder cuando el usuario solicita navegar a la URL actual. El valor predeterminado `'ignore'` omite el trabajo, mientras que `'reload'` vuelve a ejecutar guards y resolvers y actualiza las instancias de componentes.
 
@@ -43,14 +43,14 @@ También puedes controlar este comportamiento en navegaciones individuales en lu
 router.navigate(['/some-path'], { onSameUrlNavigation: 'reload' });
 ```
 
-### Controlar la herencia de parámetros
+### Controlar la herencia de parámetros {#control-parameter-inheritance}
 
 `paramsInheritanceStrategy` define cómo fluyen los parámetros y datos de ruta desde las rutas padre.
 
-Con el valor predeterminado `'emptyOnly'`, las rutas hijas heredan parámetros solo cuando su ruta está vacía o el padre no declara un componente.
+Por defecto (`'always'`), las rutas hijas heredan automáticamente parámetros, datos de ruta y valores resueltos desde las rutas padre.
 
 ```ts
-provideRouter(routes, withRouterConfig({ paramsInheritanceStrategy: 'always' }));
+provideRouter(routes, withRouterConfig({paramsInheritanceStrategy: 'emptyOnly'}));
 ```
 
 ```ts
@@ -75,8 +75,10 @@ export const routes: Routes = [
 ```
 
 ```ts
-@Component({ /* ... */})
-export class CustomerComponent {
+@Component({
+  /* ... */
+})
+export class Customer {
   private route = inject(ActivatedRoute);
 
   orgId = this.route.parent?.parent?.snapshot.params['orgId'];
@@ -85,11 +87,13 @@ export class CustomerComponent {
 }
 ```
 
-Usar `'always'` asegura que los parámetros de matriz, datos de ruta y valores resueltos estén disponibles más abajo en el árbol de rutas—útil cuando compartes identificadores contextuales entre áreas de características como `/org/:orgId/projects/:projectId/customers/:customerId`.
+Esto asegura que los parámetros de matriz, datos de ruta y valores resueltos estén disponibles más abajo en el árbol de rutas—útil cuando compartes identificadores contextuales entre áreas de características como `/org/:orgId/projects/:projectId/customers/:customerId`.
 
 ```ts
-@Component({ /* ... */})
-export class CustomerComponent {
+@Component({
+  /* ... */
+})
+export class Customer {
   private route = inject(ActivatedRoute);
 
   // Todos los parámetros padre están disponibles directamente
@@ -99,7 +103,7 @@ export class CustomerComponent {
 }
 ```
 
-### Decidir cuándo se actualiza la URL
+### Decidir cuándo se actualiza la URL {#decide-when-the-url-updates}
 
 `urlUpdateStrategy` determina cuándo Angular escribe en la barra de direcciones del navegador. El valor predeterminado `'deferred'` espera una navegación exitosa antes de cambiar la URL. Usa `'eager'` para actualizar inmediatamente cuando comienza la navegación. Las actualizaciones eager facilitan mostrar la URL intentada si la navegación falla debido a guards o errores, pero pueden mostrar brevemente una URL en progreso si tienes guards de larga duración.
 
@@ -109,7 +113,7 @@ Considera esto cuando tu pipeline de análisis necesita ver la ruta intentada in
 provideRouter(routes, withRouterConfig({ urlUpdateStrategy: 'eager' }));
 ```
 
-### Elegir el manejo predeterminado de parámetros de consulta
+### Elegir el manejo predeterminado de parámetros de consulta {#choose-default-query-parameter-handling}
 
 `defaultQueryParamsHandling` establece el comportamiento de respaldo para `Router.createUrlTree` cuando la llamada no especifica `queryParamsHandling`. `'replace'` es el valor predeterminado y reemplaza la cadena de consulta existente. `'merge'` combina los valores proporcionados con los actuales, y `'preserve'` mantiene los parámetros de consulta existentes a menos que proporciones explícitamente nuevos.
 
@@ -119,20 +123,47 @@ provideRouter(routes, withRouterConfig({ defaultQueryParamsHandling: 'merge' }))
 
 Esto es especialmente útil para páginas de búsqueda y filtros para retener automáticamente los filtros existentes cuando se proporcionan parámetros adicionales.
 
+### Configurar el manejo de la barra diagonal final {#configure-trailing-slash-handling}
+
+Por defecto, el servicio `Location` elimina las barras diagonales finales de las URLs al leerlas.
+
+Puedes configurar el servicio `Location` para forzar una barra diagonal final en todas las URLs escritas en el navegador proporcionando `TrailingSlashPathLocationStrategy` en tu aplicación.
+
+```ts
+import {LocationStrategy, TrailingSlashPathLocationStrategy} from '@angular/common';
+
+bootstrapApplication(App, {
+  providers: [{provide: LocationStrategy, useClass: TrailingSlashPathLocationStrategy}],
+});
+```
+
+También puedes forzar al servicio `Location` a nunca tener una barra diagonal final en todas las URLs escritas en el navegador proporcionando `NoTrailingSlashPathLocationStrategy` en tu aplicación.
+
+```ts
+import {LocationStrategy, NoTrailingSlashPathLocationStrategy} from '@angular/common';
+
+bootstrapApplication(App, {
+  providers: [{provide: LocationStrategy, useClass: NoTrailingSlashPathLocationStrategy}],
+});
+```
+
+Estas estrategias solo afectan la URL escrita en el navegador.
+`Location.path()` y `Location.normalize()` continuarán eliminando las barras diagonales finales al leer la URL.
+
 Angular Router expone cuatro áreas principales para personalización:
 
 <docs-pill-row>
-  <docs-pill href="#estrategia-de-reutilización-de-rutas" title="Estrategia de reutilización de rutas"/>
-  <docs-pill href="#estrategia-de-precarga" title="Estrategia de precarga"/>
-  <docs-pill href="#estrategia-de-manejo-de-url" title="Estrategia de manejo de URL"/>
-  <docs-pill href="#matchers-de-ruta-personalizados" title="Matchers de ruta personalizados"/>
+  <docs-pill href="#route-reuse-strategy" title="Estrategia de reutilización de rutas"/>
+  <docs-pill href="#preloading-strategy" title="Estrategia de precarga"/>
+  <docs-pill href="#url-handling-strategy" title="Estrategia de manejo de URL"/>
+  <docs-pill href="#custom-route-matchers" title="Matchers de ruta personalizados"/>
 </docs-pill-row>
 
-## Estrategia de reutilización de rutas
+## Estrategia de reutilización de rutas {#route-reuse-strategy}
 
 La estrategia de reutilización de rutas controla si Angular destruye y recrea componentes durante la navegación o los preserva para reutilizarlos. Por defecto, Angular destruye instancias de componentes al navegar fuera de una ruta y crea nuevas instancias al navegar de regreso.
 
-### Cuándo implementar reutilización de rutas
+### Cuándo implementar reutilización de rutas {#when-to-implement-route-reuse}
 
 Las estrategias personalizadas de reutilización de rutas benefician a aplicaciones que necesitan:
 
@@ -141,7 +172,7 @@ Las estrategias personalizadas de reutilización de rutas benefician a aplicacio
 - **Mantenimiento de la posición del scroll** - Preservar posiciones de scroll en listas largas o implementaciones de scroll infinito
 - **Interfaces tipo pestaña** - Mantener el estado del componente al cambiar entre pestañas
 
-### Creando una estrategia personalizada de reutilización de rutas
+### Creando una estrategia personalizada de reutilización de rutas {#creating-a-custom-route-reuse-strategy}
 
 La clase `RouteReuseStrategy` de Angular te permite personalizar el comportamiento de navegación a través del concepto de "handles de ruta desconectados".
 
@@ -203,9 +234,76 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
 }
 ```
 
+### Destrucción manual de route handles desconectados {#manually-destroying-detached-route-handles}
+
+Dado que `DetachedRouteHandle` es un tipo opaco, no puedes llamar a un método de destrucción directamente en él. En su lugar, usa la función `destroyDetachedRouteHandle` proporcionada por el Router.
+
+```ts
+import {destroyDetachedRouteHandle} from '@angular/router';
+
+// ... dentro de tu estrategia
+if (this.handles.size > MAX_CACHE_SIZE) {
+  const handle = this.handles.get(oldestKey);
+  if (handle) {
+    destroyDetachedRouteHandle(handle);
+    this.handles.delete(oldestKey);
+  }
+}
+```
+
 NOTA: Evita usar la ruta path como clave cuando hay guards `canMatch` involucrados, ya que puede llevar a entradas duplicadas.
 
-### Configurando una ruta para usar una estrategia personalizada de reutilización
+### (Experimental) Limpieza automática de injectors de rutas no utilizadas {#experimental-automatic-cleanup-of-unused-route-injectors}
+
+Por defecto, Angular no destruye los injectors de rutas desconectadas, incluso si ya no están almacenadas por `RouteReuseStrategy`. Esto se debe principalmente a que este nivel de gestión de memoria no es comúnmente necesario para la mayoría de aplicaciones.
+
+Para habilitar la limpieza automática de injectors de rutas no utilizadas, puedes usar la función `withExperimentalAutoCleanupInjectors` en la configuración de tu router. Esta función verifica qué rutas están almacenadas actualmente por la estrategia después de las navegaciones y destruye los injectors de cualquier ruta desconectada que no esté almacenada actualmente por la estrategia de reutilización.
+
+```ts
+import {provideRouter, withExperimentalAutoCleanupInjectors} from '@angular/router';
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes, withExperimentalAutoCleanupInjectors())],
+};
+```
+
+Si no proporcionas una `RouteReuseStrategy` personalizada o tu estrategia personalizada extiende `BaseRouteReuseStrategy`, los injectors ahora serán destruidos cuando la ruta esté inactiva.
+
+#### Limpieza con una `RouteReuseStrategy` personalizada {#cleanup-with-a-custom-routereusestrategy}
+
+Si tu aplicación usa una `RouteReuseStrategy` personalizada _y_ la estrategia no extiende `BaseRouteReuseStrategy`, debes implementar `shouldDestroyInjector` para indicarle al router qué rutas deben tener sus injectors destruidos:
+
+```ts
+@Injectable()
+export class CustomRouteReuseStrategy implements RouteReuseStrategy {
+  // ... otros métodos
+
+  shouldDestroyInjector(route: Route): boolean {
+    return !route.data['retainInjector'];
+  }
+}
+```
+
+Si tu estrategia alguna vez almacena un `DetachedRouteHandle`, también necesitarás informar al Router sobre estos para que no destruya ningún injector necesario por ese handle desconectado:
+
+```ts
+@Injectable()
+export class CustomRouteReuseStrategy implements RouteReuseStrategy {
+  private readonly handles = new Map<Route, DetachedRouteHandle>();
+
+  store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle | null) {
+    this.handles.set(route.routeConfig!, handle);
+  }
+
+  retrieveStoredRouteHandles(): DetachedRouteHandle {
+    return Array.from(this.handles.values());
+  }
+
+  // ... otros métodos
+}
+```
+
+### Configurando una ruta para usar una estrategia personalizada de reutilización {#configuring-a-route-to-use-a-custom-route-reuse-strategy}
 
 Las rutas pueden optar por el comportamiento de reutilización a través de metadatos de configuración de ruta. Este enfoque mantiene la lógica de reutilización separada del código del componente, facilitando el ajuste del comportamiento sin modificar componentes:
 
@@ -240,11 +338,11 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Estrategia de precarga
+## Estrategia de precarga {#preloading-strategy}
 
 Las estrategias de precarga determinan cuándo Angular carga módulos de ruta con lazy loading en segundo plano. Si bien el lazy loading mejora el tiempo de carga inicial al diferir las descargas de módulos, los usuarios aún experimentan un retraso al navegar por primera vez a una ruta lazy. Las estrategias de precarga eliminan este retraso cargando módulos antes de que los usuarios los soliciten.
 
-### Estrategias de precarga integradas
+### Estrategias de precarga integradas {#built-in-preloading-strategies}
 
 Angular proporciona dos estrategias de precarga listas para usar:
 
@@ -272,7 +370,7 @@ export const appConfig: ApplicationConfig = {
 
 La estrategia `PreloadAllModules` funciona bien para aplicaciones pequeñas a medianas donde descargar todos los módulos no impacta significativamente el rendimiento. Sin embargo, las aplicaciones más grandes con muchos módulos de características podrían beneficiarse de una precarga más selectiva.
 
-### Creando una estrategia de precarga personalizada
+### Creando una estrategia de precarga personalizada {#creating-a-custom-preloading-strategy}
 
 Las estrategias personalizadas de precarga implementan la interfaz `PreloadingStrategy`, que requiere un único método `preload`. Este método recibe la configuración de ruta y una función que dispara la carga real del módulo. La estrategia retorna un Observable que emite cuando la precarga se completa o un Observable vacío para omitir la precarga:
 
@@ -318,7 +416,7 @@ export const routes: Routes = [
 ];
 ```
 
-### Consideraciones de rendimiento para la precarga
+### Consideraciones de rendimiento para la precarga {#performance-considerations-for-preloading}
 
 La precarga impacta tanto el uso de red como el consumo de memoria. Cada módulo precargado consume ancho de banda y aumenta la huella de memoria de la aplicación. Los usuarios móviles con conexiones medidas podrían preferir una precarga mínima, mientras que los usuarios de escritorio en redes rápidas pueden manejar estrategias de precarga agresivas.
 
@@ -326,13 +424,13 @@ El timing de la precarga también importa. La precarga inmediata después de la 
 
 Los límites de recursos del navegador también afectan el comportamiento de precarga. Los navegadores limitan las conexiones HTTP concurrentes, por lo que la precarga agresiva podría hacer cola detrás de otras peticiones. Los service workers pueden ayudar proporcionando control detallado sobre el almacenamiento en caché y las peticiones de red, complementando la estrategia de precarga.
 
-## Estrategia de manejo de URL
+## Estrategia de manejo de URL {#url-handling-strategy}
 
 Las estrategias de manejo de URL determinan qué URLs procesa el router de Angular versus cuáles ignora. Por defecto, Angular intenta manejar todos los eventos de navegación dentro de la aplicación, pero las aplicaciones del mundo real a menudo necesitan coexistir con otros sistemas, manejar enlaces externos o integrarse con aplicaciones legacy que gestionan sus propias rutas.
 
 La clase `UrlHandlingStrategy` te da control sobre este límite entre rutas gestionadas por Angular y URLs externas. Esto se vuelve esencial al migrar aplicaciones a Angular de forma incremental o cuando las aplicaciones Angular necesitan compartir espacio de URL con otros frameworks.
 
-### Implementando una estrategia personalizada de manejo de URL
+### Implementando una estrategia personalizada de manejo de URL {#implementing-a-custom-url-handling-strategy}
 
 Las estrategias personalizadas de manejo de URL extienden la clase `UrlHandlingStrategy` e implementan tres métodos. El método `shouldProcessUrl` determina si Angular debe manejar una URL dada, `extract` retorna la porción de la URL que Angular debe procesar, y `merge` combina el fragmento de URL con el resto de la URL:
 
@@ -362,7 +460,7 @@ export class CustomUrlHandlingStrategy implements UrlHandlingStrategy {
 
 Esta estrategia crea límites claros en el espacio de URL. Angular maneja rutas `/app` y `/admin` mientras ignora todo lo demás. Este patrón funciona bien al migrar aplicaciones legacy donde Angular controla secciones específicas mientras el sistema legacy mantiene otras.
 
-### Configurando una estrategia personalizada de manejo de URL
+### Configurando una estrategia personalizada de manejo de URL {#configuring-a-custom-url-handling-strategy}
 
 Puedes registrar una estrategia personalizada a través del sistema de inyección de dependencias de Angular:
 
@@ -379,7 +477,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Matchers de ruta personalizados
+## Matchers de ruta personalizados {#custom-route-matchers}
 
 Por defecto, el router de Angular itera a través de las rutas en el orden en que están definidas, intentando hacer coincidir la ruta URL contra el patrón de ruta de cada ruta. Soporta segmentos estáticos, segmentos parametrizados (`:id`) y comodines (`**`). La primera ruta que coincide gana, y el router deja de buscar.
 
@@ -387,7 +485,7 @@ Cuando las aplicaciones requieren lógica de coincidencia más sofisticada basad
 
 El router evalúa los matchers personalizados durante la fase de coincidencia de rutas, antes de que ocurra la coincidencia de rutas. Cuando un matcher retorna una coincidencia exitosa, también puede extraer parámetros de la URL, haciéndolos disponibles al componente activado al igual que los parámetros de ruta estándar.
 
-### Creando un matcher personalizado
+### Creando un matcher personalizado {#creating-a-custom-matcher}
 
 Un matcher personalizado es una función que recibe segmentos de URL y retorna ya sea un resultado de coincidencia con segmentos consumidos y parámetros, o null para indicar que no hay coincidencia. La función matcher se ejecuta antes de que Angular evalúe la propiedad path de la ruta:
 
@@ -412,7 +510,7 @@ export function customMatcher(
 }
 ```
 
-### Implementando enrutamiento basado en versiones
+### Implementando enrutamiento basado en versiones {#implementing-version-based-routing}
 
 Considera un sitio de documentación de API que necesita enrutar basándose en números de versión en la URL. Diferentes versiones podrían tener diferentes estructuras de componentes o conjuntos de características:
 
@@ -488,7 +586,7 @@ export class DocumentationComponent {
 }
 ```
 
-### Enrutamiento consciente de locale
+### Enrutamiento consciente de locale {#locale-aware-routing}
 
 Las aplicaciones internacionales a menudo codifican información de locale en URLs. Un matcher personalizado puede extraer códigos de locale y enrutar a componentes apropiados mientras hace el locale disponible como parámetro:
 
@@ -523,7 +621,7 @@ export function localeMatcher(segments: UrlSegment[]): UrlMatchResult | null {
 }
 ```
 
-### Coincidencia de lógica de negocio compleja
+### Coincidencia de lógica de negocio compleja {#complex-business-logic-matching}
 
 Los matchers personalizados sobresalen en implementar reglas de negocio que serían incómodas de expresar en patrones de ruta. Considera un sitio de comercio electrónico donde las URLs de productos siguen diferentes patrones basados en el tipo de producto:
 
@@ -571,7 +669,7 @@ export function productMatcher(segments: UrlSegment[]): UrlMatchResult | null {
 }
 ```
 
-### Consideraciones de rendimiento para matchers personalizados
+### Consideraciones de rendimiento para matchers personalizados {#performance-considerations-for-custom-matchers}
 
 Los matchers personalizados se ejecutan para cada intento de navegación hasta que se encuentra una coincidencia. Como resultado, la lógica de coincidencia compleja puede impactar el rendimiento de navegación, especialmente en aplicaciones con muchas rutas. Mantén los matchers enfocados y eficientes:
 

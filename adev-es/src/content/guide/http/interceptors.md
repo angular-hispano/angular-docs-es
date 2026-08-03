@@ -4,9 +4,9 @@
 
 RESUMEN: Los interceptores son middleware que permiten abstraer patrones comunes como reintentos, caché, registro de actividad y autenticación, evitando que cada solicitud individual tenga que manejar estos casos por separado.
 
-`HttpClient` soporta dos tipos de interceptores: funcionales y basados en DI. Nuestra recomendación es usar interceptores funcionales porque tienen un comportamiento más predecible, especialmente en configuraciones complejas. Nuestros ejemplos en esta guía usan interceptores funcionales, y cubrimos los [interceptores basados en DI](#interceptores-basados-en-di-inyección-de-dependencias) en su propia sección al final.
+`HttpClient` soporta dos tipos de interceptores: funcionales y basados en DI. Nuestra recomendación es usar interceptores funcionales porque tienen un comportamiento más predecible, especialmente en configuraciones complejas. Nuestros ejemplos en esta guía usan interceptores funcionales, y cubrimos los [interceptores basados en DI](#di-based-interceptors) en su propia sección al final.
 
-## Interceptores
+## Interceptores {#interceptors-1}
 
 Los interceptores son generalmente funciones que puedes ejecutar para cada solicitud, y tienen amplias capacidades para afectar el contenido y el flujo general de las solicitudes y respuestas. Puedes instalar múltiples interceptores, que forman una cadena de interceptores donde cada interceptor procesa la solicitud o respuesta antes de reenviarla al siguiente interceptor en la cadena.
 
@@ -22,7 +22,7 @@ Puedes usar interceptores para implementar una variedad de patrones comunes, com
 - Fallar automáticamente las solicitudes después de una fecha límite o tiempo de espera configurable.
 - Consultar periódicamente el servidor y actualizar los resultados.
 
-## Definiendo un interceptor
+## Definiendo un interceptor {#defining-an-interceptor}
 
 La forma básica de un interceptor es una función que recibe la `HttpRequest` saliente y una función `next` que representa el siguiente paso de procesamiento en la cadena de interceptores.
 
@@ -37,7 +37,7 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 
 Para que este interceptor realmente intercepte las solicitudes, debes configurar `HttpClient` para usarlo.
 
-## Configurando interceptores
+## Configurando interceptores {#configuring-interceptors}
 
 Declaras el conjunto de interceptores a usar al configurar `HttpClient` a través de inyección de dependencias, usando la característica `withInterceptors`:
 
@@ -51,7 +51,7 @@ bootstrapApplication(AppComponent, {providers: [
 
 Los interceptores que configuras se encadenan juntos en el orden que los has listado en los providers. En el ejemplo anterior, el `loggingInterceptor` procesaría la solicitud y luego la reenviaría al `cachingInterceptor`.
 
-### Interceptando evento de respuesta
+### Interceptando evento de respuesta {#intercepting-response-events}
 
 Un interceptor puede transformar la secuencia `Observable` de `HttpEvent`s devuelta por `next` para acceder o manipular la respuesta. Debido a que esta secuencia incluye todos los eventos de respuesta, inspeccionar el `.type` de cada evento puede ser necesario para identificar el objeto de respuesta final.
 
@@ -67,7 +67,7 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 
 CONSEJO: Los interceptores naturalmente asocian las respuestas con sus solicitudes salientes, porque transforman el flujo de respuesta en una función de cierre (closure) que captura el objeto de solicitud.
 
-## Modificando solicitudes
+## Modificando solicitudes {#modifying-requests}
 
 La mayoría de los aspectos de las instancias `HttpRequest` y `HttpResponse` son _inmutables_, y los interceptores no pueden modificarlos directamente. En su lugar, los interceptores aplican mutaciones clonando estos objetos usando la operación `.clone()`, y especificando qué propiedades deben mutarse en la nueva instancia. Esto puede involucrar realizar actualizaciones inmutables en el valor mismo (como `HttpHeaders` o `HttpParams`).
 
@@ -83,9 +83,9 @@ Esta inmutabilidad permite que la mayoría de los interceptores sean idempotente
 
 IMPORTANTE: El cuerpo de una solicitud o respuesta **no** está protegido de mutaciones profundas. Si un interceptor debe mutar el cuerpo, ten cuidado de manejar la ejecución múltiples veces en la misma solicitud.
 
-## Inyección de dependencias en interceptores
+## Inyección de dependencias en interceptores {#dependency-injection-in-interceptors}
 
-Los interceptores se ejecutan en el _contexto de inyección_ del inyector que los registró, y pueden usar la API `inject` de Angular para recuperar dependencias.
+Los interceptores se ejecutan en el _contexto de inyección_ del inyector que los registró, y pueden usar la API [`inject`](/api/core/inject) de Angular para recuperar dependencias.
 
 Por ejemplo, supongamos que una aplicación tiene un servicio llamado `AuthService`, que crea tokens de autenticación para las solicitudes salientes. Un interceptor puede inyectar y usar este servicio:
 
@@ -102,13 +102,13 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
 }
 ```
 
-## Metadatos de solicitudes y respuestas
+## Metadatos de solicitudes y respuestas {#request-and-response-metadata}
 
 Con frecuencia es útil incluir información en una solicitud que no se envía al backend, pero está específicamente destinada para los interceptores. Las `HttpRequest`s tienen un objeto `.context` que almacena este tipo de metadatos como una instancia de `HttpContext`. Este objeto funciona como un mapa tipado, con claves de tipo `HttpContextToken`.
 
 Para ilustrar cómo funciona este sistema, usemos metadatos para controlar si un interceptor de caché está habilitado para una solicitud determinada.
 
-### Definiendo tokens de contexto
+### Definiendo tokens de contexto {#defining-context-tokens}
 
 Para almacenar si el interceptor de caché debe almacenar en caché una solicitud particular en el mapa `.context` de esa solicitud, define un nuevo `HttpContextToken` para actuar como clave:
 
@@ -118,7 +118,7 @@ export const CACHING_ENABLED = new HttpContextToken<boolean>(() => true);
 
 La función proporcionada crea el valor por defecto para el token para las solicitudes que no han establecido explícitamente un valor para él. Usar una función asegura que si el valor del token es un objeto o array, cada solicitud obtiene su propia instancia.
 
-### Leyendo el token en un interceptor
+### Leyendo el token en un interceptor {#reading-the-token-in-an-interceptor}
 
 Un interceptor puede entonces leer el token y elegir aplicar lógica de caché o no basándose en su valor:
 
@@ -134,7 +134,7 @@ export function cachingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 }
 ```
 
-### Configurando tokens de contexto al hacer una solicitud
+### Configurando tokens de contexto al hacer una solicitud {#setting-context-tokens-when-making-a-request}
 
 Al hacer una solicitud a través de la API `HttpClient`, puedes proporcionar valores para `HttpContextToken`s:
 
@@ -146,11 +146,11 @@ const data$ = http.get('/sensitive/data', {
 
 Los interceptores pueden leer estos valores del `HttpContext` de la solicitud.
 
-### El contexto de la solicitud es mutable
+### El contexto de la solicitud es mutable {#the-request-context-is-mutable}
 
 A diferencia de otras propiedades de `HttpRequest`s, el `HttpContext` asociado es _mutable_. Si un interceptor cambia el contexto de una solicitud que luego se reintenta, el mismo interceptor observará la mutación del contexto cuando se ejecute nuevamente. Esto es útil para pasar estado a través de múltiples reintentos si es necesario.
 
-## Respuestas sintéticas
+## Respuestas sintéticas {#synthetic-responses}
 
 La mayoría de los interceptores simplemente invocarán el manejador `next` mientras transforman la solicitud o la respuesta, pero esto no es estrictamente un requisito. Esta sección discute varias de las formas en que un interceptor puede incorporar comportamiento más avanzado.
 
@@ -164,7 +164,7 @@ const resp = new HttpResponse({
 });
 ```
 
-## Trabajando con información de redirección
+## Trabajando con información de redirección {#working-with-redirect-information}
 
 Cuando se usa `HttpClient` con el proveedor `withFetch`, las respuestas incluyen una propiedad `redirected` que indica si la respuesta fue resultado de una redirección. Esta propiedad está alineada con la especificación nativa de la API Fetch y puede ser útil en interceptores para manejar escenarios de redirección.
 
@@ -197,7 +197,7 @@ export function authRedirectInterceptor(req: HttpRequest<unknown>, next: HttpHan
 }
 ```
 
-## Trabajando con tipos de respuesta
+## Trabajando con tipos de respuesta {#working-with-response-types}
 
 Cuando se usa `HttpClient` con el proveedor `withFetch`, las respuestas incluyen una propiedad `type` que indica cómo el navegador manejó la respuesta basándose en las políticas CORS y el modo de solicitud. Esta propiedad está alineada con la especificación nativa de la API Fetch y proporciona información valiosa para depurar problemas CORS y entender la accesibilidad de las respuestas.
 
@@ -235,7 +235,7 @@ export function responseTypeInterceptor(req: HttpRequest<unknown>, next: HttpHan
 }
 ```
 
-## Interceptores basados en DI (Inyección de Dependencias)
+## Interceptores basados en DI (Inyección de Dependencias) {#di-based-interceptors}
 
 `HttpClient` también soporta interceptores que se definen como clases inyectables y se configuran a través del sistema DI. Las capacidades de los interceptores basados en DI son idénticas a las de los interceptores funcionales, pero el mecanismo de configuración es diferente.
 

@@ -6,7 +6,7 @@ NOTA: Los `Observable`s creados por `HttpClient` pueden suscribirse cualquier n�
 
 A través de un objeto de opciones pasado al método de solicitud, se pueden ajustar varias propiedades de la solicitud y del tipo de respuesta devuelta.
 
-## Obteniendo datos JSON
+## Obteniendo datos JSON {#fetching-json-data}
 
 Obtener datos de un backend con frecuencia requiere hacer una solicitud GET usando el método [`HttpClient.get()`](api/common/http/HttpClient#get). Este método toma dos argumentos: la URL del endpoint como string desde donde obtener los datos, y un objeto de *opciones opcionales* para configurar la solicitud.
 
@@ -24,7 +24,7 @@ CONSEJO: Cuando trabajes con datos de estructura incierta y valores potencialmen
 
 CRÍTICO: El tipo genérico de los métodos de solicitud es una **afirmación** de tipo sobre los datos devueltos por el servidor. `HttpClient` no verifica que los datos de retorno reales coincidan con este tipo.
 
-## Obteniendo otros tipos de datos
+## Obteniendo otros tipos de datos {#fetching-other-types-of-data}
 
 Por defecto, `HttpClient` asume que los servidores devolverán datos JSON. Cuando interactúes con una API que no sea JSON, puedes decirle a `HttpClient` qué tipo de respuesta esperar y devolver al hacer la solicitud. Esto se hace con la opción `responseType`.
 
@@ -49,7 +49,7 @@ Debido a que el valor de `responseType` afecta el tipo devuelto por `HttpClient`
 Esto sucede automáticamente si el objeto de opciones pasado al método de solicitud es un objeto literal, pero si estás extrayendo las opciones de solicitud a una variable o método auxiliar, podrías necesitar especificarlo explícitamente como literal, por ejemplo: `responseType: 'text' as const`.
 </docs-callout>
 
-## Modificando el estado del servidor
+## Modificando el estado del servidor {#mutating-server-state}
 
 Las APIs del servidor que realizan mutaciones con frecuencia requieren hacer solicitudes POST con un cuerpo de solicitud que especifique el nuevo estado o el cambio a realizar.
 
@@ -74,7 +74,7 @@ Se pueden proporcionar muchos tipos diferentes de valores como `body` de la soli
 
 IMPORTANTE: Recuerda hacer `.subscribe()` a los `Observable`s de solicitudes de mutación para realmente ejecutar la solicitud.
 
-## Configurando parámetros de URL
+## Configurando parámetros de URL {#setting-url-parameters}
 
 Especifica los parámetros de solicitud que deben incluirse en la URL de la solicitud usando la opción `params`.
 
@@ -104,7 +104,7 @@ http.get('/api/config', {
 
 Puedes instanciar `HttpParams` con un `HttpParameterCodec` personalizado que determine cómo `HttpClient` codificará los parámetros en la URL.
 
-### Codificación personalizada de parámetros
+### Codificación personalizada de parámetros {#custom-parameter-encoding}
 
 Por defecto, `HttpParams` utiliza el [`HttpUrlEncodingCodec`](api/common/http/HttpUrlEncodingCodec) incorporado para codificar y decodificar las claves y valores de los parámetros.
 
@@ -147,7 +147,7 @@ export class ApiService {
 }
 ```
 
-## Configurando encabezados de solicitud
+## Configurando encabezados de solicitud {#setting-request-headers}
 
 Especifica los encabezados de solicitud que deben incluirse en la solicitud usando la opción `headers`.
 
@@ -177,7 +177,7 @@ http.get<Config>('/api/config', {
 });
 ```
 
-## Interactuando con los eventos de respuesta del servidor
+## Interactuando con los eventos de respuesta del servidor {#interacting-with-the-server-response-events}
 
 Por conveniencia, `HttpClient` devuelve por defecto un `Observable` con los datos de la respuesta (el body). A veces es útil examinar la respuesta completa, por ejemplo, para obtener cabeceras específicas.
 
@@ -196,7 +196,7 @@ Debido a que el valor de `observe` afecta el tipo devuelto por `HttpClient`, deb
 Esto sucede automáticamente si el objeto de opciones pasado al método de solicitud es un objeto literal, pero si estás extrayendo las opciones de solicitud a una variable o método auxiliar, podrías necesitar especificarlo explícitamente como literal, por ejemplo: `observe: 'response' as const`.
 </docs-callout>
 
-## Recibiendo eventos de progreso sin procesar
+## Recibiendo eventos de progreso sin procesar {#receiving-raw-progress-events}
 
 Además del cuerpo de la respuesta o el objeto de respuesta, `HttpClient` también puede devolver una secuencia de _eventos_ sin procesar que corresponden a momentos específicos en el ciclo de vida de la solicitud. Estos eventos incluyen cuando se envía la solicitud, cuando se devuelve el encabezado de respuesta, y cuando el cuerpo está completo. Estos eventos también pueden incluir _eventos de progreso_ que reportan el estado de carga y descarga para cuerpos de solicitud o respuesta grandes.
 
@@ -239,7 +239,7 @@ Cada `HttpEvent` reportado en la secuencia de eventos tiene un `type` que distin
 | `HttpEventType.Response` | Se ha recibido toda la respuesta, incluyendo el cuerpo de la respuesta |
 | `HttpEventType.User` | Un evento personalizado de un interceptor Http.
 
-## Manejando fallos de solicitud
+## Manejando fallos de solicitud {#handling-request-failure}
 
 Hay tres formas en que una solicitud HTTP puede fallar:
 
@@ -255,7 +255,7 @@ Puedes usar el operador `catchError` para transformar una respuesta de error en 
 
 A veces, errores transitorios como interrupciones de red pueden hacer que una solicitud falle inesperadamente, y simplemente reintentar la solicitud permitirá que tenga éxito. RxJS proporciona varios operadores de *reintento* que automáticamente se re-suscriben a un `Observable` fallido bajo ciertas condiciones. Por ejemplo, el operador `retry()` automáticamente intentará re-suscribirse un número especificado de veces.
 
-### Tiempos de esperar (Timeouts)
+### Tiempos de esperar (Timeouts) {#timeouts}
 
 Para establecer un tiempo de espera para una solicitud, puedes configurar la opción `timeout` con un número de milisegundos junto con otras opciones de la solicitud. Si la solicitud al backend no se completa dentro del tiempo especificado, la solicitud se abortará y se emitirá un error.
 
@@ -274,15 +274,15 @@ http.get('/api/config', {
 });
 ```
 
-## Opciones avanzadas de Fetch
+## Opciones avanzadas de Fetch {#advanced-fetch-options}
 
 Al usar el proveedor `withFetch()`, el `HttpClient` de Angular proporciona acceso a opciones avanzadas de la API Fetch que pueden mejorar el rendimiento y la experiencia del usuario. Estas opciones solo están disponibles cuando se utiliza el backend Fetch.
 
-### Opciones de Fetch
+### Opciones de Fetch {#fetch-options}
 
 Las siguientes opciones permiten un control detallado sobre el comportamiento de la solicitud al usar el backend Fetch.
 
-#### Conexiones Keep-alive
+#### Conexiones Keep-alive {#keep-alive-connections}
 
 La opción `keepalive` permite que una solicitud continúe incluso si la página que la inició se cierra. Esto es útil para solicitudes de analíticas o registro que deben completarse aunque el usuario navegue fuera de la página.
 
@@ -292,7 +292,7 @@ http.post('/api/analytics', analyticsData, {
 }).subscribe();
 ```
 
-#### Control de caché HTTP
+#### Control de caché HTTP {#http-caching-control}
 
 La opción `cache` controla cómo interactúa la solicitud con la caché HTTP del navegador, lo que puede mejorar significativamente el rendimiento en solicitudes repetidas.
 
@@ -319,7 +319,7 @@ http.get('/api/static-data', {
 });
 ```
 
-#### Prioridad de solicitud para Core Web Vitals
+#### Prioridad de solicitud para Core Web Vitals {#request-priority-for-core-web-vitals}
 
 La opción `priority` permite indicar la importancia relativa de una solicitud, ayudando a los navegadores a optimizar la carga de recursos para mejorar los Core Web Vitals.
 
@@ -354,7 +354,7 @@ Valores disponibles para `priority`:
 
 CONSEJO: Usa `priority: 'high'` para solicitudes que afectan Largest Contentful Paint (LCP) y `priority: 'low'` para solicitudes que no impactan la experiencia inicial del usuario.
 
-#### Modo de solicitud
+#### Modo de solicitud {#request-mode}
 
 La opción `mode` controla cómo se manejan las solicitudes cross-origin y determina el tipo de respuesta.
 
@@ -389,7 +389,7 @@ Valores disponibles para `mode`:
 
 CONSEJO: Usa `mode: 'same-origin'` para solicitudes sensibles que nunca deberían ser cross-origin.
 
-#### Manejo de redirecciones
+#### Manejo de redirecciones {#redirect-handling}
 
 La opción `redirect` especifica cómo manejar respuestas de redirección del servidor.
 
@@ -429,7 +429,7 @@ Valores disponibles para `redirect`:
 
 CONSEJO: Usa `redirect: 'manual'` cuando necesites manejar redirecciones con lógica personalizada.
 
-#### Manejo de credenciales
+#### Manejo de credenciales {#credentials-handling}
 
 La opción `credentials` controla si se envían cookies, encabezados de autorización y otras credenciales en solicitudes cross-origin. Esto es importante para escenarios de autenticación.
 
@@ -481,7 +481,7 @@ Valores disponibles para `credentials`:
 
 CONSEJO: Usa `credentials: 'include'` cuando necesites enviar cookies o encabezados de autenticación a un dominio diferente que soporte CORS. Evita mezclar `credentials` y `withCredentials` para no generar confusión.
 
-#### Referente (Referrer)
+#### Referente (Referrer) {#referrer}
 
 La opción `referrer` permite controlar qué información de referencia se envía con la solicitud, importante por motivos de privacidad y seguridad.
 
@@ -509,7 +509,7 @@ La opción `referrer` acepta:
 
 CONSEJO: Usa `referrer: ''` para solicitudes sensibles donde no quieres filtrar la URL de la página que refirió la solicitud.
 
-#### Política de referrer
+#### Política de referrer {#referrer-policy}
 
 La opción `referrerPolicy` controla cuánta información de referrer, la URL de la página que realiza la solicitud, se envía junto con una solicitud HTTP. Esta configuración afecta tanto la privacidad como los análisis, permitiéndote equilibrar la visibilidad de datos con consideraciones de seguridad.
 
@@ -538,7 +538,7 @@ La opción `referrerPolicy` acepta:
 
 CONSEJO: Prefiere valores conservadores como `'no-referrer'`, `'origin'`, o `'strict-origin-when-cross-origin'` para solicitudes sensibles a la privacidad.
 
-#### Integridad (Integrity)
+#### Integridad (Integrity) {#integrity}
 
 La opción `integrity` permite verificar que la respuesta no ha sido alterada, proporcionando un hash criptográfico del contenido esperado. Esto es útil al cargar scripts u otros recursos desde CDNs.
 
@@ -556,7 +556,7 @@ IMPORTANTE: La opción `integrity` requiere una coincidencia exacta entre el con
 
 CONSEJO: Usa integridad de subrecursos (subresource integrity) al cargar recursos críticos de fuentes externas para asegurar que no han sido modificados. Genera los hashes usando herramientas como `openssl`.
 
-## `Observable`s Http
+## `Observable`s Http {#http-observables}
 
 Cada método de solicitud en `HttpClient` construye y devuelve un `Observable` del tipo de respuesta solicitado. Entender cómo funcionan estos `Observable`s es importante al usar `HttpClient`.
 
@@ -572,7 +572,7 @@ Debido a la finalización automática, generalmente no hay riesgo de fugas de me
 
 CONSEJO: Usar el pipe `async` o la operación `toSignal` para suscribirse a `Observable`s asegura que las suscripciones se eliminen correctamente.
 
-## Mejores prácticas
+## Mejores prácticas {#best-practices}
 
 Aunque `HttpClient` puede ser inyectado y usado directamente desde los componentes, generalmente se recomienda que crees servicios reutilizables e inyectables que aíslen y encapsulen la lógica de acceso a datos. Por ejemplo, este `UserService` encapsula la lógica para solicitar datos de un usuario por su id:
 

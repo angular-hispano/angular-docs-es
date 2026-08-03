@@ -14,7 +14,7 @@ Puedes construir casi cualquier tipo de formulario con una plantilla de Angular 
 Puedes diseñar los controles de forma creativa y vincularlos a los datos en tu modelo de objeto.
 Puedes especificar reglas de validación, mostrar errores de validación, permitir condicionalmente entrada en controles específicos, activar retroalimentación visual integrada, y mucho más.
 
-## Objetivos
+## Objetivos {#objectives}
 
 Este tutorial te enseña cómo hacer lo siguiente:
 
@@ -24,7 +24,7 @@ Este tutorial te enseña cómo hacer lo siguiente:
 - Mostrar errores de validación a los usuarios y permitir la entrada de datos en los controles del formulario de forma condicional, basándose en el estado del mismo.
 - Compartir información entre elementos HTML usando [variables de referencia de plantilla](guide/templates/variables#template-reference-variables)
 
-## Construir un formulario basado en plantillas
+## Construir un formulario basado en plantillas {#build-a-template-driven-form}
 
 Los formularios basados en plantillas se basan en directivas definidas en el `FormsModule`.
 
@@ -34,7 +34,7 @@ Los formularios basados en plantillas se basan en directivas definidas en el `Fo
 | `NgForm`       | Crea una instancia de `FormGroup` de nivel superior y la vincula a un elemento `<form>` para rastrear el valor agregado del formulario y el estado de validación. Tan pronto como importas `FormsModule`, esta directiva se vuelve activa por defecto en todas las etiquetas `<form>`. No necesitas agregar un selector especial. |
 | `NgModelGroup` | Crea y vincula una instancia de `FormGroup` a un elemento DOM.                                                                                                                                                                                                                      |
 
-### Resumen de los pasos
+### Resumen de los pasos {#step-overview}
 
 En el curso de este tutorial, vinculas un formulario de muestra a datos y manejas la entrada del usuario usando los siguientes pasos.
 
@@ -52,7 +52,7 @@ En el curso de este tutorial, vinculas un formulario de muestra a datos y maneja
    - Deshabilitar el botón **Submit** hasta que el formulario sea válido
    - Después del envío, intercambiar el formulario terminado por contenido diferente en la página
 
-## Construir el formulario
+## Construir el formulario {#build-the-form}
 
 <!-- TODO: link to preview -->
 <!-- <docs-code live/> -->
@@ -104,7 +104,7 @@ En el curso de este tutorial, vinculas un formulario de muestra a datos y maneja
 Si ejecutas la aplicación, verás la lista de habilidades en el control de selección. 
 Los elementos de entrada aún no están enlazados a valores de datos o eventos, por lo que todavía están en blanco y no tienen comportamiento.
 
-## Vincular controles de entrada a propiedades de datos
+## Vincular controles de entrada a propiedades de datos {#bind-input-controls-to-data-properties}
 
 El siguiente paso es vincular los controles de entrada a las propiedades `Actor` correspondientes con el enlace de datos bidireccional, para que respondan a la entrada del usuario actualizando el modelo de datos, y también respondan a los cambios programáticos en los datos actualizando la visualización.
 
@@ -119,7 +119,7 @@ Cuando incluyes la directiva usando la sintaxis para enlace de datos bidireccion
 
 CONSEJO: Este ejemplo tiene una interpolación de diagnóstico temporal después de cada etiqueta de entrada, `{{model.name}}`, para mostrar el valor de datos actual de la propiedad correspondiente. El comentario te recuerda eliminar las líneas de diagnóstico cuando hayas terminado de observar el enlace de datos bidireccional en funcionamiento.
 
-### Acceder al estado general del formulario
+### Acceder al estado general del formulario {#access-the-overall-form-status}
 
 Cuando importaste `FormsModule` en tu componente, Angular automáticamente creó y adjuntó una directiva [NgForm](api/forms/NgForm) a la etiqueta `<form>` en la plantilla (porque `NgForm` tiene el selector `form` que coincide con elementos `<form>`).
 
@@ -139,7 +139,7 @@ La variable de plantilla `actorForm` ahora es una referencia a la instancia de d
 
 La línea de diagnóstico que muestra valores interpolados demuestra que los valores fluyen de la caja de entrada al modelo y viceversa.
 
-### Nombrando elementos de control
+### Nombrando elementos de control {#naming-control-elements}
 
 Cuando usas `[(ngModel)]` en un elemento, debes definir un atributo `name` para ese elemento.
 Angular usa el nombre asignado para registrar el elemento con la directiva `NgForm` adjunta al elemento `<form>` padre.
@@ -165,12 +165,12 @@ Notarás que:
 
 Una vez que hayas observado los efectos, puedes eliminar el enlace de texto `{{ model | json }}`.
 
-## Rastrear los estados del formulario
+## Rastrear los estados del formulario {#track-form-states}
 
 Angular aplica la clase `ng-submitted` a elementos `form` después de que el formulario ha sido enviado. 
 Estas clases pueden usarse para cambiar el estilo del formulario después de que ha sido enviado
 
-## Rastrear los estados de control
+## Rastrear los estados de control {#track-control-states}
 
 Agregar la directiva `NgModel` a un control agrega nombres de clase al control que describen su estado.
 
@@ -187,7 +187,7 @@ pero no a los controles dentro del elemento `form`.
 
 Puedes usar estas clases CSS para definir los estilos de tu control en función de su estado.
 
-### Observar los estados del control
+### Observar los estados del control {#observe-control-states}
 
 Para ver cómo las clases son agregadas y eliminadas por el framework, abre las herramientas de desarrollador del navegador e inspecciona el elemento `<input>` que representa el nombre del actor.
 
@@ -214,7 +214,7 @@ Usando las herramientas de desarrollador de tu navegador, encuentra el elemento 
    - Borra el nombre.
      Esto hace que el valor sea inválido, por lo que la clase `ng-invalid` reemplaza la clase `ng-valid`.
 
-### Crea retroalimentación visual para los estados
+### Crea retroalimentación visual para los estados {#create-visual-feedback-for-states}
 
 El par `ng-valid`/`ng-invalid` es particularmente interesante, porque quieres enviar una
 señal visual fuerte cuando los valores son inválidos.
@@ -235,7 +235,7 @@ Para cambiar la apariencia de esta manera, sigue estos pasos.
 
 <docs-code header="index.html (estilos)" path="adev/src/content/examples/forms/src/index.html" visibleRegion="styles"/>
 
-### Mostrar y ocultar mensajes de error de validación
+### Mostrar y ocultar mensajes de error de validación {#show-and-hide-validation-error-messages}
 
 La caja de entrada **Name** es requerida y limpiarla convierte la barra en roja.
 Eso indica que algo está mal, pero el usuario no sabe qué está mal o qué hacer al respecto.
@@ -282,7 +282,7 @@ Verás la importancia de esta elección cuando agregues un nuevo actor al formul
 
 </docs-callout>
 
-## Agrega un nuevo actor
+## Agrega un nuevo actor {#add-a-new-actor}
 
 Este ejercicio muestra cómo puedes responder a un evento de clic de botón HTML nativo agregando al modelo de datos.
 Para permitir que los usuarios del formulario agreguen un nuevo actor, agregarás un botón **New Actor** que responde a un evento de clic.
@@ -313,7 +313,7 @@ Para permitir que los usuarios del formulario agreguen un nuevo actor, agregará
 
    Ahora hacer clic en **New Actor** resetea tanto el formulario como sus banderas de control.
 
-## Enviar el formulario con `ngSubmit`
+## Enviar el formulario con `ngSubmit` {#submit-the-form-with-ngsubmit}
 
 El usuario debería poder enviar este formulario después de llenarlo.
 El botón **Submit** en la parte inferior del formulario no hace nada por sí solo, pero activa un evento de envío de formulario debido a su tipo (`type="submit"`).
@@ -348,7 +348,7 @@ No tuviste que conectar explícitamente el estado habilitado del botón a la val
 </docs-step>
 </docs-workflow>
 
-### Responder al envío del formulario
+### Responder al envío del formulario {#respond-to-form-submission}
 
 Para mostrar una respuesta al envío del formulario, puedes ocultar el área de entrada de datos y mostrar algo más en su lugar.
 
@@ -380,7 +380,7 @@ Haz clic en el botón *Edit* para cambiar la visualización de vuelta al formula
 </docs-step>
 </docs-workflow>
 
-## Resumen
+## Resumen {#summary}
 
 El formulario de Angular discutido en esta página aprovecha las siguientes
 características del framework para proporcionar soporte para modificación de datos, validación y más.

@@ -4,12 +4,12 @@ Esta guía explora características adicionales de la inyección de dependencias
 
 NOTA: Para una cobertura completa de InjectionToken y proveedores personalizados, consulta la [guía de definición de proveedores de dependencias](guide/di/defining-dependency-providers#injection-tokens).
 
-## Inyectar el elemento DOM del componente
+## Inyectar el elemento DOM del componente {#inject-the-components-dom-element}
 
 Aunque los desarrolladores se esfuerzan por evitarlo, algunos efectos visuales y herramientas de terceros requieren acceso directo al DOM.
 Como resultado, es posible que necesites acceder al elemento DOM de un componente.
 
-Angular expone el elemento subyacente de un `@Component` o `@Directive` vía inyección usando el token de inyección `ElementRef`:
+Angular expone el elemento DOM subyacente de un `@Component` o `@Directive` a través de inyección usando el token `ElementRef`:
 
 ```ts {highlight:[7]}
 import {Directive, ElementRef, inject} from '@angular/core';
@@ -24,10 +24,40 @@ export class HighlightDirective {
     this.element.nativeElement.style.color = 'red';
   }
 }
-
 ```
 
-## Resolver dependencias circulares con una referencia anticipada
+## Inyectar el nombre de etiqueta del elemento host {#inject-the-host-elements-tag-name}
+
+Para obtener el nombre de etiqueta de un elemento host, inyéctalo usando el token `HOST_TAG_NAME`.
+
+```ts
+import {Directive, HOST_TAG_NAME, inject} from '@angular/core';
+
+@Directive({
+  selector: '[roleButton]',
+})
+export class RoleButtonDirective {
+  private tagName = inject(HOST_TAG_NAME);
+
+  onAction() {
+    switch (this.tagName) {
+      case 'button':
+        // Manejar acción de botón
+        break;
+      case 'a':
+        // Manejar acción de ancla
+        break;
+      default:
+        // Manejar otros elementos
+        break;
+    }
+  }
+}
+```
+
+NOTA: Si el elemento host podría no tener un nombre de etiqueta (por ejemplo, `ng-container` o `ng-template`), haz la inyección opcional.
+
+## Resolver dependencias circulares con una referencia anticipada {#resolve-circular-dependencies-with-a-forward-reference}
 
 El orden de declaración de clases en TypeScript es importante.
 No puedes referenciar directamente una clase hasta que haya sido definida.

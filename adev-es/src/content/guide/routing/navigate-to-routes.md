@@ -2,7 +2,7 @@
 
 La directiva RouterLink es el enfoque declarativo de Angular para la navegación. Te permite usar elementos anchor estándar (`<a>`) que se integran sin problemas con el sistema de enrutamiento en Angular.
 
-## Cómo usar RouterLink
+## Cómo usar RouterLink {#how-to-use-routerlink}
 
 En lugar de usar elementos anchor regulares `<a>` con un atributo `href`, agregas una directiva RouterLink con la ruta apropiada para aprovechar el enrutamiento en Angular.
 
@@ -15,14 +15,14 @@ import {RouterLink} from '@angular/router';
       <a routerLink="/user-profile">User profile</a>
       <a routerLink="/settings">Settings</a>
     </nav>
-  `
+  `,
   imports: [RouterLink],
   ...
 })
 export class App {}
 ```
 
-### Usando enlaces absolutos o relativos
+### Usando enlaces absolutos o relativos {#using-absolute-or-relative-links}
 
 Las **URLs relativas** en el enrutamiento en Angular te permiten definir rutas de navegación relativas a la ubicación de la ruta actual. Esto contrasta con las **URLs absolutas** que contienen la ruta completa con el protocolo (por ejemplo, `http://`) y el **dominio raíz** (por ejemplo, `google.com`).
 
@@ -38,7 +38,7 @@ En este ejemplo, el primer ejemplo contiene la ruta completa con el protocolo (e
 
 En términos generales, se prefieren las URLs relativas porque son más mantenibles en todas las aplicaciones porque no necesitan conocer su posición absoluta dentro de la jerarquía de enrutamiento.
 
-### Cómo funcionan las URLs relativas
+### Cómo funcionan las URLs relativas {#how-relative-urls-work}
 
 El enrutamiento en Angular tiene dos sintaxis para definir URLs relativas: strings y arrays.
 
@@ -67,10 +67,10 @@ Por ejemplo, si el usuario está en `example.com/settings`, aquí está cómo se
 
 <!-- Navega a /team/:teamId/user/:userId -->
 <a routerLink="/team/123/user/456">User 456</a>
-<a [routerLink]="['/team', teamId, 'user', userId]">Current User</a>"
+<a [routerLink]="['/team', teamId, 'user', userId]">Current User</a>
 ```
 
-## Navegación programática a rutas
+## Navegación programática a rutas {#programmatic-navigation-to-routes}
 
 Mientras que `RouterLink` maneja la navegación declarativa en templates, Angular proporciona navegación programática para escenarios donde necesitas navegar basándote en lógica, acciones del usuario o estado de la aplicación. Al inyectar `Router`, puedes navegar dinámicamente a rutas, pasar parámetros y controlar el comportamiento de navegación en tu código TypeScript.
 
@@ -79,13 +79,11 @@ Mientras que `RouterLink` maneja la navegación declarativa en templates, Angula
 Puedes usar el método `router.navigate()` para navegar programáticamente entre rutas especificando un array de ruta URL.
 
 ```angular-ts
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  template: `
-    <button (click)="navigateToProfile()">View Profile</button>
-  `
+  template: ` <button (click)="navigateToProfile()">View Profile</button> `,
 })
 export class AppDashboard {
   private router = inject(Router);
@@ -99,11 +97,11 @@ export class AppDashboard {
 
     // Con parámetros de consulta
     this.router.navigate(['/search'], {
-      queryParams: { category: 'books', sort: 'price' }
+      queryParams: {category: 'books', sort: 'price'},
     });
-    
+
     // Con parámetros de matriz
-    this.router.navigate(['/products', { featured: true, onSale: true }]);
+    this.router.navigate(['/products', {featured: true, onSale: true}]);
   }
 }
 ```
@@ -113,35 +111,62 @@ export class AppDashboard {
 También puedes construir rutas de navegación dinámicas relativas a la ubicación de tu componente en el árbol de enrutamiento usando la opción `relativeTo`.
 
 ```angular-ts
-import { Router, ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-user-detail',
   template: `
     <button (click)="navigateToEdit()">Edit User</button>
     <button (click)="navigateToParent()">Back to List</button>
-  `
+  `,
 })
-export class UserDetailComponent {
+export class UserDetail {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-
-  constructor() {}
 
   // Navegar a una ruta hermana
   navigateToEdit() {
     // Desde: /users/123
     // A:     /users/123/edit
-    this.router.navigate(['edit'], { relativeTo: this.route });
+    this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
   // Navegar al padre
   navigateToParent() {
     // Desde: /users/123
     // A:     /users
-    this.router.navigate(['..'], { relativeTo: this.route });
+    this.router.navigate(['..'], {relativeTo: this.route});
+  }
+
+  navigateToList() {
+    // Desde: /users/123
+    // Resultado: /users/list
+    this.router.navigate(['..', 'list'], {relativeTo: this.route});
   }
 }
+```
+
+Al navegar varios niveles hacia arriba, todos los segmentos `..` deben estar en el **primer elemento** del array de comandos. El enrutador solo analiza `..` del primer string de comando — los elementos de array subsiguientes se tratan como segmentos de ruta literales.
+
+```angular-ts {prefer}
+// Desde: /team/123/users/456
+// Resultado: /team/123/settings
+this.router.navigate(['../../settings'], {relativeTo: this.route});
+```
+
+Al usar `relativeTo`, nunca prefixes el primer comando con `/`. Una `/` inicial hace que la navegación sea absoluta e ignora `relativeTo` por completo.
+
+```angular-ts {prefer}
+// Desde: /team/123/users/456
+// Resultado: /team/123/users/456/edit
+this.router.navigate(['edit'], {relativeTo: this.route});
+```
+
+```angular-ts {avoid}
+// Desde: /team/123/users/456
+// La '/' inicial causa navegación absoluta — relativeTo se ignora
+// Resultado: /edit
+this.router.navigate(['/edit'], {relativeTo: this.route});
 ```
 
 ### `router.navigateByUrl()`
@@ -162,7 +187,7 @@ router.navigateByUrl('/products/123?view=details#reviews');
 router.navigateByUrl('/search?category=books&sortBy=price');
 
 // Con parámetros de matriz
-router.navigateByUrl('/sales-awesome;isOffer=true;showModal=false')
+router.navigateByUrl('/sales-awesome;isOffer=true;showModal=false');
 ```
 
 En caso de que necesites reemplazar la URL actual en el historial, `navigateByUrl` también acepta un objeto de configuración que tiene una opción `replaceUrl`.
@@ -170,10 +195,57 @@ En caso de que necesites reemplazar la URL actual en el historial, `navigateByUr
 ```ts
 // Reemplazar URL actual en el historial
 router.navigateByUrl('/checkout', {
-  replaceUrl: true
+  replaceUrl: true,
 });
 ```
 
-## Próximos pasos
+### Mostrar una URL diferente en la barra de direcciones {#display-a-different-url-in-the-address-bar}
+
+Puedes pasar la opción `browserUrl` a `navigateByUrl` para mostrar una URL diferente en la barra de direcciones del navegador a la usada para la coincidencia de rutas.
+
+Esto es útil cuando quieres redirigir a un usuario a una ruta diferente — como una página de error — sin cambiar la URL que el usuario intentó visitar originalmente.
+
+```ts
+router.navigateByUrl('/not-found', {browserUrl: '/products/missing-item'});
+```
+
+Angular navega y renderiza la ruta `/not-found`, pero la barra de direcciones del navegador muestra `/products/missing-item`.
+
+NOTA: `browserUrl` solo afecta lo que aparece en la barra de direcciones del navegador.
+
+## Personalizar la URL del navegador con RouterLink {#customizing-the-browser-url-with-routerlink}
+
+La directiva `RouterLink` también admite una entrada `browserUrl`, que te permite controlar la URL que se muestra en la barra de direcciones del navegador cuando se hace clic en un enlace, independientemente de la ruta a la que Angular navega.
+
+```angular-html
+<!-- Navega a /dashboard, pero la barra de direcciones muestra /home -->
+<a [routerLink]="['/dashboard']" [browserUrl]="'/home'">Go to Dashboard</a>
+```
+
+También puedes vincular un `UrlTree` para casos de uso más dinámicos:
+
+```angular-ts
+import {Component, inject} from '@angular/core';
+import {Router, RouterLink, UrlTree} from '@angular/router';
+
+@Component({
+  template: `
+    <a [routerLink]="['/products', product.id]" [browserUrl]="displayUrl">
+      {{ product.name }}
+    </a>
+  `,
+  imports: [RouterLink],
+})
+export class ProductList {
+  private router = inject(Router);
+
+  product = {id: 42, name: 'Widget'};
+
+  // Crear un UrlTree para mostrar en la barra de direcciones
+  displayUrl: UrlTree = this.router.createUrlTree(['/products', 'widget']);
+}
+```
+
+## Próximos pasos {#next-steps}
 
 Aprende cómo [leer estado de ruta](/guide/routing/read-route-state) para crear componentes responsivos y conscientes del contexto.

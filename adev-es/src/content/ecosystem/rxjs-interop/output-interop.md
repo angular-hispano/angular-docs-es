@@ -4,7 +4,7 @@ CONSEJO: Esta guía supone que ya estás familiarizado con los [outputs de compo
 
 El paquete `@angular/rxjs-interop` ofrece dos APIs relacionadas con los outputs de componentes y directivas.
 
-## Crear un output basado en un Observable de RxJS
+## Crear un output basado en un Observable de RxJS {#creating-an-output-based-on-an-rxjs-observable}
 
 `outputFromObservable` te permite crear un output de componente o directiva que emite en función de un Observable de RxJS:
 
@@ -27,7 +27,7 @@ Cuando te suscribes (`subscribe`) al output, Angular reenvía automáticamente l
 
 ÚTIL: Considera usar `output()` directamente si puedes emitir valores de forma imperativa.
 
-## Crear un Observable de RxJS a partir de un output de componente o directiva
+## Crear un Observable de RxJS a partir de un output de componente o directiva {#creating-an-rxjs-observable-from-a-component-or-directive-output}
 
 La función `outputToObservable` te permite crear un Observable de RxJS a partir de un output de componente.
 

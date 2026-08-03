@@ -6,13 +6,15 @@ const copyTargets = [
   // Text contents
   'src/content/**/*.md',
   '!src/content/**/license.md',
-  // Navigation 
+  // Navigation
   'src/app/routing/sub-navigation-data.ts',
+  'src/app/routing/navigation-entries/index.ts',
   // Others
-  'src/app/core/constants/links/links.ts',
+  'src/app/core/constants/links.ts',
   'src/app/core/layout/navigation/navigation.component.html',
   'src/app/core/layout/footer/footer.component.html',
   'src/app/features/home/home.component.html',
+  'src/app/features/home/components/**/*.html',
 ];
 
 try {

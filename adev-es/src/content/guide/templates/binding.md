@@ -2,7 +2,7 @@
 
 En Angular, un **enlace** (binding) crea una conexión dinámica entre la plantilla de un componente y sus datos. Esta conexión asegura que los cambios en los datos del componente actualicen automáticamente la plantilla renderizada.
 
-## Renderizar texto dinámico con interpolación de texto
+## Renderizar texto dinámico con interpolación de texto {#render-dynamic-text-with-text-interpolation}
 
 Puedes enlazar texto dinámico en plantillas con llaves dobles, lo que le indica a Angular que es responsable de la expresión dentro y asegurar que se actualice correctamente. Esto se llama **interpolación de texto**.
 
@@ -56,13 +56,13 @@ Puedes usar interpolación de texto en cualquier lugar donde normalmente escribi
 
 Todos los valores de expresión se convierten a una cadena. Los objetos y arrays se convierten usando el método `toString` del valor.
 
-## Enlazar propiedades y atributos dinámicos
+## Enlazar propiedades y atributos dinámicos {#binding-dynamic-properties-and-attributes}
 
 Angular soporta enlazar valores dinámicos a propiedades de objetos y atributos HTML con corchetes.
 
 Puedes enlazar a propiedades en la instancia DOM de un elemento HTML, una instancia de [componente](guide/components), o una instancia de [directiva](guide/directives).
 
-### Propiedades de elementos nativos
+### Propiedades de elementos nativos {#native-element-properties}
 
 Cada elemento HTML tiene una representación DOM correspondiente. Por ejemplo, cada elemento HTML `<button>` corresponde a una instancia de `HTMLButtonElement` en el DOM. En Angular, usas enlaces de propiedad para establecer valores directamente a la representación DOM del elemento.
 
@@ -73,7 +73,7 @@ Cada elemento HTML tiene una representación DOM correspondiente. Por ejemplo, c
 
 En este ejemplo, cada vez que `isFormValid` cambia, Angular establece automáticamente la propiedad `disabled` de la instancia `HTMLButtonElement`.
 
-### Propiedades de componentes y directivas
+### Propiedades de componentes y directivas {#component-and-directive-properties}
 
 Cuando un elemento es un componente de Angular, puedes usar enlaces de propiedad para establecer propiedades de entrada de componentes usando la misma sintaxis de corchetes.
 
@@ -91,7 +91,7 @@ También puedes enlazar a propiedades de directivas.
 <img [ngSrc]="profilePhotoUrl()" alt="The current user's profile photo">
 ```
 
-### Atributos
+### Atributos {#attributes}
 
 Cuando necesitas establecer atributos HTML que no tienen propiedades DOM correspondientes, como atributos SVG, puedes enlazar atributos a elementos en tu plantilla con el prefijo `attr.`.
 
@@ -104,7 +104,7 @@ En este ejemplo, cada vez que `listRole` cambia, Angular establece automáticame
 
 Si el valor de un enlace de atributo es `null`, Angular elimina el atributo llamando a `removeAttribute`.
 
-### Interpolación de texto en propiedades y atributos
+### Interpolación de texto en propiedades y atributos {#text-interpolation-in-properties-and-attributes}
 
 También puedes usar sintaxis de interpolación de texto en propiedades y atributos usando la sintaxis de llaves dobles en lugar de corchetes alrededor del nombre de la propiedad o atributo. Cuando uses esta sintaxis, Angular trata la asignación como un enlace de propiedad.
 
@@ -113,11 +113,11 @@ También puedes usar sintaxis de interpolación de texto en propiedades y atribu
 <img src="profile-photo.jpg" alt="Profile photo of {{ firstName() }}" >
 ```
 
-## Enlaces de clases CSS y propiedades de estilo
+## Enlaces de clases CSS y propiedades de estilo {#css-class-and-style-property-bindings}
 
 Angular soporta funcionalidades adicionales para enlazar clases CSS y propiedades de estilo CSS a elementos.
 
-### Clases CSS
+### Clases CSS {#css-classes}
 
 Puedes crear un enlace de clase CSS para agregar o quitar condicionalmente una clase CSS en un elemento basándose en si el valor enlazado es [truthy o falsy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy).
 
@@ -190,7 +190,7 @@ Si un elemento tiene múltiples enlaces para la misma clase CSS, Angular resuelv
 
 NOTA: Los enlaces de clase no soportan nombres de clase separados por espacios en una sola clave. Tampoco soportan mutaciones en objetos ya que la referencia del enlace permanece igual. Si necesitas una u otra, usa la directiva [ngClass](/api/common/NgClass).
 
-### Propiedades de estilo CSS
+### Propiedades de estilo CSS {#css-style-properties}
 
 También puedes enlazar directamente a propiedades de estilo CSS en un elemento.
 
@@ -241,7 +241,7 @@ Cuando enlazas `style` a un objeto, Angular compara el valor anterior con el val
 
 Si un elemento tiene múltiples enlaces para la misma propiedad de estilo, Angular resuelve las colisiones siguiendo su orden de precedencia de estilos.
 
-## Atributos ARIA
+## Atributos ARIA {#aria-attributes}
 
 Angular soporta enlazar valores de cadena a atributos ARIA.
 

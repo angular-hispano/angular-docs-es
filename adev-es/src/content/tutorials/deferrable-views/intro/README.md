@@ -2,7 +2,7 @@
 
 Este tutorial interactivo consiste en lecciones que introducen los conceptos de las vistas diferibles (deferrable views) de Angular.
 
-## Cómo usar este tutorial
+## Cómo usar este tutorial {#how-to-use-this-tutorial}
 
 Cada paso representa un concepto en las vistas diferibles de Angular. Puedes hacer uno, o todos ellos.
 

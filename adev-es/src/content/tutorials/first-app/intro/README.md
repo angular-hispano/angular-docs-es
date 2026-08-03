@@ -8,11 +8,11 @@ Puedes hacer tantas como quieras, o pocas, y puedes hacerlas en cualquier orden.
 
 <docs-video src="https://www.youtube.com/embed/xAT0lHYhHMY?si=cKUW_MGn3MesFT7o"/>
 
-## Antes de comenzar
+## Antes de comenzar {#before-you-start}
 
 Para obtener la mejor experiencia con este tutorial, revisa estos requisitos para asegurarte de que tienes lo necesario para tener éxito.
 
-### Tu experiencia
+### Tu experiencia {#your-experience}
 
 Las lecciones en este tutorial asumen que tienes experiencia con lo siguiente:
 
@@ -21,20 +21,20 @@ Las lecciones en este tutorial asumen que tienes experiencia con lo siguiente:
 1. Has leído contenido de hojas de estilo en cascada (CSS) y entiendes cómo se usan los selectores.
 1. Has usado instrucciones de línea de comandos para realizar tareas en tu computadora.
 
-### Tu equipo
+### Tu equipo {#your-equipment}
 
 Estas lecciones se pueden completar usando una instalación local de las herramientas de Angular o en nuestro editor integrado. El desarrollo local de Angular se puede completar en sistemas Windows, MacOS o Linux.
 
 NOTA: Busca alertas como esta, que señalan pasos que pueden ser solo para tu editor local.
 
-## Vista previa conceptual de tu primera aplicación Angular
+## Vista previa conceptual de tu primera aplicación Angular {#conceptual-preview-of-your-first-angular-app}
 
 Las lecciones en este tutorial crean una aplicación Angular que lista casas en renta y muestra los detalles de casas individuales.
 Esta aplicación utiliza características que son comunes a muchas aplicaciones Angular.
 
 <img alt="Resultado de la página de inicio de la aplicación de viviendas" src="assets/images/tutorials/first-app/homes-app-landing-page.png">
 
-## Entorno de desarrollo local
+## Entorno de desarrollo local {#local-development-environment}
 
 NOTA: ¡Este paso es solo para tu entorno local!
 

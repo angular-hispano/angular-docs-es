@@ -1,6 +1,6 @@
 # NgModules
 
-IMPORTANTE: El equipo de Angular recomienda usar [componentes standalone](guide/components/anatomy-of-components#-imports-in-the-component-decorator) en lugar de `NgModule` para todo código nuevo. Usa esta guía para entender código existente construido con `@NgModule`.
+IMPORTANTE: El equipo de Angular recomienda usar [componentes standalone](guide/components#imports-in-the-component-decorator) en lugar de `NgModule` para todo código nuevo. Usa esta guía para entender código existente construido con `@NgModule`.
 
 Un NgModule es una clase marcada con el decorador `@NgModule`. Este decorador acepta _metadatos_ que le indican a Angular cómo compilar las plantillas de componentes y configurar la inyección de dependencias.
 
@@ -106,7 +106,7 @@ La propiedad `exports` no se limita a las declaraciones. Un NgModule también pu
 export class CustomMenuModule { }
 ```
 
-## Proveedores de `NgModule`
+## Proveedores de `NgModule` {#ngmodule-providers}
 
 CONSEJO: Consulta la [guía de Inyección de Dependencias](guide/di) para información sobre inyección de dependencias y proveedores.
 
@@ -141,7 +141,7 @@ En el ejemplo anterior:
 - `UserProfile` puede inyectar `OverlayManager` porque su NgModule importa `CustomMenuModule`.
 - `UserDataClient` puede inyectar `OverlayManager` porque su NgModule importa `CustomMenuModule`.
 
-### El patrón `forRoot` y `forChild`
+### El patrón `forRoot` y `forChild` {#the-forroot-and-forchild-pattern}
 
 Algunos NgModules definen un método estático `forRoot` que acepta cierta configuración y devuelve un array de proveedores. El nombre "`forRoot`" es una convención que indica que estos proveedores están destinados a agregarse exclusivamente en la _raíz_ de tu aplicación durante el bootstrap.
 
@@ -167,13 +167,13 @@ De manera similar, algunos NgModules pueden definir un método estático `forChi
 export class UserProfile { /* ... */ }
 ```
 
-## Bootstrap de una aplicación
+## Bootstrap de una aplicación {#bootstrapping-an-application}
 
 IMPORTANTE: El equipo de Angular recomienda usar [bootstrapApplication](api/platform-browser/bootstrapApplication) en lugar de `bootstrapModule` para todo código nuevo. Usa esta guía para entender aplicaciones existentes que usan bootstrap con `@NgModule`.
 
 El decorador `@NgModule` acepta un array opcional `bootstrap` que puede contener uno o más componentes.
 
-Puedes usar el método [`bootstrapModule`](https://angular.dev/api/core/PlatformRef#bootstrapModule) de [`platformBrowser`](api/platform-browser/platformBrowser) o [`platformServer`](api/platform-server/platformServer) para iniciar una aplicación Angular. Al ejecutarse, esta función localiza todos los elementos de la página cuyo selector CSS coincide con los componentes listados y los renderiza en la página.
+Puedes usar el método [`bootstrapModule`](/api/core/PlatformRef#bootstrapModule) de [`platformBrowser`](api/platform-browser/platformBrowser) o [`platformServer`](api/platform-server/platformServer) para iniciar una aplicación Angular. Al ejecutarse, esta función localiza todos los elementos de la página cuyo selector CSS coincide con los componentes listados y los renderiza en la página.
 
 ```typescript
 import {platformBrowser} from '@angular/platform-browser';

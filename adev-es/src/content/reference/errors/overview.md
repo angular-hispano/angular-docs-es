@@ -1,6 +1,6 @@
 # Enciclopedia de Errores
 
-## Errores en tiempo de ejecución
+## Errores en tiempo de ejecución {#runtime-errors}
 
 | Código    | Nombre                                                                                      |
 | :-------- | :------------------------------------------------------------------------------------------ |
@@ -8,6 +8,9 @@
 | `NG0200`  | [Dependencia circular en DI](errors/NG0200)                                                 |
 | `NG0201`  | [No se encontró proveedor](errors/NG0201)                                                   |
 | `NG0203`  | [`inject()` debe llamarse desde un contexto de inyección](errors/NG0203)                   |
+| `NG0204`  | [Token de inyección inválido](errors/NG0204)                                                |
+| `NG0205`  | [El inyector ya ha sido destruido](errors/NG0205)                                           |
+| `NG0207`  | [EnvironmentProviders en un contexto incorrecto](errors/NG0207)                             |
 | `NG0209`  | [Proveedor múltiple inválido](errors/NG0209)                                                |
 | `NG0300`  | [Colisión de selectores](errors/NG0300)                                                     |
 | `NG0301`  | [Exportación no encontrada](errors/NG0301)                                                  |
@@ -22,20 +25,30 @@
 | `NG0505`  | [Sin información de hidratación en la respuesta del servidor](errors/NG0505)                |
 | `NG0506`  | [NgZone permanece inestable](errors/NG0506)                                                 |
 | `NG0507`  | [El contenido HTML fue alterado después del SSR](errors/NG0507)                             |
+| `NG0602`  | [Llamada de función no permitida dentro de un contexto reactivo](errors/NG0602)             |
 | `NG0750`  | [Las dependencias de @defer no se pudieron cargar](errors/NG0750)                           |
+| `NG0751`  | [Comportamiento de @defer cuando HMR está habilitado](errors/NG0751)                        |
 | `NG0910`  | [Enlaces inseguros en un elemento iframe](errors/NG0910)                                    |
 | `NG0912`  | [Colisión en la generación de ID de componente](errors/NG0912)                              |
+| `NG0913`  | [Advertencias de rendimiento en tiempo de ejecución](errors/NG0913)                         |
+| `NG0919`  | [Dependencia circular detectada](errors/NG0919)                                             |
+| `NG0950`  | [Se accede a un input requerido antes de que se establezca un valor](errors/NG0950)         |
+| `NG0951`  | [Se requiere el resultado de una consulta hija pero no hay un valor disponible](errors/NG0951) |
 | `NG0955`  | [La expresión de seguimiento resultó en claves duplicadas para una colección](errors/NG0955)|
 | `NG0956`  | [La expresión de seguimiento causó la recreación de la estructura DOM](errors/NG0956)       |
+| `NG01002` | [Valor de control faltante](errors/NG01002)                                                 |
 | `NG01101` | [Tipo de retorno incorrecto para validador asíncrono](errors/NG01101)                       |
 | `NG01203` | [Accessor de valor faltante](errors/NG01203)                                                |
+| `NG01902` | [Campo huérfano en signal forms](errors/NG01902)                                            |
 | `NG02200` | [Diferenciador iterable faltante](errors/NG02200)                                           |
 | `NG02800` | [Soporte JSONP en la configuración de HttpClient](errors/NG02800)                           |
 | `NG02802` | [Encabezados no transferidos por HttpTransferCache](errors/NG02802)                         |
+| `NG02825` | [El cuerpo de la respuesta de fetch excede el límite configurado](errors/NG02825)           |
 | `NG05000` | [Hidratación con instancia de Zone.js no compatible](errors/NG05000)                        |
 | `NG05104` | [No se encontró el elemento raíz](errors/NG05104)                                           |
+| `NG05703` | [Cambio sospechoso de origen de URL durante el SSR](errors/NG05703)                         |
 
-## Errores del compilador
+## Errores del compilador {#compiler-errors}
 
 | Código   | Nombre                                                           |
 | :------- | :--------------------------------------------------------------- |
@@ -47,3 +60,5 @@
 | `NG8001` | [Elemento inválido](errors/NG8001)                               |
 | `NG8002` | [Atributo inválido](errors/NG8002)                               |
 | `NG8003` | [Referencia de destino faltante](errors/NG8003)                  |
+| `NG8023` | [Múltiples componentes coinciden con el mismo elemento](errors/NG8023) |
+| `NG8024` | [Vinculación de directiva host en conflicto](errors/NG8024)      |

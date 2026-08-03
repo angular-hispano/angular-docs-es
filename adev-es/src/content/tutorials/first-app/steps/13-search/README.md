@@ -8,7 +8,7 @@ La aplicación permitirá a los usuarios buscar a través de los datos proporcio
 
 IMPORTANTE: Recomendamos usar tu entorno local para este paso del tutorial.
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 - Tu aplicación usará datos de un formulario para buscar ubicaciones de vivienda coincidentes
 - Tu aplicación mostrará solo las ubicaciones de vivienda coincidentes

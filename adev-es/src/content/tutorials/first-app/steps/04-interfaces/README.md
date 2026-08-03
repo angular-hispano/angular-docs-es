@@ -4,12 +4,12 @@ Esta lección del tutorial demuestra cómo crear una interfaz e incluirla en un 
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=YkFSeUeV8Ixtz8pm"/>
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 - Tu aplicación tiene una nueva interfaz que puede usar como tipo de dato.
 - Tu aplicación tiene una instancia de la nueva interfaz con datos de ejemplo.
 
-## Vista previa conceptual de interfaces
+## Vista previa conceptual de interfaces {#conceptual-preview-of-interfaces}
 
 Las [interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) son tipos de datos personalizados para tu aplicación.
 

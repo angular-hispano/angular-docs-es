@@ -3,7 +3,7 @@
 Los formularios reactivos proporcionan un enfoque basado en un modelo para manejar las entradas de un formulario cuyos valores cambian con el tiempo. 
 Esta guía te muestra cómo crear y actualizar un control de formulario básico, usar múltiples controles en un grupo, validar los valores de un formulario y crear formularios dinámicos en los que puedes agregar o eliminar controles en tiempo de ejecución.
 
-## Visión general de los formularios reactivos
+## Visión general de los formularios reactivos {#overview-of-reactive-forms}
 
 Los formularios reactivos usan un enfoque explícito e inmutable para gestionar el estado de un formulario en cualquier momento.
 Cada cambio en el estado del formulario devuelve un nuevo estado, lo que mantiene la integridad del modelo entre cambios.
@@ -18,7 +18,7 @@ Los formularios reactivos proporcionan acceso síncrono al modelo de datos, inmu
 Los formularios basados en plantillas permiten acceso directo para modificar datos en tu plantilla, pero son menos explícitos que los formularios reactivos porque dependen de directivas incrustadas en la plantilla, junto con datos mutables para rastrear cambios de forma asíncrona.
 Consulta la [Visión general de Formularios](guide/forms) para comparaciones detalladas entre los dos paradigmas.
 
-## Añadiendo un control de formulario básico
+## Añadiendo un control de formulario básico {#adding-a-basic-form-control}
 
 Para usar controles de formulario, hay tres pasos.
 
@@ -60,7 +60,7 @@ El `FormControl` asignado a la propiedad `name` se muestra cuando el componente 
 </docs-step>
 </docs-workflow>
 
-### Mostrando un valor de control de formulario
+### Mostrando un valor de control de formulario {#displaying-a-form-control-value}
 
 Puedes mostrar el valor de las siguientes maneras:
 
@@ -74,11 +74,11 @@ El siguiente ejemplo te muestra cómo mostrar el valor actual usando interpolaci
 El valor mostrado cambia a medida que actualizas el control del formulario.
 
 Los formularios reactivos proporcionan acceso a información sobre un control dado a través de propiedades y métodos proporcionados con cada instancia.
-Estas propiedades y métodos de la clase subyacente [AbstractControl](api/forms/AbstractControl 'Referencia de API') se usan para controlar el estado del formulario y determinar cuándo mostrar mensajes al manejar [validación de entrada](#validando-la-entrada-de-formulario 'Aprende más sobre validación de la entrada de formulario').
+Estas propiedades y métodos de la clase subyacente [AbstractControl](api/forms/AbstractControl 'Referencia de API') se usan para controlar el estado del formulario y determinar cuándo mostrar mensajes al manejar [validación de entrada](#validating-form-input 'Aprende más sobre validación de la entrada de formulario').
 
 Lee sobre otras propiedades y métodos de `FormControl` en la [Referencia de API](api/forms/FormControl 'Referencia de sintaxis detallada').
 
-### Reemplazando un valor de control de formulario
+### Reemplazando un valor de control de formulario {#replacing-a-form-control-value}
 
 Los formularios reactivos tienen métodos para cambiar el valor de un control de forma programática, lo que te da la flexibilidad de actualizar el valor sin necesidad de la interacción del usuario.
 Una instancia de `FormControl` proporciona un método `setValue()` que actualiza el valor del control de formulario y valida la estructura del valor proporcionado contra la estructura del control.
@@ -96,17 +96,17 @@ Cuando haces clic en el botón **Actualizar Nombre**, el valor ingresado en el c
 El modelo del formulario es la fuente de la verdad para el control. Por lo tanto, cuando haces clic en el botón, el valor de la entrada cambia dentro de la clase del componente, sobrescribiendo su valor actual.
 
 CONSEJO: En este ejemplo, estás usando un control único.
-Cuando uses el método `setValue()` con una instancia de [grupo de formulario](#agrupando-controles-de-formulario) o [array de formulario](#creando-formularios-dinámicos), el valor necesita coincidir con la estructura del grupo o array.
+Cuando uses el método `setValue()` con una instancia de [grupo de formulario](#grouping-form-controls) o [array de formulario](#creating-dynamic-forms), el valor necesita coincidir con la estructura del grupo o array.
 
-## Agrupando controles de formulario
+## Agrupando controles de formulario {#grouping-form-controls}
 
 Los formularios típicamente contienen varios controles relacionados.
 Los formularios reactivos proporcionan dos formas de agrupar múltiples controles relacionados en un formulario de entrada único.
 
 | Grupos de formulario | Detalle                                                                                                                                                                                                                                                |
 | :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Form group  | Define un formulario con un conjunto fijo de controles que puedes gestionar juntos. Los conceptos básicos del grupo de formulario se discuten en esta sección. También puedes [anidar grupos de formulario](#creando-grupos-de-formulario-anidados 'Ver más sobre anidar grupos') para crear formularios más complejos. |
-| Form array  | Define un formulario dinámico, en los que puedes agregar y eliminar controles en tiempo de ejecución. También puedes anidar arrays de formulario para crear formularios más complejos. Para más sobre esta opción, consulta [Crear formularios dinámicos](#creando-formularios-dinámicos).                              |
+| Form group  | Define un formulario con un conjunto fijo de controles que puedes gestionar juntos. Los conceptos básicos del grupo de formulario se discuten en esta sección. También puedes [anidar grupos de formulario](#creating-nested-form-groups 'Ver más sobre anidar grupos') para crear formularios más complejos. |
+| Form array  | Define un formulario dinámico, en los que puedes agregar y eliminar controles en tiempo de ejecución. También puedes anidar arrays de formulario para crear formularios más complejos. Para más sobre esta opción, consulta [Crear formularios dinámicos](#creating-dynamic-forms).                              |
 
 Al igual que una instancia de `FormControl` (control de formulario) te da control sobre un solo campo de entrada, una instancia de `FormGroup` (grupo de formulario) rastrea el estado del formulario de un grupo de instancias de `FormControl` (por ejemplo, un formulario). 
 Cada control en una instancia de `FormGroup` se rastrea por nombre al crear el grupo. 
@@ -161,7 +161,7 @@ Usa un elemento `button` para agregar un botón al final del formulario para act
 
 <docs-code header="profile-editor.component.html (botón de envío)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.html" visibleRegion="submit-button"/>
 
-El botón en el fragmento anterior también tiene un enlace `disabled` adjunto para deshabilitar el botón cuando `profileForm` es inválido. Aún no estás realizando ninguna validación, así que el botón siempre está habilitado. La validación básica de formularios se cubre en la sección [Validar entrada de formulario](#validando-la-entrada-de-formulario).
+El botón en el fragmento anterior también tiene un enlace `disabled` adjunto para deshabilitar el botón cuando `profileForm` es inválido. Aún no estás realizando ninguna validación, así que el botón siempre está habilitado. La validación básica de formularios se cubre en la sección [Validar entrada de formulario](#validating-form-input).
 </docs-step>
 
 <docs-step title="Mostrar el componente">
@@ -171,7 +171,7 @@ Para mostrar el componente `ProfileEditor` que contiene el formulario, agrégalo
 
 `ProfileEditor` te permite gestionar las instancias de `FormControl` para los controles `firstName` y `lastName` dentro de la instancia de `FormGroup`.
 
-### Creando grupos de formulario anidados
+### Creando grupos de formulario anidados {#creating-nested-form-groups}
 
 Los `FormGroup` pueden aceptar tanto instancias de `FormControl` individuales como otras instancias de `FormGroup` como hijos. 
 Esto hace que la composición de modelos de formulario complejos sea más fácil de mantener y agruparlos lógicamente.
@@ -207,7 +207,7 @@ Muestra el valor para la instancia de `FormGroup` en la plantilla del componente
 </docs-step>
 </docs-workflow>
 
-### Actualizando partes del modelo de datos
+### Actualizando partes del modelo de datos {#updating-parts-of-the-data-model}
 
 Cuando actualizas el valor de una instancia de `FormGroup` que contiene múltiples controles, es posible que solo desees actualizar partes del modelo. 
 Esta sección cubre cómo actualizar partes específicas del modelo de datos de un control de formulario.
@@ -233,7 +233,7 @@ Cuando un usuario hace clic en el botón, el modelo `profileForm` se actualiza c
 Esto es necesario porque el método `patchValue()` aplica la actualización contra la estructura del modelo.
 `PatchValue()` solo actualiza propiedades que el modelo del formulario define.
 
-## Empleando el servicio FormBuilder para generar controles
+## Empleando el servicio FormBuilder para generar controles {#using-the-formbuilder-service-to-generate-controls}
 
 Crear instancias de `FormControl` manualmente puede volverse repetitivo cuando se trabaja con múltiples formularios.
 El servicio `FormBuilder` proporciona métodos convenientes para generar controles.
@@ -277,7 +277,7 @@ CONSEJO: Puedes definir el control con solo el valor inicial, pero si tus contro
 
 </docs-workflow>
 
-## Validando la entrada de formulario
+## Validando la entrada de formulario {#validating-form-input}
 
 _La validación de formularios_ se usa para asegurar que la entrada del usuario sea completa y correcta.
 Esta sección cubre agregar un validador único a un control de formulario y cómo mostrar el estado general del formulario.
@@ -320,7 +320,7 @@ Para más información sobre la validación de formularios, visita la guía [Val
 </docs-step>
 </docs-workflow>
 
-## Creando formularios dinámicos
+## Creando formularios dinámicos {#creating-dynamic-forms}
 
 `FormArray` es una alternativa a `FormGroup` para gestionar cualquier número de controles sin nombre.
 Al igual que con las instancias de `FormGroup`, puedes insertar y eliminar controles dinámicamente de las instancias de `FormArray`, y el valor de la instancia de `FormArray` y el estado de validación se calcula desde sus controles hijos.
@@ -379,6 +379,26 @@ El bloque `@for` itera sobre cada instancia de `FormControl` proporcionada por l
 
 Cada vez que se agrega una nueva instancia de alias, la nueva instancia de `FormArray` se proporciona su control basado en el índice. Esto te permite rastrear cada control individual al calcular el estado y valor del control raíz.
 
+NOTA: En aplicaciones zoneless, mutar un modelo de formulario reactivo (por ejemplo llamando a `FormArray.push()`) no programa automáticamente la detección de cambios del componente. Si tu plantilla depende de cambios estructurales del modelo como `aliases.controls`, asegúrate de que el componente notifique a Angular para ejecutar la detección de cambios, por ejemplo conectando un observable de forms a `ChangeDetectorRef.markForCheck()`:
+
+```ts
+import {ChangeDetectorRef, Component, inject} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+
+@Component({
+  /* ... */
+})
+export class ProfileEditor {
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  constructor() {
+    this.profileForm.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.cdr.markForCheck());
+  }
+}
+```
+
 </docs-step>
 
 <docs-step title="Agregar un alias">
@@ -388,12 +408,38 @@ Inicialmente, el formulario contiene un campo `Alias`. Para agregar otro campo, 
 
 </docs-workflow>
 
-## Eventos unificados de cambio de estado de control
+### Usar `FormArrayDirective` para arrays de formulario de nivel superior {#using-formarraydirective-for-top-level-form-arrays}
+
+Puedes vincular un `FormArray` directamente a un elemento `<form>` usando `FormArrayDirective`.
+Esto es útil cuando el formulario no usa un `FormGroup` de nivel superior y el array en sí representa el modelo completo del formulario.
+
+```angular-ts
+import {Component} from '@angular/core';
+import {FormArray, FormControl} from '@angular/forms';
+
+@Component({
+  selector: 'form-array-example',
+  template: `
+    <form [formArray]="form">
+      @for (control of form.controls; track $index) {
+        <input [formControlName]="$index" />
+      }
+    </form>
+  `,
+})
+export class FormArrayExampleComponent {
+  controls = [new FormControl('fish'), new FormControl('cat'), new FormControl('dog')];
+
+  form = new FormArray(this.controls);
+}
+```
+
+## Eventos unificados de cambio de estado de control {#unified-control-state-change-events}
 
 Todos los controles de formulario exponen un único flujo unificado de **eventos de cambio de estado de control** a través del observable `events` en `AbstractControl` (`FormControl`, `FormGroup`, `FormArray`, y `FormRecord`).
 Este flujo unificado te permite reaccionar a cambios de estado de **valor**, **estado**, **pristine**, **touched** y **reset**, y también para **acciones a nivel de formulario** como **submit**, permitiéndote manejar todas las actualizaciones con una sola suscripción en lugar de conectar múltiples observables.
 
-### Tipos de eventos
+### Tipos de eventos {#event-types}
 
 Cada elemento emitido por `events` es una instancia de una clase de evento específica:
 
@@ -456,7 +502,7 @@ export class UnifiedEventsBasicComponent {
 }
 ```
 
-### Filtrar eventos específicos
+### Filtrar eventos específicos {#filtering-specific-events}
 
 Prefiere operadores RxJS cuando solo necesites un subconjunto de tipos de eventos.
 
@@ -469,7 +515,7 @@ control.events
   .subscribe((e) => console.log('Status:', e.status));
 ```
 
-### Unificar desde múltiples suscripciones
+### Unificar desde múltiples suscripciones {#unifying-from-multiple-subscriptions}
 
 **Antes**
 
@@ -490,7 +536,127 @@ control.events.subscribe((e) => {
 
 NOTA: En el cambio de valor, la emisión ocurre justo después de que se actualiza el valor de este control. El valor de un control padre (por ejemplo, si este FormControl es parte de un FormGroup) se actualiza más tarde, por lo que acceder al valor de un control padre (usando la propiedad `value`) desde el callback de este evento podría resultar en obtener un valor que aún no se ha actualizado. Suscríbete a los `events` del control padre en su lugar.
 
-## Funciones de utilidad para restringir tipos de control de formulario
+## Gestionar el estado del control de formulario {#managing-form-control-state}
+
+Los formularios reactivos rastrean el estado del control a través de **touched/untouched** y **pristine/dirty**. Angular actualiza estos automáticamente durante las interacciones con el DOM, pero también puedes gestionarlos programáticamente.
+
+**[`markAsTouched`](api/forms/FormControl#markAsTouched)** — Marca un control o formulario como touched por eventos de focus y blur que no cambian el valor. Se propaga a los controles padre por defecto.
+
+```ts
+// Mostrar errores de validación después de que el usuario abandona un campo
+onEmailBlur() {
+  const email = this.form.get('email');
+  email.markAsTouched();
+}
+```
+
+**[`markAsUntouched`](api/forms/FormControl#markAsUntouched)** — Marca un control o formulario como untouched. Se aplica en cascada a todos los controles hijo y recalcula el estado touched de todos los controles padre.
+
+```ts
+// Restablecer el estado del formulario después de un envío exitoso
+onSubmitSuccess() {
+  this.form.markAsUntouched();
+  this.form.markAsPristine();
+}
+```
+
+**[`markAsDirty`](api/forms/FormControl#markAsDirty)** — Marca un control o formulario como dirty, lo que significa que el valor ha cambiado. Se propaga a los controles padre por defecto.
+
+```ts
+// Marcar valores cambiados programáticamente como modificados
+autofillAddress() {
+  const previousAddress = getAddress();
+  this.form.patchValue(previousAddress, { emitEvent: false });
+  this.form.markAsDirty();
+}
+```
+
+**[`markAsPristine`](api/forms/FormControl#markAsPristine)** — Marca un control o formulario como pristine. Marca todos los controles hijo como pristine y recalcula el estado pristine de todos los controles padre.
+
+```ts
+// Restablecer el estado pristine después de guardar para rastrear nuevos cambios
+saveForm() {
+  this.api.save(this.form.value).subscribe(() => {
+    this.form.markAsPristine();
+  });
+}
+```
+
+**[`markAllAsDirty`](api/forms/FormControl#markAllAsDirty)** — Marca el control o formulario y todos sus controles descendientes como dirty.
+
+```ts
+// Marcar datos importados como dirty
+loadData(data: FormData) {
+  this.form.patchValue(data);
+  this.form.markAllAsDirty();
+}
+```
+
+**[`markAllAsTouched`](api/forms/FormControl#markAllAsTouched)** — Marca el control o formulario y todos sus controles descendientes como touched. Útil para mostrar errores de validación en todo el formulario.
+
+```ts
+// Mostrar todos los errores de validación antes del envío
+onSubmit() {
+  if (this.form.invalid) {
+    this.form.markAllAsTouched();
+    return;
+  }
+  this.saveForm();
+}
+```
+
+## Controlar la emisión y propagación de eventos {#controlling-event-emission-and-propagation}
+
+Al actualizar controles de formulario programáticamente, tienes control preciso sobre cómo los cambios se propagan a través de la jerarquía del formulario y si se emiten eventos.
+
+### Entender la emisión de eventos {#understanding-event-emission}
+
+Por defecto `emitEvent: true`, cualquier cambio en un control emite eventos a través de los observables `valueChanges` y `statusChanges`. Establecer `emitEvent: false` suprime estas emisiones, lo cual es útil al establecer valores programáticamente sin desencadenar comportamiento reactivo como auto-guardado, evitando actualizaciones circulares entre controles, o realizando actualizaciones en masa donde los eventos deben emitirse solo una vez al final.
+
+```ts
+@Component({
+  /* ... */
+})
+export class BlogPostEditor {
+  postForm = new FormGroup({
+    title: new FormControl(''),
+    content: new FormControl(''),
+  });
+
+  constructor() {
+    // Auto-guardar borrador cada vez que el usuario escribe
+    this.postForm.valueChanges.subscribe((formValue) => {
+      this.autosaveDraft(formValue);
+    });
+  }
+
+  loadExistingDraft(savedDraft: {title: string; content: string}) {
+    // Restaurar borrador sin activar auto-guardado
+    this.postForm.setValue(savedDraft, {emitEvent: false});
+  }
+}
+```
+
+### Entender el control de propagación {#understanding-propagation-control}
+
+Por defecto `onlySelf: false`, las actualizaciones se aplican en cascada a los controles padre, recalculando sus valores y estado de validación. Establecer `onlySelf: true` aísla la actualización al control actual, evitando la notificación al padre. Esto es útil para operaciones en masa donde quieres activar manualmente la actualización del padre una vez.
+
+```ts
+updatePostalCodeValidator(country: string) {
+  const postal = this.addressForm.get('postalCode');
+
+  const validators = country === 'US'
+    ? [Validators.maxLength(5)]
+    : [Validators.maxLength(7)];
+
+  postal.setValidators(validators);
+  postal.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+}
+```
+
+ÚTIL: Para gestionar validadores dinámicamente en tiempo de ejecución, consulta la sección [Gestionar validadores dinámicamente en formularios reactivos](guide/forms/form-validation#managing-validators-dynamically-in-reactive-forms) en la guía de Validación de Formularios.
+
+## Funciones de utilidad para restringir tipos de control de formulario {#utility-functions-for-narrowing-form-control-types}
 
 Angular proporciona cuatro funciones de utilidad que ayudan a determinar el tipo concreto de un `AbstractControl`. Estas funciones actúan como **type guards** y restringen el tipo de control cuando devuelven `true`, lo que te permite acceder de forma segura a propiedades específicas del subtipo dentro del mismo bloque.
 
@@ -517,12 +683,12 @@ export function positiveValues(control: AbstractControl) {
 }
 ```
 
-## Resumen de API de formularios reactivos
+## Resumen de API de formularios reactivos {#reactive-forms-api-summary}
 
 La siguiente tabla lista las clases base y servicios usados para crear y gestionar controles de formulario reactivo.
 Para detalles completos de sintaxis, consulta la documentación de referencia de API para el [paquete Forms](api#forms 'Referencia de API').
 
-### Clases
+### Clases {#classes}
 
 | Clase             | Detalles                                                                                                                                                                                                       |
 | :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -533,7 +699,7 @@ Para detalles completos de sintaxis, consulta la documentación de referencia de
 | `FormBuilder`     | Un servicio inyectable que proporciona métodos de fábrica para crear instancias de control.                                                                                                                    |
 | `FormRecord`      | Rastrea el valor y estado de validez de una colección de instancias de `FormControl`, cada una de las cuales tiene el mismo tipo de valor.                                                                     |
 
-### Directivas
+### Directivas {#directives}
 
 | Directiva              | Detalles                                                                                                              |
 | :--------------------- | :-------------------------------------------------------------------------------------------------------------------- |

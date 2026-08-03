@@ -2,16 +2,16 @@
 
 Angular proporciona dos formas de hacer que los servicios estén disponibles para inyección:
 
-1. **Provisión automática** - Usando `providedIn` en el decorador `@Injectable` o proporcionando un factory en la configuración de `InjectionToken`
+1. **Provisión automática** - Usando `providedIn` en el decorador `@Injectable`, el decorador [`@Service`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator), o proporcionando un factory en la configuración de `InjectionToken`
 2. **Provisión manual** - Usando el array `providers` en componentes, directivas, rutas o configuración de la aplicación
 
 En la [guía anterior](/guide/di/creating-and-using-services), aprendiste cómo crear servicios usando `providedIn: 'root'`, lo cual maneja la mayoría de los casos de uso comunes. Esta guía explora patrones adicionales para la configuración de proveedores tanto automática como manual.
 
-## Provisión automática para dependencias que no son clases
+## Provisión automática para dependencias que no son clases {#automatic-provision-for-non-class-dependencies}
 
 Mientras que el decorador `@Injectable` con `providedIn: 'root'` funciona muy bien para servicios (clases), podrías necesitar proveer otros tipos de valores globalmente — como objetos de configuración, funciones o valores primitivos. Angular proporciona `InjectionToken` para este propósito.
 
-### ¿Qué es un InjectionToken?
+### ¿Qué es un InjectionToken? {#what-is-an-injectiontoken}
 
 Un `InjectionToken` es un objeto que el sistema de inyección de dependencias en Angular usa para identificar valores de forma única para la inyección. Piensa en él como una clave especial que te permite almacenar y recuperar cualquier tipo de valor en el sistema de DI en Angular:
 
@@ -34,7 +34,7 @@ export const CONFIG_TOKEN = new InjectionToken<Config>('app.config');
 
 NOTA: El parámetro string (por ejemplo, `'api.url'`) es una descripción puramente para depuración — Angular identifica los tokens por su referencia de objeto, no por este string.
 
-### InjectionToken con `providedIn: 'root'`
+### InjectionToken con `providedIn: 'root'` {#injectiontoken-with-providedin-root}
 
 Un `InjectionToken` que tiene un `factory` resulta en `providedIn: 'root'` por defecto (pero puede ser sobrescrito a través de la propiedad `providedIn`).
 
@@ -66,12 +66,12 @@ export const APP_CONFIG = new InjectionToken<AppConfig>('app.config', {
   selector: 'app-header',
   template: `<h1>Version: {{ config.version }}</h1>`
 })
-export class HeaderComponent {
+export class Header {
   config = inject(APP_CONFIG); // Disponible automáticamente
 }
 ```
 
-### Cuándo usar InjectionToken con funciones factory
+### Cuándo usar InjectionToken con funciones factory {#when-to-use-injectiontoken-with-factory-functions}
 
 `InjectionToken` con funciones factory es ideal cuando no puedes usar una clase pero necesitas proveer dependencias globalmente:
 
@@ -136,7 +136,7 @@ Este enfoque ofrece varias ventajas:
 - **Seguro en tipos** - Soporte completo de TypeScript para valores que no son clases
 - **Puede inyectar otras dependencias** - Las funciones factory pueden usar `inject()` para acceder a otros servicios
 
-## Entendiendo la configuración manual de proveedores
+## Entendiendo la configuración manual de proveedores {#understanding-manual-provider-configuration}
 
 Cuando necesitas más control del que ofrece `providedIn: 'root'`, puedes configurar proveedores manualmente. La configuración manual a través del array `providers` es útil cuando:
 
@@ -145,7 +145,7 @@ Cuando necesitas más control del que ofrece `providedIn: 'root'`, puedes config
 3. **Necesitas configuración en tiempo de ejecución** - Cuando el comportamiento del servicio depende de valores en tiempo de ejecución
 4. **Estás proporcionando valores que no son clases** - Objetos de configuración, funciones o valores primitivos
 
-### Ejemplo: Servicio sin `providedIn`
+### Ejemplo: Servicio sin `providedIn` {#example-service-without-providedin}
 
 ```ts
 import { Injectable, Component, inject } from '@angular/core';
@@ -167,12 +167,12 @@ export class LocalDataStore {
   providers: [LocalDataStore],
   template: `...`
 })
-export class ExampleComponent {
+export class Example {
   dataStore = inject(LocalDataStore);
 }
 ```
 
-### Ejemplo: Creando instancias específicas de componente
+### Ejemplo: Creando instancias específicas de componente {#example-creating-component-specific-instances}
 
 Los servicios con `providedIn: 'root'` pueden ser sobrescritos a nivel de componente. Esto vincula la instancia del servicio al ciclo de vida de un componente. Como resultado, cuando el componente se destruye, el servicio proporcionado también se destruye.
 
@@ -191,12 +191,12 @@ export class DataStore {
   providers: [DataStore],
   template: `...`
 })
-export class IsolatedComponent {
+export class Isolated {
   dataStore = inject(DataStore); // Instancia específica del componente
 }
 ```
 
-## Jerarquía de inyectores en Angular
+## Jerarquía de inyectores en Angular {#injector-hierarchy-in-angular}
 
 El sistema de inyección de dependencias en Angular es jerárquico. Cuando un componente solicita una dependencia, Angular comienza con el inyector de ese componente y recorre el árbol hacia arriba hasta encontrar un proveedor para esa dependencia. Cada componente en el árbol de tu aplicación puede tener su propio inyector, y estos inyectores forman una jerarquía que refleja tu árbol de componentes.
 
@@ -225,7 +225,7 @@ En el ejemplo anterior:
 1. `SocialApp` puede proveer valores para `UserProfile` y `FriendList`
 2. `FriendList` puede proveer valores para inyección a `FriendEntry`, pero no puede proveer valores para inyección en `UserProfile` porque no es parte del árbol
 
-## Declarando un proveedor
+## Declarando un proveedor {#declaring-a-provider}
 
 Piensa en el sistema de inyección de dependencias en Angular como un hash map o diccionario. Cada objeto de configuración de proveedor define un par clave-valor:
 
@@ -259,7 +259,7 @@ Esto es en realidad una forma abreviada de una configuración de proveedor más 
 }
 ```
 
-### Objeto de configuración del proveedor
+### Objeto de configuración del proveedor {#provider-configuration-object}
 
 Cada objeto de configuración de proveedor tiene dos partes principales:
 
@@ -270,14 +270,14 @@ Cada objeto de configuración de proveedor tiene dos partes principales:
    - `useFactory` - Proporciona una función factory que retorna el valor
    - `useExisting` - Proporciona un alias a un proveedor existente
 
-### Identificadores de proveedores
+### Identificadores de proveedores {#provider-identifiers}
 
 Los identificadores de proveedores permiten al sistema de inyección de dependencias (DI) en Angular recuperar una dependencia a través de un ID único. Puedes generar identificadores de proveedores de dos formas:
 
-1. [Nombres de clases](#nombres-de-clases)
-2. [Tokens de inyección](#tokens-de-inyección)
+1. [Nombres de clases](#class-names)
+2. [Tokens de inyección](#injection-tokens)
 
-#### Nombres de clases
+#### Nombres de clases {#class-names}
 
 Los nombres de clases usan la clase importada directamente como identificador:
 
@@ -296,7 +296,7 @@ export class ExampleComponent { /* ... */ }
 
 La clase sirve tanto como identificador como implementación, por lo cual Angular proporciona la forma abreviada `providers: [LocalService]`.
 
-#### Tokens de inyección
+#### Tokens de inyección {#injection-tokens}
 
 Angular proporciona una clase integrada [`InjectionToken`](api/core/InjectionToken) que crea una referencia de objeto única para valores inyectables o cuando quieres proveer múltiples implementaciones de la misma interfaz.
 
@@ -328,7 +328,7 @@ export class ExampleComponent {
 }
 ```
 
-#### ¿Pueden las interfaces de TypeScript ser identificadores para inyección?
+#### ¿Pueden las interfaces de TypeScript ser identificadores para inyección? {#can-typescript-interfaces-be-identifiers-for-injection}
 
 Las interfaces de TypeScript no pueden usarse para inyección porque no existen en tiempo de ejecución:
 
@@ -363,7 +363,7 @@ export class ExampleComponent {
 
 El `InjectionToken` proporciona un valor en tiempo de ejecución que el sistema de DI en Angular puede usar, mientras mantiene la seguridad de tipos a través del parámetro de tipo genérico de TypeScript.
 
-### Tipos de valores de proveedores
+### Tipos de valores de proveedores {#provider-value-types}
 
 #### useClass
 
@@ -392,7 +392,7 @@ providers: [
 ]
 ```
 
-#### Ejemplo práctico: Sustitución de Logger
+#### Ejemplo práctico: Sustitución de Logger {#practical-example-logger-substitution}
 
 Puedes sustituir implementaciones para extender funcionalidad:
 
@@ -453,7 +453,7 @@ providers: [
 
 IMPORTANTE: Los tipos e interfaces de TypeScript no pueden servir como valores de dependencia. Solo existen en tiempo de compilación.
 
-#### Ejemplo práctico: Configuración de la aplicación
+#### Ejemplo práctico: Configuración de la aplicación {#practical-example-application-configuration}
 
 Un caso de uso común para `useValue` es proveer configuración de la aplicación:
 
@@ -533,7 +533,7 @@ providers: [
 ]
 ```
 
-#### Ejemplo práctico: Cliente API basado en configuración
+#### Ejemplo práctico: Cliente API basado en configuración {#practical-example-configuration-based-api-client}
 
 Aquí hay un ejemplo completo que muestra cómo usar un factory para crear un servicio con configuración en tiempo de ejecución:
 
@@ -601,7 +601,7 @@ providers: [
 
 IMPORTANTE: No confundas `useExisting` con `useClass`. `useClass` crea instancias separadas, mientras que `useExisting` asegura que obtienes la misma instancia singleton.
 
-### Múltiples proveedores
+### Múltiples proveedores {#multiple-providers}
 
 Usa la bandera `multi: true` cuando múltiples proveedores contribuyen valores al mismo token:
 
@@ -617,15 +617,15 @@ providers: [
 
 Cuando inyectas `INTERCEPTOR_TOKEN`, recibirás un array conteniendo instancias de los tres interceptors.
 
-## ¿Dónde puedes especificar proveedores?
+## ¿Dónde puedes especificar proveedores? {#where-can-you-specify-providers}
 
 Angular ofrece varios niveles donde puedes registrar proveedores, cada uno con diferentes implicaciones para el alcance, ciclo de vida y rendimiento:
 
-- [**Bootstrap de la aplicación**](#bootstrap-de-la-aplicación) - Singletons globales disponibles en todas partes
-- [**En un elemento (componente o directiva)**](#proveedores-de-componente-o-directiva) - Instancias aisladas para árboles de componentes específicos
-- [**Ruta**](#proveedores-de-ruta) - Servicios específicos de funcionalidad para módulos con lazy loading
+- [**Bootstrap de la aplicación**](#application-bootstrap) - Singletons globales disponibles en todas partes
+- [**En un elemento (componente o directiva)**](#component-or-directive-providers) - Instancias aisladas para árboles de componentes específicos
+- [**Ruta**](#route-providers) - Servicios específicos de funcionalidad para módulos con lazy loading
 
-### Bootstrap de la aplicación
+### Bootstrap de la aplicación {#application-bootstrap}
 
 Usa proveedores a nivel de aplicación en `bootstrapApplication` cuando:
 
@@ -658,7 +658,7 @@ bootstrapApplication(AppComponent, {
 - No puede ser personalizado fácilmente por funcionalidad
 - Más difícil de probar componentes individuales de forma aislada
 
-#### ¿Por qué proveer durante el bootstrap en lugar de usar `providedIn: 'root'`?
+#### ¿Por qué proveer durante el bootstrap en lugar de usar `providedIn: 'root'`? {#why-provide-during-bootstrap-instead-of-using-providedin-root}
 
 Podrías querer un proveedor durante el bootstrap cuando:
 
@@ -666,7 +666,7 @@ Podrías querer un proveedor durante el bootstrap cuando:
 - El proveedor requiere configuración (por ejemplo, rutas)
 - Estás usando el patrón `provideSomething` en Angular (por ejemplo, `provideRouter`, `provideHttpClient`)
 
-### Proveedores de componente o directiva
+### Proveedores de componente o directiva {#component-or-directive-providers}
 
 Usa proveedores de componente o directiva cuando:
 
@@ -711,7 +711,7 @@ export class ModalComponent { }
 
 NOTA: Si múltiples directivas en el mismo elemento proveen el mismo token, una ganará, pero cuál es indefinido.
 
-### Proveedores de ruta
+### Proveedores de ruta {#route-providers}
 
 Usa proveedores a nivel de ruta para:
 
@@ -741,11 +741,11 @@ export const routes: Routes = [
 ];
 ```
 
-## Patrones para autores de bibliotecas
+## Patrones para autores de bibliotecas {#library-author-patterns}
 
 Cuando creas bibliotecas en Angular, a menudo necesitas proveer opciones de configuración flexibles para los consumidores mientras mantienes APIs limpias. Las propias bibliotecas en Angular demuestran patrones poderosos para lograr esto.
 
-### El patrón `provide`
+### El patrón `provide` {#the-provide-pattern}
 
 En lugar de requerir que los usuarios configuren manualmente proveedores complejos, los autores de bibliotecas pueden exportar funciones que retornan configuraciones de proveedores:
 
@@ -792,7 +792,7 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-### Patrones avanzados de proveedores con opciones
+### Patrones avanzados de proveedores con opciones {#advanced-provider-patterns-with-options}
 
 Para escenarios más complejos, puedes combinar múltiples enfoques de configuración:
 
@@ -910,7 +910,7 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-### ¿Por qué usar funciones de proveedor en lugar de configuración directa?
+### ¿Por qué usar funciones de proveedor en lugar de configuración directa? {#why-use-provider-functions-instead-of-direct-configuration}
 
 Las funciones de proveedor ofrecen varias ventajas para autores de bibliotecas:
 

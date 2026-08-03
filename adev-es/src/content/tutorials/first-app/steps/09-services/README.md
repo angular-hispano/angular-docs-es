@@ -4,24 +4,24 @@ Esta lección del tutorial demuestra cómo crear un servicio Angular y usar inye
 
 <docs-video src="https://www.youtube.com/embed/-jRxG84AzCI?si=rieGfJawp9xJ00Sz"/>
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 Tu aplicación tiene un servicio para servir los datos a tu aplicación.
 Al final de esta lección, el servicio lee datos de datos locales estáticos.
 En una lección posterior, actualizarás el servicio para obtener datos de un servicio web.
 
-## Vista previa conceptual de servicios
+## Vista previa conceptual de servicios {#conceptual-preview-of-services}
 
 Este tutorial introduce los servicios Angular y la inyección de dependencias.
 
-### Servicios Angular
+### Servicios Angular {#angular-services-1}
 
 Los _servicios Angular_ proporcionan una forma de separar los datos y funciones de la aplicación Angular que pueden ser usados por múltiples componentes en tu aplicación.
 Para ser usado por múltiples componentes, un servicio debe hacerse _inyectable_.
 Los servicios que son inyectables y utilizados por un componente se convierten en dependencias de ese componente.
 El componente depende de esos servicios y no puede funcionar sin ellos.
 
-### Inyección de dependencias
+### Inyección de dependencias {#dependency-injection}
 
 La _inyección de dependencias_ es el mecanismo que gestiona las dependencias de los componentes de una aplicación y los servicios que otros componentes pueden usar.
 
@@ -103,7 +103,7 @@ En una lección posterior, refactorizarás el servicio para obtener sus datos de
 Para obtener más información sobre los temas cubiertos en esta lección, visita:
 
 <docs-pill-row>
-  <docs-pill href="guide/di/creating-injectable-service" title="Creando un servicio inyectable"/>
+  <docs-pill href="guide/di/creating-and-using-services" title="Creando un servicio inyectable"/>
   <docs-pill href="guide/di" title="Inyección de dependencias en Angular"/>
   <docs-pill href="cli/generate/service" title="ng generate service"/>
   <docs-pill href="cli/generate" title="ng generate"/>

@@ -2,7 +2,7 @@
 
 En el estado actual de la app, la página completa se recarga cuando hacemos clic en un enlace interno que existe dentro de la app. Si bien esto puede no parecer significativo con una app pequeña, puede tener implicaciones de rendimiento para páginas más grandes con más contenido donde los usuarios tienen que descargar recursos nuevamente y ejecutar cálculos otra vez.
 
-NOTA: Aprende más sobre [agregar rutas a tu aplicación en la guía detallada](/guide/routing/common-router-tasks#add-your-routes-to-your-application).
+NOTA: Aprende más sobre [agregar rutas a tu aplicación en la guía detallada](/guide/routing/define-routes#adding-the-router-to-your-application).
 
 En esta actividad, aprenderás cómo aprovechar la directiva `RouterLink` para aprovechar al máximo el Router de Angular.
 

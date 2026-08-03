@@ -6,7 +6,7 @@
   <docs-pill href="/api/aria/menu/Menu" title="Menu API Reference"/>
 </docs-pill-row>
 
-## Visión general
+## Visión general {#overview}
 
 Un menú ofrece una lista de acciones u opciones a los usuarios, apareciendo típicamente en respuesta a un clic en un botón o clic derecho. Los menús soportan navegación por teclado con teclas de flecha, submenús, casillas de verificación, botones de radio y elementos deshabilitados.
 
@@ -36,7 +36,7 @@ Un menú ofrece una lista de acciones u opciones a los usuarios, apareciendo tí
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Uso {#usage}
 
 Los menús funcionan bien para presentar listas de acciones o comandos que los usuarios pueden elegir.
 
@@ -55,7 +55,7 @@ Los menús funcionan bien para presentar listas de acciones o comandos que los u
 - Cambiar entre paneles de contenido (usa [Tabs](guide/aria/tabs))
 - Mostrar contenido colapsable (usa [Accordion](guide/aria/accordion))
 
-## Características
+## Características {#features}
 
 - **Navegación por teclado** - Teclas de flecha, Home/End y búsqueda por caracteres para navegación eficiente
 - **Submenús** - Soporte de menús anidados con posicionamiento automático
@@ -65,9 +65,9 @@ Los menús funcionan bien para presentar listas de acciones o comandos que los u
 - **Comportamiento de auto-cierre** - Cierre configurable al seleccionar
 - **Soporte RTL** - Navegación para idiomas de derecha a izquierda
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Menú con trigger
+### Menú con trigger {#menu-with-trigger}
 
 Crea un menú desplegable emparejando un botón trigger con un menú. El trigger abre y cierra el menú.
 
@@ -99,7 +99,7 @@ Crea un menú desplegable emparejando un botón trigger con un menú. El trigger
 
 El menú se cierra automáticamente cuando un usuario selecciona un elemento o presiona Escape.
 
-### Menú contextual
+### Menú contextual {#context-menu}
 
 Los menús contextuales aparecen en la posición del cursor cuando los usuarios hacen clic derecho en un elemento.
 
@@ -110,7 +110,7 @@ Los menús contextuales aparecen en la posición del cursor cuando los usuarios 
 
 Posiciona el menú usando las coordenadas del evento `contextmenu`.
 
-### Menú independiente
+### Menú independiente {#standalone-menu}
 
 Un menú independiente no requiere un trigger y permanece visible en la interfaz.
 
@@ -142,7 +142,7 @@ Un menú independiente no requiere un trigger y permanece visible en la interfaz
 
 Los menús independientes funcionan bien para listas de acciones o navegación siempre visibles.
 
-### Elementos de menú deshabilitados
+### Elementos de menú deshabilitados {#disabled-menu-items}
 
 Deshabilita elementos específicos del menú usando el input `disabled`. Controla el comportamiento del foco con `softDisabled`.
 
@@ -174,85 +174,82 @@ Deshabilita elementos específicos del menú usando el input `disabled`. Control
 
 Cuando `[softDisabled]="true"`, los elementos deshabilitados pueden recibir foco pero no pueden ser activados. Cuando `[softDisabled]="false"`, los elementos deshabilitados se omiten durante la navegación por teclado.
 
-## APIs
+## Testing
 
-### Menu
+Angular Aria proporciona harnesses de componentes para probar componentes menu.
+Aquí hay un ejemplo de cómo usar los harnesses en una prueba de componente:
 
-La directiva contenedor para elementos de menú.
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {MenuHarness, MenuItemHarness} from '@angular/aria/menu/testing';
+import {MyMenuComponent} from './my-menu'; // Tu componente
 
-#### Inputs
+describe('MyMenuComponent', () => {
+  let fixture: ComponentFixture<MyMenuComponent>;
+  let loader: HarnessLoader;
 
-| Propiedad      | Tipo      | Por defecto | Descripción                                                      |
-| -------------- | --------- | ----------- | ---------------------------------------------------------------- |
-| `disabled`     | `boolean` | `false`     | Deshabilita todos los elementos del menú                         |
-| `wrap`         | `boolean` | `true`      | Si la navegación por teclado se envuelve en los bordes           |
-| `softDisabled` | `boolean` | `true`      | Cuando es `true`, los elementos deshabilitados son enfocables pero no interactivos |
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyMenuComponent],
+    });
 
-#### Métodos
+    fixture = TestBed.createComponent(MyMenuComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-| Método           | Parámetros | Descripción                            |
-| ---------------- | ---------- | -------------------------------------- |
-| `close`          | none       | Cierra el menú                         |
-| `focusFirstItem` | none       | Mueve el foco al primer elemento del menú |
+  it('should open menu and click item', async () => {
+    // Carga el harness del menú por el texto de su trigger
+    const menu = await loader.getHarness(MenuHarness.with({triggerText: 'Open Menu'}));
 
-### MenuBar
+    // Verifica el estado inicial
+    expect(await menu.isOpen()).toBe(false);
 
-Un contenedor horizontal para múltiples menús.
+    // Abre el menú
+    await menu.open();
+    expect(await menu.isOpen()).toBe(true);
 
-#### Inputs
+    // Obtiene los elementos
+    const items = await menu.getItems();
+    expect(items.length).toBe(3);
+    expect(await items[0].getText()).toBe('Item 1');
 
-| Propiedad      | Tipo      | Por defecto | Descripción                                                      |
-| -------------- | --------- | ----------- | ---------------------------------------------------------------- |
-| `disabled`     | `boolean` | `false`     | Deshabilita todo el menubar                                      |
-| `wrap`         | `boolean` | `true`      | Si la navegación por teclado se envuelve en los bordes           |
-| `softDisabled` | `boolean` | `true`      | Cuando es `true`, los elementos deshabilitados son enfocables pero no interactivos |
+    // Hace clic en el primer elemento
+    await items[0].click();
 
-### MenuItem
+    // El menú debería cerrarse después de la selección (dependiendo de tu implementación)
+    expect(await menu.isOpen()).toBe(false);
+  });
 
-Un elemento individual dentro de un menú.
+  it('should interact with submenus', async () => {
+    const menu = await loader.getHarness(MenuHarness.with({triggerText: 'Open Menu'}));
+    await menu.open();
 
-#### Inputs
+    // Obtiene el elemento que activa un submenú
+    const subItem = await loader.getHarness(MenuItemHarness.with({text: 'Submenu'}));
+    expect(await subItem.hasSubmenu()).toBe(true);
 
-| Propiedad    | Tipo      | Por defecto | Descripción                                           |
-| ------------ | --------- | ----------- | ----------------------------------------------------- |
-| `value`      | `any`     | —           | **Requerido.** Valor para este elemento               |
-| `disabled`   | `boolean` | `false`     | Deshabilita este elemento del menú                    |
-| `submenu`    | `Menu`    | —           | Referencia a un submenú                               |
-| `searchTerm` | `string`  | `''`        | Término de búsqueda para typeahead (soporta enlace bidireccional) |
+    // Abre el submenú
+    await subItem.click();
+    const submenu = await subItem.getSubmenu();
+    expect(submenu).toBeTruthy();
+    expect(await submenu!.isOpen()).toBe(true);
 
-#### Signals
+    // Interactúa con los elementos del submenú
+    const subItems = await submenu!.getItems();
+    expect(subItems.length).toBe(1);
+  });
+});
+```
 
-| Propiedad  | Tipo              | Descripción                                   |
-| ---------- | ----------------- | --------------------------------------------- |
-| `active`   | `Signal<boolean>` | Si el elemento tiene el foco actualmente      |
-| `expanded` | `Signal<boolean>` | Si el submenú está expandido                  |
-| `hasPopup` | `Signal<boolean>` | Si el elemento tiene un submenú asociado      |
+## API reference
 
-NOTA: MenuItem no expone métodos públicos. Usa el input `submenu` para asociar submenús con elementos de menú.
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
 
-### MenuTrigger
-
-Un botón o elemento que abre un menú.
-
-#### Inputs
-
-| Propiedad      | Tipo      | Por defecto | Descripción                                   |
-| -------------- | --------- | ----------- | --------------------------------------------- |
-| `menu`         | `Menu`    | —           | **Requerido.** El menú a activar              |
-| `disabled`     | `boolean` | `false`     | Deshabilita el trigger                        |
-| `softDisabled` | `boolean` | `true`      | Cuando es `true`, el trigger deshabilitado es enfocable |
-
-#### Signals
-
-| Propiedad  | Tipo              | Descripción                                   |
-| ---------- | ----------------- | --------------------------------------------- |
-| `expanded` | `Signal<boolean>` | Si el menú está abierto actualmente           |
-| `hasPopup` | `Signal<boolean>` | Si el trigger tiene un menú asociado          |
-
-#### Métodos
-
-| Método   | Parámetros | Descripción                       |
-| -------- | ---------- | --------------------------------- |
-| `open`   | none       | Abre el menú                      |
-| `close`  | none       | Cierra el menú                    |
-| `toggle` | none       | Alterna el menú abierto/cerrado   |
+- [`Menu`](/api/aria/menu/Menu)
+- [`MenuBar`](/api/aria/menu/MenuBar)
+- [`MenuItem`](/api/aria/menu/MenuItem)
+- [`MenuTrigger`](/api/aria/menu/MenuTrigger)
+- [`MenuContent`](/api/aria/menu/MenuContent)

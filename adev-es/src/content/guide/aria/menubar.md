@@ -6,7 +6,7 @@
   <docs-pill href="/api/aria/menu/MenuBar" title="Menubar API Reference"/>
 </docs-pill-row>
 
-## Visión general
+## Visión general {#overview}
 
 El menubar es una barra de navegación horizontal que proporciona acceso persistente a los menús de la aplicación. Los menubars organizan comandos en categorías lógicas como File, Edit y View, ayudando a los usuarios a descubrir y ejecutar características de la aplicación a través de interacción por teclado o mouse.
 
@@ -36,7 +36,7 @@ El menubar es una barra de navegación horizontal que proporciona acceso persist
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Uso {#usage}
 
 Los menubars funcionan bien para organizar comandos de aplicación en navegación persistente y descubrible.
 
@@ -56,7 +56,7 @@ Los menubars funcionan bien para organizar comandos de aplicación en navegació
 - Interfaces móviles donde el espacio horizontal es limitado
 - La navegación pertenece a un patrón de navegación de sidebar o header
 
-## Características
+## Características {#features}
 
 - **Navegación horizontal** - Las teclas de flecha Izquierda/Derecha se mueven entre categorías de nivel superior
 - **Visibilidad persistente** - Siempre visible, no modal o descartable
@@ -66,9 +66,9 @@ Los menubars funcionan bien para organizar comandos de aplicación en navegació
 - **Estados deshabilitados** - Deshabilitar todo el menubar o elementos individuales
 - **Soporte RTL** - Navegación automática para idiomas de derecha a izquierda
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Menubar básico
+### Menubar básico {#basic-menubar}
 
 Un menubar proporciona acceso persistente a comandos de aplicación organizados en categorías de nivel superior. Los usuarios navegan entre categorías con flechas Izquierda/Derecha y abren menús con Enter o flecha Abajo.
 
@@ -100,7 +100,7 @@ Un menubar proporciona acceso persistente a comandos de aplicación organizados 
 
 Presiona la flecha Derecha para moverte entre File, Edit y View. Presiona Enter o flecha Abajo para abrir un menú y navegar por los elementos del submenú con flechas Arriba/Abajo.
 
-### Elementos de menubar deshabilitados
+### Elementos de menubar deshabilitados {#disabled-menubar-items}
 
 Deshabilita elementos de menú específicos o todo el menubar para prevenir interacción. Controla si los elementos deshabilitados pueden recibir foco de teclado con el input `softDisabled`.
 
@@ -132,7 +132,7 @@ Deshabilita elementos de menú específicos o todo el menubar para prevenir inte
 
 Cuando `[softDisabled]="true"` en el menubar, los elementos deshabilitados pueden recibir foco pero no pueden ser activados. Cuando `[softDisabled]="false"`, los elementos deshabilitados se omiten durante la navegación por teclado.
 
-### Soporte RTL
+### Soporte RTL {#rtl-support}
 
 Los menubars se adaptan automáticamente a idiomas de derecha a izquierda (RTL). La navegación por teclas de flecha invierte la dirección y los submenús se posicionan en el lado izquierdo.
 
@@ -164,35 +164,61 @@ Los menubars se adaptan automáticamente a idiomas de derecha a izquierda (RTL).
 
 El atributo `dir="rtl"` habilita el modo RTL. La flecha Izquierda se mueve a la derecha, la flecha Derecha se mueve a la izquierda, manteniendo navegación natural para usuarios de idiomas RTL.
 
-## APIs
+## Testing
 
-El patrón de menubar usa directivas de la biblioteca Aria de Angular. Consulta la [guía de Menu](guide/aria/menu) para documentación completa del API.
+Angular Aria proporciona harnesses de componentes para probar componentes menubar.
+Aquí hay un ejemplo de cómo usar los harnesses en una prueba de componente:
 
-### MenuBar
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {MenuHarness} from '@angular/aria/menu/testing';
+import {MyMenubarComponent} from './my-menubar'; // Tu componente
 
-El contenedor horizontal para elementos de menú de nivel superior.
+describe('MyMenubarComponent', () => {
+  let fixture: ComponentFixture<MyMenubarComponent>;
+  let loader: HarnessLoader;
 
-#### Inputs
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyMenubarComponent],
+    });
 
-| Propiedad      | Tipo      | Por defecto | Descripción                                                      |
-| -------------- | --------- | ----------- | ---------------------------------------------------------------- |
-| `disabled`     | `boolean` | `false`     | Deshabilita todo el menubar                                      |
-| `wrap`         | `boolean` | `true`      | Si la navegación por teclado se envuelve del último al primer elemento |
-| `softDisabled` | `boolean` | `true`      | Cuando es `true`, los elementos deshabilitados son enfocables pero no interactivos |
+    fixture = TestBed.createComponent(MyMenubarComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-Consulta la [documentación del API de Menu](guide/aria/menu#apis) para detalles completos sobre todos los inputs y signals disponibles.
+  it('should interact with menubar items', async () => {
+    // Carga el harness del menubar (que es un MenuHarness con selector '[ngMenuBar]')
+    const menubar = await loader.getHarness(MenuHarness.with({selector: '[ngMenuBar]'}));
 
-### MenuItem
+    // Los menubars son persistentes y siempre están "abiertos"
+    expect(await menubar.isOpen()).toBe(true);
+    expect(await menubar.isMenuBar()).toBe(true);
 
-Elementos individuales dentro del menubar. El mismo API que Menu - consulta [MenuItem](guide/aria/menu#menuitem).
+    // Obtiene los elementos de nivel superior
+    const items = await menubar.getItems();
+    expect(items.length).toBe(2);
+    expect(await items[0].getText()).toBe('File');
+    expect(await items[1].getText()).toBe('Edit');
 
-**Comportamiento específico del menubar:**
+    // Hace clic en un elemento para abrir su menú desplegable
+    await items[0].click();
 
-- Las flechas Izquierda/Derecha navegan entre elementos del menubar (vs Arriba/Abajo en menús verticales)
-- La primera interacción por teclado o clic habilita hover para abrir para submenús
-- Enter o flecha Abajo abre el submenú y enfoca el primer elemento
-- `aria-haspopup="menu"` indica elementos con submenús
+    const fileMenu = await items[0].getSubmenu();
+    expect(fileMenu).toBeTruthy();
+    expect(await fileMenu!.isOpen()).toBe(true);
+  });
+});
+```
 
-### MenuTrigger
+## API reference
 
-No se usa típicamente en menubars - MenuItem maneja el comportamiento de trigger directamente cuando tiene un submenú asociado. Consulta [MenuTrigger](guide/aria/menu#menutrigger) para patrones de trigger de menú independiente.
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
+
+- [`MenuBar`](/api/aria/menu/MenuBar)
+- [`MenuItem`](/api/aria/menu/MenuItem)
+- [`MenuTrigger`](/api/aria/menu/MenuTrigger)
+- [`Menu`](/api/aria/menu/Menu)

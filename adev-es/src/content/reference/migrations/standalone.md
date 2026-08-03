@@ -12,7 +12,7 @@ Ejecuta el schematic usando el siguiente comando:
 ng generate @angular/core:standalone
 ```
 
-## Antes de actualizar
+## Antes de actualizar {#before-updating}
 
 Antes de usar el schematic, asegúrate de que el proyecto:
 
@@ -20,14 +20,14 @@ Antes de usar el schematic, asegúrate de que el proyecto:
 2. Se compile sin errores de compilación.
 3. Esté en una rama Git limpia y todo el trabajo esté guardado.
 
-## Opciones del schematic
+## Opciones del schematic {#schematic-options}
 
 | Opción | Detalles                                                                                                                           |
 | :----- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `mode` | La transformación a realizar. Consulta [Modos de migración](#modos-de-migración) a continuación para detalles sobre las opciones disponibles. |
+| `mode` | La transformación a realizar. Consulta [Modos de migración](#migration-modes) a continuación para detalles sobre las opciones disponibles. |
 | `path` | La ruta a migrar, relativa a la raíz del proyecto. Puedes usar esta opción para migrar secciones de tu proyecto de forma incremental. |
 
-## Pasos de la migración
+## Pasos de la migración {#migrations-steps}
 
 El proceso de migración se compone de tres pasos. Deberás ejecutarlo varias veces y verificar manualmente que el proyecto se compile y funcione como se espera.
 
@@ -41,16 +41,16 @@ Ejecuta la migración en el orden indicado a continuación, verificando que tu c
 3. Ejecuta `ng g @angular/core:standalone` y selecciona "Bootstrap the project using standalone APIs"
 4. Ejecuta las verificaciones de linting y formato, corrige los fallos y confirma el resultado
 
-## Después de la migración
+## Después de la migración {#after-the-migration}
 
 ¡Felicitaciones, tu aplicación ha sido convertida a standalone! Estos son algunos pasos opcionales de seguimiento que puedes realizar ahora:
 
-- Encuentra y elimina las declaraciones `NgModule` restantes: dado que el paso ["Eliminar NgModules innecesarios"](#eliminar-ngmodules-innecesarios) no puede eliminar todos los módulos automáticamente, es posible que tengas que eliminar las declaraciones restantes manualmente.
+- Encuentra y elimina las declaraciones `NgModule` restantes: dado que el paso ["Eliminar NgModules innecesarios"](#remove-unnecessary-ngmodules) no puede eliminar todos los módulos automáticamente, es posible que tengas que eliminar las declaraciones restantes manualmente.
 - Ejecuta las pruebas unitarias del proyecto y corrige los fallos.
 - Ejecuta los formateadores de código, si el proyecto usa formato automático.
 - Ejecuta los linters en tu proyecto y corrige las nuevas advertencias. Algunos linters admiten una bandera `--fix` que puede resolver algunas advertencias automáticamente.
 
-## Modos de migración
+## Modos de migración {#migration-modes}
 
 La migración tiene los siguientes modos:
 
@@ -59,11 +59,11 @@ La migración tiene los siguientes modos:
 3. Cambiar a la API de bootstrap standalone.
    Debes ejecutar estas migraciones en el orden indicado.
 
-### Convertir declaraciones a standalone
+### Convertir declaraciones a standalone {#convert-declarations-to-standalone}
 
 En este modo, la migración convierte todos los componentes, directivas y pipes a standalone eliminando `standalone: false` y agregando dependencias a su array `imports`.
 
-ÚTIL: El schematic ignora los NgModules que hacen bootstrap de un componente durante este paso, ya que probablemente son módulos raíz usados por `bootstrapModule` en lugar del `bootstrapApplication` compatible con standalone. El schematic convierte estas declaraciones automáticamente como parte del paso ["Cambiar a la API de bootstrap standalone"](#cambiar-a-la-api-de-bootstrap-standalone).
+ÚTIL: El schematic ignora los NgModules que hacen bootstrap de un componente durante este paso, ya que probablemente son módulos raíz usados por `bootstrapModule` en lugar del `bootstrapApplication` compatible con standalone. El schematic convierte estas declaraciones automáticamente como parte del paso ["Cambiar a la API de bootstrap standalone"](#switch-to-standalone-bootstrapping-api).
 
 **Antes:**
 
@@ -112,7 +112,7 @@ export class GreeterComponent {
 }
 ```
 
-### Eliminar NgModules innecesarios
+### Eliminar NgModules innecesarios {#remove-unnecessary-ngmodules}
 
 Después de convertir todas las declaraciones a standalone, muchos NgModules pueden eliminarse de forma segura. Este paso elimina dichas declaraciones de módulos y la mayor cantidad de referencias correspondientes posible. Si la migración no puede eliminar una referencia automáticamente, deja el siguiente comentario TODO para que puedas eliminar el NgModule manualmente:
 
@@ -146,7 +146,7 @@ export class ImporterModule {}
 // ¡No existe!
 ```
 
-### Cambiar a la API de bootstrap standalone
+### Cambiar a la API de bootstrap standalone {#switch-to-standalone-bootstrapping-api}
 
 Este paso convierte cualquier uso de `bootstrapModule` al nuevo `bootstrapApplication` basado en standalone. También elimina `standalone: false` del componente raíz y elimina el NgModule raíz. Si el módulo raíz tiene `providers` o `imports`, la migración intenta copiar la mayor parte posible de esta configuración en la nueva llamada de bootstrap.
 
@@ -206,7 +206,7 @@ import { AppComponent } from './app/app.component';
 bootstrapApplication(AppComponent).catch(e => console.error(e));
 ```
 
-## Problemas comunes
+## Problemas comunes {#common-problems}
 
 Algunos problemas comunes que pueden impedir que el schematic funcione correctamente incluyen:
 
@@ -214,7 +214,7 @@ Algunos problemas comunes que pueden impedir que el schematic funcione correctam
 - Archivos no incluidos en un tsconfig - el schematic determina qué archivos migrar analizando los archivos `tsconfig.json` de tu proyecto. El schematic excluye cualquier archivo no capturado por un tsconfig.
 - Código que no puede analizarse estáticamente - el schematic usa análisis estático para entender tu código y determinar dónde hacer cambios. La migración puede omitir cualquier clase con metadatos que no puedan analizarse estáticamente en tiempo de compilación.
 
-## Limitaciones
+## Limitaciones {#limitations}
 
 Debido al tamaño y la complejidad de la migración, hay algunos casos que el schematic no puede manejar:
 

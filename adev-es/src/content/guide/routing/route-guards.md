@@ -4,7 +4,7 @@ CRÍTICO: Nunca confíes en guards del lado del cliente como única fuente de co
 
 Los guards de ruta son funciones que controlan si un usuario puede navegar hacia o desde una ruta en particular. Son como puntos de control que gestionan si un usuario puede acceder a rutas específicas. Ejemplos comunes de uso de guards de ruta incluyen autenticación y control de acceso.
 
-## Crear un guard de ruta
+## Crear un guard de ruta {#creating-a-route-guard}
 
 Puedes generar un guard de ruta usando Angular CLI:
 
@@ -12,11 +12,11 @@ Puedes generar un guard de ruta usando Angular CLI:
 ng generate guard CUSTOM_NAME
 ```
 
-Esto te solicitará que selecciones qué [tipo de guard de ruta](#tipos-de-guards-de-ruta) usar y luego creará el archivo `CUSTOM_NAME-guard.ts` correspondiente.
+Esto te solicitará que selecciones qué [tipo de guard de ruta](#types-of-route-guards) usar y luego creará el archivo `CUSTOM_NAME-guard.ts` correspondiente.
 
 CONSEJO: También puedes crear un guard de ruta manualmente creando un archivo TypeScript separado en tu proyecto Angular. Los desarrolladores típicamente agregan un sufijo de `-guard.ts` en el nombre del archivo para distinguirlo de otros archivos.
 
-## Tipos de retorno de guards de ruta
+## Tipos de retorno de guards de ruta {#route-guard-return-types}
 
 Todos los guards de ruta comparten los mismos tipos de retorno posibles. Esto te da flexibilidad en cómo controlas la navegación:
 
@@ -28,7 +28,7 @@ Todos los guards de ruta comparten los mismos tipos de retorno posibles. Esto te
 
 Nota: `CanMatch` se comporta de manera diferente— cuando retorna `false`, Angular intenta otras rutas coincidentes en lugar de bloquear completamente la navegación.
 
-## Tipos de guards de ruta
+## Tipos de guards de ruta {#types-of-route-guards}
 
 Angular proporciona cuatro tipos de guards de ruta, cada uno sirviendo diferentes propósitos:
 
@@ -39,6 +39,8 @@ Angular proporciona cuatro tipos de guards de ruta, cada uno sirviendo diferente
   <docs-pill href="#canmatch" title="CanMatch"/>
 </docs-pill-row>
 
+Todos los guards tienen acceso a [servicios proporcionados a nivel de ruta](guide/di/defining-dependency-providers#route-providers) así como a información específica de la ruta a través del argumento `route`.
+
 ### CanActivate
 
 El guard `CanActivate` determina si un usuario puede acceder a una ruta. Se usa más comúnmente para autenticación y autorización.
@@ -48,7 +50,7 @@ Tiene acceso a los siguientes argumentos predeterminados:
 - `route: ActivatedRouteSnapshot` - Contiene información sobre la ruta que está siendo activada
 - `state: RouterStateSnapshot` - Contiene el estado actual del router
 
-Puede retornar los [tipos de retorno estándar de guards](#tipos-de-retorno-de-guards-de-ruta).
+Puede retornar los [tipos de retorno estándar de guards](#route-guard-return-types).
 
 ```ts
 export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -70,7 +72,7 @@ Tiene acceso a los siguientes argumentos predeterminados:
 - `childRoute: ActivatedRouteSnapshot` - Contiene información sobre la snapshot "futura" (es decir, el estado al que el router está intentando navegar) de la ruta hija que está siendo activada
 - `state: RouterStateSnapshot` - Contiene el estado actual del router
 
-Puede retornar los [tipos de retorno estándar de guards](#tipos-de-retorno-de-guards-de-ruta).
+Puede retornar los [tipos de retorno estándar de guards](#route-guard-return-types).
 
 ```ts
 export const adminChildGuard: CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -92,7 +94,7 @@ Tiene acceso a los siguientes argumentos predeterminados:
 - `currentState: RouterStateSnapshot` - Contiene el estado actual del router
 - `nextState: RouterStateSnapshot` - Contiene el siguiente estado del router al que se está navegando
 
-Puede retornar los [tipos de retorno estándar de guards](#tipos-de-retorno-de-guards-de-ruta).
+Puede retornar los [tipos de retorno estándar de guards](#route-guard-return-types).
 
 ```ts
 export const unsavedChangesGuard: CanDeactivateFn<FormComponent> = (component: FormComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState: RouterStateSnapshot) => {
@@ -113,7 +115,7 @@ Tiene acceso a los siguientes argumentos predeterminados:
 - `route: Route` - La configuración de ruta que está siendo evaluada
 - `segments: UrlSegment[]` - Los segmentos URL que no han sido consumidos por evaluaciones de rutas padre previas
 
-Puede retornar los [tipos de retorno estándar de guards](#tipos-de-retorno-de-guards-de-ruta), pero cuando retorna `false`, Angular intenta otras rutas coincidentes en lugar de bloquear completamente la navegación.
+Puede retornar los [tipos de retorno estándar de guards](#route-guard-return-types), pero cuando retorna `false`, Angular intenta otras rutas coincidentes en lugar de bloquear completamente la navegación.
 
 ```ts
 export const featureToggleGuard: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
@@ -144,7 +146,7 @@ En este ejemplo, cuando el usuario visita `/dashboard`, se usará el primero que
 
 Para más información, consulta la [documentación de la API para CanMatchFn](api/router/CanMatchFn).
 
-## Aplicar guards a rutas
+## Aplicar guards a rutas {#applying-guards-to-routes}
 
 Una vez que hayas creado tus guards de ruta, necesitas configurarlos en tus definiciones de rutas.
 

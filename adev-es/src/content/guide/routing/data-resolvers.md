@@ -2,11 +2,11 @@
 
 Los data resolvers te permiten obtener datos antes de navegar a una ruta, asegurando que tus componentes reciban los datos que necesitan antes de renderizar. Esto puede ayudar a prevenir la necesidad de estados de carga y mejorar la experiencia del usuario al precargar datos esenciales.
 
-## ¿Qué son los data resolvers?
+## ¿Qué son los data resolvers? {#what-are-data-resolvers}
 
 Un data resolver es un servicio que implementa la función `ResolveFn`. Se ejecuta antes de que una ruta se active y puede obtener datos de APIs, bases de datos u otras fuentes. Los datos resueltos se vuelven disponibles para el componente a través del `ActivatedRoute`.
 
-## ¿Por qué usar data resolvers?
+## ¿Por qué usar data resolvers? {#why-use-data-resolvers}
 
 Los data resolvers resuelven desafíos comunes de enrutamiento:
 
@@ -15,7 +15,7 @@ Los data resolvers resuelven desafíos comunes de enrutamiento:
 - **Manejo de errores**: Manejar errores de obtención de datos antes de la navegación
 - **Consistencia de datos**: Asegurar que los datos requeridos estén disponibles antes de renderizar, lo cual es importante para SSR
 
-## Creando un resolver
+## Creando un resolver {#creating-a-resolver}
 
 Creas un resolver escribiendo una función con el tipo `ResolveFn`.
 
@@ -42,7 +42,7 @@ export const settingsResolver: ResolveFn<Settings> = (route: ActivatedRouteSnaps
 };
 ```
 
-## Configurando rutas con resolvers
+## Configurando rutas con resolvers {#configuring-routes-with-resolvers}
 
 Cuando quieres agregar uno o más data resolvers a una ruta, puedes agregarlo bajo la clave `resolve` en la configuración de ruta. El tipo `Routes` define la estructura para las configuraciones de ruta:
 
@@ -63,9 +63,9 @@ export const routes: Routes = [
 
 Puedes aprender más sobre la [configuración de `resolve` en los docs de la API](api/router/Route#resolve).
 
-## Accediendo a datos resueltos en componentes
+## Accediendo a datos resueltos en componentes {#accessing-resolved-data-in-components}
 
-### Usando ActivatedRoute
+### Usando ActivatedRoute {#using-activatedroute}
 
 Puedes acceder a los datos resueltos en un componente accediendo a los datos del snapshot desde el `ActivatedRoute` usando la función `toSignal`:
 
@@ -90,7 +90,7 @@ export class UserDetail {
 }
 ```
 
-### Usando withComponentInputBinding
+### Usando withComponentInputBinding {#using-withcomponentinputbinding}
 
 Un enfoque diferente para acceder a los datos resueltos es usar `withComponentInputBinding()` al configurar tu router con `provideRouter`. Esto permite que los datos resueltos se pasen directamente como inputs de componente:
 
@@ -127,7 +127,7 @@ export class UserDetail {
 
 Este enfoque proporciona mejor seguridad de tipos y elimina la necesidad de inyectar `ActivatedRoute` solo para acceder a los datos resueltos.
 
-## Manejo de errores en resolvers
+## Manejo de errores en resolvers {#error-handling-in-resolvers}
 
 En caso de fallos de navegación, es importante manejar errores de forma elegante en tus data resolvers. De lo contrario, ocurrirá un `NavigationError` y la navegación a la ruta actual fallará, lo que conducirá a una mala experiencia para tus usuarios.
 
@@ -137,7 +137,7 @@ Hay tres formas principales de manejar errores con data resolvers:
 2. Gestionar errores a través de una suscripción a eventos del router
 3. Manejar errores directamente en el resolver
 
-### Centralizar el manejo de errores en `withNavigationErrorHandler`
+### Centralizar el manejo de errores en `withNavigationErrorHandler` {#centralize-error-handling-in-withnavigationerrorhandler}
 
 La característica [`withNavigationErrorHandler`](api/router/withNavigationErrorHandler) proporciona una forma centralizada de manejar todos los errores de navegación, incluyendo los de data resolvers fallidos. Este enfoque mantiene la lógica de manejo de errores en un solo lugar y previene código duplicado de manejo de errores en los resolvers.
 
@@ -174,7 +174,7 @@ export const userResolver: ResolveFn<User> = (route) => {
 };
 ```
 
-### Gestionar errores a través de una suscripción a eventos del router
+### Gestionar errores a través de una suscripción a eventos del router {#managing-errors-through-a-subscription-to-router-events}
 
 También puedes manejar errores de resolver suscribiéndote a eventos del router y escuchando eventos `NavigationError`. Este enfoque te da un control más granular sobre el manejo de errores y te permite implementar lógica personalizada de recuperación de errores.
 
@@ -234,7 +234,7 @@ Este enfoque es particularmente útil cuando necesitas:
 - Mostrar mensajes de error específicos basados en el tipo de fallo
 - Rastrear fallos de navegación para propósitos de analytics
 
-### Manejar errores directamente en el resolver
+### Manejar errores directamente en el resolver {#handling-errors-directly-in-the-resolver}
 
 Aquí hay un ejemplo actualizado del `userResolver` que registra el error y navega de vuelta a la página genérica `/users` usando el servicio `Router`:
 
@@ -259,11 +259,11 @@ export const userResolver: ResolveFn<User | RedirectCommand> = (route) => {
 };
 ```
 
-## Consideraciones de carga de navegación
+## Consideraciones de carga de navegación {#navigation-loading-considerations}
 
 Aunque los data resolvers previenen estados de carga dentro de los componentes, introducen una consideración UX diferente: la navegación se bloquea mientras los resolvers se ejecutan. Los usuarios pueden experimentar retrasos entre hacer clic en un enlace y ver la nueva ruta, especialmente con peticiones de red lentas.
 
-### Proporcionando retroalimentación de navegación
+### Proporcionando retroalimentación de navegación {#providing-navigation-feedback}
 
 Para mejorar la experiencia del usuario durante la ejecución de resolvers, puedes escuchar eventos del router y mostrar indicadores de carga:
 
@@ -288,7 +288,7 @@ export class App {
 
 Este enfoque asegura que los usuarios reciban retroalimentación visual de que la navegación está en progreso mientras los resolvers obtienen datos.
 
-## Mejores prácticas
+## Mejores prácticas {#best-practices}
 
 - **Mantén los resolvers ligeros**: Los resolvers deben obtener solo datos esenciales y no todo lo que la página podría necesitar posiblemente
 - **Maneja errores**: Siempre recuerda manejar errores de forma elegante para proporcionar la mejor experiencia posible a los usuarios
@@ -297,7 +297,7 @@ Este enfoque asegura que los usuarios reciban retroalimentación visual de que l
 - **Establece timeouts razonables**: Evita resolvers que puedan colgarse indefinidamente y bloquear la navegación
 - **Seguridad de tipos**: Usa interfaces de TypeScript para datos resueltos
 
-## Leyendo datos resueltos del padre en resolvers hijos
+## Leyendo datos resueltos del padre en resolvers hijos {#reading-parent-resolved-data-in-child-resolvers}
 
 Los resolvers se ejecutan de padre a hijo. Cuando una ruta padre define un resolver, sus datos resueltos están disponibles para los resolvers hijos que se ejecutan después.
 

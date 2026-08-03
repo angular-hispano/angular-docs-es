@@ -38,7 +38,7 @@ El [repositorio de Angular][GithubAngularAngularTreeMasterPackagesCommonLocales]
 Para una lista de códigos de idioma, consulta [ISO 639-2](https://www.loc.gov/standards/iso639-2).
 </docs-callout>
 
-## Establecer el ID de configuración regional de origen
+## Establecer el ID de configuración regional de origen {#set-the-source-locale-id}
 
 Usa el CLI de Angular para establecer el idioma de origen en el que estás escribiendo en la plantilla del componente y el código.
 
@@ -61,7 +61,7 @@ Para cambiar la configuración regional de origen de tu proyecto para la compila
 }
 ```
 
-## Próximos pasos
+## Próximos pasos {#whats-next}
 
 <docs-pill-row>
   <docs-pill href="guide/i18n/format-data-locale" title="Formatear datos según la configuración regional"/>

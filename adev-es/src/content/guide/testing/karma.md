@@ -2,11 +2,11 @@
 
 Si bien [Vitest](https://vitest.dev) es el ejecutor de pruebas predeterminado para nuevos proyectos en Angular, [Karma](https://karma-runner.github.io) sigue siendo un ejecutor de pruebas compatible y ampliamente utilizado. Esta guía proporciona instrucciones para probar tu aplicación en Angular utilizando el ejecutor de pruebas Karma con el framework de pruebas [Jasmine](https://jasmine.github.io).
 
-## Configurar Karma y Jasmine
+## Configurar Karma y Jasmine {#setting-up-karma-and-jasmine}
 
 Puedes configurar Karma y Jasmine para un nuevo proyecto o agregarlo a uno existente.
 
-### Para proyectos nuevos
+### Para proyectos nuevos {#for-new-projects}
 
 Para crear un nuevo proyecto con Karma y Jasmine preconfigurados, ejecuta el comando `ng new` con la opción `--test-runner=karma`:
 
@@ -14,7 +14,7 @@ Para crear un nuevo proyecto con Karma y Jasmine preconfigurados, ejecuta el com
 ng new my-karma-app --test-runner=karma
 ```
 
-### Para proyectos existentes
+### Para proyectos existentes {#for-existing-projects}
 
 Para agregar Karma y Jasmine a un proyecto existente, sigue estos pasos:
 
@@ -76,7 +76,7 @@ Para agregar Karma y Jasmine a un proyecto existente, sigue estos pasos:
     }
     ```
 
-## Ejecutar pruebas
+## Ejecutar pruebas {#running-tests}
 
 Una vez configurado tu proyecto, ejecuta las pruebas usando el comando [`ng test`](cli/test):
 
@@ -107,11 +107,11 @@ Haz clic en una fila de prueba para volver a ejecutar solo esa prueba o haz clic
 
 Mientras tanto, el comando `ng test` está observando cambios. Para ver esto en acción, realiza un pequeño cambio en un archivo fuente y guárdalo. Las pruebas se ejecutan nuevamente, el navegador se actualiza y aparecen los nuevos resultados de las pruebas.
 
-## Configuración
+## Configuración {#configuration}
 
 Angular CLI se encarga de la configuración de Jasmine y Karma por ti. Construye la configuración completa en memoria, basándose en las opciones especificadas en el archivo `angular.json`.
 
-### Personalizar la configuración de Karma
+### Personalizar la configuración de Karma {#customizing-karma-configuration}
 
 Si deseas personalizar Karma, puedes crear un `karma.conf.js` ejecutando el siguiente comando:
 
@@ -121,7 +121,7 @@ ng generate config karma
 
 ÚTIL: Lee más sobre la configuración de Karma en la [guía de configuración de Karma](http://karma-runner.github.io/6.4/config/configuration-file.html).
 
-### Establecer el ejecutor de pruebas en `angular.json`
+### Establecer el ejecutor de pruebas en `angular.json` {#setting-the-test-runner-in-angularjson}
 
 Para establecer explícitamente Karma como el ejecutor de pruebas para tu proyecto, localiza el target `test` en tu archivo `angular.json` y establece la opción `runner` en `karma`:
 
@@ -145,7 +145,7 @@ Para establecer explícitamente Karma como el ejecutor de pruebas para tu proyec
 }
 ```
 
-## Cumplimiento de cobertura de código
+## Cumplimiento de cobertura de código {#code-coverage-enforcement}
 
 Para aplicar un nivel mínimo de cobertura de código, puedes usar la propiedad `check` en la sección `coverageReporter` de tu archivo `karma.conf.js`.
 
@@ -172,7 +172,7 @@ coverageReporter: {
 
 Esto hará que la ejecución de pruebas falle si no se cumplen los umbrales de cobertura especificados.
 
-## Pruebas en integración continua
+## Pruebas en integración continua {#testing-in-continuous-integration}
 
 Para ejecutar tus pruebas de Karma en un entorno de CI, usa el siguiente comando:
 
@@ -182,13 +182,13 @@ ng test --no-watch --no-progress --browsers=ChromeHeadless
 
 NOTA: Las banderas `--no-watch` y `--no-progress` son cruciales para Karma en entornos de CI para asegurar que las pruebas se ejecuten una vez y terminen correctamente. La bandera `--browsers=ChromeHeadless` también es esencial para ejecutar pruebas en un entorno de navegador sin interfaz gráfica.
 
-## Depurar pruebas
+## Depurar pruebas {#debugging-tests}
 
 Si tus pruebas no están funcionando como esperas, puedes inspeccionarlas y depurarlas en el navegador.
 
 Para depurar una aplicación con el ejecutor de pruebas Karma:
 
-1.  Muestra la ventana del navegador de Karma. Consulta [Configurar pruebas](guide/testing/overview#configurar-pruebas) si necesitas ayuda con este paso.
+1.  Muestra la ventana del navegador de Karma. Consulta [Configurar pruebas](guide/testing#set-up-for-testing) si necesitas ayuda con este paso.
 2.  Haz clic en el botón **DEBUG** para abrir una nueva pestaña del navegador y volver a ejecutar las pruebas.
 3.  Abre las **Herramientas para desarrolladores** del navegador. En Windows, presiona `Ctrl-Shift-I`. En macOS, presiona `Command-Option-I`.
 4.  Selecciona la sección **Sources**.

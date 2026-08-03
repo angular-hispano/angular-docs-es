@@ -9,7 +9,7 @@ Angular CLI incluye cuatro builders típicamente usados como objetivos `build`:
 | Builder                                         | Propósito                                                                                                                                                                           |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `@angular-devkit/build-angular:application`     | Construye una aplicación con un bundle del lado del cliente, un servidor Node y rutas prerenderizadas en tiempo de construcción con [esbuild](https://esbuild.github.io/).                                     |
-| `@angular-devkit/build-angular:browser-esbuild` | Empaqueta una aplicación del lado del cliente para usar en un navegador con [esbuild](https://esbuild.github.io/). Consulta la [documentación de `browser-esbuild`](tools/cli/build-system-migration#migración-manual-al-builder-de-compatibilidad) para más información. |
+| `@angular-devkit/build-angular:browser-esbuild` | Empaqueta una aplicación del lado del cliente para usar en un navegador con [esbuild](https://esbuild.github.io/). Consulta la [documentación de `browser-esbuild`](tools/cli/build-system-migration#manual-migration-to-the-compatibility-builder) para más información. |
 | `@angular-devkit/build-angular:browser`         | Empaqueta una aplicación del lado del cliente para usar en un navegador con [webpack](https://webpack.js.org/).                                                                                   |
 | `@angular-devkit/build-angular:ng-packagr`      | Construye una librería Angular adhiriéndose al [Angular Package Format](tools/libraries/angular-package-format).                                                                           |
 
@@ -39,11 +39,11 @@ Puedes determinar qué builder se está usando para un proyecto en particular bu
 
 Esta página discute el uso y las opciones de `@angular-devkit/build-angular:application`.
 
-## Directorio de salida
+## Directorio de salida {#output-directory}
 
 El resultado de este proceso de construcción se envía a un directorio (`dist/${PROJECT_NAME}` por defecto).
 
-## Configurar presupuestos de tamaño
+## Configurar presupuestos de tamaño {#configuring-size-budgets}
 
 A medida que las aplicaciones crecen en funcionalidad, también crecen en tamaño.
 El CLI te permite establecer umbrales de tamaño en tu configuración para asegurar que partes de tu aplicación se mantengan dentro de los límites de tamaño que defines.
@@ -95,7 +95,7 @@ Cada entrada de presupuesto es un objeto JSON con las siguientes propiedades:
 | warning        | El umbral para advertencia relativo a la línea base (mín y máx).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | error          | El umbral para error relativo a la línea base (mín y máx).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 
-## Configurar dependencias CommonJS
+## Configurar dependencias CommonJS {#configuring-commonjs-dependencies}
 
 Siempre prefiere [módulos ECMAScript](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/import) nativos (ESM) en toda tu aplicación y sus dependencias.
 ESM es un estándar web completamente especificado y una característica del lenguaje JavaScript con soporte de análisis estático fuerte. Esto hace que las optimizaciones de bundles sean más potentes que otros formatos de módulos.
@@ -121,7 +121,7 @@ Si la mejor opción es usar una dependencia CommonJS, puedes deshabilitar estas 
 },
 ```
 
-## Configurar compatibilidad de navegadores
+## Configurar compatibilidad de navegadores {#configuring-browser-compatibility}
 
 El Angular CLI usa [Browserslist](https://github.com/browserslist/browserslist) para asegurar compatibilidad con diferentes versiones de navegadores.
 Dependiendo de los navegadores soportados, Angular transformará automáticamente ciertas características de JavaScript y CSS para asegurar que la aplicación construida no use una característica que no ha sido implementada por un navegador soportado. Sin embargo, el Angular CLI no agregará automáticamente polyfills para suplementar APIs Web faltantes. Usa la opción `polyfills` en `angular.json` para agregar polyfills.
@@ -136,13 +136,13 @@ Solo deberías _reducir_ el conjunto de navegadores o versiones en esta lista.
 
 CONSEJO: Usa [browsersl.ist](https://browsersl.ist) para mostrar navegadores compatibles para una consulta `browserslist`.
 
-## Configurar Tailwind
+## Configurar Tailwind {#configuring-tailwind}
 
 Angular soporta [Tailwind CSS](https://tailwindcss.com/), un framework CSS utility-first.
 
 Para integrar Tailwind CSS con Angular CLI, consulta [Usando Tailwind CSS con Angular](guide/tailwind)
 
-## Inline de CSS crítico
+## Inline de CSS crítico {#critical-css-inlining}
 
 Angular puede incluir inline las definiciones de CSS crítico de tu aplicación para mejorar [First Contentful Paint (FCP)](https://web.dev/first-contentful-paint).
 Esta opción está habilitada por defecto. Puedes deshabilitar este inline en las [opciones de personalización de `styles`](reference/configs/workspace-config#styles-optimization-options).

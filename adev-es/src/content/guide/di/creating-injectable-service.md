@@ -1,59 +1,64 @@
 # Creando un servicio inyectable
 
-Un servicio es una categoría amplia que abarca cualquier valor, función o característica que una aplicación necesita.
+Un servicio es una categoría amplia que abarca cualquier valor, función o característica que tu aplicación necesita.
 Un servicio es típicamente una clase con un propósito específico y bien definido.
-Un componente es un tipo de clase que puede usar DI.
+Un componente es un tipo de clase que puedes usar con inyección de dependencias (DI).
 
-Angular distingue los componentes de los servicios para aumentar la modularidad y reutilización.
-Al separar las características relacionadas con la vista de un componente de otros tipos de procesamiento, puedes hacer que tus clases de componente sean eficientes y ligeras.
+Angular distingue los componentes de los servicios para mejorar la modularidad y reutilización.
+Al separar las características relacionadas con la vista de un componente de otros tipos de procesamiento, puedes mantener tus clases de componente eficientes y ligeras.
 
-Idealmente, el trabajo de un componente es habilitar la experiencia del usuario y nada más.
+Idealmente, la responsabilidad de tu componente es habilitar la experiencia del usuario y nada más.
 Un componente debe presentar propiedades y métodos para el enlace de datos, para mediar entre la vista (renderizada por la plantilla) y la lógica de la aplicación (que a menudo incluye alguna noción de un modelo).
 
-Un componente puede delegar ciertas tareas a los servicios, como obtener datos del servidor, validar la entrada del usuario o registrar directamente en la consola.
-Al definir tales tareas de procesamiento en una clase de servicio inyectable, haces que esas tareas estén disponibles para cualquier componente.
-También puedes hacer que tu aplicación sea más adaptable configurando diferentes proveedores del mismo tipo de servicio, según sea apropiado en diferentes circunstancias.
+Puedes delegar tareas de un componente a los servicios, como obtener datos de un servidor, validar la entrada del usuario o registrar en la consola.
+Al definir tales tareas en una clase de servicio inyectable, haces que esas capacidades estén disponibles para cualquier componente.
+También puedes hacer que tu aplicación sea más adaptable configurando diferentes proveedores para el mismo tipo de servicio según las circunstancias.
 
-Angular no hace cumplir estos principios.
-Angular te ayuda a seguir estos principios haciendo que sea fácil factorizar la lógica de tu aplicación en servicios y hacer que esos servicios estén disponibles para los componentes a través de DI.
+Angular no hace cumplir estrictamente estos principios.
+Angular te ayuda a seguir estos principios facilitando la organización de la lógica de tu aplicación en servicios y poniendo esos servicios a disposición de los componentes a través de DI.
 
-## Ejemplos de servicios
+## Ejemplos de servicios {#service-examples}
 
 Aquí tienes un ejemplo de una clase de servicio que registra en la consola del navegador:
 
-<docs-code header="logger.service.ts (class)" language="typescript">
+```ts {header: "logger.service.ts (class)"}
 export class Logger {
-  log(msg: unknown) { console.log(msg); }
-  error(msg: unknown) { console.error(msg); }
-  warn(msg: unknown) { console.warn(msg); }
+  log(msg: unknown) {
+    console.log(msg);
+  }
+  error(msg: unknown) {
+    console.error(msg);
+  }
+  warn(msg: unknown) {
+    console.warn(msg);
+  }
 }
-</docs-code>
+```
 
 Los servicios pueden depender de otros servicios.
 Por ejemplo, aquí tienes un `HeroService` que depende del servicio `Logger`, y también usa `BackendService` para obtener héroes.
 Ese servicio a su vez podría depender del servicio `HttpClient` para obtener héroes de forma asíncrona desde un servidor:
 
-<docs-code header="hero.service.ts" language="typescript"
-           highlight="[7,8,12,13]">
-import { inject } from "@angular/core";
+```ts {header: "hero.service.ts", highlight="[7,8,12,13]"}
+import {inject} from '@angular/core';
 
 export class HeroService {
-private heroes: Hero[] = [];
+  private heroes: Hero[] = [];
 
-private backend = inject(BackendService);
-private logger = inject(Logger);
+  private backend = inject(BackendService);
+  private logger = inject(Logger);
 
-async getHeroes() {
-// Fetch
-this.heroes = await this.backend.getAll(Hero);
-// Log
-this.logger.log(`Fetched ${this.heroes.length} heroes.`);
-return this.heroes;
+  async getHeroes() {
+    // Fetch
+    this.heroes = await this.backend.getAll(Hero);
+    // Log
+    this.logger.log(`Fetched ${this.heroes.length} heroes.`);
+    return this.heroes;
+  }
 }
-}
-</docs-code>
+```
 
-## Creando un servicio inyectable con el CLI
+## Creando un servicio inyectable con el CLI {#creating-an-injectable-service-with-the-cli}
 
 El Angular CLI proporciona un comando para crear un nuevo servicio. En el siguiente ejemplo, agregas un nuevo servicio a una aplicación existente.
 
@@ -61,35 +66,28 @@ Para generar una nueva clase `HeroService` en la carpeta `src/app/heroes`, sigue
 
 1. Ejecuta este comando [Angular CLI](/tools/cli):
 
-<docs-code language="sh">
+```sh
 ng generate service heroes/hero
-</docs-code>
+```
 
 Este comando crea el siguiente `HeroService` por defecto:
 
 ```ts {header: 'heroes/hero.service.ts (CLI-generated)'}
-import {Injectable} from '@angular/core';
+import {Service} from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class HeroService {}
 ```
 
-El decorador `@Injectable()` especifica que Angular puede usar esta clase en el sistema DI.
-Los metadatos, `providedIn: 'root'`, significan que el `HeroService` se provee en toda la aplicación.
+El decorador `@Service()` especifica que Angular puede usar esta clase en el sistema DI y que el `HeroService` está disponible en toda tu aplicación.
 
 Agrega un método `getHeroes()` que devuelva los héroes de `mock.heroes.ts` para obtener los datos simulados de héroes:
 
 ```ts {header: 'hero.service.ts'}
-import {Injectable} from '@angular/core';
+import {Service} from '@angular/core';
 import {HEROES} from './mock-heroes';
 
-@Injectable({
-  // declara que este servicio debe ser creado
-  // por el inyector de la aplicación raíz.
-  providedIn: 'root',
-})
+@Service()
 export class HeroService {
   getHeroes() {
     return HEROES;
@@ -99,42 +97,40 @@ export class HeroService {
 
 Para claridad y mantenibilidad, se recomienda que definas componentes y servicios en archivos separados.
 
-## Inyectando servicios
+## Inyectando servicios {#injecting-services}
 
-Para inyectar un servicio como dependencia en un componente, puedes declarar un campo de clase que represente la dependencia y usar la función `inject` de Angular para inicializarlo.
+Para inyectar un servicio en un componente, declara un campo de clase para la dependencia y usa la función [`inject`](/api/core/inject) de Angular para inicializarlo.
 
-El siguiente ejemplo especifica el `HeroService` en el `HeroListComponent`.
+El siguiente ejemplo especifica el `HeroService` en el `HeroList`.
 El tipo de `heroService` es `HeroService`.
 
 ```ts
 import {inject} from '@angular/core';
 
-export class HeroListComponent {
+export class HeroList {
   private heroService = inject(HeroService);
 }
 ```
 
 También es posible inyectar un servicio en un componente usando el constructor del componente:
 
-```ts {header: 'hero-list.component.ts (constructor signature)'}
+```ts {header: 'hero-list.ts (constructor signature)'}
   constructor(private heroService: HeroService)
 ```
 
-El método `inject` puede ser usado tanto en clases como en funciones, mientras que el método constructor naturalmente solo puede ser usado en un constructor de clase. Sin embargo, en cualquier caso una dependencia solo puede ser inyectada en un [contexto de inyección](guide/di/dependency-injection-context) válido, usualmente en la construcción o inicialización de un componente.
+El método [`inject`](/api/core/inject) puede ser usado tanto en clases como en funciones, mientras que el método constructor naturalmente solo puede ser usado en un constructor de clase. Sin embargo, en ambos casos, solo puedes inyectar una dependencia dentro de un [contexto de inyección](guide/di/dependency-injection-context) válido, típicamente durante la construcción o inicialización de un componente.
 
-## Inyectando servicios en otros servicios
+## Inyectando servicios en otros servicios {#injecting-services-in-other-services}
 
 Cuando un servicio depende de otro servicio, sigue el mismo patrón que inyectar en un componente.
 En el siguiente ejemplo, `HeroService` depende de un servicio `Logger` para reportar sus actividades:
 
-```ts {header: 'hero.service.ts', highlight: [[3],[9],[12]]}
-import {inject, Injectable} from '@angular/core';
+```ts {header: 'hero.service.ts, highlight: [[3],[9],[12]]}
+import {inject, Service} from '@angular/core';
 import {HEROES} from './mock-heroes';
 import {Logger} from '../logger.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class HeroService {
   private logger = inject(Logger);
 
@@ -147,9 +143,9 @@ export class HeroService {
 
 En este ejemplo, el método `getHeroes()` usa el servicio `Logger` registrando un mensaje cuando obtiene héroes.
 
-## Próximos pasos
+## Próximos pasos {#whats-next}
 
 <docs-pill-row>
-  <docs-pill href="/guide/di/dependency-injection-providers" title="Configurando proveedores de dependencias"/>
-  <docs-pill href="/guide/di/dependency-injection-providers#using-an-injectiontoken-object" title="`InjectionTokens`"/>
+  <docs-pill href="guide/di/defining-dependency-providers" title="Configurando proveedores de dependencias"/>
+  <docs-pill href="guide/di/defining-dependency-providers#automatic-provision-for-non-class-dependencies" title="`InjectionTokens`"/>
 </docs-pill-row>

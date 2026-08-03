@@ -2,7 +2,7 @@
 
 Habilitar el soporte de service worker implica algo más que registrarlo; también proporciona servicios que puedes usar para interactuar con el service worker y controlar la caché de tu aplicación.
 
-## Servicio `SwUpdate`
+## Servicio `SwUpdate` {#swupdate-service}
 
 El servicio `SwUpdate` te da acceso a eventos que indican cuándo el service worker descubre e instala una actualización disponible para tu aplicación.
 
@@ -12,7 +12,7 @@ El servicio `SwUpdate` admite tres operaciones diferentes:
 - Pedirle al service worker que verifique en el servidor si hay nuevas actualizaciones.
 - Pedirle al service worker que active la versión más reciente de la aplicación para la pestaña actual.
 
-### Actualizaciones de versión
+### Actualizaciones de versión {#version-updates}
 
 `versionUpdates` es una propiedad `Observable` de `SwUpdate` y emite cinco tipos de eventos:
 
@@ -26,7 +26,7 @@ El servicio `SwUpdate` admite tres operaciones diferentes:
 
 <docs-code header="log-update.service.ts" path="adev/src/content/examples/service-worker-getting-started/src/app/log-update.service.ts" visibleRegion="sw-update"/>
 
-### Verificando actualizaciones
+### Verificando actualizaciones {#checking-for-updates}
 
 Es posible pedirle al service worker que revise si se desplegó alguna actualización en el servidor.
 El service worker busca actualizaciones durante la inicialización y en cada solicitud de navegación—es decir, cuando la persona usuaria navega desde una dirección diferente hacia tu aplicación.
@@ -51,7 +51,7 @@ Evita ese retraso esperando primero a que la aplicación se estabilice antes de 
 Como alternativa, puedes definir una [estrategia de registro](api/service-worker/SwRegistrationOptions#registrationStrategy) diferente para el ServiceWorker.
 </docs-callout>
 
-### Actualizando a la versión más reciente
+### Actualizando a la versión más reciente {#updating-to-the-latest-version}
 
 Puedes actualizar una pestaña existente a la versión más reciente recargando la página tan pronto como una nueva versión esté lista.
 Para evitar interrumpir el progreso de la persona usuaria, en general es recomendable mostrar un aviso y pedir que confirme si desea recargar la página y actualizar a la versión más reciente:
@@ -66,7 +66,7 @@ Actualizar sin recargar puede crear una discrepancia de versiones entre el shell
 Debes usar `activateUpdate()` solo si estás seguro de que es seguro para tu caso específico.
 </docs-callout>
 
-### Manejar un estado irrecuperable
+### Manejar un estado irrecuperable {#handling-an-unrecoverable-state}
 
 En algunos casos, la versión de la aplicación que el service worker usa para atender a una persona usuaria puede quedar en un estado roto que no se puede recuperar sin recargar completamente la página.
 
@@ -98,7 +98,7 @@ Suscríbete a `SwUpdate#unrecoverable` para recibir la notificación y manejar e
 
 <docs-code header="handle-unrecoverable-state.service.ts" path="adev/src/content/examples/service-worker-getting-started/src/app/handle-unrecoverable-state.service.ts" visibleRegion="sw-unrecoverable-state"/>
 
-## Más sobre los service workers de Angular
+## Más sobre los service workers de Angular {#more-on-angular-service-workers}
 
 También podría interesarte lo siguiente:
 

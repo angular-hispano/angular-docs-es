@@ -5,13 +5,13 @@ Esta estrategia de coincidencia soporta rutas estáticas, rutas variables con pa
 Además, puedes construir tu propia coincidencia de patrón personalizada para situaciones en las que las URLs son más complicadas.
 
 En este tutorial, construirás un matcher de ruta personalizado usando `UrlMatcher` de Angular.
-Este matcher busca un handle de Twitter en la URL.
+Este matcher busca un handle de X (anteriormente Twitter) en la URL.
 
-## Objetivos
+## Objetivos {#objectives}
 
 Implementar `UrlMatcher` de Angular para crear un matcher de ruta personalizado.
 
-## Crear una aplicación de ejemplo
+## Crear una aplicación de ejemplo {#create-a-sample-application}
 
 Usando Angular CLI, crea una nueva aplicación, _angular-custom-route-match_.
 Además del framework de aplicación Angular predeterminado, también crearás un componente _profile_.
@@ -35,18 +35,18 @@ Además del framework de aplicación Angular predeterminado, también crearás u
    ng generate component profile
    ```
 
-1. En tu editor de código, localiza el archivo `profile.component.html` y reemplaza el contenido placeholder con el siguiente HTML.
+1. En tu editor de código, localiza el archivo `profile.html` y reemplaza el contenido placeholder con el siguiente HTML.
 
-    <docs-code header="profile/profile.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/profile/profile.component.html"/>
+    <docs-code header="profile.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/profile/profile.html"/>
 
-1. En tu editor de código, localiza el archivo `app.component.html` y reemplaza el contenido placeholder con el siguiente HTML.
+1. En tu editor de código, localiza el archivo `app.html` y reemplaza el contenido placeholder con el siguiente HTML.
 
-    <docs-code header="app.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.component.html"/>
+    <docs-code header="app.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.html"/>
 
-## Configurar las rutas para tu aplicación
+## Configurar las rutas para tu aplicación {#configure-your-routes-for-your-application}
 
 Con el framework de tu aplicación en su lugar, a continuación necesitas agregar capacidades de enrutamiento al archivo `app.config.ts`.
-Como parte de este proceso, crearás un matcher de URL personalizado que busca un handle de Twitter en la URL.
+Como parte de este proceso, crearás un matcher de URL personalizado que busca un handle de X en la URL.
 Este handle se identifica por un símbolo `@` precedente.
 
 1. En tu editor de código, abre tu archivo `app.config.ts`.
@@ -73,11 +73,11 @@ Este matcher personalizado es una función que realiza las siguientes tareas:
 
 ÚTIL: Un matcher de URL personalizado se comporta como cualquier otra definición de ruta. Define rutas hijo o rutas con lazy loading como lo harías con cualquier otra ruta.
 
-## Leer los parámetros de ruta
+## Leer los parámetros de ruta {#reading-the-route-parameters}
 
 Con el matcher personalizado en su lugar, ahora puedes vincular el parámetro de ruta en el componente `profile`.
 
-En tu editor de código, abre tu archivo `profile.component.ts` y crea un `input` que coincida con el parámetro `username`.
+En tu editor de código, abre tu archivo `profile.ts` y crea un `input` que coincida con el parámetro `username`.
 Agregamos la característica `withComponentInputBinding` anteriormente
 en `provideRouter`. Esto permite que el `Router` vincule información directamente a los componentes de ruta.
 
@@ -85,7 +85,7 @@ en `provideRouter`. Esto permite que el `Router` vincule información directamen
 username = input.required<string>();
 ```
 
-## Probar tu matcher de URL personalizado
+## Probar tu matcher de URL personalizado {#test-your-custom-url-matcher}
 
 Con tu código en su lugar, ahora puedes probar tu matcher de URL personalizado.
 
@@ -103,7 +103,7 @@ Con tu código en su lugar, ahora puedes probar tu matcher de URL personalizado.
 
    Una nueva oración, que dice `Hello, Angular!` aparece en la página.
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 La coincidencia de patrones con Angular Router te proporciona mucha flexibilidad cuando tienes URLs dinámicas en tu aplicación.
 Para aprender más sobre Angular Router, consulta los siguientes temas:

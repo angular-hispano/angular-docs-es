@@ -2,7 +2,7 @@
 
 Angular soporta definir escuchadores de eventos en un elemento en tu plantilla especificando el nombre del evento dentro de paréntesis junto con una declaración que se ejecuta cada vez que ocurre el evento.
 
-## Escuchar eventos nativos
+## Escuchar eventos nativos {#listening-to-native-events}
 
 Cuando quieres agregar escuchadores de eventos a un elemento HTML, envuelves el evento con paréntesis, `()`, lo que te permite especificar una declaración de escuchador.
 
@@ -24,7 +24,7 @@ En este ejemplo, Angular llama a `updateField` cada vez que el elemento `<input>
 
 Puedes agregar escuchadores para cualquier evento nativo, como: `click`, `keydown`, `mouseover`, etc. Para aprender más, consulta [todos los eventos disponibles en elementos en MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element#events).
 
-## Acceder al argumento del evento
+## Acceder al argumento del evento {#accessing-the-event-argument}
 
 En cada escuchador de evento de plantilla, Angular proporciona una variable llamada `$event` que contiene una referencia al objeto del evento.
 
@@ -42,7 +42,7 @@ export class AppComponent {
 }
 ```
 
-## Usar modificadores de teclas
+## Usar modificadores de teclas {#using-key-modifiers}
 
 Cuando quieres capturar eventos de teclado específicos para una tecla específica, podrías escribir código como el siguiente:
 
@@ -98,7 +98,23 @@ Angular también te permite especificar [valores Code para eventos de teclado](h
 
 Esto puede ser útil para manejar eventos de teclado de manera consistente entre diferentes sistemas operativos. Por ejemplo, al usar la tecla Alt en dispositivos MacOS, la propiedad `key` reporta la tecla basada en el carácter ya modificado por la tecla Alt. Esto significa que una combinación como Alt + S reporta un valor de `key` de `'ß'`. La propiedad `code`, sin embargo, corresponde al botón físico o virtual presionado en lugar del carácter producido.
 
-## Prevenir el comportamiento predeterminado del evento
+## Escuchar en objetivos globales {#listening-on-global-targets}
+
+Los nombres de destino globales se pueden usar como prefijo de un evento. Los 3 destinos globales admitidos son `window`, `document` y `body`.
+
+```angular-ts
+@Component({
+  /* ... */
+  host: {
+    'window:click': 'onWindowClick()',
+    'document:click': 'onDocumentClick()',
+    'body:click': 'onBodyClick()',
+  },
+})
+export class MyView {}
+```
+
+## Prevenir el comportamiento predeterminado del evento {#preventing-event-default-behavior}
 
 Si tu manejador de eventos debe reemplazar el comportamiento nativo del navegador, puedes usar el [método `preventDefault`](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault) del objeto del evento:
 
@@ -119,11 +135,11 @@ export class AppComponent{
 
 Si la declaración del manejador de eventos se evalúa como `false`, Angular automáticamente llama a `preventDefault()`, similar a los [atributos de manejador de eventos nativos](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes#event_handler_attributes). _Siempre prefiere llamar explícitamente a `preventDefault`_, ya que este enfoque hace que la intención del código sea obvia.
 
-## Extender el manejo de eventos
+## Extender el manejo de eventos {#extend-event-handling}
 
 El sistema de eventos de Angular es extensible mediante plugins de eventos personalizados registrados con el token de inyección `EVENT_MANAGER_PLUGINS`.
 
-### Implementar un Event Plugin
+### Implementar un Event Plugin {#implementing-event-plugin}
 
 Para crear un plugin de eventos personalizado, extiende la clase `EventManagerPlugin` e implementa los métodos requeridos.
 

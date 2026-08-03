@@ -13,7 +13,7 @@ Una vez que las DevTools del navegador estén abiertas y Angular DevTools esté 
 
 <img src="assets/images/guide/devtools/devtools.png" alt="Una descripción general de Angular DevTools mostrando un árbol de componentes para una aplicación.">
 
-## Abre tu aplicación
+## Abre tu aplicación {#open-your-application}
 
 Cuando abras la extensión, verás tres pestañas adicionales:
 
@@ -22,8 +22,9 @@ Cuando abras la extensión, verás tres pestañas adicionales:
 | [Componentes](tools/devtools/component)    | Te permite explorar los componentes y directivas en tu aplicación y previsualizar o editar su estado.                    |
 | [Profiler](tools/devtools/profiler)       | Te permite perfilar tu aplicación y entender cuál es el cuello de botella de rendimiento durante la ejecución de la detección de cambios. |
 | [Árbol de Inyectores](tools/devtools/injectors) | Te permite visualizar la jerarquía de inyectores de entorno y de elementos.                                                      |
+| [Árbol de Router](tools/devtools/router)  | Te permite visualizar el árbol de enrutamiento de tu aplicación.                                                        |
 
-Otras pestañas como `Router Tree` o `Transfer State` son experimentales y pueden habilitarse a través de la configuración de devtools, y aún no están documentadas.
+Otras pestañas como `Transfer State` son experimentales y pueden habilitarse a través de la configuración de devtools, y aún no están documentadas.
 
 ÚTIL: Para usuarios de navegadores basados en Chromium, puede interesarte la [integración con el panel de rendimiento](/best-practices/profiling-with-chrome-devtools).
 
@@ -32,13 +33,13 @@ Otras pestañas como `Router Tree` o `Transfer State` son experimentales y puede
 En la esquina superior derecha de Angular DevTools encontrarás el botón de información que abre un popover.
 El popover de información contiene, entre otros datos, qué versión de Angular se está ejecutando en la página así como la versión de devtools.
 
-### Aplicación de Angular no detectada
+### Aplicación de Angular no detectada {#angular-application-not-detected}
 
 Si ves un mensaje de error "Angular application not detected" al abrir Angular DevTools, esto significa que no puede comunicarse con una aplicación de Angular en la página.
 La razón más común es que la página web que estás inspeccionando no contiene una aplicación de Angular.
 Verifica que estás inspeccionando la página web correcta y que la aplicación de Angular se está ejecutando.
 
-### Detectamos una aplicación compilada con configuración de producción
+### Detectamos una aplicación compilada con configuración de producción {#we-detected-an-application-built-with-production-configuration}
 
 Si ves un mensaje de error "We detected an application built with production configuration. Angular DevTools only supports development builds.", esto significa que se encontró una aplicación de Angular en la página, pero fue compilada con optimizaciones de producción.
 Al compilar para producción, Angular CLI elimina varias características de depuración para minimizar la cantidad de JavaScript en la página y mejorar el rendimiento. Esto incluye las características necesarias para comunicarse con DevTools.

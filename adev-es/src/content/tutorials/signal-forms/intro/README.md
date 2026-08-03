@@ -1,10 +1,13 @@
 # Aprende sobre Signal Forms en Angular
 
+<div class="docs-tutorial-mascot">
+  <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">
+  <p class="docs-tutorial-mascot__bubble">¡Bienvenido! Construyamos formularios con signals.</p>
+</div>
+
 Este tutorial interactivo te enseñará cómo construir formularios reactivos usando la API experimental Signal Forms de Angular.
 
-IMPORTANTE: Signal Forms es actualmente [experimental](reference/releases#experimental). La API puede cambiar antes de estabilizarse. Consulta la [documentación oficial](guide/forms/signal-forms) para las últimas actualizaciones.
-
-## Cómo usar este tutorial
+## Cómo usar este tutorial {#how-to-use-this-tutorial}
 
 Este tutorial asume que entiendes los conceptos principales de Angular y tienes familiaridad básica con signals. Si eres nuevo en Angular, lee nuestra [guía esencial](/essentials). Si eres nuevo en signals, completa primero el [tutorial de signals](/tutorials/signals).
 

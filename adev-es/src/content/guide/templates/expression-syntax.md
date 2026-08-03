@@ -2,11 +2,11 @@
 
 Las expresiones de Angular están basadas en JavaScript, pero difieren en algunos aspectos clave. Esta guía recorre las similitudes y diferencias entre las expresiones de Angular y JavaScript estándar.
 
-## Literales de valor
+## Literales de valor {#value-literals}
 
 Angular soporta un subconjunto de [valores literales](https://developer.mozilla.org/en-US/docs/Glossary/Literal) de JavaScript.
 
-### Literales de valor soportados
+### Literales de valor soportados {#supported-value-literals}
 
 | Tipo de literal | Valores de ejemplo                  |
 | --------------- | ----------------------------------- |
@@ -19,13 +19,13 @@ Angular soporta un subconjunto de [valores literales](https://developer.mozilla.
 | Template string | `` `Hello ${name}` ``               |
 | RegExp          | `/\d+/`                             |
 
-### Literales de valor no soportados
+### Literales de valor no soportados {#unsupported-value-literals}
 
 | Tipo de literal | Valores de ejemplo |
 | --------------- | ------------------ |
 | BigInt          | `1n`               |
 
-## Globales
+## Globales {#globals}
 
 Las expresiones de Angular soportan los siguientes [globales](https://developer.mozilla.org/en-US/docs/Glossary/Global_object):
 
@@ -34,15 +34,15 @@ Las expresiones de Angular soportan los siguientes [globales](https://developer.
 
 No se soportan otros globales de JavaScript. Los globales comunes de JavaScript incluyen `Number`, `Boolean`, `NaN`, `Infinity`, `parseInt`, y más.
 
-## Variables locales
+## Variables locales {#local-variables}
 
 Angular automáticamente hace disponibles variables locales especiales para usar en expresiones en contextos específicos. Estas variables especiales siempre comienzan con el carácter de signo de dólar (`$`).
 
 Por ejemplo, los bloques `@for` hacen disponibles varias variables locales correspondientes a información sobre el bucle, como `$index`.
 
-## ¿Qué operadores están soportados?
+## ¿Qué operadores están soportados? {#what-operators-are-supported}
 
-### Operadores soportados
+### Operadores soportados {#supported-operators}
 
 Angular soporta los siguientes operadores de JavaScript estándar.
 
@@ -83,9 +83,22 @@ Las expresiones de Angular también soportan adicionalmente los siguientes opera
 | Optional chaining\*                       | `someObj.someProp?.nestedProp` |
 | Non-null assertion (TypeScript)           | `someObj!.someProp`            |
 
-NOTA: El optional chaining se comporta de manera diferente a la versión estándar de JavaScript en que si el lado izquierdo del operador optional chaining de Angular es `null` o `undefined`, retorna `null` en lugar de `undefined`.
+### Migración de safe navigation {#safe-navigation-migration}
 
-### Operadores no soportados
+Antes de Angular 22, el operador optional chaining (`?.`) retornaba `null` cuando el lado izquierdo era `null` o `undefined`, mientras que el `?.` estándar de JavaScript retorna `undefined`.
+Desde Angular 22, el comportamiento del operador optional chaining en expresiones Angular está alineado con el comportamiento estándar de JavaScript.
+
+Durante la migración a v22, los schematics de `ng update` añadieron una función mágica `$safeNavigationMigration` a las expresiones existentes para preservar el comportamiento anterior que retornaba `null`.
+
+```html
+{{ $safeNavigationMigration(foo?.bar) }}
+```
+
+`$safeNavigationMigration` es **únicamente una ayuda temporal para la migración**. Le indica al compilador que compile la expresión safe-navigation envuelta usando la semántica legacy que retorna `null` en lugar de la semántica estándar de JavaScript `?.`. No es una función real y no puede ser llamada desde TypeScript.
+
+NOTA: Se prefiere migrar las expresiones para que ya no dependan de las distinciones entre `null` y `undefined`, de modo que `$safeNavigationMigration` pueda eliminarse. Esta función puede eliminarse en una versión futura de Angular.
+
+### Operadores no soportados {#unsupported-operators}
 
 | Operador                    | Ejemplo(s)                        |
 | --------------------------- | --------------------------------- |
@@ -96,13 +109,13 @@ NOTA: El optional chaining se comporta de manera diferente a la versión estánd
 | instanceof                  | `car instanceof Automobile`       |
 | new                         | `new Car()`                       |
 
-## Contexto léxico para expresiones
+## Contexto léxico para expresiones {#lexical-context-for-expressions}
 
 Las expresiones de Angular se evalúan dentro del contexto de la clase del componente así como de cualquier [variable de plantilla](/guide/templates/variables), locales y globales relevantes.
 
 Al referirse a miembros de la clase del componente, `this` siempre está implícito. Sin embargo, si una plantilla declara una [variable de plantilla](guide/templates/variables) con el mismo nombre que un miembro, la variable oculta ese miembro. Puedes referenciar inequívocamente tal miembro de clase usando explícitamente `this.`. Esto puede ser útil al crear una declaración `@let` que oculta un miembro de clase, por ejemplo, para propósitos de estrechamiento de signals.
 
-## Declaraciones
+## Declaraciones {#declarations}
 
 En términos generales, las declaraciones no están soportadas en las expresiones de Angular. Esto incluye, pero no se limita a:
 
@@ -113,7 +126,7 @@ En términos generales, las declaraciones no están soportadas en las expresione
 | Arrow Functions | `() => { }`                                 |
 | Classes         | `class Rectangle { }`                       |
 
-# Declaraciones de event listeners
+## Declaraciones de event listeners {#event-listener-statements}
 
 Los manejadores de eventos son **declaraciones** en lugar de expresiones. Aunque soportan toda la misma sintaxis que las expresiones de Angular, hay dos diferencias clave:
 

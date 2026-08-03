@@ -8,7 +8,7 @@ Hasta este punto, tu aplicación ha leído datos de un arreglo estático en un s
 
 IMPORTANTE: Recomendamos usar tu entorno local para este paso del tutorial.
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 Tu aplicación usará datos de un servidor JSON
 

@@ -3,7 +3,7 @@
 El archivo `angular.json` en el nivel raíz de un espacio de trabajo de Angular proporciona valores de configuración predeterminados para todo el espacio de trabajo y para proyectos específicos. Estos son utilizados por las herramientas de compilación y desarrollo que provee el Angular CLI.
 Los valores de ruta indicados en la configuración son relativos al directorio raíz del espacio de trabajo.
 
-## Estructura general del JSON
+## Estructura general del JSON {#general-json-structure}
 
 En el nivel superior de `angular.json`, algunas propiedades configuran el espacio de trabajo y una sección `projects` contiene las demás opciones de configuración por proyecto.
 Puedes sobrescribir los valores predeterminados del Angular CLI establecidos a nivel del espacio de trabajo mediante valores definidos a nivel de proyecto.
@@ -15,7 +15,7 @@ Las siguientes propiedades, en el nivel superior del archivo, configuran el espa
 | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `version`        | La versión del archivo de configuración.                                                                                                                                                                |
 | `newProjectRoot` | Ruta donde se crean nuevos proyectos mediante herramientas como `ng generate application` o `ng generate library`. La ruta puede ser absoluta o relativa al directorio del espacio de trabajo. El valor predeterminado es `projects` |
-| `cli`            | Un conjunto de opciones que personalizan el [Angular CLI](tools/cli). Consulta las [opciones de configuración del Angular CLI](#opciones-de-configuración-del-angular-cli) más abajo.                   |
+| `cli`            | Un conjunto de opciones que personalizan el [Angular CLI](tools/cli). Consulta las [opciones de configuración del Angular CLI](#angular-cli-configuration-options) más abajo.                   |
 | `schematics`     | Un conjunto de [schematics](tools/cli/schematics) que personalizan los valores predeterminados de las opciones del subcomando `ng generate` para este espacio de trabajo. Consulta [schematics](#schematics) más abajo. |
 | `projects`       | Contiene una subsección para cada aplicación o biblioteca del espacio de trabajo, con opciones de configuración específicas del proyecto.                                                                |
 
@@ -32,19 +32,19 @@ Cuando creas un proyecto de biblioteca con `ng generate library`, el proyecto de
 
 Para más información, consulta [Estructura de archivos del espacio de trabajo y del proyecto](reference/configs/file-structure).
 
-## Opciones de configuración del Angular CLI
+## Opciones de configuración del Angular CLI {#angular-cli-configuration-options}
 
 Las siguientes propiedades son un conjunto de opciones que personalizan el Angular CLI.
 
 | Propiedad              | Detalles                                                                                                                                                                                         | Tipo de valor                               | Valor predeterminado |
 | :--------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------ | :------------------- |
 | `analytics`            | Comparte datos de uso anónimos con el equipo de Angular. Un valor booleano indica si se comparten o no los datos, mientras que una cadena UUID los comparte usando un identificador seudónimo.   | `boolean` \| `string`                       | `false`              |
-| `cache`                | Controla la [caché persistente en disco](cli/cache) utilizada por los [builders del Angular CLI](tools/cli/cli-builder).                                                                         | [Opciones de caché](#opciones-de-caché)     | `{}`                 |
+| `cache`                | Controla la [caché persistente en disco](cli/cache) utilizada por los [builders del Angular CLI](tools/cli/cli-builder).                                                                         | [Opciones de caché](#cache-options)     | `{}`                 |
 | `schematicCollections` | Lista las colecciones de schematics a usar en `ng generate`.                                                                                                                                     | `string[]`                                  | `[]`                 |
 | `packageManager`       | La herramienta de gestión de paquetes preferida.                                                                                                                                                 | `npm` \| `cnpm` \| `pnpm` \| `yarn`\| `bun` | `npm`                |
-| `warnings`             | Controla las advertencias de consola específicas del Angular CLI.                                                                                                                                | [Opciones de advertencias](#opciones-de-advertencias) | `{}`        |
+| `warnings`             | Controla las advertencias de consola específicas del Angular CLI.                                                                                                                                | [Opciones de advertencias](#warnings-options) | `{}`        |
 
-### Opciones de caché
+### Opciones de caché {#cache-options}
 
 | Propiedad     | Detalles                                                                                                                                                                                                                                                        | Tipo de valor            | Valor predeterminado |
 | :------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------- | :------------------- |
@@ -52,13 +52,13 @@ Las siguientes propiedades son un conjunto de opciones que personalizan el Angul
 | `environment` | Configura en qué entorno se habilita la caché en disco.<br><br>_ `ci` habilita la caché solo en entornos de integración continua (CI).<br>_ `local` habilita la caché solo _fuera_ de los entornos CI.<br>\* `all` habilita la caché en todas partes.          | `local` \| `ci` \| `all` | `local`              |
 | `path`        | El directorio utilizado para almacenar los resultados de la caché.                                                                                                                                                                                              | `string`                 | `.angular/cache`     |
 
-### Opciones de advertencias
+### Opciones de advertencias {#warnings-options}
 
 | Propiedad         | Detalles                                                                                       | Tipo de valor | Valor predeterminado |
 | :---------------- | :--------------------------------------------------------------------------------------------- | :--------- | :------------------- |
 | `versionMismatch` | Muestra una advertencia cuando la versión global del Angular CLI es más reciente que la local. | `boolean`  | `true`               |
 
-## Opciones de configuración del proyecto
+## Opciones de configuración del proyecto {#project-configuration-options}
 
 Las siguientes propiedades de configuración de nivel superior están disponibles para cada proyecto, en `projects['project-name']`.
 
@@ -69,7 +69,38 @@ Las siguientes propiedades de configuración de nivel superior están disponible
 | `sourceRoot`  | El directorio raíz de los archivos fuente de este proyecto.                                                                                                                                     | `string`                                                               | `''`                 |
 | `prefix`      | Una cadena que Angular antepone a los selectores al generar nuevos componentes, directivas y pipes con `ng generate`. Se puede personalizar para identificar una aplicación o área de funcionalidad. | `string`                                                           | `'app'`              |
 | `schematics`  | Un conjunto de schematics que personalizan los valores predeterminados de las opciones del subcomando `ng generate` para este proyecto. Consulta la sección [schematics](#schematics) de generación. | Consulta [schematics](#schematics)                                | `{}`                 |
-| `architect`   | Valores de configuración predeterminados para los targets de builder de Architect para este proyecto.                                                                                           | Consulta [Configuración de targets de builder](#configuración-de-targets-de-builder) | `{}`    |
+| `architect`   | Valores de configuración predeterminados para los targets de builder de Architect para este proyecto.                                                                                           | Consulta [Configuración de targets de builder](#configuring-builder-targets) | `{}`    |
+
+## Opciones de i18n {#i18n-options}
+
+Usa la opción de proyecto `i18n` para definir el locale de origen de la aplicación y los locales adicionales a compilar.
+
+| Propiedad      | Detalles                                                                                                                                         | Tipo de valor                                           | Valor predeterminado |
+| :------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------ | :------------------- |
+| `sourceLocale` | El locale utilizado en el código fuente de la aplicación. Puede ser un string de identificador de locale o un [objeto de configuración](#sourcelocale-object). | `string` \| [objeto sourceLocale](#sourcelocale-object) | `"en-US"`            |
+| `locales`      | Un mapa de identificadores de locale a archivos de traducción u [objetos de configuración de locale](#locale-object).                            | `object`                                                | `{}`                 |
+
+### Objeto `sourceLocale` {#sourcelocale-object}
+
+Pasa un objeto en lugar de un string para personalizar el directorio de salida o el base HREF para el locale de origen:
+
+| Propiedad  | Detalles                                                                                                                                                              | Tipo de valor | Valor predeterminado |
+| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------ | :------------------- |
+| `code`     | El identificador del locale de origen.                                                                                                                                | `string`      | `"en-US"`            |
+| `baseHref` | Sobrescribe el HTML `<base href>` para este locale. El nombre del directorio de salida permanece como el código de locale. No puede usarse junto con `subPath`.      | `string`      | Código de locale     |
+| `subPath`  | Establece tanto el nombre del directorio de salida como el HTML `<base href>` para este locale. No puede usarse junto con `baseHref`.                                 | `string`      | Código de locale     |
+
+### Objeto Locale {#locale-object}
+
+Cada entrada de `locales` puede ser un string de ruta, un array de rutas o un objeto:
+
+| Propiedad     | Detalles                                                                                                                                                                       | Tipo de valor          | Valor predeterminado |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------- | :------------------- |
+| `translation` | Ruta o rutas a los archivos de traducción para este locale.                                                                                                                    | `string` \| `string[]` |                      |
+| `baseHref`    | Sobrescribe el HTML `<base href>` para este locale. El nombre del directorio de salida permanece como el identificador de locale. No puede usarse junto con `subPath`.        | `string`               | Código de locale     |
+| `subPath`     | Establece tanto el nombre del directorio de salida como el HTML `<base href>` para este locale. No puede usarse junto con `baseHref`.                                          | `string`               | Código de locale     |
+
+HELPFUL: Usa `subPath` en lugar de `baseHref` cuando también necesites renombrar el directorio de salida — por ejemplo, para generar la salida en `de-DE/` en lugar de `de/`.
 
 ## Schematics
 
@@ -97,20 +128,20 @@ Puedes actualizar el archivo de esquema de tu espacio de trabajo para establecer
 }
 ```
 
-## Configuración de builders del CLI
+## Configuración de builders del CLI {#configuring-cli-builders}
 
 Architect es la herramienta que usa el Angular CLI para realizar tareas complejas, como la compilación y la ejecución de pruebas.
 Architect es una capa que ejecuta un builder específico para realizar una tarea determinada, según la configuración del target.
 Puedes definir y configurar nuevos builders y targets para extender el Angular CLI.
 Consulta [builders del Angular CLI](tools/cli/cli-builder).
 
-### Builders y targets predeterminados de Architect
+### Builders y targets predeterminados de Architect {#default-architect-builders-and-targets}
 
 Angular define builders predeterminados para usar con comandos específicos o con el comando general `ng run`.
 Los esquemas JSON que definen las opciones y valores predeterminados de cada uno de estos builders están recopilados en el paquete [`@angular-devkit/build-angular`](https://github.com/angular/angular-cli/blob/main/packages/angular_devkit/build_angular/builders.json).
 Los esquemas configuran las opciones para los siguientes builders.
 
-### Configuración de targets de builder
+### Configuración de targets de builder {#configuring-builder-targets}
 
 La sección `architect` de `angular.json` contiene un conjunto de targets de Architect.
 Muchos de los targets corresponden a los comandos del Angular CLI que los ejecutan.
@@ -118,11 +149,11 @@ Otros targets pueden ejecutarse con el comando `ng run`, y puedes definir tus pr
 
 Cada objeto de target especifica el `builder` para ese target, que es el paquete npm de la herramienta que ejecuta Architect.
 Cada target también tiene una sección `options` que configura las opciones predeterminadas del target, y una sección `configurations` que nombra y especifica configuraciones alternativas para el target.
-Consulta el ejemplo en [target de compilación](#target-de-compilación) más abajo.
+Consulta el ejemplo en [target de compilación](#build-target) más abajo.
 
 | Propiedad      | Detalles                                                                                                                                                                                                    |
 | :------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `build`        | Configura los valores predeterminados para las opciones del comando `ng build`. Consulta la sección [target de compilación](#target-de-compilación) para más información.                                   |
+| `build`        | Configura los valores predeterminados para las opciones del comando `ng build`. Consulta la sección [target de compilación](#build-target) para más información.                                   |
 | `serve`        | Sobrescribe los valores predeterminados de compilación y proporciona valores adicionales para el comando `ng serve`. Además de las opciones disponibles para `ng build`, añade opciones relacionadas con el servidor de la aplicación. |
 | `e2e`          | Sobrescribe los valores predeterminados de compilación para construir aplicaciones de prueba de extremo a extremo con el comando `ng e2e`.                                                                   |
 | `test`         | Sobrescribe los valores predeterminados de compilación para builds de prueba y proporciona valores predeterminados adicionales para ejecutar pruebas con el comando `ng test`.                               |
@@ -131,7 +162,7 @@ Consulta el ejemplo en [target de compilación](#target-de-compilación) más ab
 
 ÚTIL: Todas las opciones del archivo de configuración deben usar `camelCase`, en lugar de `dash-case` como se usa en la línea de comandos.
 
-## Target de compilación
+## Target de compilación {#build-target}
 
 Cada target en `architect` tiene las siguientes propiedades:
 
@@ -139,7 +170,7 @@ Cada target en `architect` tiene las siguientes propiedades:
 | :--------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `builder`        | El builder del CLI usado para crear este target, con el formato `<nombre-paquete>:<nombre-builder>`.                                                                                                                                                        |
 | `options`        | Opciones predeterminadas del target de compilación.                                                                                                                                                                                                         |
-| `configurations` | Configuraciones alternativas para ejecutar el target. Cada configuración establece los valores predeterminados para el entorno previsto, sobrescribiendo el valor asociado en `options`. Consulta [configuraciones de compilación alternativas](#configuraciones-de-compilación-alternativas) más abajo. |
+| `configurations` | Configuraciones alternativas para ejecutar el target. Cada configuración establece los valores predeterminados para el entorno previsto, sobrescribiendo el valor asociado en `options`. Consulta [configuraciones de compilación alternativas](#alternate-build-configurations) más abajo. |
 
 Por ejemplo, para configurar una compilación con las optimizaciones desactivadas:
 
@@ -160,7 +191,7 @@ Por ejemplo, para configurar una compilación con las optimizaciones desactivada
 }
 ```
 
-### Configuraciones de compilación alternativas
+### Configuraciones de compilación alternativas {#alternate-build-configurations}
 
 El Angular CLI incluye dos configuraciones de compilación: `production` y `development`.
 De forma predeterminada, el comando `ng build` usa la configuración `production`, que aplica varias optimizaciones de compilación, entre ellas:
@@ -203,23 +234,23 @@ En este caso, el comando analiza las configuraciones nombradas de izquierda a de
 Si varias configuraciones cambian la misma opción, el último valor establecido es el definitivo.
 En este ejemplo, si tanto `staging` como `french` establecen la ruta de salida, se usará el valor de `french`.
 
-### Opciones adicionales de compilación y prueba
+### Opciones adicionales de compilación y prueba {#extra-build-and-test-options}
 
 Las opciones configurables para una compilación predeterminada o con target generalmente corresponden a las opciones disponibles para los comandos [`ng build`](cli/build) y [`ng test`](cli/test).
 Para más detalles sobre esas opciones y sus posibles valores, consulta la [Referencia del Angular CLI](cli).
 
 | Propiedades de opciones    | Detalles                                                                                                                                                                                                                                                                   |
 | :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `assets`                   | Un objeto con rutas a los recursos estáticos que se sirven con la aplicación. Las rutas predeterminadas apuntan al directorio `public` del proyecto. Consulta más en la sección [configuración de assets](#configuración-de-assets).                                        |
-| `styles`                   | Un array de archivos CSS que se añaden al contexto global del proyecto. El Angular CLI admite importaciones CSS y todos los principales preprocesadores CSS. Consulta más en la sección [configuración de estilos y scripts](#configuración-de-estilos-y-scripts).           |
-| `stylePreprocessorOptions` | Un objeto con pares opción-valor que se pasan a los preprocesadores de estilos. Consulta más en la sección [configuración de estilos y scripts](#configuración-de-estilos-y-scripts).                                                                                       |
-| `scripts`                  | Un objeto con archivos JavaScript que se añaden a la aplicación. Los scripts se cargan exactamente como si los hubieras añadido en una etiqueta `<script>` dentro de `index.html`. Consulta más en la sección [configuración de estilos y scripts](#configuración-de-estilos-y-scripts). |
-| `budgets`                  | Tipo y umbrales del presupuesto de tamaño predeterminado para toda la aplicación o partes de ella. Puedes configurar el builder para reportar una advertencia o un error cuando la salida alcance o supere un tamaño umbral. Consulta [Configurar presupuestos de tamaño](tools/cli/build#configure-size-budgets). |
-| `fileReplacements`         | Un objeto con archivos y sus reemplazos en tiempo de compilación. Consulta más en [Configurar reemplazos de archivos según el target](tools/cli/build#configure-target-specific-file-replacements).                                                                         |
-| `index`                    | Un documento HTML base que carga la aplicación. Consulta más en [configuración de index](#configuración-de-index).                                                                                                                                                          |
+| `assets`                   | Un objeto con rutas a los recursos estáticos que se sirven con la aplicación. Las rutas predeterminadas apuntan al directorio `public` del proyecto. Consulta más en la sección [configuración de assets](#assets-configuration).                                        |
+| `styles`                   | Un array de archivos CSS que se añaden al contexto global del proyecto. El Angular CLI admite importaciones CSS y todos los principales preprocesadores CSS. Consulta más en la sección [configuración de estilos y scripts](#styles-and-scripts-configuration).           |
+| `stylePreprocessorOptions` | Un objeto con pares opción-valor que se pasan a los preprocesadores de estilos. Consulta más en la sección [configuración de estilos y scripts](#styles-and-scripts-configuration).                                                                                       |
+| `scripts`                  | Un objeto con archivos JavaScript que se añaden a la aplicación. Los scripts se cargan exactamente como si los hubieras añadido en una etiqueta `<script>` dentro de `index.html`. Consulta más en la sección [configuración de estilos y scripts](#styles-and-scripts-configuration). |
+| `budgets`                  | Tipo y umbrales del presupuesto de tamaño predeterminado para toda la aplicación o partes de ella. Puedes configurar el builder para reportar una advertencia o un error cuando la salida alcance o supere un tamaño umbral. Consulta [Configurar presupuestos de tamaño](tools/cli/build#configuring-size-budgets). |
+| `fileReplacements`         | Un objeto con archivos y sus reemplazos en tiempo de compilación. Consulta más en [Configurar valores predeterminados específicos del entorno](tools/cli/environments#configure-environment-specific-defaults).                                                                         |
+| `index`                    | Un documento HTML base que carga la aplicación. Consulta más en [configuración de index](#index-configuration).                                                                                                                                                          |
 | `security`                 | Un objeto que contiene la clave `autoCsp`, que puede establecerse en `true` o `false`                                                                                                                                                                                       |
 
-### Opciones adicionales del servidor de desarrollo
+### Opciones adicionales del servidor de desarrollo {#extra-serve-options}
 
 El servidor de desarrollo tiene su propio conjunto de opciones que generalmente corresponden a las disponibles para el comando [`ng serve`](cli/serve).
 
@@ -227,14 +258,14 @@ El servidor de desarrollo tiene su propio conjunto de opciones que generalmente 
 | :------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `allowedHosts`       | Un array de hosts a los que responderá el servidor de desarrollo. Esta opción establece la opción de Vite con el mismo nombre. Para más detalles, [consulta la documentación de Vite](https://vite.dev/config/server-options.html#server-allowedhosts) |
 
-## Valores de configuración complejos
+## Valores de configuración complejos {#complex-configuration-values}
 
 Las opciones `assets`, `index`, `outputPath`, `styles` y `scripts` pueden tener valores de cadena de ruta simples o valores de objeto con campos específicos.
 Las opciones `sourceMap` y `optimization` pueden establecerse con un valor booleano simple, o también pueden recibir un valor complejo usando el archivo de configuración.
 
 Las siguientes secciones ofrecen más detalles sobre cómo se usan estos valores complejos en cada caso.
 
-### Configuración de assets
+### Configuración de assets {#assets-configuration}
 
 Cada configuración del target `build` puede incluir un array `assets` que lista los archivos o carpetas que deseas copiar tal cual al compilar tu proyecto.
 De forma predeterminada, se copian los contenidos del directorio `public/`.
@@ -308,7 +339,7 @@ El siguiente ejemplo usa el campo `ignore` para excluir ciertos archivos del dir
 }
 ```
 
-### Configuración de estilos y scripts
+### Configuración de estilos y scripts {#styles-and-scripts-configuration}
 
 Una entrada del array para las opciones `styles` y `scripts` puede ser una cadena de ruta simple, o un objeto que apunte a un archivo de punto de entrada adicional.
 El builder asociado carga ese archivo y sus dependencias como un bundle separado durante la compilación.
@@ -347,7 +378,7 @@ Por ejemplo, los siguientes valores de objeto crean y nombran un bundle que cont
 }
 ```
 
-#### Opciones del preprocesador de estilos
+#### Opciones del preprocesador de estilos {#style-preprocessor-options}
 
 En Sass, puedes utilizar la función `includePaths` tanto para estilos de componentes como para estilos globales. Esto te permite añadir rutas base adicionales que se verifican al resolver importaciones.
 
@@ -386,7 +417,7 @@ Los archivos en ese directorio, como `src/style-paths/_variables.scss`, pueden i
 ÚTIL: También necesitas añadir cualquier estilo o script al builder `test` si los necesitas para las pruebas unitarias.
 Consulta también [Usar bibliotecas globales en tiempo de ejecución dentro de tu aplicación](tools/libraries/using-libraries#using-runtime-global-libraries-inside-your-app).
 
-### Configuración de optimización
+### Configuración de optimización {#optimization-configuration}
 
 La opción `optimization` puede ser un booleano o un objeto para una configuración más detallada.
 Esta opción habilita varias optimizaciones de la salida de compilación, entre ellas:
@@ -402,10 +433,10 @@ Varias opciones pueden usarse para ajustar con detalle la optimización de una a
 | Opciones  | Detalles                                                              | Tipo de valor                                                                          | Valor predeterminado |
 | :-------- | :-------------------------------------------------------------------- | :------------------------------------------------------------------------------------- | :------------------- |
 | `scripts` | Habilita la optimización de la salida de scripts.                     | `boolean`                                                                              | `true`               |
-| `styles`  | Habilita la optimización de la salida de estilos.                     | `boolean` \| [Opciones de optimización de estilos](#opciones-de-optimización-de-estilos) | `true`             |
-| `fonts`   | Habilita la optimización para fuentes. Requiere acceso a Internet.    | `boolean` \| [Opciones de optimización de fuentes](#opciones-de-optimización-de-fuentes) | `true`             |
+| `styles`  | Habilita la optimización de la salida de estilos.                     | `boolean` \| [Opciones de optimización de estilos](#styles-optimization-options) | `true`             |
+| `fonts`   | Habilita la optimización para fuentes. Requiere acceso a Internet.    | `boolean` \| [Opciones de optimización de fuentes](#fonts-optimization-options) | `true`             |
 
-#### Opciones de optimización de estilos
+#### Opciones de optimización de estilos {#styles-optimization-options}
 
 | Opciones                | Detalles                                                                                                                     | Tipo de valor | Valor predeterminado |
 | :---------------------- | :--------------------------------------------------------------------------------------------------------------------------- | :--------- | :------------------- |
@@ -413,7 +444,7 @@ Varias opciones pueden usarse para ajustar con detalle la optimización de una a
 | `inlineCritical`        | Extrae e inserta en línea las definiciones de CSS crítico para mejorar el [First Contentful Paint](https://web.dev/first-contentful-paint). | `boolean` | `true` |
 | `removeSpecialComments` | Elimina comentarios en el CSS global que contengan `@license` o `@preserve`, o que comiencen con `//!` o `/*!`.              | `boolean`  | `true`               |
 
-#### Opciones de optimización de fuentes
+#### Opciones de optimización de fuentes {#fonts-optimization-options}
 
 | Opciones  | Detalles                                                                                                                                                                                                                  | Tipo de valor | Valor predeterminado |
 | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- | :------------------- |
@@ -440,7 +471,7 @@ Puedes proporcionar un valor como el siguiente para aplicar optimización a uno 
 }
 ```
 
-### Configuración de source maps
+### Configuración de source maps {#source-map-configuration}
 
 La opción `sourceMap` del builder puede ser un booleano o un objeto para una configuración más detallada que controla los source maps de una aplicación.
 
@@ -480,7 +511,7 @@ El siguiente ejemplo muestra cómo alternar uno o más valores para configurar l
 Son útiles si solo quieres que los source maps mapeen los stack traces en herramientas de reporte de errores sin que aparezcan en las herramientas para desarrolladores del navegador.
 Ten en cuenta que, aunque `hidden` evita que el source map se enlace en el bundle de salida, tu proceso de despliegue debe asegurarse de no servir los source maps generados en producción, de lo contrario la información igualmente queda expuesta.
 
-#### Source maps sin contenido de fuentes
+#### Source maps sin contenido de fuentes {#source-maps-without-sources-content}
 
 Puedes generar source maps sin el campo `sourcesContent`, que contiene el código fuente original.
 Esto te permite desplegar source maps en producción para mejorar el reporte de errores con nombres de fuentes originales, mientras proteges tu código fuente de quedar expuesto.
@@ -508,7 +539,7 @@ Para excluir el contenido de fuentes de los source maps, establece la opción `s
 }
 ```
 
-### Configuración de index
+### Configuración de index {#index-configuration}
 
 Configura la generación del HTML index de la aplicación.
 
@@ -516,14 +547,14 @@ La opción `index` puede ser una cadena o un objeto para una configuración más
 
 Al proporcionar el valor como cadena, el nombre del archivo de la ruta especificada se usará para el archivo generado y se creará en la raíz de la ruta de salida configurada de la aplicación.
 
-#### Opciones de index
+#### Opciones de index {#index-options}
 
 | Opciones  | Detalles                                                                                                                                                                                    | Tipo de valor | Valor predeterminado |
 | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- | :------------------- |
 | `input`  | La ruta del archivo a usar para el HTML index generado de la aplicación.                                                                                                                    | `string`   | Ninguno (requerido)  |
 | `output` | La ruta de salida del archivo HTML index generado de la aplicación. Se usará la ruta completa proporcionada y se considerará relativa a la ruta de salida configurada de la aplicación.     | `string`   | `index.html`         |
 
-### Configuración de la ruta de salida
+### Configuración de la ruta de salida {#output-path-configuration}
 
 La opción `outputPath` puede ser una cadena que se usará como valor de `base`, o un objeto para una configuración más detallada.
 

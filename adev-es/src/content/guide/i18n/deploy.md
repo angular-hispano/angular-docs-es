@@ -11,7 +11,7 @@ El siguiente ejemplo muestra `"subPath"` establecido como una cadena vacía.
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="i18n-subPath"/>
 
-## Configurar un servidor
+## Configurar un servidor {#configure-a-server}
 
 El despliegue típico de múltiples idiomas sirve cada idioma desde un subdirectorio diferente.
 Los usuarios son redirigidos al idioma preferido definido en el navegador usando el encabezado HTTP `Accept-Language`.
@@ -23,13 +23,13 @@ Para más información sobre cómo desplegar aplicaciones a un servidor remoto, 
 
 IMPORTANTE: Si estás usando [Renderizado del servidor](guide/ssr) con `outputMode` establecido en `server`, Angular maneja automáticamente la redirección dinámicamente basándose en el encabezado HTTP `Accept-Language`. Esto simplifica el despliegue al eliminar la necesidad de ajustes manuales del servidor o configuración.
 
-### Ejemplo de Nginx
+### Ejemplo de Nginx {#nginx-example}
 
 El siguiente ejemplo muestra una configuración de Nginx.
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/nginx.conf" language="nginx"/>
 
-### Ejemplo de Apache
+### Ejemplo de Apache {#apache-example}
 
 El siguiente ejemplo muestra una configuración de Apache.
 

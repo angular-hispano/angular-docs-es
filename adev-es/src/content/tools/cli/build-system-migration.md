@@ -15,19 +15,19 @@ Si usas un builder personalizado, por favor refiere a la documentación para ese
 IMPORTANTE: El sistema de construcción existente basado en webpack todavía se considera estable y completamente soportado.
 Las aplicaciones pueden continuar usando el builder `browser` y los proyectos pueden optar por no migrar durante una actualización.
 
-## Para aplicaciones nuevas
+## Para aplicaciones nuevas {#for-new-applications}
 
 Las aplicaciones nuevas usarán este nuevo sistema de construcción por defecto a través del builder `application`.
 
-## Para aplicaciones existentes
+## Para aplicaciones existentes {#for-existing-applications}
 
 Tanto procedimientos automatizados como manuales están disponibles dependiendo de los requisitos del proyecto.
 Comenzando con v18, el proceso de actualización preguntará si te gustaría migrar aplicaciones existentes para usar el nuevo sistema de construcción a través de la migración automatizada.
-Antes de migrar, por favor considera revisar la sección [Problemas Conocidos](#problemas-conocidos) ya que puede contener información relevante para tu proyecto.
+Antes de migrar, por favor considera revisar la sección [Problemas Conocidos](#known-issues) ya que puede contener información relevante para tu proyecto.
 
 CONSEJO: Recuerda eliminar cualquier suposición CommonJS en el código del servidor de aplicación si usas SSR como `require`, `__filename`, `__dirname`, u otras construcciones del [ámbito de módulo CommonJS](https://nodejs.org/api/modules.html#the-module-scope). Todo el código de aplicación debería ser compatible con ESM. Esto no aplica a dependencias de terceros.
 
-### Migración automatizada (Recomendado)
+### Migración automatizada (Recomendado) {#automated-migration-recommended}
 
 La migración automatizada ajustará tanto la configuración de la aplicación dentro de `angular.json` como código y hojas de estilo para eliminar el uso de características específicas de webpack previas.
 Mientras muchos cambios pueden ser automatizados y la mayoría de las aplicaciones no requerirán cambios adicionales, cada aplicación es única y puede haber algunos cambios manuales requeridos.
@@ -47,12 +47,12 @@ La migración hace lo siguiente:
 - Convierte el objetivo existente `browser` o `browser-esbuild` a `application`
 - Elimina cualquier builder SSR previo (porque `application` hace eso ahora).
 - Actualiza la configuración correspondientemente.
-- Fusiona `tsconfig.server.json` con `tsconfig.app.json` y agrega la opción TypeScript `"esModuleInterop": true` para asegurar que las importaciones `express` sean [conformes con ESM](#importaciones-predeterminadas-esm-vs-importaciones-de-espacio-de-nombres).
+- Fusiona `tsconfig.server.json` con `tsconfig.app.json` y agrega la opción TypeScript `"esModuleInterop": true` para asegurar que las importaciones `express` sean [conformes con ESM](#esm-default-imports-vs-namespace-imports).
 - Actualiza el código del servidor de aplicación para usar la nueva estructura de directorio de salida y bootstrapping.
 - Elimina cualquier uso de hoja de estilo del builder específico de webpack como la tilde o caret en `@import`/`url()` y actualiza la configuración para proporcionar comportamiento equivalente
 - Convierte para usar el nuevo paquete Node.js `@angular/build` de menor dependencia si no se encuentra otro uso de `@angular-devkit/build-angular`.
 
-### Migración manual
+### Migración manual {#manual-migration}
 
 Adicionalmente para proyectos existentes, puedes optar manualmente por usar el nuevo builder en una base por aplicación con dos opciones diferentes.
 Ambas opciones se consideran estables y completamente soportadas por el equipo de Angular.
@@ -66,7 +66,7 @@ El builder `application` generalmente es preferido ya que mejora las construccio
 Sin embargo requiere un poco más de esfuerzo de migración, particularmente para aplicaciones SSR existentes si se realiza manualmente.
 Si el builder `application` es difícil de adoptar para tu proyecto, `browser-esbuild` puede ser una solución más fácil que da la mayoría de los beneficios de rendimiento de construcción con menos cambios disruptivos.
 
-#### Migración manual al builder de compatibilidad
+#### Migración manual al builder de compatibilidad {#manual-migration-to-the-compatibility-builder}
 
 Un builder llamado `browser-esbuild` está disponible dentro del paquete `@angular-devkit/build-angular` que está presente en una aplicación generada por Angular CLI.
 Puedes probar el nuevo sistema de construcción para aplicaciones que usan el builder `browser`.
@@ -96,7 +96,7 @@ Cambiar el campo `builder` es el único cambio que necesitarás hacer.
 ...
 ```
 
-#### Migración manual al nuevo builder `application`
+#### Migración manual al nuevo builder `application` {#manual-migration-to-the-new-application-builder}
 
 Un builder llamado `application` también está disponible dentro del paquete `@angular-devkit/build-angular` que está presente en una aplicación generada por Angular CLI.
 Este builder es el predeterminado para todas las aplicaciones nuevas creadas a través de `ng new`.
@@ -130,7 +130,7 @@ La siguiente lista discute todas las opciones del builder `browser` que necesita
 - `resourcesOutputPath` debería ser eliminado, esto ahora es siempre `media`.
 - `vendorChunk` debería ser eliminado, ya que esto fue una optimización de rendimiento que ya no es necesaria.
 - `commonChunk` debería ser eliminado, ya que esto fue una optimización de rendimiento que ya no es necesaria.
-- `deployUrl` debería ser eliminado y no es soportado. Prefiere [`<base href>`](guide/routing/common-router-tasks) en su lugar. Consulta la [documentación de despliegue](tools/cli/deployment#--deploy-url) para más información.
+- `deployUrl` debería ser eliminado y no es soportado. Prefiere [`<base href>`](guide/routing/router-reference#base-href) en su lugar. Consulta la [documentación de despliegue](tools/cli/deployment#--deploy-url) para más información.
 - `ngswConfigPath` debería ser renombrado a `serviceWorker`.
 
 Si la aplicación no está usando SSR actualmente, este debería ser el paso final para permitir que `ng build` funcione.
@@ -153,7 +153,7 @@ El proceso `ng update` automáticamente eliminará usos de los paquetes del scop
 El nuevo paquete `@angular/ssr` también será agregado y usado automáticamente con configuración y código siendo ajustado durante la actualización.
 El paquete `@angular/ssr` soporta el builder `browser` así como el builder `application`.
 
-## Ejecutando una construcción
+## Ejecutando una construcción {#executing-a-build}
 
 Una vez que hayas actualizado la configuración de la aplicación, las construcciones se pueden realizar usando `ng build` como se hacía previamente.
 Dependiendo de la elección de migración de builder, algunas de las opciones de línea de comandos pueden ser diferentes.
@@ -166,7 +166,7 @@ ng build
 
 ```
 
-## Iniciando el servidor de desarrollo
+## Iniciando el servidor de desarrollo {#starting-the-development-server}
 
 El servidor de desarrollo detectará automáticamente el nuevo sistema de construcción y lo usará para construir la aplicación.
 Para iniciar el servidor de desarrollo no son necesarios cambios a la configuración del builder `dev-server` o línea de comandos.
@@ -206,7 +206,7 @@ ng serve --no-hmr
 
 ```
 
-### Vite como servidor de desarrollo
+### Vite como servidor de desarrollo {#vite-as-a-development-server}
 
 El uso de Vite en el Angular CLI está actualmente dentro de una _capacidad de servidor de desarrollo solo_. Incluso sin usar el sistema de construcción Vite subyacente, Vite proporciona un servidor de desarrollo completo con soporte del lado del cliente que ha sido empaquetado en un paquete npm de baja dependencia. Esto lo hace un candidato ideal para proporcionar funcionalidad de servidor de desarrollo completa. El proceso actual del servidor de desarrollo usa el nuevo sistema de construcción para generar una construcción de desarrollo de la aplicación en memoria y pasa los resultados a Vite para servir la aplicación. El uso de Vite, como el servidor de desarrollo basado en Webpack, está encapsulado dentro del builder `dev-server` del Angular CLI y actualmente no puede ser configurado directamente.
 
@@ -219,7 +219,7 @@ Este proceso elimina la necesidad de reconstruir y empaquetar las dependencias d
 
 En la mayoría de los casos, no se requiere personalización adicional. Sin embargo, algunas situaciones donde puede ser necesaria incluyen:
 
-- Personalizar el comportamiento del loader para importaciones dentro de la dependencia como la [opción `loader`](#personalización-del-loader-de-extensión-de-archivo)
+- Personalizar el comportamiento del loader para importaciones dentro de la dependencia como la [opción `loader`](#file-extension-loader-customization)
 - Enlazar simbólicamente una dependencia a código local para desarrollo como [`npm link`](https://docs.npmjs.com/cli/v10/commands/npm-link)
 - Resolver un error encontrado durante el prebundling de una dependencia
 
@@ -248,7 +248,7 @@ Sin embargo, excluir dependencias específicas es recomendado en su lugar ya que
       },
 ```
 
-## Nuevas características
+## Nuevas características {#new-features}
 
 Uno de los principales beneficios del sistema de construcción de aplicaciones es la velocidad mejorada de construcción y reconstrucción.
 Sin embargo, el nuevo sistema de construcción de aplicaciones también proporciona características adicionales no presentes en el builder `browser`.
@@ -258,7 +258,7 @@ Los usuarios pueden optar por usar el builder `application` estableciendo la opc
 Esta opción está actualmente en vista previa de desarrollador.
 Si notas algún problema, por favor repórtalos [aquí](https://github.com/angular/angular-cli/issues).
 
-### Reemplazo de valor en tiempo de construcción con `define`
+### Reemplazo de valor en tiempo de construcción con `define` {#build-time-value-replacement-with-define}
 
 La opción `define` permite que identificadores presentes en el código sean reemplazados con otro valor en tiempo de construcción.
 Esto es similar al comportamiento del `DefinePlugin` de Webpack que fue previamente usado con algunas configuraciones personalizadas de Webpack que usaban builders de terceros.
@@ -322,7 +322,7 @@ Si la configuración de TypeScript para el proyecto ha sido alterada, puede nece
 
 IMPORTANTE: Esta opción no reemplazará identificadores contenidos dentro de metadata de Angular como un decorador Component o Directive.
 
-### Personalización del loader de extensión de archivo
+### Personalización del loader de extensión de archivo {#file-extension-loader-customization}
 
 IMPORTANTE: Esta característica solo está disponible con el builder `application`.
 
@@ -378,12 +378,12 @@ declare module "*.svg" {
 
 La configuración predeterminada del proyecto ya está configurada para usar cualquier archivo de definición de tipo (archivos `.d.ts`) presente en los directorios de código fuente del proyecto. Si la configuración de TypeScript para el proyecto ha sido alterada, el tsconfig puede necesitar ser ajustado para referenciar este archivo de definición de tipo recién agregado.
 
-### Personalización del loader de atributo de importación
+### Personalización del loader de atributo de importación {#import-attribute-loader-customization}
 
 Para casos donde solo ciertos archivos deberían ser cargados de una manera específica, el control por archivo sobre el comportamiento de carga está disponible.
 Esto se logra con un [atributo de importación](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import/with) `loader` que puede ser usado tanto con declaraciones de importación como expresiones.
 La presencia del atributo de importación tiene precedencia sobre todo otro comportamiento de carga incluyendo JS/TS y cualquier valor de opción de construcción `loader`.
-Para carga general para todos los archivos de un tipo de archivo no soportado de otra manera, la opción de construcción [`loader`](#personalización-del-loader-de-extensión-de-archivo) es recomendada.
+Para carga general para todos los archivos de un tipo de archivo no soportado de otra manera, la opción de construcción [`loader`](#file-extension-loader-customization) es recomendada.
 
 Para el atributo de importación, los siguientes valores de loader son soportados:
 
@@ -448,7 +448,7 @@ Para construcciones de producción como se muestra en los comentarios de código
 
 CONSEJO: Al usar el servidor de desarrollo y usar un atributo `loader` para importar un archivo de un paquete Node.js, ese paquete debe ser excluido del prebundling a través de la opción `prebundle` del servidor de desarrollo.
 
-### Condiciones de importación/exportación
+### Condiciones de importación/exportación {#importexport-conditions}
 
 Los proyectos pueden necesitar mapear ciertas rutas de importación a archivos diferentes basados en el tipo de construcción.
 Esto puede ser particularmente útil para casos como `ng serve` necesitando usar código específico de depuración/desarrollo pero `ng build` necesitando usar código sin características/información de desarrollo.
@@ -502,17 +502,17 @@ Estas condiciones también aplican a paquetes Node.js y cualquier [`exports`](ht
 
 CONSEJO: Si actualmente estás usando la opción de construcción `fileReplacements`, esta característica puede ser capaz de reemplazar su uso.
 
-## Problemas Conocidos
+## Problemas Conocidos {#known-issues}
 
 Actualmente hay varios problemas conocidos que puedes encontrar al probar el nuevo sistema de construcción. Esta lista será actualizada para mantenerse actual. Si alguno de estos problemas te está bloqueando actualmente de probar el nuevo sistema de construcción, por favor verifica de nuevo en el futuro ya que puede haber sido resuelto.
 
-### Verificación de tipos de código Web Worker y procesamiento de Web Workers anidados
+### Verificación de tipos de código Web Worker y procesamiento de Web Workers anidados {#type-checking-of-web-worker-code-and-processing-of-nested-web-workers}
 
 Los Web Workers pueden ser usados dentro del código de aplicación usando la misma sintaxis (`new Worker(new URL('<workerfile>', import.meta.url))`) que es soportada con el builder `browser`.
 Sin embargo, el código dentro del Worker no será actualmente verificado por tipo por el compilador TypeScript. El código TypeScript es soportado solo no verificado por tipo.
 Adicionalmente, cualquier worker anidado no será procesado por el sistema de construcción. Un worker anidado es una instanciación de Worker dentro de otro archivo Worker.
 
-### Importaciones predeterminadas ESM vs. importaciones de espacio de nombres
+### Importaciones predeterminadas ESM vs. importaciones de espacio de nombres {#esm-default-imports-vs-namespace-imports}
 
 TypeScript por defecto permite que exportaciones predeterminadas sean importadas como importaciones de espacio de nombres y luego usadas en expresiones de llamada.
 Esto es desafortunadamente una divergencia de la especificación ECMAScript.
@@ -556,7 +556,7 @@ import moment from 'moment';
 console.log(moment().format());
 ```
 
-### Importaciones con efectos secundarios dependientes del orden en módulos lazy
+### Importaciones con efectos secundarios dependientes del orden en módulos lazy {#order-dependent-side-effectful-imports-in-lazy-modules}
 
 Las declaraciones de importación que son dependientes de un orden específico y también son usadas en múltiples módulos lazy pueden causar que declaraciones de nivel superior se ejecuten fuera de orden.
 Esto no es común ya que depende del uso de módulos con efectos secundarios y no aplica a la opción `polyfills`.
@@ -564,12 +564,12 @@ Esto es causado por un [defecto](https://github.com/evanw/esbuild/issues/399) en
 
 IMPORTANTE: Evitar el uso de módulos con efectos secundarios no locales (fuera de polyfills) es recomendado siempre que sea posible independientemente del sistema de construcción siendo usado y evita este problema particular. Los módulos con efectos secundarios no locales pueden tener un efecto negativo tanto en el tamaño de la aplicación como en el rendimiento en tiempo de ejecución también.
 
-### Cambios de ubicación de salida 
+### Cambios de ubicación de salida  {#output-location-changes}
 
 Por defecto, después de una construcción exitosa por el builder de aplicación, el bundle está ubicado en un directorio `dist/<project-name>/browser` (en lugar de `dist/<project-name>` para el builder browser).
 Esto podría romper algunas de las cadenas de herramientas que dependen de la ubicación anterior. En este caso, puedes [configurar la ruta de salida](reference/configs/workspace-config#output-path-configuration) para adaptarse a tus necesidades.
 
-## Reportes de errores
+## Reportes de errores {#bug-reports}
 
 Reporta problemas y solicitudes de características en [GitHub](https://github.com/angular/angular-cli/issues).
 

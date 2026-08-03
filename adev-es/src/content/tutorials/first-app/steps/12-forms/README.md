@@ -10,7 +10,7 @@ El uso de una API REST para enviar y recibir los datos del formulario no se cubr
 
 IMPORTANTE: Recomendamos usar tu entorno local para este paso del tutorial.
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 - Tu aplicación tiene un formulario en el que los usuarios pueden ingresar datos que se envían al servicio de tu aplicación.
 - El servicio escribe los datos del formulario en el registro de la consola del navegador.

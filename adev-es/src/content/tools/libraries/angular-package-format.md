@@ -10,7 +10,7 @@ Se recomienda que los desarrolladores de librerías de terceros sigan el mismo f
 ÚTIL: APF tiene versiones junto con el resto de Angular, y cada versión mayor mejora el formato de paquete.
 Puedes encontrar las versiones de la especificación anteriores a v13 en este [documento de google](https://docs.google.com/document/d/1CZC2rcpxffTDfRDs6p1cfbmKNLA6x5O-NtkJglDaBVs/preview).
 
-## ¿Por qué especificar un formato de paquete?
+## ¿Por qué especificar un formato de paquete? {#why-specify-a-package-format}
 
 En el panorama actual de JavaScript, los desarrolladores consumen paquetes de muchas maneras diferentes, usando muchos toolchains diferentes \(webpack, Rollup, esbuild, etc.\).
 Estas herramientas pueden entender y requerir diferentes entradas - algunas herramientas pueden procesar la última versión del lenguaje ES, mientras que otras pueden beneficiarse de consumir directamente una versión más antigua de ES.
@@ -20,7 +20,7 @@ El formato de distribución de Angular soporta todas las herramientas de desarro
 Los desarrolladores pueden confiar en Angular CLI y [ng-packagr](https://github.com/ng-packagr/ng-packagr) \(una herramienta de compilación que usa Angular CLI\) para producir paquetes en el formato de paquete Angular.
 Consulta la guía [Creando librerías](tools/libraries/creating-libraries) para más detalles.
 
-## Diseño de archivos
+## Diseño de archivos {#file-layout}
 
 El siguiente ejemplo muestra una versión simplificada del diseño de archivos del paquete `@angular/core`, con una explicación para cada archivo en el paquete.
 
@@ -51,14 +51,14 @@ Esta tabla describe el diseño de archivos bajo `node_modules/@angular/core` ano
 
 El `package.json` principal contiene metadatos importantes del paquete, incluyendo lo siguiente:
 
-- [Declara](#declaración-esm) que el paquete está en formato de módulo EcmaScript \(ESM\)
+- [Declara](#esm-declaration) que el paquete está en formato de módulo EcmaScript \(ESM\)
 - Contiene un campo `"exports"` que define los formatos de código fuente disponibles de todos los puntos de entrada
-- Contiene [claves](#claves-de-resolución-heredadas) que definen los formatos de código fuente disponibles del punto de entrada principal `@angular/core`, para herramientas que no entienden `"exports"`.
+- Contiene [claves](#legacy-resolution-keys) que definen los formatos de código fuente disponibles del punto de entrada principal `@angular/core`, para herramientas que no entienden `"exports"`.
   Estas claves se consideran deprecadas, y podrían eliminarse a medida que el soporte para `"exports"` se implemente en todo el ecosistema.
 
-- Declara si el paquete contiene [efectos secundarios](#efectos-secundarios)
+- Declara si el paquete contiene [efectos secundarios](#side-effects)
 
-### Declaración ESM
+### Declaración ESM {#esm-declaration}
 
 El `package.json` de nivel superior contiene la clave:
 
@@ -105,9 +105,9 @@ Las herramientas que conocen estas claves pueden seleccionar preferentemente un 
 
 Las librerías pueden querer exponer archivos estáticos adicionales que no están capturados por las exportaciones de los puntos de entrada basados en JavaScript, como mixins de Sass o CSS pre-compilado.
 
-Para más información, consulta [Gestionando recursos en una librería](tools/libraries/creating-libraries#gestionando-recursos-en-una-librería).
+Para más información, consulta [Gestionando recursos en una librería](tools/libraries/creating-libraries#managing-assets-in-a-library).
 
-### Claves de resolución heredadas
+### Claves de resolución heredadas {#legacy-resolution-keys}
 
 Además de `"exports"`, el `package.json` de nivel superior también define claves de resolución de módulos heredadas para resolvers que no soportan `"exports"`.
 Para `@angular/core` estas son:
@@ -121,9 +121,9 @@ Para `@angular/core` estas son:
 
 Como se muestra en el fragmento de código anterior, un resolver de módulos puede usar estas claves para cargar un formato de código específico.
 
-### Efectos secundarios
+### Efectos secundarios {#side-effects}
 
-La última función de `package.json` es declarar si el paquete tiene [efectos secundarios](#bandera-sideeffects).
+La última función de `package.json` es declarar si el paquete tiene [efectos secundarios](#sideeffects-flag).
 
 ```js
 {
@@ -133,7 +133,7 @@ La última función de `package.json` es declarar si el paquete tiene [efectos s
 
 La mayoría de los paquetes de Angular no deberían depender de efectos secundarios de nivel superior, y por lo tanto deberían incluir esta declaración.
 
-## Puntos de entrada y división de código
+## Puntos de entrada y división de código {#entrypoints-and-code-splitting}
 
 Los paquetes en el formato de paquete Angular contienen un punto de entrada principal y cero o más puntos de entrada secundarios \(por ejemplo, `@angular/common/http`\).
 Los puntos de entrada sirven para varias funciones.
@@ -158,7 +158,7 @@ No todas las librerías requieren tal granularidad.
 La mayoría de las librerías con un único propósito lógico deberían publicarse como un único punto de entrada.
 `@angular/core` por ejemplo usa un único punto de entrada para el runtime, porque el runtime de Angular generalmente se usa como una sola entidad.
 
-### Resolución de puntos de entrada secundarios
+### Resolución de puntos de entrada secundarios {#resolution-of-secondary-entry-points}
 
 Los puntos de entrada secundarios pueden resolverse a través del campo `"exports"` del `package.json` para el paquete.
 
@@ -179,7 +179,7 @@ License: MIT
 
 ```
 
-## Compilación parcial
+## Compilación parcial {#partial-compilation}
 
 Las librerías en el formato de paquete Angular deben publicarse en modo "compilación parcial".
 Este es un modo de compilación para `ngc` que produce código Angular compilado que no está vinculado a una versión específica del runtime de Angular, en contraste con la compilación completa usada para aplicaciones, donde las versiones del compilador y runtime de Angular deben coincidir exactamente.
@@ -197,11 +197,11 @@ Para compilar parcialmente código Angular, usa la bandera `compilationMode` en 
 
 El código de librería compilado parcialmente se convierte luego a código completamente compilado durante el proceso de compilación de la aplicación por el Angular CLI.
 
-Si tu pipeline de compilación no usa el Angular CLI, consulta la guía [Consumiendo código partial ivy fuera del Angular CLI](tools/libraries/creating-libraries#consumiendo-código-partial-ivy-fuera-del-angular-cli).
+Si tu pipeline de compilación no usa el Angular CLI, consulta la guía [Consumiendo código partial ivy fuera del Angular CLI](tools/libraries/creating-libraries#consuming-partial-ivy-code-outside-the-angular-cli).
 
-## Optimizaciones
+## Optimizaciones {#optimizations}
 
-### Aplanamiento de módulos ES
+### Aplanamiento de módulos ES {#flattening-of-es-modules}
 
 El formato de paquete Angular especifica que el código se publique en formato de módulo ES "aplanado".
 Esto reduce significativamente el tiempo de compilación de aplicaciones de Angular así como el tiempo de descarga y análisis del bundle final de la aplicación.
@@ -236,7 +236,7 @@ Para generar un archivo índice de módulo ES aplanado, usa las siguientes opcio
 
 Una vez que el archivo índice \(por ejemplo, `my-ui-lib.js`\) es generado por ngc, bundlers y optimizadores como Rollup pueden usarse para producir el archivo ESM aplanado.
 
-### Bandera "sideEffects"
+### Bandera "sideEffects" {#sideeffects-flag}
 
 Por defecto, los módulos EcmaScript tienen efectos secundarios: importar desde un módulo asegura que cualquier código en el nivel superior de ese módulo debería ejecutarse.
 Esto es a menudo indeseable, ya que la mayoría del código con efectos secundarios en módulos típicos no es verdaderamente con efectos secundarios, sino que solo afecta símbolos específicos.
@@ -249,12 +249,12 @@ La recomendación es que todos los paquetes reclamen el estado libre de efectos 
 
 Más información: [documentación de webpack sobre efectos secundarios](https://github.com/webpack/webpack/tree/master/examples/side-effects)
 
-### Nivel de lenguaje ES2022
+### Nivel de lenguaje ES2022 {#es2022-language-level}
 
 ES2022 es ahora el nivel de lenguaje predeterminado que es consumido por Angular CLI y otras herramientas.
 El Angular CLI reduce el nivel del bundle a un nivel de lenguaje que es soportado por todos los navegadores objetivo en tiempo de compilación de la aplicación.
 
-### Empaquetado de d.ts / aplanamiento de definiciones de tipo
+### Empaquetado de d.ts / aplanamiento de definiciones de tipo {#dts-bundling--type-definition-flattening}
 
 A partir de APF v8, se recomienda empaquetar definiciones de TypeScript.
 El empaquetado de definiciones de tipo puede acelerar significativamente las compilaciones para los usuarios, especialmente si hay muchos archivos fuente `.ts` individuales en tu librería.
@@ -270,29 +270,29 @@ Esto es deseable y evita duplicación de tipos.
 A partir de APF v10, se recomienda agregar tslib como una dependencia directa de tu punto de entrada principal.
 Esto es porque la versión de tslib está vinculada a la versión de TypeScript usada para compilar tu librería.
 
-## Ejemplos
+## Ejemplos {#examples}
 
 <docs-pill-row>
   <docs-pill href="https://unpkg.com/browse/@angular/core@17.0.0/" title="@angular/core package"/>
   <docs-pill href="https://unpkg.com/browse/@angular/material@17.0.0/" title="@angular/material package"/>
 </docs-pill-row>
 
-## Definición de términos
+## Definición de términos {#definition-of-terms}
 
 Los siguientes términos se usan a lo largo de este documento intencionalmente.
 En esta sección están las definiciones de todos ellos para proporcionar claridad adicional.
 
-### Paquete
+### Paquete {#package}
 
 El conjunto más pequeño de archivos que se publican en NPM y se instalan juntos, por ejemplo `@angular/core`.
 Este paquete incluye un manifiesto llamado package.json, código fuente compilado, archivos de definición de TypeScript, mapas de código fuente, metadatos, etc.
 El paquete se instala con `npm install @angular/core`.
 
-### Símbolo
+### Símbolo {#symbol}
 
 Una clase, función, constante o variable contenida en un módulo y opcionalmente hecha visible al mundo externo a través de una exportación de módulo.
 
-### Módulo
+### Módulo {#module}
 
 Abreviatura de módulos EcmaScript.
 Un archivo que contiene declaraciones que importan y exportan símbolos.
@@ -306,21 +306,21 @@ Abreviatura de módulos EcmaScript \(ver arriba\).
 
 Abreviatura de módulos ES aplanados y consiste en un formato de archivo creado aplanando todos los módulos ES accesibles desde un punto de entrada en un único módulo ES.
 
-### ID de módulo
+### ID de módulo {#module-id}
 
 El identificador de un módulo usado en las declaraciones de importación \(por ejemplo, `@angular/core`\).
 El ID a menudo mapea directamente a una ruta en el sistema de archivos, pero esto no siempre es el caso debido a varias estrategias de resolución de módulos.
 
-### Especificador de módulo
+### Especificador de módulo {#module-specifier}
 
 Un identificador de módulo \(ver arriba\).
 
-### Estrategia de resolución de módulos
+### Estrategia de resolución de módulos {#module-resolution-strategy}
 
 Algoritmo usado para convertir IDs de módulo a rutas en el sistema de archivos.
 Node.js tiene uno que está bien especificado y ampliamente usado, TypeScript soporta varias estrategias de resolución de módulos, [Closure Compiler](https://developers.google.com/closure/compiler) tiene otra estrategia diferente.
 
-### Formato de módulo
+### Formato de módulo {#module-format}
 
 Especificación de la sintaxis del módulo que cubre como mínimo la sintaxis para importar y exportar desde un archivo.
 Formatos de módulo comunes son CommonJS \(CJS, típicamente usado para aplicaciones Node.js\) o módulos EcmaScript \(ESM\).
@@ -334,12 +334,12 @@ Los bundles son una solución alternativa específica del navegador que reduce l
 Node.js típicamente no usa bundles.
 Formatos de bundle comunes son UMD y System.register.
 
-### Nivel de lenguaje
+### Nivel de lenguaje {#language-level}
 
 El lenguaje del código \(ES2022\).
 Independiente del formato de módulo.
 
-### Punto de entrada
+### Punto de entrada {#entry-point}
 
 Un módulo destinado a ser importado por el usuario.
 Se referencia por un ID de módulo único y exporta la API pública referenciada por ese ID de módulo.
@@ -347,12 +347,12 @@ Un ejemplo es `@angular/core` o `@angular/core/testing`.
 Ambos puntos de entrada existen en el paquete `@angular/core`, pero exportan diferentes símbolos.
 Un paquete puede tener muchos puntos de entrada.
 
-### Importación profunda
+### Importación profunda {#deep-import}
 
 Un proceso de recuperar símbolos de módulos que no son puntos de entrada.
 Estos IDs de módulo generalmente se consideran APIs privadas que pueden cambiar durante la vida del proyecto o mientras se crea el bundle para el paquete dado.
 
-### Importación de nivel superior
+### Importación de nivel superior {#top-level-import}
 
 Una importación proveniente de un punto de entrada.
 Las importaciones de nivel superior disponibles son las que definen la API pública y están expuestas en módulos "@angular/name", como `@angular/core` o `@angular/common`.
@@ -362,10 +362,10 @@ Las importaciones de nivel superior disponibles son las que definen la API públ
 El proceso de identificar y eliminar código no usado por una aplicación - también conocido como eliminación de código muerto.
 Esta es una optimización global realizada a nivel de aplicación usando herramientas como [Rollup](https://rollupjs.org), [Closure Compiler](https://developers.google.com/closure/compiler), o [Terser](https://github.com/terser/terser).
 
-### Compilador AOT
+### Compilador AOT {#aot-compiler}
 
 El compilador Ahead of Time para Angular.
 
-### Definiciones de tipo aplanadas
+### Definiciones de tipo aplanadas {#flattened-type-definitions}
 
-Las definiciones de TypeScript empaquetadas generadas desde [API Extractor](https://api-extractor.com).
+Las definiciones de TypeScript empaquetadas generadas usando herramientas como [API Extractor](https://api-extractor.com) o [rollup-plugin-dts](https://github.com/Swatinem/rollup-plugin-dts).

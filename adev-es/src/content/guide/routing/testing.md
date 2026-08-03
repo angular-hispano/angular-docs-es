@@ -2,7 +2,7 @@
 
 Probar enrutamiento y navegación es esencial para asegurar que tu aplicación se comporte correctamente cuando los usuarios navegan entre diferentes rutas. Esta guía cubre varias estrategias para probar funcionalidad de enrutamiento en aplicaciones Angular.
 
-## Prerrequisitos
+## Prerrequisitos {#prerequisites}
 
 Esta guía asume que estás familiarizado con las siguientes herramientas y librerías:
 
@@ -11,9 +11,9 @@ Esta guía asume que estás familiarizado con las siguientes herramientas y libr
 - **[Angular Testing Utilities](guide/testing)** - Herramientas de prueba integradas de Angular ([`TestBed`](api/core/testing/TestBed), [`ComponentFixture`](api/core/testing/ComponentFixture))
 - **[`RouterTestingHarness`](api/router/testing/RouterTestingHarness)** - Test harness para probar componentes enrutados con capacidades integradas de navegación y prueba de componentes
 
-## Escenarios de prueba
+## Escenarios de prueba {#testing-scenarios}
 
-### Parámetros de ruta
+### Parámetros de ruta {#route-parameters}
 
 Los componentes a menudo dependen de parámetros de ruta de la URL para obtener datos, como un ID de usuario para una página de perfil.
 
@@ -60,7 +60,7 @@ export class UserProfile {
 }
 ```
 
-### Guards de ruta
+### Guards de ruta {#route-guards}
 
 Los guards de ruta controlan el acceso a rutas basándose en condiciones como autenticación o permisos. Al probar guards, concéntrate en simular dependencias y verificar resultados de navegación.
 
@@ -204,7 +204,7 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 export class App {}
 ```
 
-### Rutas anidadas
+### Rutas anidadas {#nested-routes}
 
 Probar rutas anidadas asegura que tanto los componentes padre como hijo se renderizan correctamente al navegar a URLs anidadas. Esto es importante porque las rutas anidadas involucran múltiples capas.
 
@@ -274,7 +274,7 @@ export class Parent {}
 export class Child {}
 ```
 
-### Parámetros de consulta y fragmentos
+### Parámetros de consulta y fragmentos {#query-parameters-and-fragments}
 
 Los parámetros de consulta (como `?search=angular&category=web`) y fragmentos de URL (como `#section1`) proporcionan datos adicionales a través de la URL que no afecta qué componente se carga, pero sí afecta cómo se comporta el componente. Los componentes que leen parámetros de consulta a través de [`ActivatedRoute.queryParams`](api/router/ActivatedRoute#queryParams) necesitan ser probados para asegurar que manejan diferentes escenarios de parámetros correctamente.
 
@@ -331,7 +331,7 @@ export class Search {
 }
 ```
 
-## Mejores prácticas para pruebas del router
+## Mejores prácticas para pruebas del router {#best-practices-for-router-testing}
 
 1. **Usa RouterTestingHarness** - Para probar componentes enrutados, usa [`RouterTestingHarness`](api/router/testing/RouterTestingHarness) que proporciona una API más limpia y elimina la necesidad de componentes host de prueba. Ofrece acceso directo a componentes, navegación integrada y mejor seguridad de tipos. Sin embargo, no es tan adecuado para algunos escenarios, como probar outlets nombrados, donde podrías necesitar crear componentes host personalizados.
 2. **Maneja dependencias externas con cuidado** - Prefiere implementaciones reales cuando sea posible para pruebas más realistas. Si las implementaciones reales no son factibles (por ejemplo, APIs externas), usa fakes que aproximen el comportamiento real. Usa mocks o stubs solo como último recurso, ya que pueden hacer que las pruebas sean frágiles y menos confiables.

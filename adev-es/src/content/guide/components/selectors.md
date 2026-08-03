@@ -34,7 +34,7 @@ solo elemento, Angular genera un error.
 
 **Los selectores de componente distinguen entre mayúsculas y minúsculas.**
 
-## Tipos de selectores
+## Tipos de selectores {#types-of-selectors}
 
 Angular soporta un subconjunto limitado
 de [tipos de selectores CSS básicos](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) en
@@ -56,7 +56,7 @@ o [combinador hijo](https://developer.mozilla.org/es/docs/Web/CSS/Child_combinat
 Los selectores de componente de Angular no soportan
 especificar [espacios de nombres](https://developer.mozilla.org/docs/Web/SVG/Namespaces_Crash_Course).
 
-### La pseudo-clase `:not`
+### La pseudo-clase `:not` {#the-not-pseudo-class}
 
 Angular soporta [la pseudo-clase `:not`](https://developer.mozilla.org/es/docs/Web/CSS/:not).
 Puedes agregar esta pseudo-clase a cualquier otro selector para reducir qué elementos coincide
@@ -73,7 +73,7 @@ export class DropZone { }
 
 Angular no soporta ninguna otra pseudo-clase o pseudo-elemento en selectores de componente.
 
-### Combinando selectores
+### Combinando selectores {#combining-selectors}
 
 Puedes combinar múltiples selectores concatenándolos. Por ejemplo, puedes hacer coincidir elementos `<button>`
 que especifiquen `type="reset"`:
@@ -98,7 +98,7 @@ export class DropZone { }
 
 Angular crea un componente para cada elemento que coincide con _cualquiera_ de los selectores en la lista.
 
-## Eligiendo un selector
+## Eligiendo un selector {#choosing-a-selector}
 
 La gran mayoría de componentes deberían usar un nombre de elemento personalizado como su selector. Todos los nombres de
 elementos personalizados deberían incluir un guión como se describe
@@ -110,7 +110,7 @@ Ver [Configuración avanzada de componentes](guide/components/advanced-configura
 usar [elementos personalizados nativos](https://developer.mozilla.org/es/docs/Web/API/Web_components) en
 plantillas de Angular.
 
-### Prefijos de selectores
+### Prefijos de selectores {#selector-prefixes}
 
 El equipo de Angular recomienda usar un prefijo corto y consistente para todos los componentes personalizados
 definidos dentro de tu proyecto. Por ejemplo, si fueras a construir YouTube con Angular, podrías
@@ -120,7 +120,7 @@ defecto, el Angular CLI usa `app-`.
 
 IMPORTANTE: Angular usa el prefijo de selector `ng` para sus propias APIs del framework. Nunca uses `ng` como prefijo de selector para tus propios componentes personalizados.
 
-### Cuándo usar un selector de atributo
+### Cuándo usar un selector de atributo {#when-to-use-an-attribute-selector}
 
 Deberías considerar un selector de atributo cuando quieras crear un componente en un elemento nativo estándar.
 Por ejemplo, si quieres crear un componente de botón personalizado, puedes aprovechar el
@@ -140,7 +140,7 @@ sin trabajo adicional. Esto es especialmente valioso para atributos ARIA como `a
 Angular no genera errores cuando encuentra atributos personalizados que no coinciden con un componente
 disponible. Al usar componentes con selectores de atributo, los consumidores pueden olvidar importar el
 componente o su NgModule, resultando en que el componente no se renderice.
-Ver [Importando y usando componentes](guide/components/importing) para más información.
+Ver [Importando y usando componentes](guide/components#imports-in-the-component-decorator) para más información.
 
 Los componentes que definen selectores de atributo deberían usar atributos en minúsculas y con guiones (dash-case).
 Puedes seguir la misma recomendación de prefijos descrita arriba.

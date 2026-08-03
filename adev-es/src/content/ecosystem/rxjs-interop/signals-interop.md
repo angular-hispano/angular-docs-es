@@ -2,7 +2,7 @@
 
 El paquete `@angular/core/rxjs-interop` ofrece APIs que te ayudan a integrar RxJS y los signals de Angular.
 
-## Crea un signal a partir de un Observable de RxJS con `toSignal`
+## Crea un signal a partir de un Observable de RxJS con `toSignal` {#create-a-signal-from-an-rxjs-observable-with-tosignal}
 
 Usa la función `toSignal` para crear un signal que rastrea el valor de un Observable. Se comporta de forma similar al pipe `async` en las plantillas, pero es más flexible y puede utilizarse en cualquier parte de la aplicación.
 
@@ -27,23 +27,23 @@ Al igual que el pipe `async`, `toSignal` se suscribe al Observable inmediatament
 
 IMPORTANTE: `toSignal` crea una suscripción. Debes evitar llamarlo repetidamente para el mismo Observable y, en su lugar, reutilizar el signal que devuelve.
 
-### Contexto de inyección
+### Contexto de inyección {#injection-context}
 
 De manera predeterminada, `toSignal` necesita ejecutarse en un [contexto de inyección](guide/di/dependency-injection-context), como durante la construcción de un componente o servicio. Si no hay un contexto de inyección disponible, puedes especificar manualmente el `Injector` que debe utilizar.
 
-### Valores iniciales
+### Valores iniciales {#initial-values}
 
 Es posible que los Observables no produzcan un valor de forma síncrona al suscribirse, pero los signals siempre requieren un valor actual. Hay varias formas de manejar este valor "inicial" de los signals de `toSignal`.
 
-#### La opción `initialValue`
+#### La opción `initialValue` {#the-initialvalue-option}
 
 Como en el ejemplo anterior, puedes especificar una opción `initialValue` con el valor que el signal debe devolver antes de que el Observable emita por primera vez.
 
-#### Valores iniciales `undefined`
+#### Valores iniciales `undefined` {#undefined-initial-values}
 
 Si no proporcionas un `initialValue`, el signal resultante devolverá `undefined` hasta que el Observable emita. Esto es similar al comportamiento del pipe `async`, que devuelve `null`.
 
-#### La opción `requireSync`
+#### La opción `requireSync` {#the-requiresync-option}
 
 Algunos Observables garantizan que emitirán de forma síncrona, por ejemplo, `BehaviorSubject`. En esos casos, puedes especificar la opción `requireSync: true`.
 
@@ -55,7 +55,7 @@ De forma predeterminada, `toSignal` da de baja automáticamente del Observable c
 
 Para reemplazar este comportamiento, puedes pasar la opción `manualCleanup`. Puedes utilizar este ajuste para Observables que se completan de forma natural.
 
-#### Comparación de igualdad personalizada
+#### Comparación de igualdad personalizada {#custom-equality-comparison}
 
 Algunos Observables pueden emitir valores que son **iguales** aunque difieran por referencia o en detalles menores. La opción `equal` te permite definir una **función de igualdad personalizada** para determinar cuándo dos valores consecutivos deben considerarse iguales.
 
@@ -80,13 +80,13 @@ export class EqualExample {
 }
 ```
 
-### Error y finalización
+### Error y finalización {#error-and-completion}
 
 Si un Observable usado en `toSignal` produce un error, dicho error se lanza cuando se lee el signal.
 
 Si un Observable usado en `toSignal` se completa, el signal continúa devolviendo el valor emitido más recientemente antes de completarse.
 
-## Crea un Observable de RxJS a partir de un signal con `toObservable`
+## Crea un Observable de RxJS a partir de un signal con `toObservable` {#create-an-rxjs-observable-from-a-signal-with-toobservable}
 
 Usa la utilidad `toObservable` para crear un `Observable` que rastrea el valor de un signal. El valor del signal se supervisa con un `effect` que emite el valor al Observable cuando cambia.
 
@@ -107,11 +107,11 @@ export class SearchResults {
 
 Cuando el signal `query` cambia, el Observable `query$` emite la consulta más reciente y desencadena una nueva solicitud HTTP.
 
-### Contexto de inyección
+### Contexto de inyección {#injection-context-1}
 
 De forma predeterminada, `toObservable` necesita ejecutarse en un [contexto de inyección](guide/di/dependency-injection-context), como durante la construcción de un componente o servicio. Si no hay un contexto de inyección disponible, puedes especificar manualmente el `Injector` que se debe utilizar.
 
-### Sincronización de `toObservable`
+### Sincronización de `toObservable` {#timing-of-toobservable}
 
 `toObservable` utiliza un effect para rastrear el valor del signal en un `ReplaySubject`. Al suscribirse, el primer valor (si está disponible) puede emitirse de forma síncrona y todos los valores posteriores serán asíncronos.
 
@@ -128,7 +128,7 @@ mySignal.set(3);
 
 Aquí, solo se registrará el último valor (3).
 
-## Usar `rxResource` para datos asíncronos
+## Usar `rxResource` para datos asíncronos {#using-rxresource-for-async-data}
 
 IMPORTANTE: `rxResource` es [experimental](reference/releases#experimental). Está listo para que lo pruebes, pero podría cambiar antes de ser estable.
 

@@ -14,7 +14,7 @@ Esta guía proporciona información para ayudarte a decidir qué tipo de formula
 Introduce los bloques de construcción comunes utilizados por ambos enfoques.
 También resume las diferencias clave entre los dos enfoques y demuestra esas diferencias en el contexto de configuración, flujo de datos y pruebas.
 
-## Eligiendo un enfoque
+## Eligiendo un enfoque {#choosing-an-approach}
 
 Los formularios reactivos y los formularios basados en plantillas procesan y gestionan los datos del formulario de manera diferente. 
 Cada enfoque ofrece distintas ventajas.
@@ -24,37 +24,37 @@ Cada enfoque ofrece distintas ventajas.
 | Formularios reactivos        | Proporcionan acceso directo y explícito al modelo de objeto del formulario subyacente. En comparación con los formularios basados en plantillas, son más robustos: son más escalables, reutilizables y fáciles de probar. Si los formularios son una parte clave de tu aplicación, o si ya estás usando patrones reactivos para construir tu aplicación, utiliza formularios reactivos.                                                                                           |
 | Formularios basados en plantillas | Se basan en directivas en la plantilla para crear y manipular el modelo de objetos subyacente. Son útiles para agregar un formulario simple a una aplicación, como un formulario de suscripción a una lista de correo electrónico. Son sencillos de agregar a una aplicación, pero no escalan tan bien como los formularios reactivos. Si tienes requisitos de formulario muy básicos y una lógica que se puede gestionar únicamente en la plantilla, los formularios basados en plantillas podrían ser una buena opción. |
 
-### Diferencias clave
+### Diferencias clave {#key-differences}
 
 La siguiente tabla resume las diferencias clave entre los formularios reactivos y los basados en plantillas.
 
 |                                                   | Reactivos                             | Basados en plantillas                |
 | :------------------------------------------------ | :----------------------------------- | :------------------------------ |
-| [Configurando el modelo del formulario](#configurando-el-modelo-del-formulario) | Explícita, creada en la clase del componente | Implícita, creada por directivas |
-| [Mutabilidad del modelo de datos](#mutabilidad-del-modelo-de-datos)       | Estructurado e inmutable             | No estructurado y mutable
-| [Flujo de datos](#flujo-de-datos-en-formularios)                  | Síncrono                          | Asíncrono                    |
-| [Validación del formulario](#validación-de-formularios)               | Funciones                            | Directivas                      |
+| [Configurando el modelo del formulario](#setting-up-the-form-model) | Explícita, creada en la clase del componente | Implícita, creada por directivas |
+| [Mutabilidad del modelo de datos](#mutability-of-the-data-model)       | Estructurado e inmutable             | No estructurado y mutable
+| [Flujo de datos](#data-flow-in-forms)                  | Síncrono                          | Asíncrono                    |
+| [Validación del formulario](#form-validation)               | Funciones                            | Directivas                      |
 
-### Escalabilidad
+### Escalabilidad {#scalability}
 
 Si los formularios son una parte central de tu aplicación, la escalabilidad es muy importante. 
 Poder reutilizar los modelos de formulario en varios componentes es crucial.
 
 Los formularios reactivos son más escalables que los formularios basados en plantillas. 
-Proporcionan acceso directo a la API de formularios subyacente y usan [flujo de datos síncrono](#flujo-de-datos-en-formularios-reactivos) entre la vista y el modelo de datos, lo que hace más fácil crear formularios a gran escala.
+Proporcionan acceso directo a la API de formularios subyacente y usan [flujo de datos síncrono](#data-flow-in-reactive-forms) entre la vista y el modelo de datos, lo que hace más fácil crear formularios a gran escala.
 Los formularios reactivos requieren menos configuración para las pruebas, y las pruebas no requieren una comprensión profunda de la detección de cambios para probar correctamente las actualizaciones y validación del formulario.
 
 Los formularios basados en plantillas se centran en escenarios simples y no son tan reutilizables. 
-Abstraen la API de formularios subyacente y usan [flujo de datos asíncrono](#flujo-de-datos-en-formularios-basados-en-plantillas) entre la vista y el modelo de datos.
+Abstraen la API de formularios subyacente y usan [flujo de datos asíncrono](#data-flow-in-template-driven-forms) entre la vista y el modelo de datos.
 La abstracción de los formularios basados en plantillas también afecta las pruebas.
 Las pruebas dependen profundamente de la ejecución manual de la detección de cambios para ejecutarse correctamente y requieren más configuración.
 
-## Configurando el modelo del formulario
+## Configurando el modelo del formulario {#setting-up-the-form-model}
 
 Tanto los formularios reactivos como los basados en plantillas rastrean los cambios de valor entre los elementos de entrada del formulario con los que los usuarios interactúan y los datos del formulario en el modelo de tu componente. 
 Los dos enfoques comparten bloques de construcción subyacentes, pero difieren en cómo creas y gestionas las instancias de control de formulario comunes.
 
-### Clases comunes en ambos tipos de formularios
+### Clases comunes en ambos tipos de formularios {#common-form-foundation-classes}
 
 Tanto los formularios reactivos como los basados en plantillas se construyen sobre las siguientes clases base.
 
@@ -65,7 +65,7 @@ Tanto los formularios reactivos como los basados en plantillas se construyen sob
 | `FormArray`            | Rastrea los mismos valores y estado para un array de controles de formulario.                    |
 | `ControlValueAccessor` | Crea un puente entre las instancias de FormControl de Angular y los elementos DOM incorporados. |
 
-### Configuración en formularios reactivos
+### Configuración en formularios reactivos {#setup-in-reactive-forms}
 
 Con formularios reactivos, defines el modelo de formulario directamente en la clase del componente.
 La directiva `[formControl]` vincula la instancia de `FormControl` explícitamente creada a un elemento de formulario específico en la vista, usando un accessor de valor interno.
@@ -77,7 +77,7 @@ En este ejemplo, el modelo de formulario es la instancia de `FormControl`.
 
 IMPORTANTE: En formularios reactivos, el modelo de formulario es la fuente de la verdad; proporciona el valor y el estado del elemento del formulario en cualquier momento dado, a través de la directiva `[formControl]` en el elemento `<input>`.
 
-### Configuración en formularios basados en plantillas
+### Configuración en formularios basados en plantillas {#setup-in-template-driven-forms}
 
 En formularios basados en plantillas, el modelo de formulario es implícito, en lugar de explícito.
 La directiva `NgModel` crea y gestiona una instancia de `FormControl` para un elemento de formulario dado.
@@ -88,7 +88,7 @@ El siguiente componente implementa el mismo campo de entrada para un control ún
 
 IMPORTANTE: En un formulario basado en plantillas, la fuente de verdad es la plantilla. La directiva `NgModel` gestiona automáticamente la instancia de `FormControl` por ti.
 
-## Flujo de datos en formularios
+## Flujo de datos en formularios {#data-flow-in-forms}
 
 Cuando una aplicación contiene un formulario, Angular debe mantener la vista sincronizada con el modelo del componente y el modelo del componente sincronizado con la vista. 
 A medida que los usuarios cambian valores y hacen selecciones a través de la vista, los nuevos valores deben reflejarse en el modelo de datos. 
@@ -97,7 +97,7 @@ Del mismo modo, cuando la lógica del programa cambia valores en el modelo de da
 Los formularios reactivos y los basados en plantillas difieren en cómo manejan el flujo de datos desde el usuario o desde cambios programáticos. 
 Los siguientes diagramas ilustran ambos tipos de flujo de datos para cada tipo de formulario, utilizando el campo de entrada de color favorito definido anteriormente.
 
-### Flujo de datos en formularios reactivos
+### Flujo de datos en formularios reactivos {#data-flow-in-reactive-forms}
 
 En los formularios reactivos, cada elemento del formulario en la vista está directamente vinculado al modelo del formulario (una instancia de `FormControl`).
 Las actualizaciones de la vista al modelo y del modelo a la vista son sincrónicas y no dependen de cómo se renderiza la UI.
@@ -143,7 +143,7 @@ flowchart TB
     CVA-->|"Actualiza el valor del &lt;input&gt;"|I
 ```
 
-### Flujo de datos en formularios basados en plantillas
+### Flujo de datos en formularios basados en plantillas {#data-flow-in-template-driven-forms}
 
 En los formularios basados en plantillas, cada elemento de formulario está vinculado a una directiva que gestiona el modelo de formulario internamente.
 
@@ -219,7 +219,7 @@ flowchart TB
 
 NOTA: `NgModel` activa una segunda detección de cambios para evitar errores `ExpressionChangedAfterItHasBeenChecked`, porque el cambio de valor se origina en un enlace de entrada.
 
-### Mutabilidad del modelo de datos
+### Mutabilidad del modelo de datos {#mutability-of-the-data-model}
 
 El método de seguimiento de cambios juega un papel en la eficiencia de tu aplicación.
 
@@ -233,7 +233,7 @@ La diferencia se demuestra en los ejemplos anteriores que usan el elemento de en
 - Con formularios reactivos, la **instancia de `FormControl`** siempre devuelve un nuevo valor cuando se actualiza el valor del control
 - Con formularios basados en plantillas, la **propiedad de color favorito** siempre se modifica a su nuevo valor
 
-## Validación de formularios
+## Validación de formularios {#form-validation}
 
 La validación es una parte integral de la gestión de cualquier conjunto de formularios. 
 Ya sea que estés verificando campos obligatorios o consultando una API externa para un nombre de usuario existente, Angular proporciona un conjunto de validadores incorporados, así como la capacidad de crear validadores personalizados.
@@ -245,14 +245,14 @@ Ya sea que estés verificando campos obligatorios o consultando una API externa 
 
 Para más información, consulta [Validación de Formularios](guide/forms/form-validation#validating-input-in-reactive-forms).
 
-## Pruebas
+## Pruebas {#testing}
 
 Las pruebas juegan un papel importante en aplicaciones complejas. 
 Una estrategia de prueba más simple es útil al validar que tus formularios funcionan correctamente. 
 Los formularios reactivos y los basados en plantillas tienen diferentes niveles de dependencia en la representación de la UI para realizar aserciones basadas en los cambios de los controles y campos del formulario. 
 Los siguientes ejemplos demuestran el proceso de probar formularios con formularios reactivos y basados en plantillas.
 
-### Probando formularios reactivos
+### Probando formularios reactivos {#testing-reactive-forms}
 
 Los formularios reactivos proporcionan una estrategia de pruebas relativamente sencilla porque proporcionan acceso síncrono a los modelos de formulario y datos, y pueden probarse sin renderizar la UI.
 En estas pruebas, el estado y los datos se consultan y manipulan a través del control sin interactuar con el ciclo de detección de cambios.
@@ -261,7 +261,7 @@ Las siguientes pruebas usan los componentes de color favorito de ejemplos anteri
 
 <!--todo: make consistent with other topics -->
 
-#### Verificando flujo de datos de vista a modelo
+#### Verificando flujo de datos de vista a modelo {#verifying-view-to-model-data-flow}
 
 El primer ejemplo realiza los siguientes pasos para verificar el flujo de datos de vista a modelo.
 
@@ -279,7 +279,7 @@ El siguiente ejemplo realiza los siguientes pasos para verificar el flujo de dat
 
 <docs-code header="Prueba de color favorito - vista a modelo" path="adev/src/content/examples/forms-overview/src/app/reactive/favorite-color/favorite-color.component.spec.ts" visibleRegion="model-to-view"/>
 
-### Probando formularios basados en plantillas
+### Probando formularios basados en plantillas {#testing-template-driven-forms}
 
 Escribir pruebas con formularios basados en plantillas requiere un conocimiento detallado del proceso de detección de cambios y una comprensión de cómo las directivas se ejecutan en cada ciclo para asegurar que los elementos se consulten, prueben o cambien en el momento correcto.
 
@@ -308,7 +308,7 @@ Aquí están los pasos realizados en la prueba de modelo a vista.
 1. Consultar la vista para el elemento de entrada del formulario.
 1. Verificar que el valor de entrada coincide con el valor de la propiedad `favoriteColor` en la instancia del componente.
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 Para aprender más sobre formularios reactivos, consulta las siguientes guías:
 

@@ -2,7 +2,7 @@
 
 Por defecto, las plantillas de Angular no preservan espacios en blanco que el framework considera innecesarios. Esto ocurre comúnmente en dos situaciones: espacios en blanco entre elementos, y espacios en blanco colapsables dentro de texto.
 
-## Espacios en blanco entre elementos
+## Espacios en blanco entre elementos {#whitespace-between-elements}
 
 La mayoría de los desarrolladores prefieren formatear sus plantillas con saltos de línea e indentación para hacer la plantilla legible:
 
@@ -25,7 +25,7 @@ Esta plantilla contiene espacios en blanco entre todos los elementos. El siguien
 
 Preservar los espacios en blanco tal como están escritos en la plantilla resultaría en muchos [nodos de texto](https://developer.mozilla.org/en-US/docs/Web/API/Text) innecesarios y aumentaría la sobrecarga de renderización de la página. Al ignorar estos espacios en blanco entre elementos, Angular realiza menos trabajo al renderizar la plantilla en la página, mejorando el rendimiento general.
 
-## Espacios en blanco colapsables dentro de texto
+## Espacios en blanco colapsables dentro de texto {#collapsible-whitespace-inside-text}
 
 Cuando tu navegador web renderiza HTML en una página, colapsa múltiples caracteres de espacio en blanco consecutivos a un solo carácter:
 
@@ -45,7 +45,7 @@ Consulta [Cómo maneja los espacios en blanco HTML, CSS y el DOM](https://develo
 
 Angular evita enviar estos caracteres de espacio en blanco innecesarios al navegador en primer lugar colapsándolos a un solo carácter cuando compila la plantilla.
 
-## Preservando espacios en blanco
+## Preservando espacios en blanco {#preserving-whitespace}
 
 Puedes indicarle a Angular que preserve los espacios en blanco en una plantilla especificando `preserveWhitespaces: true` en el decorador `@Component` para una plantilla.
 

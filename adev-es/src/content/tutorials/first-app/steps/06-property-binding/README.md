@@ -4,18 +4,18 @@ Esta lección del tutorial demuestra cómo agregar enlace de propiedad a una pla
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=AsiczpWnMz5HhJqB&amp;start=599"/>
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 - Tu aplicación tiene enlaces de datos en la plantilla de `Home`.
 - Tu aplicación envía datos desde `Home` a `HousingLocation`.
 
-## Vista previa conceptual de Inputs
+## Vista previa conceptual de Inputs {#conceptual-preview-of-inputs}
 
 En esta lección, continuarás el proceso de compartir datos desde el componente padre al componente hijo vinculando datos a esas propiedades en la plantilla usando enlace de propiedad.
 
 El enlace de propiedad te permite conectar una variable a un `Input` en una plantilla Angular. Los datos se vinculan dinámicamente al `Input`.
 
-Para una explicación más detallada, consulta la guía de [Enlace de propiedad](guide/templates/property-binding).
+Para una explicación más detallada, consulta la guía de [Enlace de propiedad](/guide/templates/binding#css-class-and-style-property-bindings).
 
 <docs-workflow>
 
@@ -46,5 +46,5 @@ RESUMEN: En esta lección, agregaste un nuevo enlace de propiedad y pasaste una 
 Para obtener más información sobre los temas cubiertos en esta lección, visita:
 
 <docs-pill-row>
-  <docs-pill href="/guide/templates/property-binding" title="Enlace de propiedad"/>
+  <docs-pill href="/guide/templates/binding#css-class-and-style-property-bindings" title="Enlace de propiedad"/>
 </docs-pill-row>

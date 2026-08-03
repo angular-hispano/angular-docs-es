@@ -51,9 +51,9 @@ Esto puede ayudar a separar las preocupaciones de _presentación_ del _comportam
 
 Tanto `templateUrl` como `styleUrls` son relativos al directorio en el que reside el componente.
 
-## Usar Componentes
+## Usar Componentes {#using-components}
 
-### Imports in the `@Component` decorator
+### Imports in the `@Component` decorator {#imports-in-the-component-decorator}
 
 Para usar un component, [directive](guide/directives), o [pipe](guide/templates/pipes), debes agregarlo al arreglo de 
 `imports` en el decorador `@Component`:
@@ -70,11 +70,11 @@ import {ProfilePhoto} from './profile-photo';
 export class UserProfile { }
 ```
 
-Por defecto, los componentes de Angular son _independientes_ (standalone), lo que significa que puedes agregarlos directamente al arreglo `imports` de otros componentes. Los componentes creados con una versión anterior de Angular pueden especificar `standalone: false` en su decorador `@Component`. Para estos componentes, en su lugar importas el `NgModule` en el que está definido el componente. Consulta la [guía completa de `NgModule`](guide/ngmodules) para detalles.
+Por defecto, los componentes de Angular son _independientes_ (standalone), lo que significa que puedes agregarlos directamente al arreglo `imports` de otros componentes. Los componentes creados con una versión anterior de Angular pueden especificar `standalone: false` en su decorador `@Component`. Para estos componentes, en su lugar importas el `NgModule` en el que está definido el componente. Consulta la [guía completa de `NgModule`](guide/ngmodules/overview) para detalles.
 
 Importante: En versiones de Angular anteriores a 19.0.0, la opción `standalone` por defecto es `false`.
 
-### Mostrar componentes en una plantilla
+### Mostrar componentes en una plantilla {#showing-components-in-a-template}
 
 Todo componente define un[CSS selector](https://developer.mozilla.org/es/docs/Learn_web_development/Core/Styling_basics/Basic_selectors):
 

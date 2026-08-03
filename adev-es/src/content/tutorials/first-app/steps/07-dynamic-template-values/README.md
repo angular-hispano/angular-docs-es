@@ -4,12 +4,12 @@ Esta lección del tutorial demuestra cómo agregar interpolación a las plantill
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=IFAly3Ss8dwqFx8N&amp;start=338"/>
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 - Tu aplicación mostrará valores interpolados en la plantilla de `HousingLocation`.
 - Tu aplicación renderizará datos de una ubicación de vivienda en el navegador.
 
-## Vista previa conceptual de interpolación
+## Vista previa conceptual de interpolación {#conceptual-preview-of-interpolation}
 
 En este paso mostrarás valores leídos de propiedades `input` en una plantilla usando interpolación.
 

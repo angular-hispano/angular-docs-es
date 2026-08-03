@@ -35,7 +35,7 @@ export class ProfilePhoto {}
 
 En el ejemplo anterior, `<profile-photo>` es el elemento host del componente `ProfilePhoto`.
 
-## Enlazar al elemento host
+## Enlazar al elemento host {#binding-to-the-host-element}
 
 Un componente puede enlazar propiedades, atributos, estilos y eventos a su elemento host. Esto se comporta
 de manera idéntica a los enlaces en elementos dentro de la plantilla del componente, pero en su lugar se define con
@@ -64,7 +64,9 @@ export class CustomSlider {
 }
 ```
 
-## Los decoradores `@HostBinding` y `@HostListener`
+NOTA: Los nombres de destino globales que se pueden usar como prefijo del nombre de un evento son `document:`, `window:` y `body:`.
+
+## Los decoradores `@HostBinding` y `@HostListener` {#the-hostbinding-and-hostlistener-decorators}
 
 Alternativamente puedes enlazar al elemento host aplicando los decoradores `@HostBinding` y `@HostListener`
 a los miembros de la clase.
@@ -105,7 +107,7 @@ export class CustomSlider {
 decoradores existen exclusivamente por compatibilidad hacia atrás.
 </docs-callout>
 
-## Colisiones de enlaces
+## Colisiones de enlaces {#binding-collisions}
 
 Cuando usas un componente en una plantilla, puedes agregar enlaces al elemento de esa instancia del componente.
 El componente _también_ puede definir enlaces host para las mismas propiedades o atributos.
@@ -131,7 +133,7 @@ En casos como este, las siguientes reglas determinan qué valor gana:
 - Si un valor es estático y el otro dinámico, el valor dinámico gana.
 - Si ambos valores son dinámicos, el enlace host del componente gana.
 
-## Estilizar con propiedades personalizadas CSS
+## Estilizar con propiedades personalizadas CSS {#styling-with-css-custom-properties}
 
 Los desarrolladores frecuentemente dependen de [Propiedades Personalizadas CSS](https://developer.mozilla.org/es/docs/Web/CSS/Guides/Cascading_variables/Using_custom_properties) para habilitar una configuración flexible de los estilos de sus componentes.
 Puedes establecer tales propiedades personalizadas en un elemento host con un [enlace de estilo](guide/templates/binding#css-style-properties).
@@ -150,7 +152,7 @@ export class MyComponent {
 
 En este ejemplo, la propiedad personalizada CSS `--my-background` está enlazada a la signal `color`. El valor de la propiedad personalizada se actualizará automáticamente cada vez que la signal `color` cambie. Esto afectará al componente actual y a todos sus hijos que dependan de esta propiedad personalizada.
 
-### Establecer propiedades personalizadas en componentes hijos
+### Establecer propiedades personalizadas en componentes hijos {#setting-custom-properties-on-children-components}
 
 Alternativamente, también es posible establecer propiedades personalizadas CSS en el elemento host de componentes hijos con un [enlace de estilo](guide/templates/binding#css-style-properties).
 
@@ -164,7 +166,7 @@ export class MyComponent {
 }
 ```
 
-## Inyectar atributos del elemento host
+## Inyectar atributos del elemento host {#injecting-host-element-attributes}
 
 Los componentes y directivas pueden leer atributos estáticos de su elemento host usando `HostAttributeToken` junto con la función [`inject`](api/core/inject).
 

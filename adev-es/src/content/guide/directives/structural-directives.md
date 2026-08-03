@@ -2,11 +2,11 @@
 
 Las directivas estructurales son directivas aplicadas a un elemento `<ng-template>` que renderizan condicionalmente o repetidamente el contenido de ese `<ng-template>`.
 
-## Caso de uso de ejemplo
+## Caso de uso de ejemplo {#example-use-case}
 
 En esta guía construirás una directiva estructural que obtiene datos de una fuente de datos dada y renderiza su plantilla cuando esos datos están disponibles. Esta directiva se llama `SelectDirective`, después de la palabra clave SQL `SELECT`, y coincide con un selector de atributo `[select]`.
 
-`SelectDirective` tendrá una entrada que nombra la fuente de datos a usar, que llamarás `selectFrom`. El prefijo `select` para esta entrada es importante para la [sintaxis abreviada](#sintaxis-abreviada-de-directivas-estructurales). La directiva instanciará su `<ng-template>` con un contexto de plantilla que proporciona los datos seleccionados.
+`SelectDirective` tendrá una entrada que nombra la fuente de datos a usar, que llamarás `selectFrom`. El prefijo `select` para esta entrada es importante para la [sintaxis abreviada](#structural-directive-shorthand). La directiva instanciará su `<ng-template>` con un contexto de plantilla que proporciona los datos seleccionados.
 
 El siguiente es un ejemplo de cómo se vería usar esta directiva directamente en un `<ng-template>`:
 
@@ -22,7 +22,7 @@ La directiva estructural puede esperar a que los datos estén disponibles y lueg
 
 Para más información, consulta la documentación de la [API ng-template](api/core/ng-template).
 
-## Sintaxis abreviada de directivas estructurales
+## Sintaxis abreviada de directivas estructurales {#structural-directive-shorthand}
 
 Angular soporta una sintaxis abreviada para directivas estructurales que evita la necesidad de escribir explícitamente un elemento `<ng-template>`.
 
@@ -48,17 +48,17 @@ Cuando se usa de esta manera, solo la directiva estructural y sus enlaces se apl
 </ng-template>
 ```
 
-La sintaxis abreviada se expande a través de un conjunto de convenciones. Una [gramática](#referencia-de-sintaxis-de-directivas-estructurales) más completa se define a continuación, pero en el ejemplo anterior, esta transformación puede explicarse de la siguiente manera:
+La sintaxis abreviada se expande a través de un conjunto de convenciones. Una [gramática](#structural-directive-syntax-reference) más completa se define a continuación, pero en el ejemplo anterior, esta transformación puede explicarse de la siguiente manera:
 
 La primera parte de la expresión `*select` es `let data`, que declara una variable de plantilla `data`. Como no sigue ninguna asignación, la variable de plantilla se vincula a la propiedad del contexto de plantilla `$implicit`.
 
 La segunda pieza de sintaxis es un par clave-expresión, `from source`. `from` es una clave de enlace y `source` es una expresión de plantilla regular. Las claves de enlace se mapean a propiedades transformándolas a PascalCase y anteponiendo el selector de la directiva estructural. La clave `from` se mapea a `selectFrom`, que luego se vincula a la expresión `source`. Por eso muchas directivas estructurales tendrán entradas que están todas prefijadas con el selector de la directiva estructural.
 
-## Una directiva estructural por elemento
+## Una directiva estructural por elemento {#one-structural-directive-per-element}
 
 Solo puedes aplicar una directiva estructural por elemento cuando usas la sintaxis abreviada. Esto es porque solo hay un elemento `<ng-template>` en el que se desenvuelve esa directiva. Múltiples directivas requerirían múltiples `<ng-template>` anidados, y no está claro cuál directiva debería ser la primera. `<ng-container>` puede usarse para crear capas de envoltorio cuando múltiples directivas estructurales necesitan aplicarse alrededor del mismo elemento DOM físico o componente, lo que permite al usuario definir la estructura anidada.
 
-## Creando una directiva estructural
+## Creando una directiva estructural {#creating-a-structural-directive}
 
 Esta sección te guía a través de la creación de `SelectDirective`.
 
@@ -122,9 +122,9 @@ export class SelectDirective {
 </docs-step>
 </docs-workflow>
 
-¡Y listo! `SelectDirective` está funcionando. Un paso de seguimiento podría ser [añadir soporte de verificación de tipos de plantilla](#tipando-el-contexto-de-la-directiva).
+¡Y listo! `SelectDirective` está funcionando. Un paso de seguimiento podría ser [añadir soporte de verificación de tipos de plantilla](#typing-the-directives-context).
 
-## Referencia de sintaxis de directivas estructurales
+## Referencia de sintaxis de directivas estructurales {#structural-directive-syntax-reference}
 
 Cuando escribas tus propias directivas estructurales, usa la siguiente sintaxis:
 
@@ -150,7 +150,7 @@ let = "let" :local "=" :export ";"?
 | `export`       | Valor exportado por la directiva bajo un nombre dado |
 | `expression`   | Expresión estándar de Angular                        |
 
-### Cómo Angular traduce la sintaxis abreviada
+### Cómo Angular traduce la sintaxis abreviada {#how-angular-translates-shorthand}
 
 Angular translates structural directive shorthand into the normal binding syntax as follows:
 
@@ -160,7 +160,7 @@ Angular translates structural directive shorthand into the normal binding syntax
 | `keyExp`                       | `[prefixKey]="expression"` (The `prefix` is added to the `key`) |
 | `let local`                    | `let-local="export"`                                          |
 
-## Ejemplos de sintaxis abreviada
+### Ejemplos de sintaxis abreviada {#shorthand-examples}
 
 La siguiente tabla proporciona ejemplos de sintaxis abreviada:
 
@@ -172,7 +172,7 @@ La siguiente tabla proporciona ejemplos de sintaxis abreviada:
 | `*ngComponentOutlet="componentClass; inputs: myInputs";`                  | `<ng-template [ngComponentOutlet]="componentClass" [ngComponentOutletInputs]="myInputs">`                     |
 | `*myDir="exp as value"`                                                   | `<ng-template [myDir]="exp" let-value="myDir">`                                                               |
 
-## Mejorando la verificación de tipos de plantilla para directivas personalizadas
+## Mejorando la verificación de tipos de plantilla para directivas personalizadas {#improving-template-type-checking-for-custom-directives}
 
 Puedes mejorar la verificación de tipos de plantilla para directivas personalizadas añadiendo guardias de plantilla a tu definición de directiva.
 Estos guardias ayudan al verificador de tipos de plantilla de Angular a encontrar errores en la plantilla en tiempo de compilación, lo que puede evitar errores en tiempo de ejecución.
@@ -184,7 +184,7 @@ Dos tipos diferentes de guardias son posibles:
 Esta sección proporciona ejemplos de ambos tipos de guardias.
 Para más información, consulta [Verificación de tipos de plantilla](tools/cli/template-typecheck "Guía de verificación de tipos de plantilla").
 
-### Estrechamiento de tipos con guardias de plantilla
+### Estrechamiento de tipos con guardias de plantilla {#type-narrowing-with-template-guards}
 
 Una directiva estructural en una plantilla controla si esa plantilla se renderiza en tiempo de ejecución. Algunas directivas estructurales quieren realizar estrechamiento de tipos basándose en el tipo de expresión de entrada.
 
@@ -226,7 +226,7 @@ class CustomIf {
 
 El verificador de tipos de plantilla se comportará como si la expresión vinculada a `condition` fuera aseverada como veraz dentro de la plantilla.
 
-### Tipando el contexto de la directiva
+### Tipando el contexto de la directiva {#typing-the-directives-context}
 
 Si tu directiva estructural proporciona un contexto a la plantilla instanciada, puedes tiparlo correctamente dentro de la plantilla proporcionando una función de aserción de tipo estática `ngTemplateContextGuard`. Esta función puede usar el tipo de la directiva para derivar el tipo del contexto, lo que es útil cuando el tipo de la directiva es genérico.
 
@@ -252,3 +252,11 @@ export class SelectDirective<T> {
   }
 }
 ```
+
+## Siguientes pasos {#whats-next}
+
+<docs-pill-row>
+  <docs-pill href="guide/directives/directive-composition-api" title="API de composición de directivas"/>
+  <docs-pill href="guide/templates/ng-template" title="ng-template"/>
+  <docs-pill href="guide/templates/control-flow" title="Flujo de control"/>
+</docs-pill-row>

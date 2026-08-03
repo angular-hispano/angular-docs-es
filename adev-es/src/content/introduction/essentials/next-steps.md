@@ -11,7 +11,7 @@ Prueba Angular en un editor de código interactivo para explorar más a fondo lo
   <docs-pill title="Jugar con Angular!" href="playground" />
 </docs-pill-row>
 
-## Tutoriales
+## Tutoriales {#tutorials}
 
 Pon en práctica estos conceptos principales con nuestro tutorial en el navegador o construye tu primera aplicación localmente con Angular CLI.
 
@@ -20,12 +20,12 @@ Pon en práctica estos conceptos principales con nuestro tutorial en el navegado
   <docs-pill title="Crea tu primera aplicación Angular" href="tutorials/first-app" />
 </docs-pill-row>
 
-## Guías detalladas
+## Guías detalladas {#in-depth-guides}
 
 Aquí hay algunas guías detalladas que podría estar interesado en leer:
 
 <docs-pill-row>
-  <docs-pill title="Guía Detallada de Componentes" href="guide/components/importing" />
+  <docs-pill title="Guía Detallada de Componentes" href="guide/components" />
   <docs-pill title="Guía Detallada de Plantillas" href="guide/templates" />
   <docs-pill title="Guía Detallada de Formularios" href="/guide/forms" />
 </docs-pill-row>

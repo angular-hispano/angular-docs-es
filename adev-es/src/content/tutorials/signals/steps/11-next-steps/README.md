@@ -1,5 +1,10 @@
 # ¿Quieres profundizar más en signals?
 
+<div class="docs-tutorial-mascot">
+  <img class="docs-tutorial-mascot__angie" src="assets/images/angie/superhero.svg" aria-hidden="true">
+  <p class="docs-tutorial-mascot__bubble">¡Lo lograste! Completaste el tutorial de Signals y aprendiste a gestionar estado reactivo con signals.</p>
+</div>
+
 También puedes aprender más sobre signals con los siguientes recursos:
 
 <docs-card-container>

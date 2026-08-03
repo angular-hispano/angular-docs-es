@@ -3,7 +3,7 @@
 Cuando construyes tu aplicación de Angular, aprovecha las sofisticadas librerías propias, así como un ecosistema rico de librerías de terceros.
 [Angular Material][AngularMaterialMain] es un ejemplo de una librería propia sofisticada.
 
-## Instalar librerías
+## Instalar librerías {#install-libraries}
 
 Las librerías se publican como [paquetes npm][GuideNpmPackages], generalmente junto con schematics que las integran con el Angular CLI.
 Para integrar código de librería reutilizable en una aplicación, necesitas instalar el paquete e importar la funcionalidad proporcionada en la ubicación donde la uses.
@@ -16,7 +16,7 @@ El scaffold adicional dentro del código del proyecto incluye declaraciones de i
 Una librería publicada típicamente proporciona un archivo `README` u otra documentación sobre cómo agregar esa librería a tu aplicación.
 Para un ejemplo, consulta la documentación de [Angular Material][AngularMaterialMain].
 
-### Tipado de librerías
+### Tipado de librerías {#library-typings}
 
 Típicamente, los paquetes de librerías incluyen tipados en archivos `.d.ts`; consulta ejemplos en `node_modules/@angular/material`.
 Si el paquete de tu librería no incluye tipados y tu IDE se queja, es posible que necesites instalar el paquete `@types/<lib_name>` con la librería.
@@ -64,7 +64,7 @@ console.log(parsedUrl.hostname);
 
 Define más tipados según sea necesario.
 
-## Actualizar librerías
+## Actualizar librerías {#updating-libraries}
 
 Una librería puede ser actualizada por el publicador, y también tiene dependencias individuales que necesitan mantenerse actualizadas.
 Para verificar actualizaciones de tus librerías instaladas, usa el comando [`ng update`][CliUpdate] de Angular CLI.
@@ -76,7 +76,7 @@ Cuando actualizas Angular a una nueva versión, necesitas asegurarte de que cual
 Si las librerías tienen interdependencias, es posible que tengas que actualizarlas en un orden particular.
 Consulta la [Guía de actualización de Angular][AngularUpdateMain] para obtener ayuda.
 
-## Agregar una librería al alcance global en tiempo de ejecución
+## Agregar una librería al alcance global en tiempo de ejecución {#adding-a-library-to-the-runtime-global-scope}
 
 Si una librería heredada de JavaScript no se importa en una aplicación, puedes agregarla al alcance global en tiempo de ejecución y cargarla como si se hubiera agregado en una etiqueta script.
 Configura el Angular CLI para hacer esto en tiempo de compilación usando las opciones `scripts` y `styles` del objetivo de compilación en el archivo de configuración de compilación del espacio de trabajo [`angular.json`][GuideWorkspaceConfig].
@@ -115,7 +115,7 @@ Por ejemplo, para usar la librería [Bootstrap 4][GetbootstrapDocs40GettingStart
 
 1. Ejecuta o reinicia el comando `ng serve` de Angular CLI para ver Bootstrap 4 funcionar en tu aplicación.
 
-### Usar librerías globales en tiempo de ejecución dentro de tu aplicación
+### Usar librerías globales en tiempo de ejecución dentro de tu aplicación {#using-runtime-global-libraries-inside-your-app}
 
 Después de importar una librería usando el array "scripts", **no** la importes usando una declaración de importación en tu código TypeScript.
 El siguiente fragmento de código es un ejemplo de declaración de importación.
@@ -132,7 +132,7 @@ Esto es especialmente malo para librerías con plugins, como JQuery, porque cada
 En su lugar, ejecuta el comando `npm install @types/jquery` de Angular CLI para descargar tipados para tu librería y luego sigue los pasos de instalación de la librería.
 Esto te da acceso a las variables globales expuestas por esa librería.
 
-### Definir tipados para librerías globales en tiempo de ejecución
+### Definir tipados para librerías globales en tiempo de ejecución {#defining-typings-for-runtime-global-libraries}
 
 Si la librería global que necesitas usar no tiene tipados globales, puedes declararlos manualmente como `any` en `src/typings.d.ts`.
 
@@ -176,7 +176,7 @@ Si no agregas la interfaz para la extensión definida por el script, tu IDE mues
 [GuideWorkspaceConfig]: reference/configs/workspace-config 'Angular workspace configuration | Angular'
 [Resources]: resources 'Explore Angular Resources | Angular'
 [AngularMaterialMain]: https://material.angular.dev 'Angular Material | Angular'
-[AngularUpdateMain]: https://angular.dev/update-guide 'Angular Update Guide | Angular'
+[AngularUpdateMain]: /update-guide 'Angular Update Guide | Angular'
 [GetbootstrapDocs40GettingStartedIntroduction]: https://getbootstrap.com/docs/4.0/getting-started/introduction 'Introduction | Bootstrap'
 [NpmjsMain]: https://www.npmjs.com 'npm'
 [YarnpkgMain]: https://yarnpkg.com ' Yarn'

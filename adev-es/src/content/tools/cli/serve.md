@@ -28,7 +28,7 @@ Puedes determinar qué builder se está usando para un proyecto en particular bu
 
 ```
 
-## Hacer proxy a un servidor backend
+## Hacer proxy a un servidor backend {#proxying-to-a-backend-server}
 
 Usa el [soporte de proxy](https://vite.dev/config/server-options#server-proxy) para desviar ciertas URLs a un servidor backend, pasando un archivo a la opción de construcción `--proxy-config`.
 Por ejemplo, para desviar todas las llamadas a `http://localhost:4200/api` a un servidor ejecutándose en `http://localhost:3000/api`, sigue los siguientes pasos.
@@ -69,7 +69,7 @@ Por ejemplo, para desviar todas las llamadas a `http://localhost:4200/api` a un 
 
 NOTA: Si editas el archivo de configuración de proxy, debes relanzar el proceso `ng serve` para que tus cambios tengan efecto.
 
-### El comportamiento de coincidencia de rutas depende del builder
+### El comportamiento de coincidencia de rutas depende del builder {#path-matching-behavior-depends-on-the-builder}
 
 **`@angular/build:dev-server`** (basado en [Vite](https://vite.dev/config/server-options#server-proxy))
 

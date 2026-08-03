@@ -4,7 +4,7 @@
 
 CONSEJO: También considera adoptar una [Política de Seguridad de Contenido](https://developer.mozilla.org/docs/Web/HTTP/Headers/Content-Security-Policy) para tus APIs.
 
-## Protección XSSI
+## Protección XSSI {#xssi-protection}
 
 La Inclusión de Scripts Entre Sitios (XSSI) es una forma de ataque de [Scripting Entre Sitios](https://es.wikipedia.org/wiki/Cross-site_scripting) donde un atacante carga datos JSON de tus endpoints de API como `<script>`s en una página que controla. Diferentes técnicas de JavaScript pueden entonces usarse para acceder a estos datos.
 
@@ -12,7 +12,7 @@ Una técnica común para prevenir XSSI es servir respuestas JSON con un "prefijo
 
 `HttpClient` automáticamente elimina este prefijo XSSI (si está presente) al analizar JSON de una respuesta.
 
-## Protección XSRF/CSRF
+## Protección XSRF/CSRF {#xsrfcsrf-protection}
 
 [Falsificación de Solicitudes Entre Sitios (XSRF o CSRF)](https://es.wikipedia.org/wiki/Cross-site_request_forgery) es una técnica de ataque mediante la cual el atacante puede engañar a un usuario autenticado para que ejecute acciones en tu sitio web sin saberlo.
 
@@ -32,7 +32,7 @@ Para prevenir colisiones en entornos donde múltiples aplicaciones Angular compa
   Tu servicio backend debe estar configurado para establecer la cookie para tu página, y para verificar que el encabezado esté presente en todas las solicitudes elegibles. No hacerlo hace que la protección predeterminada de Angular sea inefectiva.
 </docs-callout>
 
-### Configura nombres personalizados de cookie/encabezado
+### Configura nombres personalizados de cookie/encabezado {#configure-custom-cookieheader-names}
 
 Si tu servicio backend usa nombres diferentes para la cookie o encabezado del token XSRF, usa `withXsrfConfiguration` para sobrescribir los valores predeterminados.
 
@@ -51,7 +51,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-### Deshabilitando la protección XSRF 
+### Deshabilitando la protección XSRF  {#disabling-xsrf-protection}
 
 Si el mecanismo de protección XSRF integrado no funciona para tu aplicación, puedes deshabilitarlo usando la característica `withNoXsrfProtection`:
 

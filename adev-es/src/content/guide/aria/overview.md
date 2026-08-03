@@ -1,19 +1,19 @@
 <docs-decorative-header title="Angular Aria">
 </docs-decorative-header>
 
-## ¿Qué es Angular Aria?
+## ¿Qué es Angular Aria? {#what-is-angular-aria}
 
-Construir componentes accesibles parece sencillo, pero implementarlos según las Directrices de Accesibilidad W3C requiere esfuerzo significativo y experiencia en accesibilidad.
+Construir componentes accesibles parece sencillo, pero implementarlos según las [Directrices de Accesibilidad W3C](https://www.w3.org/TR/wcag/) requiere esfuerzo significativo y experiencia en accesibilidad.
 
-Angular Aria es una colección de directivas headless y accesibles que implementan patrones WAI-ARIA comunes. Las directivas manejan interacciones de teclado, atributos ARIA, gestión de foco y soporte para lectores de pantalla. Todo lo que tienes que hacer es proporcionar la estructura HTML, estilos CSS y lógica de negocio.
+Angular Aria es una colección de directivas headless y accesibles que implementan [patrones WAI-ARIA](https://www.w3.org/WAI/ARIA/apg/patterns/) comunes. Las directivas manejan interacciones de teclado, atributos ARIA, gestión de foco y soporte para lectores de pantalla. Todo lo que tienes que hacer es proporcionar la estructura HTML, estilos CSS y lógica de negocio.
 
-## Instalación
+## Instalación {#installation}
 
 ```shell
 npm install @angular/aria
 ```
 
-## Demostración
+## Demostración {#showcase}
 
 Por ejemplo, tomemos un menú de toolbar. Aunque puede parecer una "simple" fila de botones vinculados con lógica específica, la navegación por teclado y los lectores de pantalla agregan mucha complejidad inesperada para quienes no están familiarizados con la accesibilidad.
 
@@ -50,11 +50,11 @@ En este escenario, los desarrolladores necesitan considerar:
 - **La gestión de foco** necesita moverse lógicamente entre el trigger y los elementos del menú.
 - **Los idiomas de derecha a izquierda** requieren la capacidad de navegar en reversa.
 
-## ¿Qué está incluido?
+## ¿Qué está incluido? {#whats-included}
 
 Angular Aria incluye directivas con documentación completa, ejemplos funcionales y referencias de API para patrones interactivos comunes:
 
-### Búsqueda y selección
+### Búsqueda y selección {#search-and-selection}
 
 | Componente                              | Descripción                                                      |
 | --------------------------------------- | ---------------------------------------------------------------- |
@@ -64,7 +64,7 @@ Angular Aria incluye directivas con documentación completa, ejemplos funcionale
 | [Multiselect](guide/aria/multiselect)   | Patrón de dropdown de selección múltiple con visualización compacta |
 | [Combobox](guide/aria/combobox)         | Directiva primitiva que coordina una entrada de texto con un popup |
 
-### Navegación y llamadas a acción
+### Navegación y llamadas a acción {#navigation-and-call-to-actions}
 
 | Componente                    | Descripción                                                    |
 | ----------------------------- | -------------------------------------------------------------- |
@@ -72,7 +72,7 @@ Angular Aria incluye directivas con documentación completa, ejemplos funcionale
 | [Menubar](guide/aria/menubar) | Barra de navegación horizontal para menús de aplicación persistentes |
 | [Toolbar](guide/aria/toolbar) | Conjuntos agrupados de controles con navegación lógica por teclado |
 
-### Organización de contenido
+### Organización de contenido {#content-organization}
 
 | Componente                        | Descripción                                                                   |
 | --------------------------------- | ----------------------------------------------------------------------------- |
@@ -81,7 +81,7 @@ Angular Aria incluye directivas con documentación completa, ejemplos funcionale
 | [Tree](guide/aria/tree)           | Listas jerárquicas con funcionalidad de expandir/colapsar                    |
 | [Grid](guide/aria/grid)           | Visualización de datos bidimensional con navegación celda por celda por teclado |
 
-## Cuándo usar Angular Aria
+## Cuándo usar Angular Aria {#when-to-use-angular-aria}
 
 Angular Aria funciona bien cuando necesitas componentes interactivos accesibles que sean compatibles con WCAG con estilos personalizados. Los ejemplos incluyen:
 
@@ -89,7 +89,7 @@ Angular Aria funciona bien cuando necesitas componentes interactivos accesibles 
 - **Bibliotecas de componentes empresariales** - Estás creando componentes reutilizables para múltiples aplicaciones dentro de una organización
 - **Requisitos de marca personalizados** - La interfaz necesita coincidir con especificaciones de diseño precisas que las bibliotecas de componentes pre-estilizadas no pueden acomodar fácilmente
 
-## Cuándo no usar Angular Aria
+## Cuándo no usar Angular Aria {#when-not-to-use-angular-aria}
 
 Angular Aria puede no encajar en todos los escenarios:
 
@@ -97,6 +97,6 @@ Angular Aria puede no encajar en todos los escenarios:
 - **Formularios simples** - Los controles de formulario HTML nativos como `<button>` e `<input type="radio">` proporcionan accesibilidad integrada para casos de uso sencillos
 - **Prototipado rápido** - Al validar conceptos rápidamente, las bibliotecas de componentes pre-estilizadas reducen el tiempo de desarrollo inicial
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
-Consulta un componente desde el menú lateral o [lista arriba](#qué-está-incluido), o comienza con [Toolbar](guide/aria/toolbar) para ver un ejemplo completo de cómo funcionan las directivas de Angular Aria.
+Consulta un componente desde el menú lateral o [lista arriba](#whats-included), o comienza con [Toolbar](guide/aria/toolbar) para ver un ejemplo completo de cómo funcionan las directivas de Angular Aria.

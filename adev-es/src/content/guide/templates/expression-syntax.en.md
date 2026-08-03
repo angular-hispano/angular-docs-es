@@ -8,16 +8,17 @@ Angular supports a subset of [literal values](https://developer.mozilla.org/en-U
 
 ### Supported value literals
 
-| Literal type    | Example values                  |
-| --------------- | ------------------------------- |
-| String          | `'Hello'`, `"World"`            |
-| Boolean         | `true`, `false`                 |
-| Number          | `123`, `3.14`                   |
-| Object          | `{name: 'Alice'}`               |
-| Array           | `['Onion', 'Cheese', 'Garlic']` |
-| null            | `null`                          |
-| Template string | `` `Hello ${name}` ``           |
-| RegExp          | `/\d+/`                         |
+| Literal type           | Example values                  |
+| ---------------------- | ------------------------------- |
+| String                 | `'Hello'`, `"World"`            |
+| Boolean                | `true`, `false`                 |
+| Number                 | `123`, `3.14`                   |
+| Object                 | `{name: 'Alice'}`               |
+| Array                  | `['Onion', 'Cheese', 'Garlic']` |
+| null                   | `null`                          |
+| RegExp                 | `/\d+/`                         |
+| Template string        | `` `Hello ${name}` ``           |
+| Tagged template string | `` tag`Hello ${name}` ``        |
 
 ### Unsupported value literals
 
@@ -64,6 +65,10 @@ Angular supports the following operators from standard JavaScript.
 | Unary Negation                | `-x`                                           |
 | Unary Plus                    | `+y`                                           |
 | Property Accessor             | `person['name']`                               |
+| typeof                        | `typeof 42`                                    |
+| void                          | `void 1`                                       |
+| in                            | `'model' in car`                               |
+| instanceof                    | `car instanceof Automobile`                    |
 | Assignment                    | `a = b`                                        |
 | Addition Assignment           | `a += b`                                       |
 | Subtraction Assignment        | `a -= b`                                       |
@@ -74,6 +79,9 @@ Angular supports the following operators from standard JavaScript.
 | Logical AND Assignment        | `a &&= b`                                      |
 | Logical OR Assignment         | `a \|\|= b`                                    |
 | Nullish Coalescing Assignment | `a ??= b`                                      |
+| Spread in object literals     | `{...obj, foo: 'bar'}`                         |
+| Spread in array literals      | `[...arr, 1, 2, 3]`                            |
+| Rest in function calls        | `fn(...args)`                                  |
 
 Angular expressions additionally also support the following non-standard operators:
 
@@ -83,7 +91,20 @@ Angular expressions additionally also support the following non-standard operato
 | Optional chaining\*             | `someObj.someProp?.nestedProp` |
 | Non-null assertion (TypeScript) | `someObj!.someProp`            |
 
-NOTE: Optional chaining behaves differently from the standard JavaScript version in that if the left side of Angular’s optional chaining operator is `null` or `undefined`, it returns `null` instead of `undefined`.
+### Safe navigation migration
+
+Prior to Angular 22, the optional chaining operator (`?.`) returned `null` when the left-hand side is `null` or `undefined`, whereas standard JavaScript's `?.` returns `undefined`.
+Since Angular 22, the optional chaining operator behavior in angular expressions is alligned with the standard Javascript's behavior.
+
+During the migration to v22, the `ng update` schematics added a `$safeNavigationMigration` magic function to existing expressions to preserve the previous `null`-returning behavior.
+
+```html
+{{ $safeNavigationMigration(foo?.bar) }}
+```
+
+`$safeNavigationMigration` is a **temporary migration aid only**. It instructs the compiler to compile the wrapped safe-navigation expression using the legacy null-returning semantics rather than the standard JavaScript `?.` semantics. It is not a real function and cannot be called from TypeScript.
+
+NOTE: Prefer migrating expressions to no longer rely on `null` vs `undefined` distinctions so that `$safeNavigationMigration` can be removed. This function may be removed in a future version of Angular.
 
 ### Unsupported operators
 
@@ -93,7 +114,6 @@ NOTE: Optional chaining behaves differently from the standard JavaScript version
 | Object destructuring  | `const { name } = person`         |
 | Array destructuring   | `const [firstItem] = items`       |
 | Comma operator        | `x = (x++, x)`                    |
-| instanceof            | `car instanceof Automobile`       |
 | new                   | `new Car()`                       |
 
 ## Lexical context for expressions
@@ -113,9 +133,9 @@ Generally speaking, declarations are not supported in Angular expressions. This 
 | Arrow Functions | `() => { }`                                 |
 | Classes         | `class Rectangle { }`                       |
 
-# Event listener statements
+## Event listener statements
 
 Event handlers are **statements** rather than expressions. While they support all of the same syntax as Angular expressions, there are two key differences:
 
-1. Statements **do support** assignment operators (but not destructing assignments)
+1. Statements **do support** assignment operators (but not destructuring assignments)
 1. Statements **do not support** pipes

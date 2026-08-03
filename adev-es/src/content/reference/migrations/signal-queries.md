@@ -2,7 +2,7 @@
 
 Angular introdujo APIs mejoradas para consultas que se consideran
 listas para producción desde v19.
-Lee más sobre los signal queries y sus beneficios en la [guía dedicada](guide/signals/queries).
+Lee más sobre los signal queries y sus beneficios en la [guía dedicada](guide/components/queries).
 
 Para apoyar a los equipos existentes que deseen usar signal queries, el equipo de Angular
 proporciona una migración automatizada que convierte los campos de consulta de decoradores existentes a la nueva API.
@@ -15,9 +15,9 @@ ng generate @angular/core:signal-queries-migration
 
 Alternativamente, la migración está disponible como una [acción de refactorización de código](https://code.visualstudio.com/docs/typescript/typescript-refactoring#_refactoring) en VSCode.
 Instala la última versión de la extensión de VSCode y haz clic en, por ejemplo, un campo `@ViewChild`.
-Consulta más detalles en la sección [a continuación](#extensión-de-vscode).
+Consulta más detalles en la sección [a continuación](#vscode-extension).
 
-## ¿Qué cambia la migración?
+## ¿Qué cambia la migración? {#what-does-the-migration-change}
 
 1. Los miembros de clase `@ViewChild()`, `@ViewChildren`, `@ContentChild` y `@ContentChildren`
    se actualizan a sus equivalentes con signals.
@@ -63,7 +63,7 @@ export class MyComponent {
 }
 ```
 
-## Opciones de configuración
+## Opciones de configuración {#configuration-options}
 
 La migración admite algunas opciones para ajustar la migración a tus necesidades específicas.
 
@@ -100,7 +100,7 @@ actualizar todas las referencias afectadas por la migración de una declaración
 Con esta opción, puedes limitar el análisis a una subcarpeta. Ten en cuenta que esto significa que cualquier
 referencia fuera de este directorio se omite silenciosamente, lo que podría romper tu compilación.
 
-## Extensión de VSCode
+## Extensión de VSCode {#vscode-extension}
 
 ![Captura de pantalla de la extensión de VSCode haciendo clic en un campo `@ViewChild`](assets/images/migrations/signal-queries-vscode.png 'Captura de pantalla de la extensión de VSCode haciendo clic en un campo `@ViewChild`.')
 

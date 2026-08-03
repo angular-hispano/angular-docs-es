@@ -2,11 +2,11 @@
 
 El **enlace bidireccional** es una forma abreviada de enlazar simultáneamente un valor a un elemento, mientras también le da a ese elemento la capacidad de propagar cambios de vuelta a través de este enlace.
 
-## Sintaxis
+## Sintaxis {#syntax}
 
 La sintaxis para el enlace bidireccional es una combinación de corchetes y paréntesis, `[()]`. Combina la sintaxis del enlace de propiedad, `[]`, y la sintaxis del enlace de evento, `()`. La comunidad de Angular se refiere informalmente a esta sintaxis como "banana-in-a-box" (plátano en una caja).
 
-## Enlace bidireccional con controles de formulario
+## Enlace bidireccional con controles de formulario {#two-way-binding-with-form-controls}
 
 Los desarrolladores comúnmente usan el enlace bidireccional para mantener los datos del componente sincronizados con un control de formulario mientras el usuario interactúa con el control. Por ejemplo, cuando un usuario llena un campo de texto, debería actualizar el estado en el componente.
 
@@ -38,9 +38,9 @@ Para usar el enlace bidireccional con controles de formulario nativos, necesitas
 
 Una vez que esté configurado, Angular asegurará que cualquier actualización en el campo de texto se refleje correctamente dentro del estado del componente.
 
-Aprende más sobre [`NgModel`](guide/directives#displaying-and-updating-properties-with-ngmodel) en la documentación oficial.
+Aprende más sobre [`NgModel`](/api/forms/NgModel) en la documentación oficial.
 
-## Enlace bidireccional entre componentes
+## Enlace bidireccional entre componentes {#two-way-binding-between-components}
 
 Aprovechar el enlace bidireccional entre un componente padre e hijo requiere más configuración en comparación con elementos de formulario.
 
@@ -87,7 +87,7 @@ export class CounterComponent {
 }
 ```
 
-### Habilitar el enlace bidireccional entre componentes
+### Habilitar el enlace bidireccional entre componentes {#enabling-two-way-binding-between-components}
 
 Si desglosamos el ejemplo anterior a su núcleo, cada enlace bidireccional para componentes requiere lo siguiente:
 

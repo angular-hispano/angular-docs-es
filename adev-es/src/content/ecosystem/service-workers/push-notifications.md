@@ -8,7 +8,7 @@ El service worker de Angular permite mostrar notificaciones push y manejar event
 ÚTIL: Cuando usas el service worker de Angular, las interacciones con notificaciones push se manejan con el servicio `SwPush`.
 Para conocer más sobre las APIs del navegador involucradas, consulta [Push API](https://developer.mozilla.org/es/docs/Web/API/Push_API) y [Using the Notifications API](https://developer.mozilla.org/es/docs/Web/API/Notifications_API/Using_the_Notifications_API).
 
-## Payload de la notificación
+## Payload de la notificación {#notification-payload}
 
 Invoca notificaciones push enviando un mensaje con un payload válido.
 Consulta `SwPush` para obtener orientación.
@@ -16,7 +16,7 @@ Consulta `SwPush` para obtener orientación.
 ÚTIL: En Chrome, puedes probar las notificaciones push sin un backend.
 Abre DevTools -> Application -> Service Workers y usa el campo `Push` para enviar un payload de notificación JSON.
 
-## Manejo del clic en la notificación
+## Manejo del clic en la notificación {#notification-click-handling}
 
 El comportamiento predeterminado del evento `notificationclick` es cerrar la notificación y notificar a `SwPush.notificationClicks`.
 
@@ -36,7 +36,7 @@ Esto es especialmente útil cuando no hay clientes abiertos al hacer clic en la 
 }
 ```
 
-### Operaciones
+### Operaciones {#operations}
 
 El service worker de Angular admite las siguientes operaciones:
 
@@ -49,7 +49,7 @@ El service worker de Angular admite las siguientes operaciones:
 
 IMPORTANTE: Las URL se resuelven en relación con el scope de registro del service worker.<br />Si un elemento `onActionClick` no define una `url`, se usa el scope de registro del service worker.
 
-### Acciones
+### Acciones {#actions}
 
 Las acciones ofrecen una forma de personalizar cómo puede interactuar la persona usuaria con una notificación.
 
@@ -84,7 +84,7 @@ Además, usando la propiedad `onActionClick` en el objeto `data`, puedes vincula
 
 IMPORTANTE: Si una acción no tiene una entrada correspondiente en `onActionClick`, la notificación se cierra y `SwPush.notificationClicks` se notifica en los clientes existentes.
 
-## Más sobre los service workers de Angular
+## Más sobre los service workers de Angular {#more-on-angular-service-workers}
 
 También podría interesarte lo siguiente:
 

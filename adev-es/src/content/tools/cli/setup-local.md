@@ -11,7 +11,7 @@ No necesitas configurar tu entorno local hasta que estés listo.
 
 </docs-callout>
 
-## Antes de comenzar
+## Antes de comenzar {#before-you-start}
 
 Para usar Angular CLI, debes estar familiarizado con lo siguiente:
 
@@ -24,7 +24,7 @@ Para usar Angular CLI, debes estar familiarizado con lo siguiente:
 También debes estar familiarizado con el uso de herramientas de interfaz de línea de comandos (CLI) y tener una comprensión general de los shells de comandos.
 El conocimiento de [TypeScript](https://www.typescriptlang.org) es útil, pero no es requerido.
 
-## Dependencias
+## Dependencias {#dependencies}
 
 Para instalar Angular CLI en tu sistema local, necesitas instalar [Node.js](https://nodejs.org/).
 Angular CLI usa Node y su gestor de paquetes asociado, npm, para instalar y ejecutar herramientas JavaScript fuera del navegador.
@@ -33,7 +33,7 @@ Angular CLI usa Node y su gestor de paquetes asociado, npm, para instalar y ejec
 Angular requiere una versión [LTS activa o LTS de mantenimiento](https://nodejs.org/en/about/previous-releases) de Node.js.
 Consulta la guía de [compatibilidad de versiones de Angular](reference/versions) para más información.
 
-## Instalar el Angular CLI
+## Instalar el Angular CLI {#install-the-angular-cli}
 
 Para instalar el Angular CLI, abre una ventana de terminal y ejecuta el siguiente comando:
 
@@ -65,7 +65,7 @@ Para instalar el Angular CLI, abre una ventana de terminal y ejecuta el siguient
 
  </docs-code-multifile>
 
-### Política de ejecución de Powershell
+### Política de ejecución de Powershell {#powershell-execution-policy}
 
 En computadoras cliente con Windows, la ejecución de scripts de PowerShell está deshabilitada por defecto, por lo que el comando anterior puede fallar con un error.
 Para permitir la ejecución de scripts de PowerShell, que es necesario para los binarios globales de npm, debes establecer la siguiente <a href="https://docs.microsoft.com/powershell/module/microsoft.powershell.core/about/about_execution_policies">política de ejecución</a>:
@@ -78,7 +78,7 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 Lee cuidadosamente el mensaje mostrado después de ejecutar el comando y sigue las instrucciones. Asegúrate de entender las implicaciones de establecer una política de ejecución.
 
-### Permisos de Unix
+### Permisos de Unix {#unix-permissions}
 
 En algunas configuraciones tipo Unix, los scripts globales pueden ser propiedad del usuario root, por lo que el comando anterior puede fallar con un error de permisos.
 Ejecuta con `sudo` para ejecutar el comando como usuario root e ingresa tu contraseña cuando se te solicite:
@@ -113,7 +113,7 @@ Ejecuta con `sudo` para ejecutar el comando como usuario root e ingresa tu contr
 
 Asegúrate de entender las implicaciones de ejecutar comandos como root.
 
-## Crear un workspace y una aplicación inicial
+## Crear un workspace y una aplicación inicial {#create-a-workspace-and-initial-application}
 
 Desarrollas aplicaciones en el contexto de un **workspace** de Angular.
 
@@ -137,7 +137,7 @@ cd my-app
 
 ```
 
-## Ejecutar la aplicación
+## Ejecutar la aplicación {#run-the-application}
 
 El Angular CLI incluye un servidor de desarrollo, para que puedas construir y servir tu aplicación localmente. Ejecuta el siguiente comando:
 
@@ -151,7 +151,7 @@ El comando `ng serve` lanza el servidor, observa tus archivos, así como reconst
 
 La opción `--open` (o simplemente `-o`) abre automáticamente tu navegador en `http://localhost:4200/` para ver la aplicación generada.
 
-## Workspaces y archivos de proyecto
+## Workspaces y archivos de proyecto {#workspaces-and-project-files}
 
 El comando [`ng new`](cli/new) crea una carpeta de [workspace de Angular](reference/configs/workspace-config) y genera una nueva aplicación dentro de ella.
 Un workspace puede contener múltiples aplicaciones y librerías.
@@ -166,7 +166,7 @@ Usa el comando [`ng generate`](cli/generate) para agregar nuevos archivos para c
 Los comandos como [`ng add`](cli/add) y [`ng generate`](cli/generate), que crean u operan en aplicaciones y librerías, deben ejecutarse
 desde dentro de un workspace. Por el contrario, los comandos como `ng new` deben ejecutarse _fuera_ de un workspace porque crearán uno nuevo.
 
-## Siguientes pasos
+## Siguientes pasos {#next-steps}
 
 - Aprende más sobre la [estructura de archivos](reference/configs/file-structure) y [configuración](reference/configs/workspace-config) del workspace generado.
 

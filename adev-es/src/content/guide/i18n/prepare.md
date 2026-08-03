@@ -6,7 +6,7 @@ Para preparar tu proyecto para traducción, completa las siguientes acciones.
 - Usa el atributo `i18n-` para marcar cadenas de texto de atributos en plantillas de componentes
 - Usa la cadena de mensaje etiquetada `$localize` para marcar cadenas de texto en código de componentes
 
-## Marcar texto en la plantilla del componente
+## Marcar texto en la plantilla del componente {#mark-text-in-component-template}
 
 En una plantilla de componente, los metadatos i18n son el valor del atributo `i18n`.
 
@@ -19,7 +19,7 @@ Colócalo en cada etiqueta de elemento que contenga texto fijo que quieras tradu
 
 ÚTIL: El atributo `i18n` es un atributo personalizado que las herramientas y compiladores de Angular reconocen.
 
-### Ejemplo de `i18n`
+### Ejemplo de `i18n` {#i18n-example}
 
 La siguiente etiqueta `<h1>` muestra un saludo simple en inglés, "Hello i18n!".
 
@@ -29,7 +29,7 @@ Para marcar el saludo para traducción, agrega el atributo `i18n` a la etiqueta 
 
 <docs-code header="app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute"/>
 
-### Usando la declaración condicional con `i18n`
+### Usando la declaración condicional con `i18n` {#using-conditional-statement-with-i18n}
 
 La siguiente etiqueta `<div>` mostrará texto traducido como parte de `div` y `aria-label` según el estado del interruptor (toggle).
 
@@ -38,7 +38,7 @@ La siguiente etiqueta `<div>` mostrará texto traducido como parte de `div` y `a
     <docs-code header="app.component.ts" path="adev/src/content/examples/i18n/src/app/app.component.ts" visibleLines="[[14,21],[33,37]]"/>
 </docs-code-multifile>
 
-### Traducir texto en línea sin un elemento HTML
+### Traducir texto en línea sin un elemento HTML {#translate-inline-text-without-html-element}
 
 Usa el elemento `<ng-container>` para asociar un comportamiento de traducción para texto específico sin cambiar la forma en que se muestra el texto.
 
@@ -48,7 +48,27 @@ El siguiente ejemplo muestra el elemento `<ng-container>` transformado en un com
 
 <docs-code path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-ng-container"/>
 
-## Marcar atributos de elementos para traducción
+### Nombrar el marcador de posición de la interpolación {#name-the-interpolation-placeholder}
+
+Por defecto, Angular genera un nombre de marcador de posición para cada interpolación en un mensaje traducido. Para darle un nombre significativo que ayude a los traductores a entender el contexto, agrega un comentario `//i18n(ph="nombre")` dentro de la interpolación.
+
+```html
+<element i18n>{{ expression //i18n(ph="placeholder_name") }}</element>
+```
+
+Por ejemplo:
+
+```html
+<p i18n>Hola, {{ username //i18n(ph="name") }}!</p>
+```
+
+Este es el equivalente en plantilla de nombrar un marcador de posición en el código del componente con [`$localize`][ApiLocalizeInitLocalize]:
+
+```ts
+$localize`Hola, ${username}:name:!`;
+```
+
+## Marcar atributos de elementos para traducción {#mark-element-attributes-for-translations}
 
 En una plantilla de componente, los metadatos i18n son el valor del atributo `i18n-{attribute_name}`.
 
@@ -67,7 +87,7 @@ Usa la siguiente sintaxis para asignar un significado, descripción e ID persona
 i18n-{attribute_name}="{meaning}|{description}@@{id}"
 ```
 
-### Ejemplo de `i18n-title`
+### Ejemplo de `i18n-title` {#i18n-title-example}
 
 Para traducir el título de una imagen, revisa este ejemplo.
 El siguiente ejemplo muestra una imagen con un atributo `title`.
@@ -82,7 +102,7 @@ Para marcar el atributo title para traducción, completa la siguiente acción.
 
    <docs-code header="app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-title-translate"/>
 
-## Marcar texto en el código del componente
+## Marcar texto en el código del componente {#mark-text-in-component-code}
 
 En el código del componente, el texto fuente de traducción y los metadatos están rodeados por caracteres de acento grave \(<code>&#96;</code>\).
 
@@ -102,7 +122,7 @@ Los metadatos i18n están rodeados por caracteres de dos puntos \(`:`\) y preced
 $localize`:{i18n_metadata}:string_to_translate`
 </docs-code>
 
-### Incluir texto interpolado
+### Incluir texto interpolado {#include-interpolated-text}
 
 Incluye [interpolaciones](guide/templates/binding#render-dynamic-text-with-text-interpolation) en una cadena de mensaje etiquetada [`$localize`][ApiLocalizeInitLocalize].
 
@@ -112,19 +132,19 @@ Incluye [interpolaciones](guide/templates/binding#render-dynamic-text-with-text-
 $localize`string_to_translate ${variable_name}`;
 </docs-code>
 
-### Nombrar el marcador de posición (placeholder) de la interpolación
+### Nombrar el marcador de posición (placeholder) de la interpolación {#name-the-interpolation-placeholder-1}
 
 <docs-code language="typescript">
 $localize`string_to_translate ${variable_name}:placeholder_name:`;
 </docs-code>
 
-### Sintaxis condicional para traducciones
+### Sintaxis condicional para traducciones {#conditional-syntax-for-translations}
 
 <docs-code language="typescript">
 return this.show ? $localize`Show Tabs` : $localize`Hide tabs`;
 </docs-code>
 
-## Metadatos i18n para traducción
+## Metadatos i18n para traducción {#i18n-metadata-for-translation}
 
 <!--todo: replace with docs-code -->
 
@@ -142,7 +162,7 @@ Los siguientes parámetros proporcionan contexto e información adicional para r
 
 Para información adicional sobre IDs personalizados, consulta [Gestionar texto marcado con IDs personalizados][GuideI18nOptionalManageMarkedText].
 
-### Agregar descripciones y significados útiles
+### Agregar descripciones y significados útiles {#add-helpful-descriptions-and-meanings}
 
 Para traducir un mensaje de texto con precisión, proporciona información adicional o contexto para el traductor.
 
@@ -165,7 +185,7 @@ $localize`:An introduction header for this sample:Hello i18n!`;
 El traductor también puede necesitar conocer el significado o intención del mensaje de texto dentro de este contexto particular de la aplicación, para traducirlo de la misma manera que otro texto con el mismo significado.
 Comienza el valor del atributo `i18n` con el _significado_ y sepáralo de la _descripción_ con el carácter `|`: `{meaning}|{description}`.
 
-#### Ejemplo de `h1`
+#### Ejemplo de `h1` {#h1-example}
 
 Por ejemplo, puedes querer especificar que la etiqueta `<h1>` es un encabezado de sitio que necesitas traducir de la misma manera, ya sea que se use como encabezado o se haga referencia en otra sección del texto.
 
@@ -207,7 +227,7 @@ Esa única entrada de traducción se fusiona de nuevo en la aplicación dondequi
 
 </docs-callout>
 
-## Expresiones ICU
+## Expresiones ICU {#icu-expressions}
 
 Las expresiones ICU te ayudan a marcar texto alternativo en plantillas de componentes para cumplir condiciones.
 Una expresión ICU incluye una propiedad del componente, una cláusula ICU y las declaraciones de caso rodeadas por caracteres de llave de apertura \(`{`\) y llave de cierre \(`}`\).
@@ -231,7 +251,7 @@ Para simplificar la traducción, usa cláusulas de Componentes Internacionales p
 
 ÚTIL: Las cláusulas ICU se adhieren al [Formato de Mensaje ICU][GithubUnicodeOrgIcuUserguideFormatParseMessages] especificado en las [reglas de pluralización CLDR][UnicodeCldrIndexCldrSpecPluralRules].
 
-### Marcar plurales
+### Marcar plurales {#mark-plurals}
 
 Diferentes idiomas tienen diferentes reglas de pluralización que aumentan la dificultad de traducción.
 Debido a que otras configuraciones regionales expresan la cardinalidad de manera diferente, puedes necesitar establecer categorías de pluralización que no se alineen con el inglés.
@@ -289,7 +309,7 @@ La categoría `few` nunca coincide.
 
 </docs-callout>
 
-#### Ejemplo de `minutes`
+#### Ejemplo de `minutes` {#minutes-example}
 
 Si quieres mostrar la siguiente frase en inglés, donde `x` es un número.
 
@@ -333,7 +353,7 @@ Revisa los siguientes detalles en el ejemplo de código anterior.
 
 `{{minutes}}` es una [interpolación](guide/templates/binding#render-dynamic-text-with-text-interpolation).
 
-### Marcar alternativas y expresiones anidadas
+### Marcar alternativas y expresiones anidadas {#mark-alternates-and-nested-expressions}
 
 La cláusula `select` marca opciones para texto alternativo basado en tus valores de cadena definidos.
 
@@ -366,7 +386,7 @@ Si ninguna de las categorías de selección coincide, Angular usa `other` para c
 other { default_value }
 ```
 
-#### Ejemplo de `gender`
+#### Ejemplo de `gender` {#gender-example}
 
 Si quieres mostrar la siguiente frase en inglés.
 
@@ -408,14 +428,14 @@ El siguiente ejemplo de código muestra la propiedad `gender` usada con la cláu
 
 <docs-code header="app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-select"/>
 
-#### Ejemplo de `gender` y `minutes`
+#### Ejemplo de `gender` y `minutes` {#gender-and-minutes-example}
 
 Combina diferentes cláusulas juntas, como las cláusulas `plural` y `select`.
 El siguiente ejemplo de código muestra cláusulas anidadas basadas en los ejemplos de `gender` y `minutes`.
 
 <docs-code header="app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-nested"/>
 
-## Próximos pasos
+## Próximos pasos {#whats-next}
 
 <docs-pill-row>
   <docs-pill href="guide/i18n/translation-files" title="Trabajar con archivos de traducción"/>

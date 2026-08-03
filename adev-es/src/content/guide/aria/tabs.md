@@ -6,7 +6,7 @@
   <docs-pill href="/api/aria/tabs/Tabs" title="Tabs API Reference"/>
 </docs-pill-row>
 
-## Visión general
+## Visión general {#overview}
 
 Las pestañas muestran secciones de contenido en capas donde solo un panel es visible a la vez. Los usuarios cambian entre paneles haciendo clic en botones de pestaña o usando teclas de flecha para navegar la lista de pestañas.
 
@@ -36,7 +36,7 @@ Las pestañas muestran secciones de contenido en capas donde solo un panel es vi
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Uso {#usage}
 
 Las pestañas funcionan bien para organizar contenido relacionado en secciones distintas donde los usuarios cambian entre diferentes vistas o categorías.
 
@@ -55,7 +55,7 @@ Las pestañas funcionan bien para organizar contenido relacionado en secciones d
 - Mostrar secciones de contenido único (no hay necesidad de pestañas)
 - Tener más de 7-8 pestañas (considera un diseño diferente)
 
-## Características
+## Características {#features}
 
 - **Modos de selección** - Las pestañas se activan automáticamente al enfocar o requieren activación manual
 - **Navegación por teclado** - Teclas de flecha, Home y End para navegación eficiente de pestañas
@@ -65,9 +65,9 @@ Las pestañas funcionan bien para organizar contenido relacionado en secciones d
 - **Modos de foco** - Estrategias de foco roving tabindex o activedescendant
 - **Soporte RTL** - Navegación para idiomas de derecha a izquierda
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### La selección sigue al foco
+### La selección sigue al foco {#selection-follows-focus}
 
 Cuando la selección sigue al foco, las pestañas se activan inmediatamente mientras navegas con teclas de flecha. Esto proporciona retroalimentación instantánea y funciona bien para contenido ligero.
 
@@ -99,7 +99,7 @@ Cuando la selección sigue al foco, las pestañas se activan inmediatamente mien
 
 Establece `[selectionMode]="'follow'"` en la lista de pestañas para habilitar este comportamiento.
 
-### Activación manual
+### Activación manual {#manual-activation}
 
 Con activación manual, las teclas de flecha mueven el foco entre pestañas sin cambiar la pestaña seleccionada. Los usuarios presionan Espacio o Enter para activar la pestaña enfocada.
 
@@ -131,7 +131,7 @@ Con activación manual, las teclas de flecha mueven el foco entre pestañas sin 
 
 Usa `[selectionMode]="'explicit'"` para paneles de contenido pesado para evitar renderización innecesaria.
 
-### Pestañas verticales
+### Pestañas verticales {#vertical-tabs}
 
 Organiza pestañas verticalmente para interfaces como paneles de configuración o barras laterales de navegación.
 
@@ -163,7 +163,7 @@ Organiza pestañas verticalmente para interfaces como paneles de configuración 
 
 Establece `[orientation]="'vertical'"` en la lista de pestañas. La navegación cambia a teclas de flecha Arriba/Abajo.
 
-### Renderización lazy de contenido
+### Renderización lazy de contenido {#lazy-content-rendering}
 
 Usa la directiva `ngTabContent` en un `ng-template` para diferir la renderización de paneles de pestañas hasta que se muestren por primera vez.
 
@@ -192,7 +192,7 @@ Usa la directiva `ngTabContent` en un `ng-template` para diferir la renderizaci�
 
 Por defecto, el contenido permanece en el DOM después de que el panel se oculta. Establece `[preserveContent]="false"` para remover el contenido cuando el panel se desactiva.
 
-### Pestañas deshabilitadas
+### Pestañas deshabilitadas {#disabled-tabs}
 
 Deshabilita pestañas específicas para prevenir interacción del usuario. Controla si las pestañas deshabilitadas pueden recibir foco de teclado.
 
@@ -224,73 +224,72 @@ Deshabilita pestañas específicas para prevenir interacción del usuario. Contr
 
 Cuando `[softDisabled]="true"` en la lista de pestañas, las pestañas deshabilitadas pueden recibir foco pero no pueden ser activadas. Cuando `[softDisabled]="false"`, las pestañas deshabilitadas se omiten durante la navegación por teclado.
 
-## APIs
+## Testing
 
-### Tabs
+Angular Aria proporciona harnesses de componentes para probar componentes tabs.
+Aquí hay un ejemplo de cómo usar los harnesses en una prueba de componente:
 
-La directiva contenedor que coordina listas de pestañas y paneles.
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ComponentHarness, HarnessLoader} from '@angular/cdk/testing';
+import {TabsHarness} from '@angular/aria/tabs/testing';
+import {MyTabsComponent} from './my-tabs'; // Tu componente
 
-Esta directiva no tiene inputs ni outputs. Sirve como el contenedor raíz para las directivas `ngTabList`, `ngTab` y `ngTabPanel`.
+// Un harness simple para ayudar a consultar contenido dentro del panel de la pestaña
+class TestContentHarness extends ComponentHarness {
+  static hostSelector = '.test-content';
+  async getText(): Promise<string> {
+    return (await this.host()).text();
+  }
+}
 
-### TabList
+describe('MyTabsComponent', () => {
+  let fixture: ComponentFixture<MyTabsComponent>;
+  let loader: HarnessLoader;
 
-El contenedor para botones de pestaña que gestiona la selección y navegación por teclado.
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyTabsComponent],
+    });
 
-#### Inputs
+    fixture = TestBed.createComponent(MyTabsComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-| Propiedad       | Tipo                         | Por defecto    | Descripción                                                        |
-| --------------- | ---------------------------- | -------------- | ------------------------------------------------------------------ |
-| `orientation`   | `'horizontal' \| 'vertical'` | `'horizontal'` | Dirección de diseño de la lista de pestañas                        |
-| `wrap`          | `boolean`                    | `false`        | Si la navegación por teclado se envuelve de la última a la primera pestaña |
-| `softDisabled`  | `boolean`                    | `true`         | Cuando es `true`, las pestañas deshabilitadas son enfocables pero no activables |
-| `selectionMode` | `'follow' \| 'explicit'`     | `'follow'`     | Si las pestañas se activan al enfocar o requieren activación explícita |
-| `selectedTab`   | `any`                        | —              | El valor de la pestaña seleccionada actualmente (soporta enlace bidireccional) |
+  it('should switch tabs and scope panel queries', async () => {
+    const tabs = await loader.getHarness(TabsHarness);
 
-### Tab
+    // Obtiene todas las pestañas
+    const tabItems = await tabs.getTabs();
+    expect(tabItems.length).toBe(3);
 
-Un botón de pestaña individual.
+    // Verifica la selección inicial
+    expect(await tabItems[0].isSelected()).toBe(true);
+    expect(await tabItems[1].isSelected()).toBe(false);
 
-#### Inputs
+    // Consulta el contenido dentro del panel de la pestaña activa
+    // TabHarness limita automáticamente las consultas a su panel asociado
+    const content = await tabItems[0].getHarness(TestContentHarness);
+    expect(await content.getText()).toBe('Content 1');
 
-| Propiedad  | Tipo      | Por defecto | Descripción                                    |
-| ---------- | --------- | ----------- | ---------------------------------------------- |
-| `value`    | `any`     | —           | **Requerido.** Valor único para esta pestaña   |
-| `disabled` | `boolean` | `false`     | Deshabilita esta pestaña                       |
+    // Cambia a la segunda pestaña
+    await tabItems[1].select();
 
-#### Signals
-
-| Propiedad  | Tipo              | Descripción                                  |
-| ---------- | ----------------- | -------------------------------------------- |
-| `selected` | `Signal<boolean>` | Si la pestaña está seleccionada actualmente  |
-| `active`   | `Signal<boolean>` | Si la pestaña tiene el foco actualmente      |
-
-### TabPanel
-
-El panel de contenido asociado con una pestaña.
-
-#### Inputs
-
-| Propiedad         | Tipo      | Por defecto | Descripción                                                   |
-| ----------------- | --------- | ----------- | ------------------------------------------------------------- |
-| `value`           | `any`     | —           | **Requerido.** Debe coincidir con el `value` de la pestaña asociada |
-| `preserveContent` | `boolean` | `true`      | Si mantener el contenido del panel en el DOM después de desactivación |
-
-#### Signals
-
-| Propiedad | Tipo              | Descripción                                   |
-| --------- | ----------------- | --------------------------------------------- |
-| `visible` | `Signal<boolean>` | Si el panel está visible actualmente          |
-
-### TabContent
-
-Una directiva estructural para renderización lazy de contenido de panel de pestaña.
-
-Esta directiva no tiene inputs, outputs ni métodos. Aplícala a un elemento `ng-template` dentro de un panel de pestaña:
-
-```angular-html
-<div ngTabPanel value="tab1">
-  <ng-template ngTabContent>
-    <!-- El contenido aquí se renderiza de forma lazy -->
-  </ng-template>
-</div>
+    // Verifica que la selección se actualizó
+    expect(await tabItems[0].isSelected()).toBe(false);
+    expect(await tabItems[1].isSelected()).toBe(true);
+  });
+});
 ```
+
+## API reference
+
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
+
+- [`Tabs`](/api/aria/tabs/Tabs)
+- [`TabList`](/api/aria/tabs/TabList)
+- [`Tab`](/api/aria/tabs/Tab)
+- [`TabPanel`](/api/aria/tabs/TabPanel)
+- [`TabContent`](/api/aria/tabs/TabContent)

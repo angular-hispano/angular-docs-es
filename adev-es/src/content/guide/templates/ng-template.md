@@ -2,7 +2,7 @@
 
 Inspirado por el [elemento nativo `<template>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template), el elemento `<ng-template>` te permite declarar un **fragmento de plantilla** – una sección de contenido que puedes renderizar dinámica o programáticamente.
 
-## Creando un fragmento de plantilla
+## Creando un fragmento de plantilla {#creating-a-template-fragment}
 
 Puedes crear un fragmento de plantilla dentro de cualquier plantilla de componente con el elemento `<ng-template>`:
 
@@ -16,7 +16,7 @@ Puedes crear un fragmento de plantilla dentro de cualquier plantilla de componen
 
 Cuando lo anterior se renderiza, el contenido del elemento `<ng-template>` no se renderiza en la página. En su lugar, puedes obtener una referencia al fragmento de plantilla y escribir código para renderizarlo dinámicamente.
 
-### Contexto de enlace para fragmentos
+### Contexto de enlace para fragmentos {#binding-context-for-fragments}
 
 Los fragmentos de plantilla pueden contener enlaces con expresiones dinámicas:
 
@@ -32,7 +32,7 @@ export class ItemCounter {
 
 Las expresiones o declaraciones en un fragmento de plantilla se evalúan contra el componente en el que se declara el fragmento, independientemente de dónde se renderice el fragmento.
 
-## Obteniendo una referencia a un fragmento de plantilla
+## Obteniendo una referencia a un fragmento de plantilla {#getting-a-reference-to-a-template-fragment}
 
 Puedes obtener una referencia a un fragmento de plantilla de una de tres formas:
 
@@ -42,7 +42,7 @@ Puedes obtener una referencia a un fragmento de plantilla de una de tres formas:
 
 En los tres casos, el fragmento está representado por un objeto [TemplateRef](/api/core/TemplateRef).
 
-### Referenciando un fragmento de plantilla con una variable de referencia de plantilla
+### Referenciando un fragmento de plantilla con una variable de referencia de plantilla {#referencing-a-template-fragment-with-a-template-reference-variable}
 
 Puedes agregar una variable de referencia de plantilla a un elemento `<ng-template>` para referenciar ese fragmento de plantilla en otras partes del mismo archivo de plantilla:
 
@@ -56,7 +56,7 @@ Puedes agregar una variable de referencia de plantilla a un elemento `<ng-templa
 
 Luego puedes referenciar este fragmento en cualquier otro lugar de la plantilla a través de la variable `myFragment`.
 
-### Referenciando un fragmento de plantilla con consultas
+### Referenciando un fragmento de plantilla con consultas {#referencing-a-template-fragment-with-queries}
 
 Puedes obtener una referencia a un fragmento de plantilla usando cualquier [API de consulta de componente o directiva](/guide/components/queries).
 
@@ -105,7 +105,7 @@ export class ComponentWithFragment {
 
 Nuevamente, luego puedes referenciar estos fragmentos en el código de tu componente o en la plantilla del componente como cualquier otro miembro de clase.
 
-### Inyectando un fragmento de plantilla
+### Inyectando un fragmento de plantilla {#injecting-a-template-fragment}
 
 Una directiva puede inyectar un `TemplateRef` si esa directiva se aplica directamente a un elemento `<ng-template>`:
 
@@ -126,11 +126,11 @@ export class MyDirective {
 
 Luego puedes referenciar este fragmento en el código de tu directiva como cualquier otro miembro de clase.
 
-## Renderizando un fragmento de plantilla
+## Renderizando un fragmento de plantilla {#rendering-a-template-fragment}
 
 Una vez que tienes una referencia al objeto `TemplateRef` de un fragmento de plantilla, puedes renderizar un fragmento de una de dos formas: en tu plantilla con la directiva `NgTemplateOutlet` o en tu código TypeScript con `ViewContainerRef`.
 
-### Usando `NgTemplateOutlet`
+### Usando `NgTemplateOutlet` {#using-ngtemplateoutlet}
 
 La directiva `NgTemplateOutlet` de `@angular/common` acepta un `TemplateRef` y renderiza el fragmento como un **hermano** del elemento con el outlet. Generalmente deberías usar `NgTemplateOutlet` en un [elemento `<ng-container>`](/guide/templates/ng-container).
 
@@ -159,7 +159,7 @@ Este ejemplo produce el siguiente DOM renderizado:
 <p>This is a fragment</p>
 ```
 
-### Usando `ViewContainerRef`
+### Usando `ViewContainerRef` {#using-viewcontainerref}
 
 Un **contenedor de vista** es un nodo en el árbol de componentes de Angular que puede contener contenido. Cualquier componente o directiva puede inyectar `ViewContainerRef` para obtener una referencia a un contenedor de vista correspondiente a la ubicación de ese componente o directiva en el DOM.
 
@@ -210,7 +210,7 @@ En el ejemplo anterior, hacer clic en el botón "Show" resulta en la siguiente s
 </component-with-fragment>
 ```
 
-## Pasando parámetros al renderizar un fragmento de plantilla
+## Pasando parámetros al renderizar un fragmento de plantilla {#passing-parameters-when-rendering-a-template-fragment}
 
 Al declarar un fragmento de plantilla con `<ng-template>`, puedes adicionalmente declarar parámetros aceptados por el fragmento. Cuando renderizas un fragmento, puedes opcionalmente pasar un objeto `context` correspondiente a estos parámetros. Puedes usar datos de este objeto de contexto en expresiones y declaraciones de enlace, además de referenciar datos del componente en el que se declara el fragmento.
 
@@ -222,7 +222,7 @@ Cada parámetro se escribe como un atributo con prefijo `let-` con un valor que 
 </ng-template>
 ```
 
-### Usando `NgTemplateOutlet`
+### Usando `NgTemplateOutlet` {#using-ngtemplateoutlet-with-parameters}
 
 Puedes vincular un objeto de contexto a la entrada `ngTemplateOutletContext`:
 
@@ -237,7 +237,7 @@ Puedes vincular un objeto de contexto a la entrada `ngTemplateOutletContext`:
 />
 ```
 
-### Usando `ViewContainerRef`
+### Usando `ViewContainerRef` {#using-viewcontainerref-with-parameters}
 
 Puedes pasar un objeto de contexto como segundo argumento a `createEmbeddedView`:
 
@@ -245,7 +245,77 @@ Puedes pasar un objeto de contexto como segundo argumento a `createEmbeddedView`
 this.viewContainer.createEmbeddedView(this.myFragment, {topping: 'onion'});
 ```
 
-## Directivas estructurales
+## Proveer injectors a fragmentos de plantilla {#providing-injectors-to-template-fragments}
+
+Cuando renderizas un fragmento de plantilla, su contexto de injector proviene de la **ubicación de declaración de la plantilla**, no de donde se renderiza. Puedes sobrescribir este comportamiento proporcionando un injector personalizado.
+
+### Usar `NgTemplateOutlet` con injectors {#using-ngtemplateoutlet-with-injectors}
+
+Puedes pasar un `Injector` personalizado al input `ngTemplateOutletInjector`:
+
+```angular-ts
+export const THEME_DATA = new InjectionToken<string>('THEME_DATA', {
+  factory: () => 'light',
+});
+
+@Component({
+  selector: 'themed-panel',
+  template: `<div [class]="theme">...</div>`,
+})
+export class ThemedPanel {
+  theme = inject(THEME_DATA);
+}
+
+@Component({
+  selector: 'root',
+  imports: [NgTemplateOutlet, ThemedPanel],
+  template: `
+    <ng-template #myFragment>
+      <themed-panel />
+    </ng-template>
+    <ng-container *ngTemplateOutlet="myFragment; injector: customInjector" />
+  `,
+})
+export class Root {
+  customInjector = Injector.create({
+    providers: [{provide: THEME_DATA, useValue: 'dark'}],
+  });
+}
+```
+
+#### Heredar el injector del outlet {#inheriting-the-outlets-injector}
+
+Puedes establecer `ngTemplateOutletInjector` con el string `'outlet'` para hacer que la vista embebida herede su injector de la ubicación del outlet en el DOM en lugar de desde donde se declaró la plantilla.
+
+```angular-html
+<ng-template #node let-items>
+  <item-component>
+    @for (child of items; track $index) {
+      <ng-container
+        *ngTemplateOutlet="node; context: {$implicit: child.children}; injector: 'outlet'"
+      />
+    }
+  </item-component>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="node; context: {$implicit: topLevelItems}" />
+```
+
+Cada renderizado recursivo de la plantilla `node` hereda el injector del `<item-component>` circundante, permitiendo que cada nivel anidado acceda a providers con ámbito de su componente padre.
+
+NOTA: Esto es útil para construir estructuras recursivas o cualquier situación donde la plantilla renderizada necesita acceso a providers del árbol de componentes en el sitio del outlet.
+
+### Usar `ViewContainerRef` con injectors {#using-viewcontainerref-with-injectors}
+
+Puedes pasar un injector personalizado como parte del objeto de opciones en `createEmbeddedView`:
+
+```ts
+this.viewContainer.createEmbeddedView(this.myFragment, context, {
+  injector: myCustomInjector,
+});
+```
+
+## Directivas estructurales {#structural-directives}
 
 Una **directiva estructural** es cualquier directiva que:
 
@@ -274,7 +344,7 @@ Los desarrolladores típicamente usan directivas estructurales para renderizar f
 
 Para más detalles, consulta [Directivas Estructurales](/guide/directives/structural-directives).
 
-## Recursos adicionales
+## Recursos adicionales {#additional-resources}
 
 Para ejemplos de cómo se usa `ng-template` en otras bibliotecas, consulta:
 

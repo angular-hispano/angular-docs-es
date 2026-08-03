@@ -11,7 +11,7 @@ El paquete `@angular/elements` exporta una API `createCustomElement()` que propo
 Transformar un componente a un elemento personalizado hace toda la infraestructura requerida de Angular disponible para el navegador.
 Crear un elemento personalizado es simple y directo, y conecta automáticamente la vista definida por tu componente con la detección de cambios y el enlace de datos, mapeando la funcionalidad de Angular a los equivalentes HTML incorporados correspondientes.
 
-## Usando elementos personalizados
+## Usando elementos personalizados {#using-custom-elements}
 
 Los elementos personalizados hacen bootstrap de sí mismos - comienzan cuando se agregan al DOM, y se destruyen cuando se eliminan del DOM.
 Una vez que un elemento personalizado se agrega al DOM de cualquier página, se ve y comporta como cualquier otro elemento HTML, y no requiere ningún conocimiento especial de términos o convenciones de uso de Angular.
@@ -33,7 +33,7 @@ Para agregar el paquete `@angular/elements` a tu espacio de trabajo, ejecuta el 
   </docs-code>
 </docs-code-multifile>
 
-### Cómo funciona
+### Cómo funciona {#how-it-works}
 
 La función `createCustomElement()` convierte un componente en una clase que puede ser registrada con el navegador como un elemento personalizado.
 Después de registrar tu clase configurada con el registro de elementos personalizados del navegador, usa el nuevo elemento igual que un elemento HTML incorporado en el contenido que agregas directamente al DOM:
@@ -48,7 +48,7 @@ Cuando tu elemento personalizado se coloca en una página, el navegador crea una
 El contenido es proporcionado por la plantilla del componente, que usa la sintaxis de plantillas de Angular, y se renderiza usando los datos del componente y del DOM.
 Las propiedades de entrada en el componente corresponden a los atributos de entrada del elemento.
 
-## Transformando componentes a elementos personalizados
+## Transformando componentes a elementos personalizados {#transforming-components-to-custom-elements}
 
 Angular proporciona la función `createCustomElement()` para convertir un componente de Angular, junto con sus dependencias, a un elemento personalizado.
 
@@ -62,7 +62,7 @@ IMPORTANTE: Evita usar el selector del componente como el nombre de etiqueta del
 Esto puede llevar a comportamiento inesperado, debido a que Angular crea dos instancias del componente para un solo elemento DOM:
 Un componente de Angular regular y un segundo usando el elemento personalizado.
 
-### Mapeo
+### Mapeo {#mapping}
 
 Un elemento personalizado _aloja_ un componente de Angular, proporcionando un puente entre los datos y la lógica definidos en el componente y las APIs estándar del DOM.
 Las propiedades y la lógica del componente se mapean directamente a los atributos HTML y al sistema de eventos del navegador.
@@ -78,7 +78,10 @@ Las propiedades y la lógica del componente se mapean directamente a los atribut
 
 Para más información, ve la documentación de Web Components para [Creación de eventos personalizados](https://developer.mozilla.org/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events).
 
-## Ejemplo: Un Servicio de Popup
+## Ejemplo: Un Servicio de Popup {#example-a-popup-service}
+
+Para agregar un componente a una aplicación en tiempo de ejecución, puedes [renderizarlo programáticamente](guide/components/programmatic-rendering) con la API `createComponent`.
+Con este enfoque, eres responsable de la infraestructura circundante: adjuntar la vista host del componente al `ApplicationRef` para que se ejecute la detección de cambios, establecer sus inputs, suscribirte a sus outputs, y desadjuntar y limpiar la vista cuando el componente se elimina.
 
 Anteriormente, cuando querías agregar un componente a una aplicación en tiempo de ejecución, tenías que definir un _componente dinámico_, y luego tendrías que cargarlo, adjuntarlo a un elemento en el DOM, y conectar todas las dependencias, detección de cambios, y manejo de eventos.
 
@@ -87,23 +90,23 @@ Usar un elemento personalizado de Angular hace el proceso más simple y transpar
 
 La siguiente aplicación de ejemplo de Servicio de Popup define un componente que puedes cargar dinámicamente o convertir a un elemento personalizado.
 
-| Archivos             | Detalles                                                                                                                                                                                                                              |
-| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `popup.component.ts` | Define un simple elemento pop-up que muestra un mensaje de entrada, con algo de animación y estilos.                                                                                                                                  |
-| `popup.service.ts`   | Crea un servicio inyectable que proporciona dos formas diferentes de invocar el `PopupComponent`; como un componente dinámico, o como un elemento personalizado. Nota cuánta más configuración se requiere para el método de carga dinámica. |
-| `app.component.ts`   | Define el componente raíz de la aplicación, que usa el `PopupService` para agregar el pop-up al DOM en tiempo de ejecución. Cuando la aplicación se ejecuta, el constructor del componente raíz convierte `PopupComponent` a un elemento personalizado. |
+| Archivos           | Detalles                                                                                                                                                                                                                              |
+| :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `popup.ts`         | Define un simple elemento pop-up que muestra un mensaje de entrada, con algo de animación y estilos.                                                                                                                                  |
+| `popup.service.ts` | Crea un servicio inyectable que proporciona dos formas diferentes de invocar el `Popup`; como un componente dinámico, o como un elemento personalizado. Nota cuánta más configuración se requiere para el método de carga dinámica. |
+| `app.ts`           | Define el componente raíz de la aplicación, que usa el `PopupService` para agregar el pop-up al DOM en tiempo de ejecución. Cuando la aplicación se ejecuta, el constructor del componente raíz convierte `Popup` a un elemento personalizado. |
 
 Para comparación, la demo muestra ambos métodos.
 Un botón agrega el popup usando el método de carga dinámica, y el otro usa el elemento personalizado.
 El resultado es el mismo, pero la preparación es diferente.
 
 <docs-code-multifile>
-    <docs-code header="popup.component.ts" path="adev/src/content/examples/elements/src/app/popup.component.ts"/>
+    <docs-code language="angular-ts" header="popup.ts" path="adev/src/content/examples/elements/src/app/popup.ts"/>
     <docs-code header="popup.service.ts" path="adev/src/content/examples/elements/src/app/popup.service.ts"/>
-    <docs-code header="app.component.ts" path="adev/src/content/examples/elements/src/app/app.component.ts"/>
+    <docs-code header="app.ts" path="adev/src/content/examples/elements/src/app/app.ts"/>
 </docs-code-multifile>
 
-## Tipado para elementos personalizados
+## Tipado para elementos personalizados {#typings-for-custom-elements}
 
 Las APIs genéricas del DOM, como `document.createElement()` o `document.querySelector()`, devuelven un tipo de elemento que es apropiado para los argumentos especificados.
 Por ejemplo, llamar `document.createElement('a')` devuelve un `HTMLAnchorElement`, que TypeScript sabe que tiene una propiedad `href`.
@@ -167,7 +170,7 @@ document.querySelector('my-other-element')  //--> NgElement & WithProperties<{fo
 
 ```
 
-## Limitaciones
+## Limitaciones {#limitations}
 
 Se debe tener cuidado al destruir y luego volver a adjuntar elementos personalizados creados con `@angular/elements` debido a problemas con el callback [disconnect()](https://github.com/angular/angular/issues/38778). Los casos donde puedes encontrar este problema son:
 

@@ -4,7 +4,7 @@ Existen muchos patrones de código que son técnicamente válidos para el compil
 Estos patrones pueden no tener el efecto esperado por el desarrollador, lo que frecuentemente genera errores.
 El compilador de Angular incluye "diagnósticos extendidos" que identifican muchos de estos patrones, con el fin de advertir a los desarrolladores sobre los posibles problemas y hacer cumplir las mejores prácticas comunes en una base de código.
 
-## Diagnósticos
+## Diagnósticos {#diagnostics}
 
 Actualmente, Angular admite los siguientes diagnósticos extendidos:
 
@@ -27,7 +27,7 @@ Actualmente, Angular admite los siguientes diagnósticos extendidos:
 | `NG8117` | [`uninvokedFunctionInTextInterpolation`](extended-diagnostics/NG8117) |
 | `NG8021` | [`deferTriggerMisconfiguration`](extended-diagnostics/NG8021)         |
 
-## Configuración
+## Configuración {#configuration}
 
 Los diagnósticos extendidos son advertencias por defecto y no bloquean la compilación.
 Cada diagnóstico puede configurarse como:
@@ -55,7 +55,7 @@ La severidad de las verificaciones puede configurarse como una [opción del comp
 ```
 
 El campo `checks` mapea el nombre de los diagnósticos individuales a su categoría asociada.
-Consulta [Diagnósticos](#diagnósticos) para obtener una lista completa de los diagnósticos extendidos y el nombre a usar para configurarlos.
+Consulta [Diagnósticos](#diagnostics) para obtener una lista completa de los diagnósticos extendidos y el nombre a usar para configurarlos.
 
 El campo `defaultCategory` se usa para cualquier diagnóstico que no esté listado explícitamente en `checks`.
 Si no se establece, dichos diagnósticos se tratarán como `warning`.
@@ -63,7 +63,7 @@ Si no se establece, dichos diagnósticos se tratarán como `warning`.
 Los diagnósticos extendidos se emitirán cuando [`strictTemplates`](tools/cli/template-typecheck#strict-mode) esté habilitado.
 Esto es necesario para permitir que el compilador comprenda mejor los tipos de plantillas de Angular y proporcione diagnósticos precisos y significativos.
 
-## Versionado semántico
+## Versionado semántico {#semantic-versioning}
 
 El equipo de Angular tiene la intención de agregar o habilitar nuevos diagnósticos extendidos en versiones **menores** de Angular (consulta [semver](https://docs.npmjs.com/about-semantic-versioning)).
 Esto significa que actualizar Angular puede mostrar nuevas advertencias en tu base de código existente.
@@ -71,10 +71,10 @@ Esto permite al equipo entregar características más rápidamente y hacer los d
 
 Sin embargo, establecer `"defaultCategory": "error"` promoverá dichas advertencias a errores graves.
 Esto puede causar que una actualización de versión menor introduzca errores de compilación, lo que puede verse como un cambio disruptivo no conforme con semver.
-Cualquier nuevo diagnóstico puede suprimirse o degradarse a advertencias a través de la [configuración](#configuración) anterior, por lo que el impacto de un nuevo diagnóstico debería ser mínimo para los proyectos que tratan los diagnósticos extendidos como errores por defecto.
+Cualquier nuevo diagnóstico puede suprimirse o degradarse a advertencias a través de la [configuración](#configuration) anterior, por lo que el impacto de un nuevo diagnóstico debería ser mínimo para los proyectos que tratan los diagnósticos extendidos como errores por defecto.
 Usar error como valor predeterminado es una herramienta muy poderosa; solo ten en cuenta esta advertencia de semver al decidir si `error` es el valor predeterminado correcto para tu proyecto.
 
-## Nuevos diagnósticos
+## Nuevos diagnósticos {#new-diagnostics}
 
 El equipo de Angular siempre está abierto a sugerencias sobre nuevos diagnósticos que podrían agregarse.
 Los diagnósticos extendidos generalmente deben:

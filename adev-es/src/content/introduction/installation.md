@@ -3,32 +3,30 @@
 
 Comienza con Angular rápidamente usando iniciadores en línea o localmente con tu terminal.
 
-## Probar en línea
+## Probar en línea {#play-online}
 
 Si solo quieres experimentar con Angular en tu navegador sin configurar un proyecto, puedes usar nuestro sandbox en línea:
 
-<docs-card-container>
-  <docs-card title="" href="/playground" link="Abrir en Playground">
-  La forma más rápida de experimentar con una aplicación Angular. No requiere configuración.
-  </docs-card>
-</docs-card-container>
+<docs-card title="Playground" href="/playground" link="Abrir en Playground" iconImgSrc="adev/src/assets/icons/playground.svg" titleInline>
+La forma más rápida de experimentar con una aplicación Angular. No requiere configuración.
+</docs-card>
 
-## Configurar un nuevo proyecto localmente
+## Configurar un nuevo proyecto localmente {#set-up-a-new-project-locally}
 
 Si estás comenzando un nuevo proyecto, lo más probable es que quieras crear un proyecto local para poder usar herramientas como Git.
 
-### Prerrequisitos
+### Prerrequisitos {#prerequisites}
 
 - **Node.js** - [v20.19.0 o más reciente](/reference/versions)
 - **Editor de texto** - Recomendamos [Visual Studio Code](https://code.visualstudio.com/)
-- **Terminal** - Requerido para ejecutar comandos de Angular CLI
+- **Terminal** - Requerido para ejecutar comandos de [Angular CLI](/tools/cli)
 - **Herramienta de desarrollo** - Para mejorar tu flujo de trabajo de desarrollo, recomendamos el [Angular Language Service](/tools/language-service)
 
-### Instrucciones
+### Instrucciones {#instructions}
 
 La siguiente guía te explicará cómo configurar un proyecto de Angular de forma local.
 
-#### Instalar Angular CLI
+#### Instalar Angular CLI {#install-angular-cli}
 
 Abre una terminal (si estás usando [Visual Studio Code](https://code.visualstudio.com/), puedes abrir una [terminal integrada](https://code.visualstudio.com/docs/editor/integrated-terminal)) y ejecuta el siguiente comando:
 
@@ -60,11 +58,11 @@ Abre una terminal (si estás usando [Visual Studio Code](https://code.visualstud
 
 </docs-code-multifile>
 
-Si tienes problemas ejecutando este comando en Windows o Unix, consulta la [Documentación del CLI](/tools/cli/setup-local#instalar-el-angular-cli) para más información.
+Si tienes problemas ejecutando este comando en Windows o Unix, consulta la [Documentación del CLI](/tools/cli/setup-local#install-the-angular-cli) para más información.
 
-#### Crear un nuevo proyecto
+#### Crear un nuevo proyecto {#create-a-new-project}
 
-En tu terminal, ejecuta el comando de la CLI `ng new` con el nombre del proyecto deseado. En los siguientes ejemplos, usaremos el nombre de proyecto de ejemplo `my-first-angular-app`.
+En tu terminal, ejecuta el comando de la CLI [`ng new`](cli/new) con el nombre del proyecto deseado. En los siguientes ejemplos, usaremos el nombre de proyecto de ejemplo `my-first-angular-app`.
 
 ```shell
 ng new <project-name>
@@ -83,7 +81,7 @@ Después de seleccionar las opciones de configuración y que la CLI la ejecute, 
 
 En este punto, ¡ya estás listo para ejecutar tu proyecto localmente!
 
-#### Ejecutar tu nuevo proyecto localmente
+#### Ejecutar tu nuevo proyecto localmente {#running-your-new-project-locally}
 
 En tu termina, cambia a tu nuevo proyecto en Angular.
 
@@ -108,10 +106,10 @@ NOTE: Raw file sizes do not reflect development server per-request transformatio
 
 Y ahora puedes visitar la ruta en `Local` (por ejemplo, `http://localhost:4200`) para ver tu aplicación. ¡Disfruta programando! 🎉
 
-### Usar IA para el desarrollo
+### Usar IA para el desarrollo {#using-ai-for-development}
 
 Para comenzar a construir en tu IDE preferido con IA, [consulta las reglas de prompts de Angular y las mejores prácticas](/ai/develop-with-ai).
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 Ahora que has creado tu proyecto Angular, puedes aprender más sobre Angular en nuestra [Guía de Fundamentos](/essentials) o elegir un tema en nuestras guías detalladas!

@@ -2,13 +2,13 @@
 
 Angular tiene dos tipos de declaraciones de variables en plantillas: variables locales de plantilla y variables de referencia de plantilla.
 
-## Variables locales de plantilla con `@let`
+## Variables locales de plantilla con `@let` {#local-template-variables-with-let}
 
 La sintaxis `@let` de Angular te permite definir una variable local y reutilizarla en toda la plantilla, similar a la [sintaxis `let` de JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let).
 
-### Usando `@let`
+### Usando `@let` {#using-let}
 
-Usa `@let` para declarar una variable cuyo valor se basa en el resultado de una expresión de plantilla. Angular mantiene automáticamente el valor de la variable actualizado con la expresión dada, similar a los [bindings](./templates/bindings).
+Usa `@let` para declarar una variable cuyo valor se basa en el resultado de una expresión de plantilla. Angular mantiene automáticamente el valor de la variable actualizado con la expresión dada, similar a los [bindings](/guide/templates/binding).
 
 ```angular-html
 @let name = user.name;
@@ -23,7 +23,7 @@ Usa `@let` para declarar una variable cuyo valor se basa en el resultado de una 
 
 Cada bloque `@let` puede declarar exactamente una variable. No puedes declarar múltiples variables en el mismo bloque con una coma.
 
-### Referenciando el valor de `@let`
+### Referenciando el valor de `@let` {#referencing-the-value-of-let}
 
 Una vez que has declarado una variable con `@let`, puedes reutilizarla en la misma plantilla:
 
@@ -44,7 +44,7 @@ Una vez que has declarado una variable con `@let`, puedes reutilizarla en la mis
 }
 ```
 
-### Asignabilidad
+### Asignabilidad {#assignability}
 
 Una diferencia clave entre `@let` y el `let` de JavaScript es que `@let` no puede ser reasignado después de la declaración. Sin embargo, Angular mantiene automáticamente el valor de la variable actualizado con la expresión dada.
 
@@ -55,7 +55,7 @@ Una diferencia clave entre `@let` y el `let` de JavaScript es que `@let` no pued
 <button (click)="value = value + 1">Increment the value</button>
 ```
 
-### Alcance de variables
+### Alcance de variables {#variable-scope}
 
 Las declaraciones `@let` tienen alcance a la vista actual y sus descendientes. Angular crea una nueva vista en los límites de componentes y en cualquier lugar donde una plantilla pueda contener contenido dinámico, como bloques de control de flujo, bloques `@defer`, o directivas estructurales.
 
@@ -84,7 +84,7 @@ Dado que las declaraciones `@let` no se elevan (no son hoisted), **no pueden** s
 {{nested}} <!-- Error, no se eleva desde @if -->
 ```
 
-### Sintaxis completa
+### Sintaxis completa {#full-syntax}
 
 La sintaxis `@let` está formalmente definida como:
 
@@ -95,7 +95,7 @@ La sintaxis `@let` está formalmente definida como:
 - Seguida de una expresión Angular que puede ser multilínea.
 - Terminada por el símbolo `;`.
 
-## Variables de referencia de plantilla
+## Variables de referencia de plantilla {#template-reference-variables}
 
 Las variables de referencia de plantilla te dan una forma de declarar una variable que referencia un valor de un elemento en tu plantilla.
 
@@ -107,7 +107,7 @@ Una variable de referencia de plantilla puede referirse a lo siguiente:
 
 Puedes usar variables de referencia de plantilla para leer información de una parte de la plantilla en otra parte de la misma plantilla.
 
-### Declarando una variable de referencia de plantilla
+### Declarando una variable de referencia de plantilla {#declaring-a-template-reference-variable}
 
 Puedes declarar una variable en un elemento de una plantilla agregando un atributo que comienza con el carácter hash (`#`) seguido del nombre de la variable.
 
@@ -116,7 +116,7 @@ Puedes declarar una variable en un elemento de una plantilla agregando un atribu
 <input #taskInput placeholder="Enter task name">
 ```
 
-### Asignando valores a variables de referencia de plantilla
+### Asignando valores a variables de referencia de plantilla {#assigning-values-to-template-reference-variables}
 
 Angular asigna un valor a las variables de plantilla basándose en el elemento en el que se declara la variable.
 
@@ -143,7 +143,7 @@ Si declaras la variable en cualquier otro elemento mostrado, la variable se refi
 <input #taskInput placeholder="Enter task name">
 ```
 
-#### Asignando una referencia a una directiva de Angular
+#### Asignando una referencia a una directiva de Angular {#assigning-a-reference-to-an-angular-directive}
 
 Las directivas de Angular pueden tener una propiedad `exportAs` que define un nombre por el cual la directiva puede ser referenciada en una plantilla:
 
@@ -164,7 +164,7 @@ Cuando declaras una variable de plantilla en un elemento, puedes asignar a esa v
 
 No puedes referirte a una directiva que no especifica un nombre `exportAs`.
 
-### Usando variables de referencia de plantilla con consultas
+### Usando variables de referencia de plantilla con consultas {#using-template-reference-variables-with-queries}
 
 Además de usar variables de plantilla para leer valores de otra parte de la misma plantilla, también puedes usar este estilo de declaración de variable para "marcar" un elemento para [consultas de componentes y directivas](/guide/components/queries).
 
@@ -186,3 +186,35 @@ export class AppComponent {
 ```
 
 Consulta [Referenciando hijos con consultas](/guide/components/queries) para más información sobre consultas.
+
+### Alcance de las variables de plantilla {#template-variable-scope}
+
+Al igual que las variables en código JavaScript o TypeScript, las variables de plantilla tienen el alcance de la plantilla que las declara.
+
+De manera similar, las [directivas estructurales](guide/directives/structural-directives) o las declaraciones `<ng-template>` crean un nuevo alcance de plantilla anidado, muy similar a como las declaraciones de flujo de control de JavaScript como `if` y `for` crean nuevos alcances léxicos. No puedes acceder a variables de plantilla dentro de una de estas directivas estructurales desde fuera de sus límites.
+
+HELPFUL: Define una variable solo una vez en la plantilla para que el valor en tiempo de ejecución siga siendo predecible.
+
+#### Acceso en una plantilla anidada {#accessing-in-a-nested-template}
+
+Una plantilla interna puede acceder a las variables de plantilla que define la plantilla externa.
+
+En el siguiente ejemplo, cambiar el texto en el `<input>` cambia el valor en el `<span>` porque Angular actualiza inmediatamente los cambios a través de la variable de plantilla, `ref1`.
+
+```html
+<input #ref1 type="text" [(ngModel)]="firstExample" />
+
+<span *ngIf="true">Value: {{ ref1.value }}</span>
+```
+
+En este caso, el `*ngIf` en `<span>` crea un nuevo alcance de plantilla, que incluye la variable `ref1` de su alcance padre.
+
+Sin embargo, acceder a una variable de plantilla desde un alcance hijo en la plantilla padre no funciona:
+
+```html {avoid}
+<input *ngIf="true" #ref2 type="text" [(ngModel)]="secondExample" />
+
+<span>Value: {{ ref2?.value }}</span>
+```
+
+Aquí, `ref2` se declara en el alcance hijo creado por `*ngIf`, y no es accesible desde la plantilla padre.

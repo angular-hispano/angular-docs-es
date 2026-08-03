@@ -9,7 +9,7 @@ En algunos casos, las [tareas](https://developer.mozilla.org/docs/Web/API/HTML_D
 
 Esta sección cubre cómo identificar tales condiciones, y cómo ejecutar código fuera de la zone de Angular para evitar llamadas innecesarias de change detection.
 
-## Identificando llamadas innecesarias de change detection
+## Identificando llamadas innecesarias de change detection {#identifying-unnecessary-change-detection-calls}
 
 Puedes detectar llamadas innecesarias de change detection usando Angular DevTools. A menudo aparecen como barras consecutivas en la línea de tiempo del perfilador con origen `setTimeout`, `setInterval`, `requestAnimationFrame`, o un manejador de eventos. Cuando tienes llamadas limitadas dentro de tu aplicación de estas APIs, la invocación de change detection usualmente es causada por una biblioteca de terceros.
 
@@ -17,7 +17,7 @@ Puedes detectar llamadas innecesarias de change detection usando Angular DevTool
 
 En la imagen anterior, hay una serie de llamadas de change detection disparadas por manejadores de eventos asociados con un elemento. Ese es un desafío común al usar componentes de terceros no nativos de Angular, que no alteran el comportamiento predeterminado de `NgZone`.
 
-## Ejecutar tareas fuera de `NgZone`
+## Ejecutar tareas fuera de `NgZone` {#run-tasks-outside-ngzone}
 
 En tales casos, puedes indicarle a Angular que evite llamar change detection para tareas programadas por un fragmento de código dado usando [NgZone](/api/core/NgZone).
 

@@ -4,7 +4,7 @@ A partir de Angular 14, los formularios son estrictamente tipados por defecto.
 
 Como antecedente para esta guía, te recomendamos familiarizarte con los [Formularios Reactivos de Angular](guide/forms/reactive-forms).
 
-## Visión general de formularios tipados
+## Visión general de formularios tipados {#overview-of-typed-forms}
 
 <docs-video src="https://www.youtube.com/embed/L-odCf4MfJc" alt="Formularios Tipados en Angular" />
 
@@ -31,7 +31,7 @@ Además de la seguridad, el tipado ofrece otras mejoras, como un mejor autocompl
 
 Estas mejoras actualmente se aplican solo a formularios *reactivos* (no a formularios [*basados en plantillas*](guide/forms/template-driven-forms)).
 
-## Formularios no tipados
+## Formularios no tipados {#untyped-forms}
 
 Los formularios no tipados siguen siendo compatibles y continuarán funcionando como antes. Para usarlos, debes importar los símbolos `Untyped` de `@angular/forms`:
 
@@ -44,7 +44,7 @@ const login = new UntypedFormGroup({
 
 Cada símbolo `Untyped` tiene exactamente la misma semántica que en versiones anteriores de Angular. Puedes habilitar el tipado de forma incremental al eliminar los prefijos `Untyped`.
 
-## `FormControl`: Primeros pasos
+## `FormControl`: Primeros pasos {#formcontrol-getting-started}
 
 El formulario más simple consiste en un solo control:
 
@@ -54,7 +54,7 @@ const email = new FormControl('angularrox@gmail.com');
 
 Este control será automáticamente inferido para tener el tipo `FormControl<string|null>`. TypeScript aplicará automáticamente este tipo en toda la [API de `FormControl`](api/forms/FormControl), como `email.value`, `email.valueChanges`, `email.setValue(...)`, etc.
 
-### Nulabilidad
+### Nulabilidad {#nullability}
 
 Podrías preguntarte: ¿por qué el tipo de este control incluye `null`? Esto es porque el control puede volverse `null` en cualquier momento, llamando a reset:
 
@@ -74,7 +74,7 @@ console.log(email.value); // angularrox@gmail.com
 
 Cabe reiterar, esta opción afecta el comportamiento del formulario en tiempo de ejecución cuando se llama a `.reset()`, y debe cambiarse con cuidado.
 
-### Especificar un tipo explícito
+### Especificar un tipo explícito {#specifying-an-explicit-type}
 
 Es posible especificar el tipo, en lugar de depender de la inferencia. Considera un control inicializado a `null`. Debido a que el valor inicial es `null`, TypeScript inferirá `FormControl<null>`,  lo cual es más restrictivo de lo que queremos.
 
@@ -90,7 +90,7 @@ const email = new FormControl<string|null>(null);
 email.setValue('angularrox@gmail.com');
 ```
 
-## `FormArray`: Colecciones dinámicas y homogéneas
+## `FormArray`: Colecciones dinámicas y homogéneas {#formarray-dynamic-homogenous-collections}
 
 Un `FormArray` contiene una lista abierta de controles. El parámetro de tipo corresponde al tipo de cada control interno:
 
@@ -118,11 +118,11 @@ aliases.clear();
 console.log(aliases.length); // 0
 ```
 
-## `FormGroup` y `FormRecord`
+## `FormGroup` y `FormRecord` {#formgroup-and-formrecord}
 
 Angular proporciona el tipo `FormGroup` para formularios con un conjunto enumerado de claves, y un tipo llamado `FormRecord`, para grupos abiertos o dinámicos.
 
-### Valores parciales
+### Valores parciales {#partial-values}
 
 Considera de nuevo un formulario de inicio de sesión:
 
@@ -141,7 +141,7 @@ Más específicamente, el tipo de `login.value.email` es `string|undefined`, y T
 
 Si quieres acceder al valor *incluyendo* controles deshabilitados, y así evitar campos posiblemente `undefined`, puedes usar `login.getRawValue()`.
 
-### Controles opcionales y grupos dinámicos
+### Controles opcionales y grupos dinámicos {#optional-controls-and-dynamic-groups}
 
 Algunos formularios tienen controles que pueden o no estar presentes, y que pueden ser agregados o eliminados en tiempo de ejecución. Puedes representar estos controles usando *campos opcionales*:
 

@@ -11,7 +11,7 @@ resultado llamando a la función signal, incluyendo en contextos reactivos como 
 
 Hay dos categorías de consulta: **consultas de vista** y **consultas de contenido.**
 
-## Consultas de vista
+## Consultas de vista {#view-queries}
 
 Las consultas de vista recuperan resultados de los elementos en la _vista_ del componente — los elementos definidos en la propia plantilla del componente. Puedes consultar por un solo resultado con la función `viewChild`.
 
@@ -65,7 +65,7 @@ export class CustomCard {
 
 **Las consultas nunca atraviesan los límites de los componentes.** Las consultas de vista solo pueden recuperar resultados de la plantilla del componente.
 
-## Consultas de contenido
+## Consultas de contenido {#content-queries}
 
 Las consultas de contenido recuperan resultados de los elementos en el _contenido_ del componente — los elementos anidados dentro del componente en la plantilla donde se usa. Puedes consultar por un solo resultado con la función `contentChild`.
 
@@ -141,7 +141,7 @@ export class UserProfile { }
 
 **Las consultas nunca atraviesan los límites de los componentes.** Las consultas de contenido solo pueden recuperar resultados de la misma plantilla que el componente mismo.
 
-## Consultas requeridas
+## Consultas requeridas {#required-queries}
 
 Si una consulta de hijo (`viewChild` o `contentChild`) no encuentra un resultado, su valor es `undefined`. Esto puede ocurrir si el elemento objetivo está oculto por una declaración de flujo de control como `@if` o `@for`. Debido a esto, las consultas de hijo devuelven un signal que incluye `undefined` en su tipo de valor.
 
@@ -157,7 +157,7 @@ export class CustomCard {
 
 Si una consulta requerida no encuentra un resultado coincidente, Angular reporta un error. Debido a que esto garantiza que un resultado está disponible, las consultas requeridas no incluyen automáticamente `undefined` en el tipo de valor del signal.
 
-## Localizadores de consulta
+## Localizadores de consulta {#query-locators}
 
 El primer parámetro para cada decorador de consulta es su **localizador**.
 
@@ -183,7 +183,7 @@ Si más de un elemento define la misma variable de referencia de plantilla, la c
 
 Angular no soporta selectores CSS como localizadores de consulta.
 
-### Consultas y el árbol de inyectores
+### Consultas y el árbol de inyectores {#queries-and-the-injector-tree}
 
 CONSEJO: Ve [Inyección de Dependencias](guide/di) para información de fondo sobre providers y el árbol de inyección de Angular.
 
@@ -206,11 +206,11 @@ export class CustomList {
 
 El ejemplo anterior usa un `InjectionToken` como localizador, pero puedes usar cualquier `ProviderToken` para localizar elementos específicos.
 
-## Opciones de consulta
+## Opciones de consulta {#query-options}
 
 Todas las funciones de consulta aceptan un objeto de opciones como segundo parámetro. Estas opciones controlan cómo la consulta encuentra sus resultados.
 
-### Leyendo valores específicos del inyector de un elemento
+### Leyendo valores específicos del inyector de un elemento {#reading-specific-values-from-an-elements-injector}
 
 Por defecto, el localizador de consulta indica tanto el elemento que estás buscando como el valor recuperado. Alternativamente puedes especificar la opción `read` para recuperar un valor diferente del elemento coincidente con el localizador.
 
@@ -227,7 +227,7 @@ el `TemplateRef` asociado con ese elemento.
 
 Los desarrolladores más comúnmente usan `read` para recuperar `ElementRef` y `TemplateRef`.
 
-### Descendientes de contenido
+### Descendientes de contenido {#content-descendants}
 
 Por defecto, las consultas de `contentChildren` encuentran solo hijos _directos_ del componente y no atraviesan hacia los descendientes.
 Las consultas de `contentChild` sí atraviesan hacia los descendientes por defecto.
@@ -258,14 +258,14 @@ En el ejemplo anterior, `CustomExpando` no puede encontrar `<custom-toggle>` con
 
 Las consultas de vista no tienen esta opción porque _siempre_ atraviesan hacia los descendientes.
 
-## Consultas basadas en decoradores
+## Consultas basadas en decoradores {#decorator-based-queries}
 
 CONSEJO: Aunque el equipo de Angular recomienda usar la función de consulta basada en signals para proyectos nuevos, las
 APIs de consulta basadas en decoradores originales permanecen completamente soportadas.
 
 Alternativamente puedes declarar consultas añadiendo el decorador correspondiente a una propiedad. Las consultas basadas en decoradores se comportan de la misma manera que las consultas basadas en signals excepto como se describe a continuación.
 
-### Consultas de vista
+### Consultas de vista {#decorator-view-queries}
 
 Puedes consultar por un solo resultado con el decorador `@ViewChild`.
 
@@ -328,7 +328,7 @@ export class CustomCard {
 
 `@ViewChildren` crea un objeto `QueryList` que contiene los resultados de la consulta. Puedes suscribirte a cambios en los resultados de la consulta a lo largo del tiempo a través de la propiedad `changes`.
 
-### Consultas de contenido
+### Consultas de contenido {#decorator-content-queries}
 
 Puedes consultar por un solo resultado con el decorador `@ContentChild`.
 
@@ -411,11 +411,11 @@ export class UserProfile { }
 
 `@ContentChildren` crea un objeto `QueryList` que contiene los resultados de la consulta. Puedes suscribirte a cambios en los resultados de la consulta a lo largo del tiempo a través de la propiedad `changes`.
 
-### Opciones de consulta basadas en decoradores
+### Opciones de consulta basadas en decoradores {#decorator-based-query-options}
 
 Todos los decoradores de consulta aceptan un objeto de opciones como segundo parámetro. Estas opciones funcionan de la misma manera que las consultas basadas en signals excepto donde se describe a continuación.
 
-### Consultas estáticas
+### Consultas estáticas {#static-queries}
 
 Los decoradores `@ViewChild` y `@ContentChild` aceptan la opción `static`.
 
@@ -439,7 +439,7 @@ Los resultados de consultas estáticas no se actualizan después de la inicializ
 
 La opción `static` no está disponible para las consultas `@ViewChildren` y `@ContentChildren`.
 
-### Usando QueryList
+### Usando QueryList {#using-querylist}
 
 `@ViewChildren` y `@ContentChildren` ambos proporcionan un objeto `QueryList` que contiene una lista de resultados.
 
@@ -447,7 +447,7 @@ La opción `static` no está disponible para las consultas `@ViewChildren` y `@C
 
 Puedes suscribirte a la propiedad `changes` para hacer algo cada vez que los resultados cambien.
 
-## Errores comunes con consultas
+## Errores comunes con consultas {#common-query-pitfalls}
 
 Al usar consultas, errores comunes pueden hacer que tu código sea más difícil de entender y mantener.
 

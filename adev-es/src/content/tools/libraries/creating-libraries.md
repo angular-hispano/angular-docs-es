@@ -5,7 +5,7 @@ Esta página proporciona una visión general conceptual de cómo crear y publica
 Si encuentras que necesitas resolver el mismo problema en más de una aplicación \(o quieres compartir tu solución con otros desarrolladores\), tienes un candidato para una librería.
 Un ejemplo simple podría ser un botón que envía usuarios al sitio web de tu empresa, que se incluiría en todas las aplicaciones que tu empresa construya.
 
-## Primeros pasos
+## Primeros pasos {#getting-started}
 
 Usa el Angular CLI para generar un nuevo esqueleto de librería en un nuevo espacio de trabajo con los siguientes comandos.
 
@@ -20,7 +20,7 @@ ng generate library my-lib
 <docs-callout title="Nombrando tu librería">
 
 Debes tener mucho cuidado al elegir el nombre de tu librería si quieres publicarla más tarde en un registro de paquetes público como npm.
-Consulta [Publicando tu librería](tools/libraries/creating-libraries#publicando-tu-librería).
+Consulta [Publicando tu librería](tools/libraries/creating-libraries#publishing-your-library).
 
 Evita usar un nombre que esté prefijado con `ng-`, como `ng-library`.
 El prefijo `ng-` es una palabra clave reservada usada por el framework Angular y sus librerías.
@@ -76,7 +76,7 @@ Cualquier cosa exportada desde este archivo se hace pública cuando tu librería
 
 Tu librería debería proporcionar documentación \(típicamente un archivo README\) para instalación y mantenimiento.
 
-## Refactorizando partes de una aplicación en una librería
+## Refactorizando partes de una aplicación en una librería {#refactoring-parts-of-an-application-into-a-library}
 
 Para hacer tu solución reutilizable, necesitas ajustarla para que no dependa de código específico de la aplicación.
 Aquí hay algunas cosas a considerar al migrar funcionalidad de aplicación a una librería.
@@ -101,7 +101,7 @@ Aquí hay algunas cosas a considerar al migrar funcionalidad de aplicación a un
   - Si registras proveedores de servicios globales, expone una función proveedor `provideXYZ()`.
   - Si tu librería proporciona servicios opcionales que podrían no ser usados por todas las aplicaciones cliente, soporta tree-shaking apropiado para ese caso usando el [patrón de diseño de token ligero](guide/di/lightweight-injection-tokens)
 
-## Integración con el CLI usando schematics de generación de código
+## Integración con el CLI usando schematics de generación de código {#integrating-with-the-cli-using-code-generation-schematics}
 
 Una librería típicamente incluye _código reutilizable_ que define componentes, servicios y otros artefactos de Angular \(pipes, directivas\) que importas en un proyecto.
 Una librería se empaqueta en un paquete npm para publicación y distribución.
@@ -127,12 +127,12 @@ En general, cuanto más compleja sea la personalización, más útil será el en
 
 Para más información, consulta [Visión general de Schematics](tools/cli/schematics) y [Schematics para librerías](tools/cli/schematics-for-libraries).
 
-## Publicando tu librería
+## Publicando tu librería {#publishing-your-library}
 
 Usa el Angular CLI y el gestor de paquetes npm para construir y publicar tu librería como un paquete npm.
 
 Angular CLI usa una herramienta llamada [ng-packagr](https://github.com/ng-packagr/ng-packagr/blob/master/README.md) para crear paquetes desde tu código compilado que pueden publicarse en npm.
-Consulta [Construyendo librerías con Ivy](tools/libraries/creating-libraries#publicando-librerías) para información sobre los formatos de 
+Consulta [Construyendo librerías con Ivy](tools/libraries/creating-libraries#publishing-libraries) para información sobre los formatos de 
 distribución soportados por `ng-packagr` y orientación sobre cómo elegir el formato correcto para tu librería.
 
 Siempre debes construir librerías para distribución usando la configuración `production`.
@@ -146,7 +146,7 @@ npm publish
 
 ```
 
-## Gestionando recursos en una librería
+## Gestionando recursos en una librería {#managing-assets-in-a-library}
 
 En tu librería de Angular, el distribuible puede incluir recursos adicionales como archivos de temas, mixins de Sass, o documentación \(como un changelog\).
 Para más información [copia recursos en tu librería como parte de la compilación](https://github.com/ng-packagr/ng-packagr/blob/master/docs/copy-assets.md) e [incrusta recursos en estilos de componentes](https://github.com/ng-packagr/ng-packagr/blob/master/docs/embed-assets-css.md).
@@ -174,13 +174,13 @@ IMPORTANTE: Necesitas agregar estos manualmente a las ["exports"](tools/librarie
 
 Lo anterior es un extracto del distribuible de [@angular/material](https://unpkg.com/browse/@angular/material/package.json).
 
-## Dependencias peer
+## Dependencias peer {#peer-dependencies}
 
 Las librerías de Angular deberían listar cualquier dependencia `@angular/*` de la que dependa la librería como dependencias peer.
 Esto asegura que cuando los módulos pidan Angular, todos obtengan exactamente el mismo módulo.
 Si una librería lista `@angular/core` en `dependencies` en lugar de `peerDependencies`, podría obtener un módulo Angular diferente, lo que causaría que tu aplicación falle.
 
-## Usando tu propia librería en aplicaciones
+## Usando tu propia librería en aplicaciones {#using-your-own-library-in-applications}
 
 No tienes que publicar tu librería en el gestor de paquetes npm para usarla en el mismo espacio de trabajo, pero sí tienes que construirla primero.
 
@@ -199,7 +199,7 @@ Para usar tu propia librería en una aplicación:
   import { myExport } from 'my-lib';
 ```
 
-### Construyendo y reconstruyendo tu librería
+### Construyendo y reconstruyendo tu librería {#building-and-rebuilding-your-library}
 
 El paso de construcción es importante si no has publicado tu librería como un paquete npm y luego instalado el paquete de vuelta en tu aplicación desde npm.
 Por ejemplo, si clonas tu repositorio git y ejecutas `npm install`, tu editor muestra las importaciones de `my-lib` como faltantes si aún no has construido tu librería.
@@ -238,7 +238,7 @@ Esto significa que el código fuente TypeScript puede resultar en código JavaSc
 Por esta razón, una aplicación que depende de una librería debería usar solo mapeos de rutas de TypeScript que apunten a la _librería construida_.
 Los mapeos de rutas de TypeScript _no_ deberían apuntar a los archivos `.ts` fuente de la librería.
 
-### Enlazando librerías para desarrollo local
+### Enlazando librerías para desarrollo local {#linking-libraries-for-local-development}
 
 Esta sección explica cómo usar la característica de enlace local de tu gestor de paquetes
 (como [`npm link`](https://pnpm.io/cli/link) o [`pnpm link`](https://pnpm.io/cli/link)) para probar una librería Angular independiente con una aplicación externa durante
@@ -249,7 +249,7 @@ NOTA: Si tu librería y aplicación están en el mismo workspace de Angular (una
 - Estás desarrollando una librería independiente y necesitas probar cambios con una aplicación externa que la consume.
 - Estás probando cambios de librería en una aplicación que la consume fuera del workspace monorepo.
 
-#### Configurando la aplicación que consume
+#### Configurando la aplicación que consume {#configuring-the-consuming-application}
 
 Para usar librerías enlazadas, necesitas configurar el archivo `angular.json` de tu aplicación con las siguientes configuraciones:
 
@@ -295,7 +295,7 @@ Para usar librerías enlazadas, necesitas configurar el archivo `angular.json` d
 - `sourceMap.vendor`: Habilitar mapas de código fuente de vendor (especialmente `vendor: true`) para facilitar la depuración del código de librería enlazada.
 - `prebundle.exclude`: Por defecto, el Angular CLI puede pre-empaquetar todas las dependencias de nodos. Excluir tu librería asegura que el código fuente enlazado sea observado y reconstruido correctamente cuando ocurran cambios.
 
-## Publicando librerías
+## Publicando librerías {#publishing-libraries}
 
 Hay dos formatos de distribución para usar al publicar una librería:
 
@@ -308,7 +308,7 @@ Para publicar en npm usa el formato partial-Ivy ya que es estable entre versione
 
 Evita compilar librerías con código full-Ivy si estás publicando en npm porque las instrucciones Ivy generadas no son parte de la API pública de Angular, y por lo tanto podrían cambiar entre versiones de parche.
 
-## Asegurando compatibilidad de versión de librería
+## Asegurando compatibilidad de versión de librería {#ensuring-library-version-compatibility}
 
 La versión de Angular usada para construir una aplicación siempre debería ser la misma o mayor que las versiones de Angular usadas para construir cualquiera de sus librerías dependientes.
 Por ejemplo, si tuvieras una librería usando Angular versión 13, la aplicación que depende de esa librería debería usar Angular versión 13 o posterior.
@@ -323,7 +323,7 @@ Evita compilar librerías con código full-Ivy si estás publicando en npm porqu
 Si nunca has publicado un paquete en npm antes, debes crear una cuenta de usuario.
 Lee más en [Publicando paquetes npm](https://docs.npmjs.com/getting-started/publishing-npm-packages).
 
-## Consumiendo código partial-Ivy fuera del Angular CLI
+## Consumiendo código partial-Ivy fuera del Angular CLI {#consuming-partial-ivy-code-outside-the-angular-cli}
 
 Una aplicación instala muchas librerías de Angular desde npm en su directorio `node_modules`.
 Sin embargo, el código en estas librerías no puede empaquetarse directamente junto con la aplicación construida ya que no está completamente compilado.

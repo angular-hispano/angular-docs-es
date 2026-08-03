@@ -2,7 +2,7 @@
 
 Las rutas sirven como los bloques de construcción fundamentales para la navegación dentro de una aplicación Angular.
 
-## ¿Qué son las rutas?
+## ¿Qué son las rutas? {#what-are-routes}
 
 En Angular, una **ruta** es un objeto que define qué componente debe renderizar para una ruta URL específica o patrón, así como opciones de configuración adicionales sobre qué sucede cuando un usuario navega a esa URL.
 
@@ -19,7 +19,7 @@ const adminPage = {
 
 Para esta ruta, cuando un usuario visita la ruta `/admin`, la aplicación mostrará el componente `AdminPage`.
 
-### Gestionando rutas en tu aplicación
+### Gestionando rutas en tu aplicación {#managing-routes-in-your-application}
 
 La mayoría de los proyectos definen rutas en un archivo separado que contiene `routes` en el nombre del archivo.
 
@@ -44,7 +44,7 @@ export const routes: Routes = [
 
 CONSEJO: Si generaste un proyecto con Angular CLI, tus rutas están definidas en `app.routes.ts`.
 
-### Agregando el router a tu aplicación
+### Agregando el router a tu aplicación {#adding-the-router-to-your-application}
 
 Al hacer bootstrap de una aplicación Angular sin Angular CLI, puedes pasar un objeto de configuración que incluye un array `providers`.
 
@@ -64,9 +64,9 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Rutas URL
+## Rutas URL {#route-url-paths}
 
-### Rutas URL estáticas
+### Rutas URL estáticas {#static-url-paths}
 
 Las rutas URL estáticas se refieren a rutas con rutas predefinidas que no cambian según parámetros dinámicos. Estas son rutas que coinciden exactamente con un string `path` y tienen un resultado fijo.
 
@@ -76,7 +76,7 @@ Ejemplos de esto incluyen:
 - "/blog"
 - "/settings/account"
 
-### Definir rutas URL con parámetros de ruta
+### Definir rutas URL con parámetros de ruta {#define-url-paths-with-route-parameters}
 
 Las URLs parametrizadas te permiten definir rutas dinámicas que permiten múltiples URLs al mismo componente mientras muestran datos dinámicamente según los parámetros en la URL.
 
@@ -122,7 +122,7 @@ Con esta nueva ruta, los usuarios pueden visitar `/user/leeroy/youtube` y `/user
 
 Consulta [Leer estado de ruta](/guide/routing/read-route-state) para detalles sobre la lectura de parámetros de ruta.
 
-### Comodines
+### Comodines {#wildcards}
 
 Cuando necesitas capturar todas las rutas para una ruta específica, la solución es una ruta comodín que se define con el doble asterisco (`**`).
 
@@ -144,7 +144,7 @@ En este array de rutas, la aplicación muestra el componente `NotFound` cuando e
 
 Consejo: Las rutas comodín típicamente se colocan al final de un array de rutas.
 
-## Cómo Angular hace coincidir URLs
+## Cómo Angular hace coincidir URLs {#how-angular-matches-urls}
 
 Cuando defines rutas, el orden es importante porque Angular usa una estrategia de primera coincidencia gana. Esto significa que una vez que Angular hace coincidir una URL con un `path` de ruta, deja de verificar más rutas. Como resultado, siempre coloca rutas más específicas antes que rutas menos específicas.
 
@@ -168,76 +168,7 @@ Si un usuario visita `/users/new`, el router de Angular pasaría por los siguien
 1. Nunca alcanza `users`
 1. Nunca alcanza `**`
 
-## Estrategias de carga de componentes de ruta
-
-Entender cómo y cuándo se cargan los componentes en el enrutamiento en Angular es crucial para construir aplicaciones web responsivas. Angular ofrece dos estrategias principales para controlar el comportamiento de carga de componentes:
-
-1. **Carga eager (inmediata)**: Componentes que se cargan inmediatamente
-2. **Carga lazy (diferida)**: Componentes cargados solo cuando son necesarios
-
-Cada enfoque ofrece ventajas distintas para diferentes escenarios.
-
-### Componentes cargados de forma eager
-
-Cuando defines una ruta con la propiedad `component`, el componente referenciado se carga de forma eager como parte del mismo bundle de JavaScript que la configuración de ruta.
-
-```angular-ts
-import { Routes } from "@angular/router";
-import { HomePage } from "./components/home/home-page"
-import { LoginPage } from "./components/auth/login-page"
-
-export const routes: Routes = [
-  // HomePage y LoginPage están ambos referenciados directamente en esta configuración,
-  // por lo que su código se incluye de forma eager en el mismo bundle de JavaScript que este archivo.
-  {
-    path: "",
-    component: HomePage
-  },
-  {
-    path: "login",
-    component: LoginPage
-  }
-]
-```
-
-Cargar componentes de ruta de forma eager de esta manera significa que el navegador tiene que descargar y parsear todo el JavaScript para estos componentes como parte de la carga inicial de tu página, pero los componentes están disponibles para Angular inmediatamente.
-
-Aunque incluir más JavaScript en la carga inicial de tu página conduce a tiempos de carga inicial más lentos, esto puede conducir a transiciones más fluidas a medida que el usuario navega por una aplicación.
-
-### Componentes cargados de forma lazy
-
-Puedes usar la propiedad `loadComponent` para cargar de forma lazy el JavaScript para una ruta solo en el punto en que esa ruta se vuelva activa.
-
-```angular-ts
-import { Routes } from "@angular/router";
-
-export const routes: Routes = [
-  // Los componentes HomePage y LoginPage se cargan de forma lazy en el punto en que
-  // sus rutas correspondientes se vuelven activas.
-  {
-    path: 'login',
-    loadComponent: () => import('./components/auth/login-page').then(m => m.LoginPage)
-  },
-  {
-    path: '',
-    loadComponent: () => import('./components/home/home-page').then(m => m.HomePage)
-  }
-]
-```
-
-La propiedad `loadComponent` acepta una función loader que retorna una Promise que se resuelve a un componente de Angular. En la mayoría de los casos, esta función usa la [API de importación dinámica estándar de JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import). Sin embargo, puedes usar cualquier función loader asíncrona arbitraria.
-
-Cargar rutas de forma lazy puede mejorar significativamente la velocidad de carga de tu aplicación Angular al eliminar grandes porciones de JavaScript del bundle inicial. Estas porciones de tu código se compilan en "chunks" de JavaScript separados que el router solicita solo cuando el usuario visita la ruta correspondiente.
-
-### ¿Debo usar una ruta eager o lazy?
-
-Hay muchos factores a considerar al decidir si una ruta debe ser eager o lazy.
-
-En general, se recomienda la carga eager para la(s) página(s) de destino principal(es) mientras que otras páginas se cargarían de forma lazy.
-
-Nota: Si bien las rutas lazy tienen el beneficio de rendimiento inicial de reducir la cantidad de datos iniciales solicitados por el usuario, agrega futuras peticiones de datos que podrían ser indeseables. Esto es particularmente cierto cuando se trata de carga lazy anidada en múltiples niveles, lo que puede impactar significativamente el rendimiento.
-
-## Redirecciones
+## Redirecciones {#redirects}
 
 Puedes definir una ruta que redirige a otra ruta en lugar de renderizar un componente:
 
@@ -258,7 +189,7 @@ const routes: Routes = [
 
 Si modificas o eliminas una ruta, algunos usuarios aún pueden hacer clic en enlaces desactualizados o marcadores a esa ruta. Puedes agregar una redirección para dirigir a esos usuarios a una ruta alternativa apropiada en lugar de una página "no encontrada".
 
-## Títulos de página
+## Títulos de página {#page-titles}
 
 Puedes asociar un **título** con cada ruta. Angular actualiza automáticamente el [título de página](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title) cuando una ruta se activa. Siempre define títulos de página apropiados para tu aplicación, ya que estos títulos son necesarios para crear una experiencia accesible.
 
@@ -299,7 +230,42 @@ const routes: Routes = [
 
 Los títulos de ruta también se pueden establecer a través de un servicio que extiende la clase abstracta [`TitleStrategy`](/api/router/TitleStrategy). Por defecto, Angular usa el [`DefaultTitleStrategy`](/api/router/DefaultTitleStrategy).
 
-## Proveedores a nivel de ruta para inyección de dependencias
+### Usando TitleStrategy para títulos de página {#using-titlestrategy-for-page-titles}
+
+Para escenarios avanzados donde necesitas control centralizado sobre cómo se compone el título del documento, implementa un `TitleStrategy`.
+
+`TitleStrategy` es un token que puedes proporcionar para sobrescribir la estrategia de título predeterminada que usa Angular. Puedes suministrar un `TitleStrategy` personalizado para implementar convenciones como agregar un sufijo de aplicación, formatear títulos desde breadcrumbs o generar títulos dinámicamente desde datos de ruta.
+
+```ts
+import {inject, Injectable} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {TitleStrategy, RouterStateSnapshot} from '@angular/router';
+
+@Injectable()
+export class AppTitleStrategy extends TitleStrategy {
+  private readonly title = inject(Title);
+
+  updateTitle(snapshot: RouterStateSnapshot): void {
+    // PageTitle es igual al "Title" de una ruta si está establecido
+    // Si no está establecido, usará el "title" dado en index.html
+    const pageTitle = this.buildTitle(snapshot) || this.title.getTitle();
+    this.title.setTitle(`MyAwesomeApp - ${pageTitle}`);
+  }
+}
+```
+
+Para usar la estrategia personalizada, proporciónala con el token `TitleStrategy` a nivel de aplicación:
+
+```ts
+import {provideRouter, TitleStrategy} from '@angular/router';
+import {AppTitleStrategy} from './app-title.strategy';
+
+export const appConfig = {
+  providers: [provideRouter(routes), {provide: TitleStrategy, useClass: AppTitleStrategy}],
+};
+```
+
+## Proveedores a nivel de ruta para inyección de dependencias {#route-level-providers-for-dependency-injection}
 
 Cada ruta tiene una propiedad `providers` que te permite proporcionar dependencias al contenido de esa ruta a través de [inyección de dependencias](/guide/di).
 
@@ -327,13 +293,13 @@ En este ejemplo de código, la ruta `admin` contiene una propiedad de datos prot
 
 Consulta la [guía de Inyección de dependencias](/guide/di) para más información sobre proveedores e inyección en Angular.
 
-## Asociando datos con rutas
+## Asociando datos con rutas {#associating-data-with-routes}
 
 Los datos de ruta te permiten adjuntar información adicional a las rutas. Puedes configurar cómo se comportan los componentes según estos datos.
 
 Hay dos formas de trabajar con datos de ruta: datos estáticos que permanecen constantes, y datos dinámicos que pueden cambiar según condiciones de tiempo de ejecución.
 
-### Datos estáticos
+### Datos estáticos {#static-data}
 
 Puedes asociar datos estáticos arbitrarios con una ruta a través de la propiedad `data` para centralizar cosas como metadatos específicos de ruta (por ejemplo, seguimiento de analytics, permisos, etc.):
 
@@ -361,11 +327,11 @@ En este ejemplo de código, la página de inicio y la página about están confi
 
 Puedes leer estos datos estáticos inyectando el `ActivatedRoute`. Consulta [Leer estado de ruta](/guide/routing/read-route-state) para más detalles.
 
-### Datos dinámicos con data resolvers
+### Datos dinámicos con data resolvers {#dynamic-data-with-data-resolvers}
 
 Cuando necesitas proporcionar datos dinámicos a una ruta, consulta la [guía sobre resolvers de datos de ruta](/guide/routing/data-resolvers).
 
-## Rutas anidadas
+## Rutas anidadas {#nested-routes}
 
 Las rutas anidadas, también conocidas como rutas hijas, son una técnica común para gestionar rutas de navegación más complejas donde un componente tiene una sub-vista que cambia según la URL.
 
@@ -408,6 +374,9 @@ Para mostrar rutas hijas, el componente padre (`ProductComponent` en el ejemplo 
 
 Después de agregar rutas hijas a la configuración y agregar un `<router-outlet>` al componente, la navegación entre URLs que coinciden con las rutas hijas actualiza solo el outlet anidado.
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
-Aprende cómo [mostrar el contenido de tus rutas con Outlets](/guide/routing/show-routes-with-outlets).
+<docs-pill-row>
+  <docs-pill href="/guide/routing/loading-strategies" title="Estrategias de carga de rutas"/>
+  <docs-pill href="/guide/routing/show-routes-with-outlets" title="Mostrar el contenido de tus rutas con Outlets"/>
+</docs-pill-row>

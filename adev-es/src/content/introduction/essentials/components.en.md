@@ -8,7 +8,7 @@ Components are the main building blocks of Angular applications. Each component 
 
 Every component has a few main parts:
 
-1. A `@Component`[decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) that contains some configuration used by Angular.
+1. A `@Component` [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) that contains some configuration used by Angular.
 2. An HTML template that controls what renders into the DOM.
 3. A [CSS selector](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors) that defines how the component is used in HTML.
 4. A TypeScript class with behaviors, such as handling user input or making requests to a server.
@@ -24,7 +24,9 @@ Here is a simplified example of a `UserProfile` component.
     <p>This is the user profile page</p>
   `,
 })
-export class UserProfile { /* Your component code goes here */ }
+export class UserProfile {
+  /* Your component code goes here */
+}
 ```
 
 The `@Component` decorator also optionally accepts a `styles` property for any CSS you want to apply to your template:
@@ -37,9 +39,15 @@ The `@Component` decorator also optionally accepts a `styles` property for any C
     <h1>User profile</h1>
     <p>This is the user profile page</p>
   `,
-  styles: `h1 { font-size: 3em; } `,
+  styles: `
+    h1 {
+      font-size: 3em;
+    }
+  `,
 })
-export class UserProfile { /* Your component code goes here */ }
+export class UserProfile {
+  /* Your component code goes here */
+}
 ```
 
 ### Separating HTML and CSS into separate files

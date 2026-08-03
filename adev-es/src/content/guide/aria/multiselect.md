@@ -1,7 +1,7 @@
 <docs-decorative-header title="Multiselect">
 </docs-decorative-header>
 
-## Visión general
+## Visión general {#overview}
 
 Un patrón que combina combobox de solo lectura con listbox habilitado para múltiple selección para crear dropdowns de selección múltiple con navegación por teclado y soporte para lectores de pantalla.
 
@@ -31,7 +31,7 @@ Un patrón que combina combobox de solo lectura con listbox habilitado para múl
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Uso {#usage}
 
 El patrón de multiselect funciona mejor cuando los usuarios necesitan elegir múltiples elementos relacionados de un conjunto familiar de opciones.
 
@@ -50,7 +50,7 @@ Evita este patrón cuando:
 - **La mayoría o todas las opciones serán seleccionadas** - Un patrón de checklist proporciona mejor visibilidad
 - **Las opciones son opciones binarias independientes** - Las casillas individuales comunican las opciones más claramente
 
-## Características
+## Características {#features}
 
 El patrón de multiselect combina directivas [Combobox](guide/aria/combobox) y [Listbox](guide/aria/listbox) para proporcionar un dropdown completamente accesible con:
 
@@ -61,9 +61,9 @@ El patrón de multiselect combina directivas [Combobox](guide/aria/combobox) y [
 - **Posicionamiento Inteligente** - CDK Overlay maneja bordes de viewport y desplazamiento
 - **Selección Persistente** - Las opciones seleccionadas permanecen visibles con marcas de verificación después de la selección
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Multiselect básico
+### Multiselect básico {#basic-multiselect}
 
 Los usuarios necesitan seleccionar múltiples elementos de una lista de opciones. Un combobox de solo lectura emparejado con un listbox habilitado para multi proporciona funcionalidad de multiselección familiar con soporte de accesibilidad completo.
 
@@ -95,7 +95,7 @@ Los usuarios necesitan seleccionar múltiples elementos de una lista de opciones
 
 El atributo `multi` en `ngListbox` habilita selección múltiple. Presiona Espacio para alternar opciones, y el popup permanece abierto para selecciones adicionales. La visualización muestra el primer elemento seleccionado más un conteo de selecciones restantes.
 
-### Multiselect con visualización personalizada
+### Multiselect con visualización personalizada {#multiselect-with-custom-display}
 
 Las opciones a menudo necesitan indicadores visuales como iconos o colores para ayudar a los usuarios a identificar opciones. Las plantillas personalizadas dentro de las opciones permiten formato enriquecido mientras el valor de visualización muestra un resumen compacto.
 
@@ -127,7 +127,7 @@ Las opciones a menudo necesitan indicadores visuales como iconos o colores para 
 
 Cada opción muestra un icono junto a su etiqueta. El valor de visualización se actualiza para mostrar el icono y texto de la primera selección, seguido de un conteo de selecciones adicionales. Las opciones seleccionadas muestran una marca de verificación para retroalimentación visual clara.
 
-### Selección controlada
+### Selección controlada {#controlled-selection}
 
 Los formularios a veces necesitan limitar el número de selecciones o validar opciones de usuario. El control programático sobre la selección habilita estas restricciones mientras mantiene la accesibilidad.
 
@@ -159,43 +159,68 @@ Los formularios a veces necesitan limitar el número de selecciones o validar op
 
 Este ejemplo limita las selecciones a tres elementos. Cuando se alcanza el límite, las opciones no seleccionadas se deshabilitan, previniendo selecciones adicionales. Un mensaje informa a los usuarios sobre la restricción.
 
-## APIs
+## Testing
 
-El patrón de multiselect usa las siguientes directivas de la biblioteca Aria de Angular. Consulta la documentación completa del API en las guías enlazadas.
+El patrón multiselect puede probarse usando una combinación de `ComboboxHarness` y `ListboxHarness` de `@angular/aria/combobox/testing` y `@angular/aria/listbox/testing`.
+Aquí hay un ejemplo de cómo usar los harnesses para probar un componente multiselect:
 
-### Directivas Combobox
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ComboboxHarness} from '@angular/aria/combobox/testing';
+import {ListboxHarness} from '@angular/aria/listbox/testing';
+import {MyMultiselectComponent} from './my-multiselect'; // Tu componente
 
-El patrón de multiselect usa `ngCombobox` con el atributo `readonly` para prevenir entrada de texto mientras preserva la navegación por teclado.
+describe('MyMultiselectComponent', () => {
+  let fixture: ComponentFixture<MyMultiselectComponent>;
+  let loader: HarnessLoader;
 
-#### Inputs
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyMultiselectComponent],
+    });
 
-| Propiedad  | Tipo      | Por defecto | Descripción                                      |
-| ---------- | --------- | ----------- | ------------------------------------------------ |
-| `readonly` | `boolean` | `false`     | Establece a `true` para crear comportamiento de dropdown |
-| `disabled` | `boolean` | `false`     | Deshabilita todo el multiselect                  |
+    fixture = TestBed.createComponent(MyMultiselectComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-Consulta la [documentación del API de Combobox](guide/aria/combobox#apis) para detalles completos sobre todos los inputs y signals disponibles.
+  it('should allow selecting multiple options', async () => {
+    const select = await loader.getHarness(ComboboxHarness);
 
-### Directivas Listbox
+    // Abre el dropdown
+    await select.open();
 
-El patrón de multiselect usa `ngListbox` con el atributo `multi` para selección múltiple y `ngOption` para cada elemento seleccionable.
+    // Obtiene el harness del listbox desde el popup
+    const listbox = await select.getPopupWidget(ListboxHarness);
+    expect(await listbox.isMulti()).toBe(true);
 
-#### Inputs
+    const options = await listbox.getOptions();
 
-| Propiedad | Tipo      | Por defecto | Descripción                                   |
-| --------- | --------- | ----------- | --------------------------------------------- |
-| `multi`   | `boolean` | `false`     | Establece a `true` para habilitar selección múltiple |
+    // Selecciona la primera y segunda opción
+    await options[0].click();
+    await options[1].click();
 
-#### Model
+    // Verifica que ambas opciones estén seleccionadas
+    expect(await options[0].isSelected()).toBe(true);
+    expect(await options[1].isSelected()).toBe(true);
 
-| Propiedad | Tipo    | Descripción                                          |
-| --------- | ------- | ---------------------------------------------------- |
-| `values`  | `any[]` | Array enlazable bidireccionalmente de valores seleccionados |
+    // Cierra el dropdown
+    await select.close();
 
-Cuando `multi` es true, los usuarios pueden seleccionar múltiples opciones usando Espacio para alternar selección. El popup permanece abierto después de la selección, permitiendo opciones adicionales.
+    // Verifica que el valor se actualizó (ej. lista separada por comas o conteo)
+    expect(await (await select.host()).text()).toContain('Option 1, Option 2');
+  });
+});
+```
 
-Consulta la [documentación del API de Listbox](guide/aria/listbox#apis) para detalles completos sobre configuración de listbox, modos de selección y propiedades de opciones.
+## API reference
 
-### Posicionamiento
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
 
-El patrón de multiselect se integra con [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) para posicionamiento inteligente. Usa `cdkConnectedOverlay` para manejar bordes de viewport y desplazamiento automáticamente.
+- [`Combobox`](/api/aria/combobox/Combobox)
+- [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)
+- [`ComboboxWidget`](/api/aria/combobox/ComboboxWidget)
+- [`Listbox`](/api/aria/listbox/Listbox)
+- [`Option`](/api/aria/listbox/Option)

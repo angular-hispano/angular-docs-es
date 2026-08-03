@@ -25,7 +25,7 @@ firstName.update(name => name.toUpperCase());
 
 Angular rastrea dónde se leen las signals y cuándo se actualizan. El framework usa esta información para hacer trabajo adicional, como actualizar el DOM con nuevo estado. Esta capacidad de responder a valores de signals cambiantes a lo largo del tiempo se conoce como *reactividad*.
 
-## Expresiones computadas
+## Expresiones computadas {#computed-expressions}
 
 Un `computed` es una signal que produce su valor basado en otras signals.
 
@@ -51,7 +51,7 @@ firstName.set('Jaime');
 console.log(firstNameCapitalized()); // JAIME
 ```
 
-## Usando signals en componentes
+## Usando signals en componentes {#using-signals-in-components}
 
 Usa `signal` y `computed` dentro de tus componentes para crear y manejar el estado:
 
@@ -70,7 +70,7 @@ export class UserProfile {
 
 TIP: ¿Quieres saber más sobre Angular Signals? Consulta la [Guía detallada de Signals](guide/signals) para obtener toda la información.
 
-## Siguiente paso
+## Siguiente paso {#next-step}
 
 Ahora que has aprendido cómo declarar y manejar datos dinámicos, es momento de aprender cómo usar esos datos dentro de las plantillas.
 

@@ -8,7 +8,7 @@ La colección de schematics puede ser una herramienta poderosa para crear, modif
 Podrías usar schematics, por ejemplo, para generar patrones UI comúnmente usados o componentes específicos, usando plantillas o diseños predefinidos.
 Usa schematics para hacer cumplir reglas y convenciones arquitectónicas, haciendo que tus proyectos sean consistentes e interoperables.
 
-## Schematics para el Angular CLI
+## Schematics para el Angular CLI {#schematics-for-the-angular-cli}
 
 Los schematics son parte del ecosistema Angular.
 El Angular CLI usa schematics para aplicar transformaciones a un proyecto de aplicación web.
@@ -33,7 +33,7 @@ ng generate my-schematic-name --collection collection-name
 
 ```
 
-### Configurar schematics del CLI
+### Configurar schematics del CLI {#configuring-cli-schematics}
 
 Un esquema JSON asociado con un schematic le dice al Angular CLI qué opciones están disponibles para comandos y sub-comandos, y determina los valores predeterminados.
 Estos valores predeterminados pueden sobrescribirse proporcionando un valor diferente para una opción en la línea de comandos.
@@ -42,7 +42,7 @@ Consulta [Configuración del Workspace](reference/configs/workspace-config) para
 Los esquemas JSON para los schematics predeterminados usados por el CLI para generar proyectos y partes de proyectos están recopilados en el paquete [`@schematics/angular`](https://github.com/angular/angular-cli/tree/main/packages/schematics/angular).
 El esquema describe las opciones disponibles para el CLI para cada uno de los sub-comandos de `ng generate`, como se muestra en la salida de `--help`.
 
-## Desarrollar schematics para librerías
+## Desarrollar schematics para librerías {#developing-schematics-for-libraries}
 
 Como desarrollador de librerías, puedes crear tus propias colecciones de schematics personalizados para integrar tu librería con el Angular CLI.
 

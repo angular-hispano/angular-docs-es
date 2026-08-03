@@ -2,7 +2,7 @@
 
 La mayoría de las applicaciones de front-end necesitan comunicarse con el servidor a través del protocolo HTTP, para descargar o cargar datos y acceder a los servicios de backend. Angular proporciona una API de cliente HTTP para aplicaciones Angular, la clase de servicio `HttpClient` en `@angular/common/http`.
 
-## Características del servicio cliente HTTP
+## Características del servicio cliente HTTP {#http-client-service-features}
 
 El servicio cliente HTTP ofrece las siguientes características principales:
 
@@ -11,7 +11,7 @@ El servicio cliente HTTP ofrece las siguientes características principales:
 - [Intercepción](guide/http/interceptors) de solicitudes y respuestas
 - [Utilidades de pruebas](guide/http/testing) robustas
 
-## Próximos pasos
+## Próximos pasos {#whats-next}
 
 <docs-pill-row>
   <docs-pill href="guide/http/setup" title="Configurar HttpClient"/>

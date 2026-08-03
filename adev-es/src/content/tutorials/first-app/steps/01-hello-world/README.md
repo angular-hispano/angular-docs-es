@@ -4,7 +4,7 @@ Esta primera lección sirve como punto de partida desde el cual cada lección en
 
 <docs-video src="https://www.youtube.com/embed/UnOwDuliqZA?si=uML-cDRbrxmYdD_9"/>
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 La aplicación actualizada que tendrás después de esta lección confirma que tú y tu IDE están listos para comenzar a crear una aplicación Angular.
 

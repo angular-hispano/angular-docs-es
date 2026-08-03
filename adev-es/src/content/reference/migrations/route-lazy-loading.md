@@ -8,7 +8,7 @@ Ejecuta el schematic usando el siguiente comando:
 ng generate @angular/core:route-lazy-loading
 ```
 
-### Opción de configuración `path`
+### Opción de configuración `path` {#path-config-option}
 
 Por defecto, la migración recorrerá toda la aplicación. Si quieres aplicar esta migración a un subconjunto de los archivos, puedes pasar el argumento path como se muestra a continuación:
 
@@ -18,7 +18,7 @@ ng generate @angular/core:route-lazy-loading --path src/app/sub-component
 
 El valor del parámetro path es una ruta relativa dentro del proyecto.
 
-### ¿Cómo funciona?
+### ¿Cómo funciona? {#how-does-it-work}
 
 El schematic intentará encontrar todos los lugares donde se definen las rutas de la aplicación:
 
@@ -30,7 +30,7 @@ El schematic intentará encontrar todos los lugares donde se definen las rutas d
 
 La migración verificará todos los componentes en las rutas, comprobará si son standalone y están cargados de forma eager, y en ese caso los convertirá a rutas con lazy loading.
 
-#### Antes
+#### Antes {#before}
 
 ```typescript
 // app.module.ts
@@ -50,7 +50,7 @@ import {HomeComponent} from './home/home.component';
 export class AppModule {}
 ```
 
-#### Después
+#### Después {#after}
 
 ```typescript
 // app.module.ts

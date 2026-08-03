@@ -18,7 +18,7 @@ Para una introducción rápida a la localización e internacionalización mira e
 
 <docs-video src="https://www.youtube.com/embed/KNTN-nsbV7M"/>
 
-## Aprende sobre la internacionalización de Angular
+## Aprende sobre la internacionalización de Angular {#learn-about-angular-internationalization}
 
 <docs-card-container>
   <docs-card title="Agregar el paquete localize" href="guide/i18n/add-package">

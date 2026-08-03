@@ -11,24 +11,28 @@ Para información sobre nuestra política y prácticas de versionado —incluyen
 ÚTIL: Si actualmente estás usando AngularJS, consulta [Actualizando desde AngularJS](https://angular.io/guide/upgrade 'Actualizando desde Angular JS').
 _AngularJS_ es el nombre para todas las versiones v1.x de Angular.
 
-## Aprendiendo sobre nuevas funcionalidades
+## Recibiendo notificaciones de nuevos lanzamientos {#getting-notified-of-new-releases}
+
+Para recibir notificaciones cuando nuevos lanzamientos estén disponibles, sigue a [@angular](https://x.com/angular '@angular en X') en X (anteriormente Twitter) o suscríbete al [blog de Angular](https://blog.angular.dev 'Blog de Angular').
+
+## Aprendiendo sobre nuevas funcionalidades {#learning-about-new-features}
 
 ¿Qué hay de nuevo? ¿Qué ha cambiado? Compartimos las cosas más importantes que necesitas saber en el blog de Angular en [anuncios de lanzamiento](https://blog.angular.dev/ 'Blog de Angular - anuncios de lanzamiento').
 
 Para revisar una lista completa de cambios, organizados por versión, consulta el [registro de cambios de Angular](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Registro de cambios de Angular').
 
-## Verificando tu versión de Angular
+## Verificando tu versión de Angular {#checking-your-version-of-angular}
 
 Para verificar la versión de Angular de tu aplicación usa el comando `ng version` desde dentro del directorio de tu proyecto.
 
-## Encontrando la versión actual de Angular
+## Encontrando la versión actual de Angular {#finding-the-current-version-of-angular}
 
 La versión estable más reciente lanzada de Angular aparece [en npm](https://www.npmjs.com/package/@angular/core 'Angular en npm') bajo "Version." Por ejemplo, `16.2.4`.
 
 También puedes encontrar la versión más actual de Angular usando el comando CLI [`ng update`](cli/update).
 Por defecto, [`ng update`](cli/update)(sin argumentos adicionales) lista las actualizaciones que están disponibles para ti.
 
-## Actualizando tu entorno y aplicaciones
+## Actualizando tu entorno y aplicaciones {#updating-your-environment-and-apps}
 
 Para hacer la actualización sencilla, proporcionamos instrucciones completas en la [Guía de Actualización de Angular](update-guide) interactiva.
 
@@ -39,10 +43,10 @@ También incluye información de solución de problemas y cualquier cambio manua
 Para actualizaciones simples, el comando CLI [`ng update`](cli/update) es todo lo que necesitas.
 Sin argumentos adicionales, [`ng update`](cli/update) lista las actualizaciones que están disponibles para ti y proporciona pasos recomendados para actualizar tu aplicación a la versión más actual.
 
-[Versionado y Lanzamientos de Angular](reference/releases#versioning 'Prácticas de Lanzamiento de Angular, Versionado') describe el nivel de cambio que puedes esperar basado en el número de versión de un lanzamiento.
+[Versionado y Lanzamientos de Angular](reference/releases 'Prácticas de Lanzamiento de Angular, Versionado') describe el nivel de cambio que puedes esperar basado en el número de versión de un lanzamiento.
 También describe las rutas de actualización soportadas.
 
-## Resumen de recursos
+## Resumen de recursos {#resource-summary}
 
 - Anuncios de lanzamiento:
     [Blog de Angular - anuncios de lanzamiento](https://blog.angular.dev/ 'Anuncios del blog de Angular sobre lanzamientos recientes')

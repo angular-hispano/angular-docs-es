@@ -4,13 +4,13 @@ El enrutamiento te ayuda a cambiar lo que el usuario ve en una aplicación de p�
 
 Angular Router (`@angular/router`) es la librería oficial para gestionar la navegación en aplicaciones de Angular y una parte fundamental del framework. Se incluye de forma predeterminada en todos los proyectos creados por Angular CLI.
 
-## ¿Por qué es necesario el enrutamiento en una SPA?
+## ¿Por qué es necesario el enrutamiento en una SPA? {#why-is-routing-necessary-in-a-spa}
 
 Cuando navegas a una URL en tu navegador web, el navegador normalmente hace una petición de red a un servidor web y muestra la página HTML devuelta. Cuando navegas a una URL diferente, como hacer clic en un enlace, el navegador hace otra petición de red y reemplaza toda la página con una nueva.
 
 Una aplicación de página única (SPA) difiere en que el navegador solo hace una petición a un servidor web para la primera página, el `index.html`. Después de eso, un router del lado del cliente toma el control, controlando qué contenido se muestra según la URL. Cuando un usuario navega a una URL diferente, el router actualiza el contenido de la página en el lugar sin disparar una recarga completa de la página.
 
-## Cómo Angular gestiona el enrutamiento
+## Cómo Angular gestiona el enrutamiento {#how-angular-manages-routing}
 
 El enrutamiento en Angular se compone de tres partes principales:
 
@@ -27,6 +27,6 @@ Además, la librería de enrutamiento en Angular ofrece funcionalidad adicional 
 - Efectos de transición de vista
 - Navigation guards
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 Aprende sobre cómo puedes [definir rutas usando Angular router](/guide/routing/define-routes).
