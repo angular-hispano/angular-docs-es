@@ -25,7 +25,7 @@ Además, para [compilar desde la línea de comandos][GuideI18nCommonMergeBuildFr
 
 ÚTIL: Opcionalmente, [aplica opciones de compilación específicas para solo una configuración regional][GuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale] para una configuración personalizada.
 
-## Definir configuraciones regionales en la configuración de compilación
+## Definir configuraciones regionales en la configuración de compilación {#define-locales-in-the-build-configuration}
 
 Usa la opción de proyecto `i18n` en el archivo [`angular.json`][GuideWorkspaceConfig] de configuración de compilación del espacio de trabajo de tu proyecto para definir configuraciones regionales para un proyecto.
 
@@ -36,13 +36,13 @@ Las siguientes subopciones identifican el idioma fuente e indican al compilador 
 | `sourceLocale` | La configuración regional que usas dentro del código fuente de la aplicación \(`en-US` por defecto\) |
 | `locales`      | Un mapa de identificadores de configuración regional a archivos de traducción                         |
 
-### Ejemplo de `angular.json` para `en-US` y `fr`
+### Ejemplo de `angular.json` para `en-US` y `fr` {#angularjson-for-en-us-and-fr-example}
 
 Por ejemplo, el siguiente extracto de un archivo [`angular.json`][GuideWorkspaceConfig] de configuración de compilación del espacio de trabajo establece la configuración regional de origen en `en-US` y proporciona la ruta al archivo de traducción de la configuración regional francesa \(`fr`\).
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="locale-config"/>
 
-## Generar variantes de la aplicación para cada configuración regional
+## Generar variantes de la aplicación para cada configuración regional {#generate-application-variants-for-each-locale}
 
 Para usar tu definición de configuraciones regionales en la configuración de compilación, usa la opción `"localize"` en el archivo [`angular.json`][GuideWorkspaceConfig] para indicar al CLI qué configuraciones regionales generar para la compilación.
 
@@ -66,13 +66,13 @@ El CLI también ajusta el HREF base de HTML para cada versión de la aplicación
 Establece la propiedad `"localize"` como una configuración compartida para heredarla efectivamente en todas las configuraciones.
 Además, establece la propiedad para anular otras configuraciones.
 
-### Ejemplo de `angular.json` que incluye todas las configuraciones regionales de la compilación
+### Ejemplo de `angular.json` que incluye todas las configuraciones regionales de la compilación {#angularjson-include-all-locales-from-build-example}
 
 El siguiente ejemplo muestra la opción `"localize"` establecida en `true` en el archivo [`angular.json`][GuideWorkspaceConfig] de configuración de compilación del espacio de trabajo, de modo que se compilen todas las configuraciones regionales definidas en la configuración de compilación.
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="build-localize-true"/>
 
-## Compilar desde la línea de comandos
+## Compilar desde la línea de comandos {#build-from-the-command-line}
 
 Además, usa la opción `--localize` con el comando [`ng build`][CliBuild] y tu configuración `production` existente.
 El CLI compila todas las configuraciones regionales definidas en la configuración de compilación.
@@ -82,13 +82,13 @@ Si estableces las configuraciones regionales en la configuración de compilació
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="build-localize"/>
 
-## Aplicar opciones específicas de compilación para solo una configuración regional
+## Aplicar opciones específicas de compilación para solo una configuración regional {#apply-specific-build-options-for-just-one-locale}
 
 Para aplicar opciones específicas de compilación a solo una configuración regional, especifica una sola configuración regional para crear una configuración personalizada específica.
 
 IMPORTANTE: Usa el servidor de desarrollo del [CLI de Angular][CliMain] \(`ng serve`\) con una sola configuración regional.
 
-### Ejemplo de compilación para francés
+### Ejemplo de compilación para francés {#build-for-french-example}
 
 El siguiente ejemplo muestra una configuración personalizada específica para una sola configuración regional.
 
@@ -105,7 +105,7 @@ Para compilaciones de producción, usa composición de configuraciones para ejec
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="build-production-french" />
 
-## Reportar traducciones faltantes
+## Reportar traducciones faltantes {#report-missing-translations}
 
 Cuando falta una traducción, la compilación tiene éxito pero genera una advertencia como `Missing translation for message "{translation_text}"`.
 Para configurar el nivel de advertencia que genera el compilador de Angular, especifica uno de los siguientes niveles.
@@ -118,7 +118,7 @@ Para configurar el nivel de advertencia que genera el compilador de Angular, esp
 
 Especifica el nivel de advertencia en la sección `options` para el objetivo `build` de tu archivo [`angular.json`][GuideWorkspaceConfig] de configuración de compilación del espacio de trabajo.
 
-### Ejemplo de advertencia `error` en `angular.json`
+### Ejemplo de advertencia `error` en `angular.json` {#angularjson-error-warning-example}
 
 El siguiente ejemplo muestra cómo establecer el nivel de advertencia en `error`.
 
@@ -133,7 +133,7 @@ Para más información, consulta [`$localize`][ApiLocalizeInitLocalize].
 
 TL;DR: Compila una vez, luego traduce para cada configuración regional.
 
-## Próximos pasos
+## Próximos pasos {#whats-next}
 
 <docs-pill-row>
   <docs-pill href="guide/i18n/deploy" title="Desplegar múltiples configuraciones regionales"/>

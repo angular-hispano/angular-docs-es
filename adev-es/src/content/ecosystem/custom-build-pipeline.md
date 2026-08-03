@@ -4,7 +4,7 @@ Al compilar una aplicación Angular, recomendamos enfáticamente usar Angular CL
 
 Esta página explora los **casos de uso poco comunes** en los que necesitas un pipeline de compilación personalizado que no utiliza Angular CLI. Todas las herramientas listadas a continuación son plugins de compilación de código abierto mantenidos por miembros de la comunidad de Angular. Para conocer más sobre su modelo de soporte y estado de mantenimiento, revisa su documentación y las URL de sus repositorios en GitHub.
 
-## ¿Cuándo deberías usar un pipeline de compilación personalizado?
+## ¿Cuándo deberías usar un pipeline de compilación personalizado? {#when-should-you-use-a-custom-build-pipeline}
 
 Existen algunos casos muy específicos en los que podrías querer mantener un pipeline de compilación personalizado. Por ejemplo:
 
@@ -12,7 +12,7 @@ Existen algunos casos muy específicos en los que podrías querer mantener un pi
 - Estás fuertemente acoplado a [module federation](https://module-federation.io/) y no puedes adoptar la [native federation](https://www.npmjs.com/package/@angular-architects/native-federation) independiente del empaquetador
 - Quieres crear un experimento de corta duración usando tu herramienta de compilación favorita
 
-## ¿Cuáles son las opciones?
+## ¿Cuáles son las opciones? {#what-are-the-options}
 
 Actualmente, existen dos herramientas comunitarias bien soportadas que te permiten crear un pipeline de compilación personalizado mediante un [plugin de Vite](https://www.npmjs.com/package/@analogjs/vite-plugin-angular) y un [plugin de Rspack](https://www.npmjs.com/package/@nx/angular-rspack). Ambos utilizan las abstracciones subyacentes que impulsan Angular CLI. Te permiten crear un pipeline de compilación flexible, pero requieren mantenimiento manual y no proporcionan una experiencia de actualización automática.
 

@@ -161,21 +161,29 @@ We also have styling for the terminal, just set the language as `shell`:
 npm install @angular/material --save
 ```
 
+You can style standard Markdown triple backticks with attributes for enhanced presentation:
+
+```ts {header:"Awesome Title", linenums, highlight="[2]", hideCopy}
+console.log('Hello, World!');
+console.log('Awesome Angular Docs!');
+```
+
 #### `<docs-code>` Attributes
 
-| Attributes      | Type                 | Details                                              |
-| :-------------- | :------------------- | :--------------------------------------------------- |
-| code            | `string`             | Anything between tags is treated as code             |
-| `path`          | `string`             | Path to code example (root: `content/examples/`)     |
-| `header`        | `string`             | Title of the example (default: `file-name`)          |
-| `language`      | `string`             | code language                                        |
-| `linenums`      | `boolean`            | (False) displays line numbers                        |
-| `highlight`     | `string of number[]` | lines highlighted                                    |
-| `diff`          | `string`             | path to changed code                                 |
-| `visibleLines`  | `string of number[]` | range of lines for collapse mode                     |
-| `visibleRegion` | `string`             | **DEPRECATED** FOR `visibleLines`                    |
-| `preview`       | `boolean`            | (False) display preview                              |
-| `hideCode`      | `boolean`            | (False) Whether to collapse code example by default. |
+| Attributes     | Type                 | Details                                                         |
+| :------------- | :------------------- | :-------------------------------------------------------------- |
+| code           | `string`             | Anything between tags is treated as code                        |
+| `path`         | `string`             | Path to code example (root: `content/examples/`)                |
+| `header`       | `string`             | Title of the example (default: `file-name`)                     |
+| `language`     | `string`             | code language                                                   |
+| `linenums`     | `boolean`            | (False) displays line numbers                                   |
+| `highlight`    | `string of number[]` | lines highlighted                                               |
+| `diff`         | `string`             | path to changed code                                            |
+| `visibleLines` | `string of number[]` | range of lines for collapse mode                                |
+| `region`       | `string`             | only show the provided region.                                  |
+| `preview`      | `boolean`            | (False) display preview                                         |
+| `hideCode`     | `boolean`            | (False) Whether to collapse code example by default.            |
+| `hideDollar`   | `boolean`            | (False) Whether to hide the dollar sign in shell code examples. |
 
 ### Multifile examples
 
@@ -194,16 +202,17 @@ You can create multifile examples by wrapping the examples inside a `<docs-code-
 
 #### `<docs-code-multifile>` Attributes
 
-| Attributes    | Type      | Details                                              |
-| :------------ | :-------- | :--------------------------------------------------- |
-| body contents | `string`  | nested tabs of `docs-code` examples                  |
-| `path`        | `string`  | Path to code example for preview and external link   |
-| `preview`     | `boolean` | (False) display preview                              |
-| `hideCode`    | `boolean` | (False) Whether to collapse code example by default. |
+| Attributes    | Type      | Details                                                         |
+| :------------ | :-------- | :-------------------------------------------------------------- |
+| body contents | `string`  | nested tabs of `docs-code` examples                             |
+| `path`        | `string`  | Path to code example for preview and external link              |
+| `preview`     | `boolean` | (False) display preview                                         |
+| `hideCode`    | `boolean` | (False) Whether to collapse code example by default.            |
+| `hideDollar`  | `boolean` | (False) Whether to hide the dollar sign in shell code examples. |
 
 ### Adding `preview` to your code example
 
-Adding the `preview` flag builds a running example of the code below the code snippet. This also automatically adds a button to open the running example in Stackblitz.
+Adding the `preview` flag builds a running example of the code below the code snippet. This also automatically adds a button to open the running example in StackBlitz.
 
 NOTE: `preview` only works with standalone.
 
@@ -291,11 +300,11 @@ To create a new workspace and initial starter app:
    ng serve --open
    ```
 
-   The `ng serve` command launches the server, watches your files, and rebuilds the app as you make changes to those files.
+The `ng serve` command launches the server, watches your files, and rebuilds the app as you make changes to those files.
 
-   The `--open` (or just `-o`) option automatically opens your browser to <http://localhost:4200/>.
-   If your installation and setup was successful, you should see a page similar to the following.
-   </docs-step>
+The `--open` (or just `-o`) option automatically opens your browser to <http://localhost:4200/>.
+If your installation and setup was successful, you should see a page similar to the following.
+</docs-step>
 
 <docs-step title="Final step">
   That's all the docs components! Now:
@@ -314,7 +323,7 @@ To create a new workspace and initial starter app:
 
 You can add images using the semantic Markdown image:
 
-![Rhubarb the cat](assets/images/kitchen-sink/rhubarb.jpg "Optional title")
+![Rhubarb the cat](assets/images/kitchen-sink/rhubarb.jpg 'Optional title')
 
 ### Add `#small` and `#medium` to change the image size
 
@@ -332,7 +341,7 @@ Embedded videos are created with `docs-video` and just need a `src` and `alt`:
 
 ## Charts & Graphs
 
-Write diagrams and charts using [Mermaid](http://mermaid.js.org/) by setting the code language to `mermaid`, all theming is built-in.
+Write diagrams and charts using [Mermaid](https://mermaid.js.org/) by setting the code language to `mermaid`, all theming is built-in.
 
 ```mermaid
     graph TD;
@@ -364,3 +373,26 @@ This can be used to separate page sections, like we're about to do below. These 
 <hr/>
 
 The end!
+
+## Prefer / Avoid
+
+```ts {prefer}
+const foo = 'bar';
+```
+
+```ts {avoid}
+const bar = 'foo';
+```
+
+```ts {avoid, header: 'with a header'}
+const baz = 42;
+```
+
+<docs-code
+  path="adev/src/content/examples/hello-world/src/app/app.component-old.ts"
+  header="A styled code example"
+  language='ts'
+  linenums
+  highlight="[[3,7], 9]"
+  prefer>
+</docs-code>

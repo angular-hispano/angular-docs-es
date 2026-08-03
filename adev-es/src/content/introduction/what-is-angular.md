@@ -76,7 +76,7 @@
     y el soporte para tipos de confianza, ayudan a proteger a tus usuarios de vulnerabilidades
     comunes como el scripting entre sitios y la falsificación de solicitudes entre sitios.
   </docs-card>
-  <docs-card title="Mantén equipos grandes productivos con Vite y esbuild" href="tools/cli/build-system-migration" link="ESBuild y Vite" titleIconName="sensors">
+  <docs-card title="Mantén equipos grandes productivos con Vite y esbuild" href="tools/cli/build-system-migration" link="Vite y esbuild" titleIconName="sensors">
     Angular CLI incorpora una tubería de compilación rápida y moderna utilizando Vite y ESBuild. Los desarrolladores reportan compilar proyectos 
     con cientos de miles de líneas de código en menos de un minuto.
   </docs-card>
@@ -108,7 +108,7 @@
   <docs-card title="Alianzas con otras tecnologías de Google" titleIconName="sensors">
     <p>Angular se asocia estrechamente con otras tecnologías y equipos de Google para mejorar la web.</p>
     <p>Nuestra asociación continua con Aurora de Chrome explora activamente las mejoras en la experiencia del usuario a través de la web, desarrollando optimizaciones de rendimiento integradas como <code>NgOptimizedImage</code> y mejoras en Angular Core Web Vitals.</p>
-    <p>También estamos trabajando con <a href="https://firebase.google.com/">Firebase</a>, <a href="https://www.tensorflow.org/">Tensorflow</a>, <a href="https://flutter.dev/">Flutter</a>, <a href="https://m3.material.io/">Material Design</a>, y <a href="https://cloud.google.com/">Google Cloud</a> para asegurar que proporcionamos integraciones significativas a través del flujo de trabajo del desarrollador.</p>
+    <p>También estamos trabajando con <a href="https://firebase.google.com/" target="_blank">Firebase</a>, <a href="https://www.tensorflow.org/" target="_blank">TensorFlow</a>, <a href="https://flutter.dev/" target="_blank">Flutter</a>, <a href="https://m3.material.io/" target="_blank">Material Design</a>, y <a href="https://cloud.google.com/" target="_blank">Google Cloud</a> para asegurar que proporcionamos integraciones significativas a través del flujo de trabajo del desarrollador.</p>
   </docs-card>
 </docs-card-container>
 

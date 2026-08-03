@@ -1,5 +1,10 @@
 # ¿Listo para explorar más de Angular?
 
+<div class="docs-tutorial-mascot">
+  <img class="docs-tutorial-mascot__angie" src="assets/images/angie/superhero.svg" aria-hidden="true">
+  <p class="docs-tutorial-mascot__bubble">¡Lo lograste! Completaste el tutorial de Aprende Angular y aprendiste los fundamentos de la creación de aplicaciones.</p>
+</div>
+
 También puedes aprender más en nuestras [guías](overview) y [referencia](api), o `ng new`.
 
 <docs-card-container>

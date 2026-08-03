@@ -2,23 +2,23 @@
 
 El estado de campos de Signal Forms te permite reaccionar a las interacciones del usuario proporcionando signals reactivos para el estado de validación (como `valid`, `invalid`, `errors`), rastreo de interacción (como `touched`, `dirty`) y disponibilidad (como `disabled`, `hidden`).
 
-## Entendiendo el estado de campos
+## Entendiendo el estado de campos {#understanding-field-state}
 
-Cuando creas un formulario con la función `form()`, retorna un **field tree** - una estructura de objeto que refleja tu modelo de formulario. Cada campo en el árbol es accesible mediante notación de punto (como `form.email`).
+Cuando creas un formulario con la función [`form()`](api/forms/signals/form), retorna un **field tree** - una estructura de objeto que refleja tu modelo de formulario. Cada campo en el árbol es accesible mediante notación de punto (como [`form.email`](api/forms/signals/form#email)).
 
-### Accediendo al estado del campo
+### Accediendo al estado del campo {#accessing-field-state}
 
-Cuando llamas a cualquier campo en el field tree como una función (como `form.email()`), retorna un objeto `FieldState` que contiene signals reactivos que rastrean la validación del campo, interacción y estado de disponibilidad. Por ejemplo, el signal `invalid()` te dice si el campo tiene errores de validación:
+Cuando llamas a cualquier campo en el field tree como una función (como [`form.email()`](api/forms/signals/form#email)), retorna un objeto `FieldState` que contiene signals reactivos que rastrean la validación del campo, interacción y estado de disponibilidad. Por ejemplo, el signal `invalid()` te dice si el campo tiene errores de validación:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, required, email } from '@angular/forms/signals'
+import {form, FormField, required, email } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-registration',
-  imports: [Field],
+  imports: [FormField],
   template: `
-    <input type="email" [field]="registrationForm.email" />
+    <input type="email" [formField]="registrationForm.email" />
 
     @if (registrationForm.email().invalid()) {
       <p class="error">Email has validation errors:</p>
@@ -45,9 +45,9 @@ export class Registration {
 
 En este ejemplo, la plantilla verifica `registrationForm.email().invalid()` para determinar si se debe mostrar un mensaje de error.
 
-### Signals de estado de campo
+### Signals de estado de campo {#field-state-signals}
 
-El signal más comúnmente usado es `value()`, un [signal editable](guide/forms/signals/models#updating-models) que proporciona acceso al valor actual del campo:
+El signal más comúnmente usado es `value()`, un `WritableSignal` que proporciona acceso al valor actual del campo:
 
 ```ts
 const emailValue = registrationForm.email().value()
@@ -58,32 +58,32 @@ Más allá de `value()`, el estado del campo incluye signals para validación, r
 
 | Categoría                                     | Signal       | Descripción                                                                                            |
 | --------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------ |
-| **[Estado de validación](#estado-de-validación)** | `valid()`    | El campo pasa todas las reglas de validación y no tiene validadores pendientes                        |
+| **[Estado de validación](#validation-state)** | `valid()`    | El campo pasa todas las reglas de validación y no tiene validadores pendientes                        |
 |                                               | `invalid()`  | El campo tiene errores de validación                                                                   |
 |                                               | `errors()`   | Array de objetos de error de validación                                                               |
 |                                               | `pending()`  | Validación asíncrona en progreso                                                                       |
-| **[Estado de interacción](#estado-de-interacción)** | `touched()`  | El usuario ha enfocado y desenfocado el campo (si es interactivo)                                     |
+| **[Estado de interacción](#interaction-state)** | `touched()`  | El usuario ha enfocado y desenfocado el campo (si es interactivo)                                     |
 |                                               | `dirty()`    | El usuario ha modificado el campo (si es interactivo), incluso si el valor coincide con el estado inicial |
-| **[Estado de disponibilidad](#estado-de-disponibilidad)** | `disabled()` | El campo está deshabilitado y no afecta el estado del formulario padre                                |
+| **[Estado de disponibilidad](#availability-state)** | `disabled()` | El campo está deshabilitado y no afecta el estado del formulario padre                                |
 |                                               | `hidden()`   | Indica que el campo debe estar oculto; la visibilidad en la plantilla se controla con `@if`           |
 |                                               | `readonly()` | El campo es de solo lectura y no afecta el estado del formulario padre                                |
 
 Estos signals te permiten construir experiencias de usuario de formularios responsivas que reaccionan al comportamiento del usuario. Las secciones a continuación exploran cada categoría en detalle.
 
-## Estado de validación
+## Estado de validación {#validation-state}
 
 Los signals de estado de validación te indican si un campo es válido y qué errores contiene.
 
-NOTA: Esta guía se enfoca en **usar** el estado de validación en tus plantillas y lógica (como leer `valid()`, `invalid()`, `errors()` para mostrar retroalimentación). Para información sobre **definir** reglas de validación y crear validadores personalizados, consulta la guía de Validación (próximamente).
+NOTA: Esta guía se enfoca en **usar** el estado de validación en tus plantillas y lógica (como leer `valid()`, `invalid()`, `errors()` para mostrar retroalimentación). Para información sobre **definir** reglas de validación y crear validadores personalizados, consulta la [guía de Validación](guide/forms/signals/validation).
 
-### Verificando validez
+### Verificando validez {#checking-validity}
 
 Usa `valid()` e `invalid()` para verificar el estado de validación:
 
 ```angular-ts
 @Component({
   template: `
-    <input type="email" [field]="loginForm.email" />
+    <input type="email" [formField]="loginForm.email" />
 
     @if (loginForm.email().invalid()) {
       <p class="error">Email is invalid</p>
@@ -105,15 +105,15 @@ export class Login {
 
 Al verificar validez en código, usa `invalid()` en lugar de `!valid()` si quieres distinguir entre "tiene errores" y "validación pendiente". La razón de esto es que tanto `valid()` como `invalid()` pueden ser `false` simultáneamente cuando la validación asíncrona está pendiente porque el campo no es válido aún ya que la validación no está completa y tampoco es inválido ya que no se han encontrado errores todavía.
 
-### Leyendo errores de validación
+### Leyendo errores de validación {#reading-validation-errors}
 
 Accede al array de errores de validación con `errors()`. Cada objeto de error contiene:
 
 | Propiedad | Descripción                                                                    |
 | --------- | ------------------------------------------------------------------------------ |
-| `kind`    | La regla de validación que falló (como "required" o "email")                   |
-| `message` | Mensaje de error legible opcional                                              |
-| `field`   | Referencia al `FieldTree` donde ocurrió el error                               |
+| `kind`      | La regla de validación que falló (como "required" o "email")                   |
+| `message`   | Mensaje de error legible opcional                                              |
+| `fieldTree` | Referencia al `FieldTree` donde ocurrió el error                               |
 
 NOTA: La propiedad `message` es opcional. Los validadores pueden proporcionar mensajes de error personalizados, pero si no se especifica, puede que necesites mapear los valores de `kind` de error a tus propios mensajes.
 
@@ -122,7 +122,7 @@ Aquí hay un ejemplo de cómo mostrar errores en tu plantilla:
 ```angular-ts
 @Component({
   template: `
-    <input type="email" [field]="loginForm.email" />
+    <input type="email" [formField]="loginForm.email" />
 
     @if (loginForm.email().errors().length > 0) {
       <div class="errors">
@@ -137,14 +137,14 @@ Aquí hay un ejemplo de cómo mostrar errores en tu plantilla:
 
 Este enfoque recorre todos los errores de un campo, mostrando cada mensaje de error al usuario.
 
-### Validación pendiente
+### Validación pendiente {#pending-validation}
 
 El signal `pending()` indica que la validación asíncrona está en progreso:
 
 ```angular-ts
 @Component({
   template: `
-    <input type="email" [field]="signupForm.email" />
+    <input type="email" [formField]="signupForm.email" />
 
     @if (signupForm.email().pending()) {
       <p>Checking if email is available...</p>
@@ -159,15 +159,81 @@ El signal `pending()` indica que la validación asíncrona está en progreso:
 
 Este signal te permite mostrar estados de carga mientras se ejecuta la validación asíncrona.
 
-## Estado de interacción
+## Estado de interacción {#interaction-state}
 
 El estado de interacción rastrea si los usuarios han interactuado con los campos, habilitando patrones como "mostrar errores solo después de que el usuario haya tocado un campo".
 
-### Estado touched
+### Estado touched {#touched-state}
 
-El signal `touched()` rastrea si un usuario ha enfocado y luego desenfocado un campo. Se vuelve `true` cuando un usuario enfoca y luego desenfoca un campo a través de interacción del usuario (no programáticamente). Los campos ocultos, deshabilitados y de solo lectura no son interactivos y no se vuelven touched desde interacciones del usuario.
+El signal `touched()` rastrea si un usuario ha enfocado y luego desenfocado un campo, o si el campo ha sido marcado como touched programáticamente. Solo los campos interactivos pueden volverse touched; los campos ocultos, deshabilitados y de solo lectura no se vuelven touched desde interacciones del usuario ni desde `markAsTouched()`.
 
-### Estado dirty
+Cuando necesitas una acción a nivel de sección para revelar errores de validación dentro de esa sección, llama a `markAsTouched()` en el campo de la sección. El valor por defecto de `skipDescendants` es `false`, por lo que la llamada marca el campo de la sección y cada campo descendiente como touched.
+
+Por ejemplo, un flujo de checkout puede validar la sección de envío antes de permitir al usuario continuar al siguiente paso:
+
+```angular-ts
+import {Component, signal} from '@angular/core';
+import {form, FormField, required} from '@angular/forms/signals';
+
+@Component({
+  selector: 'app-checkout-shipping',
+  imports: [FormField],
+  template: `
+    <label>
+      Name
+      <input [formField]="checkoutForm.shipping.name" />
+    </label>
+    @if (checkoutForm.shipping.name().touched() && checkoutForm.shipping.name().invalid()) {
+      <p>{{ checkoutForm.shipping.name().errors()[0].message }}</p>
+    }
+
+    <label>
+      Address
+      <input [formField]="checkoutForm.shipping.address" />
+    </label>
+    @if (checkoutForm.shipping.address().touched() && checkoutForm.shipping.address().invalid()) {
+      <p>{{ checkoutForm.shipping.address().errors()[0].message }}</p>
+    }
+
+    <button type="button" (click)="continueToPayment()">Continue</button>
+
+    @if (showPayment() && checkoutForm.shipping().valid()) {
+      <p>Ready for payment.</p>
+    }
+  `,
+})
+export class CheckoutShipping {
+  checkoutModel = signal({
+    shipping: {
+      name: '',
+      address: '',
+    },
+  });
+
+  showPayment = signal(false);
+
+  checkoutForm = form(this.checkoutModel, (schemaPath) => {
+    required(schemaPath.shipping.name, {message: 'Enter a name'});
+    required(schemaPath.shipping.address, {message: 'Enter an address'});
+  });
+
+  continueToPayment() {
+    this.checkoutForm.shipping().markAsTouched();
+
+    if (this.checkoutForm.shipping().invalid()) {
+      return;
+    }
+
+    this.showPayment.set(true);
+  }
+}
+```
+
+Cuando `continueToPayment()` llama a `markAsTouched()` en `checkoutForm.shipping()`, usa el comportamiento por defecto `skipDescendants: false`. Angular marca `shipping`, `shipping.name` y `shipping.address` como touched, por lo que los mensajes de error `touched() && invalid()` de los hijos se vuelven visibles antes de que se envíe todo el formulario.
+
+NOTA: Pasa `{skipDescendants: true}` solo cuando el campo que recibe la llamada debe volverse touched sin cambiar el estado touched de sus descendientes.
+
+### Estado dirty {#dirty-state}
 
 Los formularios a menudo necesitan detectar si los datos realmente han cambiado - por ejemplo, para advertir a los usuarios sobre cambios no guardados o para habilitar un botón de guardar solo cuando sea necesario. El signal `dirty()` rastrea si el usuario ha modificado el campo.
 
@@ -177,8 +243,8 @@ El signal `dirty()` se vuelve `true` cuando el usuario modifica el valor de un c
 @Component({
   template: `
     <form>
-      <input [field]="profileForm.name" />
-      <input [field]="profileForm.bio" />
+      <input [formField]="profileForm.name" />
+      <input [formField]="profileForm.bio" />
 
       @if (profileForm().dirty()) {
         <p class="warning">You have unsaved changes</p>
@@ -212,24 +278,24 @@ Un campo puede estar en diferentes combinaciones:
 
 NOTA: Los campos ocultos, deshabilitados y de solo lectura no son interactivos - no se vuelven touched o dirty desde interacciones del usuario.
 
-## Estado de disponibilidad
+## Estado de disponibilidad {#availability-state}
 
 Los signals de estado de disponibilidad controlan si los campos son interactivos, editables o visibles. Los campos deshabilitados, ocultos y de solo lectura no son interactivos. No afectan si su formulario padre es válido, touched o dirty.
 
-### Campos deshabilitados
+### Campos deshabilitados {#disabled-fields}
 
 El signal `disabled()` indica si un campo acepta entrada del usuario. Los campos deshabilitados aparecen en la interfaz de usuario pero los usuarios no pueden interactuar con ellos.
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, disabled } from '@angular/forms/signals'
+import {form, FormField, disabled } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-order',
-  imports: [Field],
+  imports: [FormField],
   template: `
-    <!-- TIP: The `[field]` directive automatically binds the `disabled` attribute based on the field's `disabled()` state, so you don't need to manually add `[disabled]="field().disabled()"` -->
-    <input [field]="orderForm.couponCode" />
+    <!-- TIP: The `[formField]` directive automatically binds the `disabled` attribute based on the field's `disabled()` state, so you don't need to manually add `[disabled]="field().disabled()"` -->
+    <input [formField]="orderForm.couponCode" />
 
     @if (orderForm.couponCode().disabled()) {
       <p class="info">Coupon code is only available for orders over $50</p>
@@ -259,27 +325,27 @@ Al definir reglas como `disabled()`, `hidden()` o `readonly()`, el callback de l
 
 Los campos deshabilitados no contribuyen al estado de validación del formulario padre. Incluso si un campo deshabilitado sería inválido, el formulario padre aún puede ser válido. El estado `disabled()` afecta la interactividad y validación, pero no cambia el valor del campo.
 
-### Campos ocultos
+### Campos ocultos {#hidden-fields}
 
 El signal `hidden()` indica si un campo está condicionalmente oculto. Usa `hidden()` con `@if` para mostrar u ocultar campos según condiciones:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, hidden } from '@angular/forms/signals'
+import {form, FormField, hidden } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-profile',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <label>
-      <input type="checkbox" [field]="profileForm.isPublic" />
+      <input type="checkbox" [formField]="profileForm.isPublic" />
       Make profile public
     </label>
 
     @if (!profileForm.publicUrl().hidden()) {
       <label>
         Public URL
-        <input [field]="profileForm.publicUrl" />
+        <input [formField]="profileForm.publicUrl" />
       </label>
     }
   `
@@ -298,26 +364,26 @@ export class Profile {
 
 Los campos ocultos no participan en la validación. Si un campo requerido está oculto, no impedirá el envío del formulario. El estado `hidden()` afecta la disponibilidad y validación, pero no cambia el valor del campo.
 
-### Campos de solo lectura
+### Campos de solo lectura {#readonly-fields}
 
 El signal `readonly()` indica si un campo es de solo lectura. Los campos de solo lectura muestran su valor pero los usuarios no pueden editarlos:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, readonly } from '@angular/forms/signals'
+import {form, FormField, readonly } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-account',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <label>
       Username (cannot be changed)
-      <input [field]="accountForm.username" />
+      <input [formField]="accountForm.username" />
     </label>
 
     <label>
       Email
-      <input [field]="accountForm.email" />
+      <input [formField]="accountForm.email" />
     </label>
   `
 })
@@ -333,11 +399,11 @@ export class Account {
 }
 ```
 
-NOTA: La directiva `[field]` vincula automáticamente el atributo `readonly` basándose en el estado `readonly()` del campo, por lo que no necesitas agregar manualmente `[readonly]="field().readonly()"`.
+NOTA: La directiva `[formField]` vincula automáticamente el atributo `readonly` basándose en el estado `readonly()` del campo, por lo que no necesitas agregar manualmente `[readonly]="field().readonly()"`.
 
 Al igual que los campos deshabilitados y ocultos, los campos de solo lectura no son interactivos y no afectan el estado del formulario padre. El estado `readonly()` afecta la editabilidad y validación, pero no cambia el valor del campo.
 
-### Cuándo usar cada uno
+### Cuándo usar cada uno {#when-to-use-each}
 
 | Estado       | Usar cuando                                                                       | Usuario puede verlo | Usuario puede interactuar | Contribuye a la validación |
 | ------------ | --------------------------------------------------------------------------------- | ------------------- | ------------------------- | -------------------------- |
@@ -345,18 +411,18 @@ Al igual que los campos deshabilitados y ocultos, los campos de solo lectura no 
 | `hidden()`   | El campo no es relevante en el contexto actual                                    | No (con @if)        | No                        | No                         |
 | `readonly()` | El valor debe ser visible pero no editable                                        | Sí                  | No                        | No                         |
 
-## Estado a nivel de formulario
+## Estado a nivel de formulario {#form-level-state}
 
 El formulario raíz también es un campo en el field tree. Cuando lo llamas como una función, también retorna un objeto `FieldState` que agrega el estado de todos los campos hijos.
 
-### Accediendo al estado del formulario
+### Accediendo al estado del formulario {#accessing-form-state}
 
 ```angular-ts
 @Component({
   template: `
     <form>
-      <input [field]="loginForm.email" />
-      <input [field]="loginForm.password" />
+      <input [formField]="loginForm.email" />
+      <input [formField]="loginForm.password" />
 
       <button [disabled]="!loginForm().valid()">Sign In</button>
     </form>
@@ -370,7 +436,7 @@ export class Login {
 
 En este ejemplo, el formulario es válido solo cuando todos los campos hijos son válidos. Esto te permite habilitar/deshabilitar botones de envío basándote en la validez general del formulario.
 
-### Signals a nivel de formulario
+### Signals a nivel de formulario {#form-level-signals}
 
 Debido a que el formulario raíz es un campo, tiene los mismos signals (como `valid()`, `invalid()`, `touched()`, `dirty()`, etc.).
 
@@ -379,10 +445,10 @@ Debido a que el formulario raíz es un campo, tiene los mismos signals (como `va
 | `valid()`   | Todos los campos interactivos son válidos y no hay validadores pendientes       |
 | `invalid()` | Al menos un campo interactivo tiene errores de validación                       |
 | `pending()` | Al menos un campo interactivo tiene validación asíncrona pendiente              |
-| `touched()` | El usuario ha tocado al menos un campo interactivo                              |
+| `touched()` | El formulario, o al menos un descendiente interactivo, está touched             |
 | `dirty()`   | El usuario ha modificado al menos un campo interactivo                          |
 
-### Cuándo usar a nivel de formulario vs a nivel de campo
+### Cuándo usar a nivel de formulario vs a nivel de campo {#when-to-use-form-level-vs-field-level}
 
 **Usa estado a nivel de formulario para:**
 
@@ -398,11 +464,11 @@ Debido a que el formulario raíz es un campo, tiene los mismos signals (como `va
 - Retroalimentación de validación por campo
 - Disponibilidad condicional de campos
 
-## Propagación de estado
+## Propagación de estado {#state-propagation}
 
 El estado del campo se propaga desde los campos hijos hacia arriba a través de grupos de campos padre hasta el formulario raíz.
 
-### Cómo el estado hijo afecta a los formularios padre
+### Cómo el estado hijo afecta a los formularios padre {#how-child-state-affects-parent-forms}
 
 Cuando un campo hijo se vuelve inválido, su grupo de campos padre se vuelve inválido, y también lo hace el formulario raíz. Cuando un hijo se vuelve touched o dirty, el grupo de campos padre y el formulario raíz reflejan ese cambio. Esta agregación te permite verificar la validez en cualquier nivel - campo o formulario completo.
 
@@ -426,7 +492,7 @@ userForm.profile.firstName().invalid() === true
 // → userForm().invalid() === true
 ```
 
-### Campos ocultos, deshabilitados y de solo lectura
+### Campos ocultos, deshabilitados y de solo lectura {#hidden-disabled-and-readonly-fields}
 
 Los campos ocultos, deshabilitados y de solo lectura no son interactivos y no afectan el estado del formulario padre:
 
@@ -446,25 +512,25 @@ En este ejemplo, cuando `shippingAddress` está oculto, no afecta la validez del
 
 Este comportamiento evita que los campos ocultos, deshabilitados o de solo lectura bloqueen el envío del formulario o afecten el estado de validación, touched y dirty.
 
-## Usando estado en plantillas
+## Usando estado en plantillas {#using-state-in-templates}
 
 Los signals de estado de campo se integran perfectamente con las plantillas de Angular, habilitando experiencias de usuario de formularios reactivos sin manejo manual de eventos.
 
-### Visualización condicional de errores
+### Visualización condicional de errores {#conditional-error-display}
 
 Muestra errores solo después de que un usuario haya interactuado con un campo:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, email } from '@angular/forms/signals'
+import {form, FormField, email } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-signup',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <label>
       Email
-      <input type="email" [field]="signupForm.email" />
+      <input type="email" [formField]="signupForm.email" />
     </label>
 
     @if (signupForm.email().touched() && signupForm.email().invalid()) {
@@ -483,27 +549,27 @@ export class Signup {
 
 Este patrón evita mostrar errores antes de que los usuarios hayan tenido la oportunidad de interactuar con el campo. Los errores aparecen solo después de que el usuario haya enfocado y luego salido del campo.
 
-### Disponibilidad condicional de campos
+### Disponibilidad condicional de campos {#conditional-field-availability}
 
 Usa el signal `hidden()` con `@if` para mostrar u ocultar campos condicionalmente:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, hidden } from '@angular/forms/signals'
+import {form, FormField, hidden } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-order',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <label>
-      <input type="checkbox" [field]="orderForm.requiresShipping" />
+      <input type="checkbox" [formField]="orderForm.requiresShipping" />
       Requires shipping
     </label>
 
     @if (!orderForm.shippingAddress().hidden()) {
       <label>
         Shipping Address
-        <input [field]="orderForm.shippingAddress" />
+        <input [formField]="orderForm.shippingAddress" />
       </label>
     }
   `
@@ -522,11 +588,34 @@ export class Order {
 
 Los campos ocultos no participan en la validación, permitiendo que el formulario se envíe incluso si el campo oculto sería inválido de lo contrario.
 
-## Usando estado de campo en lógica de componentes
+### Rastreo de valores en campos de array {#tracking-values-for-array-fields}
+
+En Signal Forms, un bloque `@for` sobre un conjunto de campos debe rastrearse por identidad del campo.
+
+```angular-ts
+@Component({
+  imports: [FormField],
+  template: `
+    @for (field of form.emails; track field) {
+      <input [formField]="field" />
+    }
+  `,
+})
+export class App {
+  formModel = signal({emails: ['john.doe@mail.com', 'max.musterman@mail.com']});
+  form = form(this.formModel);
+}
+```
+
+El sistema de formularios ya rastrea los valores del modelo dentro del array y mantiene una identidad estable de los campos que crea automáticamente.
+
+Cuando un elemento cambia, puede representar una nueva entidad lógica incluso si algunas de sus propiedades parecen iguales. Rastrear por identidad asegura que el framework lo trate como un elemento distinto en lugar de reutilizar elementos UI existentes. Esto evita que elementos con estado, como inputs de formulario, se compartan incorrectamente y mantiene los enlaces alineados con la parte correcta del modelo.
+
+## Usando estado de campo en lógica de componentes {#using-field-state-in-component-logic}
 
 Los signals de estado de campo funcionan con las primitivas reactivas de Angular como `computed()` y `effect()` para lógica de formularios avanzada.
 
-### Verificaciones de validación antes del envío
+### Verificaciones de validación antes del envío {#validation-checks-before-submission}
 
 Verifica la validez del formulario en métodos del componente:
 
@@ -561,7 +650,7 @@ export class Registration {
 
 Esto asegura que solo datos válidos y completamente validados lleguen a tu API.
 
-### Estado derivado con computed
+### Estado derivado con computed {#derived-state-with-computed}
 
 Crea signals computed basados en el estado del campo para actualizarse automáticamente cuando el estado del campo subyacente cambia:
 
@@ -588,79 +677,91 @@ export class Password {
 }
 ```
 
-### Cambios de estado programáticos
+### Cambios de estado programáticos {#programmatic-state-changes}
 
 Aunque el estado del campo típicamente se actualiza a través de interacciones del usuario (escribir, enfocar, desenfocar), a veces necesitas controlarlo programáticamente. Los escenarios comunes incluyen el envío de formularios y el reseteo de formularios.
 
-#### Envío de formularios
+#### Envío de formularios {#form-submission}
 
-Cuando un usuario envía un formulario, usa la función `submit()` para manejar la validación y revelar errores:
+Signal Forms proporciona una directiva `FormRoot` que simplifica el envío de formularios. Previene automáticamente el comportamiento de envío de formularios por defecto del navegador y establece el atributo `novalidate` en el elemento `<form>`.
 
-```ts
-import { Component, signal } from '@angular/core'
-import { form, submit, required, email } from '@angular/forms/signals'
+```angular-ts
+import {FormField, FormRoot} from '@angular/forms/signals';
 
+@Component({
+  imports: [FormRoot, FormField],
+  template: `
+    <form [formRoot]="registrationForm">
+      <input [formField]="registrationForm.username" />
+      <input type="email" [formField]="registrationForm.email" />
+      <input type="password" [formField]="registrationForm.password" />
+
+      <button type="submit">Register</button>
+    </form>
+  `,
+})
 export class Registration {
-  registrationModel = signal({ username: '', email: '', password: '' })
+  registrationModel = signal({username: '', email: '', password: ''});
 
-  registrationForm = form(this.registrationModel, schemaPath => {
-    required(schemaPath.username)
-    email(schemaPath.email)
-    required(schemaPath.password)
-  })
+  registrationForm = form(
+    this.registrationModel,
+    (schemaPath) => {
+      required(schemaPath.username);
+      email(schemaPath.email);
+      required(schemaPath.password);
+    },
+    {
+      submission: {
+        action: async () => this.submitToServer(),
+      },
+    },
+  );
 
-  onSubmit() {
-    submit(this.registrationForm, () => {
-      this.submitToServer()
-    })
-  }
-
-  submitToServer() {
+  private submitToServer() {
     // Send data to server
   }
 }
 ```
 
-La función `submit()` marca automáticamente todos los campos como touched (revelando errores de validación) y solo ejecuta tu callback si el formulario es válido.
+Cuando usas `FormRoot`, al enviar el formulario automáticamente se llama a la función `submit()`, que marca todos los campos como touched (revelando errores de validación) y ejecuta tu callback `action` si el formulario es válido.
 
-#### Reseteando formularios después del envío
+También puedes enviar un formulario manualmente, sin usar la directiva, llamando a `submit(this.registrationForm)`. Al llamar explícitamente a la función `submit` de esta manera, puedes pasar un `FormSubmitOptions` para sobreescribir la lógica `submission` por defecto del formulario: `submit(this.registrationForm, {action: () => /* ... */ })`.
 
-Después de enviar exitosamente un formulario, puedes querer devolverlo a su estado inicial - limpiando tanto el historial de interacción del usuario como los valores de los campos. El método `reset()` limpia las banderas touched y dirty pero no cambia los valores de los campos, por lo que necesitas actualizar tu modelo por separado:
+#### Reseteando formularios después del envío {#resetting-forms-after-submission}
+
+Después de enviar exitosamente un formulario, puedes querer devolverlo a su estado inicial - limpiando tanto el historial de interacción del usuario como los valores de los campos. El método `reset()` limpia las banderas touched y dirty. También puedes pasar un valor opcional a `reset()` para actualizar los datos del modelo:
 
 ```ts
 export class Contact {
-  contactModel = signal({ name: '', email: '', message: '' })
-  contactForm = form(this.contactModel)
-
-  async onSubmit() {
-    if (!this.contactForm().valid()) return
-
-    await this.api.sendMessage(this.contactModel())
-
-    // Clear interaction state (touched, dirty)
-    this.contactForm().reset()
-
-    // Clear values
-    this.contactModel.set({ name: '', email: '', message: '' })
-  }
+  private readonly INITIAL_MODEL = {name: '', email: '', message: ''};
+  contactModel = signal({...this.INITIAL_MODEL});
+  contactForm = form(this.contactModel, {
+    submission: {
+      action: async (f) => {
+        await this.api.sendMessage(this.contactModel());
+        // Limpiar estado de interacción (touched, dirty) y resetear a valores iniciales
+        f().reset({...this.INITIAL_MODEL});
+      },
+    },
+  });
 }
 ```
 
-Este reseteo de dos pasos asegura que el formulario esté listo para nueva entrada sin mostrar mensajes de error obsoletos o indicadores de estado dirty.
+Esto asegura que el formulario esté listo para nueva entrada sin mostrar mensajes de error obsoletos o indicadores de estado dirty.
 
-## Estilizando basándose en el estado de validación
+## Estilizando basándose en el estado de validación {#styling-based-on-validation-state}
 
 Puedes aplicar estilos personalizados a tu formulario vinculando clases CSS basándote en el estado de validación:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, email } from '@angular/forms/signals'
+import {form, FormField, email } from '@angular/forms/signals'
 
 @Component({
   template: `
     <input
       type="email"
-      [field]="form.email"
+      [formField]="form.email"
       [class.is-invalid]="form.email().touched() && form.email().invalid()"
       [class.is-valid]="form.email().touched() && form.email().valid()"
     />
@@ -687,9 +788,97 @@ export class StyleExample {
 
 Verificar tanto `touched()` como el estado de validación asegura que los estilos solo aparezcan después de que el usuario haya interactuado con el campo.
 
-## Próximos pasos
+## Enfocar un control de formulario enlazado a un campo {#focus-a-form-control-bound-to-a-form-field}
 
-Aquí hay otras guías relacionadas sobre Signal Forms:
+Angular Signal Forms proporciona un método `focusBoundControl()` en el estado del campo que te permite mover programáticamente el [foco](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus) al control de formulario asociado con un campo de formulario dado.
 
-- [Guía de modelos de formularios](guide/forms/signals/models) - Creando modelos y actualizando valores
-- Guía de validación - Definiendo reglas de validación y validadores personalizados (próximamente)
+Un caso de uso común es mejorar la accesibilidad en el envío de formularios: cuando un formulario es inválido, mostrar mensajes de error y mover automáticamente el foco al primer campo inválido, guiando al usuario para corregirlo.
+
+### Uso básico {#basic-usage}
+
+Dado un formulario de registro:
+
+```ts
+@Component({
+  /* ... */
+})
+export class Registration {
+  registrationModel = signal({username: '', email: '', password: ''});
+  registrationForm = form(this.registrationModel, (schemaPath) => {
+    required(schemaPath.username);
+    email(schemaPath.email);
+    required(schemaPath.password);
+  });
+}
+```
+
+Para mover el foco al control enlazado al campo `email`:
+
+```ts
+registrationForm.email().focusBoundControl();
+```
+
+### Prevenir el scroll {#preventing-scroll}
+
+Si el control objetivo está fuera del viewport y quieres enfocarlo sin activar un scroll, puedes establecer la opción [preventScroll](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#preventscroll) a `true` al llamar al método `focusBoundControl()`.
+
+```ts
+registrationForm.email().focusBoundControl({preventScroll: true});
+```
+
+### Enfocar el primer campo inválido al enviar {#focusing-the-first-invalid-field-on-submission}
+
+Usa `errorSummary()` para localizar el primer campo inválido y enfocarlo cuando el usuario envía el formulario con errores:
+
+```ts
+onSubmit() {
+  const firstError = this.registrationForm().errorSummary()[0];
+  if (firstError?.fieldTree) {
+    firstError.fieldTree().focusBoundControl();
+  } else {
+    // proceed with submission
+  }
+}
+```
+
+### Controles personalizados {#custom-controls}
+
+Por defecto, llamar a `focusBoundControl()` en un control personalizado no tiene efecto porque un control personalizado puede contener múltiples inputs nativos. Por ejemplo, un selector de fecha puede contener campos separados para día, mes y año. Como resultado, Angular no puede determinar qué elemento debe recibir el foco ni qué acción realizar.
+
+Para soportar foco programático en un control personalizado, implementa un método `focus()`. Cuando se llama a `focusBoundControl()` en el estado del campo asociado con un control personalizado, Angular llama al método `focus()` del control si está presente.
+
+Considera un input de contraseña personalizado:
+
+```html
+<div class="password-block">
+  <input type="password" #passwordCtrl [value]="value()" (input)="value.set($event.target.value)" />
+</div>
+```
+
+```ts
+@Component({
+  /* ... */
+})
+export class PasswordInput implements FormValueControl<string> {
+  readonly value = model<string>('');
+  readonly passwordCtrl = viewChild.required<ElementRef<HTMLInputElement>>('passwordCtrl');
+
+  // Llamado automáticamente cuando se invoca focusBoundControl()
+  // en el estado del campo asociado con este control personalizado
+  focus(): void {
+    this.passwordCtrl().nativeElement.focus();
+  }
+}
+```
+
+## Próximos pasos {#next-steps}
+
+Esta guía cubrió el manejo del estado de validación y disponibilidad, el rastreo de interacciones y la propagación del estado de campos. Las guías relacionadas exploran otros aspectos de Signal Forms:
+
+<!-- TODO: UNCOMMENT WHEN THE GUIDES ARE AVAILABLE -->
+<docs-pill-row>
+  <docs-pill href="guide/forms/signals/models" title="Modelos de formulario" />
+  <docs-pill href="guide/forms/signals/validation" title="Validación" />
+  <docs-pill href="guide/forms/signals/custom-controls" title="Controles personalizados" />
+  <!-- <docs-pill href="guide/forms/signals/arrays" title="Trabajando con arrays" /> -->
+</docs-pill-row>

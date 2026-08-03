@@ -4,7 +4,7 @@ Las Signals en Angular son un sistema que rastrea granularmente cómo y dónde s
 
 CONSEJO: Revisa los [Fundamentos](essentials/signals) de Angular antes de profundizar en esta guía completa.
 
-## ¿Qué son las Signals?
+## ¿Qué son las Signals? {#what-are-signals}
 
 Una **signal** es un contenedor alrededor de un valor que notifica a los consumidores interesados cuando ese valor cambia. Las signals pueden contener cualquier valor, desde primitivos hasta estructuras de datos complejas.
 
@@ -12,7 +12,7 @@ Lees el valor de una signal llamando a su función getter, lo que permite a Angu
 
 Las signals pueden ser Escribibles (_writable_) o Solo Lectura (_read-only_).
 
-### Signals escribibles (_writable_)
+### Signals escribibles (_writable_) {#writable-signals}
 
 Las Signals escribibles proporcionan una API para actualizar sus valores directamente. Creas signals escribibles llamando a la función `signal` con el valor inicial de la signal:
 
@@ -33,12 +33,47 @@ O usa la operación `.update()` para calcular un nuevo valor desde el anterior:
 
 ```ts
 // Incrementa el contador en 1.
-count.update(value => value + 1);
+count.update((value) => value + 1);
 ```
 
 Las signals escribibles tienen el tipo `WritableSignal`.
 
-### Signals computadas
+#### Convertir signals escribibles a solo lectura {#converting-writable-signals-to-readonly}
+
+`WritableSignal` proporciona un método `asReadonly()` que devuelve una versión de solo lectura de la signal. Esto es útil cuando quieres exponer el valor de una signal a los consumidores sin permitirles modificarla directamente:
+
+```ts
+@Service()
+export class CounterState {
+  // Estado escribible privado
+  private readonly _count = signal(0);
+
+  readonly count = this._count.asReadonly(); // solo lectura pública
+
+  increment() {
+    this._count.update((v) => v + 1);
+  }
+}
+
+@Component({
+  /* ... */
+})
+export class AwesomeCounter {
+  state = inject(CounterState);
+
+  count = this.state.count; // puede leer pero no modificar
+
+  increment() {
+    this.state.increment();
+  }
+}
+```
+
+La signal de solo lectura refleja cualquier cambio realizado a la signal escribible original, pero no puede modificarse usando los métodos `set()` o `update()`.
+
+IMPORTANTE: Las signals de solo lectura **no** tienen ningún mecanismo incorporado que evite la mutación profunda de su valor.
+
+### Signals computadas {#computed-signals}
 
 Las **signals computadas** son signals de solo lectura que derivan su valor de otras signals. Defines signals computadas usando la función `computed` y especificando una derivación.
 
@@ -46,10 +81,11 @@ Las **signals computadas** son signals de solo lectura que derivan su valor de o
 const count: WritableSignal<number> = signal(0);
 const doubleCount: Signal<number> = computed(() => count() * 2);
 ```
-La signals `doubleCount` depende de la signal `count`.
+
+La signal `doubleCount` depende de la signal `count`.
 Cada vez que la signal `count` se actualiza, Angular sabe que `doubleCount` también necesita actualizarse.
 
-#### Signals computadas se evalúan y memorizan de forma perezosa
+#### Signals computadas se evalúan y memorizan de forma perezosa {#computed-signals-are-both-lazily-evaluated-and-memoized}
 
 La función de derivación de `doubleCount` no se ejecuta para calcular su valor hasta la primera vez que lees `doubleCount`. El valor calculado se almacena en caché, y si lees `doubleCount` nuevamente, devolverá el valor en caché sin recalcular.
 
@@ -57,7 +93,7 @@ Si luego cambias `count`, Angular sabe que el valor en caché de `doubleCount` y
 
 Como resultado, puedes realizar de forma segura derivaciones computacionalmente costosas en signals computadas, como filtrar matrices.
 
-#### Signals computadas no son signal escribibles
+#### Signals computadas no son signal escribibles {#computed-signals-are-not-writable-signals}
 
 No puedes asignar valores directamente a una signal computada. Es decir.
 
@@ -67,7 +103,7 @@ doubleCount.set(3);
 
 produce un error de compilación, porque `doubleCount` no es un `WritableSignal`.
 
-#### Las dependencias de las signals computadas son dinámicas 
+#### Las dependencias de las signals computadas son dinámicas  {#computed-signal-dependencies-are-dynamic}
 
 Solo se rastrean las signal que realmente se leen durante la derivación. Por ejemplo, en este `computed` la signal `count` solo le lee si la signal `showCount` es verdadera:
 
@@ -89,136 +125,34 @@ Si estableces `showCount` como `true` y luego lees `conditionalCount` nuevamente
 
 Ten en cuenta que las dependencias pueden ser removidas durante una derivación así como agregadas. Si más tarde estableces `showCount` de vuelta a `false`, entonces `count` ya no será considerado una dependencia de `conditionalCount`.
 
-## Leer signals en componentes `OnPush`
+## Contextos reactivos {#reactive-contexts}
 
-Cuando lees una signal dentro de la plantilla de un componente `OnPush`, Angular rastrea la signal como una dependencia de ese componente. Cuando el valor de esa signal cambia, Angular automáticamente [marca](api/core/ChangeDetectorRef#markforcheck) el componente para asegurar que se actualice la próxima vez que se ejecute la detección de cambios. Consulta la guía [Saltando subárboles de componentes](best-practices/skipping-subtrees) para más información sobre componentes `OnPush`.
+Un **contexto reactivo** es un estado de tiempo de ejecución en el que Angular monitorea las lecturas de signals para establecer una dependencia. El código que lee la signal es el _consumidor_, y la signal que se lee es el _productor_.
 
-## Efectos
+Angular entra automáticamente en un contexto reactivo cuando:
 
-Las signals son útiles porque notifican a los consumidores interesados cuando cambian. Un **efecto** es una operación que se ejecuta siempre que uno o más valores de signal cambien. Puedes crear un efecto con la función `effect`:
+- Ejecuta un callback `effect` o `afterRenderEffect`.
+- Evalúa una signal `computed`.
+- Evalúa un `linkedSignal`.
+- Evalúa la función params o loader de un `resource`.
+- Renderiza una plantilla de componente (incluyendo los enlaces en la [propiedad host](guide/components/host-elements#binding-to-the-host-element)).
 
-```ts
-effect(() => {
-  console.log(`El contador actual es: ${count()}`);
-});
-```
+Durante estas operaciones, Angular crea una conexión _activa_. Si una signal rastreada cambia, Angular _eventualmente_ volverá a ejecutar al consumidor.
 
-Los efectos siempre se ejecutan **al menos una vez.** Cuando un efecto se ejecuta, rastrea cualquier lectura de valor de signal. Siempre que cualquiera de estos valores de signal cambie, el efecto se ejecuta nuevamente. Similar a las signals computadas, los efectos mantienen un seguimiento de sus dependencias dinámicamente, y solo rastrean signals que fueron leídas en la ejecución más reciente.
+### Verificar el contexto reactivo {#asserts-the-reactive-context}
 
-Los efectos siempre se ejecutan **asíncronamente**, durante el proceso de detección de cambios.
-
-### Casos de uso para efectos
-
-Los efectos raramente son necesarios en la mayoría del código de aplicación, pero pueden ser útiles en circunstancias específicas. Aquí hay algunos ejemplos de situaciones donde un `effect` podría ser una buena solución:
-
-- Registrar datos que se están mostrando y cuándo cambian, ya sea para análisis o como herramienta de depuración.
-- Mantener datos sincronizados con `window.localStorage`.
-- Agregar comportamiento DOM personalizado que no se puede expresar con sintaxis de plantilla.
-- Realizar renderizado personalizado a un `<canvas>`, librería de gráficos, u otra librería de interfaz de usuario de terceros.
-
-<docs-callout critical title="Cuándo no usar efectos">
-Evita usar efectos para propagación de cambios de estado. Esto puede resultar en errores `ExpressionChangedAfterItHasBeenChecked`, actualizaciones circulares infinitas, o ciclos de detección de cambios innecesarios.
-
-En su lugar, usa signals `computed` para modelar estado que depende de otro estado.
-</docs-callout>
-
-### Contexto de inyección
-
-Por defecto, solo puedes crear un `effect()` dentro de un [contexto de inyección](guide/di/dependency-injection-context) (donde tienes acceso a la función `inject`). La forma más fácil de satisfacer este requisito es llamar `effect` dentro del `constructor` de un componente, directiva, o servicio:
+Angular proporciona la función helper `assertNotInReactiveContext` para verificar que el código no se esté ejecutando dentro de un contexto reactivo. Pasa una referencia a la función que llama para que el mensaje de error apunte al punto de entrada correcto de la API si la verificación falla. Esto produce un mensaje de error más claro y accionable que un error genérico de contexto reactivo.
 
 ```ts
-@Component({...})
-export class EffectiveCounterComponent {
-  readonly count = signal(0);
-  constructor() {
-    // Registrar un nuevo efecto.
-    effect(() => {
-      console.log(`El contador es: ${this.count()}`);
-    });
-  }
+import {assertNotInReactiveContext} from '@angular/core';
+
+function subscribeToEvents() {
+  assertNotInReactiveContext(subscribeToEvents);
+  // Seguro para continuar - lógica de suscripción aquí
 }
 ```
 
-Alternativamente, puedes asignar el efecto a un campo (que también le da un nombre descriptivo).
-
-```ts
-@Component({...})
-export class EffectiveCounterComponent {
-  readonly count = signal(0);
-
-  private loggingEffect = effect(() => {
-    console.log(`El contador es: ${this.count()}`);
-  });
-}
-```
-
-Para crear un efecto fuera del constructor, puedes pasar un `Injector` a `effect` vía sus opciones:
-
-```ts
-@Component({...})
-export class EffectiveCounterComponent {
-  readonly count = signal(0);
-  private injector = inject(Injector);
-
-  initializeLogging(): void {
-    effect(() => {
-      console.log(`El contador es: ${this.count()}`);
-    }, {injector: this.injector});
-  }
-}
-```
-
-### Destruir efectos
-
-Cuando creas un efecto, se destruye automáticamente cuando su contexto envolvente se destruye. Esto significa que los efectos creados dentro de componentes se destruyen cuando el componente se destruye. Lo mismo aplica para efectos dentro de directivas, servicios, etc.
-
-Los efectos devuelven un `EffectRef` que puedes usar para destruirlos manualmente, llamando al método `.destroy()`. Puedes combinar esto con la opción `manualCleanup` para crear un efecto que dura hasta que se destruye manualmente. Ten cuidado de realmente limpiar estos efectos cuando ya no se requieran.
-
-## Temas avanzados
-
-### Funciones de igualdad de signals
-
-Cuando creas una signal, puedes opcionalmente proporcionar una función de igualdad, que se usará para verificar si el nuevo valor es realmente diferente al anterior.
-
-```ts
-import _ from 'lodash';
-
-const data = signal(['test'], {equal: _.isEqual});
-
-// Aunque esto es una instancia de array diferente, la función de igualdad profunda
-// considerará los valores como iguales, y la signal no
-// activará ninguna actualización.
-data.set(['test']);
-```
-
-Las funciones de igualdad pueden ser proporcionadas tanto a signals escribibles como computadas.
-
-CONSEJO: Por defecto, las signals usan igualdad referencial (comparación [`Object.is()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is)).
-
-### Verificación de tipos de signals
-
-Puedes usar `isSignal` para verificar si un valor es una `Signal`:
-
-```ts
-const count = signal(0);
-const doubled = computed(() => count() * 2);
-
-isSignal(count); // true
-isSignal(doubled); // true
-isSignal(42); // false
-```
-
-Para verificar específicamente si una signal es escribible, usa `isWritableSignal`:
-
-```ts
-const count = signal(0);
-const doubled = computed(() => count() * 2);
-
-isWritableSignal(count); // true
-isWritableSignal(doubled); // false
-```
-
-### Leer sin rastrear dependencias
+### Leer sin rastrear dependencias {#reading-without-tracking-dependencies}
 
 Raramente, puedes querer ejecutar código que puede leer una signal dentro de una función reactiva como `computed` o `effect` _sin_ crear una dependencia.
 
@@ -253,24 +187,94 @@ effect(() => {
 });
 ```
 
-### Funciones de limpieza de efectos
+### Contexto reactivo y operaciones asíncronas {#reactive-context-and-async-operations}
 
-Los efectos pueden iniciar operaciones de larga duración, que deberías cancelar si el efecto se destruye o se ejecuta nuevamente antes de que la primera operación termine. Cuando creas un efecto, tu función puede opcionalmente aceptar una función `onCleanup` como su primer parámetro. Esta función `onCleanup` te permite registrar un callback que se invoca antes de que comience la próxima ejecución del efecto, o cuando el efecto se destruye.
+El contexto reactivo solo está activo para código síncrono. Cualquier lectura de signal que ocurra después de un límite asíncrono no será rastreada como dependencia.
 
-```ts
-effect((onCleanup) => {
-  const user = currentUser();
-
-  const timer = setTimeout(() => {
-    console.log(`Hace 1 segundo, el usuario se convirtió en ${user}`);
-  }, 1000);
-
-  onCleanup(() => {
-    clearTimeout(timer);
-  });
+```ts {avoid}
+effect(async () => {
+  const data = await fetchUserData();
+  // El contexto reactivo se pierde aquí - theme() no será rastreado
+  console.log(`User: ${data.name}, Theme: ${theme()}`);
 });
 ```
 
-## Usar signals con RxJS
+Para asegurar que todas las lecturas de signals sean rastreadas, lee las signals antes del `await`. Esto incluye pasarlas como argumentos a la función esperada, ya que los argumentos se evalúan de forma síncrona:
+
+```ts {prefer}
+effect(async () => {
+  const currentTheme = theme(); // Leer antes del await
+  const data = await fetchUserData();
+  console.log(`User: ${data.name}, Theme: ${currentTheme}`);
+});
+```
+
+```ts {prefer}
+effect(async () => {
+  // También funciona: la signal se lee antes del await (como argumento de función)
+  await renderContent(docContent());
+});
+```
+
+## Derivaciones avanzadas {#advanced-derivations}
+
+Mientras que `computed` maneja derivaciones simples de solo lectura, puedes encontrarte necesitando un estado escribible que dependa de otras signals.
+Para más información, consulta la guía [Estado dependiente con linkedSignal](/guide/signals/linked-signal).
+
+Todas las APIs de signals son síncronas — `signal`, `computed`, `input`, etc. Sin embargo, las aplicaciones frecuentemente necesitan lidiar con datos disponibles de forma asíncrona. Un `Resource` te da una forma de incorporar datos asíncronos en el código basado en signals de tu aplicación y aún así permitirte acceder a sus datos de forma síncrona. Para más información, consulta la guía [Reactividad asíncrona con resources](/guide/signals/resource).
+
+## Ejecutar efectos secundarios en APIs no reactivas {#executing-side-effects-on-non-reactive-apis}
+
+Las derivaciones síncronas o asíncronas son recomendadas cuando queremos reaccionar a cambios de estado. Sin embargo, esto no cubre todos los casos de uso posibles, y a veces te encontrarás en una situación donde necesitas reaccionar a cambios de signals en APIs no reactivas. Usa `effect` o `afterRenderEffect` para esos casos de uso específicos. Para más información, consulta la guía [Efectos secundarios para APIs no reactivas](/guide/signals/effect).
+
+## Leer signals en componentes `OnPush` {#reading-signals-in-onpush-components}
+
+Cuando lees una signal dentro de la plantilla de un componente `OnPush`, Angular rastrea la signal como una dependencia de ese componente. Cuando el valor de esa signal cambia, Angular automáticamente [marca](api/core/ChangeDetectorRef#markforcheck) el componente para asegurar que se actualice la próxima vez que se ejecute la detección de cambios. Consulta la guía [Saltando subárboles de componentes](best-practices/skipping-subtrees) para más información sobre componentes `OnPush`.
+
+## Temas avanzados {#advanced-topics}
+
+### Funciones de igualdad de signals {#signal-equality-functions}
+
+Cuando creas una signal, puedes opcionalmente proporcionar una función de igualdad, que se usará para verificar si el nuevo valor es realmente diferente al anterior.
+
+```ts
+import isEqual from 'lodash/isEqual';
+
+const data = signal(['test'], {equal: isEqual});
+
+// Aunque esto es una instancia de array diferente, la función de igualdad profunda
+// considerará los valores como iguales, y la signal no
+// activará ninguna actualización.
+data.set(['test']);
+```
+
+Las funciones de igualdad pueden ser proporcionadas tanto a signals escribibles como computadas.
+
+CONSEJO: Por defecto, las signals usan igualdad referencial (comparación [`Object.is()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is)).
+
+### Verificación de tipos de signals {#type-checking-signals}
+
+Puedes usar `isSignal` para verificar si un valor es una `Signal`:
+
+```ts
+const count = signal(0);
+const doubled = computed(() => count() * 2);
+
+isSignal(count); // true
+isSignal(doubled); // true
+isSignal(42); // false
+```
+
+Para verificar específicamente si una signal es escribible, usa `isWritableSignal`:
+
+```ts
+const count = signal(0);
+const doubled = computed(() => count() * 2);
+
+isWritableSignal(count); // true
+isWritableSignal(doubled); // false
+```
+
+## Usar signals con RxJS {#using-signals-with-rxjs}
 
 Consulta [Interoperabilidad RxJS con Angular signals](ecosystem/rxjs-interop) para detalles sobre interoperabilidad entre signals y RxJS.

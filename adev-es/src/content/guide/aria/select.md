@@ -1,7 +1,7 @@
 <docs-decorative-header title="Select">
 </docs-decorative-header>
 
-## Visión general
+## Visión general {#overview}
 
 Un patrón que combina combobox de solo lectura con listbox para crear dropdowns de selección simple con navegación por teclado y soporte para lectores de pantalla.
 
@@ -31,7 +31,7 @@ Un patrón que combina combobox de solo lectura con listbox para crear dropdowns
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Uso {#usage}
 
 El patrón de select funciona mejor cuando los usuarios necesitan elegir un único valor de un conjunto familiar de opciones.
 
@@ -50,7 +50,7 @@ Evita este patrón cuando:
 - **Se necesita selección múltiple** - Usa el [patrón Multiselect](guide/aria/multiselect) en su lugar
 - **Existen muy pocas opciones (2-3)** - Los botones de radio proporcionan mejor visibilidad de todas las opciones
 
-## Características
+## Características {#features}
 
 El patrón de select combina directivas [Combobox](guide/aria/combobox) y [Listbox](guide/aria/listbox) para proporcionar un dropdown completamente accesible con:
 
@@ -61,9 +61,9 @@ El patrón de select combina directivas [Combobox](guide/aria/combobox) y [Listb
 - **Posicionamiento Inteligente** - CDK Overlay maneja bordes de viewport y desplazamiento
 - **Soporte de Texto Bidireccional** - Maneja automáticamente idiomas de derecha a izquierda (RTL)
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Select básico
+### Select básico {#basic-select}
 
 Los usuarios necesitan un dropdown estándar para elegir de una lista de valores. Un combobox de solo lectura emparejado con un listbox proporciona la experiencia familiar de select con soporte de accesibilidad completo.
 
@@ -95,7 +95,7 @@ Los usuarios necesitan un dropdown estándar para elegir de una lista de valores
 
 El atributo `readonly` en `ngCombobox` previene entrada de texto mientras preserva la navegación por teclado. Los usuarios interactúan con el dropdown usando teclas de flecha y Enter, justo como un elemento select nativo.
 
-### Select con visualización personalizada
+### Select con visualización personalizada {#select-with-custom-display}
 
 Las opciones a menudo necesitan indicadores visuales como iconos o badges para ayudar a los usuarios a identificar opciones rápidamente. Las plantillas personalizadas dentro de las opciones permiten formato enriquecido mientras se mantiene la accesibilidad.
 
@@ -127,7 +127,7 @@ Las opciones a menudo necesitan indicadores visuales como iconos o badges para a
 
 Cada opción muestra un icono junto a la etiqueta. El valor seleccionado se actualiza para mostrar el icono y texto de la opción elegida, proporcionando retroalimentación visual clara.
 
-### Select deshabilitado
+### Select deshabilitado {#disabled-select}
 
 Los selects pueden ser deshabilitados para prevenir interacción del usuario cuando ciertas condiciones de formulario no se cumplen. El estado deshabilitado proporciona retroalimentación visual y previene interacción por teclado.
 
@@ -159,35 +159,69 @@ Los selects pueden ser deshabilitados para prevenir interacción del usuario cua
 
 Cuando está deshabilitado, el select muestra un estado visual deshabilitado y bloquea toda interacción del usuario. Los lectores de pantalla anuncian el estado deshabilitado a usuarios de tecnología asistiva.
 
-## APIs
+## Testing
 
-El patrón de select usa las siguientes directivas de la biblioteca Aria de Angular. Consulta la documentación completa del API en las guías enlazadas.
+El patrón select puede probarse usando una combinación de `ComboboxHarness` y `ListboxHarness` de `@angular/aria/combobox/testing` y `@angular/aria/listbox/testing`.
+Aquí hay un ejemplo de cómo usar los harnesses para probar un componente select:
 
-### Directivas Combobox
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ComboboxHarness} from '@angular/aria/combobox/testing';
+import {ListboxHarness} from '@angular/aria/listbox/testing';
+import {MySelectComponent} from './my-select'; // Tu componente
 
-El patrón de select usa `ngCombobox` con el atributo `readonly` para prevenir entrada de texto mientras preserva la navegación por teclado.
+describe('MySelectComponent', () => {
+  let fixture: ComponentFixture<MySelectComponent>;
+  let loader: HarnessLoader;
 
-#### Inputs
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MySelectComponent],
+    });
 
-| Propiedad  | Tipo      | Por defecto | Descripción                                      |
-| ---------- | --------- | ----------- | ------------------------------------------------ |
-| `readonly` | `boolean` | `false`     | Establece a `true` para crear comportamiento de dropdown |
-| `disabled` | `boolean` | `false`     | Deshabilita todo el select                       |
+    fixture = TestBed.createComponent(MySelectComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-Consulta la [documentación del API de Combobox](guide/aria/combobox#apis) para detalles completos sobre todos los inputs y signals disponibles.
+  it('should allow selecting an option', async () => {
+    // Carga el harness del combobox (que actúa como el trigger del select)
+    const select = await loader.getHarness(ComboboxHarness);
 
-### Directivas Listbox
+    // Verifica que está cerrado inicialmente
+    expect(await select.isOpen()).toBe(false);
 
-El patrón de select usa `ngListbox` para la lista desplegable y `ngOption` para cada elemento seleccionable.
+    // Abre el dropdown
+    await select.open();
+    expect(await select.isOpen()).toBe(true);
 
-#### Model
+    // Obtiene el harness del listbox desde el popup
+    const listbox = await select.getPopupWidget(ListboxHarness);
+    const options = await listbox.getOptions();
+    expect(options.length).toBe(3);
 
-| Propiedad | Tipo    | Descripción                                                                     |
-| --------- | ------- | ------------------------------------------------------------------------------- |
-| `values`  | `any[]` | Array enlazable bidireccionalmente de valores seleccionados (contiene un único valor para select) |
+    // Hace clic en la segunda opción
+    await options[1].click();
 
-Consulta la [documentación del API de Listbox](guide/aria/listbox#apis) para detalles completos sobre configuración de listbox, modos de selección y propiedades de opciones.
+    // Verifica que el dropdown se cerró y el valor se actualizó
+    expect(await select.isOpen()).toBe(false);
+    expect(await (await select.host()).text()).toContain('Option 2');
+  });
+});
+```
 
-### Posicionamiento
+## API reference
 
-El patrón de select se integra con [CDK Overlay](api/cdk/overlay/CdkConnectedOverlay) para posicionamiento inteligente. Usa `cdkConnectedOverlay` para manejar bordes de viewport y desplazamiento automáticamente.
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
+
+- [`Combobox`](/api/aria/combobox/Combobox)
+- [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)
+- [`ComboboxWidget`](/api/aria/combobox/ComboboxWidget)
+- [`Listbox`](/api/aria/listbox/Listbox)
+- [`Option`](/api/aria/listbox/Option)
+
+### Posicionamiento {#positioning}
+
+El patrón de select se integra con [CDK Overlay](https://material.angular.io/cdk/overlay/overview) para posicionamiento inteligente. Usa `cdkConnectedOverlay` para manejar bordes de viewport y desplazamiento automáticamente.

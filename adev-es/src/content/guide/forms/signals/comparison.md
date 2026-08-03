@@ -4,7 +4,7 @@ Angular proporciona tres enfoques para construir formularios: Signal Forms, Reac
 
 NOTA: Signal Forms son [experimentales](reference/releases#experimental) a partir de Angular v21. La API puede cambiar antes de estabilizarse.
 
-## Comparación rápida
+## Comparación rápida {#quick-comparison}
 
 | Característica          | Signal Forms                       | Reactive Forms                        | Template-driven Forms   |
 | ----------------------- | ---------------------------------- | ------------------------------------- | ----------------------- |
@@ -17,7 +17,7 @@ NOTA: Signal Forms son [experimentales](reference/releases#experimental) a parti
 | Curva de aprendizaje    | Media                              | Media-Alta                            | Baja                    |
 | Estado                  | Experimental (v21+)                | Estable                               | Estable                 |
 
-## Por ejemplo: Formulario de inicio de sesión
+## Por ejemplo: Formulario de inicio de sesión {#by-example-login-form}
 
 La mejor manera de entender las diferencias es ver el mismo formulario implementado en los tres enfoques.
 
@@ -27,11 +27,11 @@ La mejor manera de entender las diferencias es ver el mismo formulario implement
   <docs-code header="Template-driven forms" path="adev/src/content/examples/signal-forms/src/comparison/app/template-driven-forms.ts"/>
 </docs-code-multifile>
 
-## Entendiendo las diferencias
+## Entendiendo las diferencias {#understanding-the-differences}
 
 Los tres enfoques toman decisiones de diseño diferentes que afectan cómo escribes y mantienes tus formularios. Estas diferencias provienen de dónde cada enfoque almacena el estado del formulario y cómo gestiona la validación.
 
-### Dónde viven los datos de tu formulario
+### Dónde viven los datos de tu formulario {#where-your-form-data-lives}
 
 La diferencia más fundamental es dónde cada enfoque considera la "fuente de verdad" para los valores del formulario.
 
@@ -59,7 +59,7 @@ const credentials = { email: this.email, password: this.password };
 
 Este es el enfoque más directo pero requiere ensamblar manualmente los valores cuando los necesitas. Angular gestiona el estado del formulario a través de directivas en la plantilla.
 
-### Cómo funciona la validación
+### Cómo funciona la validación {#how-validation-works}
 
 Cada enfoque define reglas de validación de manera diferente, afectando dónde vive tu lógica de validación y cómo la mantienes.
 
@@ -92,7 +92,7 @@ Template-driven Forms usa atributos de directiva en la plantilla:
 
 Las reglas de validación viven en tu plantilla junto al HTML. Esto mantiene la validación cerca de la UI pero dispersa la lógica entre plantilla y componente.
 
-### Seguridad de tipos y autocompletado
+### Seguridad de tipos y autocompletado {#type-safety-and-autocomplete}
 
 La integración de TypeScript difiere significativamente entre enfoques, afectando cuánto el compilador te ayuda a evitar errores.
 
@@ -128,9 +128,9 @@ password = '';
 
 TypeScript entiende las propiedades de tu componente pero no tiene conocimiento de la estructura del formulario o validación. Pierdes verificación en tiempo de compilación para operaciones de formulario.
 
-## Elige tu enfoque
+## Elige tu enfoque {#choose-your-approach}
 
-### Usa Signal Forms si:
+### Usa Signal Forms si: {#use-signal-forms-if}
 
 - Estás construyendo nuevas aplicaciones basadas en signals (Angular v21+)
 - Quieres seguridad de tipos inferida de la estructura de tu modelo
@@ -138,7 +138,7 @@ TypeScript entiende las propiedades de tu componente pero no tiene conocimiento 
 - La validación basada en esquemas te atrae
 - Tu equipo está familiarizado con signals
 
-### Usa Reactive Forms si:
+### Usa Reactive Forms si: {#use-reactive-forms-if}
 
 - Necesitas estabilidad lista para producción
 - Estás construyendo formularios complejos y dinámicos
@@ -146,7 +146,7 @@ TypeScript entiende las propiedades de tu componente pero no tiene conocimiento 
 - Necesitas control detallado sobre el estado del formulario
 - Estás trabajando en una base de código existente de reactive forms
 
-### Usa Template-driven Forms si:
+### Usa Template-driven Forms si: {#use-template-driven-forms-if}
 
 - Estás construyendo formularios simples (login, contacto, búsqueda)
 - Estás haciendo prototipado rápido
@@ -154,7 +154,7 @@ TypeScript entiende las propiedades de tu componente pero no tiene conocimiento 
 - Prefieres mantener la lógica del formulario en plantillas
 - Estás trabajando en una base de código existente de template-driven
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 Para aprender más sobre cada enfoque:
 

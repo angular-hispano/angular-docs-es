@@ -2,7 +2,7 @@
 
 Angular introdujo una API mejorada para entradas (inputs) que se considera
 lista para producción desde v19.
-Lee más sobre los signal inputs y sus beneficios en la [guía dedicada](guide/signals/inputs).
+Lee más sobre los signal inputs y sus beneficios en la [guía dedicada](guide/components/inputs).
 
 Para apoyar a los equipos existentes que deseen usar signal inputs, el equipo de Angular
 proporciona una migración automatizada que convierte los campos `@Input` a la nueva API `input()`.
@@ -15,9 +15,9 @@ ng generate @angular/core:signal-input-migration
 
 Alternativamente, la migración está disponible como una [acción de refactorización de código](https://code.visualstudio.com/docs/typescript/typescript-refactoring#_refactoring) en VSCode.
 Instala la última versión de la extensión de VSCode y haz clic en un campo `@Input`.
-Consulta más detalles en la sección [a continuación](#extensión-de-vscode).
+Consulta más detalles en la sección [a continuación](#vscode-extension).
 
-## ¿Qué cambia la migración?
+## ¿Qué cambia la migración? {#what-does-the-migration-change}
 
 1. Los miembros de clase `@Input()` se actualizan a su equivalente signal `input()`.
 2. Las referencias a las entradas migradas se actualizan para llamar al signal.
@@ -64,7 +64,7 @@ return -1;
 }
 </docs-code>
 
-## Opciones de configuración
+## Opciones de configuración {#configuration-options}
 
 La migración admite algunas opciones para ajustar la migración a tus necesidades específicas.
 
@@ -101,7 +101,7 @@ actualizar todas las referencias afectadas por una migración de `@Input()`.
 Con esta opción, puedes limitar el análisis a una subcarpeta. Ten en cuenta que esto significa que cualquier
 referencia fuera de este directorio se omite silenciosamente, lo que podría romper tu compilación.
 
-## Extensión de VSCode
+## Extensión de VSCode {#vscode-extension}
 
 ![Captura de pantalla de la extensión de VSCode haciendo clic en un campo `@Input`](assets/images/migrations/signal-inputs-vscode.png 'Captura de pantalla de la extensión de VSCode haciendo clic en un campo `@Input`.')
 

@@ -6,7 +6,7 @@ El change detection es suficientemente rápido para la mayoría de las aplicacio
 
 Si confías en que una parte de la aplicación no está afectada por un cambio de estado, puedes usar [OnPush](/api/core/ChangeDetectionStrategy) para omitir change detection en un subárbol completo de componentes.
 
-## Usando `OnPush`
+## Usando `OnPush` {#using-onpush}
 
 El change detection OnPush le indica a Angular que ejecute change detection para un subárbol de componentes **solo** cuando:
 
@@ -23,11 +23,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 export class MyComponent {}
 ```
 
-## Escenarios comunes de change detection
+## Escenarios comunes de change detection {#common-change-detection-scenarios}
 
 Esta sección examina varios escenarios comunes de change detection para ilustrar el comportamiento de Angular.
 
-### Un evento es manejado por un componente con change detection predeterminado
+### Un evento es manejado por un componente con change detection predeterminado {#an-event-is-handled-by-a-component-with-eager-change-detection}
 
 Si Angular maneja un evento dentro de un componente sin estrategia `OnPush`, el framework ejecuta change detection en todo el árbol de componentes. Angular omitirá subárboles de componentes descendientes con raíces usando `OnPush`, que no han recibido nuevas entradas.
 
@@ -50,7 +50,7 @@ class search checkedNode
 class event eventNode
 ```
 
-## Un evento es manejado por un componente con OnPush
+## Un evento es manejado por un componente con OnPush {#an-event-is-handled-by-a-component-with-onpush}
 
 Si Angular maneja un evento dentro de un componente con estrategia OnPush, el framework ejecutará change detection dentro de todo el árbol de componentes. Angular ignorará subárboles de componentes con raíces usando OnPush, que no han recibido nuevas entradas y están fuera del componente que manejó el evento.
 
@@ -75,7 +75,7 @@ class details checkedNode
 class event eventNode
 ```
 
-## Un evento es manejado por un descendiente de un componente con OnPush
+## Un evento es manejado por un descendiente de un componente con OnPush {#an-event-is-handled-by-a-descendant-of-a-component-with-onpush}
 
 Si Angular maneja un evento en un componente con OnPush, el framework ejecutará change detection en todo el árbol de componentes, incluidos los ancestros del componente.
 
@@ -101,7 +101,7 @@ class details checkedNode
 class event eventNode
 ```
 
-## Nuevas entradas a componente con OnPush
+## Nuevas entradas a componente con OnPush {#new-inputs-to-component-with-onpush}
 
 Angular ejecutará change detection dentro de un componente hijo con `OnPush` cuando se establece una propiedad de entrada como resultado de un enlace de plantilla.
 
@@ -126,7 +126,7 @@ class details checkedNode
 class event eventNode
 ```
 
-## Casos extremos
+## Casos extremos {#edge-cases}
 
 * **Modificar propiedades de entrada en código TypeScript**. Cuando usas una API como `@ViewChild` o `@ContentChild` para obtener una referencia a un componente en TypeScript y modificas manualmente una propiedad `@Input`, Angular no ejecutará automáticamente change detection para componentes OnPush. Si necesitas que Angular ejecute change detection, puedes inyectar `ChangeDetectorRef` en tu componente y llamar a `changeDetectorRef.markForCheck()` para indicarle a Angular que programe un change detection.
 * **Modificar referencias de objetos**. En caso de que una entrada reciba un objeto mutable como valor y modifiques el objeto pero preserves la referencia, Angular no invocará change detection. Ese es el comportamiento esperado porque el valor anterior y el actual de la entrada apuntan a la misma referencia.

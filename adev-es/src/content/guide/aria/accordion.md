@@ -6,7 +6,7 @@
   <docs-pill href="/api?query=accordion#angular_aria_accordion" title="Referencia API de Accordion"/>
 </docs-pill-row>
 
-## Visión general
+## Visión general {#overview}
 
 Un accordion organiza contenido relacionado en secciones expandibles y colapsables, reduciendo el desplazamiento de la página y ayudando a los usuarios a enfocarse en la información relevante. Cada sección tiene un botón de activación y un panel de contenido. Al hacer clic en un botón de activación se alterna la visibilidad de su panel asociado.
 
@@ -16,7 +16,7 @@ Un accordion organiza contenido relacionado en secciones expandibles y colapsabl
   <docs-code header="CSS" path="adev/src/content/examples/aria/accordion/src/single-expansion/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Uso
+## Uso {#usage}
 
 Los accordions funcionan bien para organizar contenido en grupos lógicos donde los usuarios típicamente necesitan ver una sección a la vez.
 
@@ -34,7 +34,7 @@ Los accordions funcionan bien para organizar contenido en grupos lógicos donde 
 - Muestres una sola sección colapsable (usa un patrón de revelación en su lugar)
 - Los usuarios necesiten ver múltiples secciones simultáneamente (considera un diseño diferente)
 
-## Características
+## Características {#features}
 
 - **Modos de expansión** - Controla si uno o múltiples paneles pueden estar abiertos al mismo tiempo
 - **Navegación por teclado** - Navega entre botones de activación usando las teclas de flecha, Inicio y Fin
@@ -44,9 +44,9 @@ Los accordions funcionan bien para organizar contenido en grupos lógicos donde 
 - **Control programático** - Expande, colapsa o alterna paneles desde el código de tu componente
 - **Soporte RTL** - Soporte automático para idiomas de derecha a izquierda
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Modo de expansión única
+### Modo de expansión única {#single-expansion-mode}
 
 Establece `[multiExpandable]="false"` para permitir que solo un panel esté abierto a la vez. Abrir un nuevo panel cierra automáticamente cualquier panel previamente abierto.
 
@@ -76,7 +76,7 @@ Establece `[multiExpandable]="false"` para permitir que solo un panel esté abie
 
 Este modo funciona bien para FAQs o situaciones donde quieres que los usuarios se enfoquen en una respuesta a la vez.
 
-### Modo de expansión múltiple
+### Modo de expansión múltiple {#multiple-expansion-mode}
 
 Establece `[multiExpandable]="true"` para permitir que múltiples paneles estén abiertos simultáneamente. Los usuarios pueden expandir tantos paneles como necesiten sin cerrar otros.
 
@@ -108,7 +108,7 @@ Este modo es útil para secciones de formularios o cuando los usuarios necesitan
 
 NOTA: El input `multiExpandable` tiene como valor predeterminado `true`. Establécelo en `false` explícitamente si quieres el comportamiento de expansión única.
 
-### Elementos de accordion deshabilitados
+### Elementos de accordion deshabilitados {#disabled-accordion-items}
 
 Deshabilita botones de activación específicos usando el input `disabled`. Controla cómo se comportan los elementos deshabilitados durante la navegación por teclado usando el input `softDisabled` en el grupo de accordion.
 
@@ -138,7 +138,7 @@ Deshabilita botones de activación específicos usando el input `disabled`. Cont
 
 Cuando `[softDisabled]="true"` (el valor predeterminado), los elementos deshabilitados pueden recibir foco pero no pueden activarse. Cuando `[softDisabled]="false"`, los elementos deshabilitados se omiten por completo durante la navegación por teclado.
 
-### Renderización lazy de contenido
+### Renderización lazy de contenido {#lazy-content-rendering}
 
 Usa la directiva `ngAccordionContent` en un `ng-template` para diferir la renderización del contenido hasta que el panel se expanda por primera vez. Esto mejora el rendimiento para accordions con contenido pesado como imágenes, gráficos o componentes complejos.
 
@@ -161,91 +161,60 @@ Usa la directiva `ngAccordionContent` en un `ng-template` para diferir la render
 
 Por defecto, el contenido permanece en el DOM después de que el panel se colapsa. Establece `[preserveContent]="false"` para eliminar el contenido del DOM cuando el panel se cierra.
 
-## APIs
+## Testing
 
-### AccordionGroup
+Angular Aria proporciona harnesses de componentes para probar componentes de accordion.
+Aquí hay un ejemplo de cómo usar los harnesses en una prueba de componente:
 
-La directiva contenedora que gestiona la navegación por teclado y el comportamiento de expansión para un grupo de elementos de accordion.
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {AccordionGroupHarness} from '@angular/aria/accordion/testing';
+import {MyAccordionComponent} from './my-accordion'; // Tu componente
 
-#### Inputs
+describe('MyAccordionComponent', () => {
+  let fixture: ComponentFixture<MyAccordionComponent>;
+  let loader: HarnessLoader;
 
-| Propiedad         | Tipo      | Predeterminado | Descripción                                                                                       |
-| ----------------- | --------- | -------------- | ------------------------------------------------------------------------------------------------- |
-| `disabled`        | `boolean` | `false`        | Deshabilita todos los botones de activación en el grupo                                           |
-| `multiExpandable` | `boolean` | `true`         | Si múltiples paneles pueden ser expandidos simultáneamente                                        |
-| `softDisabled`    | `boolean` | `true`         | Cuando es `true`, los elementos deshabilitados son focalizables. Cuando es `false`, se omiten    |
-| `wrap`            | `boolean` | `false`        | Si la navegación por teclado se envuelve del último al primer elemento y viceversa               |
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyAccordionComponent],
+    });
 
-#### Métodos
+    fixture = TestBed.createComponent(MyAccordionComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-| Método        | Parámetros | Descripción                                                                       |
-| ------------- | ---------- | --------------------------------------------------------------------------------- |
-| `expandAll`   | ninguno    | Expande todos los paneles (solo funciona cuando `multiExpandable` es `true`)     |
-| `collapseAll` | ninguno    | Colapsa todos los paneles                                                         |
+  it('should allow expanding panels', async () => {
+    // Carga el harness del grupo de accordion
+    const group = await loader.getHarness(AccordionGroupHarness);
 
-### AccordionTrigger
+    // Obtiene todos los accordions individuales (items) en el grupo
+    const accordions = await group.getAccordions();
+    expect(accordions.length).toBe(3);
 
-La directiva aplicada al elemento button que alterna la visibilidad del panel.
+    // Verifica el estado inicial (el primero expandido, los demás colapsados)
+    expect(await accordions[0].isExpanded()).toBe(true);
+    expect(await accordions[1].isExpanded()).toBe(false);
 
-#### Inputs
+    // Expande el segundo panel
+    await accordions[1].expand();
 
-| Propiedad  | Tipo      | Predeterminado | Descripción                                                                       |
-| ---------- | --------- | -------------- | --------------------------------------------------------------------------------- |
-| `id`       | `string`  | auto           | Identificador único para el botón de activación                                   |
-| `panelId`  | `string`  | —              | **Requerido.** Debe coincidir con el `panelId` del panel asociado                |
-| `disabled` | `boolean` | `false`        | Deshabilita este botón de activación                                              |
-| `expanded` | `boolean` | `false`        | Si el panel está expandido (soporta enlace bidireccional)                         |
-
-#### Signals
-
-| Propiedad | Tipo              | Descripción                                                |
-| --------- | ----------------- | ---------------------------------------------------------- |
-| `active`  | `Signal<boolean>` | Si el botón de activación actualmente tiene foco          |
-
-#### Métodos
-
-| Método     | Parámetros | Descripción                                |
-| ---------- | ---------- | ------------------------------------------ |
-| `expand`   | ninguno    | Expande el panel asociado                  |
-| `collapse` | ninguno    | Colapsa el panel asociado                  |
-| `toggle`   | ninguno    | Alterna el estado de expansión del panel   |
-
-### AccordionPanel
-
-La directiva aplicada al elemento que contiene el contenido colapsable.
-
-#### Inputs
-
-| Propiedad         | Tipo      | Predeterminado | Descripción                                                                |
-| ----------------- | --------- | -------------- | -------------------------------------------------------------------------- |
-| `id`              | `string`  | auto           | Identificador único para el panel                                          |
-| `panelId`         | `string`  | —              | **Requerido.** Debe coincidir con el `panelId` del botón de activación asociado |
-| `preserveContent` | `boolean` | `true`         | Si mantener el contenido en el DOM después de que el panel se colapsa     |
-
-#### Signals
-
-| Propiedad | Tipo              | Descripción                          |
-| --------- | ----------------- | ------------------------------------ |
-| `visible` | `Signal<boolean>` | Si el panel está actualmente expandido |
-
-#### Métodos
-
-| Método     | Parámetros | Descripción                         |
-| ---------- | ---------- | ----------------------------------- |
-| `expand`   | ninguno    | Expande este panel                  |
-| `collapse` | ninguno    | Colapsa este panel                  |
-| `toggle`   | ninguno    | Alterna el estado de expansión      |
-
-### AccordionContent
-
-La directiva estructural aplicada a un `ng-template` dentro de un panel de accordion para habilitar la renderización lazy.
-
-Esta directiva no tiene inputs, outputs ni métodos. Aplícala a un elemento `ng-template`:
-
-```angular-html
-<div ngAccordionPanel panelId="item-1">
-  <ng-template ngAccordionContent>
-    <!-- El contenido aquí se renderiza de forma lazy -->
-  </ng-template>
-</div>
+    // Verifica el estado actualizado
+    expect(await accordions[1].isExpanded()).toBe(true);
+    // Si multiExpandable es false, el primero ahora debería estar colapsado
+    expect(await accordions[0].isExpanded()).toBe(false);
+  });
+});
 ```
+
+## API reference
+
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
+
+- [`AccordionGroup`](/api/aria/accordion/AccordionGroup)
+- [`AccordionTrigger`](/api/aria/accordion/AccordionTrigger)
+- [`AccordionPanel`](/api/aria/accordion/AccordionPanel)
+- [`AccordionContent`](/api/aria/accordion/AccordionContent)

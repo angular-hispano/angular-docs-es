@@ -1,10 +1,10 @@
 # Usar component harnesses en pruebas
 
-## Antes de comenzar
+## Antes de comenzar {#before-you-start}
 
 CONSEJO: Esta guía asume que ya leíste la [guía de visión general de component harnesses](guide/testing/component-harnesses-overview). Lee eso primero si eres nuevo en el uso de component harnesses.
 
-### Instalación del CDK
+### Instalación del CDK {#cdk-installation}
 
 El [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) es un conjunto de primitivas de comportamiento para construir componentes. Para usar los component harnesses, primero instala `@angular/cdk` desde npm. Puedes hacer esto desde tu terminal usando Angular CLI:
 
@@ -12,7 +12,7 @@ El [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) es un 
 ng add @angular/cdk
 ```
 
-## Entornos de test harness y loaders
+## Entornos de test harness y loaders {#test-harness-environments-and-loaders}
 
 Puedes usar component test harnesses en diferentes entornos de prueba. El CDK de Angular soporta dos entornos integrados:
 
@@ -23,7 +23,7 @@ Cada entorno proporciona un <strong>harness loader</strong>. El loader crea las 
 
 Los entornos de testing adicionales requieren bindings personalizados. Consulta la [guía de agregar soporte de harness para entornos de testing adicionales](guide/testing/component-harnesses-testing-environments) para más información.
 
-### Usar el loader de `TestbedHarnessEnvironment` para pruebas unitarias
+### Usar el loader de `TestbedHarnessEnvironment` para pruebas unitarias {#using-the-loader-from-testbedharnessenvironment-for-unit-tests}
 
 Para pruebas unitarias puedes crear un harness loader desde [TestbedHarnessEnvironment](/api/cdk/testing/TestbedHarnessEnvironment). Este entorno usa un [component fixture](api/core/testing/ComponentFixture) creado por el `TestBed` de Angular.
 
@@ -44,7 +44,7 @@ Para crear un harness loader para harnesses para elementos que caen fuera del fi
 
 También puedes crear un harness loader directamente con `harnessForFixture()` para un harness en el elemento raíz de ese fixture directamente.
 
-### Usar el loader de `SeleniumWebDriverHarnessEnvironment` para pruebas end-to-end
+### Usar el loader de `SeleniumWebDriverHarnessEnvironment` para pruebas end-to-end {#using-the-loader-from-seleniumwebdriverharnessenvironment-for-end-to-end-tests}
 
 Para pruebas end-to-end basadas en WebDriver puedes crear un harness loader con `SeleniumWebDriverHarnessEnvironment`.
 
@@ -57,7 +57,7 @@ const loader = SeleniumWebDriverHarnessEnvironment.loader(wd);
 const myComponentHarness = await loader.getHarness(MyComponent);
 </docs-code>
 
-## Usar un harness loader
+## Usar un harness loader {#using-a-harness-loader}
 
 Las instancias de harness loader corresponden a un elemento DOM específico y se usan para crear instancias de component harness para elementos bajo ese elemento específico.
 
@@ -115,11 +115,11 @@ const dialogHarness = await rootLoader.getHarness(MyDialogHarness);
 });
 </docs-code>
 
-### Comportamiento de harness en diferentes entornos
+### Comportamiento de harness en diferentes entornos {#harness-behavior-in-different-environments}
 
 Los harnesses pueden no comportarse exactamente igual en todos los entornos. Algunas diferencias son inevitables entre la interacción real del usuario versus los eventos simulados generados en pruebas unitarias. El CDK de Angular hace un mejor esfuerzo para normalizar el comportamiento en la medida posible.
 
-### Interactuar con elementos hijos
+### Interactuar con elementos hijos {#interacting-with-child-elements}
 
 Para interactuar con elementos debajo del elemento raíz de este harness loader, usa la instancia `HarnessLoader` de un elemento hijo. Para la primera instancia del elemento hijo, usa el método `getChildLoader()`. Para todas las instancias del elemento hijo, usa el método `getAllChildLoaders()`.
 
@@ -133,7 +133,7 @@ const childLoader = await myComponentHarness.getLoader('.child');
 const allChildLoaders = await myComponentHarness.getAllChildLoaders('.child');
 </docs-code>
 
-### Filtrar harnesses
+### Filtrar harnesses {#filtering-harnesses}
 
 Cuando una página contiene múltiples instancias de un componente particular, es posible que quieras filtrar basado en alguna propiedad del componente para obtener una instancia de componente particular. Puedes usar un <strong>harness predicate</strong>, una clase usada para asociar una clase `ComponentHarness` con funciones predicates que pueden usarse para filtrar instancias de componentes, para hacerlo.
 
@@ -159,7 +159,7 @@ const button = await loader.getHarness(MyButtonComponentHarness.with({selector: 
 
 Para más detalles consulta la documentación específica del harness ya que las opciones de filtrado adicionales son específicas de cada implementación de harness.
 
-## Usar APIs de test harness
+## Usar APIs de test harness {#using-test-harness-apis}
 
 Aunque cada harness define una API específica para su componente correspondiente, todos comparten una clase base común, [ComponentHarness](/api/cdk/testing/ComponentHarness). Esta clase base define una propiedad estática, `hostSelector`, que coincide la clase harness con instancias del componente en el DOM.
 
@@ -175,9 +175,9 @@ it('should get value of slider thumb', async () => {
 });
 </docs-code>
 
-## Interoperabilidad con la detección de cambios de Angular
+## Interoperabilidad con la detección de cambios de Angular {#interop-with-angular-change-detection}
 
-Por defecto, los test harnesses ejecutan la [detección de cambios](https://angular.dev/best-practices/runtime-performance) de Angular antes de leer el estado de un elemento DOM y después de interactuar con un elemento DOM.
+Por defecto, los test harnesses ejecutan la [detección de cambios](/best-practices/runtime-performance) de Angular antes de leer el estado de un elemento DOM y después de interactuar con un elemento DOM.
 
 Puede haber momentos en que necesites un control más fino sobre la detección de cambios en tus pruebas, como verificar el estado de un componente mientras una operación async está pendiente. En estos casos usa la función `manualChangeDetection` para deshabilitar el manejo automático de detección de cambios para un bloque de código.
 

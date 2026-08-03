@@ -48,7 +48,7 @@ garantiza que el DOM de un componente esté completamente renderizado en ningún
 Además, leer o modificar el DOM durante otros hooks de ciclo de vida puede impactar negativamente el rendimiento de la página
 causando [layout thrashing](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing).
 
-## Usar el renderer de un componente
+## Usar el renderer de un componente {#using-a-components-renderer}
 
 Los componentes pueden inyectar una instancia de `Renderer2` para realizar ciertas manipulaciones del DOM que están vinculadas
 a otras características de Angular.
@@ -64,7 +64,7 @@ Aparte de estos dos casos de uso específicos, no hay diferencia entre usar `Ren
 Las APIs de `Renderer2` no admiten manipulación del DOM en contextos de renderizado del lado del servidor o
 pre-renderizado en tiempo de compilación.
 
-## Cuándo usar APIs del DOM
+## Cuándo usar APIs del DOM {#when-to-use-dom-apis}
 
 Aunque Angular maneja la mayoría de las preocupaciones de renderizado, algunos comportamientos pueden requerir el uso de APIs del DOM. Algunos
 casos de uso comunes incluyen:

@@ -4,13 +4,13 @@ Angular CLI usa [Vitest](https://vitest.dev/) como el ejecutor de pruebas unitar
 
 IMPORTANTE: Migrar un proyecto existente a Vitest se considera experimental. Este proceso también requiere el uso del sistema de compilación `application`, que es el predeterminado para todos los proyectos recién creados.
 
-## Pasos de migración manual
+## Pasos de migración manual {#manual-migration-steps}
 
 Antes de usar el schematic de refactorización automatizado, debes actualizar manualmente tu proyecto para usar el ejecutor de pruebas Vitest.
 
-### 1. Instalar dependencias
+### 1. Instalar dependencias {#1-install-dependencies}
 
-Instala `vitest` y una biblioteca de emulación de DOM. Si bien las pruebas en el navegador aún son posibles (consulta el [paso 5](#5-configurar-el-modo-navegador-opcional)), Vitest usa una biblioteca de emulación de DOM de forma predeterminada para simular un entorno de navegador dentro de Node.js para una ejecución de pruebas más rápida. El CLI detecta y usa automáticamente `happy-dom` si está instalado; de lo contrario, recurre a `jsdom`. Debes tener uno de estos paquetes instalados.
+Instala `vitest` y una biblioteca de emulación de DOM. Si bien las pruebas en el navegador aún son posibles (consulta el [paso 5](#5-configure-browser-mode-optional)), Vitest usa una biblioteca de emulación de DOM de forma predeterminada para simular un entorno de navegador dentro de Node.js para una ejecución de pruebas más rápida. El CLI detecta y usa automáticamente `happy-dom` si está instalado; de lo contrario, recurre a `jsdom`. Debes tener uno de estos paquetes instalados.
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -27,7 +27,7 @@ Instala `vitest` y una biblioteca de emulación de DOM. Si bien las pruebas en e
   </docs-code>
 </docs-code-multifile>
 
-### 2. Actualizar `angular.json`
+### 2. Actualizar `angular.json` {#2-update-angularjson}
 
 En tu archivo `angular.json`, busca el target `test` para tu proyecto y cambia el `builder` a `@angular/build:unit-test`.
 
@@ -49,7 +49,7 @@ El builder `unit-test` tiene como valor predeterminado `"tsConfig": "tsconfig.sp
 
 El builder `@angular/build:karma` anteriormente permitía que las opciones de compilación (como `polyfills`, `assets` o `styles`) se configuraran directamente dentro del target `test`. El nuevo builder `@angular/build:unit-test` no admite esto. Si tus opciones de compilación específicas para pruebas difieren de tu configuración de compilación `development` existente, debes moverlas a una configuración de target de compilación dedicada. Si tus opciones de compilación de pruebas ya coinciden con tu configuración de compilación `development`, no se requiere ninguna acción.
 
-### 3. Manejar configuraciones personalizadas de `karma.conf.js`
+### 3. Manejar configuraciones personalizadas de `karma.conf.js` {#3-handle-custom-karmaconfjs-configurations}
 
 Las configuraciones personalizadas en `karma.conf.js` no se migran automáticamente. Antes de eliminar tu archivo `karma.conf.js`, revísalo para detectar cualquier configuración personalizada que necesite ser migrada.
 
@@ -63,7 +63,7 @@ Las rutas de migración comunes incluyen:
 
 Para otras configuraciones, consulta la [documentación oficial de Vitest](https://vitest.dev/config/).
 
-### 4. Eliminar archivos de Karma y `test.ts`
+### 4. Eliminar archivos de Karma y `test.ts` {#4-remove-karma-and-testts-files}
 
 Ahora puedes eliminar `karma.conf.js` y `src/test.ts` de tu proyecto y desinstalar los paquetes relacionados con Karma. Los siguientes comandos se basan en los paquetes instalados en un nuevo proyecto de Angular CLI; tu proyecto puede tener otros paquetes relacionados con Karma para eliminar.
 
@@ -82,7 +82,7 @@ Ahora puedes eliminar `karma.conf.js` y `src/test.ts` de tu proyecto y desinstal
   </docs-code>
 </docs-code-multifile>
 
-### 5. Configurar el modo navegador (opcional)
+### 5. Configurar el modo navegador (opcional) {#5-configure-browser-mode-optional}
 
 Si necesitas ejecutar pruebas en un navegador real, debes instalar un proveedor de navegador y configurar tu `angular.json`.
 
@@ -132,13 +132,13 @@ Agrega la opción `browsers` a las opciones del target `test`. El nombre del nav
 
 El modo headless se habilita automáticamente si la variable de entorno `CI` está configurada o si el nombre de un navegador incluye "Headless" (por ejemplo, `ChromeHeadless`). De lo contrario, las pruebas se ejecutarán en un navegador con interfaz gráfica.
 
-## Refactorización automatizada de pruebas con schematics
+## Refactorización automatizada de pruebas con schematics {#automated-test-refactoring-with-schematics}
 
 IMPORTANTE: El schematic `refactor-jasmine-vitest` es experimental y puede no cubrir todos los patrones de prueba posibles. Siempre revisa los cambios realizados por el schematic.
 
 Angular CLI proporciona el schematic `refactor-jasmine-vitest` para refactorizar automáticamente tus pruebas de Jasmine para usar Vitest.
 
-### Descripción general
+### Descripción general {#overview}
 
 El schematic automatiza las siguientes transformaciones en tus archivos de prueba (`.spec.ts`):
 
@@ -160,7 +160,7 @@ El schematic **no** realiza las siguientes acciones:
 - No elimina los archivos `karma.conf.js` o `test.ts`.
 - No maneja escenarios de spy complejos o anidados, que pueden requerir refactorización manual.
 
-### Ejecutar el schematic
+### Ejecutar el schematic {#running-the-schematic}
 
 Una vez que tu proyecto esté configurado para Vitest, puedes ejecutar el schematic para refactorizar tus archivos de prueba.
 
@@ -170,7 +170,7 @@ Para refactorizar **todos** los archivos de prueba en tu proyecto predeterminado
 ng g @schematics/angular:refactor-jasmine-vitest
 ```
 
-### Opciones
+### Opciones {#options}
 
 Puedes usar las siguientes opciones para personalizar el comportamiento del schematic:
 
@@ -182,7 +182,7 @@ Puedes usar las siguientes opciones para personalizar el comportamiento del sche
 | `--add-imports`          | Agrega imports explícitos de `vitest` si has deshabilitado los globales en tu configuración de Vitest.             |
 | `--verbose`              | Muestra el registro detallado de todas las transformaciones aplicadas.                                             |
 
-### Después de migrar
+### Después de migrar {#after-migrating}
 
 Después de que se complete el schematic, es una buena práctica:
 
@@ -191,11 +191,11 @@ Después de que se complete el schematic, es una buena práctica:
 
 El comando `ng test` construye la aplicación en _modo observación_ e inicia el ejecutor configurado. El modo observación está habilitado de forma predeterminada cuando se usa un terminal interactivo y no se ejecuta en CI.
 
-## Configuración
+## Configuración {#configuration}
 
 Angular CLI se encarga de la configuración de Vitest por ti, construyendo la configuración completa en memoria basándose en las opciones en `angular.json`.
 
-### Configuración personalizada de Vitest
+### Configuración personalizada de Vitest {#custom-vitest-configuration}
 
 IMPORTANTE: Si bien usar una configuración personalizada habilita opciones avanzadas, el equipo de Angular no proporciona soporte directo para el contenido específico del archivo de configuración ni para ningún plugin de terceros utilizado dentro de él. El CLI también sobrescribirá ciertas propiedades (`test.projects`, `test.include`) para garantizar el funcionamiento adecuado.
 
@@ -222,7 +222,15 @@ Proporciona una ruta directa a un archivo de configuración de Vitest en tu `ang
 **2. Búsqueda automática de configuración base:**
 Si estableces `runnerConfig` en `true`, el builder buscará automáticamente un archivo compartido `vitest-base.config.*` en las raíces de tu proyecto y workspace.
 
-## Reporte de errores
+## Patch de `zone.js` para Vitest {#zonejs-vitest-patch}
+
+Para usar funciones como `fakeAsync`, `flush` o `waitForAsync`, o para permitir que tus pruebas existentes funcionen con ellas, puedes agregar `zone.js/plugins/vitest-patch` a los polyfills de tu target de prueba en `angular.json`.
+
+De todas formas, recomendamos encarecidamente que empieces a planificar la conversión de tus suites de prueba existentes a `async` nativo y timers falsos de Vitest, ya que este es el enfoque establecido.
+
+Consulta [un ejemplo aquí](/guide/testing/components-scenarios#async-test-with-a-vitest-fake-timers) para el uso de timers falsos con Vitest.
+
+## Reporte de errores {#bug-reports}
 
 Reporta problemas y solicitudes de características en [GitHub](https://github.com/angular/angular-cli/issues).
 

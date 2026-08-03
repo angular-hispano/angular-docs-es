@@ -2,7 +2,7 @@
 
 Las pruebas end-to-end o (E2E) son una forma de pruebas usadas para afirmar que tu aplicación completa funciona como se espera de principio a fin o _"end-to-end"_. Las pruebas E2E difieren de las pruebas unitarias en que están completamente desacopladas de los detalles de implementación subyacentes de tu código. Típicamente se usan para validar una aplicación de una manera que imita la forma en que un usuario interactuaría con ella. Esta página sirve como guía para comenzar con las pruebas end-to-end en Angular usando el Angular CLI.
 
-## Configurar pruebas E2E
+## Configurar pruebas E2E {#set-up-e2e-testing}
 
 El Angular CLI descarga e instala todo lo que necesitas para ejecutar pruebas end-to-end para tu aplicación Angular.
 
@@ -38,7 +38,7 @@ Puppeteer
 
 Si no encuentras el ejecutor de pruebas que te gustaría usar de la lista anterior, puedes agregar manualmente un paquete usando `ng add`.
 
-## Ejecutar pruebas E2E
+## Ejecutar pruebas E2E {#running-e2e-tests}
 
 Ahora que tu aplicación está configurada para pruebas end-to-end, podemos ejecutar el mismo comando para ejecutar tus pruebas.
 
@@ -48,9 +48,9 @@ ng e2e
 
 ```
 
-Nota, no hay nada "especial" sobre ejecutar tus pruebas con cualquiera de los paquetes e2e integrados. El comando `ng e2e` realmente solo está ejecutando el builder `e2e` bajo el capó. Siempre puedes [crear tu propio builder personalizado](tools/cli/cli-builder#creando-un-builder) llamado `e2e` y ejecutarlo usando `ng e2e`.
+Nota, no hay nada "especial" sobre ejecutar tus pruebas con cualquiera de los paquetes e2e integrados. El comando `ng e2e` realmente solo está ejecutando el builder `e2e` bajo el capó. Siempre puedes [crear tu propio builder personalizado](tools/cli/cli-builder#creating-a-builder) llamado `e2e` y ejecutarlo usando `ng e2e`.
 
-## Más información sobre herramientas de pruebas end-to-end
+## Más información sobre herramientas de pruebas end-to-end {#more-information-on-end-to-end-testing-tools}
 
 | Herramienta de Pruebas | Detalles                                                                                                              |
 | :----------- | :------------------------------------------------------------------------------------------------------------------- |

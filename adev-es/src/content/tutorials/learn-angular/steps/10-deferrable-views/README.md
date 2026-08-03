@@ -111,4 +111,4 @@ En esta actividad, has aprendido cómo usar vistas diferibles en tus aplicacione
 
 Hay aún más que puedes hacer con ellas, como diferentes disparadores, precarga (prefetching) y bloques `@error`.
 
-Si deseas aprender más, consulta la [documentación sobre vistas diferibles (Deferrable views)](guide/defer).
+Si deseas aprender más, consulta la [documentación sobre vistas diferibles (Deferrable views)](guide/templates/defer).

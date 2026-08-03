@@ -13,7 +13,7 @@ La inyección de dependencias es un patrón popular porque permite a los desarro
 - **Escalabilidad**: La funcionalidad modular puede reutilizarse en múltiples contextos y permite un escalado más fácil.
 - **Mejor testing**: DI permite que las pruebas unitarias usen fácilmente [dobles de prueba](https://es.wikipedia.org/wiki/Test_double) para situaciones en las que usar una implementación real no es práctico.
 
-## ¿Cómo funciona la inyección de dependencias en Angular?
+## ¿Cómo funciona la inyección de dependencias en Angular? {#how-does-dependency-injection-work-in-angular}
 
 Una dependencia es cualquier objeto, valor, función o servicio que una clase necesita para funcionar pero que no crea por sí misma. En otras palabras, crea una relación entre diferentes partes de tu aplicación ya que no funcionaría sin la dependencia.
 
@@ -30,9 +30,9 @@ Hay dos formas en que el código interactúa con cualquier sistema de inyección
 
 Los componentes y directivas de Angular participan automáticamente en DI, lo que significa que pueden inyectar dependencias _y_ están disponibles para ser inyectados.
 
-## ¿Qué son los servicios?
+## ¿Qué son los servicios? {#what-are-services}
 
-Un _servicio_ de Angular es una clase TypeScript decorada con `@Injectable`, que hace que una instancia de la clase esté disponible para ser inyectada como dependencia. Los servicios son la forma más común de compartir datos y funcionalidad a través de una aplicación.
+Un _servicio_ de Angular es una clase TypeScript decorada con `@Service`, que te permite inyectar una instancia de la clase como dependencia. Los servicios son la forma más común de compartir datos y funcionalidad a través de una aplicación.
 
 Los tipos comunes de servicios incluyen:
 
@@ -46,23 +46,25 @@ Los tipos comunes de servicios incluyen:
 El siguiente ejemplo declara un servicio llamado `AnalyticsLogger`:
 
 ```ts
-import { Injectable } from '@angular/core';
+import {Service} from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class AnalyticsLogger {
   trackEvent(category: string, value: string) {
     console.log('Analytics event logged:', {
       category,
       value,
-      timestamp: new Date().toISOString()
-    })
+      timestamp: new Date().toISOString(),
+    });
   }
 }
 ```
 
-NOTA: La opción `providedIn: 'root'` hace que este servicio esté disponible en toda tu aplicación como un singleton. Este es el enfoque recomendado para la mayoría de los servicios.
+NOTA: El `@Service` hace que este servicio esté disponible en toda tu aplicación como un singleton. Este es el enfoque recomendado para la mayoría de los servicios.
 
-## Inyectando dependencias con `inject()`
+ÚTIL: El decorador [`@Service`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator) es una abreviatura ergonómica para `@Injectable({providedIn: 'root'})`.
+
+## Inyectando dependencias con `inject()` {#injecting-dependencies-with-inject}
 
 Puedes inyectar dependencias usando la función `inject()` de Angular.
 
@@ -79,7 +81,7 @@ import { AnalyticsLogger } from './analytics-logger';
     <a href="#" (click)="navigateToDetail($event)">Detail Page</a>
   `,
 })
-export class NavbarComponent {
+export class Navbar {
   private router = inject(Router);
   private analytics = inject(AnalyticsLogger);
 
@@ -91,12 +93,12 @@ export class NavbarComponent {
 }
 ```
 
-### ¿Dónde se puede usar `inject()`?
+### ¿Dónde se puede usar `inject()`? {#where-can-inject-be-used}
 
-Puedes inyectar dependencias durante la construcción de un componente, directiva o servicio. La llamada a `inject` puede aparecer en el `constructor` o en un inicializador de campo. Aquí hay algunos ejemplos comunes:
+Puedes inyectar dependencias durante la construcción de un componente, directiva o servicio. La llamada a [`inject`](/api/core/inject) puede aparecer en el `constructor` o en un inicializador de campo. Aquí hay algunos ejemplos comunes:
 
 ```ts
-@Component({...})
+@Component(/* ... */)
 export class MyComponent {
   // ✅ En inicializador de campo de clase
   private service = inject(MyService);
@@ -119,10 +121,10 @@ export class MyDirective {
 ```
 
 ```ts
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Service, inject} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class MyService {
   // ✅ En un servicio
   private http = inject(HttpClient);
@@ -137,11 +139,11 @@ export const authGuard = () => {
 }
 ```
 
-Angular usa el término "contexto de inyección" para describir cualquier lugar en tu código donde puedes llamar a `inject`. Aunque la construcción de componentes, directivas y servicios es la más común, consulta [contextos de inyección](/guide/di/dependency-injection-context) para más detalles.
+Angular usa el término "contexto de inyección" para describir cualquier lugar en tu código donde puedes llamar a [`inject`](/api/core/inject). Aunque la construcción de componentes, directivas y servicios es la más común, consulta [contextos de inyección](/guide/di/dependency-injection-context) para más detalles.
 
 Para más información, consulta la [documentación de la API inject](api/core/inject#usage-notes).
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 Ahora que entiendes los fundamentos de la inyección de dependencias en Angular, estás listo para aprender cómo crear tus propios servicios.
 

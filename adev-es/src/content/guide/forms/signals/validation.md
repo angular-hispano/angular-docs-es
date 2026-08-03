@@ -10,11 +10,11 @@ Signal Forms proporciona un enfoque de validación basado en esquemas. Las regla
   <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-validation-complete/app/app.css"/>
 </docs-code-multifile>
 
-## Fundamentos de validación
+## Fundamentos de validación {#validation-basics}
 
 La validación en Signal Forms se define a través de una función de esquema pasada como segundo argumento a `form()`.
 
-### La función de esquema
+### La función de esquema {#the-schema-function}
 
 La función de esquema recibe un objeto `SchemaPathTree` que te permite definir tus reglas de validación:
 
@@ -29,7 +29,7 @@ La función de esquema se ejecuta una vez durante la inicialización del formula
 
 NOTA: El parámetro callback del esquema (`schemaPath` en estos ejemplos) es un objeto `SchemaPathTree` que proporciona rutas a todos los campos en tu formulario. Puedes nombrar este parámetro como desees.
 
-### Cómo funciona la validación
+### Cómo funciona la validación {#how-validation-works}
 
 La validación en Signal Forms sigue este patrón:
 
@@ -40,7 +40,7 @@ La validación en Signal Forms sigue este patrón:
 
 La validación se ejecuta en cada cambio de valor para campos interactivos. Los campos ocultos y deshabilitados no ejecutan validación - sus reglas de validación se omiten hasta que el campo se vuelve interactivo nuevamente.
 
-### Momento de la validación
+### Momento de la validación {#validation-timing}
 
 Las reglas de validación se ejecutan en este orden:
 
@@ -52,7 +52,21 @@ Las reglas de validación síncronas (como `required()`, `email()`) se completan
 
 Todas las reglas de validación se ejecutan en cada cambio - la validación no se detiene después del primer error. Si un campo tiene reglas de validación `required()` y `email()`, ambas se ejecutan, y ambas pueden producir errores simultáneamente.
 
-## Reglas de validación integradas
+### Validación HTML nativa {#native-html-validation}
+
+Signal Forms **no** usa la [validación por restricciones](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Constraint_validation) integrada del navegador para ejecutar reglas de validación. Esto es por diseño: Signal Forms permite que cualquier componente actúe como un control de formulario, no solo elementos de formulario nativos.
+
+En cambio, tus reglas de validación se ejecutan completamente en Angular, y el estado de validación se expone a través de signals de estado de campo como `valid()`, `invalid()`, y `errors()` en lugar de a través del estado de validez nativa del elemento. La [directiva `FormRoot`](guide/forms/signals/form-submission) también establece el atributo `novalidate` en el elemento de formulario para que el navegador no bloquee el envío.
+
+Cuando un campo está enlazado a un elemento de formulario nativo, algunas reglas de validación integradas reflejan su restricción al atributo nativo correspondiente: `required()`, `min()`, `max()`, `minLength()`, y `maxLength()` establecen los atributos `required`, `min`, `max`, `minlength`, y `maxlength` cuando el elemento los soporta. Una excepción es `pattern()`, que no establece el atributo `pattern` nativo. Signal Forms establece estos atributos para controlar el comportamiento del input y mejorar la accesibilidad, **no para activar la validación nativa**.
+
+NOTA: Hay un caso en que Signal Forms lee el estado de validez nativa: cuando el navegador no puede analizar el valor de un input nativo (por ejemplo, una fecha parcialmente escrita), Signal Forms lo reporta como un error de análisis. Incluso entonces, el error se expone a través del signal `errors()` del campo como cualquier otro error de validación. Consulta [Transformación de valores](guide/forms/signals/custom-controls#value-transformation) para más detalles.
+
+IMPORTANTE: No relies en características de validez nativa como las pseudo-clases CSS `:valid` e `:invalid`, la propiedad `validity` del elemento, o `validationMessage`. El navegador puede reportar algunos inputs como inválidos como efecto secundario de los atributos reflejados (por ejemplo, un input numérico cuyo valor está por debajo de su `min`), pero este comportamiento varía según la regla de validación y el tipo de input y no es una forma soportada de observar el estado de validación.
+
+Para estilizar controles basados en el estado de validación, enlaza clases a signals de estado de campo (consulta [Gestión de estado de campo](guide/forms/signals/field-state-management#conditional-error-display)) o configura clases de estado automáticas (consulta [Clases de estado automáticas](guide/forms/signals/migration#automatic-status-classes)).
+
+## Reglas de validación integradas {#built-in-validation-rules}
 
 Signal Forms proporciona reglas de validación para escenarios de validación comunes. Todas las reglas de validación integradas aceptan un objeto de opciones para mensajes de error personalizados y lógica condicional.
 
@@ -62,21 +76,21 @@ La regla de validación `required()` asegura que un campo tenga un valor:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, required } from '@angular/forms/signals'
+import {form, FormField, required } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-registration',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         Username
-        <input [field]="registrationForm.username" />
+        <input [formField]="registrationForm.username" />
       </label>
 
       <label>
         Email
-        <input type="email" [field]="registrationForm.email" />
+        <input type="email" [formField]="registrationForm.email" />
       </label>
 
       <button type="submit">Register</button>
@@ -102,7 +116,6 @@ Un campo se considera "vacío" cuando:
 | --------------------------- | ------- |
 | El valor es `null`          | `null`, |
 | El valor es una cadena vacía| `''`    |
-| El valor es un array vacío  | `[]`    |
 
 Para requisitos condicionales, usa la opción `when`:
 
@@ -117,22 +130,24 @@ registrationForm = form(this.registrationModel, (schemaPath) => {
 
 La regla de validación solo se ejecuta cuando la función `when` devuelve `true`.
 
+NOTA: `required` trata un array vacío como presente (válido), así que usa [`minLength()`](#minlength-and-maxlength) para imponer un número mínimo de elementos en el array; trata `false` como ausente (inválido), coincidiendo con `<input type="checkbox" required>`.
+
 ### email()
 
 La regla de validación `email()` verifica un formato de email válido:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, email } from '@angular/forms/signals'
+import {form, FormField, email } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-contact',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         Your Email
-        <input type="email" [field]="contactForm.email" />
+        <input type="email" [formField]="contactForm.email" />
       </label>
     </form>
   `
@@ -148,27 +163,27 @@ export class ContactComponent {
 
 La regla de validación `email()` usa una expresión regular de formato de email estándar. Acepta direcciones como `user@example.com` pero rechaza direcciones malformadas como `user@` o `@example.com`.
 
-### min() y max()
+### min() y max() {#min-and-max}
 
 Las reglas de validación `min()` y `max()` funcionan con valores numéricos:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, min, max } from '@angular/forms/signals'
+import {form, FormField, min, max } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-age-form',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         Age
-        <input type="number" [field]="ageForm.age" />
+        <input type="number" [formField]="ageForm.age" />
       </label>
 
       <label>
         Rating (1-5)
-        <input type="number" [field]="ageForm.rating" />
+        <input type="number" [formField]="ageForm.rating" />
       </label>
     </form>
   `
@@ -199,27 +214,27 @@ ageForm = form(this.ageModel, (schemaPath) => {
 })
 ```
 
-### minLength() y maxLength()
+### minLength() y maxLength() {#minlength-and-maxlength}
 
 Las reglas de validación `minLength()` y `maxLength()` funcionan con cadenas y arrays:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, minLength, maxLength } from '@angular/forms/signals'
+import {form, FormField, minLength, maxLength } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-password-form',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         Password
-        <input type="password" [field]="passwordForm.password" />
+        <input type="password" [formField]="passwordForm.password" />
       </label>
 
       <label>
         Bio
-        <textarea [field]="passwordForm.bio"></textarea>
+        <textarea [formField]="passwordForm.bio"></textarea>
       </label>
     </form>
   `
@@ -247,21 +262,21 @@ La regla de validación `pattern()` valida contra una expresión regular:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, pattern } from '@angular/forms/signals'
+import {form, FormField, pattern } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-phone-form',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         Phone Number
-        <input [field]="phoneForm.phone" placeholder="555-123-4567" />
+        <input [formField]="phoneForm.phone" placeholder="555-123-4567" />
       </label>
 
       <label>
         Postal Code
-        <input [field]="phoneForm.postalCode" placeholder="12345" />
+        <input [formField]="phoneForm.postalCode" placeholder="12345" />
       </label>
     </form>
   `
@@ -293,7 +308,45 @@ Patrones comunes:
 | Alfanumérico         | `/^[a-zA-Z0-9]+$/`      | abc123       |
 | Seguro para URL      | `/^[a-zA-Z0-9_-]+$/`    | my-url_123   |
 
-## Errores de validación
+## Validación de elementos de arrays {#validation-of-array-items}
+
+Los formularios pueden incluir arrays de objetos anidados (por ejemplo, una lista de elementos de un pedido). Para aplicar reglas de validación a cada elemento de un array, usa `applyEach()` dentro de tu función de esquema. `applyEach()` itera la ruta del array y proporciona una ruta para cada elemento donde puedes aplicar validadores igual que con campos de nivel superior.
+
+```ts
+import {Component, signal} from '@angular/core';
+import {applyEach, FormField, form, min, required, SchemaPathTree} from '@angular/forms/signals';
+
+type Item = {name: string; quantity: number};
+
+interface Order {
+  title: string;
+  description: string;
+  items: Item[];
+}
+
+function ItemSchema(item: SchemaPathTree<Item>) {
+  required(item.name, {message: 'Item name is required'});
+  min(item.quantity, 1, {message: 'Quantity must be at least 1'});
+}
+
+@Component(/* ... */)
+export class OrderComponent {
+  orderModel = signal<Order>({
+    title: '',
+    description: '',
+    items: [{name: '', quantity: 0}],
+  });
+
+  orderForm = form(this.orderModel, (schemaPath) => {
+    required(schemaPath.title);
+    required(schemaPath.description);
+
+    applyEach(schemaPath.items, ItemSchema);
+  });
+}
+```
+
+## Errores de validación {#validation-errors}
 
 Cuando las reglas de validación fallan, producen objetos de error que describen qué salió mal. Entender la estructura de errores te ayuda a proporcionar comentarios claros a los usuarios.
 
@@ -301,7 +354,7 @@ Cuando las reglas de validación fallan, producen objetos de error que describen
 
 NOTA: Esta sección cubre los errores que producen las reglas de validación. Para mostrar y usar errores de validación en tu UI, consulta la [guía de Gestión de Estado de Campo](guide/forms/signals/field-state-management). -->
 
-### Estructura del error
+### Estructura del error {#error-structure}
 
 Cada objeto de error de validación contiene estas propiedades:
 
@@ -312,27 +365,27 @@ Cada objeto de error de validación contiene estas propiedades:
 
 Las reglas de validación integradas establecen automáticamente la propiedad `kind`. La propiedad `message` es opcional - puedes proporcionar mensajes personalizados a través de las opciones de regla de validación.
 
-### Mensajes de error personalizados
+### Mensajes de error personalizados {#custom-error-messages}
 
 Todas las reglas de validación integradas aceptan una opción `message` para texto de error personalizado:
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, required, minLength } from '@angular/forms/signals'
+import {form, FormField, required, minLength } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-signup',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         Username
-        <input [field]="signupForm.username" />
+        <input [formField]="signupForm.username" />
       </label>
 
       <label>
         Password
-        <input type="password" [field]="signupForm.password" />
+        <input type="password" [formField]="signupForm.password" />
       </label>
     </form>
   `
@@ -360,7 +413,7 @@ export class SignupComponent {
 
 Los mensajes personalizados deben ser claros, específicos, y decirle a los usuarios cómo solucionar el problema. En lugar de "Invalid input", usa "Password must be at least 12 characters for security".
 
-### Múltiples errores por campo
+### Múltiples errores por campo {#multiple-errors-per-field}
 
 Cuando un campo tiene múltiples reglas de validación, cada regla de validación se ejecuta independientemente y puede producir un error:
 
@@ -376,11 +429,11 @@ Si el campo de email está vacío, solo aparece el error de `required()`. Si el 
 
 CONSEJO: Usa el patrón `touched() && invalid()` en tus plantillas para evitar que los errores aparezcan antes de que los usuarios hayan interactuado con un campo. Para una guía completa sobre cómo mostrar errores de validación, consulta la [guía de Gestión de Estado de Campo](guide/forms/signals/field-state-management#conditional-error-display).
 
-## Reglas de validación personalizadas
+## Reglas de validación personalizadas {#custom-validation-rules}
 
 Aunque las reglas de validación integradas manejan casos comunes, a menudo necesitarás lógica de validación personalizada para reglas de negocio, formatos complejos, o restricciones específicas del dominio.
 
-### Usando validate()
+### Usando validate() {#using-validate}
 
 La función `validate()` crea reglas de validación personalizadas. Recibe una función validadora que accede al contexto del campo y devuelve:
 
@@ -391,16 +444,16 @@ La función `validate()` crea reglas de validación personalizadas. Recibe una f
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, validate } from '@angular/forms/signals'
+import {form, FormField, validate } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-url-form',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         Website URL
-        <input [field]="urlForm.website" />
+        <input [formField]="urlForm.website" />
       </label>
     </form>
   `
@@ -439,7 +492,47 @@ NOTA: Los campos hijos también tienen un signal `key`, y los campos de elemento
 
 Devuelve un objeto de error con `kind` y `message` cuando la validación falla. Devuelve `null` o `undefined` cuando la validación pasa.
 
-### Reglas de validación reutilizables
+### Usando validateTree() {#using-validatetree}
+
+La función `validateTree()` crea reglas de validación personalizadas que pueden apuntar a múltiples campos o proporcionar lógica de validación compleja para todo un subárbol.
+
+```angular-ts
+import {Component, model} from '@angular/core';
+import {form, FormField, validateTree} from '@angular/forms/signals';
+
+interface User {
+  firstName: string;
+  lastName: string;
+}
+
+@Component({
+  /* ... */
+})
+export class UserFormComponent {
+  readonly userModel = model<User>({
+    firstName: '',
+    lastName: '',
+  });
+
+  userForm = form(this.userModel, (path) => {
+    validateTree(path, (ctx) => {
+      if (ctx.valueOf(path.firstName).length < 5) {
+        return {
+          kind: 'minLength5',
+          message: 'First name must be at least 5 characters',
+          fieldTree: ctx.fieldTree.lastName,
+        };
+      }
+
+      return null;
+    });
+  });
+}
+```
+
+La función validadora de `validateTree()` recibe el mismo objeto `FieldContext` que `validate()`.
+
+### Reglas de validación reutilizables {#reusable-validation-rules}
 
 Crea funciones de reglas de validación reutilizables envolviendo `validate()`:
 
@@ -483,7 +576,7 @@ urlForm = form(this.urlModel, (schemaPath) => {
 })
 ```
 
-## Validación entre campos
+## Validación entre campos {#cross-field-validation}
 
 La validación entre campos compara o relaciona valores de múltiples campos.
 
@@ -491,21 +584,21 @@ Un escenario común para validación entre campos es la confirmación de contras
 
 ```angular-ts
 import { Component, signal } from '@angular/core'
-import { form, Field, required, minLength, validate } from '@angular/forms/signals'
+import {form, FormField, required, minLength, validate } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-password-change',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         New Password
-        <input type="password" [field]="passwordForm.password" />
+        <input type="password" [formField]="passwordForm.password" />
       </label>
 
       <label>
         Confirm Password
-        <input type="password" [field]="passwordForm.confirmPassword" />
+        <input type="password" [formField]="passwordForm.confirmPassword" />
       </label>
 
       <button type="submit">Change Password</button>
@@ -543,27 +636,38 @@ export class PasswordChangeComponent {
 
 La regla de validación de confirmación accede al valor del campo de contraseña usando `valueOf(schemaPath.password)` y lo compara con el valor de confirmación. Esta regla de validación se ejecuta de forma reactiva - si cualquiera de las contraseñas cambia, la validación se vuelve a ejecutar automáticamente.
 
-## Validación asíncrona
+## Validación condicional {#conditional-validation}
+
+A veces una regla de validación debe aplicarse solo bajo ciertas condiciones, como validar una dirección de envío solo cuando un pedido se envía internacionalmente, o aplicar un conjunto diferente de reglas a cada variante de un campo de tipo unión.
+
+Debido a que las reglas de validación viven en la función de esquema, las aplicas condicionalmente con las mismas funciones estructurales que componen los esquemas:
+
+- Usa [`applyWhen()`](guide/forms/signals/form-logic#conditional-logic-with-applywhen) para activar un grupo de reglas basado en el estado reactivo del formulario, incluyendo los valores de otros campos.
+- Usa [`applyWhenValue()`](guide/forms/signals/schemas#type-narrowing-with-applywhenvalue) para aplicar reglas basadas en el propio valor de un campo. Cuando el predicado es un type guard, las reglas se tipan al valor reducido, lo que lo convierte en el enfoque recomendado para validar uniones discriminadas y otros tipos variantes.
+
+Para ejemplos completos, incluyendo esquemas reutilizables y uniones discriminadas, consulta la [guía de Esquemas y composición de esquemas](guide/forms/signals/schemas).
+
+## Validación asíncrona {#async-validation}
 
 La validación asíncrona maneja validación que requiere fuentes de datos externas, como verificar la disponibilidad de nombre de usuario en un servidor o validar contra una API.
 
-### Usando validateHttp()
+### Usando validateHttp() {#using-validatehttp}
 
 La función `validateHttp()` realiza validación basada en HTTP:
 
 ```angular-ts
 import { Component, signal, inject } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { form, Field, required, validateHttp } from '@angular/forms/signals'
+import {form, FormField, required, validateHttp } from '@angular/forms/signals'
 
 @Component({
   selector: 'app-username-form',
-  imports: [Field],
+  imports: [FormField],
   template: `
     <form>
       <label>
         Username
-        <input [field]="usernameForm.username" />
+        <input [formField]="usernameForm.username" />
 
         @if (usernameForm.username().pending()) {
           <span class="checking">Checking availability...</span>
@@ -608,7 +712,7 @@ La regla de validación `validateHttp()`:
 4. Establece `pending()` en `true` mientras la petición está en progreso
 5. Solo se ejecuta después de que todas las reglas de validación síncronas pasen
 
-### Estado pendiente
+### Estado pendiente {#pending-state}
 
 Mientras se ejecuta la validación asíncrona, el signal `pending()` del campo devuelve `true`. Usa esto para mostrar indicadores de carga:
 
@@ -620,10 +724,62 @@ Mientras se ejecuta la validación asíncrona, el signal `pending()` del campo d
 
 El signal `valid()` devuelve `false` mientras la validación está pendiente, incluso si aún no hay errores. El signal `invalid()` solo devuelve `true` si existen errores.
 
-## Próximos pasos
+## Integración con librerías de validación de esquemas {#integration-with-schema-validation-libraries}
+
+Signal Forms tiene soporte integrado para librerías que se ajustan al [Standard Schema](https://standardschema.dev/) como [Zod](https://zod.dev/) o [Valibot](https://valibot.dev/). La integración se proporciona mediante la función `validateStandardSchema`. Esto te permite usar esquemas existentes mientras mantienes los beneficios de validación reactiva de Signal Forms.
+
+```ts
+import {form, validateStandardSchema} from '@angular/forms/signals';
+import * as z from 'zod';
+
+// Define tu esquema
+const userSchema = z.object({
+  email: z.email(),
+  password: z.string().min(8),
+});
+
+// Usa con Signal Forms
+const userForm = form(signal({email: '', password: ''}), (schemaPath) => {
+  validateStandardSchema(schemaPath, userSchema);
+});
+```
+
+### Esquemas dinámicos {#dynamic-schemas}
+
+Puedes pasar una signal en lugar de un esquema estático para que el esquema de validación se actualice automáticamente cuando sus dependencias cambien.
+
+```angular-ts
+import {Component, computed, signal} from '@angular/core';
+import {form, FormField, validateStandardSchema} from '@angular/forms/signals';
+import z from 'zod';
+
+@Component({
+  /* ... */
+})
+export class DynamicSchema {
+  model = signal({document: '', type: 'dni'});
+
+  // El esquema reacciona automáticamente a los cambios de tipo
+  schema = computed(() =>
+    z.object({
+      document:
+        this.model().type === 'dni'
+          ? z.string().length(8, 'DNI must be 8 digits')
+          : z.string().min(12, 'Passport must be at least 12 characters'),
+    }),
+  );
+
+  f = form(this.model, (p) => validateStandardSchema(p, () => this.schema()));
+}
+```
+
+## Próximos pasos {#next-steps}
 
 Esta guía cubrió la creación y aplicación de reglas de validación. Las guías relacionadas exploran otros aspectos de Signal Forms:
 
-- [Guía de Modelos de Formulario](guide/forms/signals/models) - Creando y actualizando modelos de formulario
-  <!-- TODO: Uncomment when Field State Management guide is published -->
-  <!-- - [Guía de Gestión de Estado de Campo](guide/forms/signals/field-state-management) - Usando estado de validación en plantillas y mostrando errores -->
+<docs-pill-row>
+  <docs-pill href="guide/forms/signals/field-state-management" title="Gestión de estado de campo" />
+  <docs-pill href="guide/forms/signals/models" title="Modelos de formulario" />
+  <docs-pill href="guide/forms/signals/form-logic" title="Agregar lógica de formulario" />
+  <docs-pill href="guide/forms/signals/schemas" title="Esquemas y composición de esquemas" />
+</docs-pill-row>

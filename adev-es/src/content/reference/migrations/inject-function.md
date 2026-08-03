@@ -1,8 +1,8 @@
 # Migración a la función `inject`
 
-La función `inject` de Angular ofrece tipos más precisos y mejor compatibilidad con los decoradores estándar, en comparación con la inyección basada en constructor.
+La función [`inject`](/api/core/inject) de Angular ofrece tipos más precisos y mejor compatibilidad con los decoradores estándar, en comparación con la inyección basada en constructor.
 
-Este schematic convierte la inyección basada en constructor en tus clases para usar la función `inject` en su lugar.
+Este schematic convierte la inyección basada en constructor en tus clases para usar la función [`inject`](/api/core/inject) en su lugar.
 
 Ejecuta el schematic usando el siguiente comando:
 
@@ -10,7 +10,7 @@ Ejecuta el schematic usando el siguiente comando:
 ng generate @angular/core:inject
 ```
 
-#### Antes
+#### Antes {#before}
 
 ```typescript
 import { Component, Inject, Optional } from '@angular/core';
@@ -26,7 +26,7 @@ export class MyComp {
 }
 ```
 
-#### Después
+#### Después {#after}
 
 ```typescript
 import { Component, inject } from '@angular/core';
@@ -40,7 +40,7 @@ export class MyComp {
 }
 ```
 
-## Opciones de migración
+## Opciones de migración {#migration-options}
 
 La migración incluye varias opciones para personalizar su salida.
 
@@ -52,7 +52,7 @@ migrar todo el directorio.
 ### `migrateAbstractClasses`
 
 Angular no valida que los parámetros de las clases abstractas sean inyectables. Esto significa que la
-migración no puede migrarlos de forma confiable a `inject` sin arriesgarse a errores, razón por la que están
+migración no puede migrarlos de forma confiable a [`inject`](/api/core/inject) sin arriesgarse a errores, razón por la que están
 deshabilitados por defecto. Habilita esta opción si quieres que las clases abstractas sean migradas, pero ten en cuenta
 que es posible que tengas que **corregir algunos errores manualmente**.
 
@@ -64,7 +64,7 @@ En algunos casos esto puede provocar errores de compilación cuando clases con d
 otras clases con decoradores de Angular. Si habilitas esta opción, la migración generará una
 firma de constructor adicional para mantener la compatibilidad con versiones anteriores, a expensas de más código.
 
-#### Antes
+#### Antes {#before-1}
 
 ```typescript
 import { Component } from '@angular/core';
@@ -76,7 +76,7 @@ export class MyComp {
 }
 ```
 
-#### Después
+#### Después {#after-1}
 
 ```typescript
 import { Component } from '@angular/core';
@@ -105,7 +105,7 @@ a expensas de potencialmente ocultar errores de tipo.
 **NOTA:** las aserciones non-null no se agregarán a parámetros que ya estén tipados como anulables,
 porque el código que depende de ellos probablemente ya tiene en cuenta su anulabilidad.
 
-#### Antes
+#### Antes {#before-2}
 
 ```typescript
 import { Component, Inject, Optional } from '@angular/core';
@@ -120,7 +120,7 @@ export class MyComp {
 }
 ```
 
-#### Después
+#### Después {#after-2}
 
 ```typescript
 import { Component, inject } from '@angular/core';

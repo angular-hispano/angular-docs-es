@@ -2,7 +2,7 @@
 
 Este documento explica cómo habilitar el soporte del service worker de Angular en proyectos que creaste con la [Angular CLI](tools/cli). Luego utiliza un ejemplo para mostrar un service worker en acción, demostrando la carga y el almacenamiento en caché básico.
 
-## Agregar un service worker a tu proyecto
+## Agregar un service worker a tu proyecto {#adding-a-service-worker-to-your-project}
 
 Para configurar el service worker de Angular en tu proyecto, ejecuta el siguiente comando de la CLI:
 
@@ -34,7 +34,7 @@ ng build
 
 El proyecto de la CLI ya está configurado para usar el service worker de Angular.
 
-## Service worker en acción: un recorrido
+## Service worker en acción: un recorrido {#service-worker-in-action-a-tour}
 
 Esta sección demuestra un service worker en acción mediante una aplicación de ejemplo. Para habilitar el soporte de service 
 worker durante el desarrollo local, usa la configuración de producción con el siguiente comando:
@@ -56,7 +56,7 @@ npx http-server -p 8080 -c-1 dist/<project-name>/browser
 
 Esto servirá tu aplicación con soporte de service worker en http://localhost:8080.
 
-### Carga inicial
+### Carga inicial {#initial-load}
 
 Con el servidor ejecutándose en el puerto `8080`, apunta tu navegador a `http://localhost:8080`.
 Tu aplicación debería cargarse normalmente.
@@ -65,7 +65,7 @@ CONSEJO: Cuando pruebes los service workers de Angular, es buena idea usar una v
 
 ÚTIL: Si no estás usando HTTPS, el service worker solo se registrará cuando accedas a la aplicación en `localhost`.
 
-### Simular un problema de red
+### Simular un problema de red {#simulating-a-network-issue}
 
 Para simular un problema de red, deshabilita la interacción de red para tu aplicación.
 
@@ -92,7 +92,7 @@ Mira la pestaña Network para verificar que el service worker esté activo.
 Esto significa que los recursos no se están cargando desde la red.
 En cambio, se cargan desde la caché del service worker.
 
-### ¿Qué se está almacenando en caché?
+### ¿Qué se está almacenando en caché? {#whats-being-cached}
 
 Observa que todos los archivos que el navegador necesita para renderizar esta aplicación están cacheados.
 La configuración predeterminada `ngsw-config.json` está configurada para almacenar en caché los recursos específicos usados por la CLI:
@@ -108,7 +108,7 @@ IMPORTANTE: El `ngsw-config.json` generado incluye una lista limitada de extensi
 
 IMPORTANTE: Si `resourcesOutputPath` o las rutas de `assets` se modifican después de generar el archivo de configuración, debes cambiar las rutas manualmente en `ngsw-config.json`.
 
-### Realizar cambios en tu aplicación
+### Realizar cambios en tu aplicación {#making-changes-to-your-application}
 
 Ahora que viste cómo los service workers almacenan en caché tu aplicación, el siguiente paso es comprender cómo funcionan las actualizaciones.
 Haz un cambio en la aplicación y observa cómo el service worker instala la actualización:
@@ -129,7 +129,7 @@ Haz un cambio en la aplicación y observa cómo el service worker instala la act
     npx http-server -p 8080 -c-1 dist/<project-name>/browser
 ```
 
-### Actualizar tu aplicación en el navegador
+### Actualizar tu aplicación en el navegador {#updating-your-application-in-the-browser}
 
 Ahora observa cómo el navegador y el service worker manejan la aplicación actualizada.
 
@@ -157,11 +157,11 @@ Ahora observa cómo el navegador y el service worker manejan la aplicación actu
 
     El service worker instaló la versión actualizada de tu aplicación _en segundo plano_, y la próxima vez que se carga o recarga la página, el service worker cambia a la versión más reciente.
 
-## Configuración del service worker
+## Configuración del service worker {#service-worker-configuration}
 
 Los service workers de Angular admiten opciones de configuración exhaustivas mediante la interfaz `SwRegistrationOptions`, que proporciona control detallado sobre el registro, la caché y la ejecución de scripts.
 
-### Habilitar y deshabilitar service workers
+### Habilitar y deshabilitar service workers {#enabling-and-disabling-service-workers}
 
 La opción `enabled` controla si se registrará el service worker y si los servicios relacionados intentarán comunicarse con él.
 
@@ -180,7 +180,7 @@ export const appConfig: ApplicationConfig = {
 
 ```
 
-### Control de caché con updateViaCache
+### Control de caché con updateViaCache {#cache-control-with-updateviacache}
 
 La opción `updateViaCache` controla cómo el navegador consulta la caché HTTP durante las actualizaciones del service worker. Esto brinda control detallado sobre cuándo el navegador obtiene scripts actualizados del service worker y módulos importados.
 
@@ -203,7 +203,7 @@ La opción `updateViaCache` acepta los siguientes valores:
 - **`'all'`**: la caché HTTP se consulta tanto para el script del service worker como para sus scripts importados  
 - **`'none'`**: la caché HTTP no se consulta ni para el script del service worker ni para sus scripts importados
 
-### Compatibilidad con módulos ES mediante la opción type
+### Compatibilidad con módulos ES mediante la opción type {#es-module-support-with-type-option}
 
 La opción `type` permite especificar el tipo de script al registrar service workers, lo que brinda soporte a las características de módulos ES en tus scripts de service worker.
 
@@ -225,7 +225,7 @@ La opción `type` acepta los siguientes valores:
 - **`'classic'`** (predeterminado): ejecución tradicional de scripts de service worker. No se permiten características de módulos ES como `import` y `export`
 - **`'module'`**: registra el script como un módulo ES. Permite usar la sintaxis `import`/`export` y las características de módulos
 
-### Control del alcance de registro
+### Control del alcance de registro {#registration-scope-control}
 
 La opción `scope` define el alcance de registro del service worker, determinando qué rango de URL puede controlar.
 
@@ -246,7 +246,7 @@ export const appConfig: ApplicationConfig = {
 - De forma predeterminada, el scope es el directorio que contiene el script del service worker
 - Se usa al llamar a `ServiceWorkerContainer.register()`
 
-### Configuración de la estrategia de registro
+### Configuración de la estrategia de registro {#registration-strategy-configuration}
 
 La opción `registrationStrategy` define cuándo se registrará el service worker en el navegador, lo que proporciona control sobre el momento del registro.
 
@@ -309,7 +309,7 @@ export const customConfig: ApplicationConfig = {
 
 ```
 
-## Más sobre los service workers de Angular
+## Más sobre los service workers de Angular {#more-on-angular-service-workers}
 
 También podría interesarte lo siguiente:
 

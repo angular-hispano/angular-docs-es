@@ -1,6 +1,6 @@
 # Derivando estado con computed signals
 
-Ahora que has aprendido [cómo crear y actualizar signals](/tutorials/signals/1-creating-and-updating-your-first-signal), aprendamos sobre los computed signals. Los computed signals son valores derivados que se actualizan automáticamente cuando sus dependencias cambian. Son perfectos para crear cálculos reactivos basados en otros signals.
+Ahora que has aprendido [cómo crear y actualizar signals](/tutorials/signals/1-creating-your-first-signal), aprendamos sobre los computed signals. Los computed signals son valores derivados que se actualizan automáticamente cuando sus dependencias cambian. Son perfectos para crear cálculos reactivos basados en otros signals.
 
 En esta actividad, aprenderás cómo usar la función `computed()` para crear estado derivado que se actualiza automáticamente cuando los signals subyacentes cambian.
 

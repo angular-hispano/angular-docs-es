@@ -28,7 +28,7 @@ Por defecto, Angular elimina y colapsa los espacios en blanco superfluos en las 
 saltos de línea e indentación. Puedes cambiar esta configuración estableciendo explícitamente `preserveWhitespaces` a
 `true` en los metadatos del componente.
 
-## Esquemas de elementos personalizados
+## Esquemas de elementos personalizados {#custom-element-schemas}
 
 Por defecto, Angular lanza un error cuando encuentra un elemento HTML desconocido. Puedes
 deshabilitar este comportamiento para un componente incluyendo `CUSTOM_ELEMENTS_SCHEMA` en la propiedad `schemas`

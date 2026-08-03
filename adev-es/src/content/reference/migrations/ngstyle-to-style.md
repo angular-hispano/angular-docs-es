@@ -9,19 +9,19 @@ Ejecuta el schematic usando el siguiente comando:
 ng generate @angular/core:ngstyle-to-style
 ```
 
-#### Antes
+#### Antes {#before}
 
 ```html
 <div [ngStyle]="{'background-color': 'red'}">
 ```
 
-#### Después
+#### Después {#after}
 
 ```html
 <div [style]="{'background-color': 'red'}">
 ```
 
-## Opciones de configuración
+## Opciones de configuración {#configuration-options}
 
 La migración admite algunas opciones para ajustar la migración a tus necesidades específicas.
 

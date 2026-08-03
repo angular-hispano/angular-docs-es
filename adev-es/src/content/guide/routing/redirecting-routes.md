@@ -2,7 +2,7 @@
 
 Las redirecciones de rutas te permiten navegar automáticamente a los usuarios de una ruta a otra. Piénsalo como el reenvío de correo, donde el correo destinado a una dirección se envía a una dirección diferente. Esto es útil para manejar URLs heredadas, implementar rutas predeterminadas o gestionar el control de acceso.
 
-## Cómo configurar redirecciones
+## Cómo configurar redirecciones {#how-to-configure-redirects}
 
 Puedes definir redirecciones en tu configuración de rutas con la propiedad `redirectTo`. Esta propiedad acepta un string.
 
@@ -28,7 +28,7 @@ En este ejemplo, hay tres redirecciones:
 2. Cuando un usuario visita cualquier ruta `/legacy-user/:id`, es enrutado a la ruta `/users/:id` correspondiente.
 3. Cuando un usuario visita cualquier ruta que no está definida en el router, es redirigido a la página de inicio de sesión debido a la definición de ruta comodín `**`.
 
-## Entendiendo `pathMatch`
+## Entendiendo `pathMatch` {#understanding-pathmatch}
 
 La propiedad `pathMatch` en las rutas permite a los desarrolladores controlar cómo Angular hace coincidir una URL con las rutas.
 
@@ -90,7 +90,7 @@ Esto significa que:
 1. Solo la ruta `/news` será redirigida a `/blog`.
 2. Cualquier segmento subsiguiente como `/news/articles` o `/news/articles/1` no redirigiría con el nuevo prefijo `/blog`.
 
-## Redirecciones condicionales
+## Redirecciones condicionales {#conditional-redirects}
 
 La propiedad `redirectTo` también puede aceptar una función para agregar lógica a cómo los usuarios son redirigidos.
 
@@ -139,6 +139,6 @@ export const routes: Routes = [
 
 Para aprender más, consulta [la documentación de la API para RedirectFunction](api/router/RedirectFunction).
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 Para más información sobre la propiedad `redirectTo`, consulta la [documentación de la API](api/router/Route#redirectTo).

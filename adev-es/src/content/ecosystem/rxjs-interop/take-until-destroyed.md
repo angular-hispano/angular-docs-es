@@ -25,7 +25,7 @@ export class UserProfile {
 }
 ```
 
-El operador `takeUntilDestroyed` acepta un único argumento opcional [`DestroyRef`](/api/core/DestroyRef). El operador usa `DestroyRef` para saber cuándo el componente o la directiva se han destruido. Puedes omitir este argumento cuando llames a `takeUntilDestroyed` en un [contexto de inyección](https://angular.dev/guide/di/dependency-injection-context), normalmente el constructor de un componente o directiva. Proporciona siempre un `DestroyRef` si tu código puede llamar a `takeUntilDestroyed` fuera de un contexto de inyección.
+El operador `takeUntilDestroyed` acepta un único argumento opcional [`DestroyRef`](/api/core/DestroyRef). El operador usa `DestroyRef` para saber cuándo el componente o la directiva se han destruido. Puedes omitir este argumento cuando llames a `takeUntilDestroyed` en un [contexto de inyección](/guide/di/dependency-injection-context), normalmente el constructor de un componente o directiva. Proporciona siempre un `DestroyRef` si tu código puede llamar a `takeUntilDestroyed` fuera de un contexto de inyección.
 
 ```typescript
 @Component(/* ... */)

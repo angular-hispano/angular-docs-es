@@ -26,7 +26,7 @@ Tiene un botón de envío que solo se habilita cuando toda la entrada del usuari
 
 La versión básica puede evolucionar para admitir una variedad más amplia de preguntas, un renderizado más elegante y una mejor experiencia de usuario.
 
-## Habilitar formularios reactivos para tu proyecto
+## Habilitar formularios reactivos para tu proyecto {#enable-reactive-forms-for-your-project}
 
 Los formularios dinámicos se basan en formularios reactivos.
 
@@ -37,7 +37,7 @@ Para que la aplicación tenga acceso a las directivas de formularios reactivos, 
     <docs-code header="dynamic-form-question.component.ts" path="adev/src/content/examples/dynamic-form/src/app/dynamic-form-question.component.ts"/>
 </docs-code-multifile>
 
-## Crea un modelo de objeto de formulario
+## Crea un modelo de objeto de formulario {#create-a-form-object-model}
 
 Un formulario dinámico requiere un modelo de objeto que pueda describir todos los escenarios necesarios para la funcionalidad del formulario.
 El formulario de solicitud de héroe de ejemplo es un conjunto de preguntas, es decir, cada control en el formulario debe hacer una pregunta y aceptar una respuesta.
@@ -49,7 +49,7 @@ El siguiente `QuestionBase` es una clase base para un conjunto de controles que 
 
 <docs-code header="question-base.ts" path="adev/src/content/examples/dynamic-form/src/app/question-base.ts"/>
 
-### Define clases de control
+### Define clases de control {#define-control-classes}
 
 Desde esta base, el ejemplo deriva dos nuevas clases, `TextboxQuestion` y `DropdownQuestion`, que representan diferentes tipos de control.
 Cuando creas la plantilla del formulario en el siguiente paso, instancias estos tipos específicos de pregunta para renderizar los controles apropiados dinámicamente.
@@ -62,7 +62,7 @@ El tipo de control `DropdownQuestion` presenta una lista de opciones en una caja
 
  <docs-code header="question-dropdown.ts" path="adev/src/content/examples/dynamic-form/src/app/question-dropdown.ts"/>
 
-### Compón grupos de formulario
+### Compón grupos de formulario {#compose-form-groups}
 
 Un formulario dinámico usa un servicio para crear conjuntos agrupados de controles de entrada, basado en el modelo del formulario.
 El siguiente `QuestionControlService` recopila un conjunto de instancias de `FormGroup` que consumen los metadatos del modelo de preguntas.
@@ -70,7 +70,7 @@ Puedes especificar valores por defecto y reglas de validación.
 
 <docs-code header="question-control.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question-control.service.ts"/>
 
-## Compón el contenido del formulario dinámico
+## Compón el contenido del formulario dinámico {#compose-dynamic-form-contents}
 
 El formulario dinámico se representa mediante un componente contenedor, que se agrega en un paso posterior.
 Cada pregunta está representada en la plantilla del componente del formulario por una etiqueta `<app-question>`, que coincide con una instancia de `DynamicFormQuestionComponent`.
@@ -90,7 +90,7 @@ El bloque `@switch` en la plantilla determina qué tipo de pregunta se debe most
 El switch usa directivas con los selectores [`formControlName`](api/forms/FormControlName "Referencia de API de la directiva FormControlName") y [`formGroup`](api/forms/FormGroupDirective "Referencia de API de FormGroupDirective").
 Ambas directivas están definidas en `ReactiveFormsModule`.
 
-### Proporcionar datos
+### Proporcionar datos {#supply-data}
 
 Se requiere otro servicio para proporcionar un conjunto específico de preguntas a partir del cual se construirá un formulario individual.
 Para este ejercicio creas el `QuestionService` para proporcionar este array de preguntas desde los datos de muestra codificados.
@@ -102,7 +102,7 @@ El `QuestionService` proporciona un conjunto de preguntas en forma de un array v
 
 <docs-code header="question.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question.service.ts"/>
 
-## Crea una plantilla de formulario dinámico
+## Crea una plantilla de formulario dinámico {#create-a-dynamic-form-template}
 
 El componente `DynamicFormComponent` es el punto de entrada y el contenedor principal para el formulario, que se representa usando `<app-dynamic-form>` en una plantilla.
 
@@ -113,7 +113,7 @@ El componente `DynamicFormComponent` presenta una lista de preguntas vinculando 
     <docs-code header="dynamic-form.component.ts" path="adev/src/content/examples/dynamic-form/src/app/dynamic-form.component.ts"/>
 </docs-code-multifile>
 
-### Muestra el formulario
+### Muestra el formulario {#display-the-form}
 
 Para mostrar una instancia del formulario dinámico, la plantilla shell `AppComponent` pasa el array `questions` devuelto por el `QuestionService` al componente contenedor del formulario, `<app-dynamic-form>`.
 
@@ -121,7 +121,7 @@ Para mostrar una instancia del formulario dinámico, la plantilla shell `AppComp
 
 Esta separación de modelo y datos te permite reutilizar los componentes para cualquier tipo de encuesta, siempre que sea compatible con el modelo de objeto _question_.
 
-### Asegurando datos válidos
+### Asegurando datos válidos {#ensuring-valid-data}
 
 La plantilla del formulario usa vinculación dinámica de datos de metadatos para renderizar el formulario sin hacer suposiciones codificadas sobre preguntas específicas.
 Agrega tanto metadatos de control como criterios de validación dinámicamente.
@@ -133,7 +133,7 @@ La siguiente figura muestra el formulario final.
 
 <img alt="Dynamic-Form" src="assets/images/guide/dynamic-form/dynamic-form.png">
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 <docs-pill-row>
   <docs-pill title="Validar entrada de formulario" href="guide/forms/reactive-forms#validating-form-input" />

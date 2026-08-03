@@ -6,7 +6,7 @@ Con tus schematics, tus usuarios pueden usar `ng add` para instalar una versión
 
 Todos los tres tipos de schematics pueden ser parte de una colección que empaquetas con tu librería.
 
-## Creando una colección de schematics
+## Creando una colección de schematics {#creating-a-schematics-collection}
 
 Para iniciar una colección, necesitas crear los archivos schematic.
 Los siguientes pasos te muestran cómo agregar soporte inicial sin modificar ningún archivo de proyecto.
@@ -30,7 +30,7 @@ Los siguientes pasos te muestran cómo agregar soporte inicial sin modificar nin
 El esquema inicial que has creado le dice al CLI dónde encontrar el schematic que soporta el comando `ng add`.
 Ahora estás listo para crear ese schematic.
 
-## Proporcionando soporte de instalación
+## Proporcionando soporte de instalación {#providing-installation-support}
 
 Un schematic para el comando `ng add` puede mejorar el proceso de instalación inicial para tus usuarios.
 Los siguientes pasos definen este tipo de schematic.
@@ -43,7 +43,7 @@ Los siguientes pasos definen este tipo de schematic.
 
 El Angular CLI instalará la última versión de la librería automáticamente, y este ejemplo va un paso más allá agregando el `MyLibModule` a la raíz de la aplicación. La función `addRootImport` acepta un callback que necesita devolver un bloque de código. Puedes escribir cualquier código dentro de la cadena etiquetada con la función `code` y cualquier símbolo externo tiene que estar envuelto con la función `external` para asegurar que se generen las declaraciones de importación apropiadas.
 
-### Definir tipo de dependencia
+### Definir tipo de dependencia {#define-dependency-type}
 
 Usa la opción `save` de `ng-add` para configurar si la librería debería agregarse a las `dependencies`, las `devDependencies`, o no guardarse en absoluto en el archivo de configuración `package.json` del proyecto.
 
@@ -58,7 +58,7 @@ Los valores posibles son:
 | `"dependencies"`    | Agregar el paquete a las dependencies     |
 | `"devDependencies"` | Agregar el paquete a las devDependencies  |
 
-## Construyendo tus schematics
+## Construyendo tus schematics {#building-your-schematics}
 
 Para empaquetar tus schematics junto con tu librería, debes configurar la librería para construir los schematics por separado, luego agregarlos al bundle.
 Debes construir tus schematics _después_ de construir tu librería, para que se coloquen en el directorio correcto.
@@ -86,7 +86,7 @@ Para decirle a la librería cómo construir los schematics, agrega un archivo `t
    - Tanto el script `build` como el `postbuild` requieren las dependencias `copyfiles` y `typescript`.
      Para instalar las dependencias, navega a la ruta definida en `devDependencies` y ejecuta `npm install` antes de ejecutar los scripts.
 
-## Proporcionando soporte de generación
+## Proporcionando soporte de generación {#providing-generation-support}
 
 Puedes agregar un schematic con nombre a tu colección que permita a tus usuarios usar el comando `ng generate` para crear un artefacto que está definido en tu librería.
 
@@ -101,7 +101,7 @@ ng generate my-lib:my-service
 
 Para comenzar, crea una nueva subcarpeta, `my-service`, en la carpeta `schematics`.
 
-### Configurar el nuevo schematic
+### Configurar el nuevo schematic {#configure-the-new-schematic}
 
 Cuando agregas un schematic a la colección, tienes que apuntar a él en el esquema de la colección, y proporcionar archivos de configuración para definir opciones que un usuario puede pasar al comando.
 
@@ -133,7 +133,7 @@ Cuando agregas un schematic a la colección, tienes que apuntar a él en el esqu
    | path    | Sobrescribe la ruta proporcionada al schematic. El valor de ruta predeterminado se basa en el directorio de trabajo actual.                             |
    | project | Proporciona un proyecto específico en el que ejecutar el schematic. En el schematic, puedes proporcionar un valor predeterminado si la opción no es proporcionada por el usuario. |
 
-### Agregar archivos de plantilla
+### Agregar archivos de plantilla {#add-template-files}
 
 Para agregar artefactos a un proyecto, tu schematic necesita sus propios archivos de plantilla.
 Las plantillas schematic soportan sintaxis especial para ejecutar código y sustitución de variables.
@@ -159,7 +159,7 @@ Las plantillas schematic soportan sintaxis especial para ejecutar código y sust
    - El `name` se proporciona como una propiedad de tu función factory.
      Es el mismo `name` que definiste en el esquema.
 
-### Agregar la función factory
+### Agregar la función factory {#add-the-factory-function}
 
 Ahora que tienes la infraestructura en su lugar, puedes definir la función principal que realiza las modificaciones que necesitas en el proyecto del usuario.
 
@@ -186,7 +186,7 @@ Para detalles de estas estructuras de datos y sintaxis, consulta el [Schematics 
 Esta factory de regla devuelve el árbol sin modificación.
 Las opciones son los valores de opción pasados desde el comando `ng generate`.
 
-## Definir una regla de generación
+## Definir una regla de generación {#define-a-generation-rule}
 
 Ahora tienes el framework en su lugar para crear el código que realmente modifica la aplicación del usuario para configurarla para el servicio definido en tu librería.
 
@@ -197,7 +197,7 @@ En cualquier caso, tu código necesita identificar el proyecto específico al qu
 Haz esto usando el objeto `Tree` que se pasa a la función factory.
 Los métodos `Tree` te dan acceso al árbol completo de archivos en tu workspace, permitiéndote leer y escribir archivos durante la ejecución del schematic.
 
-### Obtener la configuración del proyecto
+### Obtener la configuración del proyecto {#get-the-project-configuration}
 
 1. Para determinar el proyecto de destino, usa el método `workspaces.readWorkspace` para leer el contenido del archivo de configuración del workspace, `angular.json`.
     Para usar `workspaces.readWorkspace` necesitas crear un `workspaces.WorkspaceHost` desde el `Tree`.
@@ -220,7 +220,7 @@ Los métodos `Tree` te dan acceso al árbol completo de archivos en tu workspace
 
    <docs-code header="projects/my-lib/schematics/my-service/index.ts (Project Info)" path="adev/src/content/examples/schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" visibleRegion="path"/>
 
-### Definir la regla
+### Definir la regla {#define-the-rule}
 
 Una `Rule` puede usar archivos de plantilla externos, transformarlos y devolver otro objeto `Rule` con la plantilla transformada.
 Usa las plantillas para generar cualquier archivo personalizado requerido para tu schematic.
@@ -251,12 +251,12 @@ Consulta un ejemplo completo de la siguiente función de regla schematic.
 
 Para más información sobre reglas y métodos utilitarios, consulta [Provided Rules](https://github.com/angular/angular-cli/tree/main/packages/angular_devkit/schematics#provided-rules).
 
-## Ejecutando tu schematic de librería
+## Ejecutando tu schematic de librería {#running-your-library-schematic}
 
 Después de construir tu librería y schematics, puedes instalar la colección de schematics para ejecutarla contra tu proyecto.
 Los siguientes pasos te muestran cómo generar un servicio usando el schematic que creaste anteriormente.
 
-### Construir tu librería y schematics
+### Construir tu librería y schematics {#build-your-library-and-schematics}
 
 Desde la raíz de tu workspace, ejecuta el comando `ng build` para tu librería.
 
@@ -275,7 +275,7 @@ npm run build
 
 ```
 
-### Enlazar la librería
+### Enlazar la librería {#link-the-library}
 
 Tu librería y schematics se empaquetan y colocan en la carpeta `dist/my-lib` en la raíz de tu workspace.
 Para ejecutar el schematic, necesitas enlazar la librería en tu carpeta `node_modules`.
@@ -287,7 +287,7 @@ npm link dist/my-lib
 
 ```
 
-### Ejecutar el schematic
+### Ejecutar el schematic {#run-the-schematic}
 
 Ahora que tu librería está instalada, ejecuta el schematic usando el comando `ng generate`.
 

@@ -3,19 +3,19 @@
 Esta página es una referencia para desplegar y dar soporte a aplicaciones en producción que usan el service worker de Angular.
 Explica cómo encaja el service worker de Angular en el entorno de producción, cuál es su comportamiento bajo distintas condiciones y qué recursos y mecanismos de seguridad están disponibles.
 
-## Service worker y almacenamiento en caché de recursos de la aplicación
+## Service worker y almacenamiento en caché de recursos de la aplicación {#service-worker-and-caching-of-application-resources}
 
 Imagina el service worker de Angular como una caché de reenvío o como un CDN en el borde instalado en el navegador del usuario final.
 El service worker responde a las solicitudes que hace la aplicación Angular de recursos o datos desde una caché local, sin necesidad de esperar a la red.
 Como cualquier caché, tiene reglas sobre cómo caduca el contenido y cómo se actualiza.
 
-### Versiones de la aplicación
+### Versiones de la aplicación {#application-versions}
 
 En el contexto de un service worker de Angular, una "versión" es un conjunto de recursos que representan una compilación específica de la aplicación Angular.
 Cada vez que se despliega una nueva compilación de la aplicación, el service worker trata esa compilación como una nueva versión.
 Esto es cierto incluso si solo se actualizó un archivo.
 En un momento dado, el service worker puede tener múltiples versiones de la aplicación en la caché y podría estar sirviéndolas simultáneamente.
-Para obtener más información, consulta la sección [Pestañas de la aplicación](#pestañas-de-la-aplicación).
+Para obtener más información, consulta la sección [Pestañas de la aplicación](#application-tabs).
 
 Para preservar la integridad de la aplicación, el service worker de Angular agrupa todos los archivos en una versión conjunta.
 Los archivos agrupados en una versión suelen incluir HTML, JS y CSS.
@@ -37,19 +37,19 @@ Si alguno de los archivos cacheados cambia, el hash del archivo cambia en `ngsw.
 
 Con el comportamiento de versionado del service worker de Angular, un servidor de aplicaciones puede garantizar que la aplicación Angular siempre tenga un conjunto de archivos coherente.
 
-#### Verificaciones de actualización
+#### Verificaciones de actualización {#update-checks}
 
 Cada vez que el usuario abre o actualiza la aplicación, el service worker de Angular verifica si hay actualizaciones revisando si `ngsw.json` cambió.
 Si encuentra una actualización, la descarga y la almacena en caché automáticamente, y la sirve la próxima vez que se cargue la aplicación.
 
-### Integridad de los recursos
+### Integridad de los recursos {#resource-integrity}
 
 Uno de los posibles efectos secundarios de un almacenamiento en caché prolongado es guardar accidentalmente un recurso que no es válido.
 En una caché HTTP normal, una actualización forzada o el vencimiento de la caché limitan los efectos negativos de almacenar un archivo no válido.
 Un service worker ignora esas restricciones y, efectivamente, almacena en caché la aplicación completa durante mucho tiempo.
 Es importante que el service worker obtenga el contenido correcto, por lo que conserva hashes de los recursos para mantener su integridad.
 
-#### Contenido con hash
+#### Contenido con hash {#hashed-content}
 
 Para asegurar la integridad de los recursos, el service worker de Angular valida los hashes de todos los recursos para los que dispone de un hash.
 En una aplicación creada con la [Angular CLI](tools/cli), esto incluye todo lo que haya en el directorio `dist` cubierto por la configuración `src/ngsw-config.json` del usuario.
@@ -65,7 +65,7 @@ Los errores de hash pueden ocurrir por varios motivos:
 - Errores durante el proceso de compilación podrían generar recursos actualizados sin que `ngsw.json` se actualice
     Lo inverso también podría suceder: que `ngsw.json` se actualice sin que cambien los recursos.
 
-#### Contenido sin hash
+#### Contenido sin hash {#unhashed-content}
 
 Los únicos recursos que tienen hashes en el manifiesto `ngsw.json` son los recursos que estaban presentes en el directorio `dist` cuando se generó el manifiesto.
 Otros recursos, especialmente los que se cargan desde CDNs, tienen contenido que es desconocido en tiempo de compilación o se actualiza con más frecuencia de la que se despliega la aplicación.
@@ -75,10 +75,10 @@ El service worker de Angular continúa sirviendo un recurso incluso después de 
 ya no es válido. Al mismo tiempo, intenta actualizar el recurso vencido en segundo plano.
 De esta manera, los recursos sin hash que estén rotos no permanecen en la caché más allá de su vida útil configurada.
 
-### Pestañas de la aplicación
+### Pestañas de la aplicación {#application-tabs}
 
 Puede ser problemático para una aplicación si la versión de los recursos que recibe cambia repentinamente o sin aviso.
-Consulta la sección [Versiones de la aplicación](#versiones-de-la-aplicación) para ver la descripción de este tipo de problemas.
+Consulta la sección [Versiones de la aplicación](#application-versions) para ver la descripción de este tipo de problemas.
 
 El service worker de Angular ofrece una garantía: una aplicación en ejecución continúa usando la misma versión de la aplicación.
 Si se abre otra instancia de la aplicación en una nueva pestaña del navegador, se sirve la versión más reciente de la aplicación.
@@ -98,7 +98,7 @@ Otras razones por las que el service worker puede cambiar la versión de una apl
 - La página se vuelve a cargar o actualizar.
 - La página solicita que se active una actualización de inmediato usando el servicio `SwUpdate`.
 
-### Actualizaciones del service worker
+### Actualizaciones del service worker {#service-worker-updates}
 
 El service worker de Angular es un script pequeño que se ejecuta en los navegadores web.
 De vez en cuando, el service worker se actualiza con correcciones de errores y mejoras.
@@ -110,7 +110,7 @@ La mayoría de las actualizaciones del service worker de Angular son transparent
 Ocasionalmente, una corrección de errores o una mejora puede requerir la invalidación de cachés antiguos.
 En ese caso, el service worker actualiza la aplicación desde la red de forma transparente.
 
-### Omitir el service worker
+### Omitir el service worker {#bypassing-the-service-worker}
 
 En algunos casos, podrías querer omitir el service worker por completo y dejar que el navegador maneje la solicitud.
 Un ejemplo es cuando dependes de una característica que actualmente no está soportada en los service workers, como [reportar el progreso en cargas de archivos](https://github.com/w3c/ServiceWorker/issues/1141).
@@ -118,21 +118,21 @@ Un ejemplo es cuando dependes de una característica que actualmente no está so
 Para omitir el service worker, establece `ngsw-bypass` como encabezado de solicitud o como parámetro de consulta.
 El valor del encabezado o del parámetro de consulta se ignora y puede estar vacío u omitirse.
 
-### Solicitudes del service worker cuando el servidor no puede alcanzarse
+### Solicitudes del service worker cuando el servidor no puede alcanzarse {#service-worker-requests-when-the-server-cant-be-reached}
 
-El service worker procesa todas las solicitudes a menos que se [omita explícitamente](#omitir-el-service-worker).
+El service worker procesa todas las solicitudes a menos que se [omita explícitamente](#bypassing-the-service-worker).
 Dependiendo del estado y la configuración de la caché, el service worker devuelve una respuesta cacheada o envía la solicitud al servidor.
 El service worker solo almacena en caché las respuestas a solicitudes no mutables, como `GET` y `HEAD`.
 
 Si el service worker recibe un error del servidor o no obtiene respuesta, retorna un código de error que indica el resultado de la llamada.
 Por ejemplo, si el service worker no recibe respuesta, crea un estado [504 Gateway Timeout](https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Status/504) para devolverlo. El estado `504` en este ejemplo puede aparecer porque el servidor está sin conexión o el cliente se desconectó.
 
-## Depurar el service worker de Angular
+## Depurar el service worker de Angular {#debugging-the-angular-service-worker}
 
 Ocasionalmente, puede ser necesario examinar el service worker de Angular en ejecución para investigar problemas o confirmar que funciona como se espera.
 Los navegadores ofrecen herramientas integradas para depurar service workers y el propio service worker de Angular incluye funcionalidades de depuración útiles.
 
-### Ubicar y analizar información de depuración
+### Ubicar y analizar información de depuración {#locating-and-analyzing-debugging-information}
 
 El service worker de Angular expone información de depuración bajo el directorio virtual `ngsw/`.
 Actualmente, la única URL expuesta es `ngsw/state`.
@@ -162,7 +162,7 @@ Debug log:
 
 </docs-code>
 
-#### Estado del driver
+#### Estado del driver {#driver-state}
 
 La primera línea indica el estado del driver:
 
@@ -188,7 +188,7 @@ Ambos estados son temporales; solo se conservan durante la vida útil de la [ins
 El navegador a veces finaliza un service worker inactivo para conservar memoria y capacidad de procesamiento, y crea uno nuevo en respuesta a eventos de red.
 La nueva instancia comienza en modo `NORMAL`, independientemente del estado de la instancia anterior.
 
-#### Último hash de manifiesto
+#### Último hash de manifiesto {#latest-manifest-hash}
 
 <docs-code hideCopy language="shell">
 
@@ -198,7 +198,7 @@ Latest manifest hash: eea7f5f464f90789b621170af5a569d6be077e5c
 
 Este es el hash SHA1 de la versión más actual de la aplicación conocida por el service worker.
 
-#### Última verificación de actualización
+#### Última verificación de actualización {#last-update-check}
 
 <docs-code hideCopy language="shell">
 
@@ -211,7 +211,7 @@ Indica la última vez que el service worker verificó si había una nueva versi�
 
 En este ejemplo de depuración, la verificación de actualización está programada, como se explica en la siguiente sección.
 
-#### Versión
+#### Versión {#version}
 
 <docs-code hideCopy language="shell">
 
@@ -225,7 +225,7 @@ En este ejemplo, el service worker tiene una versión de la aplicación cacheada
 
 ÚTIL: Este hash de versión es el "latest manifest hash" listado anteriormente. Ambos clientes están en la versión más reciente. Cada cliente se lista por su ID del API `Clients` del navegador.
 
-#### Cola de tareas inactivas
+#### Cola de tareas inactivas {#idle-task-queue}
 
 <docs-code hideCopy language="shell">
 
@@ -246,7 +246,7 @@ Los contadores "Last update tick/run" muestran el tiempo desde eventos específi
 "Last update run" muestra la última vez que se ejecutaron tareas inactivas.
 "Last update tick" muestra el tiempo transcurrido desde el último evento después del cual la cola podría procesarse.
 
-#### Registro de depuración
+#### Registro de depuración {#debug-log}
 
 <docs-code hideCopy language="shell">
 
@@ -256,7 +256,7 @@ Debug log:
 
 Los errores que ocurren dentro del service worker se registran aquí.
 
-### Herramientas para desarrolladores
+### Herramientas para desarrolladores {#developer-tools}
 
 Navegadores como Chrome proporcionan herramientas para interactuar con service workers.
 Estas herramientas pueden ser muy poderosas cuando se usan correctamente, pero hay algunas consideraciones a tener en cuenta.
@@ -269,12 +269,12 @@ Estas herramientas pueden ser muy poderosas cuando se usan correctamente, pero h
 
 - Detener y reiniciar el service worker en el panel de Service Worker dispara una verificación de actualización.
 
-## Seguridad del service worker
+## Seguridad del service worker {#service-worker-safety}
 
 Los errores o configuraciones incorrectas podrían causar que el service worker de Angular actúe de maneras inesperadas.
 Si esto sucede, el service worker de Angular contiene varios mecanismos de emergencia en caso de que un administrador necesite desactivarlo rápidamente.
 
-### Mecanismo a prueba de fallos
+### Mecanismo a prueba de fallos {#fail-safe}
 
 Para desactivar el service worker, cambia el nombre del archivo `ngsw.json` o elimínalo.
 Cuando la solicitud del service worker a `ngsw.json` devuelve un `404`, el service worker elimina todas sus cachés y se desregistra, esencialmente autodestruyéndose.
@@ -295,7 +295,7 @@ En su lugar, debes servir el contenido de `safety-worker.js` en la URL del scrip
 Para la mayoría de los sitios, esto significa que deberías servir el safety worker en la URL antigua del Service Worker de forma permanente.
 Este script puede usarse para desactivar `@angular/service-worker` y eliminar las cachés correspondientes. También elimina cualquier otro Service Worker que se haya servido en el pasado en tu sitio.
 
-### Cambiar la ubicación de tu aplicación
+### Cambiar la ubicación de tu aplicación {#changing-your-applications-location}
 
 IMPORTANTE: Los service workers no funcionan detrás de una redirección.
 Es posible que ya te hayas encontrado con el error `The script resource is behind a redirect, which is disallowed`.
@@ -305,9 +305,9 @@ Si configuras una redirección desde la ubicación anterior, como `example.com`,
 Además, la redirección ni siquiera se activará para las personas usuarias que cargan el sitio completamente desde el service worker.
 El worker antiguo, registrado en `example.com`, intenta actualizarse y envía una solicitud a la ubicación anterior `example.com`. Esta solicitud se redirige a la nueva ubicación `www.example.com` y produce el error: `The script resource is behind a redirect, which is disallowed`.
 
-Para solucionar esto, quizá tengas que desactivar el worker antiguo usando una de las técnicas anteriores: [Mecanismo a prueba de fallos](#mecanismo-a-prueba-de-fallos) o [Safety worker](#safety-worker).
+Para solucionar esto, quizá tengas que desactivar el worker antiguo usando una de las técnicas anteriores: [Mecanismo a prueba de fallos](#fail-safe) o [Safety worker](#safety-worker).
 
-## Más sobre los service workers de Angular
+## Más sobre los service workers de Angular {#more-on-angular-service-workers}
 
 También podría interesarte lo siguiente:
 

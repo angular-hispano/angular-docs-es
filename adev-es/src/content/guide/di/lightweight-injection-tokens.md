@@ -17,7 +17,7 @@ En este caso, el desarrollador de la aplicación debería esperar que ese servic
 Como el desarrollador de la aplicación no puede conocer o remediar un problema de tree-shaking en la librería, es responsabilidad del desarrollador de la librería hacerlo.
 Para prevenir la retención de componentes no utilizados, tu librería debería usar el patrón de diseño de tokens de inyección ligeros.
 
-## Cuándo se retienen los tokens
+## Cuándo se retienen los tokens {#when-tokens-are-retained}
 
 Para explicar mejor la condición bajo la cual ocurre la retención de tokens, considera una librería que proporciona un componente library-card.
 Este componente contiene un cuerpo y puede contener un encabezado opcional:
@@ -69,7 +69,7 @@ En el ejemplo, el compilador retiene el token `LibHeaderComponent` que ocurre en
 Esto previene que el componente referenciado sea tree-shaken, incluso si la aplicación no usa realmente `<lib-header>` en ningún lugar.
 Si el código, plantilla y estilos de `LibHeaderComponent` se combinan para volverse demasiado grandes, incluirlo innecesariamente puede aumentar significativamente el tamaño de la aplicación cliente.
 
-## Cuándo usar el patrón de token de inyección ligero
+## Cuándo usar el patrón de token de inyección ligero {#when-to-use-the-lightweight-injection-token-pattern}
 
 El problema de tree-shaking surge cuando un componente se usa como un token de inyección.
 Hay dos casos cuando eso puede suceder:
@@ -91,9 +91,9 @@ Aunque los tokens usados solo como especificadores de tipo se eliminan cuando se
 Estos efectivamente cambian `constructor(@Optional() other: OtherComponent)` a `constructor(@Optional() @Inject(OtherComponent) other)`.
 El token ahora está en una posición de valor, lo que causa que el tree-shaker mantenga la referencia.
 
-ÚTIL: Las librerías deberían usar [proveedores tree-shakable](guide/di/dependency-injection#providing-dependency) para todos los servicios, proporcionando dependencias a nivel raíz en lugar de en componentes o módulos.
+ÚTIL: Las librerías deberían usar [proveedores tree-shakable](guide/di/defining-dependency-providers) para todos los servicios, proporcionando dependencias a nivel raíz en lugar de en componentes o módulos.
 
-## Usando tokens de inyección ligeros
+## Usando tokens de inyección ligeros {#using-lightweight-injection-tokens}
 
 El patrón de diseño de token de inyección ligero consiste en usar una pequeña clase abstracta como un token de inyección, y proporcionar la implementación real en una etapa posterior.
 La clase abstracta se retiene, no es tree-shaken, pero es pequeña y no tiene un impacto material en el tamaño de la aplicación.
@@ -134,7 +134,7 @@ Para resumir, el patrón de token de inyección ligero consiste en lo siguiente:
 1. Inyección del patrón ligero, usando `@ContentChild()` o `@ContentChildren()`.
 1. Un proveedor en la implementación del token de inyección ligero que asocia el token de inyección ligero con la implementación.
 
-### Usar el token de inyección ligero para definición de API
+### Usar el token de inyección ligero para definición de API {#use-the-lightweight-injection-token-for-api-definition}
 
 Un componente que inyecta un token de inyección ligero podría necesitar invocar un método en la clase inyectada.
 El token ahora es una clase abstracta. Como el componente inyectable implementa esa clase, también debes declarar un método abstracto en la clase abstracta del token de inyección ligero.
@@ -177,10 +177,10 @@ En este ejemplo, el padre consulta el token para obtener el componente hijo, y a
 Antes de llamar un método en el hijo, el componente padre verifica si el componente hijo está presente.
 Si el componente hijo ha sido tree-shaken, no hay referencia en tiempo de ejecución a él, y no hay llamada a su método.
 
-### Nombrar tu token de inyección ligero
+### Nombrar tu token de inyección ligero {#naming-your-lightweight-injection-token}
 
 Los tokens de inyección ligeros solo son útiles con componentes.
-La guía de estilo de Angular sugiere que nombres los componentes usando el sufijo "Component".
+La [Guía de estilo de Angular](style-guide) sugiere que nombres los componentes sin el sufijo `Component`.
 El ejemplo "LibHeaderComponent" sigue esta convención.
 
 Deberías mantener la relación entre el componente y su token mientras aún los distingues.

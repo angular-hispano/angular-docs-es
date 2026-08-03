@@ -10,7 +10,7 @@ Ejecuta el schematic usando el siguiente comando:
 ng generate @angular/core:cleanup-unused-imports
 ```
 
-#### Antes
+#### Antes {#before}
 
 ```angular-ts
 import {Component} from '@angular/core';
@@ -23,7 +23,7 @@ import {UnusedDirective} from './unused';
 export class MyComp {}
 ```
 
-#### Después
+#### Después {#after}
 
 ```angular-ts
 import {Component} from '@angular/core';

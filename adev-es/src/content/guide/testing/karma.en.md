@@ -49,7 +49,7 @@ To add Karma and Jasmine to an existing project, follow these steps:
             "test": {
               "builder": "@angular/build:unit-test",
               "options": {
-                "runner": "karma",
+                "runner": "karma"
                 // ... other options
               }
             }
@@ -68,10 +68,8 @@ To add Karma and Jasmine to an existing project, follow these steps:
       // ...
       "compilerOptions": {
         // ...
-        "types": [
-          "jasmine"
-        ]
-      },
+        "types": ["jasmine"]
+      }
       // ...
     }
     ```
@@ -119,7 +117,7 @@ If you want to customize Karma, you can create a `karma.conf.js` by running the 
 ng generate config karma
 ```
 
-HELPFUL: Read more about Karma configuration in the [Karma configuration guide](http://karma-runner.github.io/6.4/config/configuration-file.html).
+HELPFUL: Read more about Karma configuration in the [Karma configuration guide](https://karma-runner.github.io/6.4/config/configuration-file.html).
 
 ### Setting the Test Runner in `angular.json`
 
@@ -135,7 +133,7 @@ To explicitly set Karma as the test runner for your project, locate the `test` t
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "runner": "karma",
+            "runner": "karma"
             // ... other options
           }
         }
@@ -188,7 +186,7 @@ If your tests aren't working as you expect, you can inspect and debug them in th
 
 To debug an application with the Karma test runner:
 
-1.  Reveal the Karma browser window. See [Set up for testing](guide/testing/overview#configurar-pruebas) if you need help with this step.
+1.  Reveal the Karma browser window. See [Set up for testing](guide/testing#set-up-for-testing) if you need help with this step.
 2.  Click the **DEBUG** button to open a new browser tab and re-run the tests.
 3.  Open the browser's **Developer Tools**. On Windows, press `Ctrl-Shift-I`. On macOS, press `Command-Option-I`.
 4.  Pick the **Sources** section.

@@ -3,7 +3,7 @@
 El Angular Language Service proporciona a los editores de código una forma de obtener autocompletado, errores, sugerencias y navegación dentro de las plantillas de Angular.
 Funciona con plantillas externas en archivos HTML separados, y también con plantillas en línea.
 
-## Configurando opciones del compilador para el Angular Language Service
+## Configurando opciones del compilador para el Angular Language Service {#configuring-compiler-options-for-the-angular-language-service}
 
 Para habilitar las características más recientes del Language Service, configura la opción `strictTemplates` en `tsconfig.json` estableciendo `strictTemplates` a `true`, como se muestra en el siguiente ejemplo:
 
@@ -17,7 +17,7 @@ Para habilitar las características más recientes del Language Service, configu
 
 Para más información, consulta la guía de [opciones del compilador de Angular](reference/configs/angular-compiler-options).
 
-## Características
+## Características {#features}
 
 Tu editor detecta automáticamente que estás abriendo un archivo de Angular.
 Luego usa el Angular Language Service para leer tu archivo `tsconfig.json`, encontrar todas las plantillas que tienes en tu aplicación, y proporcionar servicios de lenguaje para cualquier plantilla que abras.
@@ -29,7 +29,7 @@ Los servicios de lenguaje incluyen:
 - Información rápida
 - Ir a la definición
 
-### Autocompletado
+### Autocompletado {#autocompletion}
 
 El autocompletado puede acelerar tu tiempo de desarrollo proporcionándote posibilidades contextuales y sugerencias mientras escribes.
 Este ejemplo muestra el autocompletado en una interpolación.
@@ -40,21 +40,21 @@ Mientras escribes, puedes presionar tab para completar.
 También hay autocompletado dentro de los elementos.
 Cualquier elemento que tengas como selector de componente aparecerá en la lista de autocompletado.
 
-### Verificación de errores
+### Verificación de errores {#error-checking}
 
 El Angular Language Service puede advertirte de errores en tu código.
 En este ejemplo, Angular no sabe qué es `orders` ni de dónde viene.
 
 <img alt="verificación de errores" src="assets/images/guide/language-service/language-error.gif">
 
-### Información rápida y navegación
+### Información rápida y navegación {#quick-info-and-navigation}
 
 La característica de información rápida te permite pasar el cursor para ver de dónde vienen los componentes, directivas y módulos.
 Luego puedes hacer clic en "Go to definition" o presionar F12 para ir directamente a la definición.
 
 <img alt="navegación" src="assets/images/guide/language-service/language-navigation.gif">
 
-## Angular Language Service en tu editor
+## Angular Language Service en tu editor {#angular-language-service-in-your-editor}
 
 Angular Language Service está actualmente disponible como extensión para [Visual Studio Code](https://code.visualstudio.com), [WebStorm](https://www.jetbrains.com/webstorm), [Sublime Text](https://www.sublimetext.com), [Zed](https://zed.dev), [Neovim](https://neovim.io) y [Eclipse IDE](https://www.eclipse.org/eclipseide).
 
@@ -129,7 +129,7 @@ Puedes instalar directamente el paquete "Eclipse IDE for Web and JavaScript deve
 
 ### Neovim
 
-#### Conquer of Completion con Node.js
+#### Conquer of Completion con Node.js {#conquer-of-completion-with-nodejs}
 
 El Angular Language Service usa el tsserver, que no sigue las especificaciones LSP exactamente. Por lo tanto, si estás usando neovim o vim con JavaScript o TypeScript o Angular, puede que encuentres que [Conquer of Completion](https://github.com/neoclide/coc.nvim) (COC) tiene la implementación más completa del Angular Language Service y el tsserver. Esto es porque COC porta la implementación de VSCode del tsserver que acomoda la implementación del tsserver.
 
@@ -162,7 +162,7 @@ El Angular Language Service usa el tsserver, que no sigue las especificaciones L
 
 ÚTIL: `/usr/local/lib/node_modules/typescript/lib` y `/usr/local/lib/node_modules/@angular/language-server/bin` arriba deberían apuntar a la ubicación de tus node modules globales, que puede ser diferente.
 
-#### LSP integrado de Neovim
+#### LSP integrado de Neovim {#built-in-neovim-lsp}
 
 Angular Language Service puede ser usado con Neovim usando el plugin [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 
@@ -174,7 +174,7 @@ Angular Language Service puede ser usado con Neovim usando el plugin [nvim-lspco
 
 En [Zed](https://zed.dev), instala la extensión desde [Extensions: Marketplace](https://zed.dev/extensions/angular).
 
-## Cómo funciona el Language Service
+## Cómo funciona el Language Service {#how-the-language-service-works}
 
 Cuando usas un editor con un language service, el editor inicia un proceso separado de language-service y se comunica con él a través de [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call), usando el [Language Server Protocol](https://microsoft.github.io/language-server-protocol).
 Cuando escribes en el editor, el editor envía información al proceso del language-service para rastrear el estado de tu proyecto.
@@ -189,7 +189,7 @@ El AST HTML solo puede decirle al compilador que hay algo de texto con los carac
 Es entonces cuando el parser de plantillas produce un AST de expresión, que reside dentro del AST de la plantilla.
 El Angular Language Services entonces mira `data.---` dentro de su contexto, le pregunta al TypeScript Language Service cuáles son los miembros de `data`, y devuelve la lista de posibilidades.
 
-## Más información
+## Más información {#more-information}
 
 - Para información más detallada sobre la implementación, consulta el [código fuente del Angular Language Service](https://github.com/angular/angular/blob/main/packages/language-service/src)
 - Para más información sobre las consideraciones y propósitos del diseño, consulta la [documentación de diseño aquí](https://github.com/angular/vscode-ng-language-service/wiki/Design)

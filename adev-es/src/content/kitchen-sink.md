@@ -4,10 +4,10 @@ Esta es una lista visual de todos los componentes y estilos personalizados para 
 
 Como sistema de diseño, esta página contiene guías visuales y de redacción en Markdown para:
 
-- Elementos personalizados de la documentación de Angular: [`docs-card`](#tarjetas), [`docs-callout`](#callouts), [`docs-pill`](#pills) y [`docs-steps`](#flujo-de-trabajo)
-- Elementos de texto personalizados: [alertas](#alertas)
-- Ejemplos de código: [`docs-code`](#código)
-- Elementos de estilo Markdown integrados: enlaces, listas, [encabezados](#encabezados-h2), [líneas horizontales](#divisor-de-línea-horizontal)
+- Elementos personalizados de la documentación de Angular: [`docs-card`](#cards), [`docs-callout`](#callouts), [`docs-pill`](#pills) y [`docs-steps`](#workflow)
+- Elementos de texto personalizados: [alertas](#alerts)
+- Ejemplos de código: [`docs-code`](#code)
+- Elementos de estilo Markdown integrados: enlaces, listas, [encabezados](#headers-h2), [líneas horizontales](#horizontal-line-divider)
 - ¡y más!
 
 Prepárate para:
@@ -16,17 +16,17 @@ Prepárate para:
 2. excelente...
 3. documentación!
 
-## Encabezados (h2)
+## Encabezados (h2) {#headers-h2}
 
-### Encabezados más pequeños (h3)
+### Encabezados más pequeños (h3) {#smaller-headers-h3}
 
-#### Aún más pequeños (h4)
+#### Aún más pequeños (h4) {#even-smaller-h4}
 
-##### Todavía más pequeños (h5)
+##### Todavía más pequeños (h5) {#even-more-smaller-h5}
 
-###### ¡Los más pequeños! (h6)
+###### ¡Los más pequeños! (h6) {#the-smallest-h6}
 
-## Tarjetas
+## Tarjetas {#cards}
 
 <docs-card-container>
   <docs-card title="¿Qué es Angular?" link="Visión general de la plataforma" href="tutorials/first-app">
@@ -40,7 +40,7 @@ Prepárate para:
   </docs-card>
 </docs-card-container>
 
-### Atributos de `<docs-card>`
+### Atributos de `<docs-card>` {#docs-card-attributes}
 
 | Atributos                           | Detalles                                                        |
 | :---------------------------------- | :-------------------------------------------------------------- |
@@ -64,7 +64,7 @@ Prepárate para:
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
 </docs-callout>
 
-### Atributos de `<docs-callout>`
+### Atributos de `<docs-callout>` {#docs-callout-attributes}
 
 | Atributos                                        | Detalles                                                           |
 | :----------------------------------------------- | :----------------------------------------------------------------- |
@@ -85,7 +85,7 @@ Las filas de pills son útiles como una especie de navegación con enlaces a rec
   <docs-pill href="#pill-row" title="Enlace"/>
 </docs-pill-row>
 
-### Atributos de `<docs-pill>`
+### Atributos de `<docs-pill>` {#docs-pill-attributes}
 
 | Atributos        | Detalles                                                         |
 | :--------------- | :--------------------------------------------------------------- |
@@ -95,7 +95,7 @@ Las filas de pills son útiles como una especie de navegación con enlaces a rec
 
 Las pills también pueden usarse en línea por sí mismas, pero aún no hemos desarrollado eso.
 
-## Alertas
+## Alertas {#alerts}
 
 Las alertas son solo párrafos especiales. Son útiles para resaltar (no confundir con call-out) algo que es un poco más urgente. Ganan tamaño de fuente según el contexto y están disponibles en muchos niveles. Trata de no usar alertas para renderizar demasiado contenido, sino más bien para mejorar y llamar la atención sobre el contenido circundante.
 
@@ -119,9 +119,9 @@ IMPORTANTE: Usa Important para información que es crucial para comprender el te
 
 ÚTIL: Usa Best practice para resaltar prácticas que se sabe que son exitosas o mejores que las alternativas.
 
-NOTA: ¡Atención `desarrolladores`! ¡Las alertas _pueden_ tener un [enlace](#alertas) y otros estilos anidados (pero trata de **usar esto con moderación**)!.
+NOTA: ¡Atención `desarrolladores`! ¡Las alertas _pueden_ tener un [enlace](#alerts) y otros estilos anidados (pero trata de **usar esto con moderación**)!.
 
-## Código
+## Código {#code}
 
 Puedes mostrar `código` usando las triples comillas invertidas integradas:
 
@@ -141,7 +141,7 @@ template: '<h1>¡Hola Mundo!</h1>',
 export class ComponentOverviewComponent {}
 </docs-code>
 
-### Estilizando el ejemplo
+### Estilizando el ejemplo {#styling-the-example}
 
 Aquí tienes un ejemplo de código completamente estilizado:
 
@@ -161,7 +161,7 @@ También tenemos estilos para la terminal, simplemente establece el lenguaje com
 npm install @angular/material --save
 ```
 
-#### Atributos de `<docs-code>`
+#### Atributos de `<docs-code>` {#docs-code-attributes}
 
 | Atributos       | Tipo                 | Detalles                                              |
 | :-------------- | :------------------- | :---------------------------------------------------- |
@@ -177,7 +177,7 @@ npm install @angular/material --save
 | `preview`       | `boolean`            | (Falso) muestra vista previa                          |
 | `hideCode`      | `boolean`            | (Falso) Si colapsar el ejemplo de código por defecto. |
 
-### Ejemplos de múltiples archivos
+### Ejemplos de múltiples archivos {#multifile-examples}
 
 Puedes crear ejemplos de múltiples archivos envolviendo los ejemplos dentro de un `<docs-code-multifile>`.
 
@@ -192,7 +192,7 @@ Puedes crear ejemplos de múltiples archivos envolviendo los ejemplos dentro de 
     path="adev/src/content/examples/hello-world/src/app/app.component.css" />
 </docs-code-multifile>
 
-#### Atributos de `<docs-code-multifile>`
+#### Atributos de `<docs-code-multifile>` {#docs-code-multifile-attributes}
 
 | Atributos     | Tipo      | Detalles                                                     |
 | :------------ | :-------- | :----------------------------------------------------------- |
@@ -201,13 +201,13 @@ Puedes crear ejemplos de múltiples archivos envolviendo los ejemplos dentro de 
 | `preview`     | `boolean` | (Falso) muestra vista previa                                 |
 | `hideCode`    | `boolean` | (Falso) Si colapsar el ejemplo de código por defecto.        |
 
-### Añadiendo `preview` a tu ejemplo de código
+### Añadiendo `preview` a tu ejemplo de código {#adding-preview-to-your-code-example}
 
 Añadir la bandera `preview` construye un ejemplo en ejecución del código debajo del fragmento de código. Esto también añade automáticamente un botón para abrir el ejemplo en ejecución en Stackblitz.
 
 NOTA: `preview` solo funciona con standalone.
 
-### Estilizando vistas previas de ejemplo con Tailwind CSS
+### Estilizando vistas previas de ejemplo con Tailwind CSS {#styling-example-previews-with-tailwind-css}
 
 Las clases de utilidad de Tailwind se pueden usar dentro de los ejemplos de código.
 
@@ -218,7 +218,7 @@ Las clases de utilidad de Tailwind se pueden usar dentro de los ejemplos de cód
 <docs-code path="adev/src/content/examples/hello-world/src/app/tailwind-app.component.ts" />
 </docs-code-multifile>
 
-## Pestañas
+## Pestañas {#tabs}
 
 <docs-tab-group>
   <docs-tab label="Ejemplo de Código">
@@ -235,11 +235,11 @@ Las clases de utilidad de Tailwind se pueden usar dentro de los ejemplos de cód
   </docs-tab>
 </docs-tab-group>
 
-## Flujo de trabajo
+## Flujo de trabajo {#workflow}
 
 Estila pasos numerados usando `<docs-step>`. La numeración se crea usando CSS (¡práctico!).
 
-### Atributos de `<docs-workflow>` y `<docs-step>`
+### Atributos de `<docs-workflow>` y `<docs-step>` {#docs-workflow-and-docs-step-attributes}
 
 | Atributos          | Detalles                                                           |
 | :----------------- | :----------------------------------------------------------------- |
@@ -310,18 +310,18 @@ Para crear un nuevo espacio de trabajo y una aplicación inicial:
 
 </docs-workflow>
 
-## Imágenes y video
+## Imágenes y video {#images-and-video}
 
 Puedes añadir imágenes usando la imagen Markdown semántica:
 
 ![Ruibarbo el gato](assets/images/kitchen-sink/rhubarb.jpg "Título opcional")
 
-### Añade `#small` y `#medium` para cambiar el tamaño de la imagen
+### Añade `#small` y `#medium` para cambiar el tamaño de la imagen {#add-small-and-medium-to-change-the-image-size}
 
 ![Ruibarbo el gato pequeño](assets/images/kitchen-sink/rhubarb.jpg#small)
 ![Ruibarbo el gato mediano](assets/images/kitchen-sink/rhubarb.jpg#medium)
 
-## Añadir atributos usando la sintaxis de llaves
+## Añadir atributos usando la sintaxis de llaves {#add-attributes-using-curly-braces-syntax}
 
 ![Imagen cargada de forma diferida](assets/images/kitchen-sink/rhubarb.jpg {loading: 'lazy'})
 ![Atributos combinados](assets/images/kitchen-sink/rhubarb.jpg#small {loading: 'lazy', decoding: 'async', fetchpriority: 'low'})
@@ -330,7 +330,7 @@ Los videos incrustados se crean con `docs-video` y solo necesitan un `src` y `al
 
 <docs-video src="https://www.youtube.com/embed/O47uUnJjbJc" alt=""/>
 
-## Gráficos y Diagramas
+## Gráficos y Diagramas {#charts--graphs}
 
 Escribe diagramas y gráficos usando [Mermaid](http://mermaid.js.org/) estableciendo el lenguaje de código a `mermaid`, todo el tema está integrado.
 
@@ -357,10 +357,33 @@ Escribe diagramas y gráficos usando [Mermaid](http://mermaid.js.org/) estableci
       "Ratas" : 15
 ```
 
-## Divisor de línea horizontal
+## Divisor de línea horizontal {#horizontal-line-divider}
 
 Esto se puede usar para separar secciones de la página, como estamos a punto de hacer a continuación. Estos estilos se añadirán por defecto, no se necesita nada personalizado.
 
 <hr/>
 
 ¡El fin!
+
+## Preferido / Evitar {#prefer--avoid}
+
+```ts {prefer}
+const foo = 'bar';
+```
+
+```ts {avoid}
+const bar = 'foo';
+```
+
+```ts {avoid, header: 'with a header'}
+const baz = 42;
+```
+
+<docs-code
+  path="adev/src/content/examples/hello-world/src/app/app.component-old.ts"
+  header="A styled code example"
+  language='ts'
+  linenums
+  highlight="[[3,7], 9]"
+  prefer>
+</docs-code>

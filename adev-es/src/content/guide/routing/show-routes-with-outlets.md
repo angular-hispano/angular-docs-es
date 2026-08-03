@@ -75,7 +75,7 @@ Al mostrar una ruta, el elemento `<router-outlet>` permanece presente en el DOM 
 <app-footer>...</app-footer>
 ```
 
-## Anidando rutas con rutas hijas
+## Anidando rutas con rutas hijas {#nesting-routes-with-child-routes}
 
 A medida que tu aplicación crece en complejidad, es posible que desees crear rutas que sean relativas a un componente distinto de tu componente raíz. Esto te permite crear experiencias donde solo parte de la aplicación cambia cuando la URL cambia, en lugar de que los usuarios sientan que toda la página se actualiza.
 
@@ -117,7 +117,7 @@ const routes: Routes = [
 
 Una vez que tanto las `routes` como el `<router-outlet>` estén configurados correctamente, ¡tu aplicación ahora está usando rutas anidadas!
 
-## Rutas secundarias con outlets nombrados
+## Rutas secundarias con outlets nombrados {#secondary-routes-with-named-outlets}
 
 Las páginas pueden tener múltiples outlets— puedes asignar un nombre a cada outlet para especificar qué contenido pertenece a qué outlet.
 
@@ -141,7 +141,7 @@ Angular hace coincidir el nombre del outlet con la propiedad `outlet` definida e
 }
 ```
 
-## Eventos del ciclo de vida del outlet
+## Eventos del ciclo de vida del outlet {#outlet-lifecycle-events}
 
 Hay cuatro eventos del ciclo de vida que un router outlet puede emitir:
 
@@ -165,7 +165,7 @@ Puedes agregar escuchadores de eventos con la sintaxis estándar de vinculación
 
 Consulta la [documentación de la API para RouterOutlet](/api/router/RouterOutlet?tab=api) si deseas aprender más.
 
-## Pasar datos contextuales a componentes enrutados
+## Pasar datos contextuales a componentes enrutados {#passing-contextual-data-to-routed-components}
 
 Pasar datos contextuales a componentes enrutados a menudo requiere estado global o configuraciones de ruta complicadas. Para facilitar esto, cada `RouterOutlet` soporta un input `routerOutletData`. Los componentes enrutados y sus hijos pueden leer estos datos como un signal usando el token de inyección `ROUTER_OUTLET_DATA`, permitiendo configuración específica del outlet sin modificar definiciones de ruta.
 
@@ -205,6 +205,6 @@ NOTA: Cuando el input `routerOutletData` no está establecido, el valor inyectad
 
 ---
 
-## Próximos pasos
+## Próximos pasos {#next-steps}
 
 Aprende cómo [navegar a rutas](/guide/routing/navigate-to-routes) con Angular Router.

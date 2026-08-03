@@ -1,11 +1,11 @@
 # Verificación de tipos de plantilla
 
-## Visión general de la verificación de tipos de plantilla
+## Visión general de la verificación de tipos de plantilla {#overview-of-template-type-checking}
 
 Así como TypeScript captura errores de tipo en tu código, Angular verifica las expresiones y enlaces dentro de las plantillas de tu aplicación y puede reportar cualquier error de tipo que encuentre.
 Angular actualmente tiene tres modos de hacer esto, dependiendo del valor de las banderas `fullTemplateTypeCheck` y `strictTemplates` en las [opciones del compilador de Angular](reference/configs/angular-compiler-options).
 
-### Modo básico
+### Modo básico {#basic-mode}
 
 En el modo de verificación de tipos más básico, con la bandera `fullTemplateTypeCheck` establecida en `false`, Angular valida solo expresiones de nivel superior en una plantilla.
 
@@ -24,7 +24,7 @@ El compilador también tiene algunas limitaciones importantes en este modo:
 
 En muchos casos, estas cosas terminan siendo de tipo `any`, lo que puede causar que partes subsiguientes de la expresión no se verifiquen.
 
-### Modo completo
+### Modo completo {#full-mode}
 
 Si la bandera `fullTemplateTypeCheck` está establecida en `true`, Angular es más agresivo en su verificación de tipos dentro de plantillas.
 En particular:
@@ -42,7 +42,7 @@ Lo siguiente todavía tiene tipo `any`.
 IMPORTANTE: La bandera `fullTemplateTypeCheck` ha sido deprecada en Angular 13.
 La familia de opciones de compilador `strictTemplates` debería usarse en su lugar.
 
-### Modo estricto
+### Modo estricto {#strict-mode}
 
 Angular mantiene el comportamiento de la bandera `fullTemplateTypeCheck`, e introduce un tercer "modo estricto".
 El modo estricto es un superconjunto del modo completo, y se accede estableciendo la bandera `strictTemplates` en true.
@@ -57,7 +57,7 @@ Además del comportamiento del modo completo, Angular hace lo siguiente:
 - Infiere el tipo correcto de `$event` en enlaces de eventos de componente/directiva, DOM y animación
 - Infiere el tipo correcto de referencias locales a elementos DOM, basado en el nombre de etiqueta \(por ejemplo, el tipo que `document.createElement` devolvería para esa etiqueta\)
 
-## Verificación de `*ngFor`
+## Verificación de `*ngFor` {#checking-of-ngfor}
 
 Los tres modos de verificación de tipos tratan las vistas incrustadas de manera diferente.
 Considera el siguiente ejemplo.
@@ -88,7 +88,7 @@ En modo básico, Angular no verifica ninguno de ellos.
 Sin embargo, en modo completo, Angular verifica que `config` y `user` existan y asume un tipo de `any`.
 En modo estricto, Angular sabe que el `user` en el `<span>` tiene un tipo de `User`, y que `address` es un objeto con una propiedad `city` de tipo `string`.
 
-## Solución de problemas de errores de plantilla
+## Solución de problemas de errores de plantilla {#troubleshooting-template-errors}
 
 Con el modo estricto, podrías encontrar errores de plantilla que no surgieron en ninguno de los modos anteriores.
 Estos errores a menudo representan desajustes de tipo genuinos en las plantillas que no fueron capturados por las herramientas anteriores.
@@ -132,7 +132,7 @@ Un error de verificación de tipos que no puedes resolver con ninguno de los mé
 Si obtienes errores que requieren volver al modo básico, es probable que sea tal bug.
 Si esto sucede, [abre un issue](https://github.com/angular/angular/issues) para que el equipo pueda abordarlo.
 
-## Entradas y verificación de tipos
+## Entradas y verificación de tipos {#inputs-and-type-checking}
 
 El verificador de tipos de plantilla verifica si el tipo de una expresión de enlace es compatible con el de la entrada de directiva correspondiente.
 Como ejemplo, considera el siguiente componente:
@@ -173,9 +173,9 @@ TypeScript verifica la asignación según su sistema de tipos, obedeciendo bande
 
 Evita errores de tipo en tiempo de ejecución proporcionando requisitos de tipo más específicos en la plantilla al verificador de tipos de plantilla.
 Haz que los requisitos de tipo de entrada para tus propias directivas sean lo más específicos posible proporcionando funciones de guardia de plantilla en la definición de la directiva.
-Consulta [Mejorando la verificación de tipos de plantilla para directivas personalizadas](guide/directives/structural-directives#directive-type-checks) en esta guía.
+Consulta [Mejorando la verificación de tipos de plantilla para directivas personalizadas](guide/directives/structural-directives#improving-template-type-checking-for-custom-directives) en esta guía.
 
-### Verificaciones null estrictas
+### Verificaciones null estrictas {#strict-null-checks}
 
 Cuando habilitas `strictTemplates` y la bandera TypeScript `strictNullChecks`, pueden ocurrir errores de verificación de tipos para ciertas situaciones que podrían no evitarse fácilmente.
 Por ejemplo:
@@ -217,14 +217,14 @@ En el caso del pipe `async`, nota que la expresión necesita estar envuelta en p
   Establecer la opción `strictNullInputTypes` en `false` deshabilita verificaciones null estrictas dentro de plantillas Angular.
   Esta bandera se aplica para todos los componentes que son parte de la aplicación.
 
-### Consejo para autores de librerías
+### Consejo para autores de librerías {#advice-for-library-authors}
 
 Como autor de librería, puedes tomar varias medidas para proporcionar una experiencia óptima para tus usuarios.
 Primero, habilitar `strictNullChecks` e incluir `null` en el tipo de una entrada, según corresponda, comunica a tus consumidores si pueden proporcionar un valor nullable o no.
 Adicionalmente, es posible proporcionar pistas de tipo específicas para el verificador de tipos de plantilla.
-Consulta [Mejorando la verificación de tipos de plantilla para directivas personalizadas](guide/directives/structural-directives#directive-type-checks), y [Coerción de setter de entrada](#coerción-de-setter-de-entrada).
+Consulta [Mejorando la verificación de tipos de plantilla para directivas personalizadas](guide/directives/structural-directives#improving-template-type-checking-for-custom-directives), y [Coerción de setter de entrada](#input-setter-coercion).
 
-## Coerción de setter de entrada
+## Coerción de setter de entrada {#input-setter-coercion}
 
 Ocasionalmente es deseable que la propiedad `input()` de una directiva o componente altere el valor enlazado a ella, típicamente usando una función `transform` para la entrada.
 Como ejemplo, considera este componente de botón personalizado:
@@ -312,7 +312,7 @@ El sufijo debe ser el nombre del _campo_ `@Input`.
 
 Se debe tener cuidado de que si un override `ngAcceptInputType_` está presente para una entrada dada, entonces el setter debería poder manejar cualquier valor del tipo sobrescrito.
 
-## Deshabilitando verificación de tipos usando `$any()`
+## Deshabilitando verificación de tipos usando `$any()` {#disabling-type-checking-using-any}
 
 Deshabilita la verificación de una expresión de enlace rodeando la expresión en una llamada a la pseudo-función de conversión `$any()`.
 El compilador la trata como una conversión al tipo `any` al igual que en TypeScript cuando se usa una conversión `<any>` o `as any`.

@@ -5,7 +5,7 @@ Puedes definir diferentes configuraciones de construcción con nombre para tu pr
 Cada configuración con nombre puede tener valores predeterminados para cualquiera de las opciones que se aplican a los diversos objetivos del builder, como `build`, `serve` y `test`.
 Los comandos `build`, `serve` y `test` del [Angular CLI](tools/cli) pueden entonces reemplazar archivos con versiones apropiadas para tu entorno objetivo deseado.
 
-## Configuraciones del Angular CLI
+## Configuraciones del Angular CLI {#angular-cli-configurations}
 
 Los builders del Angular CLI soportan un objeto `configurations`, que permite sobrescribir opciones específicas para un builder basado en la configuración proporcionada en la línea de comandos.
 
@@ -52,7 +52,7 @@ ng build --configuration debug,production,customer-facing
 
 ```
 
-## Configurar valores predeterminados específicos del entorno
+## Configurar valores predeterminados específicos del entorno {#configure-environment-specific-defaults}
 
 `@angular-devkit/build-angular:browser` soporta reemplazos de archivos, una opción para sustituir archivos fuente antes de ejecutar una construcción.
 Usar esto en combinación con `--configuration` proporciona un mecanismo para configurar datos específicos del entorno en tu aplicación.
@@ -115,7 +115,7 @@ export const environment = {
 
 ```
 
-## Usando variables específicas del entorno en tu aplicación
+## Usando variables específicas del entorno en tu aplicación {#using-environment-specific-variables-in-your-app}
 
 Para usar las configuraciones de entorno que has definido, tus componentes deben importar el archivo de entornos original:
 

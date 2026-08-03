@@ -33,7 +33,7 @@ Angular funciona con cualquier herramienta que genere CSS,
 incluyendo [Sass](https://sass-lang.com), [less](https://lesscss.org),
 y [stylus](https://stylus-lang.com).
 
-## Alcance de estilos
+## Alcance de estilos {#style-scoping}
 
 Cada componente tiene una configuración de **encapsulación de vista** que determina cómo el framework delimita el alcance
 de los estilos de un componente. Hay 4 modos de encapsulación de vista: `Emulated`, `ShadowDom`, `ExperimentalIsolatedShadowDom`, y `None`.
@@ -75,6 +75,24 @@ una regla CSS deshabilita la encapsulación para esa regla, convirtiéndola efec
 **El equipo de Angular desaconseja fuertemente el uso nuevo de `::ng-deep`**. Estas APIs permanecen exclusivamente para 
 compatibilidad hacia atrás.
 
+Cuando un selector contiene `::ng-deep`, Angular deja de aplicar los límites de encapsulación de vista después de ese punto en el selector. Cualquier parte del selector que siga a `::ng-deep` puede coincidir con elementos fuera de la plantilla del componente.
+
+Por ejemplo:
+
+- Un selector de regla CSS como `p a`, usando la encapsulación emulada, coincidirá con elementos `<a>` que son descendientes de un elemento `<p>`, ambos dentro de la plantilla del propio componente.
+
+- Un selector como `::ng-deep p a` coincidirá con elementos `<a>` en cualquier parte de la aplicación, descendientes de un elemento `<p>` en cualquier parte de la aplicación.
+
+  Eso efectivamente hace que se comporte como un estilo global.
+
+- En `p ::ng-deep a`, Angular requiere que el elemento `<p>` venga de la propia plantilla del componente, pero el elemento `<a>` puede estar en cualquier parte de la aplicación.
+
+  Entonces, en efecto, el elemento `<a>` puede estar en la plantilla del componente, o en cualquier contenido proyectado o hijo.
+
+- Con `:host ::ng-deep p a`, tanto los elementos `<a>` como `<p>` deben ser descendientes del elemento host del componente.
+
+  Pueden venir de la plantilla del componente o de las vistas de sus componentes hijos, pero no de ningún otro lugar de la app.
+
 ### ViewEncapsulation.ShadowDom
 
 Este modo delimita el alcance de los estilos dentro de un componente
@@ -104,14 +122,14 @@ componente se comporta como estilos globales.
 NOTA: En los modos `Emulated` y `ShadowDom`, Angular no garantiza al 100% que los estilos de tu componente siempre sobrescriban los estilos que vienen de fuera.
 Se asume que estos estilos tienen la misma especificidad que los estilos de tu componente en caso de colisión.
 
-## Definir estilos en plantillas
+## Definir estilos en plantillas {#defining-styles-in-templates}
 
 Puedes usar el elemento `<style>` en la plantilla de un componente para definir estilos adicionales. El
 modo de encapsulación de vista del componente se aplica a los estilos definidos de esta manera.
 
 Angular no admite enlaces dentro de elementos de estilo.
 
-## Referenciar archivos de estilo externos
+## Referenciar archivos de estilo externos {#referencing-external-style-files}
 
 Las plantillas de componentes pueden
 usar [el elemento `<link>`](https://developer.mozilla.org/es/docs/Web/HTML/Reference/Elements/link) para

@@ -4,11 +4,11 @@ Esta lección del tutorial demuestra cómo crear un nuevo [componente](guide/com
 
 <docs-video src="https://www.youtube.com/embed/R0nRX8jD2D0?si=OMVaw71EIa44yIOJ"/>
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 Tu aplicación tiene un nuevo componente: `Home`.
 
-## Vista previa conceptual de los componentes de Angular
+## Vista previa conceptual de los componentes de Angular {#conceptual-preview-of-angular-components}
 
 Las aplicaciones Angular se construyen alrededor de componentes, que son los bloques de construcción de Angular.
 Los componentes contienen el código, el diseño HTML y la información de estilo CSS que proporcionan la función y apariencia de un elemento en la aplicación.

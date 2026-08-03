@@ -18,7 +18,7 @@ de vida descritos a continuación se ejecutan mientras Angular realiza este reco
 componente exactamente una vez, por lo que siempre debes evitar hacer más cambios de estado en medio del
 proceso.
 
-## Resumen
+## Resumen {#summary}
 
 <div class="docs-table docs-scroll-track-transparent">
   <table>
@@ -100,7 +100,7 @@ el estado del componente basándote en sus valores de input iniciales.
 
 Durante la inicialización, el primer `ngOnChanges` se ejecuta antes de `ngOnInit`.
 
-#### Inspeccionar cambios
+#### Inspeccionar cambios {#inspecting-changes}
 
 El método `ngOnChanges` acepta un argumento `SimpleChanges`. Este objeto es
 un [`Record`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)
@@ -162,7 +162,7 @@ destruido.
 También puedes usar `DestroyRef` para mantener el código de configuración cerca del código de limpieza, en lugar de poner
 todo el código de limpieza en el método `ngOnDestroy`.
 
-##### Detectar destrucción de instancia
+##### Detectar destrucción de instancia {#detecting-instance-destruction}
 
 `DestroyRef` proporciona una propiedad `destroyed` que permite verificar si una instancia dada ya ha sido destruida. Esto es útil para evitar operaciones en componentes destruidos, especialmente cuando se trata de lógica retrasada o asíncrona.
 
@@ -226,7 +226,7 @@ aquí, intentar
 cambiar cualquier estado en este método resulta en
 un [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100).
 
-### afterEveryRender y afterNextRender
+### afterEveryRender y afterNextRender {#aftereveryrender-and-afternextrender}
 
 Las funciones `afterEveryRender` y `afterNextRender` te permiten registrar un **callback de renderizado** para ser
 invocado después de que Angular ha terminado de renderizar _todos los componentes_ en la página en el DOM.
@@ -244,7 +244,7 @@ Consulta [Usar APIs del DOM](guide/components/dom-apis) para orientación sobre 
 
 Los callbacks de renderizado no se ejecutan durante el renderizado del lado del servidor o durante el pre-renderizado en tiempo de compilación.
 
-#### Fases de after\*Render
+#### Fases de after\*Render {#afterrender-phases}
 
 Al usar `afterEveryRender` o `afterNextRender`, opcionalmente puedes dividir el trabajo en fases. La
 fase te da control sobre la secuenciación de operaciones del DOM, permitiéndote secuenciar operaciones de _escritura_
@@ -296,7 +296,7 @@ Hay cuatro fases, ejecutadas en el siguiente orden:
 | `mixedReadWrite` | Fase predeterminada. Usa para cualquier operación que necesite tanto leer como escribir propiedades y estilos que afecten el layout. Evita esta fase si es posible, prefiriendo las fases explícitas `write` y `read`. |
 | `read`           | Usa esta fase para leer cualquier propiedad del DOM que afecte el layout.                                                                                                                              |
 
-## Interfaces de ciclo de vida
+## Interfaces de ciclo de vida {#lifecycle-interfaces}
 
 Angular proporciona una interfaz TypeScript para cada método de ciclo de vida. Opcionalmente puedes importar
 e `implementar` estas interfaces para asegurar que tu implementación no tenga errores tipográficos o
@@ -316,11 +316,11 @@ export class UserProfile implements OnInit {
 }
 ```
 
-## Orden de ejecución
+## Orden de ejecución {#execution-order}
 
 Los siguientes diagramas muestran el orden de ejecución de los hooks de ciclo de vida de Angular.
 
-### Durante la inicialización
+### Durante la inicialización {#during-initialization}
 
 ```mermaid
 graph TD;
@@ -337,7 +337,7 @@ end
 CHANGE--Renderizado-->afterNextRender-->afterEveryRender
 ```
 
-### Actualizaciones posteriores
+### Actualizaciones posteriores {#subsequent-updates}
 
 ```mermaid
 graph TD;
@@ -350,7 +350,7 @@ end
 CHANGE--Renderizado-->afterEveryRender
 ```
 
-### Orden con directivas
+### Orden con directivas {#ordering-with-directives}
 
 Cuando pones una o más directivas en el mismo elemento que un componente, ya sea en una plantilla o con
 la propiedad `hostDirectives`, el framework no garantiza ningún orden de un hook de ciclo de vida

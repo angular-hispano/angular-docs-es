@@ -6,11 +6,11 @@ Esta lección del tutorial demuestra cómo agregar rutas a tu aplicación.
 
 IMPORTANTE: Recomendamos usar tu entorno local para aprender routing.
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 Al final de esta lección tu aplicación tendrá soporte para routing.
 
-## Vista previa conceptual de routing
+## Vista previa conceptual de routing {#conceptual-preview-of-routing}
 
 Este tutorial introduce el routing en Angular. El routing es la capacidad de navegar de un componente en la aplicación a otro. En [Aplicaciones de Página Única (SPA)](guide/routing), solo partes de la página se actualizan para representar la vista solicitada por el usuario.
 

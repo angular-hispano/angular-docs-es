@@ -17,11 +17,11 @@ Además de optimizar la carga de la imagen LCP, `NgOptimizedImage` aplica una se
 - Advertir si `width` o `height` se han establecido incorrectamente
 - Advertir si la imagen se distorsionará visualmente al renderizarse
 
-Si estás usando una imagen de fondo en CSS, [comienza aquí](#cómo-migrar-tu-imagen-de-fondo).
+Si estás usando una imagen de fondo en CSS, [comienza aquí](#how-to-migrate-your-background-image).
 
 **NOTA: Aunque la directiva `NgOptimizedImage` se convirtió en una característica estable en Angular versión 15, ha sido retroportada y también está disponible como una característica estable en las versiones 13.4.0 y 14.3.0.**
 
-## Primeros pasos
+## Primeros pasos {#getting-started}
 
 <docs-workflow>
 <docs-step title="Importa la directiva `NgOptimizedImage`">
@@ -47,7 +47,7 @@ imports: [
 <docs-step title="(Opcional) Configura un Loader">
 Un loader de imágenes no es **obligatorio** para usar NgOptimizedImage, pero usar uno con una CDN de imágenes habilita características de rendimiento potentes, incluyendo `srcset`s automáticos para tus imágenes.
 
-Una breve guía para configurar un loader se puede encontrar en la sección [Configurando un image loader](#configurando-un-image-loader-para-ngoptimizedimage) al final de esta página.
+Una breve guía para configurar un loader se puede encontrar en la sección [Configurando un image loader](#configuring-an-image-loader-for-ngoptimizedimage) al final de esta página.
 </docs-step>
 <docs-step title="Habilita la directiva">
 Para activar la directiva `NgOptimizedImage`, reemplaza el atributo `src` de tu imagen con `ngSrc`.
@@ -58,7 +58,7 @@ Para activar la directiva `NgOptimizedImage`, reemplaza el atributo `src` de tu 
 
 ```
 
-Si estás usando un [loader integrado de terceros](#loaders-integrados), asegúrate de omitir la ruta de la URL base de `src`, ya que el loader la agregará automáticamente al principio.
+Si estás usando un [loader integrado de terceros](#built-in-loaders), asegúrate de omitir la ruta de la URL base de `src`, ya que el loader la agregará automáticamente al principio.
 </docs-step>
 <docs-step title="Marca imágenes como `priority`">
 Siempre marca la [imagen LCP](https://web.dev/lcp/#what-elements-are-considered) en tu página como `priority` para priorizar su carga.
@@ -86,7 +86,7 @@ Para evitar [desplazamientos del diseño relacionados con imágenes](https://web
 
 ```
 
-Para **imágenes responsivas** (imágenes que has estilizado para crecer y reducirse según el viewport), los atributos `width` y `height` deben ser el tamaño intrínseco del archivo de imagen. Para imágenes responsivas también es importante [establecer un valor para `sizes`.](#imágenes-responsivas)
+Para **imágenes responsivas** (imágenes que has estilizado para crecer y reducirse según el viewport), los atributos `width` y `height` deben ser el tamaño intrínseco del archivo de imagen. Para imágenes responsivas también es importante [establecer un valor para `sizes`.](#responsive-images)
 
 Para **imágenes de tamaño fijo**, los atributos `width` y `height` deben reflejar el tamaño renderizado deseado de la imagen. La relación de aspecto de estos atributos siempre debe coincidir con la relación de aspecto intrínseca de la imagen.
 
@@ -94,7 +94,7 @@ NOTA: Si no conoces el tamaño de tus imágenes, considera usar el "modo fill" p
 </docs-step>
 </docs-workflow>
 
-## Usando el modo `fill`
+## Usando el modo `fill` {#using-fill-mode}
 
 En los casos en que deseas que una imagen llene un elemento contenedor, puedes usar el atributo `fill`. Esto es útil cuando quieres lograr un comportamiento de "imagen de fondo". También puede ser útil cuando no conoces el ancho y la altura exactos de tu imagen, pero tienes un contenedor padre con un tamaño conocido en el que deseas ajustar tu imagen (ver "object-fit" a continuación).
 
@@ -114,7 +114,7 @@ También puedes estilizar tu imagen con la [propiedad object-position](https://d
 
 IMPORTANTE: Para que la imagen con "fill" se renderice correctamente, su elemento padre **debe** estar estilizado con `position: "relative"`, `position: "fixed"` o `position: "absolute"`.
 
-## Cómo migrar tu imagen de fondo
+## Cómo migrar tu imagen de fondo {#how-to-migrate-your-background-image}
 
 Aquí hay un proceso simple paso a paso para migrar de `background-image` a `NgOptimizedImage`. Para estos pasos, nos referiremos al elemento que tiene un fondo de imagen como el "elemento contenedor":
 
@@ -124,11 +124,11 @@ Aquí hay un proceso simple paso a paso para migrar de `background-image` a `NgO
 4. Dale a ese elemento el atributo `fill`. No incluyas `height` ni `width`.
 5. Si crees que esta imagen podría ser tu [elemento LCP](https://web.dev/lcp/), añade el atributo `priority` al elemento de imagen.
 
-Puedes ajustar cómo la imagen de fondo llena el contenedor como se describe en la sección [Usando el modo `fill`](#usando-el-modo-fill).
+Puedes ajustar cómo la imagen de fondo llena el contenedor como se describe en la sección [Usando el modo `fill`](#using-fill-mode).
 
-## Usando placeholders
+## Usando placeholders {#using-placeholders}
 
-### Placeholders automáticos
+### Placeholders automáticos {#automatic-placeholders}
 
 NgOptimizedImage puede mostrar un placeholder automático de baja resolución para tu imagen si estás usando una CDN o un host de imágenes que proporciona cambio de tamaño automático de imágenes. Aprovecha esta característica añadiendo el atributo `placeholder` a tu imagen:
 
@@ -155,7 +155,7 @@ providers: [
 
 Si deseas bordes nítidos alrededor de tu placeholder desenfocado, puedes envolver tu imagen en un `<div>` contenedor con el estilo `overflow: hidden`. Siempre que el `<div>` tenga el mismo tamaño que la imagen (por ejemplo, usando el estilo `width: fit-content`), los "bordes difusos" del placeholder estarán ocultos.
 
-### Placeholders con URL de datos
+### Placeholders con URL de datos {#data-url-placeholders}
 
 También puedes especificar un placeholder usando una [URL de datos](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URLs) base64 sin un image loader. El formato de la URL de datos es `data:image/[imagetype];[data]`, donde `[imagetype]` es el formato de la imagen, como `png`, y `[data]` es una codificación base64 de la imagen. Esa codificación se puede hacer usando la línea de comandos o en JavaScript. Para comandos específicos, consulta [la documentación de MDN](https://developer.mozilla.org/docs/Web/HTTP/Basics_of_HTTP/Data_URLs#encoding_data_into_base64_format). A continuación se muestra un ejemplo de un placeholder con URL de datos con datos truncados:
 
@@ -172,7 +172,7 @@ También puedes especificar un placeholder usando una [URL de datos](https://dev
 
 Sin embargo, las URLs de datos grandes aumentan el tamaño de tus bundles de Angular y ralentizan la carga de la página. Si no puedes usar un image loader, el equipo de Angular recomienda mantener las imágenes de placeholder en base64 por debajo de 4KB y usarlas exclusivamente en imágenes críticas. Además de reducir las dimensiones del placeholder, considera cambiar los formatos de imagen o los parámetros usados al guardar imágenes. A resoluciones muy bajas, estos parámetros pueden tener un gran efecto en el tamaño del archivo.
 
-### Placeholders sin desenfoque
+### Placeholders sin desenfoque {#non-blurred-placeholders}
 
 De forma predeterminada, NgOptimizedImage aplica un efecto de desenfoque CSS a los placeholders de imágenes. Para renderizar un placeholder sin desenfoque, proporciona un argumento `placeholderConfig` con un objeto que incluya la propiedad `blur`, establecida en false. Por ejemplo:
 
@@ -186,7 +186,7 @@ placeholder
 />
 ```
 
-## Ajustando el estilo de la imagen
+## Ajustando el estilo de la imagen {#adjusting-image-styling}
 
 Dependiendo del estilo de la imagen, añadir los atributos `width` y `height` puede hacer que la imagen se renderice de manera diferente. `NgOptimizedImage` te advierte si el estilo de tu imagen renderiza la imagen con una relación de aspecto distorsionada.
 
@@ -194,15 +194,15 @@ Generalmente puedes solucionar esto añadiendo `height: auto` o `width: auto` a 
 
 Si los atributos `width` y `height` de la imagen te impiden ajustar el tamaño de la imagen como deseas con CSS, considera usar el modo `fill` en su lugar y estilizar el elemento padre de la imagen.
 
-## Características de rendimiento
+## Características de rendimiento {#performance-features}
 
 NgOptimizedImage incluye una serie de características diseñadas para mejorar el rendimiento de carga en tu aplicación. Estas características se describen en esta sección.
 
-### Agregar resource hints
+### Agregar resource hints {#add-resource-hints}
 
 Un [resource hint `preconnect`](https://web.dev/preconnect-and-dns-prefetch) para el origen de tu imagen asegura que la imagen LCP se cargue lo más rápido posible.
 
-Los enlaces preconnect se generan automáticamente para los dominios proporcionados como argumento a un [loader](#opcional-configura-un-loader). Si un origen de imagen no puede identificarse automáticamente, y no se detecta ningún enlace preconnect para la imagen LCP, `NgOptimizedImage` advertirá durante el desarrollo. En ese caso, debes añadir manualmente un resource hint a `index.html`. Dentro del `<head>` del documento, añade una etiqueta `link` con `rel="preconnect"`, como se muestra a continuación:
+Los enlaces preconnect se generan automáticamente para los dominios proporcionados como argumento a un [loader](#configuring-an-image-loader-for-ngoptimizedimage). Si un origen de imagen no puede identificarse automáticamente, y no se detecta ningún enlace preconnect para la imagen LCP, `NgOptimizedImage` advertirá durante el desarrollo. En ese caso, debes añadir manualmente un resource hint a `index.html`. Dentro del `<head>` del documento, añade una etiqueta `link` con `rel="preconnect"`, como se muestra a continuación:
 
 ```html
 
@@ -220,13 +220,13 @@ providers: [
 
 ```
 
-Consulta más información sobre la generación automática de preconnect [aquí](#por-qué-no-se-está-generando-un-elemento-preconnect-para-mi-dominio-de-imagen).
+Consulta más información sobre la generación automática de preconnect [aquí](#why-is-a-preconnect-element-not-being-generated-for-my-image-domain).
 
-### Solicitar imágenes del tamaño correcto con `srcset` automático
+### Solicitar imágenes del tamaño correcto con `srcset` automático {#request-images-at-the-correct-size-with-automatic-srcset}
 
 Definir un [atributo `srcset`](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/srcset) asegura que el navegador solicite una imagen del tamaño correcto para el viewport del usuario, evitando desperdiciar tiempo descargando una imagen demasiado grande. `NgOptimizedImage` genera un `srcset` apropiado para la imagen, basándose en la presencia y el valor del [atributo `sizes`](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes) en la etiqueta de imagen.
 
-#### Imágenes de tamaño fijo
+#### Imágenes de tamaño fijo {#fixed-size-images}
 
 Si tu imagen debe tener un tamaño "fijo" (es decir, el mismo tamaño en todos los dispositivos, excepto por la [densidad de píxeles](https://web.dev/codelab-density-descriptors/)), no es necesario establecer un atributo `sizes`. Un `srcset` puede generarse automáticamente a partir de los atributos de ancho y alto de la imagen sin ninguna entrada adicional.
 
@@ -236,13 +236,13 @@ Ejemplo de srcset generado:
 <img ... srcset="image-400w.jpg 1x, image-800w.jpg 2x">
 ```
 
-#### Imágenes responsivas
+#### Imágenes responsivas {#responsive-images}
 
 Si tu imagen debe ser responsiva (es decir, crecer y reducirse según el tamaño del viewport), deberás definir un [atributo `sizes`](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes) para generar el `srcset`.
 
 Si no has usado `sizes` antes, un buen punto de partida es establecerlo en función del ancho del viewport. Por ejemplo, si tu CSS hace que la imagen llene el 100% del ancho del viewport, establece `sizes` en `100vw` y el navegador seleccionará la imagen en el `srcset` que sea más cercana al ancho del viewport (después de tener en cuenta la densidad de píxeles). Si es probable que tu imagen ocupe solo la mitad de la pantalla (por ejemplo, en una barra lateral), establece `sizes` en `50vw` para asegurarte de que el navegador seleccione una imagen más pequeña. Y así sucesivamente.
 
-Si encuentras que lo anterior no cubre el comportamiento de imagen deseado, consulta la documentación sobre [valores 'sizes' avanzados](#valores-sizes-avanzados).
+Si encuentras que lo anterior no cubre el comportamiento de imagen deseado, consulta la documentación sobre [valores 'sizes' avanzados](#advanced-sizes-values).
 
 Ten en cuenta que `NgOptimizedImage` añade automáticamente `"auto"` al principio del valor `sizes` proporcionado. Esto es una optimización que aumenta la precisión de la selección del srcset en los navegadores que soportan `sizes="auto"`, y es ignorada por los navegadores que no lo hacen.
 
@@ -279,7 +279,7 @@ Si el atributo `ngSrcset` está presente, `NgOptimizedImage` genera y establece 
 
 ```
 
-### Deshabilitando la generación automática de srcset
+### Deshabilitando la generación automática de srcset {#disabling-automatic-srcset-generation}
 
 Para deshabilitar la generación de srcset para una sola imagen, puedes añadir el atributo `disableOptimizedSrcset` en la imagen:
 
@@ -289,7 +289,7 @@ Para deshabilitar la generación de srcset para una sola imagen, puedes añadir 
 
 ```
 
-### Deshabilitando el lazy loading de imágenes
+### Deshabilitando el lazy loading de imágenes {#disabling-image-lazy-loading}
 
 De forma predeterminada, `NgOptimizedImage` establece `loading=lazy` para todas las imágenes que no están marcadas como `priority`. Puedes deshabilitar este comportamiento para imágenes sin prioridad estableciendo el atributo `loading`. Este atributo acepta los valores: `eager`, `auto` y `lazy`. [Consulta la documentación del atributo estándar `loading` de imagen para más detalles](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/loading#value).
 
@@ -299,7 +299,7 @@ De forma predeterminada, `NgOptimizedImage` establece `loading=lazy` para todas 
 
 ```
 
-### Controlando la decodificación de imágenes
+### Controlando la decodificación de imágenes {#controlling-image-decoding}
 
 De forma predeterminada, `NgOptimizedImage` establece `decoding="auto"` para todas las imágenes. Esto permite al navegador decidir el momento óptimo para decodificar una imagen después de que se ha obtenido. Cuando una imagen se marca como `priority`, Angular automáticamente establece `decoding="sync"` para asegurar que la imagen se decodifique y pinte lo antes posible, ayudando a mejorar el rendimiento del **Largest Contentful Paint (LCP)**.
 
@@ -326,7 +326,7 @@ Aún puedes sobrescribir este comportamiento estableciendo explícitamente el at
 - `async`: decodifica la imagen de forma asíncrona, evitando el bloqueo del hilo principal siempre que sea posible.
 - `sync`: decodifica la imagen inmediatamente; puede bloquear el renderizado, pero garantiza que los píxeles estén listos tan pronto como la imagen esté disponible.
 
-### Valores 'sizes' avanzados
+### Valores 'sizes' avanzados {#advanced-sizes-values}
 
 Es posible que desees mostrar imágenes con diferentes anchos en pantallas de diferentes tamaños. Un ejemplo común de este patrón es un diseño basado en cuadrículas o columnas que renderiza una sola columna en dispositivos móviles y dos columnas en dispositivos más grandes. Puedes capturar este comportamiento en el atributo `sizes`, usando una sintaxis de "media query", como la siguiente:
 
@@ -340,7 +340,7 @@ El atributo `sizes` en el ejemplo anterior dice "Espero que esta imagen ocupe el
 
 Para más información sobre el atributo `sizes`, consulta [web.dev](https://web.dev/learn/design/responsive-images/#sizes) o [mdn](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes).
 
-## Configurando un image loader para `NgOptimizedImage`
+## Configurando un image loader para `NgOptimizedImage` {#configuring-an-image-loader-for-ngoptimizedimage}
 
 Un "loader" es una función que genera una [URL de transformación de imagen](https://web.dev/image-cdns/#how-image-cdns-use-urls-to-indicate-optimization-options) para un archivo de imagen dado. Cuando es apropiado, `NgOptimizedImage` establece las transformaciones de tamaño, formato y calidad de imagen para una imagen.
 
@@ -364,7 +364,7 @@ Basándose en los servicios de imágenes comúnmente utilizados con aplicaciones
 
 Para usar el **loader genérico** no es necesario realizar cambios de código adicionales. Este es el comportamiento predeterminado.
 
-### Loaders integrados
+### Loaders integrados {#built-in-loaders}
 
 Para usar un loader existente para un **servicio de imágenes de terceros**, añade el provider factory de tu servicio elegido al array `providers`. En el siguiente ejemplo, se usa el loader de Imgix:
 
@@ -382,7 +382,7 @@ La URL base de tus recursos de imagen debe pasarse al provider factory como argu
 
 Puedes obtener más información sobre la estructura de la URL base en la documentación del proveedor CDN correspondiente.
 
-### Loaders personalizados
+### Loaders personalizados {#custom-loaders}
 
 Para usar un **loader personalizado**, proporciona tu función de loader como valor para el token DI `IMAGE_LOADER`. En el siguiente ejemplo, la función de loader personalizado devuelve una URL que comienza con `https://example.com` e incluye `src` y `width` como parámetros de URL.
 
@@ -401,13 +401,47 @@ Una función de loader para la directiva `NgOptimizedImage` toma un objeto del t
 
 NOTA: aunque la propiedad `width` puede no estar siempre presente, un loader personalizado debe usarla para soportar la solicitud de imágenes de varios anchos para que `ngSrcset` funcione correctamente.
 
-### La propiedad `loaderParams`
+### La propiedad `loaderParams` {#the-loaderparams-property}
 
 Existe un atributo adicional soportado por la directiva `NgOptimizedImage`, llamado `loaderParams`, que está específicamente diseñado para soportar el uso de loaders personalizados. El atributo `loaderParams` toma un objeto con cualquier propiedad como valor, y no hace nada por sí solo. Los datos en `loaderParams` se añaden al objeto `ImageLoaderConfig` pasado a tu loader personalizado, y pueden usarse para controlar el comportamiento del loader.
 
 Un uso común de `loaderParams` es controlar características avanzadas de CDN de imágenes.
 
-### Ejemplo de loader personalizado
+### Usar la propiedad `transform` con loaders integrados {#using-the-transform-property-with-built-in-loaders}
+
+Los loaders integrados de Cloudinary, Cloudflare, ImageKit e Imgix soportan una propiedad especial `transform` dentro de `loaderParams`. Esta propiedad te permite aplicar transformaciones de imagen personalizadas proporcionadas por tu CDN.
+
+La propiedad `transform` acepta dos formatos:
+
+#### Formato de cadena {#string-format}
+
+Proporciona transformaciones como una cadena separada por comas usando la sintaxis de transformación de tu CDN:
+
+```html
+<img
+  ngSrc="my-image.jpg"
+  width="400"
+  height="300"
+  [loaderParams]="{transform: 'e_grayscale,r_10'}"
+/>
+```
+
+#### Formato de objeto {#object-format}
+
+Proporciona transformaciones como un objeto con pares clave-valor.
+
+```html
+<img
+  ngSrc="my-image.jpg"
+  width="400"
+  height="300"
+  [loaderParams]="{transform: {e: 'grayscale', r: 10}}"
+/>
+```
+
+NOTA: La propiedad `transform` no es compatible con el loader de Netlify, ya que el CDN de imágenes de Netlify no proporciona parámetros de transformación personalizados.
+
+### Ejemplo de loader personalizado {#example-custom-loader}
 
 A continuación se muestra un ejemplo de una función de loader personalizado. Esta función de ejemplo concatena `src` y `width`, y usa `loaderParams` para controlar una característica personalizada de CDN para esquinas redondeadas:
 
@@ -433,19 +467,19 @@ Ten en cuenta que en el ejemplo anterior, hemos creado el nombre de propiedad 'r
 
 ```
 
-## Preguntas frecuentes
+## Preguntas frecuentes {#frequently-asked-questions}
 
-### ¿NgOptimizedImage soporta la propiedad CSS `background-image`?
+### ¿NgOptimizedImage soporta la propiedad CSS `background-image`? {#does-ngoptimizedimage-support-the-background-image-css-property}
 
 NgOptimizedImage no soporta directamente la propiedad CSS `background-image`, pero está diseñada para acomodar fácilmente el caso de uso de tener una imagen como fondo de otro elemento.
 
-Para un proceso paso a paso de migración de `background-image` a `NgOptimizedImage`, consulta la sección [Cómo migrar tu imagen de fondo](#cómo-migrar-tu-imagen-de-fondo) anterior.
+Para un proceso paso a paso de migración de `background-image` a `NgOptimizedImage`, consulta la sección [Cómo migrar tu imagen de fondo](#how-to-migrate-your-background-image) anterior.
 
-### ¿Por qué no puedo usar `src` con `NgOptimizedImage`?
+### ¿Por qué no puedo usar `src` con `NgOptimizedImage`? {#why-cant-i-use-src-with-ngoptimizedimage}
 
 El atributo `ngSrc` fue elegido como disparador para NgOptimizedImage debido a consideraciones técnicas sobre cómo el navegador carga las imágenes. NgOptimizedImage realiza cambios programáticos en el atributo `loading`: si el navegador ve el atributo `src` antes de que se realicen esos cambios, comenzará a descargar ansiosamente el archivo de imagen y los cambios de carga serán ignorados.
 
-### ¿Por qué no se está generando un elemento preconnect para mi dominio de imagen?
+### ¿Por qué no se está generando un elemento preconnect para mi dominio de imagen? {#why-is-a-preconnect-element-not-being-generated-for-my-image-domain}
 
 La generación de preconnect se realiza basándose en el análisis estático de tu aplicación. Esto significa que el dominio de la imagen debe estar incluido directamente en el parámetro del loader, como en el siguiente ejemplo:
 
@@ -455,25 +489,25 @@ providers: [
 ],
 ```
 
-Si usas una variable para pasar la cadena de dominio al loader, o no estás usando un loader, el análisis estático no podrá identificar el dominio y no se generará ningún enlace preconnect. En este caso, debes añadir manualmente un enlace preconnect al encabezado del documento, como se [describe arriba](#agregar-resource-hints).
+Si usas una variable para pasar la cadena de dominio al loader, o no estás usando un loader, el análisis estático no podrá identificar el dominio y no se generará ningún enlace preconnect. En este caso, debes añadir manualmente un enlace preconnect al encabezado del documento, como se [describe arriba](#add-resource-hints).
 
-### ¿Puedo usar dos dominios de imagen diferentes en la misma página?
+### ¿Puedo usar dos dominios de imagen diferentes en la misma página? {#can-i-use-two-different-image-domains-in-the-same-page}
 
-El patrón de proveedor de [image loaders](#configurando-un-image-loader-para-ngoptimizedimage) está diseñado para ser lo más simple posible para el caso de uso común de tener una sola CDN de imágenes usada dentro de un componente. Sin embargo, aún es muy posible gestionar múltiples CDN de imágenes usando un solo proveedor.
+El patrón de proveedor de [image loaders](#configuring-an-image-loader-for-ngoptimizedimage) está diseñado para ser lo más simple posible para el caso de uso común de tener una sola CDN de imágenes usada dentro de un componente. Sin embargo, aún es muy posible gestionar múltiples CDN de imágenes usando un solo proveedor.
 
-Para hacerlo, recomendamos escribir un [loader de imágenes personalizado](#loaders-personalizados) que use la [propiedad `loaderParams`](#la-propiedad-loaderparams) para pasar una flag que especifique qué CDN de imágenes debe usarse, y luego invoque el loader apropiado basándose en esa flag.
+Para hacerlo, recomendamos escribir un [loader de imágenes personalizado](#custom-loaders) que use la [propiedad `loaderParams`](#the-loaderparams-property) para pasar una flag que especifique qué CDN de imágenes debe usarse, y luego invoque el loader apropiado basándose en esa flag.
 
-### ¿Pueden añadir un nuevo loader integrado para mi CDN preferida?
+### ¿Pueden añadir un nuevo loader integrado para mi CDN preferida? {#can-you-add-a-new-built-in-loader-for-my-preferred-cdn}
 
 Por razones de mantenimiento, actualmente no planeamos soportar loaders integrados adicionales en el repositorio de Angular. En su lugar, animamos a los desarrolladores a publicar cualquier loader de imágenes adicional como paquetes de terceros.
 
-### ¿Puedo usar esto con la etiqueta `<picture>`?
+### ¿Puedo usar esto con la etiqueta `<picture>`? {#can-i-use-this-with-the-picture-tag}
 
 No, pero está en nuestra hoja de ruta, así que estate atento.
 
 Si estás esperando esta característica, por favor vota a favor del issue de Github [aquí](https://github.com/angular/angular/issues/56594).
 
-### ¿Cómo encuentro mi imagen LCP con Chrome DevTools?
+### ¿Cómo encuentro mi imagen LCP con Chrome DevTools? {#how-do-i-find-my-lcp-image-with-chrome-devtools}
 
 1. Usando la pestaña de rendimiento de Chrome DevTools, haz clic en el botón "iniciar perfilado y recargar página" en la parte superior izquierda. Parece un ícono de actualización de página.
 

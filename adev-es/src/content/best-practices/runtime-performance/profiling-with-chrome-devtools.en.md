@@ -25,18 +25,17 @@ You can use the Angular track to better understand how your code runs in the bro
 
 You can enable Angular profiling in one of two ways:
 
-1. Run `ng.enableProfiling()` in Chrome's console panel, or
-1. Include a call to `enableProfiling()` in your application startup code (imported from `@angular/core`).
+1. Run [`ng.enableProfiling()`](api/core/enableProfiling) in Chrome's console panel, or
+1. Include a call to [`enableProfiling()`](api/core/enableProfiling) in your application startup code (imported from `@angular/core`).
 
-NOTE:
-Angular profiling works exclusively in development mode.
+NOTE: Angular profiling works exclusively in development mode.
 
 Here is an example of how you can enable the integration in the application bootstrap to capture all possible events:
 
 ```ts
-import { enableProfiling } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
-import { MyApp } from './my-app';
+import {enableProfiling} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {MyApp} from './my-app';
 
 // Turn on profiling *before* bootstrapping your application
 // in order to capture all of the code run on start-up.
@@ -51,6 +50,18 @@ Use the **Record** button in the Chrome DevTools performance panel:
 <img alt="Recording a profile" src="assets/images/best-practices/runtime-performance/recording-profile-in-chrome.png">
 
 See the [Chrome DevTools documentation](https://developer.chrome.com/docs/devtools/performance#record) for more details on recording profiles.
+
+## Open a component in Angular DevTools
+
+After recording a profile, select a component event in the **Angular** track.
+The **Summary** tab can include a **Component** link that uses the `angular-devtools://component/...` URL scheme.
+
+<img alt="Chrome DevTools Performance panel showing an Angular custom track with a selected _MainComponent event. The Summary tab displays a Component link that uses the angular-devtools://component URL scheme." src="assets/images/best-practices/runtime-performance/chrome-performance-deep-link.png">
+
+Click the link to open Angular DevTools and select the matching component in the **Components** tab.
+This helps you move from a browser-level profile to the component state and metadata for a selected event.
+
+NOTE: Opening component links requires Angular DevTools for Chrome and Chrome's experimental `chrome://flags/#enable-devtools-deep-link-via-extensibility-api` flag.
 
 ## Interpreting a recorded profile
 

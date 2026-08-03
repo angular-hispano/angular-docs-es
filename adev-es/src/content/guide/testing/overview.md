@@ -2,15 +2,15 @@
 
 Probar tu aplicación Angular te ayuda a verificar que está funcionando como esperas. Las pruebas unitarias son cruciales para detectar errores temprano, asegurar la calidad del código y facilitar la refactorización segura.
 
-NOTA: Esta guía se enfoca en la configuración de pruebas predeterminada para nuevos proyectos de Angular CLI. Si estás migrando un proyecto existente de Karma a Vitest, consulta la [guía de Migración de Karma a Vitest](guide/testing/migrating-to-vitest). Aunque Vitest es el ejecutor de pruebas predeterminado, Karma todavía está completamente soportado. Para información sobre pruebas con Karma, consulta la [guía de pruebas de Karma](guide/testing/karma).
+NOTA: Esta guía cubre la configuración de pruebas predeterminada para nuevos proyectos de Angular CLI, que usa Vitest. Si estás migrando un proyecto existente de Karma, consulta la [guía de Migración de Karma a Vitest](guide/testing/migrating-to-vitest). Karma aún está soportado; para más información, consulta la [guía de pruebas de Karma](guide/testing/karma).
 
-## Configurar pruebas
+## Configurar pruebas {#set-up-for-testing}
 
 Angular CLI descarga e instala todo lo que necesitas para probar una aplicación Angular con el [framework de pruebas Vitest](https://vitest.dev). Por defecto, los nuevos proyectos incluyen `vitest` y `jsdom`.
 
-Vitest ejecuta tus pruebas unitarias en un entorno de Node.js, usando `jsdom` para emular el DOM. Esto permite una ejecución de pruebas más rápida al evitar la sobrecarga de lanzar un navegador. También puedes usar `happy-dom` como alternativa instalándolo y eliminando `jsdom`. El CLI detectará y usará automáticamente `happy-dom` si está presente.
+Vitest ejecuta tus pruebas unitarias en un entorno de Node.js. Para simular el DOM del navegador, Vitest usa una biblioteca llamada `jsdom`. Esto permite una ejecución de pruebas más rápida al evitar la sobrecarga de lanzar un navegador. Puedes cambiar `jsdom` por una alternativa como `happy-dom` instalándolo y desinstalando `jsdom`. Actualmente, `jsdom` y `happy-dom` son las bibliotecas de emulación del DOM soportadas.
 
-El proyecto que creas con el CLI está inmediatamente listo para probar. Solo ejecuta el comando CLI [`ng test`](cli/test):
+El proyecto que creas con el CLI está inmediatamente listo para probar. Ejecuta el comando [`ng test`](cli/test):
 
 ```shell
 ng test
@@ -31,13 +31,13 @@ La salida de consola se ve así:
    Duration  2.46s (transform 615ms, setup 2ms, collect 2.21s, tests 5ms)
 ```
 
-El comando `ng test` también observa cambios. Para ver esto en acción, haz un pequeño cambio a `app.ts` y guárdalo. Las pruebas se ejecutan nuevamente y los nuevos resultados aparecen en la consola.
+El comando `ng test` también observa los archivos en busca de cambios. Si modificas un archivo y lo guardas, las pruebas se ejecutarán nuevamente.
 
-## Configuración
+## Configuración {#configuration}
 
-Angular CLI maneja la mayor parte de la configuración de Vitest por ti. Para muchos casos de uso comunes, puedes ajustar el comportamiento de las pruebas modificando opciones directamente en tu archivo `angular.json`.
+Angular CLI maneja la mayor parte de la configuración de Vitest por ti. Puedes personalizar el comportamiento de las pruebas modificando las opciones del target `test` en tu archivo `angular.json`.
 
-### Opciones de configuración integradas
+### Opciones de Angular.json {#angularjson-options}
 
 Puedes cambiar las siguientes opciones en el target `test` de tu archivo `angular.json`:
 
@@ -46,19 +46,19 @@ Puedes cambiar las siguientes opciones en el target `test` de tu archivo `angula
 - `setupFiles`: Una lista de rutas a archivos de configuración global (por ejemplo, polyfills o mocks globales) que se ejecutan antes de tus pruebas.
 - `providersFile`: La ruta a un archivo que exporta un array predeterminado de proveedores de Angular para el entorno de pruebas. Esto es útil para configurar proveedores de prueba globales que se inyectan en tus pruebas.
 - `coverage`: Un booleano para habilitar o deshabilitar reportes de cobertura de código. Por defecto es `false`.
-- `browsers`: Un array de nombres de navegadores para ejecutar pruebas (por ejemplo, `["chromium"]`). Requiere que se instale un proveedor de navegador.
+- `browsers`: Un array de nombres de navegadores para ejecutar pruebas en un navegador real (por ejemplo, `["chromium"]`). Requiere que se instale un proveedor de navegador. Consulta la sección [Ejecutar pruebas en un navegador](#running-tests-in-a-browser) para más detalles.
+
+### Configuración global de pruebas y proveedores {#global-test-setup-and-providers}
+
+Las opciones `setupFiles` y `providersFile` son particularmente útiles para gestionar la configuración global de pruebas.
 
 Por ejemplo, podrías crear un archivo `src/test-providers.ts` para proporcionar `provideHttpClientTesting` a todas tus pruebas:
 
-```typescript
-import { Provider } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+```typescript {header: "src/test-providers.ts"}
+import {EnvironmentProviders, Provider} from '@angular/core';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 
-const testProviders: Provider[] = [
-  provideHttpClient(),
-  provideHttpClientTesting(),
-];
+const testProviders: (Provider | EnvironmentProviders)[] = [provideHttpClientTesting()];
 
 export default testProviders;
 ```
@@ -86,7 +86,7 @@ Luego referenciarías este archivo en tu `angular.json`:
 }
 ```
 
-### Avanzado: Configuración personalizada de Vitest
+### Avanzado: Configuración personalizada de Vitest {#advanced-vitest-configuration}
 
 Para casos de uso avanzados, puedes proporcionar un archivo de configuración personalizado de Vitest.
 
@@ -121,22 +121,39 @@ Esto crea un archivo `vitest-base.config.ts` que puedes personalizar.
 
 CONSEJO: Lee más sobre la configuración de Vitest en la [guía de configuración de Vitest](https://vitest.dev/config/).
 
-## Cobertura de código
+## Cobertura de código {#code-coverage}
 
 Puedes generar reportes de cobertura de código agregando la bandera `--coverage` al comando `ng test`. El reporte se genera en el directorio `coverage/`.
 
 Para información más detallada sobre prerrequisitos, aplicar umbrales de cobertura y configuración avanzada, consulta la [guía de Cobertura de código](guide/testing/code-coverage).
 
-## Ejecutar pruebas en un navegador
+## Ejecutar pruebas en un navegador {#running-tests-in-a-browser}
 
 Aunque el entorno predeterminado de Node.js es más rápido para la mayoría de las pruebas unitarias, también puedes ejecutar tus pruebas en un navegador real. Esto es útil para pruebas que dependen de APIs específicas del navegador (como renderizado) o para depuración.
 
-Para ejecutar pruebas en un navegador, primero debes instalar un proveedor de navegador.
+Para ejecutar pruebas en un navegador, primero debes instalar un proveedor de navegador. Lee más sobre el modo navegador de Vitest en la [documentación oficial](https://vitest.dev/guide/browser).
+
+Una vez que el proveedor esté instalado, puedes ejecutar tus pruebas en el navegador configurando la opción `browsers` en `angular.json` o usando la bandera `--browsers` del CLI. Las pruebas se ejecutan en un navegador con interfaz gráfica por defecto. Si la variable de entorno `CI` está establecida, se usa el modo headless. Para controlar explícitamente el modo headless, puedes agregar el sufijo `Headless` al nombre del navegador (p. ej., `chromiumHeadless`).
+
+```bash
+# Ejemplo para Playwright (con interfaz)
+ng test --browsers=chromium
+
+# Ejemplo para Playwright (headless)
+ng test --browsers=chromiumHeadless
+
+# Ejemplo para WebdriverIO (con interfaz)
+ng test --browsers=chrome
+
+# Ejemplo para WebdriverIO (headless)
+ng test --browsers=chromeHeadless
+```
+
 Elige uno de los siguientes proveedores de navegador según tus necesidades:
 
-- **Playwright**: `@vitest/browser-playwright` para Chromium, Firefox y WebKit.
-- **WebdriverIO**: `@vitest/browser-webdriverio` para Chrome, Firefox, Safari y Edge.
-- **Preview**: `@vitest/browser-preview` para entornos Webcontainer (como StackBlitz).
+### Playwright
+
+[Playwright](https://playwright.dev/) es una librería de automatización de navegadores que soporta Chromium, Firefox y WebKit.
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -153,23 +170,51 @@ Elige uno de los siguientes proveedores de navegador según tus necesidades:
   </docs-code>
 </docs-code-multifile>
 
-Una vez que el proveedor esté instalado, puedes ejecutar tus pruebas en el navegador usando la bandera `--browsers`:
+### WebdriverIO
 
-```bash
-# Ejemplo para Playwright
-ng test --browsers=chromium
+[WebdriverIO](https://webdriver.io/) es un framework de automatización de pruebas para navegadores y dispositivos móviles que soporta Chrome, Firefox, Safari y Edge.
 
-# Ejemplo para WebdriverIO
-ng test --browsers=chrome
-```
+<docs-code-multifile>
+  <docs-code header="npm" language="shell">
+    npm install --save-dev @vitest/browser-webdriverio webdriverio
+  </docs-code>
+  <docs-code header="yarn" language="shell">
+    yarn add --dev @vitest/browser-webdriverio webdriverio
+  </docs-code>
+  <docs-code header="pnpm" language="shell">
+    pnpm add -D @vitest/browser-webdriverio webdriverio
+  </docs-code>
+  <docs-code header="bun" language="shell">
+    bun add --dev @vitest/browser-webdriverio webdriverio
+  </docs-code>
+</docs-code-multifile>
 
-El modo headless se habilita automáticamente si la variable de entorno `CI` está establecida. De lo contrario, las pruebas se ejecutarán en un navegador con interfaz gráfica.
+### Preview
 
-## Otros frameworks de prueba
+El proveedor `@vitest/browser-preview` está diseñado para entornos WebContainer como StackBlitz y no está pensado para uso en CI/CD.
+
+<docs-code-multifile>
+  <docs-code header="npm" language="shell">
+    npm install --save-dev @vitest/browser-preview
+  </docs-code>
+  <docs-code header="yarn" language="shell">
+    yarn add --dev @vitest/browser-preview
+  </docs-code>
+  <docs-code header="pnpm" language="shell">
+    pnpm add -D @vitest/browser-preview
+  </docs-code>
+  <docs-code header="bun" language="shell">
+    bun add --dev @vitest/browser-preview
+  </docs-code>
+</docs-code-multifile>
+
+HELPFUL: Para una configuración más avanzada específica del navegador, consulta la sección [Configuración avanzada de Vitest](#advanced-vitest-configuration).
+
+## Otros frameworks de prueba {#other-test-frameworks}
 
 También puedes hacer pruebas unitarias de una aplicación Angular con otras librerías de prueba y ejecutores de pruebas. Cada librería y ejecutor tiene sus propios procedimientos de instalación, configuración y sintaxis distintivos.
 
-## Pruebas en integración continua
+## Pruebas en integración continua {#testing-in-continuous-integration}
 
 Un conjunto de pruebas robusto es una parte clave de una canalización de integración continua (CI). Los servidores de CI te permiten configurar el repositorio de tu proyecto para que tus pruebas se ejecuten en cada commit y pull request.
 
@@ -187,7 +232,7 @@ Si tu servidor de CI no establece esta variable, o si necesitas forzar el modo d
 ng test --no-watch --no-progress
 ```
 
-## Más información sobre pruebas
+## Más información sobre pruebas {#more-information-on-testing}
 
 Después de que hayas configurado tu aplicación para pruebas, podrías encontrar útiles las siguientes guías de pruebas.
 

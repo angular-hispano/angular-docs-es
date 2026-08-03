@@ -6,7 +6,7 @@ Un principio fundamental en la estrategia de manejo de errores de Angular es que
 
 Por ejemplo, considera un componente que obtiene datos de usuario desde una API. El código responsable de hacer la llamada a la API debe incluir manejo de errores (por ejemplo, usando un bloque `try...catch` o el operador `catchError` en RxJS) para gestionar potenciales problemas de red o errores devueltos por la API. Esto permite al componente mostrar un mensaje de error amigable para el usuario o reintentar la petición, en lugar de dejar que el error se propague sin manejar.
 
-## Los errores no manejados son reportados al `ErrorHandler`
+## Los errores no manejados son reportados al `ErrorHandler` {#unhandled-errors-are-reported-to-the-errorhandler}
 
 Angular reporta errores no manejados al [ErrorHandler](api/core/ErrorHandler) raíz de la aplicación. Al proporcionar un `ErrorHandler` personalizado, proporciónalo en tu `ApplicationConfig` como parte de la llamada a `bootstrapApplication`.
 
@@ -43,19 +43,19 @@ export class GlobalErrorHandler implements ErrorHandler {
 
 ```
 
-### `TestBed` relanza errores por defecto
+### `TestBed` relanza errores por defecto {#testbed-rethrows-errors-by-default}
 
 En muchos casos, `ErrorHandler` puede solo registrar errores y de otra manera permitir que la aplicación continúe ejecutándose. En pruebas, sin embargo, casi siempre quieres exponer estos errores. El `TestBed` de Angular relanza errores inesperados para asegurar que los errores capturados por el framework no puedan ser perdidos o ignorados sin intención. En circunstancias raras, una prueba puede intentar específicamente asegurar que los errores no causen que la aplicación no responda o se bloquee. En estas situaciones, puedes [configurar `TestBed` para _no_ relanzar errores de aplicación](api/core/testing/TestModuleMetadata#rethrowApplicationErrors) con `TestBed.configureTestingModule({rethrowApplicationErrors: false})`.
 
-## Escuchadores globales de errores
+## Escuchadores globales de errores {#global-error-listeners}
 
 Los errores que no son capturados ni por el código de la aplicación ni por la instancia de aplicación del framework pueden alcanzar el alcance global. Los errores que alcanzan el alcance global pueden tener consecuencias no deseadas si no se tienen en cuenta. En entornos que no son navegadores, pueden causar que el proceso se bloquee. En el navegador, estos errores pueden no ser reportados y los visitantes del sitio pueden ver los errores en la consola del navegador. Angular proporciona escuchadores globales para ambos entornos para tener en cuenta estos problemas.
 
-### Renderización del lado del cliente
+### Renderización del lado del cliente {#client-side-rendering}
 
 Agregar [`provideBrowserGlobalErrorListeners()`](/api/core/provideBrowserGlobalErrorListeners) al [ApplicationConfig](guide/di/defining-dependency-providers#application-bootstrap) agrega los escuchadores `'error'` y `'unhandledrejection'` a la ventana del navegador y reenvía esos errores al `ErrorHandler`. El CLI de Angular genera nuevas aplicaciones con este proveedor por defecto. El equipo de Angular recomienda manejar estos errores globales para la mayoría de las aplicaciones, ya sea con los escuchadores integrados del framework o con tus propios escuchadores personalizados. Si proporcionas escuchadores personalizados, puedes eliminar `provideBrowserGlobalErrorListeners`.
 
-### Renderización del lado del servidor e híbrida
+### Renderización del lado del servidor e híbrida {#server-side-and-hybrid-rendering}
 
 Al usar [Angular con SSR](guide/ssr), Angular agrega automáticamente los escuchadores `'unhandledRejection'` y `'uncaughtException'` al proceso del servidor. Estos manejadores previenen que el servidor se bloquee y en su lugar registran los errores capturados en la consola.
 

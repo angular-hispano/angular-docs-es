@@ -17,7 +17,7 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-## Extender otros componentes y directivas
+## Extender otros componentes y directivas {#extending-other-components-and-directives}
 
 Cuando un componente extiende otro componente o una directiva, hereda algunos de los metadatos definidos en
 el decorador de la clase base y los miembros decorados de la clase base. Esto incluye
@@ -64,7 +64,21 @@ y `disabled`) y dos event listeners (`keydown` y `click`).
 Las clases hijas terminan con la _unión_ de todos los inputs, outputs y enlaces host de sus ancestros
 y los suyos propios.
 
-### Reenviar dependencias inyectadas
+### Reenviar dependencias inyectadas {#forwarding-injected-dependencies}
+
+Cuando una clase base usa `inject()` como inicializador de propiedad, la clase hija hereda la propiedad automáticamente. No se necesita reenvío con `super`.
+
+```ts
+@Component(/* ... */)
+export class ListboxBase {
+  protected element = inject(ElementRef);
+}
+
+@Component(/* ... */)
+export class CustomListbox extends ListboxBase {
+  // `element` es heredado de `ListboxBase`.
+}
+```
 
 Si una clase base inyecta dependencias como parámetros del constructor, la clase hija debe pasar explícitamente estas dependencias a `super`.
 
@@ -82,7 +96,7 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-### Sobrescribir métodos de ciclo de vida
+### Sobrescribir métodos de ciclo de vida {#overriding-lifecycle-methods}
 
 Si una clase base define un método de ciclo de vida, como `ngOnInit`, una clase hija que también
 implementa `ngOnInit` _sobrescribe_ la implementación de la clase base. Si quieres preservar el

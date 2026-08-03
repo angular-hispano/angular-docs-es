@@ -9,19 +9,19 @@ Ejecuta el schematic usando el siguiente comando:
 ng generate @angular/core:ngclass-to-class
 ```
 
-#### Antes
+#### Antes {#before}
 
 ```html
 <div [ngClass]="{admin: isAdmin, dense: density === 'high'}">
 ```
 
-#### Después
+#### Después {#after}
 
 ```html
 <div [class]="{admin: isAdmin, dense: density === 'high'}">
 ```
 
-## Opciones de configuración
+## Opciones de configuración {#configuration-options}
 
 La migración admite algunas opciones para ajustar la migración a tus necesidades específicas.
 

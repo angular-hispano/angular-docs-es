@@ -6,7 +6,7 @@
   <docs-pill href="/api?query=listbox#angular_aria_listbox" title="Listbox API Reference"/>
 </docs-pill-row>
 
-## Visión general
+## Visión general {#overview}
 
 Una directiva que muestra una lista de opciones para que los usuarios seleccionen, soportando navegación por teclado, selección simple o múltiple, y soporte para lectores de pantalla.
 
@@ -36,7 +36,7 @@ Una directiva que muestra una lista de opciones para que los usuarios seleccione
   </docs-tab>
 </docs-tab-group>
 
-## Uso
+## Uso {#usage}
 
 Listbox es una directiva fundamental utilizada por los patrones [Select](guide/aria/select), [Multiselect](guide/aria/multiselect) y [Autocomplete](guide/aria/autocomplete). Para la mayoría de las necesidades de dropdown, usa esos patrones documentados en su lugar.
 
@@ -50,7 +50,7 @@ Evita listbox cuando:
 
 - **Se necesitan menús de navegación** - Usa la directiva [Menu](guide/aria/menu) para acciones y comandos
 
-## Características
+## Características {#features}
 
 El listbox de Angular proporciona una implementación de lista completamente accesible con:
 
@@ -61,9 +61,9 @@ El listbox de Angular proporciona una implementación de lista completamente acc
 - **Búsqueda por Escritura** - Escribe caracteres para saltar a opciones coincidentes
 - **Reactividad Basada en Signals** - Gestión de estado reactivo usando signals de Angular
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Listbox básico
+### Listbox básico {#basic-listbox}
 
 Las aplicaciones a veces necesitan listas seleccionables visibles directamente en la página en lugar de ocultas en un dropdown. Un listbox independiente proporciona navegación por teclado y selección para estas interfaces de lista visibles.
 
@@ -74,7 +74,7 @@ Las aplicaciones a veces necesitan listas seleccionables visibles directamente e
 
 El signal del modelo `values` proporciona enlace bidireccional a los elementos seleccionados. Con `selectionMode="explicit"`, los usuarios presionan Espacio o Enter para seleccionar opciones. Para patrones de dropdown que combinan listbox con combobox y posicionamiento de overlay, consulta el patrón [Select](guide/aria/select).
 
-### Listbox horizontal
+### Listbox horizontal {#horizontal-listbox}
 
 Las listas a veces funcionan mejor horizontalmente, como interfaces tipo toolbar o selecciones estilo pestañas. El atributo `orientation` cambia tanto el diseño como la dirección de navegación por teclado.
 
@@ -106,88 +106,88 @@ Las listas a veces funcionan mejor horizontalmente, como interfaces tipo toolbar
 
 Con `orientation="horizontal"`, las teclas de flecha izquierda y derecha navegan entre opciones en lugar de arriba y abajo. El listbox maneja automáticamente idiomas de derecha a izquierda (RTL) invirtiendo la dirección de navegación.
 
-### Modos de selección
+### Modos de selección {#selection-modes}
 
 Listbox soporta dos modos de selección que controlan cuándo los elementos se seleccionan. Elige el modo que coincida con el patrón de interacción de tu interfaz.
 
-<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/modes/app/app.ts">
-  <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/modes/app/app.ts" />
-  <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/modes/app/app.html" />
+#### Explicit
+
+<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/modes/app/explicit/app.ts">
+  <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/modes/app/explicit/app.ts" />
+  <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/modes/app/explicit/app.html" />
+</docs-code-multifile>
+
+#### Follow
+
+<docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/modes/app/follow/app.ts">
+  <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/modes/app/follow/app.ts" />
+  <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/modes/app/follow/app.html" />
 </docs-code-multifile>
 
 El modo `'follow'` selecciona automáticamente el elemento enfocado, proporcionando interacción más rápida cuando la selección cambia frecuentemente. El modo `'explicit'` requiere Espacio o Enter para confirmar la selección, previniendo cambios accidentales mientras se navega. Los patrones de dropdown típicamente usan el modo `'follow'` para selección simple.
 
-## APIs
+## Testing
 
-### Directiva Listbox
+Angular Aria proporciona harnesses de componentes para probar componentes listbox.
+Aquí hay un ejemplo de cómo usar los harnesses en una prueba de componente:
 
-La directiva `ngListbox` crea una lista accesible de opciones seleccionables.
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {ListboxHarness} from '@angular/aria/listbox/testing';
+import {MyListboxComponent} from './my-listbox'; // Tu componente
 
-#### Inputs
+describe('MyListboxComponent', () => {
+  let fixture: ComponentFixture<MyListboxComponent>;
+  let loader: HarnessLoader;
 
-| Propiedad        | Tipo                               | Por defecto  | Descripción                                           |
-| ---------------- | ---------------------------------- | ------------ | ----------------------------------------------------- |
-| `id`             | `string`                           | auto         | Identificador único para el listbox                   |
-| `multi`          | `boolean`                          | `false`      | Habilita selección múltiple                           |
-| `orientation`    | `'vertical'` \| `'horizontal'`     | `'vertical'` | Dirección de diseño de la lista                       |
-| `wrap`           | `boolean`                          | `true`       | Si el foco se envuelve en los bordes de la lista      |
-| `selectionMode`  | `'follow'` \| `'explicit'`         | `'follow'`   | Cómo se activa la selección                           |
-| `focusMode`      | `'roving'` \| `'activedescendant'` | `'roving'`   | Estrategia de gestión de foco                         |
-| `softDisabled`   | `boolean`                          | `true`       | Si los elementos deshabilitados son enfocables        |
-| `disabled`       | `boolean`                          | `false`      | Deshabilita todo el listbox                           |
-| `readonly`       | `boolean`                          | `false`      | Hace el listbox de solo lectura                       |
-| `typeaheadDelay` | `number`                           | `500`        | Milisegundos antes de que se reinicie la búsqueda     |
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyListboxComponent],
+    });
 
-#### Model
+    fixture = TestBed.createComponent(MyListboxComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-| Propiedad | Tipo  | Descripción                                          |
-| --------- | ----- | ---------------------------------------------------- |
-| `values`  | `V[]` | Array enlazable bidireccionalmente de valores seleccionados |
+  it('should allow selecting options', async () => {
+    const listbox = await loader.getHarness(ListboxHarness);
 
-#### Signals
+    // Verifica las propiedades del listbox
+    expect(await listbox.isMulti()).toBe(true);
 
-| Propiedad | Tipo          | Descripción                                 |
-| --------- | ------------- | ------------------------------------------- |
-| `values`  | `Signal<V[]>` | Valores seleccionados actualmente como signal |
+    // Obtiene todas las opciones
+    const options = await listbox.getOptions();
+    expect(options.length).toBe(2);
 
-#### Métodos
+    // Hace clic en una opción
+    await options[0].click();
 
-| Método                     | Parámetros                        | Descripción                                    |
-| -------------------------- | --------------------------------- | ---------------------------------------------- |
-| `scrollActiveItemIntoView` | `options?: ScrollIntoViewOptions` | Desplaza el elemento activo a la vista         |
-| `gotoFirst`                | none                              | Navega al primer elemento del listbox          |
+    // Verifica que la opción está seleccionada
+    expect(await options[0].isSelected()).toBe(true);
 
-### Directiva Option
+    // Filtra opciones por texto
+    const bananaOption = await listbox.getOptions({text: 'Banana'});
+    expect(bananaOption.length).toBe(1);
+  });
+});
+```
 
-La directiva `ngOption` marca un elemento dentro de un listbox.
+## API reference
 
-#### Inputs
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
 
-| Propiedad  | Tipo      | Por defecto | Descripción                                             |
-| ---------- | --------- | ----------- | ------------------------------------------------------- |
-| `id`       | `string`  | auto        | Identificador único para la opción                      |
-| `value`    | `V`       | -           | El valor asociado con esta opción (requerido)           |
-| `label`    | `string`  | -           | Etiqueta opcional para lectores de pantalla             |
-| `disabled` | `boolean` | `false`     | Si esta opción está deshabilitada                       |
+- [`Listbox`](/api/aria/listbox/Listbox)
+- [`Option`](/api/aria/listbox/Option)
 
-#### Signals
-
-| Propiedad  | Tipo              | Descripción                           |
-| ---------- | ----------------- | ------------------------------------- |
-| `selected` | `Signal<boolean>` | Si esta opción está seleccionada      |
-| `active`   | `Signal<boolean>` | Si esta opción tiene el foco          |
-
-### Patrones relacionados
+### Patrones relacionados {#related-patterns}
 
 Listbox es usado por estos patrones de dropdown documentados:
 
-- **[Select](guide/aria/select)** - Patrón de dropdown de selección simple usando combobox de solo lectura + listbox
-- **[Multiselect](guide/aria/multiselect)** - Patrón de dropdown de selección múltiple usando combobox de solo lectura + listbox con `multi`
-- **[Autocomplete](guide/aria/autocomplete)** - Patrón de dropdown filtrable usando combobox + listbox
+- [Select](guide/aria/select) - Patrón de dropdown de selección única usando combobox readonly + listbox
+- [Multiselect](guide/aria/multiselect) - Patrón de dropdown de selección múltiple usando combobox readonly + listbox con `multi`
+- [Autocomplete](guide/aria/autocomplete) - Patrón de dropdown filtrable usando combobox + listbox
 
-Para patrones completos de dropdown con trigger, popup y posicionamiento de overlay, consulta esas guías de patrones en lugar de usar listbox solo.
-
-<docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Listbox ARIA pattern"/>
-  <docs-pill href="/api/aria/listbox/Listbox" title="Listbox API Reference"/>
-</docs-pill-row>
+Para patrones de dropdown completos con trigger, popup y posicionamiento de overlay, consulta esas guías de patrones en lugar de usar listbox solo.

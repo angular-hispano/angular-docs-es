@@ -2,7 +2,7 @@
 
 Ahora que has configurado la app para usar el Router de Angular, necesitas definir las rutas.
 
-NOTA: Aprende más sobre [definir una ruta básica en la guía detallada](/guide/routing/common-router-tasks#defining-a-basic-route).
+NOTA: Aprende más sobre [definir una ruta básica en la guía detallada](/guide/routing/define-routes).
 
 En esta actividad, aprenderás cómo agregar y configurar rutas en tu app.
 

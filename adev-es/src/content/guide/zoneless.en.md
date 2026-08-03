@@ -5,22 +5,25 @@
 The main advantages to removing ZoneJS as a dependency are:
 
 - **Improved performance**: ZoneJS uses DOM events and async tasks as indicators of when application state _might_ have updated and subsequently triggers application synchronization to run change detection on the application's views. ZoneJS does not have any insight into whether application state actually changed and so this synchronization is triggered more frequently than necessary.
-- **Improved Core Web Vitals**: ZoneJS brings a fair amount of overhead, both in payload size and in startup time cost.
+- **Improved Core Web Vitals**: ZoneJS brings a fair amount of overhead, both in payload size and startup time.
 - **Improved debugging experience**: ZoneJS makes debugging code more difficult. Stack traces are harder to understand with ZoneJS. It's also difficult to understand when code breaks as a result of being outside the Angular Zone.
-- **Better ecosystem compatibility**: ZoneJS works by patching browser APIs but does not automatically have patches for every new browser API. Some APIs cannot be patched effectively, such as `async`/`await`, and have to be downleveled to work with ZoneJS. Sometimes libraries in the ecosystem are also incompatible with the way ZoneJS patches the native APIs. Removing ZoneJS as a dependency ensures better long-term compatibility by removing a source of complexity, monkey patching, and ongoing maintenance.
+- **Better ecosystem compatibility**: ZoneJS works by patching browser APIs but does not automatically have patches for every new browser API. Some APIs, such as `async`/`await`, cannot be patched effectively and must be downleveled to work with ZoneJS. Sometimes libraries in the ecosystem are also incompatible with the way ZoneJS patches the native APIs. Removing ZoneJS as a dependency ensures better long-term compatibility by removing a source of complexity, monkey patching, and ongoing maintenance.
 
 ## Enabling Zoneless in an application
 
-```typescript
-// standalone bootstrap
-bootstrapApplication(MyApp, {providers: [
-  provideZonelessChangeDetection(),
-]});
+Zoneless is the default in Angular v21+ so you do not need to do anything to enable it. You should verify that `provideZoneChangeDetection` is not used anywhere to override the default configuration.
 
-// NgModule bootstrap
+If you are using Angular v20, enable zoneless change detection by adding `provideZonelessChangeDetection()` at bootstrap:
+
+```ts {header: 'standalone bootstrap'}
+bootstrapApplication(MyApp, {providers: [provideZonelessChangeDetection()]});
+```
+
+```ts {header: 'NgModule bootstrap'}
 platformBrowser().bootstrapModule(AppModule);
+
 @NgModule({
-  providers: [provideZonelessChangeDetection()]
+  providers: [provideZonelessChangeDetection()],
 })
 export class AppModule {}
 ```
@@ -56,12 +59,12 @@ One way to ensure that a component is using the correct notification mechanisms 
 use [ChangeDetectionStrategy.OnPush](/best-practices/skipping-subtrees#using-onpush).
 
 The `OnPush` change detection strategy is not required, but it is a recommended step towards zoneless compatibility for application components. It is not always possible for library components to use `ChangeDetectionStrategy.OnPush`.
-When a library component is a host for user-components which might use `ChangeDetectionStrategy.Default`, it cannot use `OnPush` because that would prevent the child component from being refreshed if it is not `OnPush` compatible and relies on ZoneJS to trigger change detection. Components can use the `Default` strategy as long as they notify Angular when change detection needs to run (calling `markForCheck`, using signals, `AsyncPipe`, etc.).
-Being a host for a user component means using an API such as `ViewContainerRef.createComponent` and not just hosting a portion of a template from a user component (i.e. content projection or a using a template ref input).
+When a library component is a host for user-components which might use `ChangeDetectionStrategy.Eager`/`Default`, it cannot use `OnPush` because that would prevent the child component from being refreshed if it is not `OnPush` compatible and relies on ZoneJS to trigger change detection. Components can use the `Default` strategy as long as they notify Angular when change detection needs to run (calling `markForCheck`, using signals, `AsyncPipe`, etc.).
+Being a host for a user component means using an API such as `ViewContainerRef.createComponent` and not just hosting a portion of a template from a user component (i.e. content projection or using a template ref input).
 
 ### Remove `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable`, `NgZone.isStable`, or `NgZone.onStable`
 
-Applications and libraries need to remove uses of `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable` and `NgZone.onStable`.
+Applications and libraries need to remove uses of `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable`, and `NgZone.onStable`.
 These observables will never emit when an Application enables zoneless change detection.
 Similarly, `NgZone.isStable` will always be `true` and should not be used as a condition for code execution.
 
@@ -117,20 +120,27 @@ the application remains unstable until the observable emits, completes, errors, 
 readonly myObservableState = someObservable.pipe(pendingUntilEvent());
 ```
 
-The framework uses this service internally as well to prevent serialization until asynchronous tasks are complete. These include, but are not limited to,
-an ongoing Router navigation and an incomplete `HttpClient` request.
+The framework uses this service internally as well to prevent serialization until asynchronous tasks are complete. These include, but are not limited to, an ongoing Router navigation and an incomplete `HttpClient` request.
+
+### Reactive forms in zoneless applications
+
+Reactive forms model updates (`setValue`, `patchValue`, `FormArray.push`, and similar APIs) update form state and emit form observables, but they do not automatically schedule component change detection.
+
+If a template depends on reactive forms state, connect forms observables to a change-detection notification (for example `ChangeDetectorRef.markForCheck()`), or reflect the data through signals consumed by the template.
 
 ## Testing and Debugging
 
 ### Using Zoneless in `TestBed`
 
-The zoneless provider function can also be used with `TestBed` to help
-ensure the components under test are compatible with a Zoneless
-Angular application.
+`TestBed` uses Zone-based change detection by default when `zone.js` is loaded via the `polyfills`.
+
+If `zone.js` is not present, `TestBed` runs zoneless by default. To force zoneless mode when `zone.js` is loaded, add `provideZonelessChangeDetection()`:
 
 ```typescript
 TestBed.configureTestingModule({
-  providers: [provideZonelessChangeDetection()]
+  // Optional: include the provider to force the testing environment
+  // uses the same zoneless behavior as a zoneless application.
+  providers: [provideZonelessChangeDetection()],
 });
 
 const fixture = TestBed.createComponent(MyComponent);

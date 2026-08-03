@@ -6,11 +6,11 @@ Esta lección del tutorial demuestra cómo crear un `input` de componente y usar
 
 NOTA: Este video refleja una sintaxis anterior, pero los conceptos principales siguen siendo válidos.
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 La plantilla de `HousingLocation` de tu aplicación tiene una propiedad `HousingLocation` para recibir input.
 
-## Vista previa conceptual de Inputs
+## Vista previa conceptual de Inputs {#conceptual-preview-of-inputs}
 
 Los [Inputs](api/core/input) permiten a los componentes especificar datos que pueden pasarse desde un componente padre.
 

@@ -9,13 +9,13 @@ Cada componente de Angular tiene una **plantilla** que define el [DOM](https://d
 
 Las plantillas generalmente se encuentran dentro de la propiedad `template` de un archivo `*.component.ts` o en el archivo `*.component.html`. Para aprender más, consulta la [guía detallada de componentes](/guide/components).
 
-## ¿Cómo funcionan las plantillas?
+## ¿Cómo funcionan las plantillas? {#how-do-templates-work}
 
 Las plantillas están basadas en la sintaxis de [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML), con características adicionales como funciones de plantilla integradas, enlace de datos, escucha de eventos, variables y más.
 
 Angular compila las plantillas en JavaScript para construir una comprensión interna de tu aplicación. Uno de los beneficios de esto son las optimizaciones de renderización integradas que Angular aplica a tu aplicación automáticamente.
 
-### Diferencias con HTML estándar
+### Diferencias con HTML estándar {#differences-from-standard-html}
 
 Algunas diferencias entre las plantillas y la sintaxis HTML estándar incluyen:
 
@@ -28,7 +28,7 @@ Algunas diferencias entre las plantillas y la sintaxis HTML estándar incluyen:
 
 Además, aunque la mayoría de la sintaxis HTML es sintaxis de plantilla válida, Angular no admite el elemento `<script>` en plantillas. Para más información, consulta la página de [Seguridad](best-practices/security).
 
-## ¿Qué sigue?
+## ¿Qué sigue? {#whats-next}
 
 También podrías estar interesado en lo siguiente:
 

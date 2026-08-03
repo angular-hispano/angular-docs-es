@@ -72,7 +72,7 @@ instancia y crea nodos DOM para el contenido renderizado en un marcador de posic
 ese marcador de posición `<ng-content>` está oculto. Para renderizado condicional del contenido del componente,
 consulta [Fragmentos de plantilla](api/core/ng-template).
 
-## Múltiples marcadores de posición de contenido
+## Múltiples marcadores de posición de contenido {#multiple-content-placeholders}
 
 Angular admite proyectar múltiples elementos diferentes en diferentes marcadores de posición `<ng-content>`
 basándose en selectores CSS. Expandiendo el ejemplo de la tarjeta de arriba, podrías crear dos marcadores de posición para
@@ -174,7 +174,7 @@ no coincidieron con un atributo `select`:
 Si un componente no incluye un marcador de posición `<ng-content>` sin un atributo `select`, cualquier
 elemento que no coincida con uno de los marcadores de posición del componente no se renderiza en el DOM.
 
-## Contenido de respaldo
+## Contenido de respaldo {#fallback-content}
 
 Angular puede mostrar _contenido de respaldo_ para el marcador de posición `<ng-content>` de un componente si ese componente no tiene ningún contenido hijo coincidente. Puedes especificar contenido de respaldo agregando contenido hijo al propio elemento `<ng-content>`.
 
@@ -206,7 +206,7 @@ Angular puede mostrar _contenido de respaldo_ para el marcador de posición `<ng
 </custom-card>
 ```
 
-## Alias de contenido para proyección
+## Alias de contenido para proyección {#aliasing-content-for-projection}
 
 Angular admite un atributo especial, `ngProjectAs`, que te permite especificar un selector CSS en
 cualquier elemento. Siempre que un elemento con `ngProjectAs` se compara contra un marcador de posición `<ng-content>`,
@@ -242,3 +242,29 @@ Angular compara contra el valor de `ngProjectAs` en lugar de la identidad del el
 ```
 
 `ngProjectAs` solo admite valores estáticos y no se puede enlazar a expresiones dinámicas.
+
+## Advertencias {#caveats}
+
+### El contenido proyectado vive en la vista del padre {#projected-content-lives-in-the-parents-view}
+
+Aunque el contenido proyectado se _renderiza_ dentro del componente receptor, sigue siendo propiedad del componente que lo declaró. Angular lo rastrea como parte de la vista del padre, lo que tiene un par de efectos secundarios que vale la pena conocer.
+
+**Detección de cambios:** El contenido proyectado se verifica cuando el _padre_ ejecuta la detección de cambios. Si el componente receptor usa `OnPush`, Angular puede saltarse la verificación de la propia plantilla de ese componente — pero no se saltará el contenido proyectado, porque ese pertenece al padre.
+
+```angular-html
+<!-- Plantilla del padre (detección de cambios por defecto) -->
+<onpush-wrapper>
+  <!-- Aún se verifica en cada ciclo del padre, OnPush no ayuda aquí -->
+  <expensive-component />
+</onpush-wrapper>
+```
+
+**Inyección de dependencias:** El contenido proyectado obtiene sus dependencias del injector del padre, no de los `viewProviders` del componente receptor. Consulta [Providers y viewProviders](guide/di/hierarchical-dependency-injection) para más detalles.
+
+### Algunos componentes de librería no soportan hijos proyectados {#some-library-components-dont-support-projected-children}
+
+Ciertos componentes — menús, pestañas, listas — usan `ContentChildren` para encontrar a sus hijos y conectar comportamientos como navegación con teclado, gestión del foco o atributos ARIA. Están escritos asumiendo que son propietarios directos de sus hijos, por lo que proyectar contenido externo en ellos tiende a romper las cosas de maneras sutiles.
+
+Por ejemplo, envolver elementos `<mat-menu-item>` en una capa extra y proyectarlos en `<mat-menu>` puede romper silenciosamente la navegación con teclado y el soporte de lectores de pantalla. La consulta aún encuentra los elementos, pero la configuración interna que los hace interactivos puede no funcionar correctamente cuando los elementos provienen de un contexto de vista diferente.
+
+Si un componente de librería gestiona el comportamiento de sus hijos, consulta su documentación antes de usar proyección de contenido — puede que no sea compatible.

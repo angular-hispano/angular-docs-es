@@ -17,7 +17,7 @@ Consulta [Usando librerías publicadas](tools/libraries/using-libraries).
 
 ÚTIL: Las librerías están destinadas a ser usadas por aplicaciones de Angular. Para agregar características de Angular a aplicaciones web que no son Angular, usa [elementos personalizados de Angular](guide/elements).
 
-## Creando librerías
+## Creando librerías {#creating-libraries}
 
 Si has desarrollado características que son adecuadas para reutilización, puedes crear tus propias librerías.
 Estas librerías pueden usarse localmente en tu espacio de trabajo, o puedes publicarlas como [paquetes npm](reference/configs/npm-packages) para compartirlas con otros proyectos u otros desarrolladores de Angular.

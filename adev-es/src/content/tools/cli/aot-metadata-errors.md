@@ -2,11 +2,11 @@
 
 Los siguientes son errores de metadata que puedes encontrar, con explicaciones y correcciones sugeridas.
 
-## Forma de expresión no soportada
+## Forma de expresión no soportada {#expression-form-not-supported}
 
 ÚTIL: El compilador encontró una expresión que no entendió mientras evaluaba metadata de Angular.
 
-Características del lenguaje fuera de la [sintaxis de expresión restringida](tools/cli/aot-compiler#limitaciones-de-sintaxis-de-expresiones) del compilador
+Características del lenguaje fuera de la [sintaxis de expresión restringida](tools/cli/aot-compiler#expression-syntax-limitations) del compilador
 pueden producir este error, como se ve en el siguiente ejemplo:
 
 ```ts
@@ -23,11 +23,11 @@ const prop = typeof Fooish; // typeof no es válido en metadata
 Puedes usar `typeof` y notación de corchetes en código de aplicación normal.
 Simplemente no puedes usar esas características dentro de expresiones que definen metadata de Angular.
 
-Evita este error ciñéndote a la [sintaxis de expresión restringida](tools/cli/aot-compiler#limitaciones-de-sintaxis-de-expresiones) del compilador
+Evita este error ciñéndote a la [sintaxis de expresión restringida](tools/cli/aot-compiler#expression-syntax-limitations) del compilador
 al escribir metadata de Angular
 y ten cuidado con características de TypeScript nuevas o inusuales.
 
-## Referencia a un símbolo local (no exportado)
+## Referencia a un símbolo local (no exportado) {#reference-to-a-local-non-exported-symbol}
 
 ÚTIL: Referencia a un símbolo local \(no exportado\) 'nombre del símbolo'. Considera exportar el símbolo.
 
@@ -102,9 +102,9 @@ export class MyComponent {}
 
 El compilador necesita el valor de la propiedad `template` _ahora mismo_ para generar la factory del componente.
 La referencia a la variable sola es insuficiente.
-Prefijar la declaración con `export` simplemente produce un nuevo error, "[`Solo variables y constantes inicializadas pueden ser referenciadas`](#solo-variables-y-constantes-inicializadas)".
+Prefijar la declaración con `export` simplemente produce un nuevo error, "[`Solo variables y constantes inicializadas pueden ser referenciadas`](#only-initialized-variables-and-constants)".
 
-## Solo variables y constantes inicializadas
+## Solo variables y constantes inicializadas {#only-initialized-variables-and-constants}
 
 ÚTIL: _Solo variables y constantes inicializadas pueden ser referenciadas porque el valor de esta variable es necesario por el compilador de plantilla._
 
@@ -153,7 +153,7 @@ export let someTemplate = '<h1>Greetings from Angular</h1>';
 export class MyComponent {}
 ```
 
-## Referencia a una clase no exportada
+## Referencia a una clase no exportada {#reference-to-a-non-exported-class}
 
 ÚTIL: _Referencia a una clase no exportada `<class name>`._
 _Considera exportar la clase._
@@ -173,7 +173,7 @@ abstract class MyStrategy { }
   …
 ```
 
-Angular genera una factory de clase en un módulo separado y esa factory [solo puede acceder a clases exportadas](tools/cli/aot-compiler#símbolos-public-o-protected).
+Angular genera una factory de clase en un módulo separado y esa factory [solo puede acceder a clases exportadas](tools/cli/aot-compiler#public-or-protected-symbols).
 Para corregir este error, exporta la clase referenciada.
 
 ```ts
@@ -187,7 +187,7 @@ export abstract class MyStrategy { }
   …
 ```
 
-## Referencia a una función no exportada
+## Referencia a una función no exportada {#reference-to-a-non-exported-function}
 
 ÚTIL: _La metadata referenció una función que no fue exportada._
 
@@ -204,7 +204,7 @@ function myStrategy() { … }
   …
 ```
 
-Angular genera una factory de clase en un módulo separado y esa factory [solo puede acceder a funciones exportadas](tools/cli/aot-compiler#símbolos-public-o-protected).
+Angular genera una factory de clase en un módulo separado y esa factory [solo puede acceder a funciones exportadas](tools/cli/aot-compiler#public-or-protected-symbols).
 Para corregir este error, exporta la función.
 
 ```ts
@@ -218,57 +218,7 @@ export function myStrategy() { … }
   …
 ```
 
-## Llamadas a funciones no son soportadas
-
-ÚTIL: _Las llamadas a funciones no son soportadas. Considera reemplazar la función o lambda con una referencia a una función exportada._
-
-El compilador actualmente no soporta [expresiones de función o funciones lambda](tools/cli/aot-compiler#sin-funciones-flecha).
-Por ejemplo, no puedes establecer el `useFactory` de un provider a una función anónima o función flecha como esta.
-
-```ts
-// ERROR
-  …
-  providers: [
-    { provide: MyStrategy, useFactory: function() { … } },
-    { provide: OtherStrategy, useFactory: () => { … } }
-  ]
-  …
-```
-
-También obtienes este error si llamas a una función o método en el `useValue` de un provider.
-
-```ts
-// ERROR
-import { calculateValue } from './utilities';
-
-  …
-  providers: [
-    { provide: SomeValue, useValue: calculateValue() }
-  ]
-  …
-```
-
-Para corregir este error, exporta una función del módulo y refiere a la función en un provider `useFactory` en su lugar.
-
-```ts
-// CORREGIDO
-import { calculateValue } from './utilities';
-
-export function myStrategy() { … }
-export function otherStrategy() { … }
-export function someValueFactory() {
-  return calculateValue();
-}
-  …
-  providers: [
-    { provide: MyStrategy, useFactory: myStrategy },
-    { provide: OtherStrategy, useFactory: otherStrategy },
-    { provide: SomeValue, useFactory: someValueFactory }
-  ]
-  …
-```
-
-## Variable o constante desestructurada no soportada
+## Variable o constante desestructurada no soportada {#destructured-variable-or-constant-not-supported}
 
 ÚTIL: _Referenciar una variable o constante desestructurada exportada no es soportado por el compilador de plantilla. Considera simplificar esto para evitar desestructuración._
 
@@ -303,7 +253,7 @@ import { configuration } from './configuration';
   …
 ```
 
-## No se pudo resolver el tipo
+## No se pudo resolver el tipo {#could-not-resolve-type}
 
 ÚTIL: _El compilador encontró un tipo y no puede determinar qué módulo exporta ese tipo._
 
@@ -370,7 +320,7 @@ export class MyComponent {
 }
 ```
 
-## Se esperaba un nombre
+## Se esperaba un nombre {#name-expected}
 
 ÚTIL: _El compilador esperaba un nombre en una expresión que estaba evaluando._
 
@@ -388,7 +338,7 @@ Cambia el nombre de la propiedad a algo no numérico.
 provider: [{ provide: Foo, useValue: { '0': 'test' } }]
 ```
 
-## Nombre de miembro enum no soportado
+## Nombre de miembro enum no soportado {#unsupported-enum-member-name}
 
 ÚTIL: _Angular no pudo determinar el valor del [miembro enum](https://www.typescriptlang.org/docs/handbook/enums.html) que referenciaste en metadata._
 
@@ -413,7 +363,7 @@ enum Colors {
 
 Evita referirte a enums con inicializadores complicados o propiedades computadas.
 
-## Expresiones de plantilla etiquetada no son soportadas
+## Expresiones de plantilla etiquetada no son soportadas {#tagged-template-expressions-are-not-supported}
 
 ÚTIL: _Las expresiones de plantilla etiquetada no son soportadas en metadata._
 
@@ -434,7 +384,7 @@ const raw = String.raw`A tagged template ${expression} string`;
 
 El compilador AOT no soporta expresiones de plantilla etiquetada; evítalas en expresiones de metadata.
 
-## Se esperaba referencia a símbolo
+## Se esperaba referencia a símbolo {#symbol-reference-expected}
 
 ÚTIL: _El compilador esperaba una referencia a un símbolo en la ubicación especificada en el mensaje de error._
 

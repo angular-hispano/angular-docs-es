@@ -4,7 +4,7 @@ Generar código con modelos de lenguaje grandes (LLMs) es un área de interés e
 
 Las instrucciones avanzadas y el prompting son un estándar emergente para soportar la generación de código moderna con detalles específicos del dominio. Esta sección contiene contenido y recursos curados para apoyar una generación de código más precisa para Angular y LLMs.
 
-## Prompts Personalizados e Instrucciones del Sistema
+## Prompts Personalizados e Instrucciones del Sistema {#custom-prompts-and-system-instructions}
 
 Mejora tu experiencia generando código con LLMs usando uno de los siguientes archivos personalizados, específicos del dominio.
 
@@ -16,7 +16,7 @@ Aquí hay un conjunto de instrucciones para ayudar a los LLMs a generar código 
 
 <a download href="/assets/context/best-practices.md" target="_blank">Haz clic aquí para descargar el archivo best-practices.md.</a>
 
-## Archivos de Reglas
+## Archivos de Reglas {#rules-files}
 
 Varios editores, como <a href="https://studio.firebase.google.com?utm_source=adev&utm_medium=website&utm_campaign=BUILD_WITH_AI_ANGULAR&utm_term=angular_devrel&utm_content=build_with_ai_angular_firebase_studio">Firebase Studio</a> tienen archivos de reglas útiles para proporcionar contexto crítico a los LLMs.
 
@@ -29,13 +29,13 @@ Varios editores, como <a href="https://studio.firebase.google.com?utm_source=ade
 | VS Code                      | <a download=".instructions.md" href="/assets/context/guidelines.md" target="_blank">.instructions.md</a>                | <a href="https://code.visualstudio.com/docs/copilot/copilot-customization#_custom-instructions" target="_blank">Configurar `.instructions.md`</a>                |
 | Windsurf                     | <a download href="/assets/context/guidelines.md" target="_blank">guidelines.md</a>                                      | <a href="https://docs.windsurf.com/windsurf/cascade/memories#rules" target="_blank">Configurar `guidelines.md`</a>                                               |
 
-## Configuración del Servidor MCP de Angular CLI
+## Configuración del Servidor MCP de Angular CLI {#angular-cli-mcp-server-setup}
 
 Angular CLI incluye un [servidor de Model Context Protocol (MCP)](https://modelcontextprotocol.io/) experimental que permite a los asistentes de IA en tu entorno de desarrollo interactuar con Angular CLI.
 
 [**Aprende cómo configurar el Servidor MCP de Angular CLI**](/ai/mcp)
 
-## Proporcionando Contexto con `llms.txt`
+## Proporcionando Contexto con `llms.txt` {#providing-context-with-llmstxt}
 
 `llms.txt` es un estándar propuesto para sitios web diseñado para ayudar a los LLMs a entender y procesar mejor su contenido. El equipo de Angular ha desarrollado dos versiones de este archivo para ayudar a los LLMs y herramientas que usan LLMs para generación de código a crear mejor código Angular moderno.
 

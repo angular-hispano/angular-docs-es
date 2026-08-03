@@ -13,7 +13,7 @@ También agrega la línea `/// <reference types="@angular/localize" />` al inici
 
 Si `@angular/localize` no está instalado e intentas construir una versión localizada de tu proyecto (por ejemplo, mientras usas los atributos `i18n` en templates), el [CLI de Angular][CliMain] generará un error que contendrá los pasos que puedes seguir para habilitar i18n en tu proyecto.
 
-## Opciones
+## Opciones {#options}
 
 | OPCIÓN             | DESCRIPCIÓN                                                                                                                                                                                                          | TIPO DE VALOR | VALOR PREDETERMINADO |
 |:------------------ |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:------------- |:-------------------- | 
@@ -22,7 +22,7 @@ Si `@angular/localize` no está instalado e intentas construir una versión loca
 
 Para más opciones disponibles, consulta `ng add` en el [CLI de Angular][CliMain].
 
-## Próximos pasos
+## Próximos pasos {#whats-next}
 
 <docs-pill-row>
   <docs-pill href="guide/i18n/locale-id" title="Referirse a configuraciones regionales por ID"/>

@@ -4,8 +4,10 @@ TIP: This guide assumes you've already read the [Essentials Guide](essentials). 
 
 Angular components can define custom events by assigning a property to the `output` function:
 
-```ts {highlight:[3]}
-@Component({/*...*/})
+```ts {highlight:[5]}
+@Component({
+  /*...*/
+})
 export class ExpandablePanel {
   panelClosed = output<void>();
 }
@@ -18,7 +20,7 @@ export class ExpandablePanel {
 The `output` function returns an `OutputEmitterRef`. You can emit an event by calling the `emit` method on the `OutputEmitterRef`:
 
 ```ts
-  this.panelClosed.emit();
+this.panelClosed.emit();
 ```
 
 Angular refers to properties initialized with the `output` function as **outputs**. You can use outputs to raise custom events, similar to native browser events like `click`.
@@ -43,7 +45,7 @@ this.valueChanged.emit(7);
 this.thumbDropped.emit({
   pointerX: 123,
   pointerY: 456,
-})
+});
 ```
 
 When defining an event listener in a template, you can access the event data from the `$event` variable:
@@ -71,7 +73,7 @@ export class App {
 The `output` function accepts a parameter that lets you specify a different name for the event in a template:
 
 ```ts
-@Component({/*...*/})
+@Component(/* ... */)
 export class CustomSlider {
   changed = output({alias: 'valueChanged'});
 }
@@ -93,7 +95,7 @@ from the component instance. The `OutputRef` type includes a `subscribe` method:
 ```ts
 const someComponentRef: ComponentRef<SomeComponent> = viewContainerRef.createComponent(/*...*/);
 
-someComponentRef.instance.someEventProperty.subscribe(eventData => {
+someComponentRef.instance.someEventProperty.subscribe((eventData) => {
   console.log(eventData);
 });
 ```
@@ -101,7 +103,7 @@ someComponentRef.instance.someEventProperty.subscribe(eventData => {
 Angular automatically cleans up event subscriptions when it destroys components with subscribers. Alternatively, you can manually unsubscribe from an event. The `subscribe` function returns an `OutputRefSubscription` with an `unsubscribe` method:
 
 ```ts
-const eventSubscription = someComponent.someEventProperty.subscribe(eventData => {
+const eventSubscription = someComponent.someEventProperty.subscribe((eventData) => {
   console.log(eventData);
 });
 
@@ -130,7 +132,7 @@ original decorator-based `@Output` API remains fully supported.
 You can alternatively define custom events by assigning a property to a new `EventEmitter` and adding the `@Output` decorator:
 
 ```ts
-@Component({/*...*/})
+@Component(/* ... */)
 export class ExpandablePanel {
   @Output() panelClosed = new EventEmitter<void>();
 }
@@ -143,7 +145,7 @@ You can emit an event by calling the `emit` method on the `EventEmitter`.
 The `@Output` decorator accepts a parameter that lets you specify a different name for the event in a template:
 
 ```ts
-@Component({/*...*/})
+@Component(/* ... */)
 export class CustomSlider {
   @Output('valueChanged') changed = new EventEmitter<number>();
 }

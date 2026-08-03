@@ -14,7 +14,7 @@ El [CLI de Angular][CliMain] incluye automáticamente los datos de configuració
 El paquete `@angular/common` en npm contiene los archivos de datos de configuración regional.
 Las variantes globales de los datos de configuración regional están disponibles en `@angular/common/locales/global`.
 
-## Ejemplo de `import` para francés
+## Ejemplo de `import` para francés {#import-example-for-french}
 
 Por ejemplo, podrías importar las variantes globales para francés \(`fr`\) en `main.ts` donde inicializas la aplicación.
 

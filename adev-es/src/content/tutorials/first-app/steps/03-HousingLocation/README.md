@@ -4,7 +4,7 @@ Esta lección del tutorial demuestra cómo agregar el componente `HousingLocatio
 
 <docs-video src="https://www.youtube.com/embed/R0nRX8jD2D0?si=U4ONEbPvtptdUHTt&amp;start=440"/>
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 - Tu aplicación tiene un nuevo componente: `HousingLocation` y muestra un mensaje que confirma que el componente fue agregado a tu aplicación.
 

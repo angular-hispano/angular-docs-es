@@ -1,6 +1,6 @@
 # Introducción a las animaciones en Angular
 
-IMPORTANTE: El paquete `@angular/animations` ahora está deprecado. El equipo de Angular recomienda usar CSS nativo con `animate.enter` y `animate.leave` para animaciones en todo código nuevo. Aprende más en la nueva [guía de animaciones](guide/animations/enter-and-leave) de entrada y salida. También consulta [Migrando del paquete de Animations de Angular](guide/animations/migration) para aprender cómo puedes comenzar a migrar a animaciones CSS puras en tus aplicaciones.
+IMPORTANTE: El paquete `@angular/animations` ahora está deprecado. El equipo de Angular recomienda usar CSS nativo con `animate.enter` y `animate.leave` para animaciones en todo código nuevo. Aprende más en la nueva [guía de animaciones](/guide/animations) de entrada y salida. También consulta [Migrando del paquete de Animations de Angular](guide/animations/migration) para aprender cómo puedes comenzar a migrar a animaciones CSS puras en tus aplicaciones.
 
 La animación proporciona la ilusión de movimiento: los elementos HTML cambian su estilo a lo largo del tiempo.
 Las animaciones bien diseñadas pueden hacer que tu aplicación sea más divertida y fácil de usar, pero no son solo cosméticas.
@@ -18,11 +18,11 @@ El sistema de animación de Angular está construido sobre la funcionalidad CSS,
 Esto incluye posiciones, tamaños, transformaciones, colores, bordes y más.
 El W3C mantiene una lista de propiedades animables en su página [CSS Transitions](https://www.w3.org/TR/css-transitions-1).
 
-## Acerca de esta guía
+## Acerca de esta guía {#about-this-guide}
 
 Esta guía cubre las características básicas de animación de Angular para que comiences a agregar animaciones de Angular a tu proyecto.
 
-## Primeros pasos
+## Primeros pasos {#getting-started}
 
 Los módulos principales de Angular para animaciones son `@angular/animations` y `@angular/platform-browser`.
 
@@ -54,20 +54,20 @@ Para aplicaciones basadas en `NgModule` importa `BrowserAnimationsModule`, que i
 <docs-step title="Importando funciones de animación en archivos de componentes">
 Si planeas usar funciones de animación específicas en archivos de componentes, importa esas funciones desde `@angular/animations`.
 
-<docs-code header="app.component.ts" path="adev/src/content/examples/animations/src/app/app.component.ts" visibleRegion="imports"/>
+<docs-code header="app.ts" path="adev/src/content/examples/animations/src/app/app.ts" region="imports"/>
 
-Consulta todas las [funciones de animación disponibles](guide/legacy-animations#resumen-de-la-api-de-animaciones) al final de esta guía.
+Consulta todas las [funciones de animación disponibles](guide/legacy-animations#animations-api-summary) al final de esta guía.
 
 </docs-step>
 <docs-step title="Agregando la propiedad de metadatos de animación">
 En el archivo del componente, agrega una propiedad de metadatos llamada `animations:` dentro del decorador `@Component()`.
 Colocas el trigger que define una animación dentro de la propiedad de metadatos `animations`.
 
-<docs-code header="app.component.ts" path="adev/src/content/examples/animations/src/app/app.component.ts" visibleRegion="decorator"/>
+<docs-code header="app.ts" path="adev/src/content/examples/animations/src/app/app.ts" region="decorator"/>
 </docs-step>
 </docs-workflow>
 
-## Animando una transición
+## Animando una transición {#animating-a-transition}
 
 Animemos una transición que cambia un elemento HTML único de un estado a otro.
 Por ejemplo, puedes especificar que un botón muestre **Abrir** o **Cerrado** basándose en la última acción del usuario.
@@ -86,9 +86,9 @@ Ejecuta el siguiente comando en la terminal para generar el componente:
 ng g component open-close
 ```
 
-Esto creará el componente en `src/app/open-close.component.ts`.
+Esto creará el componente en `src/app/open-close.ts`.
 
-### Estado y estilos de animación
+### Estado y estilos de animación {#animation-state-and-styles}
 
 Usa la función [`state()`](api/animations/state) de Angular para definir diferentes estados para llamar al final de cada transición.
 Esta función acepta dos argumentos:
@@ -101,13 +101,13 @@ Veamos cómo funciona la función [`state()`](api/animations/state) de Angular c
 En este fragmento de código, se establecen múltiples atributos de estilo al mismo tiempo para el estado.
 En el estado `open`, el botón tiene una altura de 200 píxeles, una opacidad de 1 y un color de fondo amarillo.
 
-<docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="state1"/>
+<docs-code header="open-close.ts" path="adev/src/content/examples/animations/src/app/open-close.ts" region="state1"/>
 
 En el siguiente estado `closed`, el botón tiene una altura de 100 píxeles, una opacidad de 0.8 y un color de fondo azul.
 
-<docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="state2"/>
+<docs-code header="open-close.ts" path="adev/src/content/examples/animations/src/app/open-close.ts" region="state2"/>
 
-### Transiciones y tiempo
+### Transiciones y tiempo {#transitions-and-timing}
 
 En Angular, puedes establecer múltiples estilos sin ninguna animación.
 Sin embargo, sin un mayor refinamiento, el botón se transforma instantáneamente sin desvanecimiento, sin reducción u otro indicador visible de que está ocurriendo un cambio.
@@ -120,7 +120,7 @@ Usa la función `animate()` para definir la duración, el retraso y el easing de
 Usa la función `animate()` para definir la función `keyframes()` para animaciones de múltiples pasos.
 Estas definiciones se colocan en el segundo argumento de la función `animate()`.
 
-#### Metadatos de animación: duración, retraso y easing
+#### Metadatos de animación: duración, retraso y easing {#animation-metadata-duration-delay-and-easing}
 
 La función `animate()` (segundo argumento de la función de transición) acepta los parámetros de entrada `timings` y `styles`.
 
@@ -177,7 +177,7 @@ Por ejemplo, `ease-in` hace que la animación comience lentamente y gane velocid
 
 Este ejemplo proporciona una transición de estado de `open` a `closed` con una transición de 1 segundo entre estados.
 
-<docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="transition1"/>
+<docs-code header="open-close.ts" path="adev/src/content/examples/animations/src/app/open-close.ts" region="transition1"/>
 
 En el fragmento de código anterior, el operador `=>` indica transiciones unidireccionales, y `<=>` es bidireccional.
 Dentro de la transición, `animate()` especifica cuánto tiempo toma la transición.
@@ -185,7 +185,7 @@ En este caso, el cambio de estado de `open` a `closed` toma 1 segundo, expresado
 
 Este ejemplo agrega una transición de estado del estado `closed` al estado `open` con un arco de animación de transición de 0.5 segundos.
 
-<docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="transition2"/>
+<docs-code header="open-close.ts" path="adev/src/content/examples/animations/src/app/open-close.ts" region="transition2"/>
 
 ÚTIL: Algunas notas adicionales sobre el uso de estilos dentro de las funciones [`state`](api/animations/state) y `transition`.
 
@@ -200,7 +200,7 @@ Este ejemplo agrega una transición de estado del estado `closed` al estado `ope
 
     </docs-code>
 
-### Disparando la animación
+### Disparando la animación {#triggering-the-animation}
 
 Una animación requiere un _trigger_, para que sepa cuándo comenzar.
 La función `trigger()` recopila los estados y transiciones, y le da a la animación un nombre, para que puedas adjuntarla al elemento disparador en la plantilla HTML.
@@ -215,12 +215,12 @@ El trigger describe los estados open y closed, y los tiempos para las dos transi
 ÚTIL: Dentro de cada llamada a la función `trigger()`, un elemento solo puede estar en un estado en cualquier momento dado.
 Sin embargo, es posible que múltiples triggers estén activos a la vez.
 
-### Definiendo animaciones y adjuntándolas a la plantilla HTML
+### Definiendo animaciones y adjuntándolas a la plantilla HTML {#defining-animations-and-attaching-them-to-the-html-template}
 
 Las animaciones se definen en los metadatos del componente que controla el elemento HTML a animar.
 Coloca el código que define tus animaciones bajo la propiedad `animations:` dentro del decorador `@Component()`.
 
-<docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="component"/>
+<docs-code header="open-close.ts" path="adev/src/content/examples/animations/src/app/open-close.ts" region="component"/>
 
 Cuando hayas definido un trigger de animación para un componente, adjúntalo a un elemento en la plantilla de ese componente envolviendo el nombre del trigger entre corchetes y precediéndolo con un símbolo `@`.
 Luego, puedes enlazar el trigger a una expresión de plantilla usando la sintaxis de enlace de propiedad estándar de Angular como se muestra a continuación, donde `triggerName` es el nombre del trigger, y `expression` se evalúa a un estado de animación definido.
@@ -235,7 +235,7 @@ La animación se ejecuta o dispara cuando el valor de la expresión cambia a un 
 
 El siguiente fragmento de código enlaza el trigger al valor de la propiedad `isOpen`.
 
-<docs-code header="open-close.component.html" path="adev/src/content/examples/animations/src/app/open-close.component.1.html" visibleRegion="trigger"/>
+<docs-code header="open-close.html" path="adev/src/content/examples/animations/src/app/open-close.1.html" region="trigger"/>
 
 En este ejemplo, cuando la expresión `isOpen` se evalúa a un estado definido de `open` o `closed`, notifica al trigger `openClose` de un cambio de estado.
 Luego depende del código `openClose` manejar el cambio de estado y lanzar una animación de cambio de estado.
@@ -247,23 +247,23 @@ Por ejemplo, usa `*ngIf` con el trigger de animación en la plantilla HTML.
 
 En el archivo de plantilla HTML, usa el nombre del trigger para adjuntar las animaciones definidas al elemento HTML a animar.
 
-### Revisión del código
+### Revisión del código {#code-review}
 
 Aquí están los archivos de código discutidos en el ejemplo de transición.
 
 <docs-code-multifile>
-    <docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="component"/>
-    <docs-code header="open-close.component.html" path="adev/src/content/examples/animations/src/app/open-close.component.1.html" visibleRegion="trigger"/>
-    <docs-code header="open-close.component.css" path="adev/src/content/examples/animations/src/app/open-close.component.css"/>
+    <docs-code header="open-close.ts" path="adev/src/content/examples/animations/src/app/open-close.ts" region="component"/>
+    <docs-code header="open-close.html" path="adev/src/content/examples/animations/src/app/open-close.1.html" region="trigger"/>
+    <docs-code header="open-close.css" path="adev/src/content/examples/animations/src/app/open-close.css"/>
 </docs-code-multifile>
 
-### Resumen
+### Resumen {#summary}
 
 Aprendiste a agregar animación a una transición entre dos estados, usando `style()` y [`state()`](api/animations/state) junto con `animate()` para el tiempo.
 
 Aprende sobre características más avanzadas en las animaciones de Angular en la sección de Animaciones, comenzando con técnicas avanzadas en [transiciones y triggers](guide/legacy-animations/transition-and-triggers).
 
-## Resumen de la API de animaciones
+## Resumen de la API de animaciones {#animations-api-summary}
 
 La API funcional proporcionada por el módulo `@angular/animations` proporciona un lenguaje específico de dominio (DSL) para crear y controlar animaciones en aplicaciones Angular.
 Consulta la [referencia de la API](api#animations) para un listado completo y detalles de sintaxis de las funciones principales y estructuras de datos relacionadas.
@@ -286,7 +286,7 @@ Consulta la [referencia de la API](api#animations) para un listado completo y de
 
 </table>
 
-## Más sobre animaciones de Angular
+## Más sobre animaciones de Angular {#more-on-angular-animations}
 
 ÚTIL: Consulta esta [presentación](https://www.youtube.com/watch?v=rnTK9meY5us), mostrada en la conferencia AngularConnect en noviembre de 2017, y el [código fuente](https://github.com/matsko/animationsftw.in) adjunto.
 

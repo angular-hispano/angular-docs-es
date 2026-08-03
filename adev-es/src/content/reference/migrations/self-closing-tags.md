@@ -10,7 +10,7 @@ Ejecuta el schematic usando el siguiente comando:
 ng generate @angular/core:self-closing-tag
 ```
 
-#### Antes
+#### Antes {#before}
 
 <docs-code language="angular-html">
 
@@ -18,7 +18,7 @@ ng generate @angular/core:self-closing-tag
 
 </docs-code>
 
-#### Después
+#### Después {#after}
 
 <docs-code language="angular-html">
 

@@ -3,7 +3,7 @@
 Las siguientes tablas describen las versiones de Node.js, TypeScript y RxJS que cada versión de
 Angular requiere.
 
-## Versiones con soporte activo
+## Versiones con soporte activo {#actively-supported-versions}
 
 Esta tabla cubre [versiones de Angular con soporte activo](reference/releases#actively-supported-versions).
 
@@ -16,7 +16,7 @@ Esta tabla cubre [versiones de Angular con soporte activo](reference/releases#ac
 | 19.1.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.8.0 | ^6.5.3 \|\| ^7.4.0 |
 | 19.0.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.7.0 | ^6.5.3 \|\| ^7.4.0 |
 
-## Versiones de Angular sin soporte
+## Versiones de Angular sin soporte {#unsupported-angular-versions}
 
 Esta tabla cubre versiones de Angular que ya no están bajo soporte a largo plazo (LTS). Esta
 información era correcta cuando cada versión salió de LTS y se proporciona sin ninguna garantía
@@ -50,7 +50,7 @@ adicional. Se incluye aquí como referencia histórica.
 | 9.1.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.9.0 | ^6.5.3             |
 | 9.0.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.8.0 | ^6.5.3             |
 
-### Antes de v9
+### Antes de v9 {#before-v9}
 
 Hasta Angular v9, las versiones de Angular y Angular CLI no estaban sincronizadas.
 
@@ -69,7 +69,7 @@ Hasta Angular v9, las versiones de Angular y Angular CLI no estaban sincronizada
 | 4.0.x \|\| 4.1.x            | 1.0.x \|\| 1.1.x \|\| 1.2.x | ^6.9.0              | >=2.1.6 <2.4.0 | ^5.0.1 |
 | 2.x                         | -                           | ^6.9.0              | >=1.8.0 <2.2.0 | ^5.0.1 |
 
-## Soporte de navegadores
+## Soporte de navegadores {#browser-support}
 
 Angular usa el criterio ["widely available" Baseline](https://web.dev/baseline) para definir el soporte
 de navegadores. Para cada versión principal, Angular soporta los navegadores incluidos en el Baseline de una
@@ -110,10 +110,10 @@ Es posible que necesites polyfills adicionales para soportar características no
 
 ÚTIL: Los polyfills no pueden transformar mágicamente un navegador antiguo y lento en uno moderno y rápido.
 
-## Habilitando polyfills en proyectos CLI
+## Habilitando polyfills en proyectos CLI {#enabling-polyfills-with-cli-projects}
 
 El [Angular CLI](tools/cli) proporciona soporte para polyfills.
-Si no estás usando el CLI para crear tus proyectos, consulta las [Instrucciones de polyfills para usuarios sin CLI](#polyfills-para-usuarios-sin-cli).
+Si no estás usando el CLI para crear tus proyectos, consulta las [Instrucciones de polyfills para usuarios sin CLI](#polyfills-for-non-cli-users).
 
 La opción `polyfills` del [builder de navegador y pruebas](tools/cli/cli-builder) puede ser una ruta completa de un archivo \(Ejemplo: `src/polyfills.ts`\) o,
 relativa al espacio de trabajo actual o especificador de módulo \(Ejemplo: `zone.js`\).
@@ -135,7 +135,7 @@ Si creas un archivo TypeScript, asegúrate de incluirlo en la propiedad `files` 
 }
 ```
 
-## Polyfills para usuarios sin CLI
+## Polyfills para usuarios sin CLI {#polyfills-for-non-cli-users}
 
 Si no estás usando el CLI, agrega tus scripts polyfill directamente a la página web host \(`index.html`\).
 

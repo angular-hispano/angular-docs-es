@@ -13,7 +13,7 @@ Ejecuta el schematic usando el siguiente comando:
 ng generate @angular/core:output-migration
 ```
 
-## ¿Qué cambia la migración?
+## ¿Qué cambia la migración? {#what-does-the-migration-change}
 
 1. Los miembros de clase `@Output()` se actualizan a su equivalente `output()`.
 2. Las importaciones en el archivo de componentes o directivas, a nivel de módulo TypeScript, también se actualizan.
@@ -53,7 +53,7 @@ export class MyComponent {
 }
 ```
 
-## Opciones de configuración
+## Opciones de configuración {#configuration-options}
 
 La migración admite algunas opciones para ajustar la migración a tus necesidades específicas.
 
@@ -77,7 +77,7 @@ Usa estas opciones como se muestra a continuación:
 ng generate @angular/core:output-migration --path src/app/sub-folder
 ```
 
-## Excepciones
+## Excepciones {#exceptions}
 
 En algunos casos, la migración no tocará el código.
 Una de estas excepciones es el caso donde el evento se usa con el método `pipe()`.

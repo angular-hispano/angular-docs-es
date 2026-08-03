@@ -24,11 +24,11 @@ Puedes aplicar directivas a `<ng-container>` para agregar comportamientos o conf
 
 Angular ignora todos los enlaces de atributos y event listeners aplicados a `<ng-container>`, incluyendo aquellos aplicados a través de directivas.
 
-## Usando `<ng-container>` para mostrar contenido dinámico
+## Usando `<ng-container>` para mostrar contenido dinámico {#using-ng-container-to-display-dynamic-contents}
 
 `<ng-container>` puede actuar como un placeholder para renderizar contenido dinámico.
 
-### Renderizando componentes
+### Renderizando componentes {#rendering-components}
 
 Puedes usar la directiva integrada de Angular `NgComponentOutlet` para renderizar dinámicamente un componente en la ubicación del `<ng-container>`.
 
@@ -47,7 +47,7 @@ export class UserProfile {
 
 En el ejemplo anterior, la directiva `NgComponentOutlet` renderiza dinámicamente `AdminProfile` o `BasicUserProfile` en la ubicación del elemento `<ng-container>`.
 
-### Renderizando fragmentos de plantilla
+### Renderizando fragmentos de plantilla {#rendering-template-fragments}
 
 Puedes usar la directiva integrada de Angular `NgTemplateOutlet` para renderizar dinámicamente un fragmento de plantilla en la ubicación del `<ng-container>`.
 
@@ -73,7 +73,7 @@ En el ejemplo anterior, la directiva `ngTemplateOutlet` renderiza dinámicamente
 
 Para más información sobre NgTemplateOutlet, consulta la [página de documentación de la API de NgTemplateOutlet](/api/common/NgTemplateOutlet).
 
-## Usando `<ng-container>` con directivas estructurales
+## Usando `<ng-container>` con directivas estructurales {#using-ng-container-with-structural-directives}
 
 También puedes aplicar directivas estructurales a elementos `<ng-container>`. Ejemplos comunes de esto incluyen `ngIf` y `ngFor`.
 
@@ -89,9 +89,9 @@ También puedes aplicar directivas estructurales a elementos `<ng-container>`. E
 </ng-container>
 ```
 
-## Usando `<ng-container>` para inyección
+## Usando `<ng-container>` para inyección {#using-ng-container-for-injection}
 
-Consulta la guía de Inyección de Dependencias para más información sobre el sistema de inyección de dependencias de Angular.
+Consulta la [guía de Inyección de Dependencias](/guide/di) para más información sobre el sistema de inyección de dependencias de Angular.
 
 Cuando aplicas una directiva a `<ng-container>`, los elementos descendientes pueden inyectar la directiva o cualquier cosa que la directiva proporcione. Usa esto cuando quieras proporcionar declarativamente un valor a una parte específica de tu plantilla.
 

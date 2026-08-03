@@ -53,7 +53,7 @@ Al extender una clase de componente, **los inputs son heredados por la clase hij
 
 **Los nombres de input distinguen entre mayúsculas y minúsculas.**
 
-## Leer inputs
+## Leer inputs {#reading-inputs}
 
 La función `input` devuelve un `InputSignal`. Puedes leer el valor llamando a la signal:
 
@@ -72,7 +72,7 @@ export class CustomSlider {
 
 Las signals creadas por la función `input` son de solo lectura.
 
-## Inputs requeridos
+## Inputs requeridos {#required-inputs}
 
 Puedes declarar que un input es `required` llamando a `input.required` en lugar de `input`:
 
@@ -88,11 +88,11 @@ Angular exige que los inputs requeridos _deben_ establecerse cuando el component
 
 Los inputs requeridos no incluyen automáticamente `undefined` en el parámetro genérico del `InputSignal` devuelto.
 
-## Configurar inputs
+## Configurar inputs {#configuring-inputs}
 
 La función `input` acepta un objeto de configuración como segundo parámetro que te permite cambiar la forma en que funciona el input.
 
-### Transformaciones de input
+### Transformaciones de input {#input-transforms}
 
 Puedes especificar una función `transform` para cambiar el valor de un input cuando es establecido por Angular.
 
@@ -122,7 +122,7 @@ El caso de uso más común para las transformaciones de input es aceptar un rang
 
 **Las funciones de transformación de input siempre deben ser [funciones puras](https://en.wikipedia.org/wiki/Pure_function).** Depender de estado fuera de la función de transformación puede llevar a comportamiento impredecible.
 
-#### Verificación de tipos
+#### Verificación de tipos {#type-checking}
 
 Cuando especificas una transformación de input, el tipo del parámetro de la función de transformación determina los tipos de valores que se pueden establecer al input en una plantilla.
 
@@ -139,7 +139,7 @@ function appendPx(value: number): string {
 
 En el ejemplo anterior, el input `widthPx` acepta un `number` mientras que la propiedad `InputSignal` devuelve un `string`.
 
-#### Transformaciones integradas
+#### Transformaciones integradas {#built-in-transformations}
 
 Angular incluye dos funciones de transformación integradas para los dos escenarios más comunes: convertir valores a booleano y números.
 
@@ -158,7 +158,7 @@ _presencia_ del atributo indica un valor "true". Sin embargo, el `booleanAttribu
 
 `numberAttribute` intenta parsear el valor dado a un número, produciendo `NaN` si el parseo falla.
 
-### Alias de input
+### Alias de input {#input-aliases}
 
 Puedes especificar la opción `alias` para cambiar el nombre de un input en las plantillas.
 
@@ -216,7 +216,7 @@ En otros aspectos, los model inputs funcionan de manera similar a los inputs est
 
 Consulta [Enlace bidireccional](guide/templates/two-way-binding) para más detalles sobre el enlace bidireccional en plantillas.
 
-### Enlace bidireccional con propiedades planas
+### Enlace bidireccional con propiedades planas {#two-way-binding-with-plain-properties}
 
 Puedes enlazar una propiedad JavaScript plana a un model input.
 
@@ -234,7 +234,7 @@ export class MediaControls {
 
 En el ejemplo anterior, `CustomSlider` puede escribir valores en su model input `value`, que luego propaga esos valores de vuelta a la propiedad `volume` en `MediaControls`. Este enlace mantiene los valores de `value` y `volume` sincronizados.
 
-### Eventos `change` implícitos
+### Eventos `change` implícitos {#implicit-change-events}
 
 Cuando declaras un model input en un componente o directiva, Angular crea automáticamente un [output](guide/components/outputs) correspondiente para ese model. El nombre del output es el nombre del model input con el sufijo "Change".
 
@@ -251,23 +251,23 @@ Angular emite este evento de cambio cada vez que escribes un nuevo valor en el m
 
 Consulta [Eventos personalizados con outputs](guide/components/outputs) para más detalles sobre outputs.
 
-### Personalizar model inputs
+### Personalizar model inputs {#customizing-model-inputs}
 
-Puedes marcar un model input como requerido o proporcionar un alias de la misma manera que un [input estándar](guide/signals/inputs).
+Puedes marcar un model input como requerido o proporcionar un alias de la misma manera que un [input estándar](guide/components/inputs).
 
 Los model inputs no admiten transformaciones de input.
 
-### Cuándo usar model inputs
+### Cuándo usar model inputs {#when-to-use-model-inputs}
 
 Usa model inputs cuando quieras que un componente admita enlace bidireccional. Esto es típicamente apropiado cuando un componente existe para modificar un valor basado en la interacción del usuario. Más comúnmente, los controles de formulario personalizados, como un selector de fecha o combobox, deben usar model inputs para su valor principal.
 
-## Elegir nombres de input
+## Elegir nombres de input {#choosing-input-names}
 
 Evita elegir nombres de input que colisionen con propiedades en elementos DOM como HTMLElement. Las colisiones de nombres introducen confusión sobre si la propiedad enlazada pertenece al componente o al elemento DOM.
 
 Evita agregar prefijos para inputs de componentes como lo harías con selectores de componentes. Dado que un elemento dado solo puede alojar un componente, se puede asumir que cualquier propiedad personalizada pertenece al componente.
 
-## Declarar inputs con el decorador `@Input`
+## Declarar inputs con el decorador `@Input` {#declaring-inputs-with-the-input-decorator}
 
 CONSEJO: Aunque el equipo de Angular recomienda usar la función `input` basada en signals para proyectos nuevos, la API original basada en decoradores `@Input` sigue siendo completamente compatible.
 
@@ -286,11 +286,11 @@ Enlazar a un input es lo mismo tanto en inputs basados en signals como en inputs
 <custom-slider [value]="50" />
 ```
 
-### Personalizar inputs basados en decoradores
+### Personalizar inputs basados en decoradores {#customizing-decorator-based-inputs}
 
 El decorador `@Input` acepta un objeto de configuración que te permite cambiar la forma en que funciona el input.
 
-#### Inputs requeridos
+#### Inputs requeridos {#required-inputs-1}
 
 Puedes especificar la opción `required` para exigir que un input dado siempre tenga un valor.
 
@@ -303,7 +303,7 @@ export class CustomSlider {
 
 Si intentas usar un componente sin especificar todos sus inputs requeridos, Angular reporta un error en tiempo de compilación.
 
-#### Transformaciones de input
+#### Transformaciones de input {#input-transforms-1}
 
 Puedes especificar una función `transform` para cambiar el valor de un input cuando es establecido por Angular. Esta función de transformación funciona de manera idéntica a las funciones de transformación para inputs basados en signals descritas anteriormente.
 
@@ -321,7 +321,7 @@ function trimString(value: string | undefined) {
 }
 ```
 
-#### Alias de input
+#### Alias de input {#input-aliases-1}
 
 Puedes especificar la opción `alias` para cambiar el nombre de un input en las plantillas.
 
@@ -340,7 +340,7 @@ El decorador `@Input` también acepta el alias como su primer parámetro en luga
 
 Los alias de input funcionan de la misma manera que para inputs basados en signals descritos anteriormente.
 
-### Inputs con getters y setters
+### Inputs con getters y setters {#inputs-with-getters-and-setters}
 
 Cuando usas inputs basados en decoradores, una propiedad implementada con un getter y setter puede ser un input:
 
@@ -374,7 +374,7 @@ export class CustomSlider {
 
 Evita getters y setters complejos o costosos. Angular puede invocar el setter de un input múltiples veces, lo que puede impactar negativamente el rendimiento de la aplicación si el setter realiza comportamientos costosos, como manipulación del DOM.
 
-## Especificar inputs en el decorador `@Component`
+## Especificar inputs en el decorador `@Component` {#specify-inputs-in-the-component-decorator}
 
 Además del decorador `@Input`, también puedes especificar los inputs de un componente con la propiedad `inputs` en el decorador `@Component`. Esto puede ser útil cuando un componente hereda una propiedad de una clase base:
 

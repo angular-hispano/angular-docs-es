@@ -14,7 +14,7 @@ El código de cualquier componente, directiva y pipe dentro del bloque `@defer` 
 
 Las vistas diferibles soportan una variedad de triggers, opciones de precarga, y sub-bloques para la gestión de estados de placeholder, carga y error.
 
-## ¿Qué dependencias se difieren?
+## ¿Qué dependencias se difieren? {#which-dependencies-are-deferred}
 
 Los componentes, directivas, pipes y cualquier estilo CSS de componente pueden ser diferidos al cargar una aplicación.
 
@@ -27,13 +27,13 @@ Las dependencias _transitivas_ de los componentes, directivas y pipes usados en 
 
 El compilador de Angular produce una declaración de [importación dinámica](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) para cada componente, directiva y pipe usado en el bloque `@defer`. El contenido principal del bloque se renderiza después de que todas las importaciones se resuelvan. Angular no garantiza ningún orden particular para estas importaciones.
 
-## Cómo gestionar diferentes etapas de la carga diferida
+## Cómo gestionar diferentes etapas de la carga diferida {#how-to-manage-different-stages-of-deferred-loading}
 
 Los bloques `@defer` tienen varios sub-bloques para permitirte manejar elegantemente diferentes etapas en el proceso de carga diferida.
 
 ### `@defer`
 
-Este es el bloque principal que define la sección de contenido que se carga de forma lazy. No se renderiza inicialmente: el contenido diferido se carga y renderiza una vez que ocurre el [trigger](/guide/templates/defer#triggers) especificado o se cumple la condición `when`.
+Este es el bloque principal que define la sección de contenido que se carga de forma lazy. No se renderiza inicialmente: el contenido diferido se carga y renderiza una vez que ocurre el [trigger](/guide/templates/defer#controlling-deferred-content-loading-with-triggers) especificado o se cumple la condición `when`.
 
 Por defecto, un bloque `@defer` se dispara cuando el estado del navegador se vuelve [idle](/guide/templates/defer#idle).
 
@@ -43,7 +43,7 @@ Por defecto, un bloque `@defer` se dispara cuando el estado del navegador se vue
 }
 ```
 
-### Mostrar contenido de placeholder con `@placeholder`
+### Mostrar contenido de placeholder con `@placeholder` {#show-placeholder-content-with-placeholder}
 
 Por defecto, los bloques defer no renderizan ningún contenido antes de ser disparados.
 
@@ -57,7 +57,7 @@ El `@placeholder` es un bloque opcional que declara qué contenido mostrar antes
 }
 ```
 
-Aunque es opcional, ciertos triggers pueden requerir la presencia de un `@placeholder` o una [variable de referencia de plantilla](/guide/templates/variables#template-reference-variables) para funcionar. Consulta la sección [Triggers](/guide/templates/defer#triggers) para más detalles.
+Aunque es opcional, ciertos triggers pueden requerir la presencia de un `@placeholder` o una [variable de referencia de plantilla](/guide/templates/variables#template-reference-variables) para funcionar. Consulta la sección [Triggers](/guide/templates/defer#controlling-deferred-content-loading-with-triggers) para más detalles.
 
 Angular reemplaza el contenido del placeholder con el contenido principal una vez que la carga se completa. Puedes usar cualquier contenido en la sección de placeholder incluyendo HTML simple, componentes, directivas y pipes. Ten en cuenta que _las dependencias del bloque placeholder se cargan de forma eager_.
 
@@ -73,7 +73,7 @@ El bloque `@placeholder` acepta un parámetro opcional para especificar la canti
 
 Este parámetro `minimum` se especifica en incrementos de tiempo de milisegundos (ms) o segundos (s). Puedes usar este parámetro para prevenir parpadeos rápidos del contenido del placeholder en caso de que las dependencias diferidas se obtengan rápidamente.
 
-### Mostrar contenido de carga con `@loading`
+### Mostrar contenido de carga con `@loading` {#show-loading-content-with-loading}
 
 El bloque `@loading` es un bloque opcional que te permite declarar contenido que se muestra mientras las dependencias diferidas se están cargando. Reemplaza el bloque `@placeholder` una vez que se dispara la carga.
 
@@ -104,7 +104,7 @@ El bloque `@loading` acepta dos parámetros opcionales para ayudar a prevenir pa
 
 Ambos parámetros se especifican en incrementos de tiempo de milisegundos (ms) o segundos (s). Además, los temporizadores para ambos parámetros comienzan inmediatamente después de que la carga ha sido disparada.
 
-### Mostrar estado de error cuando falla la carga diferida con `@error`
+### Mostrar estado de error cuando falla la carga diferida con `@error` {#show-error-state-when-deferred-loading-fails-with-error}
 
 El bloque `@error` es un bloque opcional que se muestra si la carga diferida falla. Similar a `@placeholder` y `@loading`, las dependencias del bloque @error se cargan de forma eager.
 
@@ -116,7 +116,7 @@ El bloque `@error` es un bloque opcional que se muestra si la carga diferida fal
 }
 ```
 
-## Controlar la carga de contenido diferido con triggers
+## Controlar la carga de contenido diferido con triggers {#controlling-deferred-content-loading-with-triggers}
 
 Puedes especificar **triggers** que controlan cuándo Angular carga y muestra el contenido diferido.
 
@@ -145,13 +145,41 @@ Los triggers disponibles son los siguientes:
 
 El trigger `idle` carga el contenido diferido una vez que el navegador ha alcanzado un estado idle, basado en requestIdleCallback. Este es el comportamiento predeterminado con un bloque defer.
 
+Opcionalmente puedes especificar un timeout en milisegundos que se pasa a [`requestIdleCallback`](https://developer.mozilla.org/docs/Web/API/Window/requestIdleCallback). Si el navegador no programa el callback lo suficientemente pronto, el trabajo se ejecutará como máximo en el timeout especificado.
+
 ```angular-html
-<!-- @defer (on idle) es el comportamiento por defecto -->
+<!-- @defer (on idle) -->
 @defer {
   <large-cmp />
 } @placeholder {
   <div>Large component placeholder</div>
 }
+
+<!-- Con un timeout de 500ms -->
+@defer (on idle(500)) {
+  <large-cmp />
+}
+```
+
+##### Personalizar el comportamiento de `idle` {#customizing-idle-behavior}
+
+Puedes personalizar el trigger `idle` proporcionando tu propia implementación de `IdleService` y registrándola con `provideIdleServiceWith` en los providers de tu aplicación.
+
+```ts
+@Service()
+class CustomIdleService implements IdleService {
+  requestOnIdle(callback: (deadline?: IdleDeadline) => void, options?: IdleRequestOptions) {
+    // La lógica personalizada de programación idle se puede implementar aquí.
+  }
+
+  cancelOnIdle(id: number) {
+    // Implementa la cancelación idle personalizada aquí.
+  }
+}
+
+bootstrapApplication(App, {
+  providers: [provideIdleServiceWith(CustomIdleService)],
+});
 ```
 
 #### `viewport`
@@ -281,7 +309,7 @@ El trigger `when` acepta una expresión condicional personalizada y carga el con
 
 Esta es una operación de una sola vez: el bloque `@defer` no vuelve al placeholder si la condición cambia a un valor falsy después de volverse truthy.
 
-## Precargar datos con `prefetch`
+## Precargar datos con `prefetch` {#prefetching-data-with-prefetch}
 
 Además de especificar una condición que determina cuándo se muestra el contenido diferido, opcionalmente puedes especificar un **trigger de precarga**. Este trigger te permite cargar el JavaScript asociado con el bloque `@defer` antes de que se muestre el contenido diferido.
 
@@ -297,9 +325,14 @@ En el ejemplo a continuación, la precarga comienza cuando un navegador se vuelv
 } @placeholder {
   <div>Large component placeholder</div>
 }
+
+<!-- Precarga con un timeout idle de 500ms -->
+@defer (on interaction; prefetch on idle(500)) {
+  <large-cmp />
+}
 ```
 
-## Probar bloques `@defer`
+## Probar bloques `@defer` {#testing-defer-blocks}
 
 Angular proporciona APIs de TestBed para simplificar el proceso de probar bloques `@defer` y disparar diferentes estados durante las pruebas. Por defecto, los bloques `@defer` en las pruebas se ejecutan como un bloque defer se comportaría en una aplicación real. Si quieres avanzar manualmente a través de los estados, puedes cambiar el comportamiento del bloque defer a `Manual` en la configuración de TestBed.
 
@@ -335,33 +368,64 @@ it('should render a defer block in different states', async () => {
 });
 ```
 
-## ¿Funciona `@defer` con `NgModule`?
+## ¿Funciona `@defer` con `NgModule`? {#does-defer-work-with-ngmodule}
 
 Los bloques `@defer` son compatibles tanto con componentes, directivas y pipes basados en standalone como en NgModule. Sin embargo, **solo los componentes, directivas y pipes standalone pueden ser diferidos**. Las dependencias basadas en NgModule no se difieren y se incluyen en el bundle cargado de forma eager.
 
-## Compatibilidad entre bloques `@defer` y Hot Module Reload (HMR)
+## Compatibilidad entre bloques `@defer` y Hot Module Reload (HMR) {#compatibility-between-defer-blocks-and-hot-module-reload-hmr}
 
 Cuando Hot Module Replacement (HMR) está activo, todos los chunks de bloque `@defer` se obtienen de forma eager, anulando cualquier trigger configurado. Para restaurar el comportamiento de trigger estándar, debes deshabilitar HMR sirviendo tu aplicación con la bandera `--no-hmr`.
 
-## ¿Cómo funciona `@defer` con server-side rendering (SSR) y static-site generation (SSG)?
+## ¿Cómo funciona `@defer` con server-side rendering (SSR) y static-site generation (SSG)? {#how-does-defer-work-with-server-side-rendering-ssr-and-static-site-generation-ssg}
 
 Por defecto, al renderizar una aplicación en el servidor (ya sea usando SSR o SSG), los bloques defer siempre renderizan su `@placeholder` (o nada si no se especifica un placeholder) y los triggers no se invocan. En el cliente, el contenido del `@placeholder` se hidrata y los triggers se activan.
 
 Para renderizar el contenido principal de los bloques `@defer` en el servidor (tanto SSR como SSG), puedes habilitar [la característica de Incremental Hydration](/guide/incremental-hydration) y configurar triggers `hydrate` para los bloques necesarios.
 
-## Mejores prácticas para diferir vistas
+## Archivos barrel y chunks lazy {#barrel-files-and-lazy-chunks}
 
-### Evitar cargas en cascada con bloques `@defer` anidados
+Si estás usando `@defer` pero no ves un chunk lazy separado en la salida de tu compilación, verifica cómo estás importando el componente diferido. Importar a través de un archivo barrel (`index.ts`) es una causa común: los empaquetadores ven el barrel como un único módulo y mantienen todas sus exportaciones juntas, por lo que tu componente termina en el bundle principal independientemente de `@defer`.
+
+```typescript
+// index.ts
+export {HeavyComponent} from './heavy.component';
+export {OtherComponent} from './other.component';
+```
+
+```typescript
+// parent.component.ts
+import {HeavyComponent} from './index'; // también incluye OtherComponent
+
+@Component({
+  imports: [HeavyComponent],
+  template: `@defer {
+    <heavy-component />
+  }`,
+})
+export class ParentComponent {}
+```
+
+La solución es sencilla: importar directamente desde el propio archivo del componente:
+
+```typescript
+import {HeavyComponent} from './heavy.component';
+```
+
+Eso es suficiente para que el empaquetador lo divida en su propio chunk y lo cargue de forma lazy cuando se active el trigger.
+
+## Mejores prácticas para diferir vistas {#best-practices-for-deferring-views}
+
+### Evitar cargas en cascada con bloques `@defer` anidados {#avoid-cascading-loads-with-nested-defer-blocks}
 
 Cuando tienes bloques `@defer` anidados, deberían tener diferentes triggers para evitar cargar simultáneamente, lo que causa peticiones en cascada y puede impactar negativamente el rendimiento de carga de la página.
 
-### Evitar cambios de diseño
+### Evitar cambios de diseño {#avoid-layout-shifts}
 
 Evita diferir componentes que son visibles en el viewport del usuario en la carga inicial. Hacer esto puede afectar negativamente Core Web Vitals al causar un aumento en el cumulative layout shift (CLS).
 
 En el caso de que esto sea necesario, evita los triggers `immediate`, `timer`, `viewport`, y triggers `when` personalizados que causan que el contenido se cargue durante la renderización inicial de la página.
 
-### Mantener la accesibilidad en mente
+### Mantener la accesibilidad en mente {#keep-accessibility-in-mind}
 
 Al usar bloques `@defer`, considera el impacto en usuarios con tecnologías asistivas como lectores de pantalla.
 Los lectores de pantalla que se enfocan en una sección diferida leerán inicialmente el contenido del placeholder o de carga, pero pueden no anunciar cambios cuando el contenido diferido se carga.

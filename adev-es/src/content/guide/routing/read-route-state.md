@@ -2,7 +2,7 @@
 
 El Router de Angular te permite leer y usar información asociada con una ruta para crear componentes responsivos y conscientes del contexto.
 
-## Obtener información sobre la ruta actual con ActivatedRoute
+## Obtener información sobre la ruta actual con ActivatedRoute {#get-information-about-the-current-route-with-activatedroute}
 
 `ActivatedRoute` es un servicio de `@angular/router` que proporciona toda la información asociada con la ruta actual.
 
@@ -33,7 +33,7 @@ El `ActivatedRoute` puede proporcionar diferente información sobre la ruta. Alg
 
 Consulta los [docs de la API de `ActivatedRoute`](/api/router/ActivatedRoute) para una lista completa de lo que puedes acceder dentro de la ruta.
 
-## Entendiendo snapshots de ruta
+## Entendiendo snapshots de ruta {#understanding-route-snapshots}
 
 Las navegaciones de página son eventos a lo largo del tiempo, y puedes acceder al estado del router en un momento dado recuperando un snapshot de ruta.
 
@@ -70,11 +70,11 @@ export class UserProfileComponent {
 
 Consulta los [docs de la API de `ActivatedRoute`](/api/router/ActivatedRoute) y los [docs de la API de `ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot) para una lista completa de todas las propiedades que puedes acceder.
 
-## Leyendo parámetros en una ruta
+## Leyendo parámetros en una ruta {#reading-parameters-on-a-route}
 
 Hay tres tipos de parámetros que los desarrolladores pueden utilizar desde una ruta: parámetros de ruta, parámetros de consulta y parámetros de matriz.
 
-### Parámetros de ruta
+### Parámetros de ruta {#route-parameters}
 
 Los parámetros de ruta te permiten pasar datos a un componente a través de la URL. Esto es útil cuando quieres mostrar contenido específico basado en un identificador en la URL, como un ID de usuario o un ID de producto.
 
@@ -112,7 +112,7 @@ export class ProductDetailComponent {
 }
 ```
 
-### Parámetros de consulta
+### Parámetros de consulta {#query-parameters}
 
 Los [parámetros de consulta](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) proporcionan una forma flexible de pasar datos opcionales a través de URLs sin afectar la estructura de la ruta. A diferencia de los parámetros de ruta, los parámetros de consulta pueden persistir a través de eventos de navegación y son perfectos para manejar filtrado, ordenamiento, paginación y otros elementos UI con estado.
 
@@ -181,7 +181,7 @@ En este ejemplo, los usuarios pueden usar un elemento select para ordenar la lis
 
 Para más información, consulta los [docs oficiales sobre QueryParamsHandling](/api/router/QueryParamsHandling).
 
-### Parámetros de matriz
+### Parámetros de matriz {#matrix-parameters}
 
 Los parámetros de matriz son parámetros opcionales que pertenecen a un segmento de URL específico, en lugar de aplicarse a toda la ruta. A diferencia de los parámetros de consulta que aparecen después de un `?` y se aplican globalmente, los parámetros de matriz usan punto y coma (`;`) y están limitados a segmentos de ruta individuales.
 
@@ -218,7 +218,7 @@ export class AwesomeProducts  {
 
 NOTA: Como alternativa a usar `ActivatedRoute`, los parámetros de matriz también se vinculan a inputs de componente cuando se usa `withComponentInputBinding`.
 
-## Detectar ruta activa actual con RouterLinkActive
+## Detectar ruta activa actual con RouterLinkActive {#detect-active-current-route-with-routerlinkactive}
 
 Puedes usar la directiva `RouterLinkActive` para estilizar dinámicamente elementos de navegación basándose en la ruta activa actual. Esto es común en elementos de navegación para informar a los usuarios cuál es la ruta activa.
 
@@ -255,7 +255,7 @@ Cuando especificas un valor para routerLinkActive, también estás definiendo el
 
 Si quieres definir un valor diferente para aria, necesitarás establecer explícitamente el valor usando la directiva `ariaCurrentWhenActive`.
 
-### Estrategia de coincidencia de ruta
+### Estrategia de coincidencia de ruta {#route-matching-strategy}
 
 Por defecto, `RouterLinkActive` considera cualquier ancestro en la ruta como una coincidencia.
 
@@ -270,7 +270,7 @@ Por defecto, `RouterLinkActive` considera cualquier ancestro en la ruta como una
 
 Cuando el usuario visita `/user/jane/role/admin`, ambos enlaces tendrían la clase `active-link`.
 
-### Solo aplicar RouterLinkActive en coincidencias exactas de ruta
+### Solo aplicar RouterLinkActive en coincidencias exactas de ruta {#only-apply-routerlinkactive-on-exact-route-matches}
 
 Si solo quieres aplicar la clase en una coincidencia exacta, necesitas proporcionar la directiva `routerLinkActiveOptions` con un objeto de configuración que contenga el valor `exact: true`.
 
@@ -311,7 +311,7 @@ Si quieres ser más preciso en cómo se hace coincidir una ruta, vale la pena no
 
 Para más información, consulta los docs oficiales para [isActiveMatchOptions](/api/router/IsActiveMatchOptions).
 
-### Aplicar RouterLinkActive a un ancestro
+### Aplicar RouterLinkActive a un ancestro {#apply-routerlinkactive-to-an-ancestor}
 
 La directiva RouterLinkActive también se puede aplicar a un elemento ancestro para permitir a los desarrolladores estilizar los elementos como deseen.
 
@@ -323,3 +323,30 @@ La directiva RouterLinkActive también se puede aplicar a un elemento ancestro p
 ```
 
 Para más información, consulta los [docs de la API para RouterLinkActive](/api/router/RouterLinkActive).
+
+## Verificar si una URL está activa {#check-if-a-url-is-active}
+
+La función `isActive` devuelve una signal computed que rastrea si una URL dada está actualmente activa en el enrutador. La signal se actualiza automáticamente a medida que cambia el estado del enrutador.
+
+```angular-ts
+import {Component, inject} from '@angular/core';
+import {isActive, Router} from '@angular/router';
+
+@Component({
+  template: `
+    <div [class.active]="isSettingsActive()">
+      <h2>Settings</h2>
+    </div>
+  `,
+})
+export class Panel {
+  private router = inject(Router);
+
+  isSettingsActive = isActive('/settings', this.router, {
+    paths: 'subset',
+    queryParams: 'ignored',
+    fragment: 'ignored',
+    matrixParams: 'ignored',
+  });
+}
+```

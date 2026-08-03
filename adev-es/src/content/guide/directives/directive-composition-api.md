@@ -6,7 +6,7 @@ clases CSS y escuchadores de eventos a un elemento.
 La _API de composición de directivas_ te permite aplicar directivas al elemento host de un componente desde 
 _dentro_ de la clase TypeScript del componente.
 
-## Añadiendo directivas a un componente
+## Añadiendo directivas a un componente {#adding-directives-to-a-component}
 
 Se aplican directivas a un componente añadiendo una propiedad `hostDirectives` al decorador de un componente. 
 Llamamos a tales directivas _directivas host_.
@@ -26,7 +26,7 @@ export class AdminMenu { }
 Cuando el framework renderiza un componente, Angular también crea una instancia de cada directiva host. 
 Los enlaces host de las directivas se aplican al elemento host del componente. 
 Por defecto, las entradas y salidas de las directivas host no se exponen como parte de la API pública del componente. 
-Consulta [Incluyendo entradas y salidas](#incluyendo-entradas-y-salidas) a continuación para más información.
+Consulta [Incluyendo entradas y salidas](#including-inputs-and-outputs) a continuación para más información.
 
 **Angular aplica las directivas host estáticamente en tiempo de compilación.** 
 No puedes añadir dinámicamente directivas en tiempo de ejecución.
@@ -35,7 +35,7 @@ No puedes añadir dinámicamente directivas en tiempo de ejecución.
 
 **Angular ignora el `selector` de las directivas aplicadas en la propiedad `hostDirectives`.**
 
-## Incluyendo entradas y salidas
+## Incluyendo entradas y salidas {#including-inputs-and-outputs}
 
 Cuando aplicas `hostDirectives` a tu componente, los inputs y outputs de las directivas host
 no se incluyen en la API de tu componente de manera predeterminada.
@@ -83,7 +83,7 @@ export class AdminMenu { }
 <admin-menu id="top-menu" (closed)="logMenuClosed()">
 ```
 
-## Añadiendo directivass a otra directiva
+## Añadiendo directivass a otra directiva {#adding-directives-to-another-directive}
 
 También puedes agregar `hostDirectives` a otras directivas, además de a componentes.
 Esto habilita la agregación transitiva de múltiples comportamientos.
@@ -116,9 +116,9 @@ export class MenuWithTooltip { }
 export class SpecializedMenuWithTooltip { }
 ```
 
-## Semántica de las directivas host
+## Semántica de las directivas host {#host-directive-semantics}
 
-### Orden de ejecución de las directivas
+### Orden de ejecución de las directivas {#directive-execution-order}
 
 Las directivas host siguen el mismo ciclo de vida que los componentes y directivas usadas
 directamente en una plantilla.
@@ -187,3 +187,108 @@ pueden definir providers.
 Si un componente o directiva con `hostDirectives` y esas directivas host proveen el mismo token de
 inyección, los providers definidos en la clase con `hostDirectives` tienen precedencia sobre
 los providers definidos en las directivas host.
+
+### Deduplicación de directivas host {#host-directive-de-duplication}
+
+Cuando la misma directiva aparece más de una vez en el árbol de directivas host resuelto, se deduplica automáticamente en lugar de lanzar un error. Se usan dos reglas deterministas para decidir qué coincidencia prevalece.
+
+#### La coincidencia de plantilla tiene precedencia {#template-match-takes-precedence}
+
+Si una directiva coincide con un elemento una vez a través de un **selector de plantilla** y también aparece como **directiva host**, Angular conserva solo la coincidencia de plantilla y descarta todas las coincidencias de directiva host.
+
+El modelo mental es que una coincidencia de directiva host representa `Partial<YourDirective>`, una aplicación parcial donde solo los inputs y outputs explícitamente enumerados en `hostDirectives` están expuestos, mientras que una coincidencia de plantilla representa la directiva completa con su API pública completa.
+
+@Directive({selector: '[hoverable]'})
+export class Hoverable {}
+
+```ts
+@Component({
+  selector: 'app-button',
+  hostDirectives: [Hoverable],
+})
+export class Button {}
+```
+
+```angular-html
+<!-- Hoverable coincide por selector Y como directiva host de Button. -->
+<!-- Angular conserva solo la coincidencia del selector, que tiene la API pública completa. -->
+<app-button hoverable></app-button>
+```
+
+#### Las coincidencias múltiples de directiva host se fusionan {#multiple-host-directive-matches-are-merged}
+
+Si la misma directiva aparece **más de una vez como directiva host**, por ejemplo, cuando dos directivas declaran una dependencia común en sus `hostDirectives`, Angular fusiona todas las instancias en una sola instancia de directiva. Los mapeos de input y output de todas las instancias se combinan.
+
+Esto resuelve el clásico [problema del diamante](https://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem) en la composición de directivas host:
+
+```ts
+// Un comportamiento compartido que ambos triggers necesitan
+@Directive({
+  host: {
+    '[attr.data-trigger-id]': 'triggerId()',
+  },
+})
+export class TriggerRef {
+  readonly triggerId = input(`trigger-${crypto.randomUUID()}`);
+}
+
+// Dos triggers separados, cada uno declarando TriggerRef como directiva host
+@Directive({
+  selector: '[popoverTrigger]',
+  hostDirectives: [TriggerRef],
+})
+export class PopoverTrigger {
+  readonly triggerRef = inject(TriggerRef);
+}
+
+@Directive({
+  selector: '[dropdownTrigger]',
+  hostDirectives: [TriggerRef],
+})
+export class DropdownTrigger {
+  readonly triggerRef = inject(TriggerRef);
+}
+```
+
+```angular-html
+<!-- Angular conserva una instancia de TriggerRef, compartida por ambos triggers. -->
+<button popoverTrigger dropdownTrigger>Actions</button>
+```
+
+HELPFUL: Dado que Angular produce solo una instancia de la directiva compartida, tanto `PopoverTrigger` como `DropdownTrigger` reciben la misma instancia de `TriggerRef` cuando la inyectan.
+
+#### Alias en conflicto {#conflicting-aliases}
+
+Cuando Angular fusiona coincidencias de directiva host duplicadas, también fusiona sus mapeos de input y output.
+
+Si dos instancias de la misma directiva host exponen el **mismo input u output bajo alias diferentes**, Angular lanza un error en tiempo de compilación ([NG8024](errors/NG8024)).
+
+```ts
+@Directive({
+  selector: '[popoverTrigger]',
+  hostDirectives: [{directive: TriggerRef, inputs: ['triggerId: popoverTriggerId']}],
+})
+export class PopoverTrigger {}
+
+@Directive({
+  selector: '[dropdownTrigger]',
+  hostDirectives: [
+    {directive: TriggerRef, inputs: ['triggerId: dropdownTriggerId']}, // ¡alias diferente!
+  ],
+})
+export class DropdownTrigger {}
+```
+
+```angular-html
+<!-- Error: triggerId está expuesto como "popoverTriggerId" y "dropdownTriggerId". -->
+<button popoverTrigger dropdownTrigger></button>
+```
+
+Para resolver esto, asegúrate de que ambas rutas expongan el input u output compartido bajo el mismo alias, o no lo expongan en absoluto.
+
+## Siguientes pasos {#whats-next}
+
+<docs-pill-row>
+  <docs-pill href="guide/directives/structural-directives" title="Directivas estructurales"/>
+  <docs-pill href="guide/components/host-elements" title="Elementos host de componentes"/>
+</docs-pill-row>

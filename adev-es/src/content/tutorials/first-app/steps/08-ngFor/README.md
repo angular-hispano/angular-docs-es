@@ -6,12 +6,12 @@ Esta lección del tutorial demuestra cómo usar el bloque `@for` en plantillas A
 
 NOTA: Este video refleja una sintaxis anterior, pero los conceptos principales siguen siendo válidos.
 
-## ¿Qué aprenderás?
+## ¿Qué aprenderás? {#what-youll-learn}
 
 - Habrás agregado un conjunto de datos a la aplicación
 - Tu aplicación mostrará una lista de elementos del nuevo conjunto de datos usando `@for`
 
-## Vista previa conceptual de `@for`
+## Vista previa conceptual de `@for` {#conceptual-preview-of-for}
 
 En Angular, `@for` es un tipo específico de [bloque de control de flujo](/guide/templates/control-flow) usado para repetir datos dinámicamente en una plantilla. En JavaScript plano usarías un bucle for - `@for` proporciona funcionalidad similar para las plantillas Angular.
 

@@ -6,17 +6,14 @@ La librería de pruebas está diseñada para un patrón en el que la aplicación
 
 Al final, las pruebas pueden verificar que la aplicación no hizo solicitudes inesperadas.
 
-## Configuración para pruebas
+## Configuración para pruebas {#setup-for-testing}
 
-Para comenzar a probar el uso de `HttpClient`, configura `TestBed` e incluye `provideHttpClient()` y `provideHttpClientTesting()` en la configuración de tu prueba. Esto configura `HttpClient` para usar un backend de prueba en lugar de la red real. También proporciona `HttpTestingController`, que usarás para interactuar con el backend de prueba, establecer expectativas sobre qué solicitudes se han realizado, y limpiar respuestas a esas solicitudes. `HttpTestingController` se puede inyectar desde `TestBed` una vez configurado.
-
-Ten en cuenta que debes proporcionar `provideHttpClient()` **antes** que `provideHttpClientTesting()`, ya que `provideHttpClientTesting()` sobrescribirá partes de `provideHttpClient()`. Hacerlo al revés puede romper potencialmente tus pruebas.
+Para comenzar a probar el uso de `HttpClient`, configura `TestBed` e incluye `provideHttpClientTesting()` en la configuración de tu prueba. `HttpClient` es proporcionado por el entorno de prueba de Angular, y `provideHttpClientTesting()` lo configura para usar un backend de prueba en lugar de la red real. También proporciona `HttpTestingController`, que usarás para interactuar con el backend de prueba, establecer expectativas sobre qué solicitudes se han realizado, y limpiar respuestas a esas solicitudes. `HttpTestingController` se puede inyectar desde `TestBed` una vez configurado.
 
 ```ts
 TestBed.configureTestingModule({
   providers: [
     // ... otros providers de prueba
-    provideHttpClient(),
     provideHttpClientTesting(),
   ],
 });
@@ -26,7 +23,18 @@ const httpTesting = TestBed.inject(HttpTestingController);
 
 Ahora cuando tus pruebas hagan solicitudes, llegarán al backend de prueba en lugar del normal. Puedes usar `httpTesting` para hacer afirmaciones sobre esas solicitudes.
 
-## Esperando y respondiendo solicitudes
+### Configurar `HttpClient` en pruebas {#configuring-httpclient-in-tests}
+
+Si una prueba necesita configurar características de `HttpClient`, como interceptors, incluye `provideHttpClient(...)` antes de `provideHttpClientTesting()`.
+IMPORTANT: Ten en cuenta que debes proporcionar `provideHttpClient()` **antes** que `provideHttpClientTesting()`, ya que `provideHttpClientTesting()` sobrescribirá partes de `provideHttpClient()`. Hacerlo al revés puede romper potencialmente tus pruebas.
+
+```ts
+TestBed.configureTestingModule({
+  providers: [provideHttpClient(withInterceptors([authInterceptor])), provideHttpClientTesting()],
+});
+```
+
+## Esperando y respondiendo solicitudes {#expecting-and-answering-requests}
 
 Por ejemplo, puedes escribir una prueba que espera que ocurra una solicitud GET y proporciona una respuesta simulada:
 
@@ -88,7 +96,7 @@ afterEach(() => {
 });
 ```
 
-## Manejando más de una solicitud a la vez
+## Manejando más de una solicitud a la vez {#handling-more-than-one-request-at-once}
 
 Si necesitas responder a solicitudes duplicadas en tu prueba, usa la API `match()` en lugar de `expectOne()`. Toma los mismos argumentos pero devuelve un array de solicitudes coincidentes. Una vez devueltas, estas solicitudes se eliminan de futuras coincidencias y eres responsable de limpiarlas y verificarlas.
 
@@ -99,7 +107,7 @@ for (const req of allGetRequests) {
 }
 ```
 
-## Coincidencia avanzada
+## Coincidencia avanzada {#advanced-matching}
 
 Todas las funciones de coincidencia aceptan una función predicado para lógica de coincidencia personalizada:
 
@@ -115,11 +123,11 @@ La función `expectNone` afirma que ninguna petición coincide con los criterios
 httpTesting.expectNone(req => req.method !== 'GET');
 ```
 
-## Probando el manejo de errores
+## Probando el manejo de errores {#testing-error-handling}
 
 Debes probar las respuestas de tu aplicación cuando las solicitudes HTTP fallan.
 
-### Errores del backend
+### Errores del backend {#backend-errors}
 
 Para probar el manejo de errores del backend (cuando el servidor devuelve un código de estado no exitoso), limpia las solicitudes con una respuesta de error que emule lo que tu backend devolvería cuando una solicitud falla.
 
@@ -130,7 +138,7 @@ req.flush('¡Falló!', {status: 500, statusText: 'Error interno del servidor'});
 // Afirma que la aplicación manejó con éxito el error del backend.
 ```
 
-### Errores de red
+### Errores de red {#network-errors}
 
 Las solicitudes también pueden fallar debido a errores de red, que se manifiestan como errores `ProgressEvent`. Estos se pueden entregar con el método `error()`:
 
@@ -141,7 +149,7 @@ req.error(new ProgressEvent('network error!'));
 // Afirma que la aplicación manejó con éxito el error de red.
 ```
 
-## Probando un Interceptor
+## Probando un Interceptor {#testing-an-interceptor}
 
 Debes probar que tus interceptores funcionen bajo las circunstancias deseadas.
 

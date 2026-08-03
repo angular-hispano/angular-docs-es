@@ -19,14 +19,14 @@ La aplicación a nivel raíz tiene el mismo nombre que el espacio de trabajo, y 
 Este comportamiento predeterminado es adecuado para un estilo de desarrollo típico "multi-repo" donde cada aplicación reside en su propio espacio de trabajo.
 Se recomienda a principiantes y usuarios intermedios a usar `ng new` para crear un espacio de trabajo separado para cada aplicación.
 
-Angular también soporta espacios de trabajo con [múltiples proyectos](#múltiples-proyectos).
+Angular también soporta espacios de trabajo con [múltiples proyectos](#multiple-projects).
 Este tipo de entorno de desarrollo es adecuado para usuarios avanzados que están desarrollando bibliotecas componibles,
 y para empresas que usan un estilo de desarrollo "monorepo", con un único repositorio y configuración global para todos los proyectos de Angular.
 
 Para configurar un espacio de trabajo monorepo, deberías omitir la creación de la aplicación raíz.
-Consulta [Configuración para un espacio de trabajo de múltiples proyectos](#configuración-para-un-espacio-de-trabajo-de-múltiples-proyectos) a continuación.
+Consulta [Configuración para un espacio de trabajo de múltiples proyectos](#setting-up-for-a-multi-project-workspace) a continuación.
 
-## Archivos de configuración del espacio de trabajo
+## Archivos de configuración del espacio de trabajo {#workspace-configuration-files}
 
 Todos los proyectos dentro de un espacio de trabajo comparten una [configuración](reference/configs/workspace-config).
 El nivel superior del espacio de trabajo contiene archivos de configuración para todo el espacio de trabajo, archivos de configuración para la aplicación a nivel raíz y subcarpetas para los archivos fuente y de prueba de la aplicación a nivel raíz.
@@ -44,18 +44,18 @@ El nivel superior del espacio de trabajo contiene archivos de configuración par
 | `node_modules/`                                  | [Paquetes npm](reference/configs/npm-packages) instalados para todo el espacio de trabajo. Las dependencias `node_modules` de todo el espacio de trabajo son visibles para todos los proyectos.                                                                                                                                                   |
 | `tsconfig.json`                                  | La configuración base de [TypeScript](https://www.typescriptlang.org) para proyectos en el espacio de trabajo. Todos los demás archivos de configuración heredan de este archivo base. Para más información, consulta la [documentación relevante de TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#tsconfig-bases). |
 
-## Archivos del proyecto de aplicación
+## Archivos del proyecto de aplicación {#application-project-files}
 
 De forma predeterminada, el comando del CLI `ng new my-app` crea una carpeta de espacio de trabajo llamada "my-app" y genera un nuevo esqueleto de aplicación en una carpeta `src/` en el nivel superior del espacio de trabajo.
 Una aplicación recién generada contiene archivos fuente para un módulo raíz, con un componente raíz y una plantilla.
 
 Cuando la estructura de archivos del espacio de trabajo está en su lugar, puedes usar el comando `ng generate` en la línea de comandos para agregar funcionalidad y datos a la aplicación.
-Esta aplicación inicial a nivel raíz es la _aplicación predeterminada_ para los comandos del CLI (a menos que cambies el valor predeterminado después de crear [aplicaciones adicionales](#múltiples-proyectos)).
+Esta aplicación inicial a nivel raíz es la _aplicación predeterminada_ para los comandos del CLI (a menos que cambies el valor predeterminado después de crear [aplicaciones adicionales](#multiple-projects)).
 
 Para un espacio de trabajo de una sola aplicación, la subcarpeta `src` del espacio de trabajo contiene los archivos fuente (lógica de la aplicación, datos y recursos) para la aplicación raíz.
 Para un espacio de trabajo de múltiples proyectos, los proyectos adicionales en la carpeta `projects` contienen una subcarpeta `project-name/src/` con la misma estructura.
 
-### Archivos fuente de la aplicación
+### Archivos fuente de la aplicación {#application-source-files}
 
 Los archivos en el nivel superior de `src/` admiten la ejecución de tu aplicación.
 Las subcarpetas contienen la fuente de la aplicación y la configuración específica de la aplicación.
@@ -81,7 +81,7 @@ Los componentes, plantillas y estilos en Angular van aquí.
 | `app.module.ts`         | Define el módulo raíz, llamado `AppModule`, que indica a Angular cómo ensamblar la aplicación. Inicialmente solo declara el `AppComponent`. A medida que agregas más componentes a la aplicación, deben declararse aquí.<br><br>_Solo se genera cuando se usa la opción `--standalone false`._ |
 | `app.routes.ts`         | Define la configuración de enrutamiento de la aplicación.                                                                                                                                                                                                                                      |
 
-### Archivos de configuración de la aplicación
+### Archivos de configuración de la aplicación {#application-configuration-files}
 
 Los archivos de configuración específicos de la aplicación para la aplicación raíz residen en el nivel raíz del espacio de trabajo.
 Para un espacio de trabajo de múltiples proyectos, los archivos de configuración específicos del proyecto están en la raíz del proyecto, en `projects/project-name/`.
@@ -93,12 +93,12 @@ Los archivos de configuración de [TypeScript](https://www.typescriptlang.org) e
 | `tsconfig.app.json`                                    | [Configuración de TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) específica de la aplicación, incluyendo [opciones del compilador de Angular](reference/configs/angular-compiler-options). |
 | `tsconfig.spec.json`                                   | [Configuración de TypeScript](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) para pruebas de la aplicación.                                                                                            |
 
-## Múltiples proyectos
+## Múltiples proyectos {#multiple-projects}
 
 Un espacio de trabajo de múltiples proyectos es adecuado para una organización que usa un único repositorio y una configuración global para múltiples proyectos de Angular (el modelo "monorepo").
 Un espacio de trabajo de múltiples proyectos también admite el desarrollo de bibliotecas.
 
-### Configuración para un espacio de trabajo de múltiples proyectos
+### Configuración para un espacio de trabajo de múltiples proyectos {#setting-up-for-a-multi-project-workspace}
 
 Si tienes la intención de tener múltiples proyectos en un espacio de trabajo, puedes omitir la generación inicial de la aplicación cuando creas el espacio de trabajo, y darle al espacio de trabajo un nombre único.
 El siguiente comando crea un espacio de trabajo con todos los archivos de configuración de todo el espacio de trabajo, pero sin una aplicación a nivel raíz.
@@ -115,7 +115,7 @@ ng generate application my-app
 ng generate library my-lib
 ```
 
-### Estructura de archivos de múltiples proyectos
+### Estructura de archivos de múltiples proyectos {#multiple-project-file-structure}
 
 La primera aplicación generada explícitamente se dirige a la carpeta `projects` junto con los demás proyectos en el espacio de trabajo.
 Las bibliotecas recién generadas también se agregan en `projects`.
@@ -131,7 +131,7 @@ my-workspace/
 └── … (código y configuración específicos de la biblioteca)
 ```
 
-## Archivos de proyecto de biblioteca
+## Archivos de proyecto de biblioteca {#library-project-files}
 
 Cuando generas una biblioteca usando el CLI (con un comando como `ng generate library my-lib`), los archivos generados van a la carpeta `projects/` del espacio de trabajo.
 Para obtener más información acerca de cómo crear tus propias bibliotecas, consulta [Creando bibliotecas](tools/libraries/creating-libraries).

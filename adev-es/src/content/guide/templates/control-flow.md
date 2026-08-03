@@ -2,7 +2,7 @@
 
 Las plantillas de Angular soportan bloques de flujo de control que te permiten mostrar, ocultar y repetir elementos condicionalmente.
 
-## Mostrar contenido condicionalmente con `@if`, `@else-if` y `@else`
+## Mostrar contenido condicionalmente con `@if`, `@else-if` y `@else` {#conditionally-display-content-with-if-else-if-and-else}
 
 El bloque `@if` muestra condicionalmente su contenido cuando su expresión de condición es truthy:
 
@@ -24,7 +24,7 @@ Si quieres mostrar contenido alternativo, puedes hacerlo proporcionando cualquie
 }
 ```
 
-### Referenciar el resultado de la expresión condicional
+### Referenciar el resultado de la expresión condicional {#referencing-the-conditional-expressions-result}
 
 El condicional `@if` soporta guardar el resultado de la expresión condicional en una variable para reutilizarla dentro del bloque.
 
@@ -36,7 +36,7 @@ El condicional `@if` soporta guardar el resultado de la expresión condicional e
 
 Esto puede ser útil para referenciar expresiones más largas que serían más fáciles de leer y mantener dentro de la plantilla.
 
-## Repetir contenido con el bloque `@for`
+## Repetir contenido con el bloque `@for` {#repeat-content-with-the-for-block}
 
 El bloque `@for` recorre una colección y renderiza repetidamente el contenido de un bloque. La colección puede ser cualquier [iterable](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols) de JavaScript, pero Angular tiene optimizaciones de rendimiento adicionales para valores de `Array`.
 
@@ -50,7 +50,7 @@ Un bucle `@for` típico se ve así:
 
 El bloque `@for` de Angular no soporta declaraciones que modifican el flujo como `continue` o `break` de JavaScript.
 
-### ¿Por qué es importante `track` en los bloques `@for`?
+### ¿Por qué es importante `track` en los bloques `@for`? {#why-is-track-in-for-blocks-important}
 
 La expresión `track` permite a Angular mantener una relación entre tus datos y los nodos DOM en la página. Esto permite a Angular optimizar el rendimiento ejecutando las operaciones DOM mínimas necesarias cuando los datos cambian.
 
@@ -62,7 +62,7 @@ Para colecciones estáticas que nunca cambian, puedes usar `$index` para indicar
 
 Si no hay otra opción disponible, puedes especificar `identity`. Esto le indica a Angular que rastree el elemento por su identidad de referencia usando el operador de triple igualdad (`===`). Evita esta opción siempre que sea posible, ya que puede llevar a actualizaciones de renderización significativamente más lentas, ya que Angular no tiene forma de mapear qué elemento de datos corresponde a qué nodos DOM.
 
-### Variables contextuales en bloques `@for`
+### Variables contextuales en bloques `@for` {#contextual-variables-in-for-blocks}
 
 Dentro de los bloques `@for`, varias variables implícitas siempre están disponibles:
 
@@ -85,7 +85,7 @@ Estas variables siempre están disponibles con estos nombres, pero pueden ser re
 
 El renombrado es útil al anidar bloques `@for`, permitiéndote leer variables del bloque `@for` externo desde un bloque `@for` interno.
 
-### Proporcionar un fallback para bloques `@for` con el bloque `@empty`
+### Proporcionar un fallback para bloques `@for` con el bloque `@empty` {#providing-a-fallback-for-for-blocks-with-the-empty-block}
 
 Opcionalmente puedes incluir una sección `@empty` inmediatamente después del contenido del bloque `@for`. El contenido del bloque `@empty` se muestra cuando no hay elementos:
 
@@ -97,7 +97,7 @@ Opcionalmente puedes incluir una sección `@empty` inmediatamente después del c
 }
 ```
 
-## Mostrar contenido condicionalmente con el bloque `@switch`
+## Mostrar contenido condicionalmente con el bloque `@switch` {#conditionally-display-content-with-the-switch-block}
 
 Aunque el bloque `@if` es excelente para la mayoría de escenarios, el bloque `@switch` proporciona una sintaxis alternativa para renderizar datos condicionalmente. Su sintaxis se asemeja mucho a la declaración `switch` de JavaScript.
 
@@ -125,3 +125,52 @@ El valor de la expresión condicional se compara con la expresión case usando e
 Opcionalmente puedes incluir un bloque `@default`. El contenido del bloque `@default` se muestra si ninguna de las expresiones case precedentes coincide con el valor del switch.
 
 Si ningún `@case` coincide con la expresión y no hay un bloque `@default`, no se muestra nada.
+
+### Verificación de tipos exhaustiva {#exhaustive-type-checking}
+
+`@switch` soporta la verificación de tipos exhaustiva, permitiendo que Angular verifique en tiempo de compilación que todos los valores posibles de un tipo unión son manejados.
+
+Al usar `@default never;`, declaras explícitamente que no deben existir casos restantes. Si el tipo unión se extiende posteriormente y un nuevo caso no está cubierto por un `@case`, el verificador de tipos de plantillas de Angular reportará un error, ayudándote a detectar ramas faltantes temprano.
+
+NOTA: La verificación de exhaustividad depende del estrechamiento de tipos de TypeScript, que solo funciona en variables. No funcionará si la condición del switch es una llamada a función o un signal (por ejemplo, `@switch (state())`). Para solucionarlo, asigna el signal a una variable `@let`, p. ej.: `@let mySignal = this.mySignal()`.
+
+```angular-html
+@Component({
+  template: `
+    @switch (state) {
+      @case ('loggedOut') {
+        <button>Login</button>
+      }
+
+      @case ('loggedIn') {
+        <p>Welcome back!</p>
+      }
+
+      @default never; // lanza error porque falta `@case ('loading')`
+    }
+  `,
+})
+export class AppComponent {
+  state: 'loggedOut' | 'loading' | 'loggedIn' = 'loggedOut';
+}
+```
+
+Cuando la expresión del switch está anidada dentro de una unión, debes especificar explícitamente la expresión para verificar la exhaustividad.
+
+<!-- prettier-ignore -->
+```angular-ts
+@Component({
+  template: `
+    @switch (state.mode) {
+      @case ('show') {
+        {{ state.menu }};
+      }
+      @case ('hide') {}
+      @default never(state);
+    }
+  `,
+})
+export class App {
+  state!: {mode: 'hide'} | {mode: 'show'; menu: number};
+}
+```

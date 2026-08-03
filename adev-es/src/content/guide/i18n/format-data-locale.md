@@ -10,7 +10,7 @@ Los pipes de transformación de datos usan el token [`LOCALE_ID`][ApiCoreLocaleI
 | [`DecimalPipe`][ApiCommonDecimalpipe]   | Transforma un número en una cadena de número decimal. |
 | [`PercentPipe`][ApiCommonPercentpipe]   | Transforma un número en una cadena de porcentaje.     |
 
-## Usar DatePipe para mostrar la fecha actual
+## Usar DatePipe para mostrar la fecha actual {#use-datepipe-to-display-the-current-date}
 
 Para mostrar la fecha actual en el formato de la configuración regional actual, usa el siguiente formato para el `DatePipe`.
 
@@ -22,7 +22,7 @@ Para mostrar la fecha actual en el formato de la configuración regional actual,
 
 </docs-code>
 
-## Sobrescribir la configuración regional actual para CurrencyPipe
+## Sobrescribir la configuración regional actual para CurrencyPipe {#override-current-locale-for-currencypipe}
 
 Agrega el parámetro `locale` al pipe para sobrescribir el valor actual del token `LOCALE_ID`.
 
@@ -38,7 +38,7 @@ Para forzar que la moneda use inglés americano \(`en-US`\), usa el siguiente fo
 
 ÚTIL: La configuración regional especificada para el `CurrencyPipe` sobrescribe el token `LOCALE_ID` global de tu aplicación.
 
-## Próximos pasos
+## Próximos pasos {#whats-next}
 
 <docs-pill-row>
   <docs-pill href="guide/i18n/prepare" title="Preparar un componente para traducción"/>

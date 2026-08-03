@@ -6,7 +6,7 @@
   <docs-pill href="/api?query=grid#angular_aria_grid" title="Referencia API de Grid"/>
 </docs-pill-row>
 
-## Visión general
+## Visión general {#overview}
 
 Un grid permite a los usuarios navegar datos bidimensionales o elementos interactivos usando teclas de flecha direccionales, Inicio, Fin y Página Arriba/Abajo. Los grids funcionan para tablas de datos, calendarios, hojas de cálculo y patrones de diseño que agrupan elementos interactivos relacionados.
 
@@ -16,7 +16,7 @@ Un grid permite a los usuarios navegar datos bidimensionales o elementos interac
   <docs-code header="CSS" path="adev/src/content/examples/aria/grid/src/overview/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Uso
+## Uso {#usage}
 
 Los grids funcionan bien para datos o elementos interactivos organizados en filas y columnas donde los usuarios necesitan navegación por teclado en múltiples direcciones.
 
@@ -35,7 +35,7 @@ Los grids funcionan bien para datos o elementos interactivos organizados en fila
 - Muestres datos jerárquicos (usa [Tree](guide/aria/tree) en su lugar)
 - Construyas formularios sin diseño tabular (usa controles de formulario estándar)
 
-## Características
+## Características {#features}
 
 - **Navegación bidimensional** - Las teclas de flecha se mueven entre celdas en todas las direcciones
 - **Modos de foco** - Elige entre estrategias de foco de roving tabindex o activedescendant
@@ -45,9 +45,9 @@ Los grids funcionan bien para datos o elementos interactivos organizados en fila
 - **Estados deshabilitados** - Deshabilita el grid completo o celdas individuales
 - **Soporte RTL** - Navegación automática para idiomas de derecha a izquierda
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Grid de tabla de datos
+### Grid de tabla de datos {#data-table-grid}
 
 Usa un grid para tablas interactivas donde los usuarios necesitan navegar entre celdas usando teclas de flecha. Este ejemplo muestra una tabla de datos básica con navegación por teclado.
 
@@ -70,7 +70,7 @@ Usa un grid para tablas interactivas donde los usuarios necesitan navegar entre 
 
 Aplica la directiva `ngGrid` al elemento table, `ngGridRow` a cada fila y `ngGridCell` a cada celda.
 
-### Grid de calendario
+### Grid de calendario {#calendar-grid}
 
 Los calendarios son un caso de uso común para grids. Este ejemplo muestra una vista de mes donde los usuarios navegan fechas usando teclas de flecha.
 
@@ -100,7 +100,7 @@ Los calendarios son un caso de uso común para grids. Este ejemplo muestra una v
 
 Los usuarios pueden activar una fecha presionando Enter o Espacio cuando están enfocados en una celda.
 
-### Grid de diseño
+### Grid de diseño {#layout-grid}
 
 Usa un grid de diseño para agrupar elementos interactivos y reducir las paradas de tabulación. Este ejemplo muestra un grid de botones tipo píldora.
 
@@ -130,7 +130,7 @@ Usa un grid de diseño para agrupar elementos interactivos y reducir las paradas
 
 En lugar de tabular a través de cada botón, los usuarios navegan con teclas de flecha y solo un botón recibe foco de tabulación.
 
-### Modos de selección y foco
+### Modos de selección y foco {#selection-and-focus-modes}
 
 Habilita la selección con `[enableSelection]="true"` y configura cómo interactúan el foco y la selección.
 
@@ -157,58 +157,63 @@ Habilita la selección con `[enableSelection]="true"` y configura cómo interact
 - `roving`: El foco se mueve a las celdas usando `tabindex` (mejor para grids simples)
 - `activedescendant`: El foco permanece en el contenedor del grid, `aria-activedescendant` indica la celda activa (mejor para desplazamiento virtual)
 
-## APIs
+## Testing
 
-### Grid
+Angular Aria proporciona harnesses de componentes para probar componentes grid.
+Aquí hay un ejemplo de cómo usar los harnesses en una prueba de componente:
 
-La directiva contenedora que proporciona navegación por teclado y gestión de foco para filas y celdas.
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {GridHarness} from '@angular/aria/grid/testing';
+import {MyGridComponent} from './my-grid'; // Tu componente
 
-#### Inputs
+describe('MyGridComponent', () => {
+  let fixture: ComponentFixture<MyGridComponent>;
+  let loader: HarnessLoader;
 
-| Propiedad              | Tipo                                 | Predeterminado | Descripción                                                                             |
-| ---------------------- | ------------------------------------ | -------------- | --------------------------------------------------------------------------------------- |
-| `enableSelection`      | `boolean`                            | `false`        | Si la selección está habilitada para el grid                                            |
-| `disabled`             | `boolean`                            | `false`        | Deshabilita el grid completo                                                            |
-| `softDisabled`         | `boolean`                            | `true`         | Cuando es `true`, las celdas deshabilitadas son focalizables pero no interactivas       |
-| `focusMode`            | `'roving' \| 'activedescendant'`     | `'roving'`     | Estrategia de foco usada por el grid                                                    |
-| `rowWrap`              | `'continuous' \| 'loop' \| 'nowrap'` | `'loop'`       | Comportamiento de envoltura de navegación a lo largo de las filas                       |
-| `colWrap`              | `'continuous' \| 'loop' \| 'nowrap'` | `'loop'`       | Comportamiento de envoltura de navegación a lo largo de las columnas                    |
-| `multi`                | `boolean`                            | `false`        | Si múltiples celdas pueden ser seleccionadas                                            |
-| `selectionMode`        | `'follow' \| 'explicit'`             | `'follow'`     | Si la selección sigue al foco o requiere acción explícita                               |
-| `enableRangeSelection` | `boolean`                            | `false`        | Habilita selecciones de rango con teclas modificadoras o arrastrando                    |
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyGridComponent],
+    });
 
-### GridRow
+    fixture = TestBed.createComponent(MyGridComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-Representa una fila dentro de un grid y sirve como contenedor para celdas de grid.
+  it('should read cell values and focus cells', async () => {
+    const grid = await loader.getHarness(GridHarness);
 
-#### Inputs
+    // Obtiene el texto de todas las celdas en un array 2D organizado por filas
+    const cellTexts = await grid.getCellTextByIndex();
+    expect(cellTexts).toEqual([
+      ['Cell 1.1', 'Cell 1.2'],
+      ['Cell 2.1', 'Cell 2.2'],
+    ]);
 
-| Propiedad  | Tipo     | Predeterminado | Descripción                           |
-| ---------- | -------- | -------------- | ------------------------------------- |
-| `rowIndex` | `number` | auto           | El índice de esta fila dentro del grid |
+    // Obtiene una celda específica por texto
+    const cells = await grid.getCells({text: 'Cell 1.1'});
+    expect(cells.length).toBe(1);
+    const cell = cells[0];
 
-### GridCell
+    // Verifica el estado de la celda
+    expect(await cell.isSelected()).toBe(true);
+    expect(await cell.isActive()).toBe(true);
 
-Representa una celda individual dentro de una fila de grid.
+    // Enfoca la celda
+    await cell.focus();
+    expect(await cell.isFocused()).toBe(true);
+  });
+});
+```
 
-#### Inputs
+## API reference
 
-| Propiedad     | Tipo                         | Predeterminado | Descripción                                                                 |
-| ------------- | ---------------------------- | -------------- | --------------------------------------------------------------------------- |
-| `id`          | `string`                     | auto           | Identificador único para la celda                                           |
-| `role`        | `string`                     | `'gridcell'`   | Rol de la celda: `gridcell`, `columnheader` o `rowheader`                   |
-| `disabled`    | `boolean`                    | `false`        | Deshabilita esta celda                                                      |
-| `selected`    | `boolean`                    | `false`        | Si la celda está seleccionada (soporta enlace bidireccional)                |
-| `selectable`  | `boolean`                    | `true`         | Si la celda puede ser seleccionada                                          |
-| `rowSpan`     | `number`                     | —              | Número de filas que abarca la celda                                         |
-| `colSpan`     | `number`                     | —              | Número de columnas que abarca la celda                                      |
-| `rowIndex`    | `number`                     | —              | Índice de fila de la celda                                                  |
-| `colIndex`    | `number`                     | —              | Índice de columna de la celda                                               |
-| `orientation` | `'vertical' \| 'horizontal'` | `'horizontal'` | Orientación para widgets dentro de la celda                                 |
-| `wrap`        | `boolean`                    | `true`         | Si la navegación de widgets se envuelve dentro de la celda                  |
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
 
-#### Signals
-
-| Propiedad | Tipo              | Descripción                              |
-| --------- | ----------------- | ---------------------------------------- |
-| `active`  | `Signal<boolean>` | Si la celda actualmente tiene foco       |
+- [`Grid`](/api/aria/grid/Grid)
+- [`GridRow`](/api/aria/grid/GridRow)
+- [`GridCell`](/api/aria/grid/GridCell)
+- [`GridCellWidget`](/api/aria/grid/GridCellWidget)

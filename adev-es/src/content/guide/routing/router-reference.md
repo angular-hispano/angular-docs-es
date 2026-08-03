@@ -2,7 +2,7 @@
 
 Las siguientes secciones destacan algunos conceptos y terminología centrales del router.
 
-## Eventos del Router
+## Eventos del Router {#router-events}
 
 Durante cada navegación, el `Router` emite eventos de navegación a través de la propiedad `Router.events`.
 Estos eventos se muestran en la siguiente tabla.
@@ -28,7 +28,7 @@ Estos eventos se muestran en la siguiente tabla.
 
 Cuando habilitas la característica `withDebugTracing`, Angular registra estos eventos en la consola.
 
-## Terminología del Router
+## Terminología del Router {#router-terminology}
 
 Aquí están los términos clave del `Router` y sus significados:
 
@@ -47,7 +47,7 @@ Aquí están los términos clave del `Router` y sus significados:
 | Array de parámetros de enlace | Un array que el router interpreta como una instrucción de enrutamiento. Puedes vincular ese array a un `RouterLink` o pasar el array como argumento al método `Router.navigate`.                                                                 |
 | Componente de enrutamiento     | Un componente Angular con un `RouterOutlet` que muestra vistas basadas en navegaciones del router.                                                                                                                                               |
 
-## `<base href>`
+## `<base href>` {#base-href}
 
 El router usa el [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state') del navegador para navegación.
 `pushState` te permite personalizar rutas de URL dentro de la aplicación; por ejemplo, `localhost:4200/crisis-center`.
@@ -56,7 +56,7 @@ Las URLs dentro de la aplicación pueden ser indistinguibles de las URLs del ser
 Los navegadores HTML5 modernos fueron los primeros en soportar `pushState`, razón por la cual muchas personas se refieren a estas URLs como URLs "estilo HTML5".
 
 ÚTIL: La navegación estilo HTML5 es el valor predeterminado del router.
-En la sección [LocationStrategy y estilos de URL del navegador](common-router-tasks#locationstrategy-y-estilos-de-url-del-navegador), aprende por qué el estilo HTML5 es preferable, cómo ajustar su comportamiento y cómo cambiar al estilo hash \(`#`\) más antiguo, si es necesario.
+En la sección [LocationStrategy y estilos de URL del navegador](guide/routing/common-router-tasks#locationstrategy-and-browser-url-styles), aprende por qué el estilo HTML5 es preferable, cómo ajustar su comportamiento y cómo cambiar al estilo hash \(`#`\) más antiguo, si es necesario.
 
 Debes agregar un [elemento `<base href>`](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') al `index.html` de la aplicación para que el enrutamiento `pushState` funcione.
 El navegador usa el valor `<base href>` para prefijar URLs relativas al referenciar archivos CSS, scripts e imágenes.
@@ -64,9 +64,11 @@ El navegador usa el valor `<base href>` para prefijar URLs relativas al referenc
 Agrega el elemento `<base>` justo después de la etiqueta `<head>`.
 Si la carpeta `app` es la raíz de la aplicación, como lo es para esta aplicación, establece el valor `href` en `index.html` como se muestra aquí.
 
-<docs-code header="index.html (base-href)" path="adev/src/content/examples/router/src/index.html" visibleRegion="base-href"/>
+```html
+<base href="/" />
+```
 
-### URLs HTML5 y el `<base href>`
+### URLs HTML5 y el `<base href>` {#html5-urls-and-the-base-href}
 
 Las directrices que siguen se referirán a diferentes partes de una URL.
 Este diagrama describe a qué se refieren esas partes:

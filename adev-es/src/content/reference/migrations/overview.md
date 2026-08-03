@@ -10,7 +10,7 @@ Aprende cómo puedes migrar tu proyecto Angular existente a las últimas caracte
     La sintaxis de flujo de control integrada te permite usar una sintaxis más ergonómica que es cercana a JavaScript y tiene mejor verificación de tipos. Reemplaza la necesidad de importar `CommonModule` para usar funcionalidades como `*ngFor`, `*ngIf` y `*ngSwitch`.
   </docs-card>
   <docs-card title="Función `inject()`" link="Migrar ahora" href="reference/migrations/inject-function">
-    La función `inject` de Angular ofrece tipos más precisos y mejor compatibilidad con los decoradores estándar, en comparación con la inyección basada en constructor.
+    La función [`inject`](/api/core/inject) de Angular ofrece tipos más precisos y mejor compatibilidad con los decoradores estándar, en comparación con la inyección basada en constructor.
   </docs-card>
   <docs-card title="Rutas con lazy loading" link="Migrar ahora" href="reference/migrations/route-lazy-loading">
     Convierte rutas de componentes cargadas de forma eager a rutas con lazy loading. Esto permite que el proceso de compilación divida los bundles de producción en fragmentos más pequeños, para cargar menos JavaScript en la carga inicial de la página.

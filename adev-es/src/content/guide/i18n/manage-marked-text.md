@@ -9,7 +9,7 @@ Como se describe en [Cómo los significados controlan la extracción y la fusió
 
 El siguiente ejemplo muestra unidades de traducción con IDs únicos.
 
-<docs-code header="messages.fr.xlf.html" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="generated-id"/>
+<docs-code header="messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf" visibleRegion="generated-id"/>
 
 Cuando cambias el texto traducible, el extractor genera un nuevo ID para esa unidad de traducción.
 En la mayoría de los casos, los cambios en el texto fuente también requieren un cambio en la traducción.
@@ -38,13 +38,13 @@ variableText1 = $localize`:@@introductionHeader:Hello i18n!`;
 
 Cuando especificas un ID personalizado, el extractor genera una unidad de traducción con el ID personalizado.
 
-<docs-code header="messages.fr.xlf.html" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="custom-id"/>
+<docs-code header="messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf" visibleRegion="custom-id"/>
 
 Si cambias el texto, el extractor no cambia el ID.
 Como resultado, no tienes que dar el paso adicional de actualizar la traducción.
 La desventaja de usar IDs personalizados es que si cambias el texto, tu traducción puede quedar desincronizada con el texto fuente recién cambiado.
 
-## Usar un ID personalizado con una descripción
+## Usar un ID personalizado con una descripción {#use-a-custom-id-with-a-description}
 
 Usa un ID personalizado en combinación con una descripción y un significado para ayudar aún más al traductor.
 
@@ -76,7 +76,7 @@ variableText3 = $localize`:site header|An introduction header for this sample@@i
 
 </docs-code>
 
-### Definir IDs personalizados únicos
+### Definir IDs personalizados únicos {#define-unique-custom-ids}
 
 Asegúrate de definir IDs personalizados que sean únicos.
 Si usas el mismo ID para dos elementos de texto diferentes, la herramienta de extracción extrae solo el primero y Angular usa la misma traducción en lugar de ambos elementos de texto originales.
@@ -87,7 +87,7 @@ Por ejemplo, en el siguiente fragmento de código se define el mismo ID personal
 
 Lo siguiente muestra la traducción en francés.
 
-<docs-code header="src/locale/messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="i18n-duplicate-custom-id"/>
+<docs-code header="src/locale/messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf" visibleRegion="i18n-duplicate-custom-id"/>
 
 Ambos elementos ahora usan la misma traducción \(`Bonjour`\), porque ambos fueron definidos con el mismo ID personalizado.
 

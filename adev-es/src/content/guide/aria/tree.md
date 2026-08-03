@@ -6,7 +6,7 @@
   <docs-pill href="/api/aria/tree/Tree" title="Tree API Reference"/>
 </docs-pill-row>
 
-## Visión general
+## Visión general {#overview}
 
 Un árbol muestra datos jerárquicos donde los elementos pueden expandirse para revelar hijos o colapsar para ocultarlos. Los usuarios navegan con teclas de flecha, expanden y colapsan nodos y opcionalmente seleccionan elementos para escenarios de navegación o selección de datos.
 
@@ -16,7 +16,7 @@ Un árbol muestra datos jerárquicos donde los elementos pueden expandirse para 
   <docs-code header="CSS" path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Uso
+## Uso {#usage}
 
 Los árboles funcionan bien para mostrar datos jerárquicos donde los usuarios necesitan navegar a través de estructuras anidadas.
 
@@ -36,7 +36,7 @@ Los árboles funcionan bien para mostrar datos jerárquicos donde los usuarios n
 - Crear dropdowns simples (usa [Select](guide/aria/select) en su lugar)
 - Construir navegación breadcrumb (usa patrones breadcrumb)
 
-## Características
+## Características {#features}
 
 - **Navegación jerárquica** - Estructura de árbol anidada con funcionalidad de expandir y colapsar
 - **Modos de selección** - Selección simple o múltiple con comportamiento explícito o de seguir foco
@@ -47,9 +47,9 @@ Los árboles funcionan bien para mostrar datos jerárquicos donde los usuarios n
 - **Modos de foco** - Estrategias de foco roving tabindex o activedescendant
 - **Soporte RTL** - Navegación para idiomas de derecha a izquierda
 
-## Ejemplos
+## Ejemplos {#examples}
 
-### Árbol de navegación
+### Árbol de navegación {#navigation-tree}
 
 Usa un árbol para navegación donde hacer clic en elementos activa acciones en lugar de seleccionarlos.
 
@@ -65,7 +65,7 @@ Usa un árbol para navegación donde hacer clic en elementos activa acciones en 
 
 Establece `[nav]="true"` para habilitar el modo de navegación. Esto usa `aria-current` para indicar la página actual en lugar de selección.
 
-### Selección simple
+### Selección simple {#single-selection}
 
 Habilita selección simple para escenarios donde los usuarios eligen un elemento del árbol.
 
@@ -88,7 +88,7 @@ Habilita selección simple para escenarios donde los usuarios eligen un elemento
 
 Deja `[multi]="false"` (el valor predeterminado) para selección simple. Los usuarios presionan Espacio para seleccionar el elemento enfocado.
 
-### Multi-selección
+### Multi-selección {#multi-selection}
 
 Permite a los usuarios seleccionar múltiples elementos del árbol.
 
@@ -111,7 +111,7 @@ Permite a los usuarios seleccionar múltiples elementos del árbol.
 
 Establece `[multi]="true"` en el árbol. Los usuarios seleccionan elementos individualmente con Espacio o seleccionan rangos con Shift+teclas de flecha.
 
-### La selección sigue al foco
+### La selección sigue al foco {#selection-follows-focus}
 
 Cuando la selección sigue al foco, el elemento enfocado se selecciona automáticamente. Esto simplifica la interacción para escenarios de navegación.
 
@@ -134,7 +134,7 @@ Cuando la selección sigue al foco, el elemento enfocado se selecciona automáti
 
 Establece `[selectionMode]="'follow'"` en el árbol. La selección se actualiza automáticamente mientras los usuarios navegan con teclas de flecha.
 
-### Elementos de árbol deshabilitados
+### Elementos de árbol deshabilitados {#disabled-tree-items}
 
 Deshabilita nodos de árbol específicos para prevenir interacción. Controla si los elementos deshabilitados pueden recibir foco.
 
@@ -157,74 +157,68 @@ Deshabilita nodos de árbol específicos para prevenir interacción. Controla si
 
 Cuando `[softDisabled]="true"` en el árbol, los elementos deshabilitados pueden recibir foco pero no pueden ser activados o seleccionados. Cuando `[softDisabled]="false"`, los elementos deshabilitados se omiten durante la navegación por teclado.
 
-## APIs
+## Testing
 
-### Tree
+Angular Aria proporciona harnesses de componentes para probar componentes tree.
+Aquí hay un ejemplo de cómo usar los harnesses en una prueba de componente:
 
-La directiva contenedor que gestiona navegación y selección jerárquica.
+```typescript
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HarnessLoader} from '@angular/cdk/testing';
+import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {TreeHarness} from '@angular/aria/tree/testing';
+import {MyTreeComponent} from './my-tree'; // Tu componente
 
-#### Inputs
+describe('MyTreeComponent', () => {
+  let fixture: ComponentFixture<MyTreeComponent>;
+  let loader: HarnessLoader;
 
-| Propiedad       | Tipo                             | Por defecto  | Descripción                                                      |
-| --------------- | -------------------------------- | ------------ | ---------------------------------------------------------------- |
-| `disabled`      | `boolean`                        | `false`      | Deshabilita todo el árbol                                        |
-| `softDisabled`  | `boolean`                        | `true`       | Cuando es `true`, los elementos deshabilitados son enfocables pero no interactivos |
-| `multi`         | `boolean`                        | `false`      | Si múltiples elementos pueden ser seleccionados                  |
-| `selectionMode` | `'explicit' \| 'follow'`         | `'explicit'` | Si la selección requiere acción explícita o sigue al foco        |
-| `nav`           | `boolean`                        | `false`      | Si el árbol está en modo de navegación (usa `aria-current`)      |
-| `wrap`          | `boolean`                        | `true`       | Si la navegación por teclado se envuelve del último al primer elemento |
-| `focusMode`     | `'roving' \| 'activedescendant'` | `'roving'`   | Estrategia de foco usada por el árbol                            |
-| `values`        | `any[]`                          | `[]`         | Valores de elementos seleccionados (soporta enlace bidireccional) |
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [MyTreeComponent],
+    });
 
-#### Métodos
+    fixture = TestBed.createComponent(MyTreeComponent);
+    await fixture.whenStable();
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
 
-| Método           | Parámetros | Descripción                                        |
-| ---------------- | ---------- | -------------------------------------------------- |
-| `expandAll`      | none       | Expande todos los nodos del árbol                  |
-| `collapseAll`    | none       | Colapsa todos los nodos del árbol                  |
-| `selectAll`      | none       | Selecciona todos los elementos (solo en modo multi-selección) |
-| `clearSelection` | none       | Limpia toda selección                              |
+  it('should navigate and expand tree items', async () => {
+    const tree = await loader.getHarness(TreeHarness);
 
-### TreeItem
+    // Obtiene la representación de la estructura de nivel superior
+    expect(await tree.getTreeStructure()).toEqual({
+      children: [{text: 'public'}, {text: 'src'}, {text: 'package.json'}],
+    });
 
-Un nodo individual en el árbol que puede contener nodos hijo.
+    // Obtiene todos los elementos (actualmente visibles)
+    const items = await tree.getItems();
+    expect(items.length).toBe(3);
 
-#### Inputs
+    // Expande el primer elemento ('public')
+    expect(await items[0].isExpanded()).toBe(false);
+    await items[0].click();
+    expect(await items[0].isExpanded()).toBe(true);
 
-| Propiedad  | Tipo      | Por defecto | Descripción                                                |
-| ---------- | --------- | ----------- | ---------------------------------------------------------- |
-| `value`    | `any`     | —           | **Requerido.** Valor único para este elemento del árbol    |
-| `disabled` | `boolean` | `false`     | Deshabilita este elemento                                  |
-| `expanded` | `boolean` | `false`     | Si el nodo está expandido (soporta enlace bidireccional)   |
-
-#### Signals
-
-| Propiedad     | Tipo              | Descripción                                 |
-| ------------- | ----------------- | ------------------------------------------- |
-| `selected`    | `Signal<boolean>` | Si el elemento está seleccionado            |
-| `active`      | `Signal<boolean>` | Si el elemento tiene el foco actualmente    |
-| `hasChildren` | `Signal<boolean>` | Si el elemento tiene nodos hijo             |
-
-#### Métodos
-
-| Método     | Parámetros | Descripción                      |
-| ---------- | ---------- | -------------------------------- |
-| `expand`   | none       | Expande este nodo                |
-| `collapse` | none       | Colapsa este nodo                |
-| `toggle`   | none       | Alterna el estado de expansión   |
-
-### TreeGroup
-
-Un contenedor para elementos de árbol hijo.
-
-Esta directiva no tiene inputs, outputs ni métodos. Sirve como un contenedor para organizar elementos `ngTreeItem` hijo:
-
-```angular-html
-<li ngTreeItem value="parent">
-  Parent Item
-  <ul ngTreeGroup>
-    <li ngTreeItem value="child1">Child 1</li>
-    <li ngTreeItem value="child2">Child 2</li>
-  </ul>
-</li>
+    // Verifica que la estructura del árbol se actualiza después de la expansión
+    expect(await tree.getTreeStructure()).toEqual({
+      children: [
+        {
+          text: 'public',
+          children: [{text: 'index.html'}, {text: 'styles.css'}],
+        },
+        {text: 'src'},
+        {text: 'package.json'},
+      ],
+    });
+  });
+});
 ```
+
+## API reference
+
+Para documentación de API detallada, inspecciona las siguientes referencias de API:
+
+- [`Tree`](/api/aria/tree/Tree)
+- [`TreeItem`](/api/aria/tree/TreeItem)
+- [`TreeItemGroup`](/api/aria/tree/TreeItemGroup)

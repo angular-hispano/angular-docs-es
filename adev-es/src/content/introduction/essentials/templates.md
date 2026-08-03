@@ -4,7 +4,7 @@ Usar la sintaxis de plantillas de Angular para crear interfaces de usuario diná
 
 Las plantillas de componentes no son solo HTML estático pueden usar datos de tu clase de componente y configurar manejadores para la interacción del usuario.
 
-## Mostrar texto dinámico
+## Mostrar texto dinámico {#showing-dynamic-text}
 
 En Angular, un _binding_ crea una conexión dinámica entre la plantilla de un componente y sus datos. Esta conexión asegura que los cambios en los datos del componente actualicen automáticamente la plantilla renderizada.
 
@@ -39,7 +39,7 @@ La página renderizada se actualiza para reflejar el nuevo valor:
 <h1>Perfil para cool_coder_789</h1>
 ```
 
-## Estableciendo propiedades y atributos dinámicos
+## Estableciendo propiedades y atributos dinámicos {#setting-dynamic-properties-and-attributes}
 
 Angular soporta binding de valores dinámicos en propiedades del DOM con corchetes:
 
@@ -63,7 +63,7 @@ También puedes hacer binding a *atributos* HTML prefijando el nombre del atribu
 
 Angular actualiza automáticamente las propiedades y atributos del DOM cuando el valor vinculado cambia.
 
-## Manejar la interacción del usuario
+## Manejar la interacción del usuario {#handling-user-interaction}
 
 Angular te permite agregar event listeners a un elemento en tu plantilla con paréntesis:
 
@@ -95,7 +95,7 @@ export class UserProfile {
 }
 ```
 
-## Flujo de control con `@if` y `@for`
+## Flujo de control con `@if` y `@for` {#control-flow-with-if-and-for}
 
 Puedes ocultar y mostrar condicionalmente partes de una plantilla con el bloque `@if` de Angular:
 
@@ -138,11 +138,11 @@ Angular usa la palabra clave `track`, mostrada en el ejemplo anterior, para asoc
 
 ¿Quieres saber más sobre plantillas Angular? Consulta la [Guía detallada de Plantillas](guide/templates) para todos los detalles.
 
-## Siguiente paso
+## Siguiente paso {#next-step}
 
 Ahora que la aplicación ya cuenta con datos dinámicos y plantillas, es momento de aprender cómo mejorar las plantillas ocultando o mostrando elementos de forma condicional, iterando sobre listas de elementos y más.
 
 <docs-pill-row>
-  <docs-pill title="Diseño modular con inyección de dependencias" href="essentials/dependency-injection" />
+  <docs-pill title="Formularios con Signals" href="essentials/signal-forms" />
   <docs-pill title="Guía detallada de plantillas" href="guide/templates" />
 </docs-pill-row>

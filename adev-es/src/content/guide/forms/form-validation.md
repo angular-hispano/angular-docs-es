@@ -3,7 +3,7 @@
 Puedes mejorar la calidad general de los datos al validar la entrada del usuario en cuanto a precisión y completitud. 
 Esta página muestra cómo validar la entrada del usuario desde la interfaz de usuario y mostrar mensajes de validación útiles, tanto en formularios reactivos como en los basados en plantillas.
 
-## Validando la entrada en formularios basados en plantillas
+## Validando la entrada en formularios basados en plantillas {#validating-input-in-template-driven-forms}
 
 Para agregar validación a un formulario basado en plantillas, agregas los mismos atributos de validación que usarías con [validación nativa de formularios HTML](https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5/Constraint_validation).
 Angular usa directivas para hacer coincidir estos atributos con funciones validadoras en el framework.
@@ -19,7 +19,7 @@ Observa las siguientes características ilustradas en el ejemplo.
 
 - El elemento `<input>` lleva los atributos de validación HTML: `required` y `minlength`.
   También lleva una directiva validadora personalizada, `forbiddenName`.
-  Para más información, consulta la sección [Validadores personalizados](#definiendo-validadores-personalizados).
+  Para más información, consulta la sección [Validadores personalizados](#defining-custom-validators).
 
 - `#name="ngModel"` exporta `NgModel` a una variable local llamada `name`.
   `NgModel` refleja muchas de las propiedades de su instancia `FormControl` subyacente, por lo que puedes usar esto en la plantilla para verificar estados de control como `valid` y `dirty`.
@@ -34,13 +34,13 @@ CONSEJO: Para evitar que el validador muestre errores antes de que el usuario te
 * Cuando el usuario cambia el valor en el campo observado, el control se marca como "dirty"
 * Cuando el usuario quita el foco del elemento de control del formulario, el control se marca como "touched"
 
-## Validando la entrada en formularios reactivos
+## Validando la entrada en formularios reactivos {#validating-input-in-reactive-forms}
 
 En un formulario reactivo, la fuente de la verdad es la clase del componente. 
 En lugar de agregar validadores a través de atributos en la plantilla, agregas funciones de validador directamente al modelo de control del formulario en la clase del componente. 
 Angular luego llama a estas funciones cada vez que el valor del control cambia.
 
-### Funciones de validación
+### Funciones de validación {#validator-functions}
 
 Las funciones de validador pueden ser síncronas o asíncronas.
 
@@ -52,9 +52,9 @@ Las funciones de validador pueden ser síncronas o asíncronas.
 Por razones de rendimiento, Angular solo ejecuta validadores asíncronos si todos los validadores síncronos pasan. 
 Cada uno debe completarse antes de que se establezcan los errores.
 
-### Funciones de validación integradas
+### Funciones de validación integradas {#built-in-validator-functions}
 
-Puedes optar por [escribir tus propias funciones de validador](#definiendo-validadores-personalizados), o puedes usar algunos de los validadores incorporados de Angular.
+Puedes optar por [escribir tus propias funciones de validador](#defining-custom-validators), o puedes usar algunos de los validadores incorporados de Angular.
 
 Los mismos validadores integrados que están disponibles como atributos en formularios basados en plantillas, como `required` y `minlength`, están todos disponibles para usar como funciones de la clase `Validators`.
 Para una lista completa de validadores integrados, consulta la referencia de la API [Validators](api/forms/Validators).
@@ -80,7 +80,7 @@ Este formulario difiere de la versión basada en plantillas en que ya no exporta
 
 Observa que el atributo `required` todavía está presente en la plantilla. Aunque no es necesario para la validación, debe conservarse por razones de accesibilidad.
 
-## Definiendo validadores personalizados
+## Definiendo validadores personalizados {#defining-custom-validators}
 
 Los validadores integrados no siempre coinciden con el caso de uso exacto de tu aplicación, por lo que a veces necesitas crear un validador personalizado.
 
@@ -101,13 +101,13 @@ El objeto de error de validación típicamente tiene una propiedad cuyo nombre e
 Los validadores asíncronos personalizados son similares a los validadores síncronos, pero deben devolver una Promise u observable que más tarde emita null o un objeto de error de validación.
 En el caso de un observable, el observable debe completarse, momento en el cual el formulario usa el último valor emitido para la validación.
 
-### Añadiendo validadores personalizados a formularios reactivos
+### Añadiendo validadores personalizados a formularios reactivos {#adding-custom-validators-to-reactive-forms}
 
 En formularios reactivos, agrega un validador personalizado pasando la función directamente al `FormControl`.
 
 <docs-code header="actor-form-reactive.component.ts (funciones de validación)" path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.1.ts" visibleRegion="custom-validator"/>
 
-### Añadiendo validadores personalizados a formularios basados en plantillas
+### Añadiendo validadores personalizados a formularios basados en plantillas {#adding-custom-validators-to-template-driven-forms}
 
 En formularios basados en plantillas, agrega una directiva a la plantilla, donde la directiva envuelve la función validadora.
 Por ejemplo, la directiva `ForbiddenValidatorDirective` correspondiente sirve como un envoltorio alrededor del `forbiddenNameValidator`.
@@ -132,7 +132,7 @@ El validador registrado debe ser *esta instancia* de `ForbiddenValidatorDirectiv
 
 Si reemplazaras `useExisting` con `useClass`, entonces estarías registrando una nueva instancia de clase, una que no tiene `forbiddenName`.
 
-## Clases CSS de estado de control
+## Clases CSS de estado de control {#control-status-css-classes}
 
 Angular automáticamente refleja muchas propiedades de control en el elemento de control del formulario como clases CSS.
 Usa estas clases para estilizar elementos de control de formulario según el estado del formulario.
@@ -152,9 +152,9 @@ establecer el color del borde de cada control de formulario.
 
 <docs-code header="forms.css (status classes)" path="adev/src/content/examples/form-validation/src/assets/forms.css"/>
 
-## Validación entre campos
+## Validación entre campos {#cross-field-validation}
 
-Un validador entre campos es un [validador personalizado](#definiendo-validadores-personalizados "Leer sobre validadores personalizados") que compara los valores de diferentes campos en un formulario y los acepta o rechaza en combinación.
+Un validador entre campos es un [validador personalizado](#defining-custom-validators "Leer sobre validadores personalizados") que compara los valores de diferentes campos en un formulario y los acepta o rechaza en combinación.
 Por ejemplo, podrías tener un formulario que ofrece opciones mutuamente incompatibles, de modo que si el usuario puede elegir A o B, pero no ambos.
 Algunos valores de campo también podrían depender de otros; un usuario podría estar permitido elegir B solo si A también está elegido.
 
@@ -166,7 +166,7 @@ Los siguientes ejemplos de validación cruzada muestran cómo hacer lo siguiente
 Los ejemplos usan validación cruzada para asegurar que los actores no reutilicen el mismo nombre en su rol llenando el Formulario de Actor.
 Los validadores hacen esto verificando que los nombres de actor y roles no coincidan.
 
-### Agregar validación cruzada a formularios reactivos
+### Agregar validación cruzada a formularios reactivos {#adding-cross-validation-to-reactive-forms}
 
 El formulario tiene la siguiente estructura:
 
@@ -211,9 +211,9 @@ Para proporcionar una mejor experiencia de usuario, la plantilla muestra un mens
 
 <docs-code header="actor-form-template.component.html" path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.html" visibleRegion="cross-validation-error-message"/>
 
-Este `@if` muestra el error si el `FormGroup` tiene el error de validación cruzada devuelto por el validador `unambiguousRoleValidator`, pero solo si el usuario terminó de [interactuar con el formulario](#clases-css-de-estado-de-control).
+Este `@if` muestra el error si el `FormGroup` tiene el error de validación cruzada devuelto por el validador `unambiguousRoleValidator`, pero solo si el usuario terminó de [interactuar con el formulario](#control-status-css-classes).
 
-### Agregar validación cruzada a formularios basados en plantillas
+### Agregar validación cruzada a formularios basados en plantillas {#adding-cross-validation-to-template-driven-forms}
 
 Para un formulario basado en plantillas, debes crear una directiva para envolver la función validadora.
 Proporcionas esa directiva como el validador usando el [token `NG_VALIDATORS`](/api/forms/NG_VALIDATORS), como se muestra en el siguiente ejemplo.
@@ -231,7 +231,7 @@ Para proporcionar una mejor experiencia de usuario, aparece un mensaje de error 
 
 Esto es igual tanto en formularios basados en plantillas como reactivos.
 
-## Crear validadores asíncronos
+## Crear validadores asíncronos {#creating-asynchronous-validators}
 
 Los validadores asíncronos implementan las interfaces `AsyncValidatorFn` y `AsyncValidator`.
 Estos son muy similares a sus contrapartes síncronas, con las siguientes diferencias.
@@ -257,7 +257,7 @@ El siguiente ejemplo muestra cómo lograr esto en un formulario basado en planti
 }
 ```
 
-### Implementar un validador asíncrono personalizado
+### Implementar un validador asíncrono personalizado {#implementing-a-custom-async-validator}
 
 En el siguiente ejemplo, un validador asíncrono garantiza que los actores sean seleccionados para un rol que aún no está ocupado. 
 Los nuevos actores están constantemente audicionando y los actores antiguos se están retirando, por lo que la lista de roles disponibles no se puede recuperar de antemano. 
@@ -292,7 +292,7 @@ Podrías manejar el error de manera diferente y devolver el objeto `ValidationEr
 Después de que pasa algo de tiempo, la cadena observable se completa y la validación asíncrona está hecha.
 La bandera `pending` se establece en `false`, y la validez del formulario se actualiza.
 
-### Agregar validadores asíncronos a formularios reactivos
+### Agregar validadores asíncronos a formularios reactivos {#adding-async-validators-to-reactive-forms}
 
 Para usar un validador asíncrono en formularios reactivos, comienza inyectando el validador en una propiedad de la clase del componente.
 
@@ -306,7 +306,7 @@ Para aprender más sobre las opciones de `FormControl`, consulta la referencia d
 
 <docs-code header="actor-form-reactive.component.2.ts" path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.2.ts" visibleRegion="async-validator-usage"/>
 
-### Agregar validadores asíncronos a formularios basados en plantillas
+### Agregar validadores asíncronos a formularios basados en plantillas {#adding-async-validators-to-template-driven-forms}
 
 Para usar un validador asíncrono en formularios basados en plantillas, crea una nueva directiva y registra el proveedor `NG_ASYNC_VALIDATORS` en ella.
 
@@ -318,7 +318,7 @@ Luego, como con los validadores síncronos, agrega el selector de la directiva a
 
 <docs-code header="actor-form-template.component.html (unique-unambiguous-role-input)" path="adev/src/content/examples/form-validation/src/app/template/actor-form-template.component.html" visibleRegion="role-input"/>
 
-### Optimizar el rendimiento de validadores asíncronos
+### Optimizar el rendimiento de validadores asíncronos {#optimizing-performance-of-async-validators}
 
 Por defecto, todos los validadores se ejecutan después de cada cambio de valor del formulario.
 Con validadores síncronos, esto normalmente no tiene un impacto notable en el rendimiento de la aplicación.
@@ -339,7 +339,71 @@ Con formularios reactivos, establece la propiedad en la instancia `FormControl`.
 new FormControl('', {updateOn: 'blur'});
 ```
 
-## Interacción con validación nativa de formularios HTML
+## Gestionar validadores dinámicamente en formularios reactivos {#managing-validators-dynamically-in-reactive-forms}
+
+En formularios reactivos complejos, es posible que necesites agregar, eliminar o modificar validadores según la entrada del usuario o el estado de la aplicación.
+Angular proporciona varios métodos en `AbstractControl` para gestionar validadores en tiempo de ejecución sin recrear los controles del formulario.
+
+### Agregar y eliminar validadores {#adding-and-removing-validators}
+
+Los métodos [`addValidators`](api/forms/AbstractControl#addValidators) y [`removeValidators`](api/forms/AbstractControl#removeValidators) te permiten modificar los validadores de un control después de la inicialización.
+
+```ts
+onCountryChange(country: string) {
+    const postalCodeControl = this.profileForm.get('postalCode');
+
+    if (country === 'US') {
+      // Agregar validadores para códigos postales de EE. UU.
+      postalCodeControl.addValidators([Validators.required, Validators.pattern(/^\d{5}$/)]);
+    } else {
+      // Eliminar validadores cuando no es EE. UU.
+      postalCodeControl.removeValidators([Validators.required]);
+    }
+
+    postalCodeControl.updateValueAndValidity();
+}
+```
+
+### Reemplazar todos los validadores {#replacing-all-validators}
+
+Usa [`setValidators`](api/forms/AbstractControl#setValidators) para reemplazar todos los validadores síncronos existentes en un control, o [`clearValidators`](api/forms/AbstractControl#clearValidators) para eliminar todos los validadores.
+
+```ts
+toggleStrictNameValidation(isStrict: boolean) {
+  const nameControl = this.profileForm.get('name');
+
+  if (enable) {
+    // Establecer reglas de validación estrictas
+    nameControl.setValidators([
+      Validators.required,
+      Validators.minLength(3),
+      Validators.pattern(/^[a-zA-Z]+$/),
+    ]);
+  } else {
+    // Limpiar todos los validadores
+    nameControl.clearValidators();
+  }
+
+  nameControl.updateValueAndValidity();
+}
+```
+
+El mismo patrón se aplica a los validadores asíncronos usando [`addAsyncValidators`](api/forms/AbstractControl#addAsyncValidators), [`removeAsyncValidators`](api/forms/AbstractControl#removeAsyncValidators), [`setAsyncValidators`](api/forms/AbstractControl#setAsyncValidators) y [`clearAsyncValidators`](api/forms/AbstractControl#clearAsyncValidators).
+
+### Activar actualizaciones de validación {#triggering-validation-updates}
+
+Después de modificar los validadores, llama a [`updateValueAndValidity`](api/forms/AbstractControl#updateValueAndValidity) para recalcular el estado de validación del control.
+Este método acepta opciones para controlar el comportamiento de actualización.
+
+```ts
+// Actualizar el control y notificar al padre
+control.updateValueAndValidity();
+
+// Actualizar solo el control, sin notificar al padre ni emitir eventos
+control.updateValueAndValidity({onlySelf: true, emitEvent: false});
+```
+
+## Interacción con validación nativa de formularios HTML {#interaction-with-native-html-form-validation}
 
 Por defecto, Angular deshabilita la [validación nativa de formularios HTML](https://developer.mozilla.org/docs/Web/Guide/HTML/Constraint_validation) agregando el atributo `novalidate` en el `<form>` contenedor y usa directivas para hacer coincidir estos atributos con funciones validadoras en el framework.
 Si quieres usar validación nativa **en combinación** con validación basada en Angular, puedes volver a habilitarla con la directiva `ngNativeValidate`.

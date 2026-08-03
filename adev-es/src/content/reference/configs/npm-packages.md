@@ -20,7 +20,7 @@ Las bibliotecas creadas con `ng generate library` incluirán su propio archivo `
 Inicialmente, este `package.json` incluye _un conjunto inicial de paquetes_, algunos de los cuales son requeridos por Angular y otros que apoyan escenarios comunes de aplicación.
 Agregas paquetes al `package.json` a medida que tu aplicación evoluciona.
 
-## Dependencias predeterminadas
+## Dependencias predeterminadas {#default-dependencies}
 
 Los siguientes paquetes de Angular se incluyen como dependencias en el archivo predeterminado `package.json` para un nuevo espacio de trabajo en Angular.
 Para una lista completa de paquetes de Angular, consulta la [referencia de la API](api).

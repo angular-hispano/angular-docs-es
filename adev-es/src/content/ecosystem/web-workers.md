@@ -5,7 +5,7 @@ Las aplicaciones que realizan muchos cálculos, como generar dibujos de diseño 
 
 CONSEJO: Angular CLI no permite ejecutarse a sí mismo dentro de un web worker.
 
-## Agregar un web worker
+## Agregar un web worker {#adding-a-web-worker}
 
 Para agregar un web worker a un proyecto existente, usa el comando `ng generate` de Angular CLI.
 

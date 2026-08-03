@@ -55,7 +55,17 @@ NOTA: Cuando se usan múltiples animaciones de keyframes o propiedades de transi
     <docs-code header="leave-binding.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-binding.css"/>
 </docs-code-multifile>
 
-## Enlaces de eventos, funciones y bibliotecas de terceros
+### Orden de eliminación de elementos {#element-removal-order}
+
+Hay cierta sutileza en cómo se ejecutan las animaciones de `animate.leave` y cuándo ocurrirá una animación. `animate.leave` funciona si se coloca en el elemento que se está eliminando, y si `animate.leave` se coloca en un elemento que es _descendiente_ del elemento que se está eliminando, esas animaciones hijas ocurrirán _antes_ de que el nodo padre sea eliminado del DOM. Esto garantiza que puedas animar con confianza los elementos hijos sin que el nodo padre desaparezca prematuramente.
+
+<docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-parent.ts">
+    <docs-code header="leave.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-parent.ts" />
+    <docs-code header="leave.html" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-parent.html" />
+    <docs-code header="leave.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-parent.css"/>
+</docs-code-multifile>
+
+## Enlaces de eventos, funciones y bibliotecas de terceros {#event-bindings-functions-and-third-party-libraries}
 
 Tanto `animate.enter` como `animate.leave` soportan sintaxis de enlace de eventos que permite llamadas a funciones. Puedes usar esta sintaxis para llamar a una función en el código de tu componente o utilizar bibliotecas de animación de terceros, como [GSAP](https://gsap.com/), [anime.js](https://animejs.com/), o cualquier otra biblioteca de animación JavaScript.
 
@@ -75,11 +85,11 @@ Si no llamas a `animationComplete()` cuando usas `animate.leave`, Angular llama 
   { provide: MAX_ANIMATION_TIMEOUT, useValue: 6000 }
 ```
 
-## Compatibilidad con las animaciones heredadas de Angular
+## Compatibilidad con las animaciones heredadas de Angular {#compatibility-with-legacy-angular-animations}
 
 No puedes usar animaciones heredadas junto con `animate.enter` y `animate.leave` dentro del mismo componente. Hacerlo provocaría que las clases de entrada permanezcan en el elemento o que los nodos que salen no se eliminen. Fuera de eso, está bien usar tanto las animaciones heredadas como las nuevas animaciones `animate.enter` y `animate.leave` dentro de la misma _aplicación_. La única excepción es la proyección de contenido. Si estás proyectando contenido desde un componente con animaciones heredadas hacia otro componente que usa `animate.enter` o `animate.leave`, o viceversa, esto producirá el mismo comportamiento que si se usaran juntas en el mismo componente. Esto no es compatible.
 
-## Pruebas
+## Pruebas {#testing}
 
 TestBed proporciona soporte integrado para habilitar o deshabilitar animaciones en tu entorno de prueba. Las animaciones CSS requieren un navegador para ejecutarse, y muchas de las APIs no están disponibles en un entorno de prueba. Por defecto, TestBed deshabilita las animaciones para ti en tus entornos de prueba.
 
@@ -93,7 +103,7 @@ Esto configurará las animaciones en tu entorno de prueba para que se comporten 
 
 NOTA: Algunos entornos de prueba no emiten eventos de animación como `animationstart`, `animationend` y sus equivalentes de eventos de transición.
 
-## Más sobre animaciones de Angular
+## Más sobre animaciones de Angular {#more-on-angular-animations}
 
 También puede que te interese lo siguiente:
 

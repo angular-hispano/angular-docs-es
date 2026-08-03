@@ -19,14 +19,14 @@ Puedes usar la pista de Angular para entender mejor cómo se ejecuta tu código 
 - Identificar cuellos de botella de rendimiento y atribuirlos a componentes o servicios específicos.
 - Obtener una visión más profunda del funcionamiento interno de Angular con un desglose visual de cada ciclo de change detection.
 
-## Grabando un perfil
+## Grabando un perfil {#recording-a-profile}
 
-### Habilitar integración
+### Habilitar integración {#enable-integration}
 
 Puedes habilitar el perfilado de Angular de dos maneras:
 
-1. Ejecutar `ng.enableProfiling()` en el panel de consola de Chrome, o
-1. Incluir una llamada a `enableProfiling()` en el código de inicio de tu aplicación (importado desde `@angular/core`).
+1. Ejecutar [`ng.enableProfiling()`](api/core/enableProfiling) en el panel de consola de Chrome, o
+1. Incluir una llamada a [`enableProfiling()`](api/core/enableProfiling) en el código de inicio de tu aplicación (importado desde `@angular/core`).
 
 NOTA:
 El perfilado de Angular funciona exclusivamente en modo de desarrollo.
@@ -44,7 +44,7 @@ enableProfiling();
 bootstrapApplication(MyApp);
 ```
 
-### Grabar un perfil
+### Grabar un perfil {#record-a-profile}
 
 Usa el botón **Record** en el panel de rendimiento de Chrome DevTools:
 
@@ -52,11 +52,23 @@ Usa el botón **Record** en el panel de rendimiento de Chrome DevTools:
 
 Consulta la [documentación de Chrome DevTools](https://developer.chrome.com/docs/devtools/performance#record) para más detalles sobre la grabación de perfiles.
 
-## Interpretando un perfil grabado
+## Abrir un componente en Angular DevTools {#open-a-component-in-angular-devtools}
+
+Después de grabar un perfil, selecciona un evento de componente en la pista **Angular**.
+La pestaña **Summary** puede incluir un enlace de **Component** que usa el esquema de URL `angular-devtools://component/...`.
+
+<img alt="Panel de rendimiento de Chrome DevTools mostrando una pista personalizada de Angular con un evento _MainComponent seleccionado. La pestaña Summary muestra un enlace de Component que usa el esquema de URL angular-devtools://component." src="assets/images/best-practices/runtime-performance/chrome-performance-deep-link.png">
+
+Haz clic en el enlace para abrir Angular DevTools y seleccionar el componente correspondiente en la pestaña **Components**.
+Esto te ayuda a pasar de un perfil a nivel del navegador al estado y metadatos del componente para un evento seleccionado.
+
+NOTA: Abrir enlaces de componentes requiere Angular DevTools para Chrome y la bandera experimental `chrome://flags/#enable-devtools-deep-link-via-extensibility-api` de Chrome.
+
+## Interpretando un perfil grabado {#interpreting-a-recorded-profile}
 
 Puedes usar la pista personalizada "Angular" para identificar y diagnosticar rápidamente problemas de rendimiento. Las siguientes secciones describen algunos escenarios comunes de perfilado.
 
-### Diferenciando entre tu aplicación Angular y otras tareas en la misma página
+### Diferenciando entre tu aplicación Angular y otras tareas en la misma página {#differentiating-between-your-angular-application-and-other-tasks-on-the-same-page}
 
 Como los datos de Angular y Chrome se presentan en pistas separadas pero correlacionadas, puedes ver cuándo se ejecuta el código de la aplicación Angular en oposición a algún otro procesamiento del navegador (típicamente layout y paint) u otros scripts ejecutándose en la misma página (en este caso la pista personalizada de Angular no tiene ningún dato):
 
@@ -64,7 +76,7 @@ Como los datos de Angular y Chrome se presentan en pistas separadas pero correla
 
 Esto te permite determinar si investigaciones posteriores deben enfocarse en el código de la aplicación Angular o en otras partes de tu código base o dependencias.
 
-### Codificación por colores
+### Codificación por colores {#color-coding}
 
 Angular usa colores en el gráfico de llamas para distinguir tipos de tareas:
 
@@ -74,7 +86,7 @@ Angular usa colores en el gráfico de llamas para distinguir tipos de tareas:
 
 Los siguientes ejemplos ilustran la codificación por colores descrita en varias grabaciones de la vida real.
 
-#### Ejemplo: Bootstrap de la aplicación
+#### Ejemplo: Bootstrap de la aplicación {#example-application-bootstrapping}
 
 El proceso de bootstrap de la aplicación usualmente consiste en:
 
@@ -83,13 +95,13 @@ El proceso de bootstrap de la aplicación usualmente consiste en:
 
 <img alt="Datos de perfil: bootstrap de la aplicación" src="assets/images/best-practices/runtime-performance/profile-bootstrap-application.png">
 
-#### Ejemplo: Ejecución de componente
+#### Ejemplo: Ejecución de componente {#example-component-execution}
 
 El procesamiento de un componente típicamente se representa como un punto de entrada (azul) seguido de su ejecución de plantilla (púrpura). Una plantilla puede, a su vez, disparar la instanciación de directivas y ejecución de hooks de ciclo de vida (verde):
 
 <img alt="Datos de perfil: procesamiento de componente" src="assets/images/best-practices/runtime-performance/profile-component-processing.png">
 
-#### Ejemplo: Change detection
+#### Ejemplo: Change detection {#example-change-detection}
 
 Un ciclo de change detection usualmente consiste en uno o más pases de sincronización de datos (azul), donde cada pase recorre un subconjunto de componentes.
 
