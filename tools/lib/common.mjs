@@ -1,4 +1,5 @@
 import { watch } from 'chokidar';
+import { appendFile, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { $, cd, chalk, glob, within } from 'zx';
 import { initDir, cpRf, exists } from './fileutiles.mjs';
@@ -19,6 +20,25 @@ export async function resetBuildDir({ init = false }) {
     await initDir(outDir);
     console.log(chalk.cyan('copying origin files to build directory...'));
     await cpRf(resolve(rootDir, 'origin'), outDir);
+    await applyRootBazelrc();
+  }
+}
+
+/**
+ * Propagates this repo's own .bazelrc, plus the personal .bazelrc.user (see
+ * .bazelrc.user.example) if present, into the build directory as .bazelrc.user.
+ * Bazel only reads .bazelrc.user from its own workspace root (build/), not from this repo's
+ * root, and build/ is recreated on every run, so both must be copied in each time.
+ */
+async function applyRootBazelrc() {
+  const dest = resolve(outDir, '.bazelrc.user');
+  await cpRf(resolve(rootDir, '.bazelrc'), dest);
+
+  const userBazelrc = resolve(rootDir, '.bazelrc.user');
+  if (await exists(userBazelrc)) {
+    console.log(chalk.cyan('applying local .bazelrc.user overrides...'));
+    const content = await readFile(userBazelrc, 'utf-8');
+    await appendFile(dest, '\n' + content);
   }
 }
 
