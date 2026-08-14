@@ -2,6 +2,9 @@
 /build
 /tmp
 
+# Personal local Bazel overrides (see .bazelrc.user.example)
+.bazelrc.user
+
 # Node
 /node_modules
 npm-debug.log
