@@ -34,7 +34,7 @@ jobs:
             # Limit resources for CI runners (ubuntu-latest: 7GB RAM, 2 CPUs)
             build --local_resources=memory=4096
             build --local_resources=cpu=2
-            build --jobs=2
+            build --jobs=1
             build --discard_analysis_cache
             build --nokeep_state_after_build
 
