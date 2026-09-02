@@ -12,24 +12,24 @@ En esta actividad, aprenderás cómo usar vistas diferibles para cargar de forma
 <docs-step title="Agrega un bloque `@defer` a una sección de una plantilla">
 En tu `app.ts`, envuelve el componente `article-comments` con un bloque `@defer` para cargarlo de forma diferida.
 
-<docs-code language="angular-html">
+```angular-html
 @defer {
   <article-comments />
 }
-</docs-code>
+```
 
 Por defecto, `@defer` carga el componente `article-comments` cuando el navegador está inactivo.
 
 En la consola de desarrollador de tu navegador, puedes ver que el archivo del chunk lazy `article-comments-component` se carga por separado (Los nombres de archivo específicos pueden cambiar de una ejecución a otra):
 
-<docs-code language="markdown">
-Initial chunk files | Names                      |  Raw size
-chunk-NNSQHFIE.js   | -                          | 769.00 kB | 
-main.js             | main                       | 229.25 kB |
+```markdown
+Initial chunk files | Names | Raw size
+chunk-NNSQHFIE.js | - | 769.00 kB |
+main.js | main | 229.25 kB |
 
 Lazy chunk files | Names | Raw size
 chunk-T5UYXUSI.js | article-comments-component | 1.84 kB |
-</docs-code>
+```
 
 </docs-step>
 </docs-workflow>
