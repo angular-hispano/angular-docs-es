@@ -1,21 +1,8 @@
 import { access, copyFile, mkdir } from 'node:fs/promises';
-import { extname, resolve, dirname } from 'node:path';
+import { resolve, dirname } from 'node:path';
 import { $, argv, chalk, glob } from 'zx';
+import { copyTargets, enPathOf } from './lib/targets.mjs';
 
-const copyTargets = [
-  // Text contents
-  'src/content/**/*.md',
-  '!src/content/**/license.md',
-  // Navigation
-  'src/app/routing/sub-navigation-data.ts',
-  'src/app/routing/navigation-entries/index.ts',
-  // Others
-  'src/app/core/constants/links.ts',
-  'src/app/core/layout/navigation/navigation.component.html',
-  'src/app/core/layout/footer/footer.component.html',
-  'src/app/features/home/home.component.html',
-  'src/app/features/home/components/**/*.html',
-];
 
 try {
   console.log(chalk.cyan('Checking adev changes in origin...'));
@@ -45,21 +32,29 @@ async function copyOriginFiles() {
   const adevOriginDir = 'origin/adev';
   const adevEsDir = 'adev-es';
 
-  const files = await glob(copyTargets, { cwd: adevOriginDir });
+  for (const target of copyTargets) {
+    const files = await glob(target, { cwd: adevOriginDir, caseSensitiveMatch: true });
 
-  for (const file of files) {
-    const src = resolve(adevOriginDir, file);
-    const ext = extname(file);
-    const enFilePath = file.replace(`${ext}`, `.en${ext}`);
+    // Un objetivo que no coincide con nada casi siempre significa que la ruta
+    // cambió upstream, no que sobre. Fallar aquí evita que el archivo quede
+    // desactualizado sin que nadie lo note.
+    if (files.length === 0) {
+      throw new Error(`No files matched: ${JSON.stringify(target)}`);
+    }
 
-    let isTranslated = false;
-    try {
-      await access(resolve(adevEsDir, enFilePath));
-      isTranslated = true;
-    } catch {}
-    const dest = resolve(adevEsDir, isTranslated ? enFilePath : file);
+    for (const file of files) {
+      const src = resolve(adevOriginDir, file);
+      const enFilePath = enPathOf(file);
 
-    await mkdir(dirname(dest), { recursive: true });
-    await copyFile(src, dest);
+      let isTranslated = false;
+      try {
+        await access(resolve(adevEsDir, enFilePath));
+        isTranslated = true;
+      } catch {}
+      const dest = resolve(adevEsDir, isTranslated ? enFilePath : file);
+
+      await mkdir(dirname(dest), { recursive: true });
+      await copyFile(src, dest);
+    }
   }
 }

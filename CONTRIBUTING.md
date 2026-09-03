@@ -114,10 +114,15 @@ Si deseas traducir un documento nuevo:
 
 1. Haz push de los cambios a tu fork:
    ```bash
-   git add .
-   git commit -m "translate: complete translation of components guide"
+   git add adev-es/src/content/guide/components.md adev-es/src/content/guide/components.en.md
+   git commit -m "translate: components guide"
    git push origin translate-components-guide
    ```
+
+   El mensaje del commit va **en inglés**, con prefijo `translate:` y
+   `Fixes #<issue>` en el cuerpo. Lo que se traduce es la documentación, no el
+   historial. Y el `.md` y su `.en.md` **en el mismo commit**: separarlos deja el
+   archivo marcado como desactualizado de forma permanente.
 2. Ve a tu fork en GitHub
 3. Haz clic en "Compare & pull request"
 4. Completa la descripción del PR con detalles de tu traducción
@@ -224,29 +229,124 @@ El resultado de la compilación se genera en la carpeta `build/dist`.
 
 ## Directrices para la Traducción
 
-### Guarda el original como archivo `.en.md`
+### Guarda el original como archivo `.en.md` {#respaldo}
 
-Para facilitar la gestión de cambios (diff) después de actualizar el submódulo `origin`:
+Cada traducción vive junto a un respaldo del original:
 
-1. **Para traducciones completas:**
-   - Copia el archivo original `xx.md` a `xx.en.md` (versión en inglés)
-   - Sobrescribe `xx.md` con tu traducción al español
+| Archivo | Qué contiene |
+| --- | --- |
+| `guide/x.md` | la traducción al español |
+| `guide/x.en.md` | el inglés a partir del cual se tradujo |
 
-2. **Para traducciones parciales:**
-   - No necesitas crear el archivo `xx.en.md`
-   - Trabaja directamente sobre `xx.md`
+Ese respaldo **no es opcional ni decorativo**: es lo único que le dice a
+`update-origin` que ese archivo ya está traducido. Sin él, la próxima
+sincronización con Angular lo trata como pendiente y le escribe el inglés
+encima, sin aviso y en medio de un commit de cientos de archivos.
 
-**Ejemplo:**
+Además es lo que permite detectar después qué cambió en el original, comparando
+el respaldo de entonces con el de ahora.
 
-```bash
-# Traducir guide/components.md
-cd adev-es/src/content/guide
+#### Al traducir una página nueva
 
-# Copiar el original
-cp components.md components.en.md
+```shell
+# 1. Comprueba primero si ya tiene respaldo
+ls adev-es/src/content/<ruta>.en.md
 
-# Ahora edita components.md con la traducción en español
+# 2. Si NO existe, créalo antes de tocar nada
+cp adev-es/src/content/<ruta>.md adev-es/src/content/<ruta>.en.md
+
+# 3. Ahora traduce el .md
 ```
+
+> [!WARNING]
+> Si el `.en.md` **ya existe**, no ejecutes ese `cp`. Escribirías español encima
+> del respaldo y se perdería el registro de qué inglés se tradujo, dejando el
+> archivo fuera de la detección para siempre.
+
+Esto vale también para traducciones parciales: un archivo a medio traducir
+necesita su respaldo igual que uno completo.
+
+### Actualizar una traducción desactualizada {#actualizar}
+
+Cuando Angular cambia una página que ya estaba traducida, **no se retraduce**:
+se aplica al español únicamente el cambio que ocurrió en inglés. El resto de la
+página ya está bien, y suele tener correcciones acumuladas que una retraducción
+tiraría.
+
+```shell
+# Qué está desactualizado y desde cuándo
+npm run check-translations
+
+# Qué bloques hay que tocar, con su texto exacto
+npm run plan-translation -- <ruta>.md
+
+# Después de editar: comprueba que no se tocó nada más
+npm run verify-translation -- <ruta>.md
+```
+
+`plan-translation` te dice a qué te enfrentas:
+
+| Respuesta | Qué significa |
+| --- | --- |
+| `listo` | son cambios acotados; edita solo los bloques que lista |
+| `manual` | es una reestructuración, no un delta: traduce esa sección entera, con la traducción actual delante como referencia de estilo |
+| `solo-ruido` | el cambio no afecta al español (reformateo, URLs); no hay nada que hacer |
+
+`verify-translation` comprueba cuatro cosas: que las líneas modificadas caigan
+dentro de los bloques previstos, que la estructura siga correspondiendo al
+original, que los enlaces internos resuelvan, y la terminología de lo que
+tocaste.
+
+### Antes de abrir el PR {#antes-del-pr}
+
+```shell
+npm run lint-glossary -- <ruta>   # terminología
+npm run check-translations        # que el archivo ya no aparezca pendiente
+```
+
+Y commitea **`.md` y `.en.md` en el mismo commit**. Separarlos deja el archivo
+marcado como desactualizado de forma permanente, porque la detección busca el
+commit donde se tocaron ambos.
+
+### Traduce el encabezado, conserva su anchor {#anchors}
+
+El texto de un encabezado se traduce; el anchor por el que se le enlaza, no.
+Fíjalo con `{#anchor}` usando el del inglés:
+
+```markdown
+<!-- original -->
+### Actively supported versions
+
+<!-- traducción -->
+### Versiones con soporte activo {#actively-supported-versions}
+```
+
+Si no lo fijas, el anchor pasa a derivarse del español y **se rompen todos los
+enlaces que apuntaban a ese encabezado**, incluidos los de páginas que no estás
+tocando. El build valida los enlaces internos y falla:
+
+```
+Error: Link target "reference/releases#actively-supported-versions" in
+adev/src/content/reference/versions.md does not exist in the defined guide routes.
+```
+
+**Los enlaces internos de la propia página también apuntan al anchor inglés:**
+`[política de deprecación](#deprecation-policy)`, no `(#política-de-deprecación)`.
+El build también valida esos y aborta:
+
+```
+Error: The file "adev/src/content/reference/releases.md" contains an anchor link
+to "about:blank#política-de-deprecación" which does not exist in the document.
+```
+
+Antes de dar por buena una página, mira quién enlaza hacia ella:
+
+```shell
+grep -rn "reference/releases#" adev-es/src/content origin/adev/src/content
+```
+
+El arreglo correcto es fijar el anchor en tu encabezado, no reescribir el enlace
+de la otra página.
 
 ### Alinear saltos de línea
 
@@ -324,6 +424,12 @@ export class HeroComponent {
 | `npm start -- --init` | Reinicializa el build y luego inicia servidor |
 | `npm run build` | Compila el proyecto para producción |
 | `npm run update-origin` | Actualiza el submódulo origin a la última versión |
+| `npm run check-translations` | Qué falta por traducir y qué se desactualizó |
+| `npm run check-translations -- --issues` | Lo mismo, agrupado en lotes del tamaño de un issue |
+| `npm run lint-glossary` | Revisa la terminología contra `glosario.yml` |
+| `npm run plan-translation` | Qué bloques tocar en una traducción desactualizada |
+| `npm run verify-translation` | Comprueba que solo se tocó lo previsto |
+| `npm test` | Tests de las herramientas |
 | `npm run deploy:staging` | Despliega a Firebase Hosting (staging) |
 | `npm run deploy:prod` | Despliega a Firebase Hosting (producción) |
 
