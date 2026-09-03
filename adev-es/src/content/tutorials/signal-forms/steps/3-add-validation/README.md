@@ -18,7 +18,7 @@ En esta actividad, aprenderás cómo:
 Importa los validadores `required` y `email` desde `@angular/forms/signals`:
 
 ```ts
-import { form, Field, required, email } from '@angular/forms/signals';
+import {form, FormField, required, email} from '@angular/forms/signals';
 ```
 
 </docs-step>
@@ -39,8 +39,8 @@ Dentro de la función de esquema, agrega validación para el campo email. Usa am
 
 ```ts
 loginForm = form(this.loginModel, (fieldPath) => {
-  required(fieldPath.email, { message: 'Email is required' });
-  email(fieldPath.email, { message: 'Enter a valid email address' });
+  required(fieldPath.email, {message: 'Email is required'});
+  email(fieldPath.email, {message: 'Enter a valid email address'});
 });
 ```
 
@@ -52,9 +52,9 @@ Agrega validación para el campo password usando el validador `required()`:
 
 ```ts
 loginForm = form(this.loginModel, (fieldPath) => {
-  required(fieldPath.email, { message: 'Email is required' });
-  email(fieldPath.email, { message: 'Enter a valid email address' });
-  required(fieldPath.password, { message: 'Password is required' });
+  required(fieldPath.email, {message: 'Email is required'});
+  email(fieldPath.email, {message: 'Enter a valid email address'});
+  required(fieldPath.password, {message: 'Password is required'});
 });
 ```
 

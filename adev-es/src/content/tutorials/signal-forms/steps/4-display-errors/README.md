@@ -18,10 +18,10 @@ En esta actividad, aprenderás cómo:
 <docs-step title="Agrega visualización de errores para el campo email">
 Debajo del input de email, agrega visualización condicional de errores. Esto solo mostrará errores cuando el campo sea tanto inválido como touched:
 
-```html
+```angular-html
 <label>
   Email
-  <input type="email" [field]="loginForm.email" />
+  <input type="email" [formField]="loginForm.email" />
 </label>
 @if (loginForm.email().invalid() && loginForm.email().touched()) {
   <div class="error">
@@ -38,10 +38,10 @@ La llamada `loginForm.email()` accede al signal de estado del campo. El método 
 <docs-step title="Agrega visualización de errores para el campo password">
 Debajo del input de password, agrega el mismo patrón para errores de password:
 
-```html
+```angular-html
 <label>
   Password
-  <input type="password" [field]="loginForm.password" />
+  <input type="password" [formField]="loginForm.password" />
 </label>
 @if (loginForm.password().invalid() && loginForm.password().touched()) {
   <div class="error">
