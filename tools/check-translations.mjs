@@ -271,7 +271,12 @@ async function listOrigin(ref) {
   // pregunta que hay que poder responder es "¿esta ruta existe upstream?", y
   // limitarla a los objetivos de copia daría falsos positivos con cualquier
   // archivo de adev-es que viva fuera de ellos.
-  const files = await glob('**/*', { cwd: dir, onlyFiles: true });
+  const files = await glob('**/*', {
+    cwd: dir,
+    onlyFiles: true,
+    followSymbolicLinks: false,
+    ignore: ['**/node_modules/**'],
+  });
   return files.length ? new Set(files) : null;
 }
 
