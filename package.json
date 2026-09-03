@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test tools/*.test.mjs",
     "build": "zx tools/build.mjs",
     "start": "zx tools/watch.mjs",
     "update-origin": "zx tools/update-origin.mjs",
+    "check-translations": "zx tools/check-translations.mjs",
+    "lint-glossary": "zx tools/lint-glossary.mjs",
     "deploy:staging": "firebase use staging && firebase deploy --only hosting",
-    "deploy:prod": "firebase use production && firebase deploy --only hosting"
+    "deploy:prod": "firebase use production && firebase deploy --only hosting",
+    "plan-translation": "zx tools/plan-translation.mjs",
+    "verify-translation": "zx tools/verify-translation.mjs"
   },
   "keywords": [],
   "author": "",

@@ -19,7 +19,7 @@ En esta actividad, aprenderás cómo:
 Importa la función `submit` desde `@angular/forms/signals`:
 
 ```ts
-import { form, Field, required, email, submit } from '@angular/forms/signals';
+import {form, FormField, required, email, submit} from '@angular/forms/signals';
 ```
 
 </docs-step>
@@ -45,7 +45,7 @@ La función `submit()` solo ejecuta tu callback asíncrono si el formulario es v
 En tu plantilla, enlaza el método `onSubmit()` al evento submit del formulario:
 
 ```html
-<form (submit)="onSubmit($event)">
+<form (submit)="onSubmit($event)"></form>
 ```
 
 </docs-step>
@@ -54,9 +54,7 @@ En tu plantilla, enlaza el método `onSubmit()` al evento submit del formulario:
 Actualiza el botón de envío para que esté deshabilitado cuando el formulario sea inválido:
 
 ```html
-<button type="submit" [disabled]="loginForm().invalid()">
-  Log in
-</button>
+<button type="submit" [disabled]="loginForm().invalid()">Log in</button>
 ```
 
 Esto previene el envío cuando el formulario tiene errores de validación.

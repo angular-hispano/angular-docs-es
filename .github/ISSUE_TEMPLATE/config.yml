@@ -1,0 +1,21 @@
+# Se dejan habilitados los issues en blanco a propósito. Cubren dos cosas:
+#
+# - El 7 % del historial que es mantenimiento suelto y no encaja en la plantilla
+#   (actualizar un enlace, revisar el copyright, una convención de commits).
+# - Reportar una errata. En 72 issues nadie lo ha hecho nunca, así que una
+#   plantilla dedicada sería una entrada más en el selector sin demanda que la
+#   justifique. Si algún día empieza a pasar, se añade.
+blank_issues_enabled: true
+
+contact_links:
+  - name: Comunidad en Discord
+    url: https://discord.gg/4jgk3ddgAx
+    about: Dudas sobre cómo traducir algo, o sobre qué término usar.
+
+  - name: Guía de contribución
+    url: https://github.com/angular-hispano/angular-docs-es/blob/main/CONTRIBUTING.md
+    about: Cómo preparar el entorno y abrir tu primer PR.
+
+  - name: Problema con la documentación original en inglés
+    url: https://github.com/angular/angular/issues
+    about: Si el error también está en angular.dev, repórtalo en el repo de Angular.

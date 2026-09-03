@@ -1,8 +1,8 @@
-# Debouncing signals with `debounced`
+# Aplicar debounce a signals con `debounced`
 
-IMPORTANT: `debounced` is [experimental](reference/releases#experimental). It's ready for you to try, but it might change before it is stable.
+IMPORTANT: `debounced` es [experimental](reference/releases#experimental). Está listo para que lo pruebes, pero podría cambiar antes de ser estable.
 
-Use `debounced` to delay reacting to a signal's value until it stops changing. It returns a `Resource` whose value reflects the debounced value of the source signal.
+Usa `debounced` para retrasar la reacción al valor de una signal hasta que deje de cambiar. Devuelve un `Resource` cuyo valor refleja el valor con debounce de la signal fuente.
 
 ```angular-ts
 import {debounced, resource, signal} from '@angular/core';
@@ -12,7 +12,7 @@ import {debounced, resource, signal} from '@angular/core';
     <input (input)="query.set($event.target.value)" />
 
     @if (results.isLoading()) {
-      <p>Searching…</p>
+      <p>Buscando…</p>
     }
     @for (item of results.value(); track item.id) {
       <li>{{ item.name }}</li>
@@ -31,35 +31,35 @@ export class Search {
 }
 ```
 
-`debounced` takes the source signal and a wait duration in milliseconds. The returned resource's `value()` always contains the last settled value, and `status()` tells you whether a new value is still pending.
+`debounced` recibe la signal fuente y una duración de espera en milisegundos. El `value()` del resource devuelto siempre contiene el último valor asentado, y `status()` te indica si un nuevo valor sigue pendiente.
 
-## Status during debounce
+## Estado durante el debounce {#status-during-debounce}
 
-While the debounce timer is counting down, `status()` is `'loading'` and `value()` returns the previously resolved value. When the timer expires, the resource settles to `'resolved'`. If the source signal throws, the resource enters `'error'` immediately; no timer runs.
+Mientras el temporizador del debounce está en cuenta regresiva, `status()` es `'loading'` y `value()` devuelve el valor resuelto anteriormente. Cuando el temporizador expira, el resource se asienta en `'resolved'`. Si la signal fuente lanza un error, el resource entra en `'error'` de inmediato; no se ejecuta ningún temporizador.
 
-See [Resource status](/guide/signals/resource#resource-status) for the full list of statuses and their `value()` behavior.
+Consulta [Estado del resource](/guide/signals/resource#resource-status) para ver la lista completa de estados y el comportamiento de `value()` en cada uno.
 
-## Custom wait function
+## Función de espera personalizada {#custom-wait-function}
 
-Instead of a millisecond duration, you can pass a function that returns a `Promise<void>`. The resource resolves when the promise resolves. If the source signal changes before the promise settles, Angular discards the previous promise and starts a new one.
+En lugar de una duración en milisegundos, puedes pasar una función que devuelva un `Promise<void>`. El resource se resuelve cuando la promesa se resuelve. Si la signal fuente cambia antes de que la promesa se asiente, Angular descarta la promesa anterior e inicia una nueva.
 
 ```ts
 debouncedQuery = debounced(query, (value, lastSnapshot) => {
-  // Retry immediately after an error rather than making the user wait again.
+  // Reintenta de inmediato tras un error en lugar de hacer que el usuario espere de nuevo.
   if (lastSnapshot.status === 'error') return;
-  // Short queries get a longer delay—the user is likely still typing.
+  // Las consultas cortas reciben un retraso mayor: probablemente el usuario sigue escribiendo.
   const ms = value.length < 3 ? 500 : 200;
   return new Promise<void>((resolve) => setTimeout(resolve, ms));
 });
 ```
 
-See the `DebounceTimer` type in the API reference for details.
+Consulta el tipo `DebounceTimer` en la referencia de la API para más detalles.
 
-## Equality
+## Igualdad {#equality}
 
-By default, `debounced` uses `Object.is` to compare values.
+Por defecto, `debounced` usa `Object.is` para comparar valores.
 
-Provide a custom equality function with the `equal` option when the default identity check is too strict:
+Proporciona una función de igualdad personalizada con la opción `equal` cuando la comprobación de identidad predeterminada sea demasiado estricta:
 
 ```ts
 debouncedFilter = debounced(filter, 200, {
@@ -67,11 +67,11 @@ debouncedFilter = debounced(filter, 200, {
 });
 ```
 
-## Injection context
+## Contexto de inyección {#injection-context}
 
-`debounced` must be called inside an [injection context](guide/di/dependency-injection-context). Angular automatically destroys the debounced resource and cancels any pending timer when the injector is destroyed.
+`debounced` debe llamarse dentro de un [contexto de inyección](guide/di/dependency-injection-context). Angular destruye automáticamente el resource con debounce y cancela cualquier temporizador pendiente cuando se destruye el inyector.
 
-To use `debounced` outside of an injection context, pass an explicit `Injector` via the options:
+Para usar `debounced` fuera de un contexto de inyección, pasa un `Injector` explícito a través de las opciones:
 
 ```ts
 @Service()
