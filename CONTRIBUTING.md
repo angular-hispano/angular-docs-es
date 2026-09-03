@@ -114,10 +114,15 @@ Si deseas traducir un documento nuevo:
 
 1. Haz push de los cambios a tu fork:
    ```bash
-   git add .
-   git commit -m "translate: complete translation of components guide"
+   git add adev-es/src/content/guide/components.md adev-es/src/content/guide/components.en.md
+   git commit -m "translate: components guide"
    git push origin translate-components-guide
    ```
+
+   El mensaje del commit va **en inglés**, con prefijo `translate:` y
+   `Fixes #<issue>` en el cuerpo. Lo que se traduce es la documentación, no el
+   historial. Y el `.md` y su `.en.md` **en el mismo commit**: separarlos deja el
+   archivo marcado como desactualizado de forma permanente.
 2. Ve a tu fork en GitHub
 3. Haz clic en "Compare & pull request"
 4. Completa la descripción del PR con detalles de tu traducción

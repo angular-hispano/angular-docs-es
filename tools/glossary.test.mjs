@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { YAML } from 'zx';
-import { mask, lintText } from './lib/glossary.mjs';
+import { mask, lintText, selectFiles } from './lib/glossary.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const { rules } = YAML.parse(readFileSync(resolve(ROOT, 'glosario.yml'), 'utf8'));
@@ -116,4 +116,35 @@ test('sí aplica al texto visible junto a un atributo', () => {
 
 test('no aplica en definiciones de enlace de referencia', () => {
   assert.deepEqual(hits('[GuiaX]: tools/cli/librería-y "Título"'), []);
+});
+
+// --- selección de archivos ---
+
+const ALL = [
+  'adev-es/src/content/ai/webmcp.md',
+  'adev-es/src/content/guide/di/lazy-loading-services.md',
+  'adev-es/src/content/reference/releases.md',
+];
+
+test('sin filtros revisa todas las traducciones', () => {
+  assert.deepEqual(selectFiles(ALL, []), { files: ALL, unmatched: [] });
+});
+
+test('acepta varias rutas a la vez, no solo la primera', () => {
+  const { files, unmatched } = selectFiles(ALL, [
+    'adev-es/src/content/ai/webmcp.md',
+    'adev-es/src/content/reference/releases.md',
+  ]);
+  assert.deepEqual(files, [ALL[0], ALL[2]]);
+  assert.deepEqual(unmatched, []);
+});
+
+test('delata la ruta que no casa con ninguna traducción', () => {
+  const { unmatched } = selectFiles(ALL, ['guide/di', 'reference/no-existe.md']);
+  assert.deepEqual(unmatched, ['reference/no-existe.md']);
+});
+
+test('no cuenta un archivo dos veces aunque casen dos filtros', () => {
+  const { files } = selectFiles(ALL, ['ai/', 'webmcp']);
+  assert.deepEqual(files, [ALL[0]]);
 });

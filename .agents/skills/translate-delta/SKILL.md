@@ -94,6 +94,13 @@ Comprueba cuatro cosas. Si alguna falla, **no commitees**:
 `.md` y `.en.md` **en el mismo commit**. Romper ese invariante deja el archivo marcado como
 desactualizado para siempre: es exactamente el origen del falso positivo de `selectors.md`.
 
+Un solo commit por issue, con el mensaje **en inglés** y `Fixes #<issue>` en el cuerpo. Prefijo
+`translate:`, también aquí. Sin atribución a herramientas: ni `Co-Authored-By: Claude…`, ni
+`Claude-Session:`, ni en el commit ni en la descripción del PR.
+
+Si el delta toca un encabezado, conserva su anchor inglés con `{#anchor}`: cambiarlo rompe los
+enlaces de otras páginas y tumba el build.
+
 ## Reglas de edición
 
 Aplica el glosario de [`translate-angular-docs`](../translate-angular-docs/SKILL.md), más estas

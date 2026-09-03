@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { $, argv, chalk, glob, YAML } from 'zx';
-import { lintText } from './lib/glossary.mjs';
+import { lintText, selectFiles } from './lib/glossary.mjs';
 
 /**
  * Verifica la consistencia terminológica de las traducciones al español.
@@ -14,8 +14,9 @@ import { lintText } from './lib/glossary.mjs';
  * rutas de archivo y anchors explícitos `{#id}`.
  *
  * Uso:
- *   npm run lint-glossary                 (todas las traducciones)
- *   npm run lint-glossary -- guide/forms  (solo una ruta)
+ *   npm run lint-glossary                        (todas las traducciones)
+ *   npm run lint-glossary -- guide/forms         (una ruta)
+ *   npm run lint-glossary -- guide/forms ai/     (varias)
  */
 
 $.verbose = false;
@@ -27,9 +28,13 @@ try {
   const raw = await readFile(resolve(ROOT, 'glosario.yml'), 'utf8');
   const { rules } = YAML.parse(raw);
 
-  const filter = argv._[0];
   const all = await glob([`${CONTENT_DIR}/**/*.md`, `!${CONTENT_DIR}/**/*.en.md`], { cwd: ROOT });
-  const files = filter ? all.filter((f) => f.includes(filter)) : all;
+  const { files, unmatched } = selectFiles(all, argv._.map(String));
+
+  if (unmatched.length > 0) {
+    console.error(chalk.red(`\nNo hay ninguna traducción que case con: ${unmatched.join(', ')}\n`));
+    process.exit(1);
+  }
 
   const findings = [];
 

@@ -59,3 +59,20 @@ export function lintText(file, text, rules) {
 
   return found.sort((a, b) => a.line - b.line);
 }
+
+/**
+ * Selecciona qué traducciones revisar a partir de los filtros de la línea de
+ * comandos. Sin filtros, se revisan todas.
+ *
+ * Devuelve también los filtros que no casaron con nada: un filtro que no
+ * encuentra archivos casi siempre es una ruta mal escrita, y darlo por bueno
+ * haría pasar la revisión sin haber mirado nada.
+ */
+export function selectFiles(all, filters) {
+  if (filters.length === 0) return { files: all, unmatched: [] };
+
+  const unmatched = filters.filter((p) => !all.some((f) => f.includes(p)));
+  const files = all.filter((f) => filters.some((p) => f.includes(p)));
+
+  return { files, unmatched };
+}

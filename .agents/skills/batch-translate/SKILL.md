@@ -59,9 +59,18 @@ Aplica todas las reglas del skill `/translate-angular-docs`:
 
 Sobreescribe `archivo.md` con la traducción.
 
-### 6. Verificar anchors
+### 6. Fijar anchors
 
-Si se tradujeron encabezados con enlaces internos, actualiza los anchors.
+Cada encabezado traducido conserva su anchor inglés con `{#anchor}`:
+
+```markdown
+### Versiones con soporte activo {#actively-supported-versions}
+```
+
+Los enlaces —los internos de la página y los que llegan desde otras— apuntan a
+ese anchor inglés. Si dejas que el anchor se derive del español, el build de
+Angular falla al validar los enlaces. Ver
+[`translate-angular-docs`](../translate-angular-docs/SKILL.md), paso 4.
 
 ### 7. Stage en git
 

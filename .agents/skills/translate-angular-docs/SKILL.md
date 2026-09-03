@@ -104,7 +104,42 @@ Si el archivo afecta la navegación del sitio, revisa:
 adev-es/src/app/routing/sub-navigation-data.ts
 ```
 
-### Paso 5 — Checklist de calidad
+### Paso 5 — Entregar: commit y pull request
+
+Un solo commit por issue, con el `.md` y su `.en.md` **juntos**. Separarlos deja
+el archivo marcado como desactualizado de forma permanente, porque la detección
+busca el commit donde se tocaron ambos.
+
+El mensaje va **en inglés**, aunque el contenido que traduces sea español: lo que
+se traduce es la documentación, no el historial.
+
+```
+translate: signals debounced and effect guides (Angular 22.1)
+
+Translate guide/signals/debounced.md and guide/signals/effect.md into
+Spanish and keep the English originals as .en.md backups.
+
+Fixes #186
+```
+
+- Prefijo `translate:`, también cuando el trabajo es actualizar una traducción.
+- `Fixes #<issue>` en el cuerpo del commit **y** en la descripción del PR.
+- **Nada de atribución a herramientas**: ni `Co-Authored-By: Claude…`, ni
+  `Claude-Session:`, ni «Generated with Claude Code», ni en el commit ni en el PR.
+  El historial de este repo se lee como trabajo de la comunidad.
+
+Comprueba lo que vas a entregar antes de commitear:
+
+```shell
+npm run lint-glossary -- <ruta1> <ruta2> ...   # acepta varias rutas
+npm run check-translations                     # ya no deben aparecer
+git status                                     # solo .md y .en.md tuyos
+```
+
+`lint-glossary` falla si una de las rutas no casa con ninguna traducción, así que
+una ruta mal escrita se nota en vez de pasar en verde.
+
+### Paso 6 — Checklist de calidad
 
 Ejecuta el checklist al final de este documento antes de entregar.
 
@@ -459,10 +494,13 @@ Antes de finalizar, verifica:
 - [ ] **Etiquetas `<docs-*>`:** contenido interno traducido, estructura preservada
 - [ ] **Archivos y rutas:** sin traducir
 - [ ] **Versiones:** en formato original ("Angular 17", no "Angular diecisiete")
-- [ ] **Anchors actualizados:** enlaces internos apuntan a los anchors traducidos
+- [ ] **Anchors fijados:** cada encabezado traducido conserva su anchor inglés con `{#anchor}`
+- [ ] **Enlaces internos:** apuntan al anchor inglés, no al que derivaría del español
 - [ ] **Comentarios en código:** traducidos
 - [ ] **Naturalidad:** el texto español suena natural, no como traducción literal
 - [ ] **Consistencia:** mismo término español para mismo concepto en inglés
 - [ ] **Preposición:** "en Angular" en lugar de "de Angular"
 - [ ] **Navegación:** si aplica, `sub-navigation-data.ts` actualizado
-- [ ] **Git:** archivos `.md` y `.en.md` staged para el commit
+- [ ] **Git:** `.md` y `.en.md` en el mismo commit, y solo eso
+- [ ] **Commit:** uno solo, mensaje en inglés, con `Fixes #<issue>`
+- [ ] **Sin atribución:** ni `Co-Authored-By`, ni `Claude-Session`, ni menciones a herramientas
