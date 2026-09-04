@@ -1,23 +1,23 @@
 # Agent Skills
 
-Agent Skills are specialized, domain-specific instructions and capabilities designed for AI agents like Gemini CLI. These skills provide architectural guidance, generate idiomatic Angular code, and help scaffold new projects using modern best practices.
+Las Agent Skills son instrucciones y capacidades especializadas, específicas de un dominio, diseñadas para agentes de IA como Gemini CLI. Estas skills proporcionan guía arquitectónica, generan código Angular idiomático y ayudan a hacer scaffolding de nuevos proyectos usando las mejores prácticas modernas.
 
-By using Agent Skills, you can ensure that the AI agent you are working with has the most up-to-date information about Angular's conventions, reactivity models (like Signals), and project structure.
+Al usar Agent Skills, puedes asegurarte de que el agente de IA con el que trabajas tenga la información más actualizada sobre las convenciones de Angular, los modelos de reactividad (como Signals) y la estructura de proyectos.
 
-## Available Skills
+## Skills disponibles {#available-skills}
 
-The Angular team maintains a collection of official skills that are regularly updated to stay in sync with the latest framework improvements.
+El equipo de Angular mantiene una colección de skills oficiales que se actualizan regularmente para mantenerse sincronizadas con las últimas mejoras del framework.
 
-| Skill                   | Description                                                                                                                                                                                                                                                                                       |
-| :---------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`angular-developer`** | Generates Angular code and provides architectural guidance. Useful for creating components, services, or obtaining best practices on reactivity (signals, linkedSignal, resource), forms, dependency injection, routing, SSR, accessibility (ARIA), animations, styling, testing, or CLI tooling. |
-| **`angular-new-app`**   | Creates a new Angular app using the Angular CLI. Provides important guidelines for effectively setting up and structuring a modern Angular application.                                                                                                                                           |
+| Skill                   | Descripción                                                                                                                                                                                                                                                                                                                 |
+| :---------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`angular-developer`** | Genera código Angular y proporciona guía arquitectónica. Útil para crear componentes, servicios, u obtener mejores prácticas sobre reactividad (signals, linkedSignal, resource), formularios, inyección de dependencias, enrutamiento, SSR, accesibilidad (ARIA), animaciones, estilos, pruebas o herramientas de CLI. |
+| **`angular-new-app`**   | Crea una nueva aplicación Angular usando Angular CLI. Proporciona pautas importantes para configurar y estructurar eficazmente una aplicación Angular moderna.                                                                                                                                                              |
 
-## Using Agent Skills
+## Usar Agent Skills {#using-agent-skills}
 
-Agent Skills are designed to be used with agentic coding tools like [Gemini CLI](https://geminicli.com/docs/cli/skills/), [Antigravity](https://antigravity.google/docs/skills) and more. Activating a skill loads the specific instructions and resources needed for that task.
+Las Agent Skills están diseñadas para usarse con herramientas de programación agénticas como [Gemini CLI](https://geminicli.com/docs/cli/skills/), [Antigravity](https://antigravity.google/docs/skills) y más. Activar una skill carga las instrucciones y recursos específicos necesarios para esa tarea.
 
-To use these skills in your own environment you may follow the instructions for your specific tool or use a community tool like [skills.sh](https://skills.sh/).
+Para usar estas skills en tu propio entorno, puedes seguir las instrucciones de tu herramienta específica o usar una herramienta de la comunidad como [skills.sh](https://skills.sh/).
 
 ```bash
 npx skills add https://github.com/angular/skills
