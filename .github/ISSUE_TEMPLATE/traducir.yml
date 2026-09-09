@@ -1,0 +1,98 @@
+name: Traducir documentación
+description: Trabajo de traducción para una sección o un conjunto de páginas
+title: 'Traducir - '
+labels: ['docs-translation']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Para saber qué falta:
+
+        ```shell
+        npm run check-translations
+        ```
+
+        Si las páginas las trae una versión nueva de Angular, antepón la versión al título:
+        `[Angular 22.1] Traducir guías de Signal Forms`.
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo de trabajo
+      description: Cambia el procedimiento, no el formulario.
+      options:
+        - Traducir páginas que están en inglés
+        - Actualizar traducciones que se quedaron desactualizadas
+    validations:
+      required: true
+
+  - type: input
+    id: seccion
+    attributes:
+      label: Sección
+      description: Qué parte de la documentación cubre este issue.
+      placeholder: guide/forms/signals/
+    validations:
+      required: true
+
+  - type: textarea
+    id: archivos
+    attributes:
+      label: Archivos
+      description: |
+        Una casilla por archivo, para poder repartir el trabajo y ver el avance.
+        Las rutas son relativas a `adev-es/src/content/`.
+      value: |
+        - [ ] `archivo.md`
+        - [ ] `otro-archivo.md`
+    validations:
+      required: true
+
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto
+      description: Opcional. Por ejemplo, de qué versión vienen las páginas.
+      placeholder: Páginas nuevas añadidas en Angular 22.1.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        ### Si vas a traducir una página nueva
+
+        ```shell
+        # 1. Respalda el original. Este paso es lo que protege tu trabajo:
+        #    sin .en.md, el próximo update-origin te sobrescribe con inglés.
+        cp adev-es/src/content/<ruta>.md adev-es/src/content/<ruta>.en.md
+
+        # 2. Traduce el .md
+        ```
+
+        > [!WARNING]
+        > Si el archivo **ya tiene** su `.en.md`, no ejecutes ese `cp`: escribirías español
+        > sobre el respaldo y se perdería el registro de qué inglés se tradujo.
+
+        ### Si vas a actualizar una traducción desactualizada
+
+        No se retraduce nada: solo se aplica al español el cambio que ocurrió en inglés.
+
+        ```shell
+        npm run plan-translation -- <ruta>.md    # qué bloques tocar, con su texto exacto
+        npm run verify-translation -- <ruta>.md  # comprueba que no tocaste nada más
+        ```
+
+        Si `plan-translation` responde `manual`, el cambio es una reestructuración: traduce
+        esa sección entera con la traducción actual delante, como referencia de estilo.
+
+        ### En ambos casos
+
+        ```shell
+        npm run lint-glossary
+        npm run check-translations
+        ```
+
+        Commitea `.md` y `.en.md` **juntos**: separarlos deja el archivo marcado como
+        desactualizado para siempre. Los términos acordados están en
+        [`glosario.yml`](https://github.com/angular-hispano/angular-docs-es/blob/main/glosario.yml).

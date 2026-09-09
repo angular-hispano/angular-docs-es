@@ -1,0 +1,90 @@
+# Reglas de consistencia terminológica para las traducciones al español.
+#
+# Inspirado en el prh.yml de angular-ja (https://github.com/angular/angular-ja).
+#
+#   expected: el término correcto
+#   pattern:  las variantes que deben corregirse (regex, sin distinguir mayúsculas)
+#   reason:   por qué, para que el mensaje de error sea educativo
+#
+# Criterio para agregar reglas: solo términos INEQUÍVOCOS. Una regla que produce
+# falsos positivos hace que el linter se ignore por completo, que es peor que no
+# tenerlo. Los términos que dependen del contexto (paquete/bundle,
+# fragmento/chunk, heredado/legacy) viven en el glosario del skill, no aquí.
+
+version: 1
+
+rules:
+  - expected: biblioteca
+    pattern: librería(?!s)
+    reason: '"librería" significa bookstore; la traducción de "library" es "biblioteca"'
+
+  - expected: bibliotecas
+    pattern: librerías
+    reason: '"librerías" significa bookstores; la traducción de "libraries" es "bibliotecas"'
+
+  # Los límites se escriben con \p{L} y no con \b: el \b de JavaScript se define
+  # sobre [A-Za-z0-9_], así que la ñ y las vocales acentuadas cuentan como
+  # separadores. Sin esto, la regla marcaba "señalar", "señalización", "señalan"
+  # y "Señala" — y con --fix los reescribiría como "signalar", "signalización".
+  - expected: signal
+    pattern: '(?<!\p{L})señal(?!\p{L})'
+    reason: 'en Angular "signal" es el nombre de la API; se mantiene en inglés'
+
+  - expected: signals
+    pattern: '(?<!\p{L})señales(?!\p{L})'
+    reason: 'en Angular "signals" es el nombre de la API; se mantiene en inglés'
+
+  - expected: pristine
+    pattern: prístino
+    reason: 'estado de formulario; se mantiene el nombre de la API en inglés'
+
+  - expected: sistema de compilación
+    pattern: sistema de construcción
+    reason: '"build" en contexto de CLI se traduce como "compilación"'
+
+  - expected: animaciones en Angular
+    pattern: animaciones de Angular
+    reason: 'preferir "en Angular" sobre "de Angular", que suena posesivo'
+
+  - expected: routing en Angular
+    pattern: routing de Angular
+    reason: 'preferir "en Angular" sobre "de Angular", que suena posesivo'
+
+  - expected: inyección de dependencias
+    pattern: inyección de dependencia(?!s)
+    reason: 'la traducción establecida de "dependency injection" es en plural'
+
+  - expected: Crear schematics
+    pattern: Autoriza(ndo|r) schematics
+    reason: '"authoring" es crear/desarrollar, no autorizar'
+
+  # Los prefijos de alerta son claves del tokenizer de adev, no prosa.
+  # docs-alert.mts solo reconoce las inglesas; traducirlas rompe el renderizado
+  # y el aviso sale como párrafo plano.
+  - expected: 'NOTE:'
+    pattern: '^\s*NOTA:'
+    reason: 'prefijo de alerta: es clave del tokenizer, debe quedar en inglés'
+
+  - expected: 'TIP:'
+    pattern: '^\s*CONSEJO:'
+    reason: 'prefijo de alerta: es clave del tokenizer, debe quedar en inglés'
+
+  - expected: 'IMPORTANT:'
+    pattern: '^\s*IMPORTANTE:'
+    reason: 'prefijo de alerta: es clave del tokenizer, debe quedar en inglés'
+
+  - expected: 'HELPFUL:'
+    pattern: '^\s*ÚTIL:'
+    reason: 'prefijo de alerta: es clave del tokenizer, debe quedar en inglés'
+
+  - expected: 'SUMMARY:'
+    pattern: '^\s*RESUMEN:'
+    reason: 'prefijo de alerta: es clave del tokenizer, debe quedar en inglés'
+
+  - expected: 'CRITICAL:'
+    pattern: '^\s*CRÍTICO:'
+    reason: 'prefijo de alerta: es clave del tokenizer, debe quedar en inglés'
+
+  - expected: 'QUESTION:'
+    pattern: '^\s*PREGUNTA:'
+    reason: 'prefijo de alerta: es clave del tokenizer, debe quedar en inglés'

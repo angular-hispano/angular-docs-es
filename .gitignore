@@ -25,3 +25,11 @@ Thumbs.db
 
 # Firebase Caching
 .firebase
+
+# Configuración local de Claude Code (personal, no compartida)
+.claude/settings.local.json
+
+# Órdenes de traducción generadas (efímeras, no se versionan)
+.translation-plan/
+
+.remember
